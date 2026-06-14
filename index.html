@@ -12,13 +12,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green: #a8ff3e;
+      --green: #00ff41;
       --bg: #0a0a0a;
       --card: #111;
-      --border: rgba(168,255,62,0.18);
+      --border: rgba(0,255,65,0.18);
       --text: rgba(255,255,255,0.85);
       --muted: rgba(255,255,255,0.32);
-      --input-bg: rgba(168,255,62,0.03);
+      --input-bg: rgba(0,255,65,0.03);
     }
 
     body {
@@ -46,7 +46,7 @@
       letter-spacing: 10px;
       color: var(--green);
       text-transform: uppercase;
-      text-shadow: 0 0 12px #a8ff3e, 0 0 28px rgba(168,255,62,0.5);
+      text-shadow: 0 0 12px #00ff41, 0 0 28px rgba(0,255,65,0.5);
       text-align: center;
     }
 
@@ -61,15 +61,20 @@
     /* SECCIONES */
     .form-section {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(0,255,65,0.4);
       border-radius: 16px;
       margin-bottom: 10px;
       overflow: hidden;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-section:hover {
+      border-color: #00ff41;
+      box-shadow: 0 0 15px rgba(0,255,65,0.3);
     }
 
     .form-section.open {
-      border-color: rgba(168,255,62,0.35);
+      border-color: rgba(0,255,65,0.35);
     }
 
     .section-header {
@@ -92,7 +97,7 @@
 
     .section-chevron {
       font-size: 18px;
-      color: rgba(168,255,62,0.5);
+      color: rgba(0,255,65,0.5);
       transition: transform 0.25s;
       line-height: 1;
     }
@@ -119,11 +124,12 @@
 
     .field-label {
       font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #00ff41;
       text-transform: uppercase;
       margin-bottom: 8px;
+      text-shadow: 0 0 8px #00ff41;
     }
 
     .field input[type="text"],
@@ -133,30 +139,31 @@
     .field select {
       width: 100%;
       padding: 12px 14px;
-      background: var(--input-bg);
-      border: 1px solid var(--border);
+      background: rgba(0,255,65,0.05);
+      border: 1px solid #00ff41;
       border-radius: 10px;
-      color: var(--text);
+      color: #00ff41;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 16px;
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s;
       -webkit-appearance: none;
       appearance: none;
     }
 
     .field input:focus,
     .field select:focus {
-      border-color: var(--green);
+      border-color: #00ff41;
+      box-shadow: 0 0 8px rgba(0,255,65,0.3);
     }
 
     .field input::placeholder {
-      color: rgba(255,255,255,0.18);
+      color: rgba(0,255,65,0.4);
     }
 
     .field select {
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8ff3e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300ff41' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 14px center;
       padding-right: 38px;
@@ -181,9 +188,10 @@
     .chip {
       padding: 7px 14px;
       border-radius: 20px;
-      border: 1px solid rgba(168,255,62,0.18);
-      background: rgba(168,255,62,0.03);
-      color: rgba(255,255,255,0.4);
+      border: 1px solid #00ff41;
+      background: transparent;
+      color: #00ff41;
+      opacity: 0.6;
       font-family: 'Inter', sans-serif;
       font-size: 11px;
       font-weight: 500;
@@ -195,16 +203,18 @@
     }
 
     .chip.active {
-      border-color: var(--green);
-      background: rgba(168,255,62,0.1);
-      color: var(--green);
-      box-shadow: 0 0 8px rgba(168,255,62,0.18);
+      border-color: #00ff41;
+      background: #00ff41;
+      color: #000000;
+      font-weight: 700;
+      opacity: 1;
+      box-shadow: 0 0 12px #00ff41;
     }
 
     /* GRUPOS CONTACTO */
     .contact-group {
-      background: rgba(168,255,62,0.02);
-      border: 1px solid rgba(168,255,62,0.1);
+      background: rgba(0,255,65,0.02);
+      border: 1px solid rgba(0,255,65,0.1);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 14px;
@@ -216,7 +226,7 @@
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 2px;
-      color: rgba(168,255,62,0.4);
+      color: rgba(0,255,65,0.4);
       text-transform: uppercase;
       margin-bottom: 14px;
     }
@@ -243,7 +253,7 @@
 
     .btn-generate:hover {
       opacity: 0.9;
-      box-shadow: 0 0 24px rgba(168,255,62,0.35);
+      box-shadow: 0 0 24px rgba(0,255,65,0.35);
     }
 
     .btn-generate:active { opacity: 0.8; }
@@ -271,15 +281,56 @@
     .toast.show {
       transform: translateX(-50%) translateY(0);
     }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    @keyframes ambulancia {
+      0%   { filter: drop-shadow(0px 0px 8px #ff0000) drop-shadow(0px 0px 18px rgba(255,0,0,0.7)); }
+      25%  { filter: drop-shadow(4px 4px 8px #ff0000) drop-shadow(4px 4px 18px rgba(255,0,0,0.7)); }
+      50%  { filter: drop-shadow(0px 8px 8px #ff0000) drop-shadow(0px 8px 18px rgba(255,0,0,0.7)); }
+      75%  { filter: drop-shadow(-4px 4px 8px #ff0000) drop-shadow(-4px 4px 18px rgba(255,0,0,0.7)); }
+      100% { filter: drop-shadow(0px 0px 8px #ff0000) drop-shadow(0px 0px 18px rgba(255,0,0,0.7)); }
+    }
+
+    @keyframes ecg-draw {
+      0%   { stroke-dashoffset: 125; }
+      70%  { stroke-dashoffset: 0; }
+      85%  { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: 125; }
+    }
   </style>
 </head>
 <body>
 
   <!-- LOGO -->
   <div class="logo-wrap">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="19" y="3" width="14" height="46" rx="4" fill="#a8ff3e"/>
-      <rect x="3" y="19" width="46" height="14" rx="4" fill="#a8ff3e"/>
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cruz farmacia -->
+      <rect x="30" y="5" width="20" height="70" rx="5" fill="#00ff41"/>
+      <rect x="5" y="30" width="70" height="20" rx="5" fill="#00ff41"/>
+      <!-- 12 círculos bombilla -->
+      <circle cx="40" cy="11" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0s"/>
+      <circle cx="40" cy="22" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.2s"/>
+      <circle cx="11" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.4s"/>
+      <circle cx="22" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.6s"/>
+      <circle cx="58" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.8s"/>
+      <circle cx="69" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.0s"/>
+      <circle cx="40" cy="58" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.2s"/>
+      <circle cx="40" cy="69" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.4s"/>
+      <circle cx="32" cy="32" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.6s"/>
+      <circle cx="48" cy="32" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.8s"/>
+      <circle cx="32" cy="48" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.0s"/>
+      <circle cx="48" cy="48" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.2s"/>
+      <!-- Corazón rojo -->
+      <path d="M40,57 C30,50 22,44 22,36 C22,29 28,25 34,27 C37,28 40,32 40,32 C40,32 43,28 46,27 C52,25 58,29 58,36 C58,44 50,50 40,57 Z"
+        fill="#ff0000" style="animation:ambulancia 1.5s ease-in-out infinite"/>
+      <!-- ECG blanco -->
+      <polyline points="10,40 30,40 35,25 40,55 45,30 50,40 70,40"
+        stroke="white" stroke-width="1.5" fill="none"
+        style="stroke-dasharray:125;stroke-dashoffset:125;animation:ecg-draw 2s ease-in-out infinite;filter:drop-shadow(0 0 3px white) drop-shadow(0 0 6px rgba(255,255,255,0.7))"/>
     </svg>
     <div class="brand">DoctorQR</div>
     <div class="tagline">Tu historial médico en un QR</div>
