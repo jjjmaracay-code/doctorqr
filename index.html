@@ -297,11 +297,11 @@
       50%       { opacity: 0.15; }
     }
 
-@keyframes ecg-draw {
-      0%   { stroke-dashoffset: 250; }
+    @keyframes ecg-draw {
+      0%   { stroke-dashoffset: 105; }
       70%  { stroke-dashoffset: 0; }
       85%  { stroke-dashoffset: 0; }
-      100% { stroke-dashoffset: 250; }
+      100% { stroke-dashoffset: 105; }
     }
 
     .logo-flip-container {
@@ -327,14 +327,14 @@
     }
 
     @keyframes destello-rojo {
-      0%   { filter: drop-shadow(0 0 2px #ff0000); }
-      24%  { filter: drop-shadow(0 0 2px #ff0000); }
-      25%  { filter: drop-shadow(0 0 0px #ff0000) drop-shadow(0 0 60px #ff0000) drop-shadow(0 0 120px #ff0000) drop-shadow(0 0 200px #ff0000); }
-      26%  { filter: drop-shadow(0 0 2px #ff0000); }
-      74%  { filter: drop-shadow(0 0 2px #ff0000); }
-      75%  { filter: drop-shadow(0 0 0px #ff0000) drop-shadow(0 0 60px #ff0000) drop-shadow(0 0 120px #ff0000) drop-shadow(0 0 200px #ff0000); }
-      76%  { filter: drop-shadow(0 0 2px #ff0000); }
-      100% { filter: drop-shadow(0 0 2px #ff0000); }
+      0%   { filter: drop-shadow(0 0 1px #ff0000); }
+      24%  { filter: drop-shadow(0 0 1px #ff0000); }
+      25%  { filter: drop-shadow(0 0 20px #ff0000) drop-shadow(0 0 40px #ff0000); }
+      26%  { filter: drop-shadow(0 0 1px #ff0000); }
+      74%  { filter: drop-shadow(0 0 1px #ff0000); }
+      75%  { filter: drop-shadow(0 0 20px #ff0000) drop-shadow(0 0 40px #ff0000); }
+      76%  { filter: drop-shadow(0 0 1px #ff0000); }
+      100% { filter: drop-shadow(0 0 1px #ff0000); }
     }
 
     .corazon-svg {
@@ -348,109 +348,81 @@
   <div class="logo-wrap">
     <div class="logo-flip-container">
       <div class="logo-flip">
-        <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="180" height="180" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="cruz-grad" x1="0" y1="10" x2="0" y2="150" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" style="stop-color:#00cc33"/>
-              <stop offset="50%" style="stop-color:#00ff41"/>
-              <stop offset="100%" style="stop-color:#009922"/>
+            <linearGradient id="cruzGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#00ff41"/>
+              <stop offset="40%" stop-color="#00dd35"/>
+              <stop offset="100%" stop-color="#008820"/>
             </linearGradient>
-            <radialGradient id="heart3d" cx="40%" cy="35%" r="60%">
-              <stop offset="0%" style="stop-color:#ff6666"/>
-              <stop offset="50%" style="stop-color:#ff0000"/>
-              <stop offset="100%" style="stop-color:#660000"/>
+            <radialGradient id="heartGrad" cx="38%" cy="32%" r="60%">
+              <stop offset="0%" stop-color="#ff8888"/>
+              <stop offset="50%" stop-color="#ff0000"/>
+              <stop offset="100%" stop-color="#7a0000"/>
             </radialGradient>
           </defs>
-          <!-- Sombra detrás de la cruz (+3px) -->
-          <rect x="63" y="13" width="40" height="140" rx="10" fill="#004d14" opacity="0.8"/>
-          <rect x="13" y="63" width="140" height="40" rx="10" fill="#004d14" opacity="0.8"/>
-          <!-- Cara inferior (profundidad 6px abajo) -->
-          <polygon points="68,148 92,148 92,154 68,154" fill="#002d0a"/>
-          <polygon points="18,98 142,98 142,104 18,104" fill="#002d0a"/>
-          <!-- Cara derecha (profundidad 6px derecha) -->
-          <polygon points="100,18 106,18 106,60 100,60" fill="#003d0e"/>
-          <polygon points="100,100 106,100 106,148 100,148" fill="#003d0e"/>
-          <polygon points="148,68 154,68 154,92 148,92" fill="#003d0e"/>
-          <!-- Cruz farmacia frontal con glow verde -->
-          <g style="filter:drop-shadow(0 0 15px #00ff41) drop-shadow(0 0 30px #00ff41) drop-shadow(0 8px 8px #001a00)">
-            <rect x="60" y="10" width="40" height="140" rx="10" fill="url(#cruz-grad)" stroke="#00ff41" stroke-width="3"/>
-            <rect x="10" y="60" width="140" height="40" rx="10" fill="url(#cruz-grad)" stroke="#00ff41" stroke-width="3"/>
-          </g>
-          <!-- Reflejo LED (-2px arriba) -->
-          <rect x="60" y="8" width="40" height="140" rx="10" fill="#aaffaa" opacity="0.3"/>
-          <rect x="10" y="58" width="140" height="40" rx="10" fill="#aaffaa" opacity="0.3"/>
-          <!-- 48 bombillas verdes en el borde de la cruz -->
-          <!-- Top barra vertical -->
-          <circle class="bombilla" cx="65" cy="10" r="3.5" style="animation-delay:0s"/>
-          <circle class="bombilla" cx="74" cy="10" r="3.5" style="animation-delay:0.2s"/>
-          <circle class="bombilla" cx="86" cy="10" r="3.5" style="animation-delay:0.4s"/>
-          <circle class="bombilla" cx="95" cy="10" r="3.5" style="animation-delay:0.6s"/>
-          <!-- Lado derecho barra vertical superior -->
-          <circle class="bombilla" cx="100" cy="18" r="3.5" style="animation-delay:0.8s"/>
-          <circle class="bombilla" cx="100" cy="30" r="3.5" style="animation-delay:1.0s"/>
-          <circle class="bombilla" cx="100" cy="42" r="3.5" style="animation-delay:1.2s"/>
-          <circle class="bombilla" cx="100" cy="54" r="3.5" style="animation-delay:1.4s"/>
-          <!-- Top brazo derecho horizontal -->
-          <circle class="bombilla" cx="108" cy="60" r="3.5" style="animation-delay:1.6s"/>
-          <circle class="bombilla" cx="120" cy="60" r="3.5" style="animation-delay:1.8s"/>
-          <circle class="bombilla" cx="132" cy="60" r="3.5" style="animation-delay:2.0s"/>
-          <circle class="bombilla" cx="144" cy="60" r="3.5" style="animation-delay:2.2s"/>
-          <!-- Lado derecho brazo horizontal -->
-          <circle class="bombilla" cx="150" cy="64" r="3.5" style="animation-delay:2.4s"/>
-          <circle class="bombilla" cx="150" cy="74" r="3.5" style="animation-delay:2.6s"/>
-          <circle class="bombilla" cx="150" cy="84" r="3.5" style="animation-delay:2.8s"/>
-          <circle class="bombilla" cx="150" cy="96" r="3.5" style="animation-delay:3.0s"/>
-          <!-- Bottom brazo derecho horizontal -->
-          <circle class="bombilla" cx="144" cy="100" r="3.5" style="animation-delay:3.2s"/>
-          <circle class="bombilla" cx="132" cy="100" r="3.5" style="animation-delay:3.4s"/>
-          <circle class="bombilla" cx="120" cy="100" r="3.5" style="animation-delay:3.6s"/>
-          <circle class="bombilla" cx="108" cy="100" r="3.5" style="animation-delay:3.8s"/>
-          <!-- Lado derecho barra vertical inferior -->
-          <circle class="bombilla" cx="100" cy="106" r="3.5" style="animation-delay:4.0s"/>
-          <circle class="bombilla" cx="100" cy="118" r="3.5" style="animation-delay:4.2s"/>
-          <circle class="bombilla" cx="100" cy="130" r="3.5" style="animation-delay:4.4s"/>
-          <circle class="bombilla" cx="100" cy="143" r="3.5" style="animation-delay:4.6s"/>
-          <!-- Bottom barra vertical -->
-          <circle class="bombilla" cx="95" cy="150" r="3.5" style="animation-delay:4.8s"/>
-          <circle class="bombilla" cx="86" cy="150" r="3.5" style="animation-delay:5.0s"/>
-          <circle class="bombilla" cx="74" cy="150" r="3.5" style="animation-delay:5.2s"/>
-          <circle class="bombilla" cx="65" cy="150" r="3.5" style="animation-delay:5.4s"/>
-          <!-- Lado izquierdo barra vertical inferior -->
-          <circle class="bombilla" cx="60" cy="143" r="3.5" style="animation-delay:5.6s"/>
-          <circle class="bombilla" cx="60" cy="130" r="3.5" style="animation-delay:5.8s"/>
-          <circle class="bombilla" cx="60" cy="118" r="3.5" style="animation-delay:6.0s"/>
-          <circle class="bombilla" cx="60" cy="106" r="3.5" style="animation-delay:6.2s"/>
-          <!-- Bottom brazo izquierdo horizontal -->
-          <circle class="bombilla" cx="52" cy="100" r="3.5" style="animation-delay:6.4s"/>
-          <circle class="bombilla" cx="40" cy="100" r="3.5" style="animation-delay:6.6s"/>
-          <circle class="bombilla" cx="28" cy="100" r="3.5" style="animation-delay:6.8s"/>
-          <circle class="bombilla" cx="16" cy="100" r="3.5" style="animation-delay:7.0s"/>
-          <!-- Lado izquierdo brazo horizontal -->
-          <circle class="bombilla" cx="10" cy="96" r="3.5" style="animation-delay:7.2s"/>
-          <circle class="bombilla" cx="10" cy="84" r="3.5" style="animation-delay:7.4s"/>
-          <circle class="bombilla" cx="10" cy="74" r="3.5" style="animation-delay:7.6s"/>
-          <circle class="bombilla" cx="10" cy="64" r="3.5" style="animation-delay:7.8s"/>
-          <!-- Top brazo izquierdo horizontal -->
-          <circle class="bombilla" cx="16" cy="60" r="3.5" style="animation-delay:8.0s"/>
-          <circle class="bombilla" cx="28" cy="60" r="3.5" style="animation-delay:8.2s"/>
-          <circle class="bombilla" cx="40" cy="60" r="3.5" style="animation-delay:8.4s"/>
-          <circle class="bombilla" cx="52" cy="60" r="3.5" style="animation-delay:8.6s"/>
-          <!-- Lado izquierdo barra vertical superior -->
-          <circle class="bombilla" cx="60" cy="54" r="3.5" style="animation-delay:8.8s"/>
-          <circle class="bombilla" cx="60" cy="42" r="3.5" style="animation-delay:9.0s"/>
-          <circle class="bombilla" cx="60" cy="30" r="3.5" style="animation-delay:9.2s"/>
-          <circle class="bombilla" cx="60" cy="18" r="3.5" style="animation-delay:9.4s"/>
-          <!-- Sombra corazón 3D -->
-          <path d="M82,125 C56,107 35,91 35,70 C35,52 51,42 66,47 C74,49 82,60 82,60 C82,60 90,49 98,47 C113,42 129,52 129,70 C129,91 108,107 82,125 Z"
-            fill="#4d0000" transform="translate(80,82) scale(1.4) translate(-80,-82)"/>
-          <!-- Corazón con gradiente radial 1.4x -->
-          <path class="corazon-svg" d="M80,123 C54,105 33,89 33,68 C33,50 49,40 64,45 C72,47 80,58 80,58 C80,58 88,47 96,45 C111,40 127,50 127,68 C127,89 106,105 80,123 Z"
-            fill="url(#heart3d)" stroke="#ff0000" stroke-width="1"
-            transform="translate(80,82) scale(1.4) translate(-80,-82)"/>
-          <!-- ECG verde neón -->
-          <polyline points="20,80 60,80 70,50 80,110 90,60 100,80 140,80"
-            stroke="#00ff41" stroke-width="2" fill="none"
-            style="stroke-dasharray:250;stroke-dashoffset:250;animation:ecg-draw 2s ease-in-out infinite;filter:drop-shadow(0 0 4px #00ff41) drop-shadow(0 0 8px #00ff41)"/>
+          <!-- CAPA 1: Sombra/profundidad de la cruz -->
+          <rect x="78" y="18" width="44" height="164" rx="6" fill="#003d0e" transform="translate(4,4)"/>
+          <rect x="18" y="78" width="164" height="44" rx="6" fill="#003d0e" transform="translate(4,4)"/>
+          <!-- CAPA 2: Cara frontal de la cruz -->
+          <rect x="78" y="18" width="44" height="164" rx="6" fill="url(#cruzGrad)"/>
+          <rect x="18" y="78" width="164" height="44" rx="6" fill="url(#cruzGrad)"/>
+          <!-- CAPA 3: Borde neón de la cruz -->
+          <rect x="78" y="18" width="44" height="164" rx="6" fill="none" stroke="#00ff41" stroke-width="2" style="filter:drop-shadow(0 0 6px #00ff41) drop-shadow(0 0 12px #00ff41)"/>
+          <rect x="18" y="78" width="164" height="44" rx="6" fill="none" stroke="#00ff41" stroke-width="2" style="filter:drop-shadow(0 0 6px #00ff41) drop-shadow(0 0 12px #00ff41)"/>
+          <!-- CAPA 4: Reflejo superior LED -->
+          <rect x="82" y="20" width="16" height="160" rx="4" fill="white" opacity="0.12"/>
+          <rect x="20" y="82" width="160" height="16" rx="4" fill="white" opacity="0.12"/>
+          <!-- CAPA 5: 36 bombillas verdes -->
+          <!-- Brazo superior cx=100, cy=24-72 -->
+          <circle class="bombilla" cx="100" cy="24" r="2.5" style="animation-delay:0s"/>
+          <circle class="bombilla" cx="100" cy="30" r="2.5" style="animation-delay:0.2s"/>
+          <circle class="bombilla" cx="100" cy="36" r="2.5" style="animation-delay:0.4s"/>
+          <circle class="bombilla" cx="100" cy="42" r="2.5" style="animation-delay:0.6s"/>
+          <circle class="bombilla" cx="100" cy="48" r="2.5" style="animation-delay:0.8s"/>
+          <circle class="bombilla" cx="100" cy="54" r="2.5" style="animation-delay:1.0s"/>
+          <circle class="bombilla" cx="100" cy="60" r="2.5" style="animation-delay:1.2s"/>
+          <circle class="bombilla" cx="100" cy="66" r="2.5" style="animation-delay:1.4s"/>
+          <circle class="bombilla" cx="100" cy="72" r="2.5" style="animation-delay:1.6s"/>
+          <!-- Brazo inferior cx=100, cy=128-176 -->
+          <circle class="bombilla" cx="100" cy="128" r="2.5" style="animation-delay:1.8s"/>
+          <circle class="bombilla" cx="100" cy="134" r="2.5" style="animation-delay:2.0s"/>
+          <circle class="bombilla" cx="100" cy="140" r="2.5" style="animation-delay:2.2s"/>
+          <circle class="bombilla" cx="100" cy="146" r="2.5" style="animation-delay:2.4s"/>
+          <circle class="bombilla" cx="100" cy="152" r="2.5" style="animation-delay:2.6s"/>
+          <circle class="bombilla" cx="100" cy="158" r="2.5" style="animation-delay:2.8s"/>
+          <circle class="bombilla" cx="100" cy="164" r="2.5" style="animation-delay:3.0s"/>
+          <circle class="bombilla" cx="100" cy="170" r="2.5" style="animation-delay:3.2s"/>
+          <circle class="bombilla" cx="100" cy="176" r="2.5" style="animation-delay:3.4s"/>
+          <!-- Brazo izquierdo cy=100, cx=24-72 -->
+          <circle class="bombilla" cx="24" cy="100" r="2.5" style="animation-delay:3.6s"/>
+          <circle class="bombilla" cx="30" cy="100" r="2.5" style="animation-delay:3.8s"/>
+          <circle class="bombilla" cx="36" cy="100" r="2.5" style="animation-delay:4.0s"/>
+          <circle class="bombilla" cx="42" cy="100" r="2.5" style="animation-delay:4.2s"/>
+          <circle class="bombilla" cx="48" cy="100" r="2.5" style="animation-delay:4.4s"/>
+          <circle class="bombilla" cx="54" cy="100" r="2.5" style="animation-delay:4.6s"/>
+          <circle class="bombilla" cx="60" cy="100" r="2.5" style="animation-delay:4.8s"/>
+          <circle class="bombilla" cx="66" cy="100" r="2.5" style="animation-delay:5.0s"/>
+          <circle class="bombilla" cx="72" cy="100" r="2.5" style="animation-delay:5.2s"/>
+          <!-- Brazo derecho cy=100, cx=128-176 -->
+          <circle class="bombilla" cx="128" cy="100" r="2.5" style="animation-delay:5.4s"/>
+          <circle class="bombilla" cx="134" cy="100" r="2.5" style="animation-delay:5.6s"/>
+          <circle class="bombilla" cx="140" cy="100" r="2.5" style="animation-delay:5.8s"/>
+          <circle class="bombilla" cx="146" cy="100" r="2.5" style="animation-delay:6.0s"/>
+          <circle class="bombilla" cx="152" cy="100" r="2.5" style="animation-delay:6.2s"/>
+          <circle class="bombilla" cx="158" cy="100" r="2.5" style="animation-delay:6.4s"/>
+          <circle class="bombilla" cx="164" cy="100" r="2.5" style="animation-delay:6.6s"/>
+          <circle class="bombilla" cx="170" cy="100" r="2.5" style="animation-delay:6.8s"/>
+          <circle class="bombilla" cx="176" cy="100" r="2.5" style="animation-delay:7.0s"/>
+          <!-- CAPA 6: Corazón pequeño y proporcional -->
+          <path class="corazon-svg" d="M0,-30 C-5,-45 -25,-45 -25,-25 C-25,-5 0,15 0,30 C0,15 25,-5 25,-25 C25,-45 5,-45 0,-30 Z"
+            fill="url(#heartGrad)" stroke="#cc0000" stroke-width="2"
+            transform="translate(100,105) scale(0.35)"
+            style="animation: destello-rojo 5s infinite"/>
+          <!-- CAPA 7: ECG blanco -->
+          <polyline class="ecg-line" points="72,100 80,100 84,88 88,112 92,95 96,100 128,100"
+            stroke="#ffffff" stroke-width="2" fill="none"
+            style="stroke-dasharray:105;stroke-dashoffset:105;animation:ecg-draw 2s infinite;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 6px #fff)"/>
         </svg>
       </div>
     </div>
