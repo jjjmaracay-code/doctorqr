@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="DoctorQR"/>
+  <title>DoctorQR · Tu historial médico en un QR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #a8ff3e;
+      --bg: #0a0a0a;
+      --card: #111;
+      --border: rgba(168,255,62,0.18);
+      --text: rgba(255,255,255,0.85);
+      --muted: rgba(255,255,255,0.32);
+      --input-bg: rgba(168,255,62,0.03);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 40px 16px 100px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 44px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 10px;
+      color: var(--green);
+      text-transform: uppercase;
+      text-shadow: 0 0 12px #a8ff3e, 0 0 28px rgba(168,255,62,0.5);
+      text-align: center;
+    }
+
+    .tagline {
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* SECCIONES */
+    .form-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .form-section.open {
+      border-color: rgba(168,255,62,0.35);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--green);
+      text-transform: uppercase;
+    }
+
+    .section-chevron {
+      font-size: 18px;
+      color: rgba(168,255,62,0.5);
+      transition: transform 0.25s;
+      line-height: 1;
+    }
+
+    .form-section.open .section-chevron {
+      transform: rotate(90deg);
+    }
+
+    .section-body {
+      display: none;
+      padding: 4px 20px 22px;
+    }
+
+    .form-section.open .section-body {
+      display: block;
+    }
+
+    /* CAMPOS */
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field:last-child { margin-bottom: 0; }
+
+    .field-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .field input[type="text"],
+    .field input[type="date"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--green);
+    }
+
+    .field input::placeholder {
+      color: rgba(255,255,255,0.18);
+    }
+
+    .field select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8ff3e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+
+    .field select option {
+      background: #1a1a1a;
+      color: var(--text);
+    }
+
+    .field input[type="date"] {
+      color-scheme: dark;
+    }
+
+    /* CHIPS */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(168,255,62,0.18);
+      background: rgba(168,255,62,0.03);
+      color: rgba(255,255,255,0.4);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .chip.active {
+      border-color: var(--green);
+      background: rgba(168,255,62,0.1);
+      color: var(--green);
+      box-shadow: 0 0 8px rgba(168,255,62,0.18);
+    }
+
+    /* GRUPOS CONTACTO */
+    .contact-group {
+      background: rgba(168,255,62,0.02);
+      border: 1px solid rgba(168,255,62,0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .contact-group:last-child { margin-bottom: 0; }
+
+    .contact-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(168,255,62,0.4);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .contact-group .field:last-child { margin-bottom: 0; }
+
+    /* BOTÓN FINAL */
+    .btn-generate {
+      width: 100%;
+      padding: 18px;
+      border-radius: 14px;
+      border: none;
+      background: var(--green);
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: opacity 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-generate:hover {
+      opacity: 0.9;
+      box-shadow: 0 0 24px rgba(168,255,62,0.35);
+    }
+
+    .btn-generate:active { opacity: 0.8; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: var(--green);
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 30px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGO -->
+  <div class="logo-wrap">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="19" y="3" width="14" height="46" rx="4" fill="#a8ff3e"/>
+      <rect x="3" y="19" width="46" height="14" rx="4" fill="#a8ff3e"/>
+    </svg>
+    <div class="brand">DoctorQR</div>
+    <div class="tagline">Tu historial médico en un QR</div>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div id="form">
+
+    <!-- SECCIÓN 1 — IDENTIFICACIÓN -->
+    <div class="form-section open" id="sec-1">
+      <div class="section-header" onclick="toggleSection('sec-1')">
+        <span class="section-title">01 — Identificación</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Nombre completo</div>
+          <input type="text" id="f-name" placeholder="Juan García López"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Fecha de nacimiento</div>
+          <input type="date" id="f-birthdate"/>
+        </div>
+        <div class="field">
+          <div class="field-label">DNI / Pasaporte</div>
+          <input type="text" id="f-dni" placeholder="12345678A"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Correo electrónico</div>
+          <input type="email" id="f-email" placeholder="tu@email.com"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Idioma preferido</div>
+          <select id="f-lang">
+            <option value="es">ES — Español</option>
+            <option value="en">EN — English</option>
+            <option value="fr">FR — Français</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2 — DATOS CRÍTICOS -->
+    <div class="form-section" id="sec-2">
+      <div class="section-header" onclick="toggleSection('sec-2')">
+        <span class="section-title">02 — Datos críticos</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Tipo de sangre</div>
+          <select id="f-blood">
+            <option value="">— Selecciona —</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="0+">0+</option>
+            <option value="0-">0-</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Alergias a medicamentos</div>
+          <div class="chips" data-group="allergy-med">
+            <div class="chip" data-value="Penicilina">Penicilina</div>
+            <div class="chip" data-value="Aspirina">Aspirina</div>
+            <div class="chip" data-value="Ibuprofeno">Ibuprofeno</div>
+            <div class="chip" data-value="Morfina">Morfina</div>
+            <div class="chip" data-value="Contraste yodado">Contraste yodado</div>
+            <div class="chip" data-value="Látex">Látex</div>
+            <div class="chip" data-value="Sulfamidas">Sulfamidas</div>
+            <div class="chip" data-value="Codeína">Codeína</div>
+            <div class="chip" data-value="AINE">AINE</div>
+            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Alergias alimentarias</div>
+          <div class="chips" data-group="allergy-food">
+            <div class="chip" data-value="Frutos secos">Frutos secos</div>
+            <div class="chip" data-value="Marisco">Marisco</div>
+            <div class="chip" data-value="Gluten">Gluten</div>
+            <div class="chip" data-value="Lácteos">Lácteos</div>
+            <div class="chip" data-value="Huevo">Huevo</div>
+            <div class="chip" data-value="Soja">Soja</div>
+            <div class="chip" data-value="Pescado">Pescado</div>
+            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Alergias ambientales</div>
+          <div class="chips" data-group="allergy-env">
+            <div class="chip" data-value="Polen">Polen</div>
+            <div class="chip" data-value="Ácaros">Ácaros</div>
+            <div class="chip" data-value="Hongos">Hongos</div>
+            <div class="chip" data-value="Animales">Animales</div>
+            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3 — ENFERMEDADES Y CONDICIONES -->
+    <div class="form-section" id="sec-3">
+      <div class="section-header" onclick="toggleSection('sec-3')">
+        <span class="section-title">03 — Enfermedades y condiciones</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Enfermedades crónicas</div>
+          <div class="chips" data-group="diseases">
+            <div class="chip" data-value="Diabetes T1">Diabetes T1</div>
+            <div class="chip" data-value="Diabetes T2">Diabetes T2</div>
+            <div class="chip" data-value="Hipertensión">Hipertensión</div>
+            <div class="chip" data-value="Epilepsia">Epilepsia</div>
+            <div class="chip" data-value="Asma">Asma</div>
+            <div class="chip" data-value="EPOC">EPOC</div>
+            <div class="chip" data-value="Cardiopatía">Cardiopatía</div>
+            <div class="chip" data-value="Insuficiencia renal">Insuficiencia renal</div>
+            <div class="chip" data-value="Cirrosis">Cirrosis</div>
+            <div class="chip" data-value="VIH">VIH</div>
+            <div class="chip" data-value="Lupus">Lupus</div>
+            <div class="chip" data-value="Artritis reumatoide">Artritis reumatoide</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Condiciones especiales</div>
+          <div class="chips" data-group="conditions">
+            <div class="chip" data-value="Marcapasos">Marcapasos</div>
+            <div class="chip" data-value="Stent coronario">Stent coronario</div>
+            <div class="chip" data-value="Válvula cardíaca">Válvula cardíaca</div>
+            <div class="chip" data-value="Prótesis cadera">Prótesis cadera</div>
+            <div class="chip" data-value="Prótesis rodilla">Prótesis rodilla</div>
+            <div class="chip" data-value="Implante coclear">Implante coclear</div>
+            <div class="chip" data-value="DIU">DIU</div>
+            <div class="chip" data-value="Embarazo">Embarazo</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 4 — MEDICACIÓN ACTUAL -->
+    <div class="form-section" id="sec-4">
+      <div class="section-header" onclick="toggleSection('sec-4')">
+        <span class="section-title">04 — Medicación actual</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="chips" data-group="meds">
+            <div class="chip" data-value="Metformina">Metformina</div>
+            <div class="chip" data-value="Insulina">Insulina</div>
+            <div class="chip" data-value="Enalapril">Enalapril</div>
+            <div class="chip" data-value="Losartán">Losartán</div>
+            <div class="chip" data-value="Atorvastatina">Atorvastatina</div>
+            <div class="chip" data-value="Omeprazol">Omeprazol</div>
+            <div class="chip" data-value="Levotiroxina">Levotiroxina</div>
+            <div class="chip" data-value="Warfarina">Warfarina</div>
+            <div class="chip" data-value="Acenocumarol">Acenocumarol</div>
+            <div class="chip" data-value="Ácido acetilsalicílico">Ácido acetilsalicílico</div>
+            <div class="chip" data-value="Clopidogrel">Clopidogrel</div>
+            <div class="chip" data-value="Furosemida">Furosemida</div>
+            <div class="chip" data-value="Amoxicilina">Amoxicilina</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 5 — CIRUGÍAS Y HOSPITALIZACIONES -->
+    <div class="form-section" id="sec-5">
+      <div class="section-header" onclick="toggleSection('sec-5')">
+        <span class="section-title">05 — Cirugías y hospitalizaciones</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Cirugías previas</div>
+          <div class="chips" data-group="surgeries">
+            <div class="chip" data-value="Apendicectomía">Apendicectomía</div>
+            <div class="chip" data-value="Colecistectomía">Colecistectomía</div>
+            <div class="chip" data-value="Bypass coronario">Bypass coronario</div>
+            <div class="chip" data-value="Cesárea">Cesárea</div>
+            <div class="chip" data-value="Histerectomía">Histerectomía</div>
+            <div class="chip" data-value="Prostatectomía">Prostatectomía</div>
+            <div class="chip" data-value="Rodilla">Rodilla</div>
+            <div class="chip" data-value="Cadera">Cadera</div>
+            <div class="chip" data-value="Columna">Columna</div>
+            <div class="chip" data-value="Cataratas">Cataratas</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Año aproximado última cirugía</div>
+          <select id="f-surgery-year">
+            <option value="Nunca">Nunca</option>
+            <option value="Antes de 2000">Antes de 2000</option>
+            <option value="2000-2010">2000 – 2010</option>
+            <option value="2010-2020">2010 – 2020</option>
+            <option value="2020-2025">2020 – 2025</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 6 — VACUNAS -->
+    <div class="form-section" id="sec-6">
+      <div class="section-header" onclick="toggleSection('sec-6')">
+        <span class="section-title">06 — Vacunas</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="chips" data-group="vaccines">
+            <div class="chip" data-value="Tétanos">Tétanos</div>
+            <div class="chip" data-value="Hepatitis A">Hepatitis A</div>
+            <div class="chip" data-value="Hepatitis B">Hepatitis B</div>
+            <div class="chip" data-value="COVID-19">COVID-19</div>
+            <div class="chip" data-value="Gripe anual">Gripe anual</div>
+            <div class="chip" data-value="Neumococo">Neumococo</div>
+            <div class="chip" data-value="Fiebre amarilla">Fiebre amarilla</div>
+            <div class="chip" data-value="No recuerdo">No recuerdo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 7 — CONTACTOS DE EMERGENCIA -->
+    <div class="form-section" id="sec-7">
+      <div class="section-header" onclick="toggleSection('sec-7')">
+        <span class="section-title">07 — Contactos de emergencia</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="contact-group">
+          <div class="contact-label">Contacto 1</div>
+          <div class="field">
+            <div class="field-label">Nombre</div>
+            <input type="text" id="f-ec1-name" placeholder="María García"/>
+          </div>
+          <div class="field">
+            <div class="field-label">Relación</div>
+            <select id="f-ec1-rel">
+              <option value="">— Selecciona —</option>
+              <option value="Cónyuge/Pareja">Cónyuge / Pareja</option>
+              <option value="Padre/Madre">Padre / Madre</option>
+              <option value="Hijo/Hija">Hijo / Hija</option>
+              <option value="Hermano/Hermana">Hermano / Hermana</option>
+              <option value="Amigo/Amiga">Amigo / Amiga</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="field-label">Teléfono</div>
+            <input type="tel" id="f-ec1-phone" placeholder="+34 600 000 000"/>
+          </div>
+        </div>
+        <div class="contact-group">
+          <div class="contact-label">Contacto 2</div>
+          <div class="field">
+            <div class="field-label">Nombre</div>
+            <input type="text" id="f-ec2-name" placeholder="Carlos García"/>
+          </div>
+          <div class="field">
+            <div class="field-label">Relación</div>
+            <select id="f-ec2-rel">
+              <option value="">— Selecciona —</option>
+              <option value="Cónyuge/Pareja">Cónyuge / Pareja</option>
+              <option value="Padre/Madre">Padre / Madre</option>
+              <option value="Hijo/Hija">Hijo / Hija</option>
+              <option value="Hermano/Hermana">Hermano / Hermana</option>
+              <option value="Amigo/Amiga">Amigo / Amiga</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="field-label">Teléfono</div>
+            <input type="tel" id="f-ec2-phone" placeholder="+34 600 000 001"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 8 — MÉDICO Y SEGURO -->
+    <div class="form-section" id="sec-8">
+      <div class="section-header" onclick="toggleSection('sec-8')">
+        <span class="section-title">08 — Médico y seguro</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Nombre médico de cabecera</div>
+          <input type="text" id="f-doctor-name" placeholder="Dr. José Martínez"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Teléfono médico</div>
+          <input type="tel" id="f-doctor-phone" placeholder="+34 900 000 000"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Aseguradora</div>
+          <div class="chips" data-group="insurer">
+            <div class="chip" data-value="Sanitas">Sanitas</div>
+            <div class="chip" data-value="Adeslas">Adeslas</div>
+            <div class="chip" data-value="Asisa">Asisa</div>
+            <div class="chip" data-value="Mapfre Salud">Mapfre Salud</div>
+            <div class="chip" data-value="DKV">DKV</div>
+            <div class="chip" data-value="Seguridad Social">Seguridad Social</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Número de póliza (opcional)</div>
+          <input type="text" id="f-policy" placeholder="ES-12345678"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="btn-generate" onclick="generate()">Generar mis QR</button>
+
+  <div class="toast" id="toast">Datos guardados</div>
+
+  <script>
+    function toggleSection(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => chip.classList.toggle('active'));
+    });
+
+    function getChips(group) {
+      return Array.from(
+        document.querySelectorAll(`[data-group="${group}"] .chip.active`)
+      ).map(c => c.dataset.value);
+    }
+
+    function generate() {
+      const profile = {
+        name:          document.getElementById('f-name').value,
+        birthdate:     document.getElementById('f-birthdate').value,
+        dni:           document.getElementById('f-dni').value,
+        email:         document.getElementById('f-email').value,
+        lang:          document.getElementById('f-lang').value,
+        blood:         document.getElementById('f-blood').value,
+        allergy_med:   getChips('allergy-med'),
+        allergy_food:  getChips('allergy-food'),
+        allergy_env:   getChips('allergy-env'),
+        diseases:      getChips('diseases'),
+        conditions:    getChips('conditions'),
+        meds:          getChips('meds'),
+        surgeries:     getChips('surgeries'),
+        surgery_year:  document.getElementById('f-surgery-year').value,
+        vaccines:      getChips('vaccines'),
+        ec1_name:      document.getElementById('f-ec1-name').value,
+        ec1_rel:       document.getElementById('f-ec1-rel').value,
+        ec1_phone:     document.getElementById('f-ec1-phone').value,
+        ec2_name:      document.getElementById('f-ec2-name').value,
+        ec2_rel:       document.getElementById('f-ec2-rel').value,
+        ec2_phone:     document.getElementById('f-ec2-phone').value,
+        doctor_name:   document.getElementById('f-doctor-name').value,
+        doctor_phone:  document.getElementById('f-doctor-phone').value,
+        insurer:       getChips('insurer'),
+        policy:        document.getElementById('f-policy').value,
+        updated_at:    new Date().toISOString(),
+      };
+      localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    function loadSaved() {
+      const saved = JSON.parse(localStorage.getItem('doctorqr_profile') || 'null');
+      if (!saved) return;
+      const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val !== undefined && val !== null) el.value = val;
+      };
+      set('f-name',          saved.name);
+      set('f-birthdate',     saved.birthdate);
+      set('f-dni',           saved.dni);
+      set('f-email',         saved.email);
+      set('f-lang',          saved.lang);
+      set('f-blood',         saved.blood);
+      set('f-surgery-year',  saved.surgery_year);
+      set('f-ec1-name',      saved.ec1_name);
+      set('f-ec1-rel',       saved.ec1_rel);
+      set('f-ec1-phone',     saved.ec1_phone);
+      set('f-ec2-name',      saved.ec2_name);
+      set('f-ec2-rel',       saved.ec2_rel);
+      set('f-ec2-phone',     saved.ec2_phone);
+      set('f-doctor-name',   saved.doctor_name);
+      set('f-doctor-phone',  saved.doctor_phone);
+      set('f-policy',        saved.policy);
+
+      const restoreChips = (group, values) => {
+        if (!Array.isArray(values)) return;
+        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
+          if (values.includes(chip.dataset.value)) chip.classList.add('active');
+        });
+      };
+      restoreChips('allergy-med',  saved.allergy_med);
+      restoreChips('allergy-food', saved.allergy_food);
+      restoreChips('allergy-env',  saved.allergy_env);
+      restoreChips('diseases',     saved.diseases);
+      restoreChips('conditions',   saved.conditions);
+      restoreChips('meds',         saved.meds);
+      restoreChips('surgeries',    saved.surgeries);
+      restoreChips('vaccines',     saved.vaccines);
+      restoreChips('insurer',      saved.insurer);
+    }
+
+    loadSaved();
+  </script>
+
+</body>
+</html>
