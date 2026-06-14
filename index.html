@@ -53,9 +53,11 @@
     .tagline {
       font-size: 9px;
       letter-spacing: 4px;
-      color: var(--muted);
+      color: #00ff41;
       text-transform: uppercase;
       text-align: center;
+      text-shadow: 0 0 10px #00ff41;
+      opacity: 0.8;
     }
 
     /* SECCIONES */
@@ -296,10 +298,38 @@
     }
 
     @keyframes ecg-draw {
-      0%   { stroke-dashoffset: 125; }
+      0%   { stroke-dashoffset: 250; }
       70%  { stroke-dashoffset: 0; }
       85%  { stroke-dashoffset: 0; }
-      100% { stroke-dashoffset: 125; }
+      100% { stroke-dashoffset: 250; }
+    }
+
+    .logo-flip-container {
+      perspective: 600px;
+    }
+
+    .logo-flip {
+      transform-style: preserve-3d;
+      animation: girar3d 5s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes girar3d {
+      0%   { transform: rotateY(0deg); }
+      50%  { transform: rotateY(180deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    @keyframes destello-rojo {
+      0%   { filter: drop-shadow(0 0 2px #ff0000); }
+      45%  { filter: drop-shadow(0 0 2px #ff0000); }
+      50%  { filter: drop-shadow(0 0 30px #ff0000) drop-shadow(0 0 60px #ff0000) drop-shadow(0 0 100px #ff0000); }
+      55%  { filter: drop-shadow(0 0 2px #ff0000); }
+      100% { filter: drop-shadow(0 0 2px #ff0000); }
+    }
+
+    .corazon-svg {
+      animation: destello-rojo 5s infinite;
     }
   </style>
 </head>
@@ -307,31 +337,51 @@
 
   <!-- LOGO -->
   <div class="logo-wrap">
-    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Cruz farmacia -->
-      <rect x="30" y="5" width="20" height="70" rx="5" fill="#00ff41"/>
-      <rect x="5" y="30" width="70" height="20" rx="5" fill="#00ff41"/>
-      <!-- 12 círculos bombilla -->
-      <circle cx="40" cy="11" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0s"/>
-      <circle cx="40" cy="22" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.2s"/>
-      <circle cx="11" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.4s"/>
-      <circle cx="22" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.6s"/>
-      <circle cx="58" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.8s"/>
-      <circle cx="69" cy="40" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.0s"/>
-      <circle cx="40" cy="58" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.2s"/>
-      <circle cx="40" cy="69" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.4s"/>
-      <circle cx="32" cy="32" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.6s"/>
-      <circle cx="48" cy="32" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.8s"/>
-      <circle cx="32" cy="48" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.0s"/>
-      <circle cx="48" cy="48" r="3" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.2s"/>
-      <!-- Corazón rojo -->
-      <path d="M40,57 C30,50 22,44 22,36 C22,29 28,25 34,27 C37,28 40,32 40,32 C40,32 43,28 46,27 C52,25 58,29 58,36 C58,44 50,50 40,57 Z"
-        fill="#ff0000" style="animation:ambulancia 1.5s ease-in-out infinite"/>
-      <!-- ECG blanco -->
-      <polyline points="10,40 30,40 35,25 40,55 45,30 50,40 70,40"
-        stroke="white" stroke-width="1.5" fill="none"
-        style="stroke-dasharray:125;stroke-dashoffset:125;animation:ecg-draw 2s ease-in-out infinite;filter:drop-shadow(0 0 3px white) drop-shadow(0 0 6px rgba(255,255,255,0.7))"/>
-    </svg>
+    <div class="logo-flip-container">
+      <div class="logo-flip">
+        <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cruz farmacia -->
+          <rect x="60" y="10" width="40" height="140" rx="10" fill="#00ff41"/>
+          <rect x="10" y="60" width="140" height="40" rx="10" fill="#00ff41"/>
+          <!-- 24 círculos bombilla — brazo superior -->
+          <circle cx="80" cy="15" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0s"/>
+          <circle cx="80" cy="26" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.2s"/>
+          <circle cx="80" cy="37" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.4s"/>
+          <circle cx="80" cy="48" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.6s"/>
+          <circle cx="80" cy="58" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:0.8s"/>
+          <!-- brazo inferior -->
+          <circle cx="80" cy="102" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.0s"/>
+          <circle cx="80" cy="112" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.2s"/>
+          <circle cx="80" cy="122" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.4s"/>
+          <circle cx="80" cy="132" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.6s"/>
+          <circle cx="80" cy="142" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:1.8s"/>
+          <!-- brazo izquierdo -->
+          <circle cx="15" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.0s"/>
+          <circle cx="26" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.2s"/>
+          <circle cx="37" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.4s"/>
+          <circle cx="48" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.6s"/>
+          <circle cx="58" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:2.8s"/>
+          <!-- brazo derecho -->
+          <circle cx="102" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:3.0s"/>
+          <circle cx="112" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:3.2s"/>
+          <circle cx="122" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:3.4s"/>
+          <circle cx="132" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:3.6s"/>
+          <circle cx="142" cy="80" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:3.8s"/>
+          <!-- esquinas del centro -->
+          <circle cx="65" cy="65" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:4.0s"/>
+          <circle cx="95" cy="65" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:4.2s"/>
+          <circle cx="65" cy="95" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:4.4s"/>
+          <circle cx="95" cy="95" r="4" fill="#fff" style="animation:parpadeo 1.2s ease-in-out infinite;animation-delay:4.6s"/>
+          <!-- Corazón rojo -->
+          <path class="corazon-svg" d="M80,114 C60,100 44,88 44,72 C44,58 56,50 68,54 C74,56 80,64 80,64 C80,64 86,56 92,54 C104,50 116,58 116,72 C116,88 100,100 80,114 Z"
+            fill="#ff0000"/>
+          <!-- ECG blanco -->
+          <polyline points="20,80 60,80 70,50 80,110 90,60 100,80 140,80"
+            stroke="white" stroke-width="2" fill="none"
+            style="stroke-dasharray:250;stroke-dashoffset:250;animation:ecg-draw 2s ease-in-out infinite;filter:drop-shadow(0 0 4px white) drop-shadow(0 0 8px rgba(255,255,255,0.7))"/>
+        </svg>
+      </div>
+    </div>
     <div class="brand">DoctorQR</div>
     <div class="tagline">Tu historial médico en un QR</div>
   </div>
