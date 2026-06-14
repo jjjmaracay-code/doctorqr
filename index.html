@@ -321,24 +321,24 @@
     }
 
     .bombilla {
-      fill: #ffffff;
+      fill: #00ff41;
       animation: parpadeo 0.4s ease-in-out infinite;
-      filter: drop-shadow(0 0 3px #ffffff);
+      filter: drop-shadow(0 0 4px #00ff41) drop-shadow(0 0 8px #00ff41);
     }
 
-    @keyframes neon-rojo {
-      0%   { filter: drop-shadow(0 0 0px #ff0000); opacity: 1; }
-      24%  { filter: drop-shadow(0 0 0px #ff0000); opacity: 1; }
-      25%  { filter: drop-shadow(0 0 40px #ff0000) drop-shadow(0 0 80px #ff0000) drop-shadow(0 0 120px #ff0000); opacity: 1; }
-      26%  { filter: drop-shadow(0 0 0px #ff0000); opacity: 1; }
-      74%  { filter: drop-shadow(0 0 0px #ff0000); opacity: 1; }
-      75%  { filter: drop-shadow(0 0 40px #ff0000) drop-shadow(0 0 80px #ff0000) drop-shadow(0 0 120px #ff0000); opacity: 1; }
-      76%  { filter: drop-shadow(0 0 0px #ff0000); opacity: 1; }
-      100% { filter: drop-shadow(0 0 0px #ff0000); opacity: 1; }
+    @keyframes destello-rojo {
+      0%   { filter: drop-shadow(0 0 2px #ff0000); }
+      24%  { filter: drop-shadow(0 0 2px #ff0000); }
+      25%  { filter: drop-shadow(0 0 0px #ff0000) drop-shadow(0 0 60px #ff0000) drop-shadow(0 0 120px #ff0000) drop-shadow(0 0 200px #ff0000); }
+      26%  { filter: drop-shadow(0 0 2px #ff0000); }
+      74%  { filter: drop-shadow(0 0 2px #ff0000); }
+      75%  { filter: drop-shadow(0 0 0px #ff0000) drop-shadow(0 0 60px #ff0000) drop-shadow(0 0 120px #ff0000) drop-shadow(0 0 200px #ff0000); }
+      76%  { filter: drop-shadow(0 0 2px #ff0000); }
+      100% { filter: drop-shadow(0 0 2px #ff0000); }
     }
 
     .corazon-svg {
-      animation: neon-rojo 5s infinite;
+      animation: destello-rojo 5s infinite ease-in-out;
     }
   </style>
 </head>
@@ -350,28 +350,36 @@
       <div class="logo-flip">
         <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="cruz3d" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#00ff41"/>
-              <stop offset="50%" style="stop-color:#00cc33"/>
-              <stop offset="100%" style="stop-color:#004d14"/>
+            <linearGradient id="cruz-grad" x1="0" y1="10" x2="0" y2="150" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" style="stop-color:#00cc33"/>
+              <stop offset="50%" style="stop-color:#00ff41"/>
+              <stop offset="100%" style="stop-color:#009922"/>
             </linearGradient>
-            <radialGradient id="corazon3d" cx="40%" cy="35%" r="60%">
+            <radialGradient id="heart3d" cx="40%" cy="35%" r="60%">
               <stop offset="0%" style="stop-color:#ff6666"/>
-              <stop offset="60%" style="stop-color:#ff0000"/>
-              <stop offset="100%" style="stop-color:#8b0000"/>
+              <stop offset="50%" style="stop-color:#ff0000"/>
+              <stop offset="100%" style="stop-color:#660000"/>
             </radialGradient>
           </defs>
-          <!-- Profundidad 3D — caras laterales derecha -->
-          <polygon points="100,14 106,20 106,60 100,60" fill="#005c17"/>
-          <polygon points="100,100 106,106 106,148 100,142" fill="#005c17"/>
-          <polygon points="144,66 150,72 150,94 144,100" fill="#005c17"/>
-          <!-- Profundidad 3D — caras superiores (techo) -->
-          <polygon points="64,10 70,16 106,16 100,10" fill="#00cc33"/>
-          <polygon points="100,60 106,66 150,66 144,60" fill="#00cc33"/>
-          <!-- Cruz farmacia frontal con gradiente -->
-          <rect x="60" y="10" width="40" height="140" rx="10" fill="url(#cruz3d)"/>
-          <rect x="10" y="60" width="140" height="40" rx="10" fill="url(#cruz3d)"/>
-          <!-- 48 círculos bombilla en el borde de la cruz -->
+          <!-- Sombra detrás de la cruz (+3px) -->
+          <rect x="63" y="13" width="40" height="140" rx="10" fill="#004d14" opacity="0.8"/>
+          <rect x="13" y="63" width="140" height="40" rx="10" fill="#004d14" opacity="0.8"/>
+          <!-- Cara inferior (profundidad 6px abajo) -->
+          <polygon points="68,148 92,148 92,154 68,154" fill="#002d0a"/>
+          <polygon points="18,98 142,98 142,104 18,104" fill="#002d0a"/>
+          <!-- Cara derecha (profundidad 6px derecha) -->
+          <polygon points="100,18 106,18 106,60 100,60" fill="#003d0e"/>
+          <polygon points="100,100 106,100 106,148 100,148" fill="#003d0e"/>
+          <polygon points="148,68 154,68 154,92 148,92" fill="#003d0e"/>
+          <!-- Cruz farmacia frontal con glow verde -->
+          <g style="filter:drop-shadow(0 0 15px #00ff41) drop-shadow(0 0 30px #00ff41) drop-shadow(0 8px 8px #001a00)">
+            <rect x="60" y="10" width="40" height="140" rx="10" fill="url(#cruz-grad)" stroke="#00ff41" stroke-width="3"/>
+            <rect x="10" y="60" width="140" height="40" rx="10" fill="url(#cruz-grad)" stroke="#00ff41" stroke-width="3"/>
+          </g>
+          <!-- Reflejo LED (-2px arriba) -->
+          <rect x="60" y="8" width="40" height="140" rx="10" fill="#aaffaa" opacity="0.3"/>
+          <rect x="10" y="58" width="140" height="40" rx="10" fill="#aaffaa" opacity="0.3"/>
+          <!-- 48 bombillas verdes en el borde de la cruz -->
           <!-- Top barra vertical -->
           <circle class="bombilla" cx="65" cy="10" r="3.5" style="animation-delay:0s"/>
           <circle class="bombilla" cx="74" cy="10" r="3.5" style="animation-delay:0.2s"/>
@@ -432,16 +440,17 @@
           <circle class="bombilla" cx="60" cy="42" r="3.5" style="animation-delay:9.0s"/>
           <circle class="bombilla" cx="60" cy="30" r="3.5" style="animation-delay:9.2s"/>
           <circle class="bombilla" cx="60" cy="18" r="3.5" style="animation-delay:9.4s"/>
-          <!-- Sombra corazón (efecto 3D) -->
+          <!-- Sombra corazón 3D -->
           <path d="M82,125 C56,107 35,91 35,70 C35,52 51,42 66,47 C74,49 82,60 82,60 C82,60 90,49 98,47 C113,42 129,52 129,70 C129,91 108,107 82,125 Z"
-            fill="#8b0000"/>
-          <!-- Corazón rojo con gradiente radial -->
+            fill="#4d0000" transform="translate(80,82) scale(1.4) translate(-80,-82)"/>
+          <!-- Corazón con gradiente radial 1.4x -->
           <path class="corazon-svg" d="M80,123 C54,105 33,89 33,68 C33,50 49,40 64,45 C72,47 80,58 80,58 C80,58 88,47 96,45 C111,40 127,50 127,68 C127,89 106,105 80,123 Z"
-            fill="url(#corazon3d)"/>
-          <!-- ECG blanco -->
+            fill="url(#heart3d)" stroke="#ff0000" stroke-width="1"
+            transform="translate(80,82) scale(1.4) translate(-80,-82)"/>
+          <!-- ECG verde neón -->
           <polyline points="20,80 60,80 70,50 80,110 90,60 100,80 140,80"
-            stroke="#ffffff" stroke-width="2.5" fill="none"
-            style="stroke-dasharray:250;stroke-dashoffset:250;animation:ecg-draw 2s ease-in-out infinite;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px #fff)"/>
+            stroke="#00ff41" stroke-width="2" fill="none"
+            style="stroke-dasharray:250;stroke-dashoffset:250;animation:ecg-draw 2s ease-in-out infinite;filter:drop-shadow(0 0 4px #00ff41) drop-shadow(0 0 8px #00ff41)"/>
         </svg>
       </div>
     </div>
