@@ -2218,6 +2218,7 @@
           chip.classList.toggle('active');
         }
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
+        clearChipsSearch(chip);
       });
     });
 
@@ -2837,18 +2838,62 @@
       block.style.display = val === 'Sí — estoy embarazada' ? 'block' : 'none';
     }
 
+    function normalizeText(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/[áàäâ]/g, 'a')
+        .replace(/[éèëê]/g, 'e')
+        .replace(/[íìïî]/g, 'i')
+        .replace(/[óòöô]/g, 'o')
+        .replace(/[úùüû]/g, 'u')
+        .replace(/ñ/g, 'n')
+        .replace(/ç/g, 'c')
+        .replace(/[^\w\s]/g, '')
+        .trim();
+    }
+
+    function buildSearchVariants(text) {
+      const n = normalizeText(text);
+      const variants = [n];
+      variants.push(n.replace(/z/g, 's').replace(/c/g, 's'));
+      variants.push(n.replace(/s/g, 'c'));
+      variants.push(n.replace(/b/g, 'v').replace(/v/g, 'b'));
+      variants.push(n.replace(/ll/g, 'y').replace(/y/g, 'll'));
+      variants.push(n.replace(/h/g, ''));
+      return [...new Set(variants)];
+    }
+
     function filterChips(input) {
-      const query = input.value.toLowerCase().trim();
+      const raw = input.value.trim();
+      const query = normalizeText(raw);
       const field = input.closest('.field');
       const chips = field.querySelectorAll('.chip');
+
+      if (query.length < 3) {
+        chips.forEach(chip => { chip.style.display = ''; });
+        return;
+      }
+
+      const queryVariants = buildSearchVariants(query);
+
       chips.forEach(chip => {
-        const text = chip.textContent.toLowerCase();
-        if (query.length < 3) {
-          chip.style.display = '';
-        } else {
-          chip.style.display = text.includes(query) ? '' : 'none';
-        }
+        const chipNorm = normalizeText(chip.textContent.trim());
+        const chipVariants = buildSearchVariants(chipNorm);
+        const match = queryVariants.some(qv => chipVariants.some(cv => cv.includes(qv)))
+                   || chipVariants.some(cv => queryVariants.some(qv => cv.includes(qv)));
+        chip.style.display = match ? '' : 'none';
       });
+    }
+
+    function clearChipsSearch(chipEl) {
+      const field = chipEl.closest('.field');
+      if (!field) return;
+      const search = field.querySelector('.chips-search');
+      if (!search) return;
+      search.value = '';
+      field.querySelectorAll('.chip').forEach(c => { c.style.display = ''; });
     }
 
     // ===== INIT =====
