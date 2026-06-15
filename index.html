@@ -487,6 +487,23 @@
     }
 
     .corazon-svg { animation: destello-rojo 5s infinite ease-in-out; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group:last-child { margin-bottom: 0; }
+    .chips-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .field-hint {
+      font-size: 11px;
+      color: rgba(0,255,65,0.4);
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+    .field-warning {
+      font-size: 11px;
+      color: #ff4444;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
@@ -751,13 +768,111 @@
           <div class="field-label">Fecha de nacimiento</div>
           <input type="date" id="f-birthdate"/>
         </div>
-        <div class="field">
-          <div class="field-label">DNI / Pasaporte</div>
-          <input type="text" id="f-dni" placeholder="12345678A"/>
+        <!-- TIPO DOCUMENTO -->
+        <div class="form-group">
+          <div class="field-label">TIPO DE DOCUMENTO</div>
+          <div class="chips-group">
+            <div class="chip" data-group="doc-type" data-value="dni"
+                 onclick="selectDocType('dni')">DNI</div>
+            <div class="chip" data-group="doc-type" data-value="nie"
+                 onclick="selectDocType('nie')">NIE</div>
+            <div class="chip" data-group="doc-type" data-value="pasaporte"
+                 onclick="selectDocType('pasaporte')">PASAPORTE</div>
+          </div>
         </div>
-        <div class="field">
-          <div class="field-label">Correo electrónico</div>
-          <input type="email" id="f-email" placeholder="tu@email.com"/>
+
+        <!-- CAMPO DNI -->
+        <div class="form-group" id="field-dni" style="display:none">
+          <div class="field-label">NÚMERO DNI</div>
+          <input type="text" id="input-dni" maxlength="9"
+            placeholder="12345678A"
+            oninput="validateDNI(this)"/>
+          <div class="field-hint">Formato: 8 dígitos + 1 letra — ejemplo: 06639041E</div>
+          <div class="field-warning" id="warn-dni" style="display:none">
+            ⚠ Formato incorrecto — 8 dígitos seguidos de 1 letra mayúscula
+          </div>
+        </div>
+
+        <!-- CAMPO NIE -->
+        <div class="form-group" id="field-nie" style="display:none">
+          <div class="field-label">NÚMERO NIE</div>
+          <input type="text" id="input-nie" maxlength="9"
+            placeholder="X1234567A"
+            oninput="validateNIE(this)"/>
+          <div class="field-hint">Formato: X/Y/Z + 7 dígitos + 1 letra — ejemplo: X1234567A</div>
+          <div class="field-warning" id="warn-nie" style="display:none">
+            ⚠ Formato incorrecto — debe empezar por X, Y o Z
+          </div>
+        </div>
+
+        <!-- CAMPO PASAPORTE -->
+        <div class="form-group" id="field-pasaporte" style="display:none">
+          <div class="field-label">PASAPORTE</div>
+          <div class="phone-field">
+            <select id="passport-country" onchange="updatePassportHint()">
+              <option value="es">🇪🇸 España</option>
+              <option value="fr">🇫🇷 Francia</option>
+              <option value="de">🇩🇪 Alemania</option>
+              <option value="it">🇮🇹 Italia</option>
+              <option value="pt">🇵🇹 Portugal</option>
+              <option value="gb">🇬🇧 Reino Unido</option>
+              <option value="us">🇺🇸 EEUU</option>
+              <option value="mx">🇲🇽 México</option>
+              <option value="ar">🇦🇷 Argentina</option>
+              <option value="co">🇨🇴 Colombia</option>
+              <option value="other">🌍 Otro país</option>
+            </select>
+            <input type="text" id="input-pasaporte" maxlength="20"
+              placeholder="AAA123456"
+              oninput="validatePassport(this)"/>
+          </div>
+          <div class="field-hint" id="hint-pasaporte">
+            Formato España: 3 letras + 6 dígitos — ejemplo: AAA123456
+          </div>
+          <div class="field-warning" id="warn-pasaporte" style="display:none">
+            ⚠ Formato no coincide con el país seleccionado — verifica el número
+          </div>
+        </div>
+
+        <!-- CAMPO EMAIL -->
+        <div class="form-group">
+          <div class="field-label">CORREO ELECTRÓNICO</div>
+          <div class="email-field" style="display:flex;align-items:center;gap:6px;">
+            <input type="text" id="email-alias"
+              placeholder="tunombre"
+              style="flex:1;min-width:0"/>
+            <span style="color:#00ff41;font-size:18px;font-weight:900;
+                         text-shadow:0 0 8px #00ff41;flex-shrink:0">@</span>
+            <select id="email-domain" onchange="toggleCustomDomain()"
+              style="flex:1;min-width:0">
+              <option value="gmail.com">gmail.com</option>
+              <option value="hotmail.com">hotmail.com</option>
+              <option value="outlook.com">outlook.com</option>
+              <option value="yahoo.com">yahoo.com</option>
+              <option value="icloud.com">icloud.com</option>
+              <option value="protonmail.com">protonmail.com</option>
+              <option value="live.com">live.com</option>
+              <option value="msn.com">msn.com</option>
+              <option value="googlemail.com">googlemail.com</option>
+              <option value="yahoo.es">yahoo.es</option>
+              <option value="hotmail.es">hotmail.es</option>
+              <option value="terra.es">terra.es</option>
+              <option value="telefonica.net">telefonica.net</option>
+              <option value="movistar.es">movistar.es</option>
+              <option value="orange.es">orange.es</option>
+              <option value="gmx.com">gmx.com</option>
+              <option value="gmx.es">gmx.es</option>
+              <option value="tutanota.com">tutanota.com</option>
+              <option value="yandex.com">yandex.com</option>
+              <option value="mail.com">mail.com</option>
+              <option value="zoho.com">zoho.com</option>
+              <option value="custom">✏ Otro dominio...</option>
+            </select>
+          </div>
+          <input type="text" id="email-custom-domain"
+            placeholder="midominio.com"
+            style="display:none;margin-top:8px;width:100%"/>
+          <div class="field-hint">Ejemplo: tunombre@gmail.com</div>
         </div>
         <div class="field">
           <div class="field-label">Idioma preferido</div>
@@ -1515,8 +1630,10 @@
         advance_directive:     getChip('advance-directive'),
         name:                  v('f-name'),
         birthdate:             v('f-birthdate'),
-        dni:                   v('f-dni'),
-        email:                 v('f-email'),
+        doc_type:              getActiveDocType(),
+        doc_number:            getDocNumber(),
+        passport_country:      v('passport-country'),
+        email:                 getEmailValue(),
         lang:                  v('f-lang'),
         blood:                 v('f-blood'),
         allergy_med:           getChips('allergy-med'),
@@ -1583,9 +1700,39 @@
 
       set('f-name',                 saved.name);
       set('f-birthdate',            saved.birthdate);
-      set('f-dni',                  saved.dni);
-      set('f-email',                saved.email);
       set('f-lang',                 saved.lang);
+
+      // Restaurar tipo documento y número
+      const docType = saved.doc_type || (saved.dni ? 'dni' : '');
+      if (docType) {
+        selectDocType(docType);
+        const docNum = saved.doc_number || saved.dni || '';
+        const docInp = document.getElementById('input-' + docType);
+        if (docInp && docNum) docInp.value = docNum;
+        if (docType === 'pasaporte' && saved.passport_country) {
+          set('passport-country', saved.passport_country);
+          updatePassportHint();
+        }
+      }
+
+      // Restaurar email
+      if (saved.email) {
+        const at = saved.email.indexOf('@');
+        if (at > 0) {
+          document.getElementById('email-alias').value = saved.email.substring(0, at);
+          const dom = saved.email.substring(at + 1);
+          const domSel = document.getElementById('email-domain');
+          const isKnown = Array.from(domSel.options).some(o => o.value === dom);
+          if (isKnown) {
+            domSel.value = dom;
+          } else {
+            domSel.value = 'custom';
+            const custEl = document.getElementById('email-custom-domain');
+            custEl.value = dom;
+            custEl.style.display = 'block';
+          }
+        }
+      }
       set('f-blood',                saved.blood);
       set('f-med-doses',            saved.med_doses);
       set('f-surgery-year',         saved.surgery_year);
@@ -1654,6 +1801,102 @@
       }
 
       refreshVal();
+    }
+
+    // ===== DOCUMENTO / EMAIL =====
+    function getActiveDocType() {
+      const chip = document.querySelector('[data-group="doc-type"].active');
+      return chip ? chip.dataset.value : '';
+    }
+
+    function getDocNumber() {
+      const type = getActiveDocType();
+      if (!type) return '';
+      const inp = document.getElementById('input-' + type);
+      return inp ? inp.value : '';
+    }
+
+    function selectDocType(type) {
+      document.querySelectorAll('[data-group="doc-type"]').forEach(c => c.classList.remove('active'));
+      const chip = document.querySelector(`[data-group="doc-type"][data-value="${type}"]`);
+      if (chip) chip.classList.add('active');
+      ['dni','nie','pasaporte'].forEach(t => {
+        document.getElementById('field-' + t).style.display = t === type ? 'block' : 'none';
+      });
+    }
+
+    function validateDNI(input) {
+      const val = input.value.toUpperCase();
+      input.value = val;
+      const warn = document.getElementById('warn-dni');
+      warn.style.display = (val.length === 9 && !/^[0-9]{8}[A-Z]$/.test(val)) ? 'block' : 'none';
+    }
+
+    function validateNIE(input) {
+      const val = input.value.toUpperCase();
+      input.value = val;
+      const warn = document.getElementById('warn-nie');
+      warn.style.display = (val.length === 9 && !/^[XYZ][0-9]{7}[A-Z]$/.test(val)) ? 'block' : 'none';
+    }
+
+    function validatePassport(input) {
+      const val = input.value.toUpperCase();
+      input.value = val;
+      const country = document.getElementById('passport-country').value;
+      const warn = document.getElementById('warn-pasaporte');
+      const patterns = {
+        es: /^[A-Z]{3}[0-9]{6}$/,
+        fr: /^[A-Z]{2}[0-9]{7}$/,
+        de: /^[A-Z0-9]{9}$/,
+        it: /^[A-Z]{2}[0-9]{7}$/,
+        pt: /^[A-Z]{1,2}[0-9]{6,7}$/,
+        gb: /^[A-Z0-9]{9}$/,
+        us: /^[0-9]{9}$/,
+        mx: /^[A-Z]{1,2}[0-9]{8}$/,
+        ar: /^[0-9]{8}$/,
+        co: /^[0-9]{6,9}$/
+      };
+      if (val.length < 6) { warn.style.display = 'none'; return; }
+      if (country === 'other') {
+        warn.style.display = (val.length >= 6 && val.length <= 20) ? 'none' : 'block';
+        return;
+      }
+      const pattern = patterns[country];
+      warn.style.display = (pattern && !pattern.test(val)) ? 'block' : 'none';
+    }
+
+    function updatePassportHint() {
+      const country = document.getElementById('passport-country').value;
+      const hints = {
+        es: 'Formato España: 3 letras + 6 dígitos — ejemplo: AAA123456',
+        fr: 'Formato Francia: 2 letras + 7 dígitos — ejemplo: AB1234567',
+        de: 'Formato Alemania: 9 caracteres alfanuméricos — ejemplo: C01X00T47',
+        it: 'Formato Italia: 2 letras + 7 dígitos — ejemplo: AA1234567',
+        pt: 'Formato Portugal: 1-2 letras + 6-7 dígitos — ejemplo: A123456',
+        gb: 'Formato Reino Unido: 9 caracteres — ejemplo: 123456789',
+        us: 'Formato EEUU: 9 dígitos — ejemplo: 123456789',
+        mx: 'Formato México: 1-2 letras + 8 dígitos — ejemplo: G12345678',
+        ar: 'Formato Argentina: 8 dígitos — ejemplo: 12345678',
+        co: 'Formato Colombia: 6-9 dígitos — ejemplo: 1234567',
+        other: 'Introduce el número de pasaporte (6-20 caracteres)'
+      };
+      const el = document.getElementById('hint-pasaporte');
+      if (el) el.textContent = hints[country] || hints.other;
+    }
+
+    function toggleCustomDomain() {
+      const sel = document.getElementById('email-domain');
+      const custom = document.getElementById('email-custom-domain');
+      custom.style.display = sel.value === 'custom' ? 'block' : 'none';
+    }
+
+    function getEmailValue() {
+      const alias = document.getElementById('email-alias').value.trim();
+      const domSel = document.getElementById('email-domain').value;
+      const domain = domSel === 'custom'
+        ? document.getElementById('email-custom-domain').value.trim()
+        : domSel;
+      return alias && domain ? alias + '@' + domain : '';
     }
 
     // ===== INIT =====
