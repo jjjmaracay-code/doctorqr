@@ -221,6 +221,80 @@
       box-shadow: 0 0 12px #00ff41;
     }
 
+    /* Chip de peligro (marcapasos SÍ, restricciones críticas) */
+    .chip-danger {
+      border-color: #ff0000;
+      color: #ff0000;
+      opacity: 0.7;
+    }
+
+    .chip-danger.active {
+      border-color: #ff0000;
+      background: rgba(255,0,0,0.12);
+      color: #ff0000;
+      font-weight: 700;
+      opacity: 1;
+      box-shadow: 0 0 16px #ff0000, 0 0 32px rgba(255,0,0,0.4);
+    }
+
+    /* Aviso crítico */
+    .critical-warning {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #ff0000;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px #ff0000;
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,0,0,0.3);
+      border-radius: 8px;
+      background: rgba(255,0,0,0.05);
+    }
+
+    /* Selectores dinámicos de nivel por idioma */
+    #lang-levels-container { margin-top: 12px; }
+
+    .lang-level-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .lang-level-row:last-child { margin-bottom: 0; }
+
+    .lang-level-label {
+      font-size: 10px;
+      color: #00ff41;
+      white-space: nowrap;
+      min-width: 90px;
+      opacity: 0.8;
+    }
+
+    .lang-level-row select {
+      flex: 1;
+      padding: 8px 30px 8px 12px;
+      background: rgba(0,255,65,0.05);
+      border: 1px solid #00ff41;
+      border-radius: 8px;
+      color: #00ff41;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300ff41' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      cursor: pointer;
+    }
+
+    .lang-level-row select option {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
     /* GRUPOS CONTACTO */
     .contact-group {
       background: rgba(0,255,65,0.02);
@@ -398,10 +472,119 @@
   <!-- FORMULARIO -->
   <div id="form">
 
-    <!-- SECCIÓN 1 — IDENTIFICACIÓN -->
-    <div class="form-section open" id="sec-1">
+    <!-- SECCIÓN 01 — IDIOMAS Y COMUNICACIÓN -->
+    <div class="form-section" id="sec-1">
       <div class="section-header" onclick="toggleSection('sec-1')">
-        <span class="section-title">01 — Identificación</span>
+        <span class="section-title">01 — Idiomas y comunicación</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Idiomas hablados</div>
+          <div class="chips" data-group="lang-spoken">
+            <div class="chip" data-value="Español">Español</div>
+            <div class="chip" data-value="Inglés">Inglés</div>
+            <div class="chip" data-value="Francés">Francés</div>
+            <div class="chip" data-value="Alemán">Alemán</div>
+            <div class="chip" data-value="Italiano">Italiano</div>
+            <div class="chip" data-value="Portugués">Portugués</div>
+            <div class="chip" data-value="Árabe">Árabe</div>
+            <div class="chip" data-value="Chino">Chino</div>
+            <div class="chip" data-value="Ruso">Ruso</div>
+            <div class="chip" data-value="Rumano">Rumano</div>
+            <div class="chip" data-value="Polaco">Polaco</div>
+            <div class="chip" data-value="Otros">Otros</div>
+          </div>
+          <div id="lang-levels-container"></div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿Puede leer sin hablar?</div>
+          <div class="chips" data-group="lang-written">
+            <div class="chip" data-value="Español escrito">Español escrito</div>
+            <div class="chip" data-value="Inglés escrito">Inglés escrito</div>
+            <div class="chip" data-value="Francés escrito">Francés escrito</div>
+            <div class="chip" data-value="Árabe escrito">Árabe escrito</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Dificultad de comunicación</div>
+          <div class="chips" data-group="comm-difficulty">
+            <div class="chip" data-value="Mudez">Mudez</div>
+            <div class="chip" data-value="Afasia">Afasia</div>
+            <div class="chip" data-value="Sordera">Sordera</div>
+            <div class="chip" data-value="Discapacidad cognitiva">Discapacidad cognitiva</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Lengua de signos</div>
+          <div class="chips" data-group="sign-lang">
+            <div class="chip" data-value="LSE">LSE</div>
+            <div class="chip" data-value="ASL">ASL</div>
+            <div class="chip" data-value="LSF">LSF</div>
+            <div class="chip" data-value="Otra">Otra</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿Puede decidir solo?</div>
+          <div class="chips" data-group="can-decide" data-single="true">
+            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip" data-value="Solo acompañado">Solo acompañado</div>
+            <div class="chip" data-value="No — tutor legal">No — tutor legal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 02 — DATOS FÍSICOS -->
+    <div class="form-section" id="sec-2">
+      <div class="section-header" onclick="toggleSection('sec-2')">
+        <span class="section-title">02 — Datos físicos</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Peso aproximado</div>
+          <div class="chips" data-group="weight" data-single="true">
+            <div class="chip" data-value="-50kg">-50kg</div>
+            <div class="chip" data-value="50-70kg">50-70kg</div>
+            <div class="chip" data-value="70-90kg">70-90kg</div>
+            <div class="chip" data-value="90-110kg">90-110kg</div>
+            <div class="chip" data-value="+110kg">+110kg</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Altura aproximada</div>
+          <div class="chips" data-group="height" data-single="true">
+            <div class="chip" data-value="-150cm">-150cm</div>
+            <div class="chip" data-value="150-165cm">150-165cm</div>
+            <div class="chip" data-value="165-180cm">165-180cm</div>
+            <div class="chip" data-value="+180cm">+180cm</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Donante de órganos</div>
+          <div class="chips" data-group="organ-donor" data-single="true">
+            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No especificado">No especificado</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Voluntades anticipadas</div>
+          <div class="chips" data-group="advance-directive" data-single="true">
+            <div class="chip" data-value="Sí — documento existe">Sí — documento existe</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 03 — IDENTIFICACIÓN -->
+    <div class="form-section open" id="sec-3">
+      <div class="section-header" onclick="toggleSection('sec-3')">
+        <span class="section-title">03 — Identificación</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -432,10 +615,10 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 2 — DATOS CRÍTICOS -->
-    <div class="form-section" id="sec-2">
-      <div class="section-header" onclick="toggleSection('sec-2')">
-        <span class="section-title">02 — Datos críticos</span>
+    <!-- SECCIÓN 04 — DATOS CRÍTICOS -->
+    <div class="form-section" id="sec-4">
+      <div class="section-header" onclick="toggleSection('sec-4')">
+        <span class="section-title">04 — Datos críticos</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -491,13 +674,22 @@
             <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
           </div>
         </div>
+        <div class="field">
+          <div class="field-label">Alergias a anestesia</div>
+          <div class="chips" data-group="allergy-anesthesia">
+            <div class="chip" data-value="Anestesia general">Anestesia general</div>
+            <div class="chip" data-value="Lidocaína">Lidocaína</div>
+            <div class="chip" data-value="Propofol">Propofol</div>
+            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 3 — ENFERMEDADES Y CONDICIONES -->
-    <div class="form-section" id="sec-3">
-      <div class="section-header" onclick="toggleSection('sec-3')">
-        <span class="section-title">03 — Enfermedades y condiciones</span>
+    <!-- SECCIÓN 05 — ENFERMEDADES Y CONDICIONES -->
+    <div class="form-section" id="sec-5">
+      <div class="section-header" onclick="toggleSection('sec-5')">
+        <span class="section-title">05 — Enfermedades y condiciones</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -536,10 +728,10 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 4 — MEDICACIÓN ACTUAL -->
-    <div class="form-section" id="sec-4">
-      <div class="section-header" onclick="toggleSection('sec-4')">
-        <span class="section-title">04 — Medicación actual</span>
+    <!-- SECCIÓN 06 — MEDICACIÓN ACTUAL -->
+    <div class="form-section" id="sec-6">
+      <div class="section-header" onclick="toggleSection('sec-6')">
+        <span class="section-title">06 — Medicación actual</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -561,13 +753,26 @@
             <div class="chip" data-value="Ninguna">Ninguna</div>
           </div>
         </div>
+        <div class="field">
+          <div class="field-label">Dosis y frecuencia</div>
+          <input type="text" id="f-med-doses" placeholder="Metformina 850mg — 2 veces al día"/>
+        </div>
+        <div class="field">
+          <div class="field-label">Último ajuste de medicación</div>
+          <div class="chips" data-group="med-last-adjust" data-single="true">
+            <div class="chip" data-value="Esta semana">Esta semana</div>
+            <div class="chip" data-value="Este mes">Este mes</div>
+            <div class="chip" data-value="Este año">Este año</div>
+            <div class="chip" data-value="Hace más de un año">Hace más de un año</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 5 — CIRUGÍAS Y HOSPITALIZACIONES -->
-    <div class="form-section" id="sec-5">
-      <div class="section-header" onclick="toggleSection('sec-5')">
-        <span class="section-title">05 — Cirugías y hospitalizaciones</span>
+    <!-- SECCIÓN 07 — CIRUGÍAS Y HOSPITALIZACIONES -->
+    <div class="form-section" id="sec-7">
+      <div class="section-header" onclick="toggleSection('sec-7')">
+        <span class="section-title">07 — Cirugías y hospitalizaciones</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -597,13 +802,24 @@
             <option value="2020-2025">2020 – 2025</option>
           </select>
         </div>
+        <div class="field">
+          <div class="field-label">Detalle implante activo y año aproximado</div>
+          <input type="text" id="f-implant-detail" placeholder="Ej: Marcapasos Medtronic — 2019"/>
+        </div>
+        <div class="field">
+          <div class="field-label">¿Marcapasos activo?</div>
+          <div class="chips" data-group="pacemaker" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ">SÍ</div>
+            <div class="chip" data-value="NO">NO</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 6 — VACUNAS -->
-    <div class="form-section" id="sec-6">
-      <div class="section-header" onclick="toggleSection('sec-6')">
-        <span class="section-title">06 — Vacunas</span>
+    <!-- SECCIÓN 08 — VACUNAS -->
+    <div class="form-section" id="sec-8">
+      <div class="section-header" onclick="toggleSection('sec-8')">
+        <span class="section-title">08 — Vacunas</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -619,13 +835,65 @@
             <div class="chip" data-value="No recuerdo">No recuerdo</div>
           </div>
         </div>
+        <div class="field">
+          <div class="field-label">Año última vacuna tétanos</div>
+          <select id="f-tetanus-year">
+            <option value="">— Selecciona —</option>
+            <option value="No recuerdo">No recuerdo</option>
+            <option value="Antes de 2015">Antes de 2015</option>
+            <option value="2015-2020">2015 – 2020</option>
+            <option value="2020-2025">2020 – 2025</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">¿Calendario vacunal completo?</div>
+          <div class="chips" data-group="vaccine-complete" data-single="true">
+            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 7 — CONTACTOS DE EMERGENCIA -->
-    <div class="form-section" id="sec-7">
-      <div class="section-header" onclick="toggleSection('sec-7')">
-        <span class="section-title">07 — Contactos de emergencia</span>
+    <!-- SECCIÓN 09 — RELIGIÓN Y RESTRICCIONES -->
+    <div class="form-section" id="sec-9">
+      <div class="section-header" onclick="toggleSection('sec-9')">
+        <span class="section-title">09 — Religión y restricciones</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">Religión (opcional)</div>
+          <div class="chips" data-group="religion" data-single="true">
+            <div class="chip" data-value="Católica">Católica</div>
+            <div class="chip" data-value="Protestante">Protestante</div>
+            <div class="chip" data-value="Islámica">Islámica</div>
+            <div class="chip" data-value="Judía">Judía</div>
+            <div class="chip" data-value="Budista">Budista</div>
+            <div class="chip" data-value="Testigo de Jehová">Testigo de Jehová</div>
+            <div class="chip" data-value="Otra">Otra</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Restricciones médicas por creencias</div>
+          <div class="chips" data-group="religion-restrictions">
+            <div class="chip chip-danger" data-value="No acepta transfusiones de sangre">No acepta transfusiones de sangre</div>
+            <div class="chip chip-danger" data-value="No acepta productos porcinos">No acepta productos porcinos</div>
+            <div class="chip chip-danger" data-value="Ayuno religioso activo">Ayuno religioso activo</div>
+            <div class="chip" data-value="Ninguna restricción">Ninguna restricción</div>
+          </div>
+          <div class="critical-warning">⚠ CRÍTICO — Esta información puede ser determinante en una emergencia médica</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 10 — CONTACTOS DE EMERGENCIA -->
+    <div class="form-section" id="sec-10">
+      <div class="section-header" onclick="toggleSection('sec-10')">
+        <span class="section-title">10 — Contactos de emergencia</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -675,13 +943,28 @@
             <input type="tel" id="f-ec2-phone" placeholder="+34 600 000 001"/>
           </div>
         </div>
+        <div class="contact-group">
+          <div class="contact-label">Tutor legal</div>
+          <div class="field">
+            <div class="field-label">Nombre</div>
+            <input type="text" id="f-guardian-name" placeholder="Nombre del tutor legal"/>
+          </div>
+          <div class="field">
+            <div class="field-label">Teléfono</div>
+            <input type="tel" id="f-guardian-phone" placeholder="+34 600 000 002"/>
+          </div>
+          <div class="field">
+            <div class="field-label">Documento de tutela (opcional)</div>
+            <input type="text" id="f-guardian-doc" placeholder="Nº expediente / referencia"/>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 8 — MÉDICO Y SEGURO -->
-    <div class="form-section" id="sec-8">
-      <div class="section-header" onclick="toggleSection('sec-8')">
-        <span class="section-title">08 — Médico y seguro</span>
+    <!-- SECCIÓN 11 — MÉDICO Y SEGURO -->
+    <div class="form-section" id="sec-11">
+      <div class="section-header" onclick="toggleSection('sec-11')">
+        <span class="section-title">11 — Médico y seguro</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -709,6 +992,24 @@
           <div class="field-label">Número de póliza (opcional)</div>
           <input type="text" id="f-policy" placeholder="ES-12345678"/>
         </div>
+        <div class="field">
+          <div class="field-label">Número tarjeta sanitaria</div>
+          <input type="text" id="f-sanitary-card" placeholder="ES12345678901234"/>
+        </div>
+        <div class="field">
+          <div class="field-label">País seguridad social</div>
+          <select id="f-ss-country">
+            <option value="">— Selecciona —</option>
+            <option value="España">España</option>
+            <option value="Francia">Francia</option>
+            <option value="Alemania">Alemania</option>
+            <option value="Italia">Italia</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Reino Unido">Reino Unido</option>
+            <option value="Otro país UE">Otro país UE</option>
+            <option value="Fuera de la UE">Fuera de la UE</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -723,8 +1024,59 @@
       document.getElementById(id).classList.toggle('open');
     }
 
+    // Niveles disponibles para cada idioma
+    const LANG_LEVELS = ['Básico', 'Conversacional', 'Fluido', 'Nativo'];
+
+    function renderLangLevels(savedLevels) {
+      const activeChips = document.querySelectorAll('[data-group="lang-spoken"] .chip.active');
+      const container = document.getElementById('lang-levels-container');
+      // Conservar valores ya seleccionados antes de re-renderizar
+      const current = {};
+      container.querySelectorAll('.lang-level-row').forEach(row => {
+        current[row.dataset.lang] = row.querySelector('select').value;
+      });
+      container.innerHTML = '';
+      if (activeChips.length === 0) return;
+      activeChips.forEach(chip => {
+        const lang = chip.dataset.value;
+        const row = document.createElement('div');
+        row.className = 'lang-level-row';
+        row.dataset.lang = lang;
+        const label = document.createElement('span');
+        label.className = 'lang-level-label';
+        label.textContent = lang;
+        const sel = document.createElement('select');
+        LANG_LEVELS.forEach(lvl => {
+          const opt = document.createElement('option');
+          opt.value = lvl;
+          opt.textContent = lvl;
+          sel.appendChild(opt);
+        });
+        // Prioridad: valor ya en pantalla > valor guardado > primero de la lista
+        if (current[lang]) sel.value = current[lang];
+        else if (savedLevels && savedLevels[lang]) sel.value = savedLevels[lang];
+        row.appendChild(label);
+        row.appendChild(sel);
+        container.appendChild(row);
+      });
+    }
+
+    // Manejador de chips: único vs múltiple
     document.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => chip.classList.toggle('active'));
+      chip.addEventListener('click', () => {
+        const group = chip.closest('[data-group]');
+        const isSingle = group && group.dataset.single === 'true';
+        if (isSingle) {
+          const wasActive = chip.classList.contains('active');
+          group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+          if (!wasActive) chip.classList.add('active');
+        } else {
+          chip.classList.toggle('active');
+        }
+        if (group && group.dataset.group === 'lang-spoken') {
+          renderLangLevels();
+        }
+      });
     });
 
     function getChips(group) {
@@ -733,34 +1085,71 @@
       ).map(c => c.dataset.value);
     }
 
+    function getChip(group) {
+      const active = document.querySelector(`[data-group="${group}"] .chip.active`);
+      return active ? active.dataset.value : '';
+    }
+
+    function getLangLevels() {
+      const levels = {};
+      document.querySelectorAll('#lang-levels-container .lang-level-row').forEach(row => {
+        levels[row.dataset.lang] = row.querySelector('select').value;
+      });
+      return levels;
+    }
+
     function generate() {
       const profile = {
-        name:          document.getElementById('f-name').value,
-        birthdate:     document.getElementById('f-birthdate').value,
-        dni:           document.getElementById('f-dni').value,
-        email:         document.getElementById('f-email').value,
-        lang:          document.getElementById('f-lang').value,
-        blood:         document.getElementById('f-blood').value,
-        allergy_med:   getChips('allergy-med'),
-        allergy_food:  getChips('allergy-food'),
-        allergy_env:   getChips('allergy-env'),
-        diseases:      getChips('diseases'),
-        conditions:    getChips('conditions'),
-        meds:          getChips('meds'),
-        surgeries:     getChips('surgeries'),
-        surgery_year:  document.getElementById('f-surgery-year').value,
-        vaccines:      getChips('vaccines'),
-        ec1_name:      document.getElementById('f-ec1-name').value,
-        ec1_rel:       document.getElementById('f-ec1-rel').value,
-        ec1_phone:     document.getElementById('f-ec1-phone').value,
-        ec2_name:      document.getElementById('f-ec2-name').value,
-        ec2_rel:       document.getElementById('f-ec2-rel').value,
-        ec2_phone:     document.getElementById('f-ec2-phone').value,
-        doctor_name:   document.getElementById('f-doctor-name').value,
-        doctor_phone:  document.getElementById('f-doctor-phone').value,
-        insurer:       getChips('insurer'),
-        policy:        document.getElementById('f-policy').value,
-        updated_at:    new Date().toISOString(),
+        lang_spoken:           getChips('lang-spoken'),
+        lang_levels:           getLangLevels(),
+        lang_written:          getChips('lang-written'),
+        comm_difficulty:       getChips('comm-difficulty'),
+        sign_lang:             getChips('sign-lang'),
+        can_decide:            getChip('can-decide'),
+        weight:                getChip('weight'),
+        height:                getChip('height'),
+        organ_donor:           getChip('organ-donor'),
+        advance_directive:     getChip('advance-directive'),
+        name:                  document.getElementById('f-name').value,
+        birthdate:             document.getElementById('f-birthdate').value,
+        dni:                   document.getElementById('f-dni').value,
+        email:                 document.getElementById('f-email').value,
+        lang:                  document.getElementById('f-lang').value,
+        blood:                 document.getElementById('f-blood').value,
+        allergy_med:           getChips('allergy-med'),
+        allergy_food:          getChips('allergy-food'),
+        allergy_env:           getChips('allergy-env'),
+        allergy_anesthesia:    getChips('allergy-anesthesia'),
+        diseases:              getChips('diseases'),
+        conditions:            getChips('conditions'),
+        meds:                  getChips('meds'),
+        med_doses:             document.getElementById('f-med-doses').value,
+        med_last_adjust:       getChip('med-last-adjust'),
+        surgeries:             getChips('surgeries'),
+        surgery_year:          document.getElementById('f-surgery-year').value,
+        implant_detail:        document.getElementById('f-implant-detail').value,
+        pacemaker:             getChip('pacemaker'),
+        vaccines:              getChips('vaccines'),
+        tetanus_year:          document.getElementById('f-tetanus-year').value,
+        vaccine_complete:      getChip('vaccine-complete'),
+        religion:              getChip('religion'),
+        religion_restrictions: getChips('religion-restrictions'),
+        ec1_name:              document.getElementById('f-ec1-name').value,
+        ec1_rel:               document.getElementById('f-ec1-rel').value,
+        ec1_phone:             document.getElementById('f-ec1-phone').value,
+        ec2_name:              document.getElementById('f-ec2-name').value,
+        ec2_rel:               document.getElementById('f-ec2-rel').value,
+        ec2_phone:             document.getElementById('f-ec2-phone').value,
+        guardian_name:         document.getElementById('f-guardian-name').value,
+        guardian_phone:        document.getElementById('f-guardian-phone').value,
+        guardian_doc:          document.getElementById('f-guardian-doc').value,
+        doctor_name:           document.getElementById('f-doctor-name').value,
+        doctor_phone:          document.getElementById('f-doctor-phone').value,
+        insurer:               getChips('insurer'),
+        policy:                document.getElementById('f-policy').value,
+        sanitary_card:         document.getElementById('f-sanitary-card').value,
+        ss_country:            document.getElementById('f-ss-country').value,
+        updated_at:            new Date().toISOString(),
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
       const toast = document.getElementById('toast');
@@ -771,26 +1160,36 @@
     function loadSaved() {
       const saved = JSON.parse(localStorage.getItem('doctorqr_profile') || 'null');
       if (!saved) return;
+
       const set = (id, val) => {
         const el = document.getElementById(id);
-        if (el && val !== undefined && val !== null) el.value = val;
+        if (el && val !== undefined && val !== null && val !== '') el.value = val;
       };
-      set('f-name',          saved.name);
-      set('f-birthdate',     saved.birthdate);
-      set('f-dni',           saved.dni);
-      set('f-email',         saved.email);
-      set('f-lang',          saved.lang);
-      set('f-blood',         saved.blood);
-      set('f-surgery-year',  saved.surgery_year);
-      set('f-ec1-name',      saved.ec1_name);
-      set('f-ec1-rel',       saved.ec1_rel);
-      set('f-ec1-phone',     saved.ec1_phone);
-      set('f-ec2-name',      saved.ec2_name);
-      set('f-ec2-rel',       saved.ec2_rel);
-      set('f-ec2-phone',     saved.ec2_phone);
-      set('f-doctor-name',   saved.doctor_name);
-      set('f-doctor-phone',  saved.doctor_phone);
-      set('f-policy',        saved.policy);
+
+      set('f-name',           saved.name);
+      set('f-birthdate',      saved.birthdate);
+      set('f-dni',            saved.dni);
+      set('f-email',          saved.email);
+      set('f-lang',           saved.lang);
+      set('f-blood',          saved.blood);
+      set('f-med-doses',      saved.med_doses);
+      set('f-surgery-year',   saved.surgery_year);
+      set('f-implant-detail', saved.implant_detail);
+      set('f-tetanus-year',   saved.tetanus_year);
+      set('f-guardian-name',  saved.guardian_name);
+      set('f-guardian-phone', saved.guardian_phone);
+      set('f-guardian-doc',   saved.guardian_doc);
+      set('f-ec1-name',       saved.ec1_name);
+      set('f-ec1-rel',        saved.ec1_rel);
+      set('f-ec1-phone',      saved.ec1_phone);
+      set('f-ec2-name',       saved.ec2_name);
+      set('f-ec2-rel',        saved.ec2_rel);
+      set('f-ec2-phone',      saved.ec2_phone);
+      set('f-doctor-name',    saved.doctor_name);
+      set('f-doctor-phone',   saved.doctor_phone);
+      set('f-policy',         saved.policy);
+      set('f-sanitary-card',  saved.sanitary_card);
+      set('f-ss-country',     saved.ss_country);
 
       const restoreChips = (group, values) => {
         if (!Array.isArray(values)) return;
@@ -798,15 +1197,43 @@
           if (values.includes(chip.dataset.value)) chip.classList.add('active');
         });
       };
-      restoreChips('allergy-med',  saved.allergy_med);
-      restoreChips('allergy-food', saved.allergy_food);
-      restoreChips('allergy-env',  saved.allergy_env);
-      restoreChips('diseases',     saved.diseases);
-      restoreChips('conditions',   saved.conditions);
-      restoreChips('meds',         saved.meds);
-      restoreChips('surgeries',    saved.surgeries);
-      restoreChips('vaccines',     saved.vaccines);
-      restoreChips('insurer',      saved.insurer);
+
+      const restoreChip = (group, value) => {
+        if (!value) return;
+        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
+          if (chip.dataset.value === value) chip.classList.add('active');
+        });
+      };
+
+      restoreChips('lang-spoken',           saved.lang_spoken);
+      restoreChips('lang-written',          saved.lang_written);
+      restoreChips('comm-difficulty',       saved.comm_difficulty);
+      restoreChips('sign-lang',             saved.sign_lang);
+      restoreChip ('can-decide',            saved.can_decide);
+      restoreChip ('weight',                saved.weight);
+      restoreChip ('height',                saved.height);
+      restoreChip ('organ-donor',           saved.organ_donor);
+      restoreChip ('advance-directive',     saved.advance_directive);
+      restoreChips('allergy-med',           saved.allergy_med);
+      restoreChips('allergy-food',          saved.allergy_food);
+      restoreChips('allergy-env',           saved.allergy_env);
+      restoreChips('allergy-anesthesia',    saved.allergy_anesthesia);
+      restoreChips('diseases',              saved.diseases);
+      restoreChips('conditions',            saved.conditions);
+      restoreChips('meds',                  saved.meds);
+      restoreChip ('med-last-adjust',       saved.med_last_adjust);
+      restoreChips('surgeries',             saved.surgeries);
+      restoreChip ('pacemaker',             saved.pacemaker);
+      restoreChips('vaccines',              saved.vaccines);
+      restoreChip ('vaccine-complete',      saved.vaccine_complete);
+      restoreChip ('religion',              saved.religion);
+      restoreChips('religion-restrictions', saved.religion_restrictions);
+      restoreChips('insurer',               saved.insurer);
+
+      // Renderizar niveles de idioma tras restaurar chips de lang-spoken
+      if (saved.lang_spoken && saved.lang_spoken.length > 0) {
+        renderLangLevels(saved.lang_levels || {});
+      }
     }
 
     loadSaved();
