@@ -1453,7 +1453,7 @@
 
       const campos = {
         'f-name':      nombreCompleto,
-        'f-birthdate': profile.fecha_nacimiento || profile.birthdate || '',
+        'f-birthdate': user.fecha_nacimiento || profile.fecha_nacimiento || profile.birthdate || '',
         'email-alias': (user.email || profile.email || '').split('@')[0]
       };
 
@@ -1466,6 +1466,18 @@
           el.style.cursor  = 'not-allowed';
         }
       });
+
+      const docType   = user.doc_type   || profile.doc_type   || '';
+      const docNumber = user.doc_number || profile.doc_number || '';
+      if (docType && docNumber) {
+        const docInp = document.getElementById('input-' + docType);
+        if (docInp) {
+          docInp.value = docNumber;
+          docInp.disabled = true;
+          docInp.style.opacity = '0.6';
+          docInp.style.cursor  = 'not-allowed';
+        }
+      }
 
       const docChips = document.querySelectorAll('[data-group="doc-type"]');
       docChips.forEach(chip => {
