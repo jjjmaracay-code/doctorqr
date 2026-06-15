@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#ff4444">
+<title>DoctorQR · Recuperación</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/otpauth/dist/otpauth.umd.js"></script>
+
+<style>
+  :root {
+    --green: #00ff41;
+    --red:   #ff4444;
+    --bg:    #080808;
+    --surface: #111111;
+    --text:  #e8e8e8;
+    --muted: rgba(255,255,255,0.35);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background:var(--bg);
+    min-height:100vh;
+    font-family:'Inter',system-ui,sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    overflow-x:hidden;
+  }
+
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background:
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,68,68,0.02) 40px,rgba(255,68,68,0.02) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,68,68,0.02) 40px,rgba(255,68,68,0.02) 41px);
+    pointer-events:none; z-index:0;
+  }
+
+  /* ===== HEADER ===== */
+  .rec-header {
+    width:100%; max-width:480px;
+    padding:32px 24px 0;
+    display:flex; flex-direction:column; align-items:center;
+    position:relative; z-index:1;
+  }
+
+  .rec-logo-wrap {
+    margin-bottom:8px;
+    filter:drop-shadow(0 0 12px #ff4444) drop-shadow(0 0 30px rgba(255,68,68,0.4));
+  }
+
+  .rec-brand {
+    font-family:'Times New Roman',Georgia,serif;
+    font-size:28px; font-weight:900; letter-spacing:4px;
+    margin-bottom:4px;
+  }
+  .rec-brand .txt-doctor { color:#ff4444; text-shadow:0 0 10px #ff4444,0 0 25px rgba(255,68,68,0.5); }
+  .rec-brand .txt-qr     { color:#ffffff; text-shadow:0 0 10px #fff,0 0 20px rgba(255,255,255,0.3); }
+
+  .rec-tagline {
+    font-size:10px; font-weight:300;
+    color:rgba(255,68,68,0.6);
+    letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:28px;
+  }
+
+  /* ===== STEPS ===== */
+  .steps-wrap { width:100%; max-width:280px; margin-bottom:8px; }
+
+  .steps-row { display:flex; align-items:center; gap:0; margin-bottom:6px; }
+
+  .step-dot {
+    width:28px; height:28px; border-radius:50%;
+    border:2px solid rgba(255,68,68,0.2);
+    background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; color:var(--muted);
+    flex-shrink:0; transition:all 0.3s;
+  }
+  .step-dot.active { border-color:var(--red); background:var(--red); color:#fff; box-shadow:0 0 12px rgba(255,68,68,0.5); }
+  .step-dot.done   { border-color:var(--green); background:rgba(0,255,65,0.15); color:var(--green); }
+
+  .step-line { flex:1; height:2px; background:rgba(255,68,68,0.1); transition:background 0.3s; }
+  .step-line.done { background:rgba(0,255,65,0.4); }
+
+  .step-label {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--muted); text-align:center; font-weight:400;
+    margin-bottom:20px;
+  }
+
+  /* ===== CONTENT ===== */
+  .rec-content {
+    width:100%; max-width:480px;
+    padding:0 24px 56px;
+    position:relative; z-index:1;
+  }
+
+  .rec-card {
+    background:var(--surface);
+    border:1px solid rgba(255,68,68,0.2);
+    border-radius:20px;
+    padding:24px 20px;
+    margin-bottom:14px;
+  }
+  .rec-card.green { border-color:rgba(0,255,65,0.2); }
+
+  .rec-card-title {
+    font-size:10px; font-weight:700;
+    letter-spacing:4px; text-transform:uppercase;
+    color:rgba(255,68,68,0.7);
+    margin-bottom:16px; padding-bottom:10px;
+    border-bottom:1px solid rgba(255,68,68,0.1);
+  }
+  .rec-card.green .rec-card-title { color:rgba(0,255,65,0.7); border-color:rgba(0,255,65,0.1); }
+
+  /* ===== CAMPOS ===== */
+  .field-wrap { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
+  .field-label { font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(255,68,68,0.7); }
+  .field-label.green { color:rgba(0,255,65,0.7); }
+
+  .field-input {
+    width:100%; padding:13px 14px;
+    border-radius:10px;
+    border:1px solid rgba(255,68,68,0.25);
+    background:rgba(255,68,68,0.05);
+    font-family:'Inter',sans-serif; font-size:15px;
+    color:var(--text); outline:none;
+    transition:border-color 0.15s;
+    -webkit-appearance:none;
+  }
+  .field-input:focus { border-color:rgba(255,68,68,0.5); background:rgba(255,68,68,0.08); }
+  .field-input.green-input { border-color:rgba(0,255,65,0.25); background:rgba(0,255,65,0.05); }
+  .field-input.green-input:focus { border-color:rgba(0,255,65,0.5); background:rgba(0,255,65,0.08); }
+  .field-input::placeholder { color:rgba(255,255,255,0.2); }
+
+  .field-hint { font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:1px; line-height:1.5; }
+  .field-hint.error   { color:var(--red); }
+  .field-hint.success { color:var(--green); }
+
+  /* ===== CÓDIGO DISPLAY ===== */
+  .code-display { display:flex; gap:6px; justify-content:center; margin-bottom:14px; }
+
+  .code-char {
+    width:44px; height:54px; border-radius:10px;
+    border:1.5px solid rgba(255,68,68,0.2);
+    background:rgba(255,68,68,0.04);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:700; color:var(--red);
+    font-family:'Inter',monospace; transition:all 0.15s;
+  }
+  .code-char.filled { border-color:var(--red); background:rgba(255,68,68,0.1); box-shadow:0 0 8px rgba(255,68,68,0.3); }
+  .code-char.green  { border-color:rgba(0,255,65,0.2); background:rgba(0,255,65,0.04); color:var(--green); }
+  .code-char.green.filled { border-color:var(--green); background:rgba(0,255,65,0.1); box-shadow:0 0 8px rgba(0,255,65,0.3); }
+  .code-char.error  { animation:shake 0.4s ease; }
+
+  @keyframes shake {
+    0%,100% { transform:translateX(0); }
+    20% { transform:translateX(-5px); }
+    40% { transform:translateX(5px); }
+    60% { transform:translateX(-3px); }
+    80% { transform:translateX(3px); }
+  }
+
+  /* ===== TECLADOS ===== */
+  .pin-keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
+
+  .key-btn {
+    aspect-ratio:1.4; border-radius:8px;
+    border:1px solid rgba(255,68,68,0.15);
+    background:rgba(255,68,68,0.04);
+    font-family:'Inter',sans-serif; font-size:16px; font-weight:400;
+    color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.1s; user-select:none;
+  }
+  .key-btn:hover  { background:rgba(255,68,68,0.1); border-color:rgba(255,68,68,0.4); }
+  .key-btn:active { background:var(--red) !important; color:#fff !important; transform:scale(0.93); }
+  .key-btn.green-key { border-color:rgba(0,255,65,0.15); background:rgba(0,255,65,0.04); }
+  .key-btn.green-key:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.4); }
+  .key-btn.green-key:active { background:var(--green) !important; color:#000 !important; }
+  .key-btn.empty { border-color:transparent; background:transparent; pointer-events:none; }
+  .key-btn.del   { color:var(--muted); font-size:14px; }
+
+  .char-keyboard { margin-bottom:8px; }
+  .char-keyboard-label { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:rgba(0,255,65,0.35); margin-bottom:6px; text-align:center; }
+  .letters-grid { display:grid; grid-template-columns:repeat(9,1fr); gap:3px; margin-bottom:6px; }
+  .symbols-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:3px; }
+  .char-key {
+    aspect-ratio:1; border-radius:5px;
+    border:1px solid rgba(0,255,65,0.12);
+    background:rgba(0,255,65,0.03);
+    font-family:'Inter',sans-serif; font-size:clamp(9px,2.5vw,12px); font-weight:500;
+    color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.1s; user-select:none;
+  }
+  .char-key:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.3); }
+  .char-key:active { background:var(--green) !important; color:#000 !important; transform:scale(0.9); }
+
+  /* ===== CONTRASEÑA DISPLAY ===== */
+  .pwd-display { display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
+
+  .pwd-char {
+    width:36px; height:44px; border-radius:8px;
+    border:1.5px solid rgba(0,255,65,0.2);
+    background:rgba(0,255,65,0.04);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; font-weight:700; color:var(--green);
+    transition:all 0.15s;
+  }
+  .pwd-char.filled { border-color:var(--green); background:rgba(0,255,65,0.1); box-shadow:0 0 8px rgba(0,255,65,0.3); }
+
+  .pwd-validation { font-size:10px; font-weight:300; color:rgba(255,255,255,0.3); text-align:center; margin-bottom:10px; letter-spacing:1px; min-height:16px; }
+
+  /* ===== TIMER ===== */
+  .code-timer { text-align:center; font-size:11px; font-weight:300; color:var(--muted); margin-bottom:10px; letter-spacing:1px; }
+  .code-timer span { color:var(--green); font-weight:600; }
+
+  .resend-btn { background:none; border:none; font-family:'Inter',sans-serif; font-size:11px; color:rgba(0,255,65,0.5); cursor:pointer; text-decoration:underline; letter-spacing:1px; display:block; margin:0 auto 12px; }
+  .resend-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+  /* ===== BOTONES ===== */
+  .btn-primary {
+    width:100%; padding:16px; border-radius:14px; border:none;
+    background:var(--red); color:#fff;
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    cursor:pointer; transition:all 0.15s;
+    box-shadow:0 0 24px rgba(255,68,68,0.3);
+    margin-bottom:10px;
+  }
+  .btn-primary:hover   { background:#ff6666; }
+  .btn-primary:active  { transform:scale(0.98); }
+  .btn-primary:disabled { background:rgba(255,68,68,0.2); color:rgba(255,68,68,0.4); cursor:not-allowed; box-shadow:none; }
+  .btn-primary.green-btn { background:var(--green); color:#000; box-shadow:0 0 24px rgba(0,255,65,0.3); }
+  .btn-primary.green-btn:hover { background:#44ff77; }
+  .btn-primary.green-btn:disabled { background:rgba(0,255,65,0.2); color:rgba(0,255,65,0.4); }
+
+  .btn-back {
+    background:none; border:none;
+    font-family:'Inter',sans-serif; font-size:11px;
+    color:rgba(255,255,255,0.3); cursor:pointer;
+    letter-spacing:1px; text-decoration:underline;
+    display:block; margin:0 auto 10px; padding:8px;
+  }
+
+  /* ===== INFO BOX ===== */
+  .info-box {
+    background:rgba(255,68,68,0.04);
+    border:1px solid rgba(255,68,68,0.12);
+    border-radius:10px; padding:12px 14px; margin-bottom:14px;
+  }
+  .info-box.green { background:rgba(0,255,65,0.04); border-color:rgba(0,255,65,0.12); }
+  .info-box-text { font-size:11px; font-weight:300; color:rgba(255,255,255,0.55); line-height:1.7; }
+  .info-box-text strong { color:var(--green); font-weight:600; }
+
+  /* ===== 2FA SECTION ===== */
+  .tfa-section { margin-top:20px; padding-top:20px; border-top:1px solid rgba(0,255,65,0.08); }
+  .tfa-section-title { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(0,255,65,0.6); margin-bottom:10px; }
+
+  /* ===== ÉXITO ===== */
+  .success-icon {
+    width:80px; height:80px; border-radius:50%;
+    background:rgba(0,255,65,0.1); border:2px solid var(--green);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px; box-shadow:0 0 30px rgba(0,255,65,0.3);
+  }
+  .success-title { font-family:'Times New Roman',serif; font-size:26px; font-weight:900; color:var(--green); text-shadow:0 0 20px rgba(0,255,65,0.5); margin-bottom:8px; text-align:center; }
+  .success-sub { font-size:12px; font-weight:300; color:var(--muted); line-height:1.6; margin-bottom:28px; text-align:center; letter-spacing:1px; }
+
+  /* ===== PANTALLAS ===== */
+  .screen { width:100%; display:none; flex-direction:column; align-items:center; }
+  .screen.active { display:flex; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position:fixed; top:50%; left:50%;
+    transform:translate(-50%,-50%) scale(0.8);
+    opacity:0;
+    background:var(--green); color:#000;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:700;
+    letter-spacing:2px; padding:14px 28px;
+    border-radius:30px; z-index:999;
+    transition:all 0.3s ease;
+    text-transform:uppercase; white-space:nowrap;
+    pointer-events:none;
+  }
+  .toast.show { transform:translate(-50%,-50%) scale(1); opacity:1; }
+  .toast.error { background:var(--red); color:#fff; }
+
+  /* ===== LINK INFERIOR ===== */
+  .bottom-link {
+    text-align:center; padding:8px 0 4px;
+    font-size:11px; font-weight:300;
+    color:rgba(255,255,255,0.3); letter-spacing:1px;
+  }
+  .bottom-link a { color:rgba(0,255,65,0.5); text-decoration:underline; cursor:pointer; }
+  .bottom-link a:hover { color:var(--green); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="rec-header">
+  <div class="rec-logo-wrap">
+    <svg width="64" height="74" viewBox="0 0 320 370" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="rv-glow-soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="rv-glow-red" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="10" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="rv-glow-ecg" x="-10%" y="-80%" width="120%" height="260%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <radialGradient id="rv-heart-grad" cx="38%" cy="28%" r="65%"><stop offset="0%" stop-color="#ff4444"/><stop offset="100%" stop-color="#7a0000"/></radialGradient>
+      </defs>
+      <rect x="132" y="75" width="56" height="160" rx="5" fill="#0a0a0a"/>
+      <rect x="80" y="127" width="160" height="56" rx="5" fill="#0a0a0a"/>
+      <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z" fill="none" stroke="#ff4444" stroke-width="2.0" stroke-linejoin="round" filter="url(#rv-glow-soft)" opacity="0.80">
+        <animate attributeName="opacity" values="0.80;0.35;0.80" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
+      </path>
+      <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z" fill="none" stroke="#ff4444" stroke-width="1.8" stroke-linejoin="round" filter="url(#rv-glow-soft)" opacity="0.95">
+        <animate attributeName="opacity" values="0.95;0.50;0.95" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+      <path fill="url(#rv-heart-grad)" filter="url(#rv-glow-red)">
+        <animate attributeName="d" values="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z;M160,206 C160,206 111,175 111,146 C111,128 124,115 140,115 C150,115 160,124 160,124 C160,124 170,115 180,115 C196,115 209,128 209,146 C209,175 160,206 160,206 Z;M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z" dur="0.9s" repeatCount="indefinite"/>
+      </path>
+      <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z" fill="none" stroke="#ff4444" stroke-width="1.5" filter="url(#rv-glow-red)" opacity="0.6">
+        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="0.9s" repeatCount="indefinite"/>
+      </path>
+      <polyline points="120,158 130,158 135,158 139,141 143,174 147,128 151,168 155,158 200,158" fill="none" stroke="#ff4444" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" filter="url(#rv-glow-ecg)" stroke-dasharray="130" stroke-dashoffset="130">
+        <animate attributeName="stroke-dashoffset" values="130;0;0;130" keyTimes="0;0.55;0.82;1" dur="2s" repeatCount="indefinite"/>
+      </polyline>
+    </svg>
+  </div>
+
+  <div class="rec-brand">
+    <span class="txt-doctor">DOCTOR</span><span class="txt-qr">QR</span>
+  </div>
+  <div class="rec-tagline">Recuperación de acceso</div>
+
+  <div class="steps-wrap">
+    <div class="steps-row">
+      <div class="step-dot active" id="dot-1">1</div>
+      <div class="step-line" id="line-1"></div>
+      <div class="step-dot" id="dot-2">2</div>
+      <div class="step-line" id="line-2"></div>
+      <div class="step-dot" id="dot-3">3</div>
+      <div class="step-line" id="line-3"></div>
+      <div class="step-dot" id="dot-4">✓</div>
+    </div>
+    <div class="step-label" id="step-label">Paso 1 — Solicitar código</div>
+  </div>
+</div>
+
+<div class="rec-content">
+
+<!-- ===== PANTALLA 1 — SOLICITAR RECUPERACIÓN ===== -->
+<div class="screen active" id="screen-1">
+  <div class="rec-card">
+    <div class="rec-card-title">Recuperar acceso</div>
+
+    <div class="info-box">
+      <div class="info-box-text">
+        Introduce el email con el que te registraste. Te enviaremos un código de 6 dígitos <strong>válido durante 30 minutos</strong>.
+      </div>
+    </div>
+
+    <div class="field-wrap">
+      <div class="field-label">Correo electrónico registrado</div>
+      <input class="field-input" id="rec-email" type="email" placeholder="tu@email.com" autocomplete="email">
+      <div class="field-hint" id="rec-email-hint"></div>
+    </div>
+
+    <button class="btn-primary" id="btn-send-rec" disabled>
+      ENVIAR CÓDIGO DE RECUPERACIÓN
+    </button>
+
+    <div class="bottom-link">
+      <a onclick="window.location.href='register.html'">← Crear cuenta nueva</a>
+      &nbsp;·&nbsp;
+      <a onclick="window.location.href='index.html'">Entrar →</a>
+    </div>
+  </div>
+</div><!-- fin screen-1 -->
+
+
+<!-- ===== PANTALLA 2 — VERIFICAR CÓDIGO ===== -->
+<div class="screen" id="screen-2">
+  <div class="rec-card">
+    <div class="rec-card-title">Código de recuperación</div>
+
+    <div class="info-box">
+      <div class="info-box-text">
+        Hemos enviado un código a <strong id="rec-email-shown">—</strong>.<br>
+        Introdúcelo para recuperar tu acceso. Válido 30 minutos.
+      </div>
+    </div>
+
+    <div class="code-display">
+      <div class="code-char" id="rc0">·</div>
+      <div class="code-char" id="rc1">·</div>
+      <div class="code-char" id="rc2">·</div>
+      <div class="code-char" id="rc3">·</div>
+      <div class="code-char" id="rc4">·</div>
+      <div class="code-char" id="rc5">·</div>
+    </div>
+
+    <div class="code-timer">El código expira en <span id="rec-timer">30:00</span></div>
+    <button class="resend-btn" id="btn-resend-rec" disabled>Reenviar código</button>
+
+    <div class="pin-keypad">
+      <button class="key-btn" data-rec="1">1</button>
+      <button class="key-btn" data-rec="2">2</button>
+      <button class="key-btn" data-rec="3">3</button>
+      <button class="key-btn" data-rec="4">4</button>
+      <button class="key-btn" data-rec="5">5</button>
+      <button class="key-btn" data-rec="6">6</button>
+      <button class="key-btn" data-rec="7">7</button>
+      <button class="key-btn" data-rec="8">8</button>
+      <button class="key-btn" data-rec="9">9</button>
+      <button class="key-btn" id="clr-rec">CLR</button>
+      <button class="key-btn" data-rec="0">0</button>
+      <button class="key-btn del" id="del-rec">⌫</button>
+    </div>
+
+    <button class="btn-primary" id="btn-verify-rec" disabled>
+      VERIFICAR
+    </button>
+    <button class="btn-back" onclick="goToScreen(1)">← Volver</button>
+  </div>
+</div><!-- fin screen-2 -->
+
+
+<!-- ===== PANTALLA 3 — NUEVA CONTRASEÑA + 2FA ===== -->
+<div class="screen" id="screen-3">
+  <div class="rec-card green">
+    <div class="rec-card-title">Nueva contraseña maestra</div>
+
+    <div class="info-box green">
+      <div class="info-box-text">
+        Crea tu nueva contraseña: <strong>4 números + 1 letra + 1 símbolo</strong>. Puedes combinarlos en cualquier orden.
+      </div>
+    </div>
+
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(0,255,65,0.5);margin-bottom:8px;">NUEVA CONTRASEÑA</div>
+    <div class="pwd-display">
+      <div class="pwd-char" id="np0">·</div>
+      <div class="pwd-char" id="np1">·</div>
+      <div class="pwd-char" id="np2">·</div>
+      <div class="pwd-char" id="np3">·</div>
+      <div class="pwd-char" id="np4">·</div>
+      <div class="pwd-char" id="np5">·</div>
+    </div>
+    <div class="pwd-validation" id="newpwd-hint">Introduce 4 números, 1 letra y 1 símbolo</div>
+
+    <div class="pin-keypad">
+      <button class="key-btn green-key" data-target="newpwd" data-val="1">1</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="2">2</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="3">3</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="4">4</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="5">5</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="6">6</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="7">7</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="8">8</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="9">9</button>
+      <button class="key-btn green-key" id="clr-newpwd">CLR</button>
+      <button class="key-btn green-key" data-target="newpwd" data-val="0">0</button>
+      <button class="key-btn del green-key" id="del-newpwd">⌫</button>
+    </div>
+    <div class="char-keyboard">
+      <div class="char-keyboard-label">Letra</div>
+      <div class="letters-grid" id="letters-new"></div>
+    </div>
+    <div class="char-keyboard">
+      <div class="char-keyboard-label">Símbolo</div>
+      <div class="symbols-grid" id="symbols-new"></div>
+    </div>
+
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(0,255,65,0.5);margin:20px 0 8px;">CONFIRMAR CONTRASEÑA</div>
+    <div class="pwd-display">
+      <div class="pwd-char" id="cp0">·</div>
+      <div class="pwd-char" id="cp1">·</div>
+      <div class="pwd-char" id="cp2">·</div>
+      <div class="pwd-char" id="cp3">·</div>
+      <div class="pwd-char" id="cp4">·</div>
+      <div class="pwd-char" id="cp5">·</div>
+    </div>
+    <div class="pwd-validation" id="confirmpwd-hint">Repite la nueva contraseña</div>
+
+    <div class="pin-keypad">
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="1">1</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="2">2</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="3">3</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="4">4</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="5">5</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="6">6</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="7">7</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="8">8</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="9">9</button>
+      <button class="key-btn green-key" id="clr-confirmpwd">CLR</button>
+      <button class="key-btn green-key" data-target="confirmpwd" data-val="0">0</button>
+      <button class="key-btn del green-key" id="del-confirmpwd">⌫</button>
+    </div>
+    <div class="char-keyboard">
+      <div class="char-keyboard-label">Letra</div>
+      <div class="letters-grid" id="letters-confirm"></div>
+    </div>
+    <div class="char-keyboard">
+      <div class="char-keyboard-label">Símbolo</div>
+      <div class="symbols-grid" id="symbols-confirm"></div>
+    </div>
+
+    <!-- 2FA DINÁMICO -->
+    <div class="tfa-section" id="tfa-section">
+      <div class="tfa-section-title" id="tfa-title">Verificación doble factor</div>
+
+      <!-- TOTP -->
+      <div id="tfa-totp-wrap" style="display:none;">
+        <div class="info-box green" style="margin-bottom:12px;">
+          <div class="info-box-text">Abre <strong>Google Authenticator</strong> e introduce el código de 6 dígitos que aparece para DoctorQR.</div>
+        </div>
+        <div class="code-display">
+          <div class="code-char green" id="tf0">·</div>
+          <div class="code-char green" id="tf1">·</div>
+          <div class="code-char green" id="tf2">·</div>
+          <div class="code-char green" id="tf3">·</div>
+          <div class="code-char green" id="tf4">·</div>
+          <div class="code-char green" id="tf5">·</div>
+        </div>
+        <div class="pin-keypad">
+          <button class="key-btn green-key" data-target="tfa" data-val="1">1</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="2">2</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="3">3</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="4">4</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="5">5</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="6">6</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="7">7</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="8">8</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="9">9</button>
+          <button class="key-btn green-key" id="clr-tfa">CLR</button>
+          <button class="key-btn green-key" data-target="tfa" data-val="0">0</button>
+          <button class="key-btn del green-key" id="del-tfa">⌫</button>
+        </div>
+      </div>
+
+      <!-- EMAIL 2FA -->
+      <div id="tfa-email-wrap" style="display:none;">
+        <div class="info-box green" style="margin-bottom:12px;">
+          <div class="info-box-text">Te hemos enviado un segundo código de verificación a tu email. Introdúcelo para confirmar el cambio.</div>
+        </div>
+        <div class="code-display">
+          <div class="code-char green" id="te0">·</div>
+          <div class="code-char green" id="te1">·</div>
+          <div class="code-char green" id="te2">·</div>
+          <div class="code-char green" id="te3">·</div>
+          <div class="code-char green" id="te4">·</div>
+          <div class="code-char green" id="te5">·</div>
+        </div>
+        <div class="code-timer">Expira en <span id="tfa-email-timer">10:00</span></div>
+        <div class="pin-keypad">
+          <button class="key-btn green-key" data-target="tfaemail" data-val="1">1</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="2">2</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="3">3</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="4">4</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="5">5</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="6">6</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="7">7</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="8">8</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="9">9</button>
+          <button class="key-btn green-key" id="clr-tfaemail">CLR</button>
+          <button class="key-btn green-key" data-target="tfaemail" data-val="0">0</button>
+          <button class="key-btn del green-key" id="del-tfaemail">⌫</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary green-btn" id="btn-reset" disabled style="margin-top:16px;">
+      RESTABLECER ACCESO
+    </button>
+  </div>
+</div><!-- fin screen-3 -->
+
+
+<!-- ===== PANTALLA ÉXITO ===== -->
+<div class="screen" id="screen-success">
+  <div class="rec-card green" style="text-align:center;padding:40px 24px;">
+    <div class="success-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00ff41" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="success-title">Acceso restablecido</div>
+    <div class="success-sub">
+      Tu nueva contraseña está activa.<br>
+      Tus datos médicos han sido conservados.
+    </div>
+    <button class="btn-primary green-btn" id="btn-enter">
+      ENTRAR A DOCTORQR →
+    </button>
+  </div>
+</div>
+
+</div><!-- fin rec-content -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== CONFIG =====
+const EMAILJS_PUBLIC_KEY        = 'OT3h9cqzHbJKpZzdv';
+const EMAILJS_SERVICE_ID        = 'service_685y0yj';
+const EMAILJS_BACKUP_TEMPLATE_ID= 'template_vone66l';
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+const AUTH_KEY  = 'doctorqr_auth';
+const LETTERS   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const SYMBOLS   = ['@','#','$','%','&','*','!','?','+','-','=','_','.',',',':',';','(',')','{','}','[',']','|','~','`','<','>','/','\\','"',"'"];
+const PIN_LEN   = 6;
+
+let recCode     = '';
+let recBuffer   = '';
+let newPwdBuf   = '';
+let confPwdBuf  = '';
+let tfaBuf      = '';
+let tfaEmailBuf = '';
+let tfaEmailCode= '';
+let recTimerIntvl = null;
+let tfaTimerIntvl = null;
+let recEmail    = '';
+
+// ===== TECLADO LETRAS/SÍMBOLOS =====
+function buildCharKeyboard(lettersId, symbolsId, target) {
+  const lg = document.getElementById(lettersId);
+  const sg = document.getElementById(symbolsId);
+  if (!lg || !sg) return;
+  LETTERS.forEach(l => {
+    const btn = document.createElement('button');
+    btn.className = 'char-key';
+    btn.textContent = l;
+    btn.addEventListener('click', () => handleInput(target, l));
+    lg.appendChild(btn);
+  });
+  SYMBOLS.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'char-key';
+    btn.textContent = s;
+    btn.addEventListener('click', () => handleInput(target, s));
+    sg.appendChild(btn);
+  });
+}
+buildCharKeyboard('letters-new',     'symbols-new',     'newpwd');
+buildCharKeyboard('letters-confirm', 'symbols-confirm', 'confirmpwd');
+
+// ===== INPUT HANDLER =====
+function handleInput(target, val) {
+  if (target === 'newpwd')     { if (newPwdBuf.length  >= PIN_LEN) return; newPwdBuf  += val; updatePwdDisplay('newpwd'); }
+  if (target === 'confirmpwd') { if (confPwdBuf.length >= PIN_LEN) return; confPwdBuf += val; updatePwdDisplay('confirmpwd'); }
+  if (target === 'tfa')        { if (tfaBuf.length      >= PIN_LEN) return; tfaBuf      += val; updateCodeDisplay('tfa'); }
+  if (target === 'tfaemail')   { if (tfaEmailBuf.length >= PIN_LEN) return; tfaEmailBuf += val; updateCodeDisplay('tfaemail'); }
+}
+
+document.querySelectorAll('.key-btn[data-target]').forEach(btn => {
+  btn.addEventListener('click', () => handleInput(btn.dataset.target, btn.dataset.val));
+});
+
+document.getElementById('del-newpwd').addEventListener('click',    () => { newPwdBuf  = newPwdBuf.slice(0,-1);   updatePwdDisplay('newpwd'); });
+document.getElementById('del-confirmpwd').addEventListener('click', () => { confPwdBuf = confPwdBuf.slice(0,-1);  updatePwdDisplay('confirmpwd'); });
+document.getElementById('del-tfa').addEventListener('click',        () => { tfaBuf      = tfaBuf.slice(0,-1);      updateCodeDisplay('tfa'); });
+document.getElementById('del-tfaemail').addEventListener('click',   () => { tfaEmailBuf = tfaEmailBuf.slice(0,-1); updateCodeDisplay('tfaemail'); });
+document.getElementById('clr-newpwd').addEventListener('click',     () => { newPwdBuf  = ''; updatePwdDisplay('newpwd'); });
+document.getElementById('clr-confirmpwd').addEventListener('click', () => { confPwdBuf = ''; updatePwdDisplay('confirmpwd'); });
+document.getElementById('clr-tfa').addEventListener('click',        () => { tfaBuf      = ''; updateCodeDisplay('tfa'); });
+document.getElementById('clr-tfaemail').addEventListener('click',   () => { tfaEmailBuf = ''; updateCodeDisplay('tfaemail'); });
+
+// ===== DISPLAYS =====
+function updatePwdDisplay(which) {
+  const buf    = which === 'newpwd' ? newPwdBuf : confPwdBuf;
+  const prefix = which === 'newpwd' ? 'np' : 'cp';
+  const hintId = which === 'newpwd' ? 'newpwd-hint' : 'confirmpwd-hint';
+
+  for (let i = 0; i < PIN_LEN; i++) {
+    const el = document.getElementById(prefix + i);
+    if (!el) continue;
+    el.classList.remove('filled');
+    el.textContent = i < buf.length ? '●' : '·';
+    if (i < buf.length) el.classList.add('filled');
+  }
+
+  const hint = document.getElementById(hintId);
+  if (buf.length === 0) {
+    hint.textContent = which === 'newpwd' ? 'Introduce 4 números, 1 letra y 1 símbolo' : 'Repite la nueva contraseña';
+    hint.style.color = 'rgba(255,255,255,0.3)';
+  } else if (buf.length < PIN_LEN) {
+    const v = validatePwd(buf);
+    const missing = [];
+    const nums = (buf.match(/[0-9]/g)||[]).length;
+    if (nums < 4) missing.push((4-nums)+' número'+(4-nums>1?'s':''));
+    if (!v.hasLetter) missing.push('1 letra');
+    if (!v.hasSymbol) missing.push('1 símbolo');
+    hint.textContent = missing.length ? 'Falta: '+missing.join(', ') : '✓ Completa los 6 caracteres';
+    hint.style.color = 'rgba(255,200,100,0.7)';
+  } else {
+    if (which === 'confirmpwd') {
+      if (confPwdBuf === newPwdBuf) { hint.textContent='✓ Coinciden'; hint.style.color='#00ff41'; }
+      else                           { hint.textContent='✗ No coinciden'; hint.style.color='#ff4444'; }
+    } else {
+      const v = validatePwd(buf);
+      hint.textContent = v.valid ? '✓ Contraseña válida' : '✗ Revisa los requisitos';
+      hint.style.color = v.valid ? '#00ff41' : '#ff4444';
+    }
+  }
+  checkResetReady();
+}
+
+function updateCodeDisplay(which) {
+  const buf    = which === 'tfa' ? tfaBuf : tfaEmailBuf;
+  const prefix = which === 'tfa' ? 'tf' : 'te';
+  for (let i = 0; i < PIN_LEN; i++) {
+    const el = document.getElementById(prefix + i);
+    if (!el) continue;
+    el.classList.remove('filled','error');
+    el.textContent = i < buf.length ? buf[i] : '·';
+    if (i < buf.length) el.classList.add('filled');
+  }
+  checkResetReady();
+}
+
+// ===== CHECK RESET READY =====
+function checkResetReady() {
+  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  const pwdOk  = validatePwd(newPwdBuf).valid && newPwdBuf === confPwdBuf && confPwdBuf.length === PIN_LEN;
+  let tfaOk = false;
+  if (auth.twofa_method === 'totp')  tfaOk = tfaBuf.length === PIN_LEN;
+  if (auth.twofa_method === 'email') tfaOk = tfaEmailBuf.length === PIN_LEN;
+  document.getElementById('btn-reset').disabled = !(pwdOk && tfaOk);
+}
+
+function validatePwd(pwd) {
+  const nums = (pwd.match(/[0-9]/g)||[]).length;
+  return {
+    valid: nums>=4 && /[A-Za-z]/.test(pwd) && /[@#$%&*!?+\-=_.,:;()\[\]{}|~`<>/\\'"]/g.test(pwd) && pwd.length===PIN_LEN,
+    hasLetter: /[A-Za-z]/.test(pwd),
+    hasSymbol: /[@#$%&*!?+\-=_.,:;()\[\]{}|~`<>/\\'"]/g.test(pwd),
+  };
+}
+
+// ===== EMAIL INPUT =====
+document.getElementById('rec-email').addEventListener('input', function() {
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim());
+  document.getElementById('btn-send-rec').disabled = !ok;
+  document.getElementById('rec-email-hint').textContent = this.value.trim() && !ok ? 'Email no válido' : '';
+  document.getElementById('rec-email-hint').className   = 'field-hint' + (this.value.trim() && !ok ? ' error' : '');
+});
+
+// ===== ENVIAR CÓDIGO RECUPERACIÓN =====
+document.getElementById('btn-send-rec').addEventListener('click', async () => {
+  recEmail = document.getElementById('rec-email').value.trim();
+
+  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  if (auth.email && auth.email.toLowerCase() !== recEmail.toLowerCase()) {
+    showToast('Email no encontrado en este dispositivo', true);
+    return;
+  }
+
+  const btn = document.getElementById('btn-send-rec');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  recCode = generateCode();
+
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
+      to_name:       auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
+      to_email:      recEmail,
+      code:          recCode,
+      app_name:      'DoctorQR — Recuperación de acceso',
+      subject:       'DoctorQR — Recuperación de acceso',
+      alert:         'Código válido 30 minutos',
+      intro:         'Has solicitado recuperar el acceso a tu cuenta DoctorQR.',
+      message_title: 'Código de recuperación',
+      message:       'Válido durante 30 minutos. Si no has solicitado esto, ignora este mensaje.',
+    });
+    showToast('Código enviado');
+  } catch(e) {
+    console.error('EmailJS:', e);
+    console.log('🔑 Código de prueba:', recCode);
+    showToast('Modo desarrollo — código en consola');
+  }
+
+  document.getElementById('rec-email-shown').textContent = recEmail;
+  goToScreen(2);
+  startRecTimer(1800); // 30 min
+  btn.textContent = 'ENVIAR CÓDIGO DE RECUPERACIÓN';
+});
+
+// ===== OTP TECLADO (pantalla 2) =====
+document.querySelectorAll('.key-btn[data-rec]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (recBuffer.length >= 6) return;
+    recBuffer += btn.dataset.rec;
+    updateRecDisplay();
+  });
+});
+document.getElementById('del-rec').addEventListener('click', () => { recBuffer=recBuffer.slice(0,-1); updateRecDisplay(); });
+document.getElementById('clr-rec').addEventListener('click', () => { recBuffer=''; updateRecDisplay(); });
+
+function updateRecDisplay() {
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('rc'+i);
+    if (!el) continue;
+    el.classList.remove('filled','error');
+    el.textContent = i < recBuffer.length ? recBuffer[i] : '·';
+    if (i < recBuffer.length) el.classList.add('filled');
+  }
+  document.getElementById('btn-verify-rec').disabled = recBuffer.length !== 6;
+}
+
+// ===== VERIFICAR OTP =====
+document.getElementById('btn-verify-rec').addEventListener('click', () => {
+  if (recBuffer !== recCode) {
+    for (let i=0;i<6;i++) {
+      const el=document.getElementById('rc'+i);
+      if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
+    }
+    recBuffer=''; updateRecDisplay();
+    showToast('Código incorrecto', true);
+    return;
+  }
+  clearInterval(recTimerIntvl);
+  initScreen3();
+  goToScreen(3);
+});
+
+// ===== REENVÍO =====
+document.getElementById('btn-resend-rec').addEventListener('click', async () => {
+  recCode = generateCode();
+  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
+      to_name:  auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
+      to_email: recEmail,
+      code:     recCode,
+      app_name: 'DoctorQR — Recuperación',
+      alert:'Nuevo código válido 30 minutos',
+      intro:'Has solicitado un nuevo código de recuperación.',
+      message_title:'Nuevo código de recuperación',
+      message:'Válido durante 30 minutos.',
+    });
+    showToast('Nuevo código enviado');
+  } catch(e) {
+    console.log('🔑 Nuevo código:', recCode);
+    showToast('Modo desarrollo — código en consola');
+  }
+  recBuffer=''; updateRecDisplay();
+  startRecTimer(1800);
+});
+
+// ===== TEMPORIZADORES =====
+function startRecTimer(secs) {
+  let remaining = secs;
+  clearInterval(recTimerIntvl);
+  recTimerIntvl = setInterval(() => {
+    remaining--;
+    const m=Math.floor(remaining/60), s=remaining%60;
+    const el=document.getElementById('rec-timer');
+    if(el) el.textContent=m+':'+(s+'').padStart(2,'0');
+    if(remaining<=0){
+      clearInterval(recTimerIntvl);
+      if(el) el.textContent='Expirado';
+      document.getElementById('btn-resend-rec').disabled=false;
+    }
+  },1000);
+
+  let cd=60;
+  const rb=document.getElementById('btn-resend-rec');
+  rb.disabled=true; rb.textContent='Reenviar en 60s';
+  const ri=setInterval(()=>{
+    cd--;
+    rb.textContent=cd>0?`Reenviar en ${cd}s`:'Reenviar código';
+    if(cd<=0){clearInterval(ri);rb.disabled=false;}
+  },1000);
+}
+
+function startTfaEmailTimer() {
+  let secs=600;
+  clearInterval(tfaTimerIntvl);
+  tfaTimerIntvl=setInterval(()=>{
+    secs--;
+    const m=Math.floor(secs/60),s=secs%60;
+    const el=document.getElementById('tfa-email-timer');
+    if(el) el.textContent=m+':'+(s+'').padStart(2,'0');
+    if(secs<=0){clearInterval(tfaTimerIntvl);if(el)el.textContent='Expirado';}
+  },1000);
+}
+
+// ===== INIT PANTALLA 3 =====
+async function initScreen3() {
+  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+
+  if (auth.twofa_method === 'totp') {
+    document.getElementById('tfa-title').textContent = 'Verificación — Google Authenticator';
+    document.getElementById('tfa-totp-wrap').style.display = 'block';
+    document.getElementById('tfa-email-wrap').style.display = 'none';
+  } else {
+    document.getElementById('tfa-title').textContent = 'Verificación — Código por email';
+    document.getElementById('tfa-totp-wrap').style.display = 'none';
+    document.getElementById('tfa-email-wrap').style.display = 'block';
+    await sendTfaEmailCode(auth);
+    startTfaEmailTimer();
+  }
+}
+
+async function sendTfaEmailCode(auth) {
+  tfaEmailCode = generateCode();
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
+      to_name:  auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
+      to_email: auth.email,
+      code:     tfaEmailCode,
+      app_name: 'DoctorQR — Verificación 2FA',
+      alert:    'Código 2FA válido 10 minutos',
+      intro:    'Código de verificación para restablecer tu acceso a DoctorQR.',
+      message_title:'Verificación doble factor',
+      message:  'Introduce este código en la app para confirmar el cambio de contraseña.',
+    });
+  } catch(e) {
+    console.log('🔑 Código 2FA email:', tfaEmailCode);
+  }
+}
+
+// ===== RESTABLECER ACCESO =====
+document.getElementById('btn-reset').addEventListener('click', async () => {
+  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+
+  if (auth.twofa_method === 'totp') {
+    try {
+      const totp = new OTPAuth.TOTP({
+        issuer:'DoctorQR', label:auth.email,
+        algorithm:'SHA1', digits:6, period:30,
+        secret:OTPAuth.Secret.fromBase32(auth.totp_secret),
+      });
+      const delta = totp.validate({ token:tfaBuf, window:1 });
+      if (delta === null) {
+        for(let i=0;i<6;i++){
+          const el=document.getElementById('tf'+i);
+          if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
+        }
+        tfaBuf=''; updateCodeDisplay('tfa');
+        showToast('Código Authenticator incorrecto', true);
+        return;
+      }
+    } catch(e) {
+      showToast('Error al verificar 2FA', true);
+      return;
+    }
+  } else {
+    if (tfaEmailBuf !== tfaEmailCode) {
+      for(let i=0;i<6;i++){
+        const el=document.getElementById('te'+i);
+        if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
+      }
+      tfaEmailBuf=''; updateCodeDisplay('tfaemail');
+      showToast('Código email incorrecto', true);
+      return;
+    }
+  }
+
+  const pwdHash = await sha256(newPwdBuf);
+  auth.password_hash = pwdHash;
+  localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
+
+  clearInterval(tfaTimerIntvl);
+  goToScreen(4);
+  showToast('✓ Acceso restablecido');
+});
+
+document.getElementById('btn-enter').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
+
+// ===== NAVEGACIÓN =====
+const STEP_LABELS = {
+  1:'Paso 1 — Solicitar código',
+  2:'Paso 2 — Verificar código',
+  3:'Paso 3 — Nueva contraseña',
+  4:'¡Acceso restablecido!',
+};
+function goToScreen(n) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const ids = {1:'screen-1',2:'screen-2',3:'screen-3',4:'screen-success'};
+  document.getElementById(ids[n]).classList.add('active');
+  for(let i=1;i<=4;i++){
+    const dot=document.getElementById('dot-'+i);
+    if(!dot)continue;
+    dot.classList.remove('active','done');
+    if(i<n) dot.classList.add('done');
+    else if(i===n) dot.classList.add('active');
+  }
+  for(let i=1;i<=3;i++){
+    const line=document.getElementById('line-'+i);
+    if(line) line.classList.toggle('done',i<n);
+  }
+  document.getElementById('step-label').textContent=STEP_LABELS[n]||'';
+  window.scrollTo(0,0);
+}
+
+// ===== UTILS =====
+function generateCode() {
+  return Math.floor(100000+Math.random()*900000).toString();
+}
+
+async function sha256(str) {
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function showToast(msg, isError=false) {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(isError?' error':'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+</script>
+</body>
+</html>
