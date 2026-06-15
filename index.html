@@ -651,6 +651,34 @@
       background-position: right 12px center;
     }
     #pregnancy-weeks option { background: #1a1a1a; color: #fff; }
+
+    .chips-search-wrap {
+      margin-bottom: 10px;
+    }
+
+    .chips-search {
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid rgba(0,255,65,0.4);
+      border-radius: 8px;
+      color: #00ff41;
+      font-family: inherit;
+      font-size: 12px;
+      padding: 8px 14px;
+      box-sizing: border-box;
+      outline: none;
+      letter-spacing: 1px;
+      transition: border-color 0.2s;
+    }
+
+    .chips-search:focus {
+      border-color: #00ff41;
+      box-shadow: 0 0 6px rgba(0,255,65,0.3);
+    }
+
+    .chips-search::placeholder {
+      color: rgba(0,255,65,0.35);
+    }
   </style>
 </head>
 <body>
@@ -801,17 +829,17 @@
         <div class="field">
           <div class="field-label">Idiomas hablados</div>
           <div class="chips" data-group="lang-spoken">
-            <div class="chip" data-value="Español">Español</div>
-            <div class="chip" data-value="Inglés">Inglés</div>
-            <div class="chip" data-value="Francés">Francés</div>
             <div class="chip" data-value="Alemán">Alemán</div>
-            <div class="chip" data-value="Italiano">Italiano</div>
-            <div class="chip" data-value="Portugués">Portugués</div>
             <div class="chip" data-value="Árabe">Árabe</div>
             <div class="chip" data-value="Chino">Chino</div>
-            <div class="chip" data-value="Ruso">Ruso</div>
-            <div class="chip" data-value="Rumano">Rumano</div>
+            <div class="chip" data-value="Español">Español</div>
+            <div class="chip" data-value="Francés">Francés</div>
+            <div class="chip" data-value="Inglés">Inglés</div>
+            <div class="chip" data-value="Italiano">Italiano</div>
             <div class="chip" data-value="Polaco">Polaco</div>
+            <div class="chip" data-value="Portugués">Portugués</div>
+            <div class="chip" data-value="Rumano">Rumano</div>
+            <div class="chip" data-value="Ruso">Ruso</div>
             <div class="chip" data-value="Otros">Otros</div>
           </div>
           <div id="lang-levels-container"></div>
@@ -1178,100 +1206,112 @@
         </div>
         <div class="field">
           <div class="field-label">Alergias a medicamentos</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="allergy-med">
-            <div class="chip" data-value="Penicilina">Penicilina</div>
-            <div class="chip" data-value="Amoxicilina">Amoxicilina</div>
-            <div class="chip" data-value="Cefalosporinas">Cefalosporinas</div>
-            <div class="chip" data-value="Tetraciclinas">Tetraciclinas</div>
-            <div class="chip" data-value="Quinolonas">Quinolonas</div>
-            <div class="chip" data-value="Metronidazol">Metronidazol</div>
-            <div class="chip" data-value="Clindamicina">Clindamicina</div>
-            <div class="chip" data-value="Eritromicina">Eritromicina</div>
-            <div class="chip" data-value="Vancomicina">Vancomicina</div>
-            <div class="chip" data-value="Carbapenémicos">Carbapenémicos</div>
-            <div class="chip" data-value="Sulfamidas">Sulfamidas</div>
-            <div class="chip" data-value="Aspirina">Aspirina</div>
             <div class="chip" data-value="AAS">AAS</div>
-            <div class="chip" data-value="Ibuprofeno">Ibuprofeno</div>
-            <div class="chip" data-value="Diclofenaco">Diclofenaco</div>
-            <div class="chip" data-value="Naproxeno">Naproxeno</div>
-            <div class="chip" data-value="Ketoprofeno">Ketoprofeno</div>
             <div class="chip" data-value="AINE">AINE</div>
-            <div class="chip" data-value="Morfina">Morfina</div>
-            <div class="chip" data-value="Tramadol">Tramadol</div>
-            <div class="chip" data-value="Fentanilo">Fentanilo</div>
+            <div class="chip" data-value="Alopurinol">Alopurinol</div>
+            <div class="chip" data-value="Amoxicilina">Amoxicilina</div>
+            <div class="chip" data-value="Aspirina">Aspirina</div>
+            <div class="chip" data-value="Betabloqueantes">Betabloqueantes</div>
+            <div class="chip" data-value="Carbamazepina">Carbamazepina</div>
+            <div class="chip" data-value="Carbapenémicos">Carbapenémicos</div>
+            <div class="chip" data-value="Cefalosporinas">Cefalosporinas</div>
+            <div class="chip" data-value="Ciclosporina">Ciclosporina</div>
+            <div class="chip" data-value="Clindamicina">Clindamicina</div>
             <div class="chip" data-value="Codeína">Codeína</div>
             <div class="chip" data-value="Contraste yodado">Contraste yodado</div>
-            <div class="chip" data-value="Gadolinio">Gadolinio</div>
-            <div class="chip" data-value="Látex">Látex</div>
-            <div class="chip" data-value="Heparina">Heparina</div>
-            <div class="chip" data-value="Warfarina">Warfarina</div>
-            <div class="chip" data-value="Haloperidol">Haloperidol</div>
-            <div class="chip" data-value="Carbamazepina">Carbamazepina</div>
-            <div class="chip" data-value="Fenitoína">Fenitoína</div>
-            <div class="chip" data-value="Alopurinol">Alopurinol</div>
-            <div class="chip" data-value="Metotrexato">Metotrexato</div>
-            <div class="chip" data-value="Ciclosporina">Ciclosporina</div>
-            <div class="chip" data-value="Rituximab">Rituximab</div>
-            <div class="chip" data-value="Insulina">Insulina</div>
-            <div class="chip" data-value="Metformina">Metformina</div>
+            <div class="chip" data-value="Diclofenaco">Diclofenaco</div>
+            <div class="chip" data-value="Eritromicina">Eritromicina</div>
             <div class="chip" data-value="Estatinas">Estatinas</div>
+            <div class="chip" data-value="Fenitoína">Fenitoína</div>
+            <div class="chip" data-value="Fentanilo">Fentanilo</div>
+            <div class="chip" data-value="Gadolinio">Gadolinio</div>
+            <div class="chip" data-value="Haloperidol">Haloperidol</div>
+            <div class="chip" data-value="Heparina">Heparina</div>
             <div class="chip" data-value="IECAs">IECAs</div>
-            <div class="chip" data-value="Betabloqueantes">Betabloqueantes</div>
-            <div class="chip" data-value="Tiazidas">Tiazidas</div>
-            <div class="chip" data-value="Omeprazol">Omeprazol</div>
-            <div class="chip" data-value="Ranitidina">Ranitidina</div>
-            <div class="chip" data-value="Propofol">Propofol</div>
+            <div class="chip" data-value="Ibuprofeno">Ibuprofeno</div>
+            <div class="chip" data-value="Insulina">Insulina</div>
+            <div class="chip" data-value="Ketoprofeno">Ketoprofeno</div>
+            <div class="chip" data-value="Látex">Látex</div>
             <div class="chip" data-value="Lidocaína">Lidocaína</div>
+            <div class="chip" data-value="Metformina">Metformina</div>
+            <div class="chip" data-value="Metotrexato">Metotrexato</div>
+            <div class="chip" data-value="Metronidazol">Metronidazol</div>
+            <div class="chip" data-value="Morfina">Morfina</div>
+            <div class="chip" data-value="Naproxeno">Naproxeno</div>
+            <div class="chip" data-value="Omeprazol">Omeprazol</div>
+            <div class="chip" data-value="Penicilina">Penicilina</div>
+            <div class="chip" data-value="Propofol">Propofol</div>
+            <div class="chip" data-value="Quinolonas">Quinolonas</div>
+            <div class="chip" data-value="Ranitidina">Ranitidina</div>
+            <div class="chip" data-value="Rituximab">Rituximab</div>
+            <div class="chip" data-value="Sulfamidas">Sulfamidas</div>
+            <div class="chip" data-value="Tetraciclinas">Tetraciclinas</div>
+            <div class="chip" data-value="Tiazidas">Tiazidas</div>
+            <div class="chip" data-value="Tramadol">Tramadol</div>
+            <div class="chip" data-value="Vancomicina">Vancomicina</div>
+            <div class="chip" data-value="Warfarina">Warfarina</div>
             <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Alergias alimentarias</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="allergy-food">
-            <div class="chip" data-value="Frutos secos">Frutos secos</div>
-            <div class="chip" data-value="Cacahuetes">Cacahuetes</div>
-            <div class="chip" data-value="Marisco">Marisco</div>
-            <div class="chip" data-value="Moluscos">Moluscos</div>
-            <div class="chip" data-value="Pescado">Pescado</div>
-            <div class="chip" data-value="Gluten">Gluten</div>
-            <div class="chip" data-value="Trigo">Trigo</div>
-            <div class="chip" data-value="Maíz">Maíz</div>
-            <div class="chip" data-value="Lácteos">Lácteos</div>
-            <div class="chip" data-value="Lactosa">Lactosa</div>
-            <div class="chip" data-value="Huevo">Huevo</div>
-            <div class="chip" data-value="Soja">Soja</div>
-            <div class="chip" data-value="Mostaza">Mostaza</div>
-            <div class="chip" data-value="Apio">Apio</div>
-            <div class="chip" data-value="Sésamo">Sésamo</div>
             <div class="chip" data-value="Altramuces">Altramuces</div>
-            <div class="chip" data-value="Sulfitos">Sulfitos</div>
+            <div class="chip" data-value="Apio">Apio</div>
+            <div class="chip" data-value="Cacahuetes">Cacahuetes</div>
             <div class="chip" data-value="Colorantes">Colorantes</div>
             <div class="chip" data-value="Conservantes">Conservantes</div>
             <div class="chip" data-value="Fructosa">Fructosa</div>
+            <div class="chip" data-value="Frutos secos">Frutos secos</div>
+            <div class="chip" data-value="Gluten">Gluten</div>
+            <div class="chip" data-value="Huevo">Huevo</div>
+            <div class="chip" data-value="Lácteos">Lácteos</div>
+            <div class="chip" data-value="Lactosa">Lactosa</div>
+            <div class="chip" data-value="Maíz">Maíz</div>
+            <div class="chip" data-value="Marisco">Marisco</div>
+            <div class="chip" data-value="Moluscos">Moluscos</div>
+            <div class="chip" data-value="Mostaza">Mostaza</div>
+            <div class="chip" data-value="Pescado">Pescado</div>
+            <div class="chip" data-value="Sésamo">Sésamo</div>
+            <div class="chip" data-value="Soja">Soja</div>
             <div class="chip" data-value="Sorbitol">Sorbitol</div>
+            <div class="chip" data-value="Sulfitos">Sulfitos</div>
+            <div class="chip" data-value="Trigo">Trigo</div>
             <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Alergias ambientales</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="allergy-env">
-            <div class="chip" data-value="Polen">Polen</div>
             <div class="chip" data-value="Ácaros">Ácaros</div>
-            <div class="chip" data-value="Hongos">Hongos</div>
             <div class="chip" data-value="Animales">Animales</div>
             <div class="chip" data-value="Cucarachas">Cucarachas</div>
-            <div class="chip" data-value="Níquel">Níquel</div>
+            <div class="chip" data-value="Hongos">Hongos</div>
             <div class="chip" data-value="Látex ambiental">Látex ambiental</div>
-            <div class="chip" data-value="Productos limpieza">Productos limpieza</div>
+            <div class="chip" data-value="Níquel">Níquel</div>
             <div class="chip" data-value="Perfumes">Perfumes</div>
             <div class="chip" data-value="Picadura abeja">Picadura abeja</div>
             <div class="chip" data-value="Picadura avispa">Picadura avispa</div>
+            <div class="chip" data-value="Polen">Polen</div>
+            <div class="chip" data-value="Productos limpieza">Productos limpieza</div>
             <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Alergias a anestesia</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="allergy-anesthesia">
             <div class="chip" data-value="Anestesia general">Anestesia general</div>
             <div class="chip" data-value="Lidocaína">Lidocaína</div>
@@ -1317,94 +1357,100 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label">Enfermedades crónicas</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="diseases">
-            <div class="chip" data-value="Diabetes T1">Diabetes T1</div>
-            <div class="chip" data-value="Diabetes T2">Diabetes T2</div>
-            <div class="chip" data-value="Hipertensión">Hipertensión</div>
-            <div class="chip" data-value="Hipotensión">Hipotensión</div>
-            <div class="chip" data-value="Hipotiroidismo">Hipotiroidismo</div>
-            <div class="chip" data-value="Hipertiroidismo">Hipertiroidismo</div>
-            <div class="chip" data-value="Epilepsia">Epilepsia</div>
-            <div class="chip" data-value="Asma">Asma</div>
-            <div class="chip" data-value="EPOC">EPOC</div>
+            <div class="chip" data-value="Alzheimer">Alzheimer</div>
+            <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
+            <div class="chip" data-value="Ansiedad crónica">Ansiedad crónica</div>
             <div class="chip" data-value="Apnea del sueño">Apnea del sueño</div>
-            <div class="chip" data-value="Cardiopatía">Cardiopatía</div>
-            <div class="chip" data-value="Insuficiencia cardíaca">Insuficiencia cardíaca</div>
             <div class="chip" data-value="Arritmia">Arritmia</div>
-            <div class="chip" data-value="Fibrilación auricular">Fibrilación auricular</div>
-            <div class="chip" data-value="Trombosis venosa">Trombosis venosa</div>
-            <div class="chip" data-value="Embolia pulmonar">Embolia pulmonar</div>
-            <div class="chip" data-value="Insuficiencia renal">Insuficiencia renal</div>
-            <div class="chip" data-value="Insuficiencia renal crónica">Insuficiencia renal crónica</div>
-            <div class="chip" data-value="Trasplante renal">Trasplante renal</div>
-            <div class="chip" data-value="Trasplante hepático">Trasplante hepático</div>
-            <div class="chip" data-value="Trasplante cardíaco">Trasplante cardíaco</div>
-            <div class="chip" data-value="Cirrosis">Cirrosis</div>
-            <div class="chip" data-value="Hepatitis B">Hepatitis B</div>
-            <div class="chip" data-value="Hepatitis C">Hepatitis C</div>
-            <div class="chip" data-value="VIH">VIH</div>
+            <div class="chip" data-value="Artritis psoriásica">Artritis psoriásica</div>
+            <div class="chip" data-value="Artritis reumatoide">Artritis reumatoide</div>
+            <div class="chip" data-value="Asma">Asma</div>
+            <div class="chip" data-value="Autismo">Autismo</div>
             <div class="chip" data-value="Cáncer activo">Cáncer activo</div>
             <div class="chip" data-value="Cáncer en remisión">Cáncer en remisión</div>
-            <div class="chip" data-value="Hemofilia">Hemofilia</div>
-            <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
-            <div class="chip" data-value="Talasemia">Talasemia</div>
-            <div class="chip" data-value="Fibromialgia">Fibromialgia</div>
-            <div class="chip" data-value="Esclerosis múltiple">Esclerosis múltiple</div>
-            <div class="chip" data-value="Parkinson">Parkinson</div>
-            <div class="chip" data-value="Alzheimer">Alzheimer</div>
-            <div class="chip" data-value="Migraña">Migraña</div>
-            <div class="chip" data-value="Vértigo crónico">Vértigo crónico</div>
-            <div class="chip" data-value="Sordera">Sordera</div>
-            <div class="chip" data-value="Glaucoma">Glaucoma</div>
+            <div class="chip" data-value="Cardiopatía">Cardiopatía</div>
             <div class="chip" data-value="Cataratas">Cataratas</div>
-            <div class="chip" data-value="Degeneración macular">Degeneración macular</div>
-            <div class="chip" data-value="Ictus previo">Ictus previo</div>
             <div class="chip" data-value="Celiaquía">Celiaquía</div>
-            <div class="chip" data-value="Crohn">Crohn</div>
+            <div class="chip" data-value="Cirrosis">Cirrosis</div>
             <div class="chip" data-value="Colitis ulcerosa">Colitis ulcerosa</div>
-            <div class="chip" data-value="Síndrome intestino irritable">Síndrome intestino irritable</div>
-            <div class="chip" data-value="Gastritis crónica">Gastritis crónica</div>
-            <div class="chip" data-value="Osteoporosis">Osteoporosis</div>
-            <div class="chip" data-value="Gota">Gota</div>
-            <div class="chip" data-value="Artritis reumatoide">Artritis reumatoide</div>
-            <div class="chip" data-value="Artritis psoriásica">Artritis psoriásica</div>
-            <div class="chip" data-value="Espondilitis">Espondilitis</div>
-            <div class="chip" data-value="Lupus">Lupus</div>
-            <div class="chip" data-value="Psoriasis">Psoriasis</div>
-            <div class="chip" data-value="Dermatitis atópica">Dermatitis atópica</div>
-            <div class="chip" data-value="Esquizofrenia">Esquizofrenia</div>
-            <div class="chip" data-value="Trastorno bipolar">Trastorno bipolar</div>
+            <div class="chip" data-value="Crohn">Crohn</div>
+            <div class="chip" data-value="Degeneración macular">Degeneración macular</div>
             <div class="chip" data-value="Depresión mayor">Depresión mayor</div>
-            <div class="chip" data-value="Ansiedad crónica">Ansiedad crónica</div>
-            <div class="chip" data-value="TOC">TOC</div>
+            <div class="chip" data-value="Dermatitis atópica">Dermatitis atópica</div>
+            <div class="chip" data-value="Diabetes T1">Diabetes T1</div>
+            <div class="chip" data-value="Diabetes T2">Diabetes T2</div>
+            <div class="chip" data-value="Embolia pulmonar">Embolia pulmonar</div>
+            <div class="chip" data-value="Epilepsia">Epilepsia</div>
+            <div class="chip" data-value="EPOC">EPOC</div>
+            <div class="chip" data-value="Esclerosis múltiple">Esclerosis múltiple</div>
+            <div class="chip" data-value="Espondilitis">Espondilitis</div>
+            <div class="chip" data-value="Esquizofrenia">Esquizofrenia</div>
+            <div class="chip" data-value="Fibrilación auricular">Fibrilación auricular</div>
+            <div class="chip" data-value="Fibromialgia">Fibromialgia</div>
+            <div class="chip" data-value="Gastritis crónica">Gastritis crónica</div>
+            <div class="chip" data-value="Glaucoma">Glaucoma</div>
+            <div class="chip" data-value="Gota">Gota</div>
+            <div class="chip" data-value="Hemofilia">Hemofilia</div>
+            <div class="chip" data-value="Hepatitis B">Hepatitis B</div>
+            <div class="chip" data-value="Hepatitis C">Hepatitis C</div>
+            <div class="chip" data-value="Hipertensión">Hipertensión</div>
+            <div class="chip" data-value="Hipertiroidismo">Hipertiroidismo</div>
+            <div class="chip" data-value="Hipotensión">Hipotensión</div>
+            <div class="chip" data-value="Hipotiroidismo">Hipotiroidismo</div>
+            <div class="chip" data-value="Ictus previo">Ictus previo</div>
+            <div class="chip" data-value="Insuficiencia cardíaca">Insuficiencia cardíaca</div>
+            <div class="chip" data-value="Insuficiencia renal">Insuficiencia renal</div>
+            <div class="chip" data-value="Insuficiencia renal crónica">Insuficiencia renal crónica</div>
+            <div class="chip" data-value="Lupus">Lupus</div>
+            <div class="chip" data-value="Migraña">Migraña</div>
+            <div class="chip" data-value="Osteoporosis">Osteoporosis</div>
+            <div class="chip" data-value="Parkinson">Parkinson</div>
+            <div class="chip" data-value="Psoriasis">Psoriasis</div>
+            <div class="chip" data-value="Síndrome intestino irritable">Síndrome intestino irritable</div>
+            <div class="chip" data-value="Sordera">Sordera</div>
+            <div class="chip" data-value="Talasemia">Talasemia</div>
             <div class="chip" data-value="TDAH">TDAH</div>
-            <div class="chip" data-value="Autismo">Autismo</div>
+            <div class="chip" data-value="TOC">TOC</div>
+            <div class="chip" data-value="Trasplante cardíaco">Trasplante cardíaco</div>
+            <div class="chip" data-value="Trasplante hepático">Trasplante hepático</div>
+            <div class="chip" data-value="Trasplante renal">Trasplante renal</div>
+            <div class="chip" data-value="Trastorno bipolar">Trastorno bipolar</div>
+            <div class="chip" data-value="Trombosis venosa">Trombosis venosa</div>
+            <div class="chip" data-value="Vértigo crónico">Vértigo crónico</div>
+            <div class="chip" data-value="VIH">VIH</div>
             <div class="chip" data-value="Ninguna">Ninguna</div>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Condiciones especiales</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="conditions">
-            <div class="chip" data-value="Marcapasos">Marcapasos</div>
+            <div class="chip" data-value="Bomba insulina">Bomba insulina</div>
+            <div class="chip" data-value="Catéter permanente">Catéter permanente</div>
+            <div class="chip" data-value="Colostomía">Colostomía</div>
             <div class="chip" data-value="Desfibrilador implantable">Desfibrilador implantable</div>
-            <div class="chip" data-value="Stent coronario">Stent coronario</div>
-            <div class="chip" data-value="Válvula cardíaca">Válvula cardíaca</div>
-            <div class="chip" data-value="Prótesis cadera">Prótesis cadera</div>
-            <div class="chip" data-value="Prótesis rodilla">Prótesis rodilla</div>
-            <div class="chip" data-value="Prótesis hombro">Prótesis hombro</div>
-            <div class="chip" data-value="Prótesis dental">Prótesis dental</div>
+            <div class="chip" data-value="DIU">DIU</div>
+            <div class="chip" data-value="Embarazo">Embarazo</div>
+            <div class="chip" data-value="Fístula arteriovenosa">Fístula arteriovenosa</div>
+            <div class="chip" data-value="Ileostomía">Ileostomía</div>
             <div class="chip" data-value="Implante coclear">Implante coclear</div>
             <div class="chip" data-value="Implante mama">Implante mama</div>
+            <div class="chip" data-value="Marcapasos">Marcapasos</div>
             <div class="chip" data-value="Neuroestimulador">Neuroestimulador</div>
-            <div class="chip" data-value="Bomba insulina">Bomba insulina</div>
-            <div class="chip" data-value="Sonda gástrica">Sonda gástrica</div>
-            <div class="chip" data-value="Colostomía">Colostomía</div>
-            <div class="chip" data-value="Ileostomía">Ileostomía</div>
-            <div class="chip" data-value="Fístula arteriovenosa">Fístula arteriovenosa</div>
-            <div class="chip" data-value="DIU">DIU</div>
             <div class="chip" data-value="Port-a-cath">Port-a-cath</div>
-            <div class="chip" data-value="Catéter permanente">Catéter permanente</div>
-            <div class="chip" data-value="Embarazo">Embarazo</div>
+            <div class="chip" data-value="Prótesis cadera">Prótesis cadera</div>
+            <div class="chip" data-value="Prótesis dental">Prótesis dental</div>
+            <div class="chip" data-value="Prótesis hombro">Prótesis hombro</div>
+            <div class="chip" data-value="Prótesis rodilla">Prótesis rodilla</div>
+            <div class="chip" data-value="Sonda gástrica">Sonda gástrica</div>
+            <div class="chip" data-value="Stent coronario">Stent coronario</div>
+            <div class="chip" data-value="Válvula cardíaca">Válvula cardíaca</div>
             <div class="chip" data-value="Ninguna">Ninguna</div>
           </div>
         </div>
@@ -1477,14 +1523,14 @@
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN DE ALTO RIESGO DE INTERACCIÓN</div>
           <div class="field-hint" style="margin-bottom:8px;color:#ff4444;opacity:0.8">Interacciones potencialmente letales con anestesia y otros fármacos de urgencia</div>
           <div class="chips" data-group="medicacion-alto-riesgo">
-            <div class="chip chip-danger" data-value="IMAO (antidepresivos)">IMAO (antidepresivos)</div>
-            <div class="chip chip-danger" data-value="Litio">Litio</div>
-            <div class="chip chip-danger" data-value="Corticoides crónicos">Corticoides crónicos</div>
-            <div class="chip chip-danger" data-value="Inmunosupresores">Inmunosupresores</div>
-            <div class="chip chip-danger" data-value="Inhibidores plaquetarios (Clopidogrel/AAS)">Inhibidores plaquetarios (Clopidogrel/AAS)</div>
-            <div class="chip chip-danger" data-value="Digoxina">Digoxina</div>
             <div class="chip chip-danger" data-value="Antiepilépticos">Antiepilépticos</div>
+            <div class="chip chip-danger" data-value="Corticoides crónicos">Corticoides crónicos</div>
+            <div class="chip chip-danger" data-value="Digoxina">Digoxina</div>
+            <div class="chip chip-danger" data-value="IMAO (antidepresivos)">IMAO (antidepresivos)</div>
+            <div class="chip chip-danger" data-value="Inhibidores plaquetarios (Clopidogrel/AAS)">Inhibidores plaquetarios (Clopidogrel/AAS)</div>
+            <div class="chip chip-danger" data-value="Inmunosupresores">Inmunosupresores</div>
             <div class="chip chip-danger" data-value="Insulina">Insulina</div>
+            <div class="chip chip-danger" data-value="Litio">Litio</div>
             <div class="chip" data-value="Ninguno">Ninguno</div>
           </div>
         </div>
@@ -1524,48 +1570,51 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label">Cirugías previas</div>
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="surgeries">
-            <div class="chip" data-value="Apendicectomía">Apendicectomía</div>
-            <div class="chip" data-value="Colecistectomía">Colecistectomía</div>
-            <div class="chip" data-value="Bypass coronario">Bypass coronario</div>
-            <div class="chip" data-value="Cesárea">Cesárea</div>
-            <div class="chip" data-value="Histerectomía">Histerectomía</div>
-            <div class="chip" data-value="Miomectomía">Miomectomía</div>
-            <div class="chip" data-value="Prostatectomía">Prostatectomía</div>
-            <div class="chip" data-value="Vasectomía">Vasectomía</div>
-            <div class="chip" data-value="Rodilla">Rodilla</div>
-            <div class="chip" data-value="Cadera">Cadera</div>
-            <div class="chip" data-value="Hombro">Hombro</div>
-            <div class="chip" data-value="Columna">Columna</div>
-            <div class="chip" data-value="Artrodesis">Artrodesis</div>
-            <div class="chip" data-value="Laminectomía">Laminectomía</div>
-            <div class="chip" data-value="Discectomía">Discectomía</div>
-            <div class="chip" data-value="Cataratas">Cataratas</div>
-            <div class="chip" data-value="Glaucoma">Glaucoma</div>
-            <div class="chip" data-value="Vitrectomía">Vitrectomía</div>
-            <div class="chip" data-value="Amigdalectomía">Amigdalectomía</div>
             <div class="chip" data-value="Adenoidectomía">Adenoidectomía</div>
+            <div class="chip" data-value="Amigdalectomía">Amigdalectomía</div>
+            <div class="chip" data-value="Amputación">Amputación</div>
+            <div class="chip" data-value="Aneurisma cerebral">Aneurisma cerebral</div>
+            <div class="chip" data-value="Apendicectomía">Apendicectomía</div>
+            <div class="chip" data-value="Artrodesis">Artrodesis</div>
+            <div class="chip" data-value="Bypass coronario">Bypass coronario</div>
+            <div class="chip" data-value="Bypass femoral">Bypass femoral</div>
+            <div class="chip" data-value="Bypass gástrico">Bypass gástrico</div>
+            <div class="chip" data-value="Cadera">Cadera</div>
+            <div class="chip" data-value="Cataratas">Cataratas</div>
+            <div class="chip" data-value="Cesárea">Cesárea</div>
+            <div class="chip" data-value="Cirugía bariátrica">Cirugía bariátrica</div>
+            <div class="chip" data-value="Colecistectomía">Colecistectomía</div>
+            <div class="chip" data-value="Columna">Columna</div>
+            <div class="chip" data-value="Craneotomía">Craneotomía</div>
+            <div class="chip" data-value="Discectomía">Discectomía</div>
+            <div class="chip" data-value="Endarterectomía">Endarterectomía</div>
+            <div class="chip" data-value="Esplenectomía">Esplenectomía</div>
+            <div class="chip" data-value="Fundoplicatura">Fundoplicatura</div>
+            <div class="chip" data-value="Gastrectomía">Gastrectomía</div>
+            <div class="chip" data-value="Glaucoma">Glaucoma</div>
+            <div class="chip" data-value="Histerectomía">Histerectomía</div>
+            <div class="chip" data-value="Hombro">Hombro</div>
+            <div class="chip" data-value="Laminectomía">Laminectomía</div>
+            <div class="chip" data-value="LASIK">LASIK</div>
+            <div class="chip" data-value="Lumpectomía">Lumpectomía</div>
+            <div class="chip" data-value="Manga gástrica">Manga gástrica</div>
+            <div class="chip" data-value="Mastectomía">Mastectomía</div>
+            <div class="chip" data-value="Miomectomía">Miomectomía</div>
+            <div class="chip" data-value="Nefrectomía">Nefrectomía</div>
+            <div class="chip" data-value="Prostatectomía">Prostatectomía</div>
+            <div class="chip" data-value="Rodilla">Rodilla</div>
             <div class="chip" data-value="Septoplastia">Septoplastia</div>
             <div class="chip" data-value="Timpanoplastia">Timpanoplastia</div>
-            <div class="chip" data-value="Gastrectomía">Gastrectomía</div>
-            <div class="chip" data-value="Manga gástrica">Manga gástrica</div>
-            <div class="chip" data-value="Bypass gástrico">Bypass gástrico</div>
-            <div class="chip" data-value="Fundoplicatura">Fundoplicatura</div>
-            <div class="chip" data-value="Nefrectomía">Nefrectomía</div>
-            <div class="chip" data-value="Esplenectomía">Esplenectomía</div>
             <div class="chip" data-value="Tiroidectomía">Tiroidectomía</div>
-            <div class="chip" data-value="Mastectomía">Mastectomía</div>
-            <div class="chip" data-value="Lumpectomía">Lumpectomía</div>
-            <div class="chip" data-value="Trasplante renal">Trasplante renal</div>
-            <div class="chip" data-value="Trasplante hepático">Trasplante hepático</div>
             <div class="chip" data-value="Trasplante cardíaco">Trasplante cardíaco</div>
-            <div class="chip" data-value="Craneotomía">Craneotomía</div>
-            <div class="chip" data-value="Aneurisma cerebral">Aneurisma cerebral</div>
-            <div class="chip" data-value="Endarterectomía">Endarterectomía</div>
-            <div class="chip" data-value="Bypass femoral">Bypass femoral</div>
-            <div class="chip" data-value="Amputación">Amputación</div>
-            <div class="chip" data-value="Cirugía bariátrica">Cirugía bariátrica</div>
-            <div class="chip" data-value="LASIK">LASIK</div>
+            <div class="chip" data-value="Trasplante hepático">Trasplante hepático</div>
+            <div class="chip" data-value="Trasplante renal">Trasplante renal</div>
+            <div class="chip" data-value="Vasectomía">Vasectomía</div>
+            <div class="chip" data-value="Vitrectomía">Vitrectomía</div>
             <div class="chip" data-value="Ninguna">Ninguna</div>
           </div>
         </div>
@@ -1652,32 +1701,35 @@
       </div>
       <div class="section-body">
         <div class="field">
+          <div class="chips-search-wrap">
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+          </div>
           <div class="chips" data-group="vaccines">
-            <div class="chip" data-value="Tétanos">Tétanos</div>
-            <div class="chip" data-value="Hepatitis A">Hepatitis A</div>
-            <div class="chip" data-value="Hepatitis B">Hepatitis B</div>
+            <div class="chip" data-value="Cólera">Cólera</div>
             <div class="chip" data-value="COVID-19">COVID-19</div>
-            <div class="chip" data-value="Gripe anual">Gripe anual</div>
-            <div class="chip" data-value="Neumococo">Neumococo</div>
-            <div class="chip" data-value="Meningococo">Meningococo</div>
-            <div class="chip" data-value="Varicela">Varicela</div>
-            <div class="chip" data-value="Sarampión">Sarampión</div>
-            <div class="chip" data-value="Rubéola">Rubéola</div>
-            <div class="chip" data-value="Paperas">Paperas</div>
-            <div class="chip" data-value="Triple vírica">Triple vírica</div>
-            <div class="chip" data-value="Polio">Polio</div>
             <div class="chip" data-value="Difteria">Difteria</div>
-            <div class="chip" data-value="Tos ferina">Tos ferina</div>
-            <div class="chip" data-value="Hib">Hib</div>
-            <div class="chip" data-value="Rotavirus">Rotavirus</div>
-            <div class="chip" data-value="VPH">VPH</div>
+            <div class="chip" data-value="Encefalitis centroeuropea">Encefalitis centroeuropea</div>
+            <div class="chip" data-value="Encefalitis japonesa">Encefalitis japonesa</div>
             <div class="chip" data-value="Fiebre amarilla">Fiebre amarilla</div>
             <div class="chip" data-value="Fiebre tifoidea">Fiebre tifoidea</div>
+            <div class="chip" data-value="Gripe anual">Gripe anual</div>
+            <div class="chip" data-value="Hepatitis A">Hepatitis A</div>
+            <div class="chip" data-value="Hepatitis B">Hepatitis B</div>
+            <div class="chip" data-value="Hib">Hib</div>
+            <div class="chip" data-value="Meningococo">Meningococo</div>
+            <div class="chip" data-value="Neumococo">Neumococo</div>
+            <div class="chip" data-value="Paperas">Paperas</div>
+            <div class="chip" data-value="Polio">Polio</div>
             <div class="chip" data-value="Rabia">Rabia</div>
-            <div class="chip" data-value="Cólera">Cólera</div>
-            <div class="chip" data-value="Encefalitis japonesa">Encefalitis japonesa</div>
-            <div class="chip" data-value="Encefalitis centroeuropea">Encefalitis centroeuropea</div>
+            <div class="chip" data-value="Rotavirus">Rotavirus</div>
+            <div class="chip" data-value="Rubéola">Rubéola</div>
+            <div class="chip" data-value="Sarampión">Sarampión</div>
+            <div class="chip" data-value="Tétanos">Tétanos</div>
+            <div class="chip" data-value="Tos ferina">Tos ferina</div>
+            <div class="chip" data-value="Triple vírica">Triple vírica</div>
+            <div class="chip" data-value="Varicela">Varicela</div>
             <div class="chip" data-value="Viruela del mono">Viruela del mono</div>
+            <div class="chip" data-value="VPH">VPH</div>
             <div class="chip" data-value="No recuerdo">No recuerdo</div>
           </div>
         </div>
@@ -1769,18 +1821,18 @@
         <div class="field">
           <div class="field-label">ENFERMEDADES HEREDITARIAS EN FAMILIA</div>
           <div class="chips" data-group="enfermedades-familiares">
-            <div class="chip" data-value="Cardiopatía hereditaria">Cardiopatía hereditaria</div>
-            <div class="chip" data-value="Muerte súbita familiar">Muerte súbita familiar</div>
+            <div class="chip" data-value="Alzheimer familiar">Alzheimer familiar</div>
+            <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
             <div class="chip" data-value="Cáncer hereditario">Cáncer hereditario</div>
+            <div class="chip" data-value="Cardiopatía hereditaria">Cardiopatía hereditaria</div>
+            <div class="chip" data-value="Coagulopatía hereditaria">Coagulopatía hereditaria</div>
             <div class="chip" data-value="Diabetes tipo 1">Diabetes tipo 1</div>
             <div class="chip" data-value="Hemofilia">Hemofilia</div>
-            <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
-            <div class="chip" data-value="Talasemia">Talasemia</div>
             <div class="chip" data-value="Hipertensión familiar">Hipertensión familiar</div>
             <div class="chip" data-value="Ictus familiar">Ictus familiar</div>
-            <div class="chip" data-value="Alzheimer familiar">Alzheimer familiar</div>
+            <div class="chip" data-value="Muerte súbita familiar">Muerte súbita familiar</div>
             <div class="chip" data-value="Parkinson familiar">Parkinson familiar</div>
-            <div class="chip" data-value="Coagulopatía hereditaria">Coagulopatía hereditaria</div>
+            <div class="chip" data-value="Talasemia">Talasemia</div>
             <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
           </div>
         </div>
@@ -2783,6 +2835,20 @@
       const val = el.dataset.value || el.textContent.trim();
       const block = document.getElementById('pregnancy-weeks-block');
       block.style.display = val === 'Sí — estoy embarazada' ? 'block' : 'none';
+    }
+
+    function filterChips(input) {
+      const query = input.value.toLowerCase().trim();
+      const field = input.closest('.field');
+      const chips = field.querySelectorAll('.chip');
+      chips.forEach(chip => {
+        const text = chip.textContent.toLowerCase();
+        if (query.length < 3) {
+          chip.style.display = '';
+        } else {
+          chip.style.display = text.includes(query) ? '' : 'none';
+        }
+      });
     }
 
     // ===== INIT =====
