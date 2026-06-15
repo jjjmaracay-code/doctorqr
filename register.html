@@ -61,13 +61,32 @@
   }
 
   .reg-logo-wrap {
-    margin-bottom:8px;
+    margin-bottom:-120px;
+    perspective:800px;
     filter:drop-shadow(0 0 12px #00ff41) drop-shadow(0 0 30px rgba(0,255,65,0.4));
   }
 
+  .logo-rotate {
+    animation: logo3d 8s ease-in-out infinite;
+    transform-style: preserve-3d;
+    display: inline-block;
+  }
+
+  @keyframes logo3d {
+    0%   { transform: rotateY(0deg); }
+    25%  { transform: rotateY(180deg); }
+    50%  { transform: rotateY(360deg); }
+    75%  {
+      transform: rotateY(180deg);
+      filter: drop-shadow(0 0 18px #ff0000)
+              drop-shadow(0 0 35px #ff0000);
+    }
+    100% { transform: rotateY(360deg); }
+  }
+
   .reg-brand {
-    font-family:'Times New Roman',Georgia,serif;
-    font-size:28px; font-weight:900; letter-spacing:4px;
+    font-family:'Arial Black',Arial,sans-serif;
+    font-size:28px; font-weight:900; letter-spacing:10px;
     margin-bottom:4px;
   }
   .reg-brand .txt-doctor { color:#00ff41; text-shadow:0 0 10px #00ff41,0 0 25px rgba(0,255,65,0.6); }
@@ -448,6 +467,7 @@
 <!-- HEADER -->
 <div class="reg-header">
   <div class="reg-logo-wrap">
+    <div class="logo-rotate">
     <svg width="320" height="370" viewBox="0 0 320 370" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="glow-soft" x="-40%" y="-40%" width="180%" height="180%">
@@ -571,10 +591,11 @@
           </polyline>
 
         </svg>
+    </div>
   </div>
 
   <div class="reg-brand">
-    <span class="txt-doctor">DOCTOR</span><span class="txt-qr">QR</span>
+    <span class="txt-doctor" style="filter:url(#glow-text)">DOCTOR</span><span class="txt-qr" style="filter:url(#glow-white)">QR</span>
   </div>
   <div class="reg-tagline">Tu historial médico de emergencia</div>
 
