@@ -448,43 +448,129 @@
 <!-- HEADER -->
 <div class="reg-header">
   <div class="reg-logo-wrap">
-    <svg width="72" height="83" viewBox="0 0 320 370" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="rg-glow-soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="rg-glow-hard" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="rg-glow-white" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="rg-glow-red" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="10" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="rg-glow-ecg" x="-10%" y="-80%" width="120%" height="260%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <radialGradient id="rg-heart-grad" cx="38%" cy="28%" r="65%"><stop offset="0%" stop-color="#ff5555"/><stop offset="100%" stop-color="#7a0000"/></radialGradient>
-      </defs>
-      <rect x="132" y="75" width="56" height="160" rx="5" fill="#0a0a0a"/>
-      <rect x="80" y="127" width="160" height="56" rx="5" fill="#0a0a0a"/>
-      <path d="M118,61 L202,61 L202,113 L254,113 L254,197 L202,197 L202,249 L118,249 L118,197 L66,197 L66,113 L118,113 Z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round" filter="url(#rg-glow-white)" opacity="0.85">
-        <animate attributeName="opacity" values="0.85;0.40;0.85" dur="2.8s" begin="1.1s" repeatCount="indefinite"/>
-      </path>
-      <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z" fill="none" stroke="#00ff41" stroke-width="2.0" stroke-linejoin="round" filter="url(#rg-glow-soft)" opacity="0.70">
-        <animate attributeName="opacity" values="0.70;0.35;0.70" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
-      </path>
-      <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z" fill="none" stroke="#00ff41" stroke-width="1.8" stroke-linejoin="round" filter="url(#rg-glow-soft)" opacity="0.95">
-        <animate attributeName="opacity" values="0.95;0.55;0.95" dur="2.8s" repeatCount="indefinite"/>
-      </path>
-      <path d="M139,82 L181,82 L181,134 L233,134 L233,176 L181,176 L181,228 L139,228 L139,176 L87,176 L87,134 L139,134 Z" fill="none" stroke="#00ff41" stroke-width="1.7" stroke-linejoin="round" filter="url(#rg-glow-hard)" opacity="0.82">
-        <animate attributeName="opacity" values="0.82;0.46;0.82" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
-      </path>
-      <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z" fill="#ff0000" opacity="0.18" filter="url(#rg-glow-red)">
-        <animateTransform attributeName="transform" type="rotate" values="0 160 160;360 160 160" dur="1.5s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.12;0.32;0.12" dur="0.75s" repeatCount="indefinite"/>
-      </path>
-      <path fill="url(#rg-heart-grad)" filter="url(#rg-glow-red)">
-        <animate attributeName="d" values="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z;M160,206 C160,206 111,175 111,146 C111,128 124,115 140,115 C150,115 160,124 160,124 C160,124 170,115 180,115 C196,115 209,128 209,146 C209,175 160,206 160,206 Z;M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z" dur="0.9s" repeatCount="indefinite"/>
-      </path>
-      <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z" fill="none" stroke="#ff4444" stroke-width="1.5" filter="url(#rg-glow-red)" opacity="0.6">
-        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="0.9s" repeatCount="indefinite"/>
-      </path>
-      <polyline points="120,158 130,158 135,158 139,141 143,174 147,128 151,168 155,158 200,158" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" filter="url(#rg-glow-ecg)" stroke-dasharray="130" stroke-dashoffset="130">
-        <animate attributeName="stroke-dashoffset" values="130;0;0;130" keyTimes="0;0.55;0.82;1" dur="2s" repeatCount="indefinite"/>
-      </polyline>
-    </svg>
+    <svg width="320" height="370" viewBox="0 0 320 370" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow-soft" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-hard" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="1.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-white" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-red" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="10" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-ecg" x="-10%" y="-80%" width="120%" height="260%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-text" x="-20%" y="-60%" width="140%" height="220%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="heart-grad" cx="38%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#ff5555"/>
+              <stop offset="100%" stop-color="#7a0000"/>
+            </radialGradient>
+          </defs>
+
+          <rect x="132" y="75"  width="56" height="160" rx="5" fill="#0a0a0a"/>
+          <rect x="80"  y="127" width="160" height="56"  rx="5" fill="#0a0a0a"/>
+
+          <!-- Cruz blanca neón — más exterior -->
+          <path d="M118,61 L202,61 L202,113 L254,113 L254,197 L202,197 L202,249 L118,249 L118,197 L66,197 L66,113 L118,113 Z"
+            fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"
+            filter="url(#glow-white)" opacity="0.85">
+            <animate attributeName="opacity" values="0.85;0.40;0.85" dur="2.8s" begin="1.1s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Cruz 6 — verde exterior -->
+          <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z"
+            fill="none" stroke="#00ff41" stroke-width="2.0" stroke-linejoin="round"
+            filter="url(#glow-soft)" opacity="0.70">
+            <animate attributeName="opacity" values="0.70;0.35;0.70" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Cruz 1 -->
+          <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z"
+            fill="none" stroke="#00ff41" stroke-width="1.8" stroke-linejoin="round"
+            filter="url(#glow-soft)" opacity="0.95">
+            <animate attributeName="opacity" values="0.95;0.55;0.95" dur="2.8s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Cruz 2 -->
+          <path d="M139,82 L181,82 L181,134 L233,134 L233,176 L181,176 L181,228 L139,228 L139,176 L87,176 L87,134 L139,134 Z"
+            fill="none" stroke="#00ff41" stroke-width="1.7" stroke-linejoin="round"
+            filter="url(#glow-hard)" opacity="0.82">
+            <animate attributeName="opacity" values="0.82;0.46;0.82" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Cruz 3 -->
+          <path d="M146,89 L174,89 L174,141 L226,141 L226,169 L174,169 L174,221 L146,221 L146,169 L94,169 L94,141 L146,141 Z"
+            fill="none" stroke="#00ff41" stroke-width="1.5" stroke-linejoin="round"
+            filter="url(#glow-hard)" opacity="0.65">
+            <animate attributeName="opacity" values="0.65;0.34;0.65" dur="2.8s" begin="0.36s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Cruz 4 -->
+          <path d="M153,96 L167,96 L167,148 L219,148 L219,162 L167,162 L167,214 L153,214 L153,162 L101,162 L101,148 L153,148 Z"
+            fill="none" stroke="#00ff41" stroke-width="1.4" stroke-linejoin="round"
+            filter="url(#glow-hard)" opacity="0.46">
+            <animate attributeName="opacity" values="0.46;0.22;0.46" dur="2.8s" begin="0.54s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Cruz 5 — interior -->
+          <path d="M160,103 L160,103 L160,155 L212,155 L212,155 L160,155 L160,207 L160,207 L160,155 L108,155 L108,155 L160,155 Z"
+            fill="none" stroke="#00ff41" stroke-width="1.2" stroke-linejoin="round"
+            filter="url(#glow-hard)" opacity="0.28">
+            <animate attributeName="opacity" values="0.28;0.12;0.28" dur="2.8s" begin="0.72s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Glow rojo ambulancia -->
+          <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z"
+            fill="#ff0000" opacity="0.18" filter="url(#glow-red)">
+            <animateTransform attributeName="transform" type="rotate"
+              values="0 160 160;360 160 160" dur="1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.12;0.32;0.12" dur="0.75s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Corazón sólido con pulso -->
+          <path fill="url(#heart-grad)" filter="url(#glow-red)">
+            <animate attributeName="d"
+              values="
+                M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z;
+                M160,206 C160,206 111,175 111,146 C111,128 124,115 140,115 C150,115 160,124 160,124 C160,124 170,115 180,115 C196,115 209,128 209,146 C209,175 160,206 160,206 Z;
+                M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z"
+              dur="0.9s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Borde brillo corazón -->
+          <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z"
+            fill="none" stroke="#ff4444" stroke-width="1.5"
+            filter="url(#glow-red)" opacity="0.6">
+            <animate attributeName="opacity" values="0.3;0.9;0.3" dur="0.9s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- ECG -->
+          <polyline
+            points="120,158 130,158 135,158 139,141 143,174 147,128 151,168 155,158 200,158"
+            fill="none" stroke="#ffffff" stroke-width="2.8"
+            stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glow-ecg)"
+            stroke-dasharray="130" stroke-dashoffset="130">
+            <animate attributeName="stroke-dashoffset"
+              values="130;0;0;130"
+              keyTimes="0;0.55;0.82;1"
+              dur="2s" repeatCount="indefinite"/>
+          </polyline>
+
+        </svg>
   </div>
 
   <div class="reg-brand">
