@@ -449,17 +449,23 @@
       100% { stroke-dashoffset: 250; }
     }
 
-    .logo-flip-container { perspective: 600px; }
+    .logo-container { perspective: 800px; }
 
-    .logo-flip {
+    .logo-rotate {
+      animation: logo3d 5s ease-in-out infinite;
       transform-style: preserve-3d;
-      animation: girar3d 5s ease-in-out infinite;
       display: inline-block;
     }
 
-    @keyframes girar3d {
+    @keyframes logo3d {
       0%   { transform: rotateY(0deg); }
-      50%  { transform: rotateY(180deg); }
+      25%  { transform: rotateY(180deg); }
+      50%  { transform: rotateY(360deg); }
+      75%  {
+        transform: rotateY(180deg);
+        filter: drop-shadow(0 0 18px #ff0000)
+                drop-shadow(0 0 35px #ff0000);
+      }
       100% { transform: rotateY(360deg); }
     }
 
@@ -487,8 +493,8 @@
 
   <!-- LOGO -->
   <div class="logo-wrap">
-    <div class="logo-flip-container">
-      <div class="logo-flip">
+    <div class="logo-container">
+      <div class="logo-rotate">
         <svg width="320" height="370" viewBox="0 0 320 370" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="glow-soft" x="-40%" y="-40%" width="180%" height="180%">
