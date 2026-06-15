@@ -10,9 +10,7 @@
 <title>DoctorQR · Registro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/otpauth/dist/otpauth.umd.js"></script>
 
 <style>
   :root {
@@ -402,11 +400,12 @@
     color:rgba(255,255,255,0.2); margin:18px 0;
   }
 
-  #totp-qr-canvas {
+  #totp-qr-img {
     display:block; margin:12px auto;
     border-radius:8px; padding:8px;
     background:#000;
     box-shadow:0 0 20px rgba(0,255,65,0.2);
+    width:200px; height:200px;
   }
 
   .totp-secret {
@@ -1009,7 +1008,7 @@
         Descarga Google Authenticator, escanea el QR y escribe el código que aparece en la app.
       </div>
 
-      <canvas id="totp-qr-canvas" width="200" height="200"></canvas>
+      <img id="totp-qr-img" alt="QR 2FA">
 
       <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(0,255,65,0.4);text-align:center;margin-bottom:4px;">Clave secreta (manual)</div>
       <div class="totp-secret" id="totp-secret-text">—</div>
@@ -1112,28 +1111,23 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== CONFIG EmailJS =====
-const EMAILJS_PUBLIC_KEY        = 'OT3h9cqzHbJKpZzdv';
-const EMAILJS_SERVICE_ID        = 'service_685y0yj';
-const EMAILJS_TEMPLATE_ID       = 'template_rf7v48m';
-const EMAILJS_BACKUP_TEMPLATE_ID= 'template_vone66l';
-emailjs.init(EMAILJS_PUBLIC_KEY);
+// ===== CONFIG API =====
+const API = 'https://doctorqr-backend-production.up.railway.app';
 
 // ===== ESTADO =====
 const AUTH_KEY  = 'doctorqr_auth';
 let regData     = {};
-let emailOTP    = '';
 let otpBuffer   = '';
 let totpBuffer  = '';
 let pwd1Buffer  = '';
 let pwd2Buffer  = '';
-let totpSecret  = '';
 let timerIntvl  = null;
 let timerSecs   = 600;
 let resendCd    = 60;
 let termsOk     = false;
 let otpAttempts    = 0;
 let blockInterval  = null;
+let selectedTfaMethod = 'totp';
 const MAX_OTP_ATTEMPTS = 3;
 
 const PIN_LENGTH = 6;
@@ -1142,8 +1136,8 @@ const SYMBOLS    = ['@','#','$','%','&','*','!','?','+','-','=','_','.',',',':',
 
 // ===== VERIFICAR YA REGISTRADO =====
 window.addEventListener('load', () => {
-  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
-  if (auth.otp_verified && auth.twofa_method) {
+  const token = localStorage.getItem('doctorqr_token');
+  if (token) {
     window.location.href = 'index.html';
   }
 });
@@ -1382,30 +1376,39 @@ document.getElementById('btn-send-otp').addEventListener('click', async () => {
   btn.disabled = true;
   btn.textContent = 'Enviando código...';
 
-  emailOTP = generateCode();
-
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_name:  regData.nombre + ' ' + regData.apellidos,
-      to_email: regData.email,
-      code:     emailOTP,
-      app_name: 'DoctorQR',
-      doc_type: regData.doc_type,
-      doc_number: regData.doc_number,
-      fecha_reg:  new Date().toLocaleDateString('es-ES'),
+    const response = await fetch(`${API}/api/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre:           regData.nombre,
+        apellidos:        regData.apellidos,
+        fecha_nacimiento: regData.fecha_nacimiento,
+        doc_type:         regData.doc_type,
+        doc_number:       regData.doc_number,
+        sexo_biologico:   regData.sexo_biologico,
+        email:            regData.email,
+        password:         pwd1Buffer
+      })
     });
-    showToast('Código enviado a ' + regData.email);
+    const data = await response.json();
+    if (data.success) {
+      showToast('Código enviado a ' + regData.email);
+      lockIdentityFields();
+      document.getElementById('locked-name').textContent  = regData.nombre + ' ' + regData.apellidos;
+      document.getElementById('locked-email').textContent = regData.email;
+      goToScreen(3);
+      startTimer();
+    } else {
+      showToast(data.error || 'Error al registrar');
+      btn.disabled = false;
+    }
   } catch(e) {
-    console.error('EmailJS:', e);
-    console.log('🔑 Código de prueba:', emailOTP);
-    showToast('Modo desarrollo — código en consola');
+    console.error('Registro:', e);
+    showToast('Error de conexión con el servidor');
+    btn.disabled = false;
   }
 
-  lockIdentityFields();
-  document.getElementById('locked-name').textContent  = regData.nombre + ' ' + regData.apellidos;
-  document.getElementById('locked-email').textContent = regData.email;
-  goToScreen(3);
-  startTimer();
   btn.textContent = 'ENVIAR CÓDIGO DE VERIFICACIÓN';
 });
 
@@ -1440,27 +1443,43 @@ function updateOTPDisplay() {
 }
 
 // ===== VERIFICAR OTP =====
-document.getElementById('btn-verify-otp').addEventListener('click', () => {
-  if (otpBuffer !== emailOTP) {
-    for (let i=0;i<6;i++) {
-      const el=document.getElementById('otp-c'+i);
-      if(el){el.classList.add('error'); setTimeout(()=>el.classList.remove('error'),600);}
-    }
-    otpBuffer=''; updateOTPDisplay();
-    otpAttempts++;
-    const remaining = MAX_OTP_ATTEMPTS - otpAttempts;
-    if (remaining > 0) {
-      showToast(`Código incorrecto. Te quedan ${remaining} intento${remaining > 1 ? 's' : ''}.`);
-    } else {
+document.getElementById('btn-verify-otp').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-verify-otp');
+  btn.disabled = true;
+
+  try {
+    const response = await fetch(`${API}/api/auth/verify-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regData.email, otp: otpBuffer })
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      otpAttempts = 0;
+      clearInterval(timerIntvl);
+      goToScreen(4);
+      initTOTP();
+    } else if (response.status === 423) {
       clearInterval(timerIntvl);
       activateBlockScreen();
+    } else {
+      for (let i=0;i<6;i++) {
+        const el=document.getElementById('otp-c'+i);
+        if(el){el.classList.add('error'); setTimeout(()=>el.classList.remove('error'),600);}
+      }
+      otpBuffer=''; updateOTPDisplay();
+      const intentos = data.remaining_attempts !== undefined
+        ? ` — Te quedan ${data.remaining_attempts} intento${data.remaining_attempts !== 1 ? 's' : ''}`
+        : '';
+      showToast((data.error || 'Código incorrecto') + intentos);
     }
-    return;
+  } catch(e) {
+    console.error('Verify OTP:', e);
+    showToast('Error de conexión con el servidor');
   }
-  otpAttempts = 0;
-  clearInterval(timerIntvl);
-  goToScreen(4);
-  initTOTP();
+
+  if (otpBuffer.length === 6) btn.disabled = false;
 });
 
 // ===== PANTALLA DE BLOQUEO =====
@@ -1503,19 +1522,17 @@ function cancelAccount() {
 
 document.getElementById('btn-recover-blocked').addEventListener('click', async () => {
   clearInterval(blockInterval);
-  // Generar nuevo OTP y enviarlo
-  emailOTP = generateCode();
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_name:  regData.nombre + ' ' + regData.apellidos,
-      to_email: regData.email,
-      code:     emailOTP,
-      app_name: 'DoctorQR',
+    const response = await fetch(`${API}/api/auth/recover`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regData.email })
     });
-    showToast('Código de recuperación enviado a tu correo');
+    const data = await response.json();
+    showToast(data.success ? 'Código de recuperación enviado a tu correo' : (data.error || 'Error al enviar'));
   } catch(e) {
-    console.log('🔑 Código recuperación:', emailOTP);
-    showToast('Modo desarrollo — código en consola');
+    console.error('Recover:', e);
+    showToast('Error de conexión con el servidor');
   }
   // Reiniciar intentos y volver a pantalla OTP con nuevo countdown de 30 min
   otpAttempts = 0;
@@ -1547,18 +1564,16 @@ document.getElementById('btn-cancel-blocked').addEventListener('click', () => {
 
 // ===== REENVÍO =====
 document.getElementById('btn-resend').addEventListener('click', async () => {
-  emailOTP = generateCode();
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_name:  regData.nombre+' '+regData.apellidos,
-      to_email: regData.email,
-      code:     emailOTP,
-      app_name: 'DoctorQR',
+    await fetch(`${API}/api/auth/recover`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regData.email })
     });
     showToast('Nuevo código enviado');
   } catch(e) {
-    console.log('🔑 Nuevo código:', emailOTP);
-    showToast('Modo desarrollo — código en consola');
+    console.error('Resend:', e);
+    showToast('Error al reenviar código');
   }
   otpBuffer=''; updateOTPDisplay();
   startTimer();
@@ -1591,22 +1606,25 @@ function startTimer() {
 }
 
 // ===== TOTP =====
-function generateBase32Secret(len=20) {
-  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-  const arr=new Uint8Array(len);
-  crypto.getRandomValues(arr);
-  return Array.from(arr).map(b=>chars[b%32]).join('');
-}
-
-function initTOTP() {
-  totpSecret=generateBase32Secret();
-  const uri=`otpauth://totp/DoctorQR:${encodeURIComponent(regData.email)}?secret=${totpSecret}&issuer=DoctorQR&algorithm=SHA1&digits=6&period=30`;
-  document.getElementById('totp-secret-text').textContent=totpSecret;
-  if(typeof QRCode!=='undefined'){
-    QRCode.toCanvas(document.getElementById('totp-qr-canvas'),uri,{
-      width:200,
-      color:{dark:'#00ff41',light:'#000000'}
-    },err=>{if(err)console.error('QRCode:',err);});
+async function initTOTP() {
+  selectedTfaMethod = 'totp';
+  document.getElementById('totp-secret-text').textContent = 'Cargando…';
+  try {
+    const response = await fetch(`${API}/api/auth/setup-2fa`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regData.email, method: 'totp' })
+    });
+    const data = await response.json();
+    if (data.success) {
+      document.getElementById('totp-qr-img').src = data.qr_url;
+      document.getElementById('totp-secret-text').textContent = data.secret;
+    } else {
+      showToast('Error al configurar 2FA: ' + (data.error || ''));
+    }
+  } catch(e) {
+    console.error('Setup 2FA:', e);
+    showToast('Error de conexión con el servidor');
   }
 }
 
@@ -1632,63 +1650,77 @@ function updateTOTPDisplay(){
   document.getElementById('btn-verify-totp').disabled=totpBuffer.length!==6;
 }
 
-// ===== VERIFICAR TOTP =====
-document.getElementById('btn-verify-totp').addEventListener('click',()=>{
-  if(totpBuffer.length!==6)return;
-  try{
-    const totp=new OTPAuth.TOTP({
-      issuer:'DoctorQR',
-      label:regData.email,
-      algorithm:'SHA1',digits:6,period:30,
-      secret:OTPAuth.Secret.fromBase32(totpSecret),
+// ===== VERIFICAR TOTP / EMAIL 2FA =====
+document.getElementById('btn-verify-totp').addEventListener('click', async () => {
+  if (totpBuffer.length !== 6) return;
+  const btn = document.getElementById('btn-verify-totp');
+  btn.disabled = true;
+
+  try {
+    const response = await fetch(`${API}/api/auth/verify-2fa`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email:  regData.email,
+        code:   totpBuffer,
+        method: selectedTfaMethod
+      })
     });
-    const delta=totp.validate({token:totpBuffer,window:1});
-    if(delta!==null){
-      completeRegistration('totp');
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem('doctorqr_token', data.token);
+      localStorage.setItem('doctorqr_user', JSON.stringify(data.user));
+      localStorage.setItem(AUTH_KEY, JSON.stringify({
+        ...regData,
+        otp_verified:     true,
+        twofa_method:     data.user.twofa_method,
+        campos_bloqueados: true,
+      }));
+      goToScreen(5);
+      populateSuccessScreen({ ...regData, twofa_method: data.user.twofa_method });
     } else {
-      for(let i=0;i<6;i++){
+      for (let i=0;i<6;i++) {
         const el=document.getElementById('totp-c'+i);
         if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
       }
       totpBuffer=''; updateTOTPDisplay();
-      showToast('Código incorrecto — intenta de nuevo');
+      showToast(data.error || 'Código incorrecto — intenta de nuevo');
     }
-  }catch(e){
-    console.error('TOTP:',e);
-    showToast('Error al verificar — intenta de nuevo');
+  } catch(e) {
+    console.error('Verify 2FA:', e);
+    showToast('Error de conexión con el servidor');
   }
+
+  btn.disabled = totpBuffer.length !== 6;
 });
 
 // ===== 2FA POR EMAIL =====
-document.getElementById('btn-use-email-tfa').addEventListener('click',()=>{
-  totpSecret='';
-  completeRegistration('email');
+document.getElementById('btn-use-email-tfa').addEventListener('click', async () => {
+  try {
+    const res = await fetch(`${API}/api/auth/setup-2fa`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regData.email, method: 'email' })
+    });
+    const data = await res.json();
+    if (!data.success) { showToast(data.error || 'Error al configurar 2FA'); return; }
+
+    await fetch(`${API}/api/auth/recover`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: regData.email })
+    });
+
+    selectedTfaMethod = 'email';
+    document.getElementById('totp-qr-img').style.display = 'none';
+    document.getElementById('totp-secret-text').textContent = 'Introduce el código enviado a tu correo';
+    totpBuffer = ''; updateTOTPDisplay();
+    showToast('Código enviado a ' + regData.email + ' — introdúcelo abajo');
+  } catch(e) {
+    console.error('Setup email 2FA:', e);
+    showToast('Error de conexión con el servidor');
+  }
 });
-
-// ===== COMPLETAR REGISTRO =====
-async function completeRegistration(tfaMethod){
-  const pwdHash=await sha256(pwd1Buffer);
-
-  const authObj={
-    nombre:           regData.nombre,
-    apellidos:        regData.apellidos,
-    fecha_nacimiento: regData.fecha_nacimiento,
-    doc_type:         regData.doc_type,
-    doc_number:       regData.doc_number,
-    sexo_biologico:   regData.sexo_biologico,
-    email:            regData.email,
-    password_hash:    pwdHash,
-    otp_verified:     true,
-    twofa_method:     tfaMethod,
-    totp_secret:      tfaMethod==='totp' ? totpSecret : '',
-    registered_at:    new Date().toISOString(),
-    campos_bloqueados:true,
-  };
-
-  localStorage.setItem(AUTH_KEY, JSON.stringify(authObj));
-  goToScreen(5);
-  populateSuccessScreen(authObj);
-}
 
 function populateSuccessScreen(auth){
   document.getElementById('success-nombre').textContent = auth.nombre+' '+auth.apellidos;
@@ -1730,16 +1762,6 @@ function goToScreen(n){
   window.scrollTo(0,0);
 }
 
-// ===== SHA-256 =====
-async function sha256(str){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
-// ===== OTP =====
-function generateCode(){
-  return Math.floor(100000+Math.random()*900000).toString();
-}
 
 // ===== TOAST =====
 function showToast(msg){

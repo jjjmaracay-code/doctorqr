@@ -1428,8 +1428,8 @@
 
   <script>
     (function(){
-      const auth = JSON.parse(localStorage.getItem('doctorqr_auth') || '{}');
-      if (!auth.otp_verified || !auth.twofa_method) {
+      const token = localStorage.getItem('doctorqr_token');
+      if (!token) {
         window.location.href = 'register.html';
       }
     })();
