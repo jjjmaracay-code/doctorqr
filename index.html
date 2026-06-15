@@ -632,6 +632,25 @@
       background-position: right 12px center;
     }
     #last-surgery-date option { background: #1a1a1a; color: #fff; }
+
+    #pregnancy-weeks {
+      background: #0d0d0d;
+      border: 1px solid #00ff41;
+      border-radius: 10px;
+      color: #00ff41;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 10px 14px;
+      width: 100%;
+      box-sizing: border-box;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300ff41' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    #pregnancy-weeks option { background: #1a1a1a; color: #fff; }
   </style>
 </head>
 <body>
@@ -894,6 +913,40 @@
             <div class="chip" data-value="+180cm">+180cm</div>
           </div>
         </div>
+        <div class="form-group" id="pregnancy-block">
+          <div class="field-label">EMBARAZO ACTUAL</div>
+          <div class="chips" data-group="embarazo" data-single="true">
+            <div class="chip" data-value="Sí — estoy embarazada" onclick="checkPregnancy(this)">Sí — estoy embarazada</div>
+            <div class="chip" data-value="No" onclick="checkPregnancy(this)">No</div>
+            <div class="chip" data-value="No aplica" onclick="checkPregnancy(this)">No aplica</div>
+          </div>
+        </div>
+        <div class="form-group" id="pregnancy-weeks-block" style="display:none">
+          <div class="field-label">SEMANAS DE EMBARAZO</div>
+          <select id="pregnancy-weeks">
+            <option value="">— Selecciona —</option>
+            <option>1-4 semanas (mes 1)</option>
+            <option>5-8 semanas (mes 2)</option>
+            <option>9-12 semanas (mes 3)</option>
+            <option>13-16 semanas (mes 4)</option>
+            <option>17-20 semanas (mes 5)</option>
+            <option>21-24 semanas (mes 6)</option>
+            <option>25-28 semanas (mes 7)</option>
+            <option>29-32 semanas (mes 8)</option>
+            <option>33-36 semanas (mes 9)</option>
+            <option>37-40 semanas (a término)</option>
+            <option>Más de 40 semanas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="field-label">¿LACTANCIA ACTIVA?</div>
+          <div class="chips" data-group="lactancia" data-single="true">
+            <div class="chip" data-value="Sí — lactancia materna activa">Sí — lactancia materna activa</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No aplica">No aplica</div>
+          </div>
+          <div class="field-hint">Modifica qué medicamentos pueden administrarse</div>
+        </div>
         <div class="field">
           <div class="field-label">Donante de órganos</div>
           <div class="chips" data-group="organ-donor" data-single="true">
@@ -993,6 +1046,49 @@
           </div>
         </div>
 
+        <!-- Sexo biológico -->
+        <div class="form-group">
+          <div class="field-label">SEXO BIOLÓGICO</div>
+          <div class="chips" data-group="sexo-biologico" data-single="true">
+            <div class="chip" data-value="Masculino">Masculino</div>
+            <div class="chip" data-value="Femenino">Femenino</div>
+            <div class="chip" data-value="Intersexual">Intersexual</div>
+            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+          </div>
+        </div>
+        <!-- Identidad de género -->
+        <div class="form-group">
+          <div class="field-label">IDENTIDAD DE GÉNERO</div>
+          <div class="chips" data-group="identidad-genero" data-single="true">
+            <div class="chip" data-value="Hombre cisgénero" onclick="checkGenderHormone(this)">Hombre cisgénero</div>
+            <div class="chip" data-value="Mujer cisgénero" onclick="checkGenderHormone(this)">Mujer cisgénero</div>
+            <div class="chip" data-value="Hombre trans" onclick="checkGenderHormone(this)">Hombre trans</div>
+            <div class="chip" data-value="Mujer trans" onclick="checkGenderHormone(this)">Mujer trans</div>
+            <div class="chip" data-value="No binario" onclick="checkGenderHormone(this)">No binario</div>
+            <div class="chip" data-value="Prefiero no decir" onclick="checkGenderHormone(this)">Prefiero no decir</div>
+          </div>
+        </div>
+        <!-- hormone-block (hidden) -->
+        <div class="form-group" id="hormone-block" style="display:none">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ TERAPIA HORMONAL ACTIVA</div>
+          <div class="field-hint" style="margin-bottom:8px">Crítico — interacciones con anestesia y modificación de valores analíticos</div>
+          <div class="chips" data-group="terapia-hormonal">
+            <div class="chip" data-value="Testosterona">Testosterona</div>
+            <div class="chip" data-value="Estrógenos">Estrógenos</div>
+            <div class="chip" data-value="Antiandrógenos">Antiandrógenos</div>
+            <div class="chip" data-value="Progesterona">Progesterona</div>
+            <div class="chip" data-value="Bloqueadores hormonales">Bloqueadores hormonales</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+          </div>
+          <div class="field-label" style="margin-top:12px">TIEMPO EN TERAPIA HORMONAL</div>
+          <div class="chips" data-group="tiempo-terapia-hormonal" data-single="true">
+            <div class="chip" data-value="Menos de 1 año">Menos de 1 año</div>
+            <div class="chip" data-value="1-3 años">1-3 años</div>
+            <div class="chip" data-value="Más de 3 años">Más de 3 años</div>
+            <div class="chip" data-value="No aplica">No aplica</div>
+          </div>
+        </div>
         <!-- CAMPO EMAIL -->
         <div class="form-group">
           <div class="field-label">CORREO ELECTRÓNICO</div>
@@ -1199,6 +1295,16 @@
             <div class="chip" data-value="No sé">No sé</div>
           </div>
         </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿HA TENIDO ANAFILAXIA PREVIA?</div>
+          <div class="chips" data-group="anafilaxia-previa" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — anafilaxia confirmada">SÍ — anafilaxia confirmada</div>
+            <div class="chip" data-value="Sí — reacción grave sin anafilaxia">Sí — reacción grave sin anafilaxia</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Riesgo vital inmediato — distinto de alergia simple</div>
+        </div>
       </div>
     </div>
 
@@ -1368,6 +1474,21 @@
           </div>
         </div>
         <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN DE ALTO RIESGO DE INTERACCIÓN</div>
+          <div class="field-hint" style="margin-bottom:8px;color:#ff4444;opacity:0.8">Interacciones potencialmente letales con anestesia y otros fármacos de urgencia</div>
+          <div class="chips" data-group="medicacion-alto-riesgo">
+            <div class="chip chip-danger" data-value="IMAO (antidepresivos)">IMAO (antidepresivos)</div>
+            <div class="chip chip-danger" data-value="Litio">Litio</div>
+            <div class="chip chip-danger" data-value="Corticoides crónicos">Corticoides crónicos</div>
+            <div class="chip chip-danger" data-value="Inmunosupresores">Inmunosupresores</div>
+            <div class="chip chip-danger" data-value="Inhibidores plaquetarios (Clopidogrel/AAS)">Inhibidores plaquetarios (Clopidogrel/AAS)</div>
+            <div class="chip chip-danger" data-value="Digoxina">Digoxina</div>
+            <div class="chip chip-danger" data-value="Antiepilépticos">Antiepilépticos</div>
+            <div class="chip chip-danger" data-value="Insulina">Insulina</div>
+            <div class="chip" data-value="Ninguno">Ninguno</div>
+          </div>
+        </div>
+        <div class="field">
           <div class="field-label">Dosis y frecuencia</div>
           <input type="text" id="f-med-doses" placeholder="Metformina 850mg — 2 veces al día"/>
         </div>
@@ -1492,6 +1613,34 @@
           </div>
           <div class="field-hint">Afecta resonancias magnéticas y radiografías</div>
         </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿DIFICULTAD DE INTUBACIÓN PREVIA?</div>
+          <div class="chips" data-group="dificultad-intubacion" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — intubación difícil documentada">SÍ — intubación difícil documentada</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">El anestesista DEBE saber esto antes de cualquier intervención</div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿COMPLICACIONES EN ANESTESIA PREVIA?</div>
+          <div class="chips" data-group="complicaciones-anestesia" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — hipertermia maligna">SÍ — hipertermia maligna</div>
+            <div class="chip chip-danger" data-value="SÍ — reacción alérgica">SÍ — reacción alérgica</div>
+            <div class="chip chip-danger" data-value="SÍ — otras complicaciones">SÍ — otras complicaciones</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿HIPERTERMIA MALIGNA EN FAMILIA?</div>
+          <div class="chips" data-group="hipertermia-familiar" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — caso confirmado en familia">SÍ — caso confirmado en familia</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Genética — letal si no se previene antes de anestesia general</div>
+        </div>
       </div>
     </div>
 
@@ -1549,6 +1698,101 @@
             <div class="chip" data-value="No">No</div>
             <div class="chip" data-value="No sé">No sé</div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN — HÁBITOS Y ESTILO DE VIDA -->
+    <div class="form-section" id="sec-habitos">
+      <div class="section-header" onclick="toggleSection('sec-habitos')">
+        <span class="section-title">— Hábitos y estilo de vida</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">TABACO</div>
+          <div class="chips" data-group="tabaco" data-single="true">
+            <div class="chip" data-value="No fumador">No fumador</div>
+            <div class="chip" data-value="Ex fumador">Ex fumador</div>
+            <div class="chip" data-value="Fumador ocasional">Fumador ocasional</div>
+            <div class="chip" data-value="Fumador — menos 10 cig/día">Fumador — menos 10 cig/día</div>
+            <div class="chip" data-value="Fumador — más 10 cig/día">Fumador — más 10 cig/día</div>
+            <div class="chip" data-value="Vapeador">Vapeador</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">ALCOHOL</div>
+          <div class="chips" data-group="alcohol" data-single="true">
+            <div class="chip" data-value="No consumo">No consumo</div>
+            <div class="chip" data-value="Consumo ocasional">Consumo ocasional</div>
+            <div class="chip" data-value="Consumo moderado — fines de semana">Consumo moderado — fines de semana</div>
+            <div class="chip" data-value="Consumo diario">Consumo diario</div>
+            <div class="chip" data-value="Consumo elevado diario">Consumo elevado diario</div>
+            <div class="chip" data-value="En recuperación">En recuperación</div>
+          </div>
+          <div class="field-hint">Modifica dosificación anestesia e interacciones medicamentosas</div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ DROGAS RECREATIVAS</div>
+          <div class="chips" data-group="drogas">
+            <div class="chip" data-value="No consumo">No consumo</div>
+            <div class="chip chip-danger" data-value="Cocaína">Cocaína</div>
+            <div class="chip chip-danger" data-value="Cannabis">Cannabis</div>
+            <div class="chip chip-danger" data-value="Anfetaminas/MDMA">Anfetaminas/MDMA</div>
+            <div class="chip chip-danger" data-value="Opioides">Opioides</div>
+            <div class="chip chip-danger" data-value="Benzodiacepinas no prescritas">Benzodiacepinas no prescritas</div>
+            <div class="chip chip-danger" data-value="Otras">Otras</div>
+            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Cocaína + adrenalina = paro cardíaco. Esta información es confidencial y solo visible en emergencia médica</div>
+        </div>
+        <div class="field">
+          <div class="field-label">ACTIVIDAD FÍSICA HABITUAL</div>
+          <div class="chips" data-group="actividad-fisica" data-single="true">
+            <div class="chip" data-value="Sedentario">Sedentario</div>
+            <div class="chip" data-value="Actividad leve — caminar">Actividad leve — caminar</div>
+            <div class="chip" data-value="Ejercicio moderado — 2-3 días/semana">Ejercicio moderado — 2-3 días/semana</div>
+            <div class="chip" data-value="Ejercicio intenso — 4-5 días/semana">Ejercicio intenso — 4-5 días/semana</div>
+            <div class="chip" data-value="Deportista de alto rendimiento">Deportista de alto rendimiento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN — HISTORIAL FAMILIAR -->
+    <div class="form-section" id="sec-familiar">
+      <div class="section-header" onclick="toggleSection('sec-familiar')">
+        <span class="section-title">— Historial familiar</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">ENFERMEDADES HEREDITARIAS EN FAMILIA</div>
+          <div class="chips" data-group="enfermedades-familiares">
+            <div class="chip" data-value="Cardiopatía hereditaria">Cardiopatía hereditaria</div>
+            <div class="chip" data-value="Muerte súbita familiar">Muerte súbita familiar</div>
+            <div class="chip" data-value="Cáncer hereditario">Cáncer hereditario</div>
+            <div class="chip" data-value="Diabetes tipo 1">Diabetes tipo 1</div>
+            <div class="chip" data-value="Hemofilia">Hemofilia</div>
+            <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
+            <div class="chip" data-value="Talasemia">Talasemia</div>
+            <div class="chip" data-value="Hipertensión familiar">Hipertensión familiar</div>
+            <div class="chip" data-value="Ictus familiar">Ictus familiar</div>
+            <div class="chip" data-value="Alzheimer familiar">Alzheimer familiar</div>
+            <div class="chip" data-value="Parkinson familiar">Parkinson familiar</div>
+            <div class="chip" data-value="Coagulopatía hereditaria">Coagulopatía hereditaria</div>
+            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿MUERTE SÚBITA EN FAMILIA?</div>
+          <div class="chips" data-group="muerte-subita-familiar" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — menor de 50 años">SÍ — menor de 50 años</div>
+            <div class="chip chip-danger" data-value="SÍ — mayor de 50 años">SÍ — mayor de 50 años</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Canalopatías cardíacas hereditarias — riesgo vital en contexto de emergencia</div>
         </div>
       </div>
     </div>
@@ -2193,6 +2437,9 @@
         ayudas_tecnicas:       getChips('ayudas-tecnicas'),
         weight:                getChip('weight'),
         height:                getChip('height'),
+        embarazo:              getChip('embarazo'),
+        embarazo_semanas:      v('pregnancy-weeks'),
+        lactancia:             getChip('lactancia'),
         organ_donor:           getChip('organ-donor'),
         advance_directive:     getChip('advance-directive'),
         name:                  v('f-name'),
@@ -2201,6 +2448,10 @@
         doc_number:            getDocNumber(),
         passport_country:      v('passport-country'),
         email:                 getEmailValue(),
+        sexo_biologico:        getChip('sexo-biologico'),
+        identidad_genero:      getChip('identidad-genero'),
+        terapia_hormonal:      getChips('terapia-hormonal'),
+        tiempo_terapia_hormonal: getChip('tiempo-terapia-hormonal'),
         lang:                  v('f-lang'),
         blood:                 v('f-blood'),
         allergy_med:           getChips('allergy-med'),
@@ -2209,6 +2460,7 @@
         allergy_anesthesia:    getChips('allergy-anesthesia'),
         epipen:                getChip('epipen'),
         latex_guantes:         getChip('latex-guantes'),
+        anafilaxia_previa:     getChip('anafilaxia-previa'),
         diseases:              getChips('diseases'),
         conditions:            getChips('conditions'),
         anticoagulado:         getChip('anticoagulado'),
@@ -2216,15 +2468,25 @@
         med_doses:             v('f-med-doses'),
         med_last_adjust:       getChip('med-last-adjust'),
         ultima_toma_medicacion: getChip('ultima-toma-medicacion'),
+        medicacion_alto_riesgo: getChips('medicacion-alto-riesgo'),
         surgeries:             getChips('surgeries'),
         surgery_year:          v('f-surgery-year'),
         last_surgery_date:     v('last-surgery-date'),
         material_osteosintesis: getChip('material-osteosintesis'),
+        dificultad_intubacion:  getChip('dificultad-intubacion'),
+        complicaciones_anestesia: getChip('complicaciones-anestesia'),
+        hipertermia_maligna_familiar: getChip('hipertermia-familiar'),
         implant_detail:        v('f-implant-detail'),
         pacemaker:             getChip('pacemaker'),
         vaccines:              getChips('vaccines'),
         tetanus_year:          v('f-tetanus-year'),
         vaccine_complete:      getChip('vaccine-complete'),
+        tabaco:                getChip('tabaco'),
+        alcohol:               getChip('alcohol'),
+        drogas:                getChips('drogas'),
+        actividad_fisica:      getChip('actividad-fisica'),
+        enfermedades_familiares: getChips('enfermedades-familiares'),
+        muerte_subita_familiar: getChip('muerte-subita-familiar'),
         religion:              getChip('religion'),
         religion_restrictions: getChips('religion-restrictions'),
         ec1_name:              v('f-ec1-name'),
@@ -2312,6 +2574,10 @@
           }
         }
       }
+      restoreChip ('sexo-biologico',        saved.sexo_biologico);
+      restoreChip ('identidad-genero',      saved.identidad_genero);
+      restoreChips('terapia-hormonal',      saved.terapia_hormonal);
+      restoreChip ('tiempo-terapia-hormonal', saved.tiempo_terapia_hormonal);
       set('f-blood',                saved.blood);
       set('f-med-doses',            saved.med_doses);
       set('f-surgery-year',         saved.surgery_year);
@@ -2367,24 +2633,38 @@
       restoreChip ('height',                saved.height);
       restoreChip ('organ-donor',           saved.organ_donor);
       restoreChip ('advance-directive',     saved.advance_directive);
+      restoreChip ('embarazo',              saved.embarazo);
+      set('pregnancy-weeks',               saved.embarazo_semanas);
+      restoreChip ('lactancia',             saved.lactancia);
       restoreChips('allergy-med',           saved.allergy_med);
       restoreChips('allergy-food',          saved.allergy_food);
       restoreChips('allergy-env',           saved.allergy_env);
       restoreChips('allergy-anesthesia',    saved.allergy_anesthesia);
       restoreChip ('epipen',                saved.epipen);
       restoreChip ('latex-guantes',         saved.latex_guantes);
+      restoreChip ('anafilaxia-previa',     saved.anafilaxia_previa);
       restoreChips('diseases',              saved.diseases);
       restoreChips('conditions',            saved.conditions);
       restoreChip ('anticoagulado',         saved.anticoagulado);
       restoreChips('meds',                  saved.meds);
       restoreChip ('med-last-adjust',       saved.med_last_adjust);
       restoreChip ('ultima-toma-medicacion',saved.ultima_toma_medicacion);
+      restoreChips('medicacion-alto-riesgo',saved.medicacion_alto_riesgo);
       set('last-surgery-date',              saved.last_surgery_date);
       restoreChips('surgeries',             saved.surgeries);
       restoreChip ('material-osteosintesis',saved.material_osteosintesis);
+      restoreChip ('dificultad-intubacion', saved.dificultad_intubacion);
+      restoreChip ('complicaciones-anestesia', saved.complicaciones_anestesia);
+      restoreChip ('hipertermia-familiar',  saved.hipertermia_maligna_familiar);
       restoreChip ('pacemaker',             saved.pacemaker);
       restoreChips('vaccines',              saved.vaccines);
       restoreChip ('vaccine-complete',      saved.vaccine_complete);
+      restoreChip ('tabaco',                saved.tabaco);
+      restoreChip ('alcohol',               saved.alcohol);
+      restoreChips('drogas',                saved.drogas);
+      restoreChip ('actividad-fisica',      saved.actividad_fisica);
+      restoreChips('enfermedades-familiares', saved.enfermedades_familiares);
+      restoreChip ('muerte-subita-familiar', saved.muerte_subita_familiar);
       restoreChip ('religion',              saved.religion);
       restoreChips('religion-restrictions', saved.religion_restrictions);
       restoreChips('insurer',               saved.insurer);
@@ -2490,6 +2770,19 @@
         ? document.getElementById('email-custom-domain').value.trim()
         : domSel;
       return alias && domain ? alias + '@' + domain : '';
+    }
+
+    function checkGenderHormone(el) {
+      const val = el.dataset.value || el.textContent.trim();
+      const block = document.getElementById('hormone-block');
+      const showHormone = ['Hombre trans', 'Mujer trans', 'No binario'];
+      block.style.display = showHormone.includes(val) ? 'block' : 'none';
+    }
+
+    function checkPregnancy(el) {
+      const val = el.dataset.value || el.textContent.trim();
+      const block = document.getElementById('pregnancy-weeks-block');
+      block.style.display = val === 'Sí — estoy embarazada' ? 'block' : 'none';
     }
 
     // ===== INIT =====
