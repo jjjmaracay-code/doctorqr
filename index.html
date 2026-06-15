@@ -2843,46 +2843,78 @@
         .toLowerCase()
         .normalize('NFD')
         .replace(/[̀-ͯ]/g, '')
-        .replace(/[áàäâ]/g, 'a')
+        .replace(/[áàäâã]/g, 'a')
         .replace(/[éèëê]/g, 'e')
         .replace(/[íìïî]/g, 'i')
-        .replace(/[óòöô]/g, 'o')
+        .replace(/[óòöôõ]/g, 'o')
         .replace(/[úùüû]/g, 'u')
         .replace(/ñ/g, 'n')
-        .replace(/ç/g, 'c')
+        .replace(/ç/g, 's')
         .replace(/[^\w\s]/g, '')
         .trim();
     }
 
+    function phoneticSpanish(text) {
+      let s = normalizeText(text);
+      s = s.replace(/^h/, '').replace(/([aeiou])h/g, '$1');
+      s = s.replace(/[bvp]/g, 'b');
+      s = s.replace(/z/g, 's')
+           .replace(/c([ei])/g, 's$1')
+           .replace(/qu/g, 'k')
+           .replace(/x/g, 'ks');
+      s = s.replace(/g([ei])/g, 'j$1')
+           .replace(/gu([ei])/g, 'g$1');
+      s = s.replace(/ll/g, 'y');
+      s = s.replace(/rr/g, 'r');
+      s = s.replace(/n[bv]/g, 'mb')
+           .replace(/m[bv]/g, 'mb');
+      s = s.replace(/k/g, 'k')
+           .replace(/c([^ei])/g, 'k$1');
+      s = s.replace(/([aeiou])\1+/g, '$1');
+      s = s.replace(/w/g, 'b');
+      s = s.replace(/[dt]$/, '');
+      return s;
+    }
+
     function buildSearchVariants(text) {
-      const n = normalizeText(text);
-      const variants = [n];
-      variants.push(n.replace(/z/g, 's').replace(/c/g, 's'));
-      variants.push(n.replace(/s/g, 'c'));
-      variants.push(n.replace(/b/g, 'v').replace(/v/g, 'b'));
-      variants.push(n.replace(/ll/g, 'y').replace(/y/g, 'll'));
-      variants.push(n.replace(/h/g, ''));
-      return [...new Set(variants)];
+      const norm = normalizeText(text);
+      const phonetic = phoneticSpanish(text);
+      const variants = new Set([norm, phonetic]);
+      variants.add(norm.replace(/b/g, 'p').replace(/p/g, 'b'));
+      variants.add(norm.replace(/[scz]/g, 's'));
+      variants.add(norm.replace(/[scz]/g, 'c'));
+      variants.add(norm.replace(/[scz]/g, 'z'));
+      variants.add(norm.replace(/j/g, 'g').replace(/g/g, 'j'));
+      variants.add(norm.replace(/h/g, ''));
+      variants.add('h' + norm);
+      variants.add(norm.replace(/ll/g, 'y').replace(/y/g, 'll'));
+      variants.add(norm.replace(/b/g, 'v').replace(/v/g, 'b'));
+      variants.add(norm.replace(/n([bpm])/g, 'm$1'));
+      return [...variants];
     }
 
     function filterChips(input) {
       const raw = input.value.trim();
-      const query = normalizeText(raw);
       const field = input.closest('.field');
-      const chips = field.querySelectorAll('.chip');
 
-      if (query.length < 3) {
-        chips.forEach(chip => { chip.style.display = ''; });
+      if (raw.length < 3) {
+        field.querySelectorAll('.chip').forEach(chip => { chip.style.display = ''; });
         return;
       }
 
-      const queryVariants = buildSearchVariants(query);
+      const queryNorm = normalizeText(raw);
+      const queryPhonetic = phoneticSpanish(raw);
+      const queryVariants = buildSearchVariants(raw);
 
-      chips.forEach(chip => {
-        const chipNorm = normalizeText(chip.textContent.trim());
-        const chipVariants = buildSearchVariants(chipNorm);
-        const match = queryVariants.some(qv => chipVariants.some(cv => cv.includes(qv)))
-                   || chipVariants.some(cv => queryVariants.some(qv => cv.includes(qv)));
+      field.querySelectorAll('.chip').forEach(chip => {
+        const chipText = chip.textContent.trim();
+        const chipNorm = normalizeText(chipText);
+        const chipPhonetic = phoneticSpanish(chipText);
+        const chipVariants = buildSearchVariants(chipText);
+        const match =
+          chipNorm.includes(queryNorm) ||
+          chipPhonetic.includes(queryPhonetic) ||
+          queryVariants.some(qv => chipVariants.some(cv => cv.includes(qv) || qv.includes(cv)));
         chip.style.display = match ? '' : 'none';
       });
     }
