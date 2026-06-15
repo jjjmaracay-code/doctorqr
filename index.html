@@ -1366,6 +1366,14 @@
 
   <div class="toast" id="toast">Datos guardados</div>
 
+  <script>
+    (function(){
+      const auth = JSON.parse(localStorage.getItem('doctorqr_auth') || '{}');
+      if (!auth.otp_verified || !auth.twofa_method) {
+        window.location.href = 'register.html';
+      }
+    })();
+  </script>
   <script src="js/validation.js"></script>
   <script src="js/search.js"></script>
   <script src="js/form.js"></script>
