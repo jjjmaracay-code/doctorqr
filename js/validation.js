@@ -176,6 +176,7 @@
       const rule    = PHONE_RULES[prefix];
 
       // Hint siempre visible según país
+      if (!hintEl) return;
       hintEl.textContent = rule ? rule.hint : (num ? 'Solo dígitos' : '');
 
       if (!num) {
