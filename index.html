@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.6/lz-string.min.js"></script>
 </head>
 <body>
 
@@ -1366,6 +1368,52 @@
   </div>
 
   <button class="btn-generate" onclick="generate()">Generar mis QR</button>
+
+  <button onclick="generateAllQRs()" style="
+    width:100%;padding:18px;margin:24px 0 8px;
+    background:transparent;
+    border:2px solid #00ff41;
+    border-radius:12px;color:#00ff41;
+    font-family:inherit;font-size:12px;
+    font-weight:900;letter-spacing:3px;
+    text-transform:uppercase;cursor:pointer;
+    text-shadow:0 0 8px #00ff41;
+    box-shadow:0 0 16px rgba(0,255,65,0.15)">
+    ⚡ GENERAR MIS CÓDIGOS QR MÉDICOS
+  </button>
+
+  <div id="qr-section" style="display:none;padding:0 16px 32px">
+    <div style="font-size:11px;letter-spacing:3px;color:#00ff41;text-transform:uppercase;margin:32px 0 8px;text-shadow:0 0 8px #00ff41">
+      TUS CÓDIGOS QR MÉDICOS
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:20px;letter-spacing:0.5px">
+      Desliza para ver todos tus QR.
+      Solo se generan los relevantes para tu perfil médico.
+    </div>
+    <div id="qr-carousel" style="
+      display:flex;gap:16px;overflow-x:auto;
+      padding:4px 0 16px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;
+      scrollbar-color:#00ff41 rgba(255,255,255,0.05)">
+    </div>
+    <div id="qr-dots" style="display:flex;justify-content:center;gap:8px;margin:8px 0 24px">
+    </div>
+    <button id="btn-print-emergency" style="
+      width:100%;padding:16px;
+      background:transparent;
+      border:2px solid #ff0000;
+      border-radius:12px;color:#ff0000;
+      font-family:inherit;font-size:11px;
+      font-weight:900;letter-spacing:3px;
+      text-transform:uppercase;cursor:pointer;
+      text-shadow:0 0 8px #ff0000;
+      box-shadow:0 0 12px rgba(255,0,0,0.15);
+      margin-bottom:12px">
+      IMPRIMIR QR EMERGENCIA — FORMATO TARJETA
+    </button>
+  </div>
 
   <div class="toast" id="toast">Datos guardados</div>
 
