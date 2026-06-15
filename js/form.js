@@ -50,6 +50,12 @@
           chip.classList.toggle('active');
         }
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
+        if (group && group.dataset.group === 'profesion') {
+          const otraWrap = document.getElementById('profesion-otra-wrap');
+          if (otraWrap) {
+            otraWrap.style.display = chip.dataset.value === 'Otra' && chip.classList.contains('active') ? 'block' : 'none';
+          }
+        }
         clearChipsSearch(chip);
       });
     });
@@ -191,9 +197,11 @@
 
     // ===== INICIALIZAR SELECTS DE PAÍS =====
     function initCountrySelects() {
-      document.querySelectorAll('.phone-prefix, #f-health-card-country').forEach(sel => {
+      document.querySelectorAll('.phone-prefix').forEach(sel => {
         sel.innerHTML = COUNTRIES_HTML;
       });
+      const hcSel = document.getElementById('f-health-card-country');
+      if (hcSel) hcSel.innerHTML = HEALTH_CARD_COUNTRIES_HTML;
       document.querySelectorAll('.form-select').forEach(sel => {
         sel.innerHTML = VISITED_COUNTRIES_HTML;
       });
@@ -229,7 +237,9 @@
         comm_difficulty:       getChips('comm-difficulty'),
         sign_lang:             getChips('sign-lang'),
         can_decide:            getChip('can-decide'),
-        profesion:             getChip('profesion'),
+        profesion:             getChip('profesion') === 'Otra'
+                               ? (document.getElementById('profesion-otra-text')?.value.trim() || 'Otra')
+                               : getChip('profesion'),
         ayudas_tecnicas:       getChips('ayudas-tecnicas'),
         weight:                getChip('weight'),
         height:                getChip('height'),

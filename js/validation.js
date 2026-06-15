@@ -60,6 +60,46 @@
         <option value="+216">+216 Túnez</option>
       </optgroup>`;
 
+    // ===== PAÍSES TARJETA SANITARIA (sin prefijo) =====
+    const HEALTH_CARD_COUNTRIES_HTML = `
+      <option value="">— País tarjeta —</option>
+      <optgroup label="Unión Europea">
+        <option value="+34">España</option>
+        <option value="+33">Francia</option>
+        <option value="+49">Alemania</option>
+        <option value="+39">Italia</option>
+        <option value="+351">Portugal</option>
+        <option value="+31">Países Bajos</option>
+        <option value="+32">Bélgica</option>
+        <option value="+43">Austria</option>
+        <option value="+30">Grecia</option>
+        <option value="+48">Polonia</option>
+        <option value="+40">Rumanía</option>
+        <option value="+359">Bulgaria</option>
+        <option value="+420">Rep. Checa</option>
+        <option value="+36">Hungría</option>
+        <option value="+46">Suecia</option>
+        <option value="+45">Dinamarca</option>
+        <option value="+358">Finlandia</option>
+        <option value="+353">Irlanda</option>
+        <option value="+386">Eslovenia</option>
+        <option value="+421">Eslovaquia</option>
+        <option value="+372">Estonia</option>
+        <option value="+371">Letonia</option>
+        <option value="+370">Lituania</option>
+        <option value="+356">Malta</option>
+        <option value="+357">Chipre</option>
+        <option value="+352">Luxemburgo</option>
+        <option value="+385">Croacia</option>
+      </optgroup>
+      <optgroup label="Fuera UE">
+        <option value="+44">Reino Unido</option>
+        <option value="+41">Suiza</option>
+        <option value="+47">Noruega</option>
+        <option value="+1">EEUU</option>
+        <option value="other">Fuera de la UE</option>
+      </optgroup>`;
+
     // ===== REGLAS VALIDACIÓN TELÉFONO =====
     const PHONE_RULES = {
       '+34':  { len:[9],      starts:/^[6789]/, hint:'Formato: 6XX XXX XXX' },

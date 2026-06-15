@@ -334,7 +334,7 @@ function generateQRCard(type, formData, container) {
     font-family:inherit;
   `;
   info.innerHTML = `
-    <strong style="color:${type.color}">
+    <strong style="color:${type.color};word-break:break-word;white-space:normal;font-size:clamp(10px,2.5vw,14px);display:block;">
       ${d.nombre || ''} ${d.apellidos || ''}
     </strong><br>
     ${d.sangre ? '🩸 ' + d.sangre : ''}

@@ -1001,6 +1001,27 @@
       Obligatorio — sin esto no podrás acceder a DoctorQR
     </div>
 
+    <!-- OPCIÓN BIOMÉTRICA (visible solo si el dispositivo la soporta) -->
+    <div class="tfa-option" id="tfa-biometric" style="display:none">
+      <div class="tfa-option-title">OPCIÓN A — BIOMETRÍA</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.6">
+        Usa tu huella dactilar o Face ID para verificar tu identidad en cada acceso.
+        Disponible en dispositivos compatibles.
+      </div>
+      <button id="btn-setup-biometric" style="
+        width:100%;padding:14px;
+        background:transparent;
+        border:1.5px solid #00ff41;
+        border-radius:10px;color:#00ff41;
+        font-family:inherit;font-size:11px;
+        font-weight:900;letter-spacing:2px;
+        text-transform:uppercase;cursor:pointer">
+        ACTIVAR HUELLA / FACE ID
+      </button>
+    </div>
+
+    <div id="tfa-biometric-sep" class="tfa-separator" style="display:none">— O —</div>
+
     <!-- OPCIÓN A — Google Authenticator -->
     <div class="tfa-option">
       <div class="tfa-option-title">Opción A — Google Authenticator</div>
@@ -1393,6 +1414,7 @@ document.getElementById('btn-send-otp').addEventListener('click', async () => {
     });
     const data = await response.json();
     if (data.success) {
+      localStorage.setItem('doctorqr_pending_email', regData.email);
       showToast('Código enviado a ' + regData.email);
       lockIdentityFields();
       document.getElementById('locked-name').textContent  = regData.nombre + ' ' + regData.apellidos;
@@ -1770,6 +1792,68 @@ function showToast(msg){
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
+
+// ===== COMPLETAR REGISTRO (biometría local) =====
+function completarRegistro(tfaMethod) {
+  localStorage.setItem(AUTH_KEY, JSON.stringify({
+    ...regData,
+    otp_verified:     true,
+    twofa_method:     tfaMethod,
+    campos_bloqueados: true,
+  }));
+  goToScreen(5);
+  populateSuccessScreen({ ...regData, twofa_method: tfaMethod });
+}
+
+// ===== BIOMETRÍA =====
+async function checkBiometricSupport() {
+  try {
+    if (!window.PublicKeyCredential) return;
+    const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    if (available) {
+      document.getElementById('tfa-biometric').style.display = 'block';
+      document.getElementById('tfa-biometric-sep').style.display = 'block';
+    }
+  } catch(e) {}
+}
+checkBiometricSupport();
+
+document.getElementById('btn-setup-biometric')?.addEventListener('click', async () => {
+  try {
+    const challenge = new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+
+    const credential = await navigator.credentials.create({
+      publicKey: {
+        challenge,
+        rp: { name: 'DoctorQR', id: location.hostname || 'doctorqr.app' },
+        user: {
+          id: new TextEncoder().encode(regData.email || 'user'),
+          name: regData.email || 'user',
+          displayName: 'DoctorQR User'
+        },
+        pubKeyCredParams: [
+          { alg: -7, type: 'public-key' },
+          { alg: -257, type: 'public-key' }
+        ],
+        authenticatorSelection: {
+          authenticatorAttachment: 'platform',
+          userVerification: 'required'
+        },
+        timeout: 60000
+      }
+    });
+
+    if (credential) {
+      localStorage.setItem('doctorqr_biometric_id', credential.id);
+      localStorage.setItem('doctorqr_pending_email', regData.email || '');
+      showToast('Biometría configurada correctamente');
+      completarRegistro('biometric');
+    }
+  } catch(err) {
+    showToast('No se pudo configurar la biometría: ' + err.message);
+  }
+});
 </script>
 </body>
 </html>

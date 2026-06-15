@@ -241,6 +241,16 @@
             <div class="chip" data-value="Estudiante">Estudiante</div>
             <div class="chip" data-value="Otra">Otra</div>
           </div>
+          <div id="profesion-otra-wrap" style="display:none;margin-top:8px">
+            <input type="text" id="profesion-otra-text"
+              placeholder="Describe tu profesión..."
+              style="width:100%;background:#0d0d0d;
+              border:1px solid #00ff41;
+              border-radius:10px;color:#00ff41;
+              font-family:inherit;font-size:13px;
+              padding:10px 14px;box-sizing:border-box;
+              outline:none"/>
+          </div>
         </div>
         <div class="field">
           <div class="field-label">AYUDAS TÉCNICAS QUE USA</div>
@@ -1433,6 +1443,50 @@
         window.location.href = 'register.html';
       }
     })();
+
+    function prefillarIdentidad() {
+      const user    = JSON.parse(localStorage.getItem('doctorqr_user')    || '{}');
+      const profile = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
+
+      const campos = {
+        'nombre':           user.nombre    || profile.nombre,
+        'apellidos':        user.apellidos || profile.apellidos,
+        'fecha_nacimiento': profile.fecha_nacimiento,
+        'doc_number':       profile.doc_number,
+        'email-alias':      (user.email || profile.email || '').split('@')[0]
+      };
+
+      Object.entries(campos).forEach(([id, val]) => {
+        const el = document.getElementById(id) || document.querySelector(`input[name="${id}"]`);
+        if (el && val) {
+          el.value = val;
+          el.disabled = true;
+          el.style.opacity = '0.6';
+          el.style.cursor  = 'not-allowed';
+        }
+      });
+
+      const docChips = document.querySelectorAll('[data-group="doc-type"]');
+      docChips.forEach(chip => {
+        chip.style.pointerEvents = 'none';
+        chip.style.opacity = '0.6';
+      });
+
+      const emailDomain = document.getElementById('email-domain');
+      if (emailDomain && user.email) {
+        const domain = user.email.split('@')[1];
+        emailDomain.value = domain || 'gmail.com';
+        emailDomain.disabled = true;
+        emailDomain.style.opacity = '0.6';
+      }
+
+      const aviso = document.createElement('div');
+      aviso.style.cssText = 'font-size:10px;color:rgba(0,255,65,0.5);letter-spacing:1px;margin-bottom:12px;text-align:center;';
+      aviso.textContent = 'Datos de identidad verificados — no editables';
+      const seccion = document.querySelector('.form-section:nth-child(3)');
+      if (seccion) seccion.prepend(aviso);
+    }
+    prefillarIdentidad();
   </script>
   <script src="js/validation.js"></script>
   <script src="js/search.js"></script>
