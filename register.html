@@ -650,7 +650,7 @@
       <p>DoctorQR implementa las siguientes medidas de seguridad para proteger el acceso a la cuenta:<br>
       — Verificación de correo electrónico mediante código OTP de un solo uso, enviado una única vez durante el registro.<br>
       — Contraseña personal elegida por el usuario.<br>
-      — Autenticación de doble factor (2FA) obligatoria, mediante Google Authenticator (TOTP) o código enviado al correo electrónico.</p>
+      — Autenticación de doble factor (2FA) obligatoria, mediante uno de estos métodos: reconocimiento biométrico (huella dactilar o facial) disponible en dispositivos compatibles, aplicación Google Authenticator (TOTP), o código de verificación enviado al correo electrónico.</p>
       <p>El usuario es responsable de:<br>
       — Mantener su contraseña segura y no compartirla con nadie.<br>
       — Mantener acceso a su método de doble factor activo.<br>
@@ -664,7 +664,11 @@
       — Verificación mediante código OTP enviado al correo electrónico, válido durante 30 minutos.<br>
       — Confirmación con el método de doble factor configurado durante el registro.<br>
       — Creación de una nueva contraseña.</p>
-      <p>Si el usuario ha perdido acceso tanto a su correo electrónico como a su método de doble factor simultáneamente, no será posible recuperar el acceso a la cuenta. En ese caso, deberá cancelar la cuenta y crear una nueva.</p>
+      <p>El usuario dispone de 30 minutos desde la recepción del código OTP para completar el proceso de recuperación. Transcurrido ese tiempo el código expira y deberá solicitar uno nuevo.</p>
+      <p>En caso de pérdida de acceso simultánea al correo electrónico y al método de doble factor, la cuenta entra en estado de BLOQUEO TEMPORAL. El usuario tiene un plazo de 72 horas para contactar con soporte en jjjmaracay@gmail.com y verificar su identidad mediante documento oficial. Transcurridas las 72 horas sin verificación, se ofrecen dos opciones:<br>
+      — REACTIVAR la cuenta verificando identidad con documento oficial.<br>
+      — CANCELAR la cuenta de forma definitiva e irreversible.</p>
+      <p>Durante el bloqueo temporal la cuenta permanece inaccesible pero los datos no son eliminados.</p>
       <p>DoctorQR no puede proporcionar acceso a cuentas sin superar el proceso de verificación completo, bajo ninguna circunstancia, para garantizar la seguridad de los datos médicos.</p>
 
       <h3>6. CANCELACIÓN DE CUENTA</h3>
