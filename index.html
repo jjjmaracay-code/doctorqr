@@ -221,7 +221,6 @@
       box-shadow: 0 0 12px #00ff41;
     }
 
-    /* Chip de peligro (marcapasos SÍ, restricciones críticas) */
     .chip-danger {
       border-color: #ff0000;
       color: #ff0000;
@@ -237,7 +236,6 @@
       box-shadow: 0 0 16px #ff0000, 0 0 32px rgba(255,0,0,0.4);
     }
 
-    /* Aviso crítico */
     .critical-warning {
       font-size: 9px;
       font-weight: 700;
@@ -252,7 +250,6 @@
       background: rgba(255,0,0,0.05);
     }
 
-    /* Selectores dinámicos de nivel por idioma */
     #lang-levels-container { margin-top: 12px; }
 
     .lang-level-row {
@@ -293,6 +290,80 @@
     .lang-level-row select option {
       background: #1a1a1a;
       color: #fff;
+    }
+
+    /* CAMPOS DE TELÉFONO CON PREFIJO */
+    .phone-field {
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      gap: 6px 8px;
+      align-items: start;
+    }
+
+    .phone-field select.phone-prefix {
+      grid-column: 1;
+      grid-row: 1;
+      font-size: 13px;
+      padding: 12px 30px 12px 10px;
+      background-position: right 8px center;
+    }
+
+    .phone-field input.phone-number {
+      grid-column: 2;
+      grid-row: 1;
+      font-size: 15px;
+    }
+
+    .phone-hint {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      font-size: 11px;
+      color: rgba(0,255,65,0.4);
+      letter-spacing: 0.4px;
+      min-height: 16px;
+    }
+
+    .phone-warning {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+
+    /* CAMPO TARJETA SANITARIA CON PAÍS */
+    .health-card-field {
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      gap: 6px 8px;
+      align-items: start;
+    }
+
+    .health-card-field select {
+      grid-column: 1;
+      grid-row: 1;
+      font-size: 13px;
+      padding: 12px 30px 12px 10px;
+      background-position: right 8px center;
+    }
+
+    .health-card-field input {
+      grid-column: 2;
+      grid-row: 1;
+      font-size: 15px;
+    }
+
+    .health-card-hint {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      font-size: 11px;
+      color: rgba(0,255,65,0.4);
+      letter-spacing: 0.4px;
+      min-height: 16px;
+    }
+
+    .health-card-warning {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      font-size: 11px;
+      color: #ff4444;
     }
 
     /* GRUPOS CONTACTO */
@@ -378,9 +449,7 @@
       100% { stroke-dashoffset: 250; }
     }
 
-    .logo-flip-container {
-      perspective: 600px;
-    }
+    .logo-flip-container { perspective: 600px; }
 
     .logo-flip {
       transform-style: preserve-3d;
@@ -411,9 +480,7 @@
       100% { filter: drop-shadow(0 0 1px #ff0000); }
     }
 
-    .corazon-svg {
-      animation: destello-rojo 5s infinite ease-in-out;
-    }
+    .corazon-svg { animation: destello-rojo 5s infinite ease-in-out; }
   </style>
 </head>
 <body>
@@ -917,7 +984,12 @@
           </div>
           <div class="field">
             <div class="field-label">Teléfono</div>
-            <input type="tel" id="f-ec1-phone" placeholder="+34 600 000 000"/>
+            <div class="phone-field">
+              <select class="phone-prefix" id="f-ec1-phone-prefix"></select>
+              <input type="tel" class="phone-number" id="f-ec1-phone-num" placeholder="Número sin prefijo"/>
+              <div class="phone-hint"></div>
+              <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+            </div>
           </div>
         </div>
         <div class="contact-group">
@@ -940,7 +1012,12 @@
           </div>
           <div class="field">
             <div class="field-label">Teléfono</div>
-            <input type="tel" id="f-ec2-phone" placeholder="+34 600 000 001"/>
+            <div class="phone-field">
+              <select class="phone-prefix" id="f-ec2-phone-prefix"></select>
+              <input type="tel" class="phone-number" id="f-ec2-phone-num" placeholder="Número sin prefijo"/>
+              <div class="phone-hint"></div>
+              <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+            </div>
           </div>
         </div>
         <div class="contact-group">
@@ -951,7 +1028,12 @@
           </div>
           <div class="field">
             <div class="field-label">Teléfono</div>
-            <input type="tel" id="f-guardian-phone" placeholder="+34 600 000 002"/>
+            <div class="phone-field">
+              <select class="phone-prefix" id="f-guardian-phone-prefix"></select>
+              <input type="tel" class="phone-number" id="f-guardian-phone-num" placeholder="Número sin prefijo"/>
+              <div class="phone-hint"></div>
+              <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+            </div>
           </div>
           <div class="field">
             <div class="field-label">Documento de tutela (opcional)</div>
@@ -974,7 +1056,12 @@
         </div>
         <div class="field">
           <div class="field-label">Teléfono médico</div>
-          <input type="tel" id="f-doctor-phone" placeholder="+34 900 000 000"/>
+          <div class="phone-field">
+            <select class="phone-prefix" id="f-doctor-phone-prefix"></select>
+            <input type="tel" class="phone-number" id="f-doctor-phone-num" placeholder="Número sin prefijo"/>
+            <div class="phone-hint"></div>
+            <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+          </div>
         </div>
         <div class="field">
           <div class="field-label">Aseguradora</div>
@@ -993,8 +1080,13 @@
           <input type="text" id="f-policy" placeholder="ES-12345678"/>
         </div>
         <div class="field">
-          <div class="field-label">Número tarjeta sanitaria</div>
-          <input type="text" id="f-sanitary-card" placeholder="ES12345678901234"/>
+          <div class="field-label">Tarjeta sanitaria</div>
+          <div class="health-card-field">
+            <select id="f-health-card-country"></select>
+            <input type="text" id="f-health-card-num" placeholder="Número de tarjeta sanitaria"/>
+            <div class="health-card-hint"></div>
+            <div class="health-card-warning" style="display:none;">⚠ Formato no coincide — verifica el número</div>
+          </div>
         </div>
         <div class="field">
           <div class="field-label">País seguridad social</div>
@@ -1020,17 +1112,145 @@
   <div class="toast" id="toast">Datos guardados</div>
 
   <script>
+    // ===== OPCIONES DE PAÍSES =====
+    const COUNTRIES_HTML = `
+      <optgroup label="Unión Europea">
+        <option value="+34">+34 España</option>
+        <option value="+33">+33 Francia</option>
+        <option value="+49">+49 Alemania</option>
+        <option value="+39">+39 Italia</option>
+        <option value="+351">+351 Portugal</option>
+        <option value="+32">+32 Bélgica</option>
+        <option value="+31">+31 Países Bajos</option>
+        <option value="+43">+43 Austria</option>
+        <option value="+30">+30 Grecia</option>
+        <option value="+48">+48 Polonia</option>
+        <option value="+40">+40 Rumanía</option>
+        <option value="+359">+359 Bulgaria</option>
+        <option value="+420">+420 Rep. Checa</option>
+        <option value="+36">+36 Hungría</option>
+        <option value="+46">+46 Suecia</option>
+        <option value="+45">+45 Dinamarca</option>
+        <option value="+358">+358 Finlandia</option>
+        <option value="+353">+353 Irlanda</option>
+        <option value="+386">+386 Eslovenia</option>
+        <option value="+421">+421 Eslovaquia</option>
+        <option value="+372">+372 Estonia</option>
+        <option value="+371">+371 Letonia</option>
+        <option value="+370">+370 Lituania</option>
+        <option value="+356">+356 Malta</option>
+        <option value="+357">+357 Chipre</option>
+        <option value="+352">+352 Luxemburgo</option>
+        <option value="+385">+385 Croacia</option>
+      </optgroup>
+      <optgroup label="Fuera UE">
+        <option value="+44">+44 Reino Unido</option>
+        <option value="+41">+41 Suiza</option>
+        <option value="+47">+47 Noruega</option>
+        <option value="+1">+1 EEUU/Canadá</option>
+        <option value="+52">+52 México</option>
+        <option value="+54">+54 Argentina</option>
+        <option value="+57">+57 Colombia</option>
+        <option value="+58">+58 Venezuela</option>
+        <option value="+51">+51 Perú</option>
+        <option value="+56">+56 Chile</option>
+        <option value="+55">+55 Brasil</option>
+        <option value="+593">+593 Ecuador</option>
+        <option value="+591">+591 Bolivia</option>
+        <option value="+598">+598 Uruguay</option>
+        <option value="+595">+595 Paraguay</option>
+        <option value="+966">+966 Arabia Saudí</option>
+        <option value="+971">+971 Emiratos Árabes</option>
+        <option value="+81">+81 Japón</option>
+        <option value="+82">+82 Corea del Sur</option>
+        <option value="+86">+86 China</option>
+        <option value="+91">+91 India</option>
+        <option value="+61">+61 Australia</option>
+        <option value="+64">+64 Nueva Zelanda</option>
+        <option value="+27">+27 Sudáfrica</option>
+        <option value="+20">+20 Egipto</option>
+        <option value="+212">+212 Marruecos</option>
+        <option value="+213">+213 Argelia</option>
+        <option value="+216">+216 Túnez</option>
+      </optgroup>`;
+
+    // ===== REGLAS VALIDACIÓN TELÉFONO =====
+    const PHONE_RULES = {
+      '+34':  { len:[9],      starts:/^[6789]/, hint:'Formato: 6XX XXX XXX' },
+      '+33':  { len:[10],     starts:/^0/,      hint:'Formato: 0X XX XX XX XX' },
+      '+49':  { len:[10,11],                    hint:'10-11 dígitos' },
+      '+39':  { len:[9,10],                     hint:'9-10 dígitos' },
+      '+351': { len:[9],      starts:/^9/,      hint:'Formato: 9XX XXX XXX' },
+      '+32':  { len:[9,10],                     hint:'9-10 dígitos' },
+      '+31':  { len:[9],                        hint:'9 dígitos' },
+      '+43':  { len:[10,11],                    hint:'10-11 dígitos' },
+      '+30':  { len:[10],                       hint:'10 dígitos' },
+      '+48':  { len:[9],                        hint:'9 dígitos' },
+      '+40':  { len:[10],                       hint:'10 dígitos' },
+      '+359': { len:[8,9],                      hint:'8-9 dígitos' },
+      '+420': { len:[9],                        hint:'9 dígitos' },
+      '+36':  { len:[8,9],                      hint:'8-9 dígitos' },
+      '+46':  { len:[9,10],                     hint:'9-10 dígitos' },
+      '+45':  { len:[8],                        hint:'8 dígitos' },
+      '+358': { len:[9,10],                     hint:'9-10 dígitos' },
+      '+353': { len:[9],                        hint:'9 dígitos' },
+      '+386': { len:[8],                        hint:'8 dígitos' },
+      '+421': { len:[9],                        hint:'9 dígitos' },
+      '+372': { len:[7,8],                      hint:'7-8 dígitos' },
+      '+371': { len:[8],                        hint:'8 dígitos' },
+      '+370': { len:[8],                        hint:'8 dígitos' },
+      '+356': { len:[8],                        hint:'8 dígitos' },
+      '+357': { len:[8],                        hint:'8 dígitos' },
+      '+352': { len:[9],                        hint:'9 dígitos' },
+      '+385': { len:[8,9],                      hint:'8-9 dígitos' },
+      '+44':  { len:[10,11],                    hint:'10-11 dígitos' },
+      '+41':  { len:[9],                        hint:'9 dígitos' },
+      '+47':  { len:[8],                        hint:'8 dígitos' },
+      '+1':   { len:[10],                       hint:'10 dígitos' },
+      '+52':  { len:[10],                       hint:'10 dígitos' },
+      '+54':  { len:[10],                       hint:'10 dígitos' },
+      '+57':  { len:[10],                       hint:'10 dígitos' },
+      '+58':  { len:[10],                       hint:'10 dígitos' },
+    };
+
+    // ===== REGLAS VALIDACIÓN TARJETA SANITARIA =====
+    const HEALTH_CARD_RULES = {
+      '+34':  { re:/^[A-Z]{4}\d{8}$/,        hint:'Formato: CCCC99999999 (4 letras + 8 números)' },
+      '+33':  { re:/^\d{15}$/,               hint:'15 dígitos numéricos' },
+      '+49':  { re:/^[A-Z]\d{9}$/,           hint:'1 letra + 9 dígitos' },
+      '+39':  { re:/^[A-Z0-9]{16}$/,         hint:'16 caracteres — letras y números' },
+      '+351': { re:/^\d{9}$/,                hint:'9 dígitos numéricos' },
+      '+44':  { re:/^\d{10}$/,               hint:'10 dígitos — formato NHS' },
+      '+31':  { re:/^\d{9}$/,                hint:'9 dígitos — BSN' },
+      '+32':  { re:/^\d{12}$/,               hint:'12 dígitos numéricos' },
+      '+43':  { re:/^\d{10}$/,               hint:'10 dígitos' },
+      '+30':  { re:/^\d{11}$/,               hint:'11 dígitos — AMKA' },
+      '+48':  { re:/^\d{11}$/,               hint:'11 dígitos — PESEL' },
+      '+40':  { re:/^\d{13}$/,               hint:'13 dígitos — CNP' },
+      '+359': { re:/^\d{10}$/,               hint:'10 dígitos — EGN' },
+      '+46':  { re:/^\d{10,12}$/,            hint:'10-12 dígitos' },
+      '+45':  { re:/^\d{10}$/,               hint:'10 dígitos — CPR' },
+      '+353': { re:/^\d{7}[A-Z]{1,2}$/,      hint:'7 dígitos + 1-2 letras' },
+      '+41':  { re:/^\d{13}$/,               hint:'13 dígitos — AHV' },
+      '+47':  { re:/^\d{11}$/,               hint:'11 dígitos' },
+      '+1':   { re:null,                     hint:'Insurance Member ID (variable)' },
+    };
+
+    const EU_CODES = new Set(['+34','+33','+49','+39','+351','+32','+31','+43','+30','+48',
+      '+40','+359','+420','+36','+46','+45','+358','+353','+386','+421','+372','+371','+370',
+      '+356','+357','+352','+385']);
+
+    // ===== TOGGLE SECCIONES =====
     function toggleSection(id) {
       document.getElementById(id).classList.toggle('open');
     }
 
-    // Niveles disponibles para cada idioma
+    // ===== NIVELES DE IDIOMA =====
     const LANG_LEVELS = ['Básico', 'Conversacional', 'Fluido', 'Nativo'];
 
     function renderLangLevels(savedLevels) {
       const activeChips = document.querySelectorAll('[data-group="lang-spoken"] .chip.active');
       const container = document.getElementById('lang-levels-container');
-      // Conservar valores ya seleccionados antes de re-renderizar
       const current = {};
       container.querySelectorAll('.lang-level-row').forEach(row => {
         current[row.dataset.lang] = row.querySelector('select').value;
@@ -1048,11 +1268,9 @@
         const sel = document.createElement('select');
         LANG_LEVELS.forEach(lvl => {
           const opt = document.createElement('option');
-          opt.value = lvl;
-          opt.textContent = lvl;
+          opt.value = lvl; opt.textContent = lvl;
           sel.appendChild(opt);
         });
-        // Prioridad: valor ya en pantalla > valor guardado > primero de la lista
         if (current[lang]) sel.value = current[lang];
         else if (savedLevels && savedLevels[lang]) sel.value = savedLevels[lang];
         row.appendChild(label);
@@ -1061,7 +1279,7 @@
       });
     }
 
-    // Manejador de chips: único vs múltiple
+    // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const group = chip.closest('[data-group]');
@@ -1073,12 +1291,107 @@
         } else {
           chip.classList.toggle('active');
         }
-        if (group && group.dataset.group === 'lang-spoken') {
-          renderLangLevels();
-        }
+        if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
       });
     });
 
+    // ===== INICIALIZAR SELECTS DE PAÍS =====
+    function initCountrySelects() {
+      document.querySelectorAll('.phone-prefix, #f-health-card-country').forEach(sel => {
+        sel.innerHTML = COUNTRIES_HTML;
+      });
+    }
+
+    // ===== VALIDACIÓN TELÉFONO =====
+    function validatePhoneField(pf) {
+      const prefix  = pf.querySelector('select').value;
+      const inp     = pf.querySelector('input');
+      const hintEl  = pf.querySelector('.phone-hint');
+      const warnEl  = pf.querySelector('.phone-warning');
+      const num     = inp.value.replace(/[\s\-\(\)\.]/g, '');
+      const rule    = PHONE_RULES[prefix];
+
+      // Hint siempre visible según país
+      hintEl.textContent = rule ? rule.hint : (num ? 'Solo dígitos' : '');
+
+      if (!num) {
+        warnEl.style.display = 'none';
+        inp.style.borderColor = '';
+        return;
+      }
+
+      let valid;
+      if (!rule) {
+        valid = /^\d+$/.test(num);
+      } else {
+        valid = /^\d+$/.test(num) && rule.len.includes(num.length);
+        if (valid && rule.starts) valid = rule.starts.test(num);
+      }
+
+      if (valid) {
+        warnEl.style.display = 'none';
+        inp.style.borderColor = '#00ff41';
+        hintEl.innerHTML = (rule ? rule.hint : 'Solo dígitos') + ' <span style="color:#00ff41;font-weight:700">✓</span>';
+      } else {
+        warnEl.style.display = 'block';
+        inp.style.borderColor = '#ff4444';
+      }
+    }
+
+    // ===== VALIDACIÓN TARJETA SANITARIA =====
+    function validateHealthCard() {
+      const sel    = document.getElementById('f-health-card-country');
+      const inp    = document.getElementById('f-health-card-num');
+      const hintEl = document.querySelector('.health-card-hint');
+      const warnEl = document.querySelector('.health-card-warning');
+      if (!sel || !inp) return;
+
+      const code = sel.value;
+      const num  = inp.value.trim().replace(/[\s\-]/g, '').toUpperCase();
+      const rule = HEALTH_CARD_RULES[code];
+      const defaultHint = EU_CODES.has(code) ? 'Número de tarjeta sanitaria' : 'Número de documento sanitario';
+
+      hintEl.textContent = rule ? rule.hint : defaultHint;
+
+      if (!num) {
+        warnEl.style.display = 'none';
+        inp.style.borderColor = '';
+        return;
+      }
+
+      if (!rule || !rule.re) {
+        warnEl.style.display = 'none';
+        inp.style.borderColor = '#00ff41';
+        return;
+      }
+
+      const valid = rule.re.test(num);
+      if (valid) {
+        warnEl.style.display = 'none';
+        inp.style.borderColor = '#00ff41';
+        hintEl.innerHTML = rule.hint + ' <span style="color:#00ff41;font-weight:700">✓</span>';
+      } else {
+        warnEl.style.display = 'block';
+        inp.style.borderColor = '#ff4444';
+        hintEl.textContent = rule.hint;
+      }
+    }
+
+    // ===== SETUP VALIDACIÓN =====
+    function setupValidation() {
+      document.querySelectorAll('.phone-field').forEach(pf => {
+        pf.querySelector('select').addEventListener('change', () => validatePhoneField(pf));
+        pf.querySelector('input').addEventListener('input',  () => validatePhoneField(pf));
+        validatePhoneField(pf);
+      });
+      const hcSel = document.getElementById('f-health-card-country');
+      const hcInp = document.getElementById('f-health-card-num');
+      if (hcSel) hcSel.addEventListener('change', validateHealthCard);
+      if (hcInp) hcInp.addEventListener('input',  validateHealthCard);
+      validateHealthCard();
+    }
+
+    // ===== HELPERS CHIPS =====
     function getChips(group) {
       return Array.from(
         document.querySelectorAll(`[data-group="${group}"] .chip.active`)
@@ -1098,7 +1411,9 @@
       return levels;
     }
 
+    // ===== GENERATE =====
     function generate() {
+      const v = id => document.getElementById(id).value;
       const profile = {
         lang_spoken:           getChips('lang-spoken'),
         lang_levels:           getLangLevels(),
@@ -1110,12 +1425,12 @@
         height:                getChip('height'),
         organ_donor:           getChip('organ-donor'),
         advance_directive:     getChip('advance-directive'),
-        name:                  document.getElementById('f-name').value,
-        birthdate:             document.getElementById('f-birthdate').value,
-        dni:                   document.getElementById('f-dni').value,
-        email:                 document.getElementById('f-email').value,
-        lang:                  document.getElementById('f-lang').value,
-        blood:                 document.getElementById('f-blood').value,
+        name:                  v('f-name'),
+        birthdate:             v('f-birthdate'),
+        dni:                   v('f-dni'),
+        email:                 v('f-email'),
+        lang:                  v('f-lang'),
+        blood:                 v('f-blood'),
         allergy_med:           getChips('allergy-med'),
         allergy_food:          getChips('allergy-food'),
         allergy_env:           getChips('allergy-env'),
@@ -1123,32 +1438,37 @@
         diseases:              getChips('diseases'),
         conditions:            getChips('conditions'),
         meds:                  getChips('meds'),
-        med_doses:             document.getElementById('f-med-doses').value,
+        med_doses:             v('f-med-doses'),
         med_last_adjust:       getChip('med-last-adjust'),
         surgeries:             getChips('surgeries'),
-        surgery_year:          document.getElementById('f-surgery-year').value,
-        implant_detail:        document.getElementById('f-implant-detail').value,
+        surgery_year:          v('f-surgery-year'),
+        implant_detail:        v('f-implant-detail'),
         pacemaker:             getChip('pacemaker'),
         vaccines:              getChips('vaccines'),
-        tetanus_year:          document.getElementById('f-tetanus-year').value,
+        tetanus_year:          v('f-tetanus-year'),
         vaccine_complete:      getChip('vaccine-complete'),
         religion:              getChip('religion'),
         religion_restrictions: getChips('religion-restrictions'),
-        ec1_name:              document.getElementById('f-ec1-name').value,
-        ec1_rel:               document.getElementById('f-ec1-rel').value,
-        ec1_phone:             document.getElementById('f-ec1-phone').value,
-        ec2_name:              document.getElementById('f-ec2-name').value,
-        ec2_rel:               document.getElementById('f-ec2-rel').value,
-        ec2_phone:             document.getElementById('f-ec2-phone').value,
-        guardian_name:         document.getElementById('f-guardian-name').value,
-        guardian_phone:        document.getElementById('f-guardian-phone').value,
-        guardian_doc:          document.getElementById('f-guardian-doc').value,
-        doctor_name:           document.getElementById('f-doctor-name').value,
-        doctor_phone:          document.getElementById('f-doctor-phone').value,
+        ec1_name:              v('f-ec1-name'),
+        ec1_rel:               v('f-ec1-rel'),
+        ec1_phone_prefix:      v('f-ec1-phone-prefix'),
+        ec1_phone_num:         v('f-ec1-phone-num'),
+        ec2_name:              v('f-ec2-name'),
+        ec2_rel:               v('f-ec2-rel'),
+        ec2_phone_prefix:      v('f-ec2-phone-prefix'),
+        ec2_phone_num:         v('f-ec2-phone-num'),
+        guardian_name:         v('f-guardian-name'),
+        guardian_phone_prefix: v('f-guardian-phone-prefix'),
+        guardian_phone_num:    v('f-guardian-phone-num'),
+        guardian_doc:          v('f-guardian-doc'),
+        doctor_name:           v('f-doctor-name'),
+        doctor_phone_prefix:   v('f-doctor-phone-prefix'),
+        doctor_phone_num:      v('f-doctor-phone-num'),
         insurer:               getChips('insurer'),
-        policy:                document.getElementById('f-policy').value,
-        sanitary_card:         document.getElementById('f-sanitary-card').value,
-        ss_country:            document.getElementById('f-ss-country').value,
+        policy:                v('f-policy'),
+        health_card_country:   v('f-health-card-country'),
+        health_card_num:       v('f-health-card-num'),
+        ss_country:            v('f-ss-country'),
         updated_at:            new Date().toISOString(),
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
@@ -1157,39 +1477,51 @@
       setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
+    // ===== LOAD SAVED =====
     function loadSaved() {
       const saved = JSON.parse(localStorage.getItem('doctorqr_profile') || 'null');
-      if (!saved) return;
+
+      const refreshVal = () => {
+        document.querySelectorAll('.phone-field').forEach(pf => validatePhoneField(pf));
+        validateHealthCard();
+      };
+
+      if (!saved) { refreshVal(); return; }
 
       const set = (id, val) => {
         const el = document.getElementById(id);
         if (el && val !== undefined && val !== null && val !== '') el.value = val;
       };
 
-      set('f-name',           saved.name);
-      set('f-birthdate',      saved.birthdate);
-      set('f-dni',            saved.dni);
-      set('f-email',          saved.email);
-      set('f-lang',           saved.lang);
-      set('f-blood',          saved.blood);
-      set('f-med-doses',      saved.med_doses);
-      set('f-surgery-year',   saved.surgery_year);
-      set('f-implant-detail', saved.implant_detail);
-      set('f-tetanus-year',   saved.tetanus_year);
-      set('f-guardian-name',  saved.guardian_name);
-      set('f-guardian-phone', saved.guardian_phone);
-      set('f-guardian-doc',   saved.guardian_doc);
-      set('f-ec1-name',       saved.ec1_name);
-      set('f-ec1-rel',        saved.ec1_rel);
-      set('f-ec1-phone',      saved.ec1_phone);
-      set('f-ec2-name',       saved.ec2_name);
-      set('f-ec2-rel',        saved.ec2_rel);
-      set('f-ec2-phone',      saved.ec2_phone);
-      set('f-doctor-name',    saved.doctor_name);
-      set('f-doctor-phone',   saved.doctor_phone);
-      set('f-policy',         saved.policy);
-      set('f-sanitary-card',  saved.sanitary_card);
-      set('f-ss-country',     saved.ss_country);
+      set('f-name',                 saved.name);
+      set('f-birthdate',            saved.birthdate);
+      set('f-dni',                  saved.dni);
+      set('f-email',                saved.email);
+      set('f-lang',                 saved.lang);
+      set('f-blood',                saved.blood);
+      set('f-med-doses',            saved.med_doses);
+      set('f-surgery-year',         saved.surgery_year);
+      set('f-implant-detail',       saved.implant_detail);
+      set('f-tetanus-year',         saved.tetanus_year);
+      set('f-ec1-name',             saved.ec1_name);
+      set('f-ec1-rel',              saved.ec1_rel);
+      set('f-ec1-phone-prefix',     saved.ec1_phone_prefix);
+      set('f-ec1-phone-num',        saved.ec1_phone_num);
+      set('f-ec2-name',             saved.ec2_name);
+      set('f-ec2-rel',              saved.ec2_rel);
+      set('f-ec2-phone-prefix',     saved.ec2_phone_prefix);
+      set('f-ec2-phone-num',        saved.ec2_phone_num);
+      set('f-guardian-name',        saved.guardian_name);
+      set('f-guardian-phone-prefix',saved.guardian_phone_prefix);
+      set('f-guardian-phone-num',   saved.guardian_phone_num);
+      set('f-guardian-doc',         saved.guardian_doc);
+      set('f-doctor-name',          saved.doctor_name);
+      set('f-doctor-phone-prefix',  saved.doctor_phone_prefix);
+      set('f-doctor-phone-num',     saved.doctor_phone_num);
+      set('f-policy',               saved.policy);
+      set('f-health-card-country',  saved.health_card_country);
+      set('f-health-card-num',      saved.health_card_num);
+      set('f-ss-country',           saved.ss_country);
 
       const restoreChips = (group, values) => {
         if (!Array.isArray(values)) return;
@@ -1197,7 +1529,6 @@
           if (values.includes(chip.dataset.value)) chip.classList.add('active');
         });
       };
-
       const restoreChip = (group, value) => {
         if (!value) return;
         document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
@@ -1230,12 +1561,16 @@
       restoreChips('religion-restrictions', saved.religion_restrictions);
       restoreChips('insurer',               saved.insurer);
 
-      // Renderizar niveles de idioma tras restaurar chips de lang-spoken
       if (saved.lang_spoken && saved.lang_spoken.length > 0) {
         renderLangLevels(saved.lang_levels || {});
       }
+
+      refreshVal();
     }
 
+    // ===== INIT =====
+    initCountrySelects();
+    setupValidation();
     loadSaved();
   </script>
 
