@@ -260,7 +260,7 @@
         terapia_hormonal:      getChips('terapia-hormonal'),
         tiempo_terapia_hormonal: getChip('tiempo-terapia-hormonal'),
         lang:                  v('f-lang'),
-        blood:                 v('f-blood'),
+        sangre:                v('f-blood'),
         allergy_med:           getChips('allergy-med'),
         allergy_food:          getChips('allergy-food'),
         allergy_env:           getChips('allergy-env'),
@@ -385,7 +385,7 @@
       restoreChip ('identidad-genero',      saved.identidad_genero);
       restoreChips('terapia-hormonal',      saved.terapia_hormonal);
       restoreChip ('tiempo-terapia-hormonal', saved.tiempo_terapia_hormonal);
-      set('f-blood',                saved.blood);
+      set('f-blood',                saved.sangre || saved.blood);
       set('f-med-doses',            saved.med_doses);
       set('f-surgery-year',         saved.surgery_year);
       set('f-implant-detail',       saved.implant_detail);
