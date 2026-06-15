@@ -1448,16 +1448,17 @@
       const user    = JSON.parse(localStorage.getItem('doctorqr_user')    || '{}');
       const profile = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
 
+      const nombreCompleto = [user.nombre, user.apellidos].filter(Boolean).join(' ')
+                           || profile.nombre || '';
+
       const campos = {
-        'nombre':           user.nombre    || profile.nombre,
-        'apellidos':        user.apellidos || profile.apellidos,
-        'fecha_nacimiento': profile.fecha_nacimiento,
-        'doc_number':       profile.doc_number,
-        'email-alias':      (user.email || profile.email || '').split('@')[0]
+        'f-name':      nombreCompleto,
+        'f-birthdate': profile.fecha_nacimiento || profile.birthdate || '',
+        'email-alias': (user.email || profile.email || '').split('@')[0]
       };
 
       Object.entries(campos).forEach(([id, val]) => {
-        const el = document.getElementById(id) || document.querySelector(`input[name="${id}"]`);
+        const el = document.getElementById(id);
         if (el && val) {
           el.value = val;
           el.disabled = true;

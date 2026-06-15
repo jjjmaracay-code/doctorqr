@@ -248,8 +248,9 @@
         lactancia:             getChip('lactancia'),
         organ_donor:           getChip('organ-donor'),
         advance_directive:     getChip('advance-directive'),
-        name:                  v('f-name'),
-        birthdate:             v('f-birthdate'),
+        nombre:                v('f-name'),
+        apellidos:             '',
+        fecha_nacimiento:      v('f-birthdate'),
         doc_type:              getActiveDocType(),
         doc_number:            getDocNumber(),
         passport_country:      v('passport-country'),
@@ -345,8 +346,8 @@
         if (el && val !== undefined && val !== null && val !== '') el.value = val;
       };
 
-      set('f-name',                 saved.name);
-      set('f-birthdate',            saved.birthdate);
+      set('f-name',                 saved.nombre || saved.name);
+      set('f-birthdate',            saved.fecha_nacimiento || saved.birthdate);
       set('f-lang',                 saved.lang);
 
       // Restaurar tipo documento y número

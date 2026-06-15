@@ -1801,6 +1801,8 @@ function completarRegistro(tfaMethod) {
     twofa_method:     tfaMethod,
     campos_bloqueados: true,
   }));
+  localStorage.setItem('doctorqr_token', 'biometric_' + Date.now());
+  localStorage.setItem('doctorqr_user', JSON.stringify({ ...regData, twofa_method: tfaMethod }));
   goToScreen(5);
   populateSuccessScreen({ ...regData, twofa_method: tfaMethod });
 }
