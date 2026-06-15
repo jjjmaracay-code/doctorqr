@@ -613,6 +613,25 @@
     #year-visit-1::-webkit-inner-spin-button,
     #year-visit-2::-webkit-inner-spin-button,
     #year-visit-3::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    #last-surgery-date {
+      background: #0d0d0d;
+      border: 1px solid #00ff41;
+      border-radius: 10px;
+      color: #00ff41;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 10px 14px;
+      width: 100%;
+      box-sizing: border-box;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300ff41' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    #last-surgery-date option { background: #1a1a1a; color: #fff; }
   </style>
 </head>
 <body>
@@ -825,6 +844,37 @@
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
+        <div class="field">
+          <div class="field-label">PROFESIÓN ACTUAL</div>
+          <div class="chips" data-group="profesion" data-single="true">
+            <div class="chip" data-value="Sanitario">Sanitario</div>
+            <div class="chip" data-value="Agricultor/Ganadero">Agricultor/Ganadero</div>
+            <div class="chip" data-value="Minero/Construcción">Minero/Construcción</div>
+            <div class="chip" data-value="Químico/Laboratorio">Químico/Laboratorio</div>
+            <div class="chip" data-value="Militar/Policía">Militar/Policía</div>
+            <div class="chip" data-value="Educación">Educación</div>
+            <div class="chip" data-value="Oficina/Administración">Oficina/Administración</div>
+            <div class="chip" data-value="Transporte">Transporte</div>
+            <div class="chip" data-value="Hostelería">Hostelería</div>
+            <div class="chip" data-value="Jubilado">Jubilado</div>
+            <div class="chip" data-value="Estudiante">Estudiante</div>
+            <div class="chip" data-value="Otra">Otra</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">AYUDAS TÉCNICAS QUE USA</div>
+          <div class="chips" data-group="ayudas-tecnicas">
+            <div class="chip" data-value="Gafas">Gafas</div>
+            <div class="chip" data-value="Lentillas">Lentillas</div>
+            <div class="chip" data-value="Audífono">Audífono</div>
+            <div class="chip" data-value="Prótesis dental removible">Prótesis dental removible</div>
+            <div class="chip" data-value="Silla de ruedas">Silla de ruedas</div>
+            <div class="chip" data-value="Muletas/bastón">Muletas/bastón</div>
+            <div class="chip" data-value="Andador">Andador</div>
+            <div class="chip" data-value="Ninguna">Ninguna</div>
+          </div>
+          <div class="field-hint">Relevante en anestesia y comunicación durante emergencia</div>
+        </div>
         <div class="field">
           <div class="field-label">Peso aproximado</div>
           <div class="chips" data-group="weight" data-single="true">
@@ -1133,6 +1183,22 @@
             <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
           </div>
         </div>
+        <div class="field">
+          <div class="field-label">¿LLEVA EPIPEN U OTRO AUTOINYECTOR?</div>
+          <div class="chips" data-group="epipen" data-single="true">
+            <div class="chip" data-value="Sí — llevo EpiPen encima">Sí — llevo EpiPen encima</div>
+            <div class="chip" data-value="Sí — lo tengo en casa">Sí — lo tengo en casa</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿ALERGIA AL LÁTEX DE GUANTES QUIRÚRGICOS?</div>
+          <div class="chips" data-group="latex-guantes" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — ALERGIA AL LÁTEX">SÍ — ALERGIA AL LÁTEX</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1265,6 +1331,14 @@
             </div>
           </div>
         </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿TOMA ANTICOAGULANTES?</div>
+          <div class="chips" data-group="anticoagulado" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — ANTICOAGULADO">SÍ — ANTICOAGULADO</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Crítico en trauma y cirugía — modifica todo el protocolo de actuación</div>
+        </div>
       </div>
     </div>
 
@@ -1305,6 +1379,17 @@
             <div class="chip" data-value="Este año">Este año</div>
             <div class="chip" data-value="Hace más de un año">Hace más de un año</div>
           </div>
+        </div>
+        <div class="field">
+          <div class="field-label">ÚLTIMA TOMA DE MEDICACIÓN CRÍTICA</div>
+          <div class="chips" data-group="ultima-toma-medicacion" data-single="true">
+            <div class="chip" data-value="Hace menos de 6 horas">Hace menos de 6 horas</div>
+            <div class="chip" data-value="Hace 6-12 horas">Hace 6-12 horas</div>
+            <div class="chip" data-value="Hace 12-24 horas">Hace 12-24 horas</div>
+            <div class="chip" data-value="Hace más de 24 horas">Hace más de 24 horas</div>
+            <div class="chip" data-value="No tomo medicación crítica">No tomo medicación crítica</div>
+          </div>
+          <div class="field-hint">Insulina, anticoagulantes, antiepilépticos — relevante en emergencia</div>
         </div>
       </div>
     </div>
@@ -1383,6 +1468,29 @@
             <div class="chip chip-danger" data-value="SÍ">SÍ</div>
             <div class="chip" data-value="NO">NO</div>
           </div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿FECHA APROXIMADA ÚLTIMA CIRUGÍA?</div>
+          <select id="last-surgery-date">
+            <option value="">— No aplica / Ninguna —</option>
+            <option>Hace menos de 1 mes</option>
+            <option>Hace 1-3 meses</option>
+            <option>Hace 3-6 meses</option>
+            <option>Hace 6-12 meses</option>
+            <option>Hace 1-2 años</option>
+            <option>Hace más de 2 años</option>
+          </select>
+          <div class="field-hint">Relevante para riesgo trombótico postoperatorio reciente</div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿TIENE MATERIAL DE OSTEOSÍNTESIS?</div>
+          <div class="chips" data-group="material-osteosintesis" data-single="true">
+            <div class="chip" data-value="Sí — tornillos/placas/clavos">Sí — tornillos/placas/clavos</div>
+            <div class="chip" data-value="Sí — prótesis metálica">Sí — prótesis metálica</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No sé">No sé</div>
+          </div>
+          <div class="field-hint">Afecta resonancias magnéticas y radiografías</div>
         </div>
       </div>
     </div>
@@ -2081,6 +2189,8 @@
         comm_difficulty:       getChips('comm-difficulty'),
         sign_lang:             getChips('sign-lang'),
         can_decide:            getChip('can-decide'),
+        profesion:             getChip('profesion'),
+        ayudas_tecnicas:       getChips('ayudas-tecnicas'),
         weight:                getChip('weight'),
         height:                getChip('height'),
         organ_donor:           getChip('organ-donor'),
@@ -2097,13 +2207,19 @@
         allergy_food:          getChips('allergy-food'),
         allergy_env:           getChips('allergy-env'),
         allergy_anesthesia:    getChips('allergy-anesthesia'),
+        epipen:                getChip('epipen'),
+        latex_guantes:         getChip('latex-guantes'),
         diseases:              getChips('diseases'),
         conditions:            getChips('conditions'),
+        anticoagulado:         getChip('anticoagulado'),
         meds:                  getChips('meds'),
         med_doses:             v('f-med-doses'),
         med_last_adjust:       getChip('med-last-adjust'),
+        ultima_toma_medicacion: getChip('ultima-toma-medicacion'),
         surgeries:             getChips('surgeries'),
         surgery_year:          v('f-surgery-year'),
+        last_surgery_date:     v('last-surgery-date'),
+        material_osteosintesis: getChip('material-osteosintesis'),
         implant_detail:        v('f-implant-detail'),
         pacemaker:             getChip('pacemaker'),
         vaccines:              getChips('vaccines'),
@@ -2245,6 +2361,8 @@
       restoreChips('comm-difficulty',       saved.comm_difficulty);
       restoreChips('sign-lang',             saved.sign_lang);
       restoreChip ('can-decide',            saved.can_decide);
+      restoreChip ('profesion',             saved.profesion);
+      restoreChips('ayudas-tecnicas',       saved.ayudas_tecnicas);
       restoreChip ('weight',                saved.weight);
       restoreChip ('height',                saved.height);
       restoreChip ('organ-donor',           saved.organ_donor);
@@ -2253,11 +2371,17 @@
       restoreChips('allergy-food',          saved.allergy_food);
       restoreChips('allergy-env',           saved.allergy_env);
       restoreChips('allergy-anesthesia',    saved.allergy_anesthesia);
+      restoreChip ('epipen',                saved.epipen);
+      restoreChip ('latex-guantes',         saved.latex_guantes);
       restoreChips('diseases',              saved.diseases);
       restoreChips('conditions',            saved.conditions);
+      restoreChip ('anticoagulado',         saved.anticoagulado);
       restoreChips('meds',                  saved.meds);
       restoreChip ('med-last-adjust',       saved.med_last_adjust);
+      restoreChip ('ultima-toma-medicacion',saved.ultima_toma_medicacion);
+      set('last-surgery-date',              saved.last_surgery_date);
       restoreChips('surgeries',             saved.surgeries);
+      restoreChip ('material-osteosintesis',saved.material_osteosintesis);
       restoreChip ('pacemaker',             saved.pacemaker);
       restoreChips('vaccines',              saved.vaccines);
       restoreChip ('vaccine-complete',      saved.vaccine_complete);
