@@ -424,6 +424,41 @@
       background: rgba(0,255,65,0.06);
     }
 
+    /* ICONOS SVG */
+    .ico {
+      width: 1em; height: 1em;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      display: inline-block;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+    .ico-crit { filter: drop-shadow(0 0 4px currentColor); }
+    .section-icon {
+      width: 15px; height: 15px;
+      vertical-align: -3px;
+      margin-right: 5px;
+      flex-shrink: 0;
+      pointer-events: none;
+      display: inline-block;
+    }
+    .sect-norm { color: #00ff41; }
+    .sect-crit { color: #ff2222; filter: drop-shadow(0 0 6px #ff2222); }
+    .sect-high { color: #ff6600; filter: drop-shadow(0 0 5px #ff6600); }
+    .chip-ico {
+      width: 0.78em; height: 0.78em;
+      vertical-align: -0.1em;
+      margin-left: 3px;
+      flex-shrink: 0;
+      pointer-events: none;
+      display: inline-block;
+    }
+    @keyframes pulse-ico {
+      0%, 100% { filter: drop-shadow(0 0 5px #ff2222); }
+      50%       { filter: drop-shadow(0 0 14px #ff2222) drop-shadow(0 0 22px rgba(255,34,34,0.35)); }
+    }
+    .ico-pulse { animation: pulse-ico 1.8s ease-in-out infinite; }
+
     /* TOAST */
     .toast {
       position: fixed;

@@ -686,7 +686,74 @@
       if (inputs.length) inputs[inputs.length - 1].value = value;
     }
 
+    // ===== ICONOS SVG =====
+    const SVG_PATHS = {
+      warn:     '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>',
+      bolt:     '<path d="M7 2v11h3v9l7-12h-4l4-8z"/>',
+      heart:    '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>',
+      thermo:   '<path d="M15 13V5a3 3 0 0 0-6 0v8a5 5 0 1 0 6 0zm-3 7a3 3 0 0 1-3-3c0-1.12.63-2.1 1.5-2.64V5a1.5 1.5 0 0 1 3 0v9.36A3 3 0 0 1 15 17a3 3 0 0 1-3 3z"/>',
+      syringe:  '<path d="M11 15h2v-2h2v-2h-2V9h-2v2H9v2h2v2zm10-7.59L18.59 3l-2.42 2.42 1.42 1.41-1.42 1.42-1.41-1.42-1.41 1.42 1.41 1.41-2.12 2.13-1.42-1.42-1.41 1.42 1.41 1.41-2.22 2.22c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l2.22-2.22 1.42 1.42 1.41-1.42-1.41-1.41 2.12-2.13 1.41 1.42 1.42-1.42-1.42-1.41 2.43-2.43-1.41-1.41z"/>',
+      clip:     '<path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>',
+      pill:     '<path d="M4.22 11.29l7.07-7.07a5 5 0 0 1 7.07 7.07l-7.07 7.07a5 5 0 0 1-7.07-7.07zM12 9.17l-2.83 2.83 1.41 1.41 2.84-2.83z"/>',
+      run:      '<path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 12.3V17h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/>',
+      family:   '<path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05C16.19 13.9 17 15.04 17 16.5V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>',
+      hands:    '<path d="M12 3 9 9H4v12h16V9h-5L12 3zm3 16H9v-5h2v3h2v-3h2v5zm2-7H7v-1h10v1z"/>',
+      phone:    '<path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02L6.62 10.79z"/>',
+      hospital: '<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"/>',
+    };
+
+    function svgIcon(key, cls) {
+      return `<svg class="${cls}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${SVG_PATHS[key]}</svg>`;
+    }
+
+    function initIcons() {
+      const SECT_MAP = [
+        { match: 'Idiomas',            icon: 'clip',     cls: 'section-icon sect-norm' },
+        { match: 'Datos físicos',      icon: 'thermo',   cls: 'section-icon sect-norm' },
+        { match: 'Identificación',     icon: 'clip',     cls: 'section-icon sect-norm' },
+        { match: 'Datos críticos',     icon: 'bolt',     cls: 'section-icon sect-crit' },
+        { match: 'Enfermedades',       icon: 'heart',    cls: 'section-icon sect-crit ico-pulse' },
+        { match: 'Medicación',         icon: 'pill',     cls: 'section-icon sect-crit' },
+        { match: 'Cirugías',           icon: 'hospital', cls: 'section-icon sect-norm' },
+        { match: 'Vacunas',            icon: 'syringe',  cls: 'section-icon sect-norm' },
+        { match: 'Hábitos',            icon: 'run',      cls: 'section-icon sect-norm' },
+        { match: 'Historial familiar', icon: 'family',   cls: 'section-icon sect-norm' },
+        { match: 'Religión',           icon: 'hands',    cls: 'section-icon sect-norm' },
+        { match: 'Contactos',          icon: 'phone',    cls: 'section-icon sect-norm' },
+        { match: 'Médico',             icon: 'hospital', cls: 'section-icon sect-norm' },
+      ];
+
+      // Iconos en títulos de sección
+      document.querySelectorAll('.section-title').forEach(el => {
+        const text = el.textContent.trim();
+        const entry = SECT_MAP.find(e => text.includes(e.match));
+        if (entry) el.insertAdjacentHTML('afterbegin', svgIcon(entry.icon, entry.cls));
+      });
+
+      // Reemplazar ⚠ en field-labels y critical-warning (no dentro de chips)
+      document.querySelectorAll('.field-label, .critical-warning').forEach(el => {
+        if (!el.closest('.chip') && /⚠/.test(el.innerHTML)) {
+          el.innerHTML = el.innerHTML.replace(/⚠️?/g, svgIcon('warn', 'ico ico-crit'));
+        }
+      });
+
+      // Reemplazar ⚠️ en chips peligrosos
+      document.querySelectorAll('.chip.chip-danger').forEach(chip => {
+        if (/⚠️/.test(chip.innerHTML)) {
+          chip.innerHTML = chip.innerHTML.replace(/⚠️/g, svgIcon('warn', 'chip-ico ico-crit'));
+        }
+      });
+
+      // Reemplazar ⚡ en botones GENERAR
+      document.querySelectorAll('button').forEach(btn => {
+        if (/⚡/.test(btn.innerHTML)) {
+          btn.innerHTML = btn.innerHTML.replace(/⚡/g, svgIcon('bolt', 'ico ico-crit'));
+        }
+      });
+    }
+
     // ===== INIT =====
     initCountrySelects();
     setupValidation();
     loadSaved();
+    initIcons();
