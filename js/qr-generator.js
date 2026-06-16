@@ -329,25 +329,6 @@ function generateQRCard(type, formData, container) {
   `;
   wrap.id = type.id + '-wrap';
 
-  const logo = document.createElement('div');
-  logo.style.cssText = `
-    position:absolute;
-    top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:38px;height:38px;
-    background:#000;border-radius:6px;
-    display:flex;align-items:center;
-    justify-content:center;
-    font-size:7px;font-weight:900;
-    letter-spacing:0.5px;
-    text-align:center;line-height:1.3;
-    color:${type.color};
-    border:1px solid ${type.color};
-    font-family:inherit;z-index:2;
-  `;
-  logo.innerHTML = 'D<br>QR';
-  wrap.appendChild(logo);
-
   const age = d.fecha_nacimiento ?
     calcAge(d.fecha_nacimiento) + ' años' : '';
 
@@ -378,10 +359,9 @@ function generateQRCard(type, formData, container) {
       width: 200,
       height: 200,
       colorDark: type.darkColor,
-      colorLight: '#000000',
-      correctLevel: QRCode.CorrectLevel.H
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
     });
-    wrap.appendChild(logo);
   }, 100);
 }
 
@@ -488,7 +468,7 @@ function printEmergencyQR() {
     width: 110, height: 110,
     colorDark: '#cc0000',
     colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.H
+    correctLevel: QRCode.CorrectLevel.M
   });
   setTimeout(() => window.print(), 800);
 <\/script>
