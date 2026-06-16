@@ -1,44 +1,12 @@
 // ============================================
-// DATOS BASE — VAN EN ABSOLUTAMENTE TODOS LOS QR
+// CAMPOS UNIVERSALES — presentes en los 9 QR sin excepción
 // ============================================
 const BASE_FIELDS = [
-  // Identidad
-  'nombre','apellidos','fecha_nacimiento',
-  'doc_type','doc_number','sangre',
-  // Alergias
-  'allergy_med','allergy_anesthesia',
-  'allergy_food','allergy_env',
-  'latex_guantes','epipen','anafilaxia_previa',
-  // Medicación
-  'anticoagulado','pacemaker',
-  'meds','med_doses','medicacion_alto_riesgo',
-  'ultima_toma_medicacion',
-  // Condiciones
-  'diseases','conditions',
-  'implant_detail',
-  'dificultad_intubacion','complicaciones_anestesia',
-  'material_osteosintesis',
-  // Decisiones
-  'can_decide','religion_restrictions',
-  'advance_directive','organ_donor',
-  // Historial
-  'surgeries','last_surgery_date',
-  'vaccines',
-  'tabaco','alcohol','drogas','actividad_fisica',
-  'enfermedades_familiares','muerte_subita_familiar',
-  'hipertermia_maligna_familiar',
-  // Biométrico
-  'weight','height',
-  // Contactos emergencia
-  'ec1_name','ec1_rel','ec1_phone_prefix','ec1_phone_num',
-  'ec2_name','ec2_rel','ec2_phone_prefix','ec2_phone_num',
-  'guardian_name','guardian_phone_prefix','guardian_phone_num',
-  // Médico
+  'nombre','apellidos','fecha_nacimiento','sangre','sexo_biologico',
+  'ec1_name','ec1_phone_prefix','ec1_phone_num','ec1_rel',
+  'ec2_name','ec2_phone_prefix','ec2_phone_num','ec2_rel',
   'doctor_name','doctor_phone_prefix','doctor_phone_num',
-  // Seguro
-  'insurer','policy','health_card_num','ss_country',
-  // Idioma
-  'lang'
+  'insurer','policy','health_card_num'
 ];
 
 // ============================================
@@ -262,24 +230,147 @@ function getFormData() {
   } catch(e) { return {}; }
 }
 
-function buildQRUrl(type, formData) {
-  const d = formData;
-  const payload = {};
-
-  BASE_FIELDS.forEach(f => {
-    if (d[f]) payload[f] = d[f];
+// Extrae campos simples no vacíos
+function _p(profile, fields) {
+  const out = {};
+  fields.forEach(f => {
+    const v = profile[f];
+    if (v !== undefined && v !== null && v !== '' &&
+        !(Array.isArray(v) && !v.length))
+      out[f] = v;
   });
+  return out;
+}
 
-  if (type.extra) {
-    type.extra.forEach(f => {
-      if (d[f]) payload[f] = d[f];
-    });
+// Extrae un campo array con límite opcional
+function _pa(profile, field, max) {
+  const v = profile[field];
+  if (!v) return {};
+  const a = Array.isArray(v) ? v.filter(Boolean)
+    : String(v).split(/[,;]\s*/).filter(Boolean);
+  const s = max ? a.slice(0, max) : a;
+  return s.length ? { [field]: s } : {};
+}
+
+// Construye el payload específico para cada tipo de QR
+function buildQRData(type, profile) {
+  // Datos universales — en los 9 QR
+  const base = _p(profile, BASE_FIELDS);
+
+  // Núcleo de emergencia — en todos los tipos
+  const core = {
+    ..._p(profile, [
+      'allergy_med','allergy_anesthesia',
+      'epipen','anafilaxia_previa',
+      'anticoagulado','pacemaker',
+      'dificultad_intubacion','complicaciones_anestesia',
+      'religion_restrictions'
+    ]),
+    ..._pa(profile, 'meds', 3)
+  };
+
+  // Idioma si no es español
+  const lang = profile.lang_spoken || profile.lang || '';
+  if (lang && !lang.toLowerCase().startsWith('es'))
+    core.lang_spoken = lang;
+
+  // Campos específicos por tipo
+  let extra = {};
+
+  switch (type.id) {
+    case 'qr-emergency':
+      // Solo base + core
+      break;
+
+    case 'qr-u1':
+      extra = {
+        ..._p(profile, ['ultima_toma_medicacion','material_osteosintesis','hipertermia_maligna_familiar']),
+        ..._pa(profile, 'meds', 5),
+        ..._pa(profile, 'diseases', 5),
+        ..._pa(profile, 'conditions', 5),
+        ..._pa(profile, 'surgeries', 3)
+      };
+      break;
+
+    case 'qr-u2':
+      extra = _p(profile, [
+        'stents','acv_previo','epilepsia',
+        'muerte_subita_familiar','desfibrilador'
+      ]);
+      break;
+
+    case 'qr-u3':
+      extra = {
+        ..._p(profile, ['latex_guantes','anafilaxia_descripcion']),
+        ..._pa(profile, 'allergy_food', null),
+        ..._pa(profile, 'allergy_env', null)
+      };
+      break;
+
+    case 'qr-e1':
+      extra = {
+        ..._p(profile, [
+          'ultima_toma_medicacion','material_osteosintesis',
+          'hipertermia_maligna_familiar','organ_donor','advance_directive'
+        ]),
+        ..._pa(profile, 'meds', 5),
+        ..._pa(profile, 'diseases', 5),
+        ..._pa(profile, 'conditions', 5),
+        ..._pa(profile, 'surgeries', null)
+      };
+      break;
+
+    case 'qr-e2':
+      extra = {
+        ..._p(profile, [
+          'cancer_tipo','cancer_estadio','tratamiento_oncologico',
+          'ultimo_ciclo','neutropenia','puerto_cateter',
+          'ultima_toma_medicacion'
+        ]),
+        ..._pa(profile, 'meds', 5),
+        ..._pa(profile, 'diseases', 5),
+        ..._pa(profile, 'conditions', 5),
+        ..._pa(profile, 'surgeries', 3)
+      };
+      break;
+
+    case 'qr-e3':
+      extra = {
+        ..._p(profile, ['weight','height','prematuro',
+          'guardian_name','guardian_phone_prefix','guardian_phone_num']),
+        ..._pa(profile, 'vaccines', null),
+        ..._pa(profile, 'diseases', 5),
+        ..._pa(profile, 'allergy_food', null)
+      };
+      break;
+
+    case 'qr-e4':
+      extra = _p(profile, [
+        'embarazo','embarazo_semanas','lactancia',
+        'cesarea_previa','complicaciones_embarazo','diabetes_gestacional'
+      ]);
+      break;
+
+    case 'qr-e5':
+      extra = {
+        ..._p(profile, [
+          'diagnostico_psiquiatrico','riesgo_suicida_previo',
+          'internamiento_previo','can_decide'
+        ]),
+        ..._pa(profile, 'meds', 5)
+      };
+      break;
   }
 
+  const payload = { ...base, ...core, ...extra };
   payload.qr = type.id;
   payload.ts = new Date().toISOString().split('T')[0];
+  return payload;
+}
 
-  const json = JSON.stringify(payload);
+function buildQRUrl(type, formData) {
+  const payload    = buildQRData(type, formData);
+  const json       = JSON.stringify(payload);
   const compressed = LZString.compressToEncodedURIComponent(json);
   return 'https://doctorqr.app/card.html#' + compressed;
 }
