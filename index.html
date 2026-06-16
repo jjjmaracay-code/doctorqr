@@ -310,7 +310,7 @@
             <option>Más de 40 semanas</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="field-lactancia">
           <div class="field-label">¿LACTANCIA ACTIVA?</div>
           <div class="chips" data-group="lactancia" data-single="true">
             <div class="chip" data-value="Sí — lactancia materna activa">Sí — lactancia materna activa</div>
@@ -319,15 +319,25 @@
           </div>
           <div class="field-hint">Modifica qué medicamentos pueden administrarse</div>
         </div>
-        <div class="field">
+        <div class="field" id="field-semanas-gestacion">
           <div class="field-label">SEMANAS DE GESTACIÓN AL NACER</div>
-          <input type="number" id="f-semanas-gestacion" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término"/>
-          <div class="field-hint">Relevante para prematuros — afecta dosis y desarrollo</div>
+          <div class="chips" data-group="semanas-gestacion-aplica" data-single="true" style="margin-bottom:6px">
+            <div class="chip" data-value="No aplica">No aplica</div>
+          </div>
+          <div id="semanas-gestacion-input-wrap">
+            <input type="number" id="f-semanas-gestacion" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término"/>
+            <div class="field-hint">Relevante para prematuros — afecta dosis y desarrollo</div>
+          </div>
         </div>
-        <div class="field">
+        <div class="field" id="field-semanas-lactancia">
           <div class="field-label">SEMANAS DE LACTANCIA ACTIVA</div>
-          <input type="number" id="f-semanas-lactancia" min="0" max="200" placeholder="Ej: 6 semanas"/>
-          <div class="field-hint">Duración de la lactancia actual — relevante para medicamentos</div>
+          <div class="chips" data-group="semanas-lactancia-aplica" data-single="true" style="margin-bottom:6px">
+            <div class="chip" data-value="No aplica">No aplica</div>
+          </div>
+          <div id="semanas-lactancia-input-wrap">
+            <input type="number" id="f-semanas-lactancia" min="0" max="200" placeholder="Ej: 6 semanas"/>
+            <div class="field-hint">Duración de la lactancia actual — relevante para medicamentos</div>
+          </div>
         </div>
         <div class="field">
           <div class="field-label">Donante de órganos</div>
@@ -432,10 +442,10 @@
         <div class="form-group">
           <div class="field-label">SEXO BIOLÓGICO</div>
           <div class="chips" data-group="sexo-biologico" data-single="true">
-            <div class="chip" data-value="Masculino">Masculino</div>
-            <div class="chip" data-value="Femenino">Femenino</div>
-            <div class="chip" data-value="Intersexual">Intersexual</div>
-            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+            <div class="chip" data-value="Masculino"        onclick="checkGenderFields(this)">Masculino</div>
+            <div class="chip" data-value="Femenino"         onclick="checkGenderFields(this)">Femenino</div>
+            <div class="chip" data-value="Intersexual"      onclick="checkGenderFields(this)">Intersexual</div>
+            <div class="chip" data-value="Prefiero no decir" onclick="checkGenderFields(this)">Prefiero no decir</div>
           </div>
         </div>
         <!-- Identidad de género -->
@@ -921,8 +931,59 @@
             <div class="chip" data-value="Sí" onclick="checkSaludEmocional(this)">Sí</div>
             <div class="chip" data-value="No" onclick="checkSaludEmocional(this)">No</div>
           </div>
-          <div id="salud-emocional-cual-wrap" style="display:none;margin-top:8px">
-            <input type="text" id="f-salud-emocional-cual" placeholder="¿Cuál? (opcional — solo si deseas indicarlo)"/>
+          <div id="salud-emocional-cual-wrap" style="display:none;margin-top:12px">
+            <div class="field-label" style="margin-bottom:6px">DIAGNÓSTICO PRINCIPAL</div>
+            <div class="chips" data-group="salud-emocional-diagnostico">
+              <div class="chip" data-value="Depresión mayor">Depresión mayor</div>
+              <div class="chip" data-value="Trastorno bipolar">Trastorno bipolar</div>
+              <div class="chip" data-value="Esquizofrenia">Esquizofrenia</div>
+              <div class="chip" data-value="Trastorno de ansiedad">Trastorno de ansiedad</div>
+              <div class="chip" data-value="TOC">TOC</div>
+              <div class="chip" data-value="TEPT">TEPT</div>
+              <div class="chip" data-value="TDAH">TDAH</div>
+              <div class="chip" data-value="Trastorno de personalidad">Trastorno de personalidad</div>
+              <div class="chip" data-value="Trastorno alimentario">Trastorno alimentario</div>
+              <div class="chip" data-value="Otro" onclick="checkSaludEmocionalOtro(this)">Otro</div>
+            </div>
+            <div id="salud-emocional-otro-wrap" style="display:none;margin-top:6px">
+              <input type="text" id="f-salud-emocional-cual" placeholder="Especifica el diagnóstico..."/>
+            </div>
+
+            <div class="field-label" style="margin-top:14px;margin-bottom:6px;color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN PSIQUIÁTRICA ACTIVA</div>
+            <div class="chips" data-group="meds-psiquiatria">
+              <div class="chip chip-danger" data-value="Litio">Litio ⚠️</div>
+              <div class="chip chip-danger" data-value="Clozapina">Clozapina ⚠️</div>
+              <div class="chip" data-value="Haloperidol">Haloperidol</div>
+              <div class="chip" data-value="Risperidona">Risperidona</div>
+              <div class="chip" data-value="Quetiapina">Quetiapina</div>
+              <div class="chip" data-value="Olanzapina">Olanzapina</div>
+              <div class="chip" data-value="Sertralina">Sertralina</div>
+              <div class="chip" data-value="Fluoxetina">Fluoxetina</div>
+              <div class="chip" data-value="Venlafaxina">Venlafaxina</div>
+              <div class="chip chip-danger" data-value="Alprazolam">Alprazolam ⚠️</div>
+              <div class="chip chip-danger" data-value="Lorazepam">Lorazepam ⚠️</div>
+              <div class="chip chip-danger" data-value="Valproato">Valproato ⚠️</div>
+              <div class="chip chip-danger" data-value="Carbamazepina">Carbamazepina ⚠️</div>
+            </div>
+            <div id="meds-psiq-extra-wrap" style="margin-top:4px"></div>
+            <button type="button" class="btn-add-med" id="btn-add-psiq-med" onclick="addMedExtra('psiq')">+ Añadir otro</button>
+
+            <div class="field-label" style="margin-top:14px;margin-bottom:6px">¿PUEDE TOMAR DECISIONES MÉDICAS?</div>
+            <div class="chips" data-group="puede-decidir-salud" data-single="true">
+              <div class="chip" data-value="Sí">Sí</div>
+              <div class="chip" data-value="No">No</div>
+              <div class="chip" data-value="Depende del momento">Depende del momento</div>
+            </div>
+
+            <div class="field-label" style="margin-top:14px;margin-bottom:6px">¿TIENE TUTOR LEGAL?</div>
+            <div class="chips" data-group="tutor-legal" data-single="true">
+              <div class="chip" data-value="Sí" onclick="checkTutorLegal(this)">Sí</div>
+              <div class="chip" data-value="No" onclick="checkTutorLegal(this)">No</div>
+            </div>
+            <div id="tutor-legal-wrap" style="display:none;margin-top:8px">
+              <input type="text"  id="f-tutor-legal-nombre" placeholder="Nombre del tutor legal" style="margin-bottom:6px"/>
+              <input type="tel"   id="f-tutor-legal-phone"  placeholder="Teléfono del tutor legal"/>
+            </div>
           </div>
         </div>
       </div>
@@ -950,8 +1011,27 @@
             <div class="chip" data-value="Clopidogrel">Clopidogrel</div>
             <div class="chip" data-value="Furosemida">Furosemida</div>
             <div class="chip" data-value="Amoxicilina">Amoxicilina</div>
+            <div class="chip chip-danger" data-value="Rivaroxabán">Rivaroxabán ⚠️</div>
+            <div class="chip chip-danger" data-value="Apixabán">Apixabán ⚠️</div>
+            <div class="chip chip-danger" data-value="Dabigatrán">Dabigatrán ⚠️</div>
+            <div class="chip chip-danger" data-value="Heparina">Heparina ⚠️</div>
+            <div class="chip chip-danger" data-value="Digoxina">Digoxina ⚠️</div>
+            <div class="chip chip-danger" data-value="Amiodarona">Amiodarona ⚠️</div>
+            <div class="chip" data-value="Bisoprolol">Bisoprolol</div>
+            <div class="chip" data-value="Amlodipino">Amlodipino</div>
+            <div class="chip" data-value="Levodopa">Levodopa</div>
+            <div class="chip chip-danger" data-value="Fenitoína">Fenitoína ⚠️</div>
+            <div class="chip chip-danger" data-value="Valproato">Valproato ⚠️</div>
+            <div class="chip chip-danger" data-value="Carbamazepina">Carbamazepina ⚠️</div>
+            <div class="chip chip-danger" data-value="Prednisona">Prednisona ⚠️</div>
+            <div class="chip chip-danger" data-value="Metotrexato">Metotrexato ⚠️</div>
+            <div class="chip chip-danger" data-value="Ciclosporina">Ciclosporina ⚠️</div>
+            <div class="chip chip-danger" data-value="Tacrolimus">Tacrolimus ⚠️</div>
+            <div class="chip chip-danger" data-value="Quimioterapia oral">Quimioterapia oral ⚠️</div>
             <div class="chip" data-value="Ninguna">Ninguna</div>
           </div>
+          <div id="meds-extra-wrap" style="margin-top:4px"></div>
+          <button type="button" class="btn-add-med" id="btn-add-med" onclick="addMedExtra('meds')">+ Añadir otro medicamento</button>
         </div>
         <div class="field">
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN DE ALTO RIESGO DE INTERACCIÓN</div>
@@ -1127,7 +1207,7 @@
           </div>
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Genética — letal si no se previene antes de anestesia general</div>
         </div>
-        <div class="field">
+        <div class="field" id="field-cesarea-previa">
           <div class="field-label">¿CESÁREA PREVIA?</div>
           <div class="chips" data-group="cesarea-previa" data-single="true">
             <div class="chip" data-value="Sí">Sí</div>

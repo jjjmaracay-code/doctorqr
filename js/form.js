@@ -56,6 +56,18 @@
             otraWrap.style.display = chip.dataset.value === 'Otra' && chip.classList.contains('active') ? 'block' : 'none';
           }
         }
+        if (group && group.dataset.group === 'semanas-gestacion-aplica') {
+          const noAplica = chip.classList.contains('active');
+          const wrap = document.getElementById('semanas-gestacion-input-wrap');
+          if (wrap) wrap.style.display = noAplica ? 'none' : '';
+          if (noAplica) { const inp = document.getElementById('f-semanas-gestacion'); if (inp) inp.value = ''; }
+        }
+        if (group && group.dataset.group === 'semanas-lactancia-aplica') {
+          const noAplica = chip.classList.contains('active');
+          const wrap = document.getElementById('semanas-lactancia-input-wrap');
+          if (wrap) wrap.style.display = noAplica ? 'none' : '';
+          if (noAplica) { const inp = document.getElementById('f-semanas-lactancia'); if (inp) inp.value = ''; }
+        }
         clearChipsSearch(chip);
       });
     });
@@ -271,7 +283,11 @@
         diseases:              getChips('diseases'),
         conditions:            getChips('conditions'),
         anticoagulado:         getChip('anticoagulado'),
-        meds:                  getChips('meds'),
+        meds: (() => {
+          const fromChips = getChips('meds');
+          const extras = Array.from(document.querySelectorAll('#meds-extra-wrap .extra-med-input')).map(i => i.value.trim()).filter(Boolean);
+          return [...fromChips, ...extras];
+        })(),
         med_doses:             v('f-med-doses'),
         med_last_adjust:       getChip('med-last-adjust'),
         ultima_toma_medicacion: getChip('ultima-toma-medicacion'),
@@ -335,7 +351,19 @@
         tratamiento_oncologico: getChip('tratamiento-oncologico'),
         puerto_cateter:        getChip('puerto-cateter'),
         salud_emocional_dx:    getChip('salud-emocional-dx'),
+        salud_emocional_diagnostico: getChips('salud-emocional-diagnostico'),
         salud_emocional_cual:  v('f-salud-emocional-cual'),
+        meds_psiquiatria: (() => {
+          const fromChips = getChips('meds-psiquiatria');
+          const extras = Array.from(document.querySelectorAll('#meds-psiq-extra-wrap .extra-med-input')).map(i => i.value.trim()).filter(Boolean);
+          return [...fromChips, ...extras];
+        })(),
+        puede_decidir_salud:   getChip('puede-decidir-salud'),
+        tutor_legal:           getChip('tutor-legal'),
+        tutor_legal_nombre:    v('f-tutor-legal-nombre'),
+        tutor_legal_phone:     v('f-tutor-legal-phone'),
+        semanas_gestacion_aplica: getChip('semanas-gestacion-aplica'),
+        semanas_lactancia_aplica: getChip('semanas-lactancia-aplica'),
         cesarea_previa:        getChip('cesarea-previa'),
         material_osteo_detalle: v('f-material-osteo-detalle'),
         updated_at:            new Date().toISOString(),
@@ -508,8 +536,31 @@
       restoreChip ('tratamiento-oncologico',saved.tratamiento_oncologico);
       restoreChip ('puerto-cateter',        saved.puerto_cateter);
       restoreChip ('salud-emocional-dx',    saved.salud_emocional_dx);
-      set('f-salud-emocional-cual',         saved.salud_emocional_cual);
       if (saved.salud_emocional_dx === 'Sí') document.getElementById('salud-emocional-cual-wrap').style.display = 'block';
+      restoreChips('salud-emocional-diagnostico', saved.salud_emocional_diagnostico);
+      if ((saved.salud_emocional_diagnostico || []).includes('Otro')) {
+        const oWrap = document.getElementById('salud-emocional-otro-wrap');
+        if (oWrap) oWrap.style.display = 'block';
+      }
+      set('f-salud-emocional-cual',         saved.salud_emocional_cual);
+      restoreChips('meds-psiquiatria',       saved.meds_psiquiatria);
+      if (Array.isArray(saved.meds_psiquiatria)) {
+        const psiqVals = Array.from(document.querySelectorAll('[data-group="meds-psiquiatria"] .chip')).map(c => c.dataset.value);
+        saved.meds_psiquiatria.filter(m => !psiqVals.includes(m)).forEach(m => addMedExtraWithValue('psiq', m));
+      }
+      restoreChip ('puede-decidir-salud',   saved.puede_decidir_salud);
+      restoreChip ('tutor-legal',           saved.tutor_legal);
+      set('f-tutor-legal-nombre',           saved.tutor_legal_nombre);
+      set('f-tutor-legal-phone',            saved.tutor_legal_phone);
+      if (saved.tutor_legal === 'Sí') { const tw = document.getElementById('tutor-legal-wrap'); if (tw) tw.style.display = 'block'; }
+      restoreChip ('semanas-gestacion-aplica', saved.semanas_gestacion_aplica);
+      if (saved.semanas_gestacion_aplica === 'No aplica') { const w = document.getElementById('semanas-gestacion-input-wrap'); if (w) w.style.display = 'none'; }
+      restoreChip ('semanas-lactancia-aplica', saved.semanas_lactancia_aplica);
+      if (saved.semanas_lactancia_aplica === 'No aplica') { const w = document.getElementById('semanas-lactancia-input-wrap'); if (w) w.style.display = 'none'; }
+      if (Array.isArray(saved.meds)) {
+        const medsVals = Array.from(document.querySelectorAll('[data-group="meds"] .chip')).map(c => c.dataset.value);
+        saved.meds.filter(m => !medsVals.includes(m)).forEach(m => addMedExtraWithValue('meds', m));
+      }
       restoreChip ('cesarea-previa',        saved.cesarea_previa);
       set('f-material-osteo-detalle',       saved.material_osteo_detalle);
       if (['Sí — tornillos/placas/clavos','Sí — prótesis metálica'].includes(saved.material_osteosintesis))
@@ -519,6 +570,7 @@
         renderLangLevels(saved.lang_levels || {});
       }
 
+      checkGenderFields(null);
       refreshVal();
     }
 
@@ -576,6 +628,62 @@
     function checkSaludEmocional(el) {
       const val = el.dataset.value || el.textContent.trim();
       document.getElementById('salud-emocional-cual-wrap').style.display = val === 'Sí' ? 'block' : 'none';
+    }
+
+    function checkGenderFields(el) {
+      let isMale;
+      if (el) {
+        const wasActive = el.classList.contains('active');
+        isMale = !wasActive && el.dataset.value === 'Masculino';
+      } else {
+        const active = document.querySelector('[data-group="sexo-biologico"] .chip.active');
+        isMale = !!(active && active.dataset.value === 'Masculino');
+      }
+      ['pregnancy-block','pregnancy-weeks-block','field-lactancia',
+       'field-semanas-gestacion','field-semanas-lactancia','field-cesarea-previa'
+      ].forEach(id => {
+        const f = document.getElementById(id);
+        if (f) f.style.display = isMale ? 'none' : '';
+      });
+    }
+
+    function checkSaludEmocionalOtro(chipEl) {
+      const willActivate = !chipEl.classList.contains('active');
+      const wrap = document.getElementById('salud-emocional-otro-wrap');
+      if (wrap) {
+        wrap.style.display = willActivate ? 'block' : 'none';
+        if (!willActivate) { const inp = document.getElementById('f-salud-emocional-cual'); if (inp) inp.value = ''; }
+      }
+    }
+
+    function checkTutorLegal(chipEl) {
+      const willActivate = !chipEl.classList.contains('active');
+      const wrap = document.getElementById('tutor-legal-wrap');
+      if (wrap) wrap.style.display = (willActivate && chipEl.dataset.value === 'Sí') ? 'block' : 'none';
+    }
+
+    function addMedExtra(type) {
+      const ispsiq = type === 'psiq';
+      const wrap = document.getElementById(ispsiq ? 'meds-psiq-extra-wrap' : 'meds-extra-wrap');
+      const btn  = document.getElementById(ispsiq ? 'btn-add-psiq-med' : 'btn-add-med');
+      if (!wrap) return;
+      const count = wrap.querySelectorAll('.extra-med-input').length;
+      if (count >= 5) { if (btn) btn.style.display = 'none'; return; }
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'extra-med-input';
+      inp.placeholder = 'Nombre del medicamento...';
+      inp.style.cssText = 'display:block;margin-top:6px;width:100%';
+      wrap.appendChild(inp);
+      if (count + 1 >= 5 && btn) btn.style.display = 'none';
+    }
+
+    function addMedExtraWithValue(type, value) {
+      addMedExtra(type);
+      const wrap = document.getElementById(type === 'psiq' ? 'meds-psiq-extra-wrap' : 'meds-extra-wrap');
+      if (!wrap) return;
+      const inputs = wrap.querySelectorAll('.extra-med-input');
+      if (inputs.length) inputs[inputs.length - 1].value = value;
     }
 
     // ===== INIT =====

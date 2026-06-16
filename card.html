@@ -96,6 +96,7 @@
     .btn-profile { display: block; width: 100%; max-width: 420px; background: var(--green); color: #000; font-family: inherit; font-size: 11px; font-weight: 900; letter-spacing: 3px; padding: 12px; border: none; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; transition: opacity 0.15s; }
     .btn-profile:hover { opacity: 0.85; }
     .footer-note { font-size: 9px; color: var(--dim); letter-spacing: 1px; }
+    .minimal-banner { background: rgba(255,165,0,0.12); border: 1px solid rgba(255,165,0,0.4); border-radius: 8px; padding: 10px 14px; font-size: 10px; letter-spacing: 0.5px; color: #ffaa00; text-align: center; margin: 0 0 12px; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -468,7 +469,32 @@ function detectLang() {
 
 function parseData() {
   try {
-    const params     = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (id) {
+      const t = params.get('t') || '';
+      const saved = localStorage.getItem('doctorqr_profile');
+      if (saved) {
+        const d = JSON.parse(saved);
+        d._qr_type = t;
+        return d;
+      }
+      // Sin localStorage: modo minimal con params básicos de URL
+      const n = decodeURIComponent(params.get('n') || '');
+      const parts = n.trim().split(' ');
+      return {
+        nombre:        parts[0] || '',
+        apellidos:     parts.slice(1).join(' '),
+        sangre:        decodeURIComponent(params.get('s') || ''),
+        allergy_med:   params.get('a') ? [decodeURIComponent(params.get('a'))] : [],
+        ec1_phone_num: decodeURIComponent(params.get('e') || ''),
+        _minimal:      true,
+        _qr_type:      t
+      };
+    }
+
+    // Formato legacy: LZString comprimido
     const compressed = params.get('d') || window.location.hash.slice(1);
     if (!compressed) return null;
     const json = LZString.decompressFromEncodedURIComponent(compressed);
@@ -513,6 +539,8 @@ function renderApp() {
         <button class="nav-btn" id="snext" disabled>↓</button>
       </div>
     </div>
+
+    ${d._minimal ? `<div class="minimal-banner">📱 Para ver el historial completo, escanea este QR desde el dispositivo del paciente</div>` : ''}
 
     <div class="tabs" id="tabs">
       <button class="tab-btn active" id="tbtn-urgente"   onclick="switchTab('urgente')">${t.tab_u}</button>

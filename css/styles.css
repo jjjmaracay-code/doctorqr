@@ -402,6 +402,28 @@
 
     .btn-generate:active { opacity: 0.8; }
 
+    .btn-add-med {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px dashed rgba(0,255,65,0.4);
+      background: transparent;
+      color: #00ff41;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .btn-add-med:hover {
+      border-color: #00ff41;
+      background: rgba(0,255,65,0.06);
+    }
+
     /* TOAST */
     .toast {
       position: fixed;

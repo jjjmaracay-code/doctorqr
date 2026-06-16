@@ -167,9 +167,11 @@ const QR_TYPES = [
     subtitle: 'Embarazo · Semanas · Parto',
     color: '#ff00aa',
     darkColor: '#cc0088',
-    condition: (d) => hasAny(d, [
-      'Sí — estoy embarazada',
-      'Sí — lactancia materna activa']),
+    condition: (d) => {
+      const sex = (d.sexo_biologico || '').toLowerCase();
+      if (sex === 'masculino') return false;
+      return hasAny(d, ['Sí — estoy embarazada', 'Sí — lactancia materna activa']);
+    },
     extra: [
       'embarazo','embarazo_semanas',
       'lactancia','surgeries',
@@ -191,8 +193,11 @@ const QR_TYPES = [
     condition: (d) => hasAny(d, [
       'Esquizofrenia','Trastorno bipolar',
       'Depresión mayor','IMAO',
-      'Litio','No — tutor legal',
-      'Ansiedad crónica','TOC']),
+      'Litio','Ansiedad crónica','TOC',
+      'Trastorno de ansiedad','TEPT','TDAH',
+      'Trastorno de personalidad','Trastorno alimentario',
+      'Clozapina','Alprazolam','Lorazepam',
+      'Valproato','Carbamazepina']),
     extra: [
       'diseases','conditions',
       'medicacion_alto_riesgo',
@@ -359,10 +364,12 @@ function buildQRData(type, profile) {
     case 'qr-e5':
       extra = {
         ..._p(profile, [
-          'diagnostico_psiquiatrico','salud_emocional_dx','salud_emocional_cual',
-          'riesgo_suicida_previo','internamiento_previo','can_decide'
+          'salud_emocional_dx','salud_emocional_diagnostico','salud_emocional_cual',
+          'puede_decidir_salud','tutor_legal','tutor_legal_nombre','tutor_legal_phone',
+          'riesgo_suicida_previo','can_decide'
         ]),
-        ..._pa(profile, 'meds', 5)
+        ..._pa(profile, 'meds', 5),
+        ..._pa(profile, 'meds_psiquiatria', null)
       };
       break;
   }
@@ -373,11 +380,47 @@ function buildQRData(type, profile) {
   return payload;
 }
 
+const QR_TYPE_CODES = {
+  'qr-emergency': 'emergency',
+  'qr-u1':        'critical',
+  'qr-u2':        'cardio',
+  'qr-u3':        'allergy',
+  'qr-e1':        'surgery',
+  'qr-e2':        'oncology',
+  'qr-e3':        'pediatric',
+  'qr-e4':        'obstetric',
+  'qr-e5':        'mental'
+};
+
+function getOrCreateUserID(profile) {
+  let id = localStorage.getItem('doctorqr_id');
+  if (!id) {
+    const initials = ((profile.nombre || 'X').substring(0, 3))
+      .toUpperCase().replace(/\s/g, 'X');
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+    id = initials + '-' + random;
+    localStorage.setItem('doctorqr_id', id);
+  }
+  return id;
+}
+
 function buildQRUrl(type, formData) {
-  const payload    = buildQRData(type, formData);
-  const json       = JSON.stringify(payload);
-  const compressed = LZString.compressToEncodedURIComponent(json);
-  return 'https://doctorqr.app/card.html#' + compressed;
+  const id = getOrCreateUserID(formData);
+  const t  = QR_TYPE_CODES[type.id] || type.id;
+  const n  = encodeURIComponent(((formData.nombre || '') + ' ' + (formData.apellidos || '')).trim());
+  const s  = encodeURIComponent(formData.sangre || '');
+  const al = Array.isArray(formData.allergy_med)
+    ? formData.allergy_med[0] : (formData.allergy_med || '');
+  const a  = encodeURIComponent(al);
+  const ec = (formData.ec1_phone_prefix || '') + (formData.ec1_phone_num || '');
+  const e  = encodeURIComponent(ec);
+
+  let url = `https://doctorqr.app/card.html?id=${encodeURIComponent(id)}&t=${t}`;
+  if (n) url += `&n=${n}`;
+  if (s) url += `&s=${s}`;
+  if (a) url += `&a=${a}`;
+  if (e) url += `&e=${e}`;
+  return url;
 }
 
 // ============================================
