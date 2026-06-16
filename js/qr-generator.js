@@ -270,10 +270,10 @@ function buildQRData(type, profile) {
     ..._pa(profile, 'meds', 3)
   };
 
-  // Idioma si no es español
-  const lang = profile.lang_spoken || profile.lang || '';
-  if (lang && !lang.toLowerCase().startsWith('es'))
-    core.lang_spoken = lang;
+  // Idioma si no es español (lang_spoken puede ser array o string)
+  const langArr = [].concat(profile.lang_spoken || profile.lang || []).filter(Boolean);
+  const nonEs = langArr.filter(l => !l.toLowerCase().startsWith('es'));
+  if (nonEs.length) core.lang_spoken = nonEs;
 
   // Campos específicos por tipo
   let extra = {};
