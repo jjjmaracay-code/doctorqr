@@ -1617,5 +1617,188 @@
   <script src="js/form.js"></script>
   <script src="js/qr-generator.js"></script>
 
+  <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
+  <script>
+  (function(){
+    /* ── ESTILOS ── */
+    const sty = document.createElement('style');
+    sty.textContent = `
+      #tour-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.93);display:none;align-items:center;justify-content:center;padding:20px}
+      #tour-ov.vis{display:flex}
+      #tour-box{background:#0a0a0a;border:1.5px solid #00ff41;border-radius:20px;padding:36px 28px 24px;max-width:420px;width:100%;font-family:inherit}
+      .tslide{display:none;min-height:160px}
+      .tslide.on{display:block}
+      .tslide-icon{font-size:30px;text-align:center;margin-bottom:14px}
+      .tslide-kicker{font-size:9px;font-weight:900;letter-spacing:3px;color:#00ff41;text-transform:uppercase;text-align:center;margin-bottom:12px}
+      .tslide-body{font-size:15px;line-height:1.8;color:rgba(255,255,255,.88);text-align:center}
+      .tslide-body b{color:#ff0000}
+      .tslide-body em{color:#00ff41;font-style:normal;font-weight:700}
+      .tdots{display:flex;gap:7px;justify-content:center;margin:22px 0 16px}
+      .tdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:background .2s}
+      .tdot.on{background:#00ff41}
+      .tnav{display:flex;align-items:center;gap:8px}
+      #t-skip{flex:1;background:none;border:none;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:1px;cursor:pointer;font-family:inherit;text-align:left;padding:0}
+      #t-prev{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);font-size:14px;padding:9px 14px;border-radius:8px;cursor:pointer;font-family:inherit}
+      #t-next{background:#00ff41;border:none;color:#000;font-size:12px;font-weight:900;padding:10px 22px;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:1px;white-space:nowrap}
+      #help-btn{position:fixed;bottom:24px;right:24px;z-index:998;width:52px;height:52px;border-radius:50%;background:#ff0000;border:2px solid rgba(255,255,255,.25);color:#fff;font-size:22px;font-weight:900;cursor:pointer;font-family:inherit;animation:phb 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center}
+      @keyframes phb{0%,100%{box-shadow:0 0 0 0 rgba(255,0,0,.65),0 0 12px rgba(255,0,0,.3)}55%{box-shadow:0 0 0 18px rgba(255,0,0,0),0 0 22px rgba(255,0,0,.1)}}
+      #help-ov{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:20px}
+      #help-ov.vis{display:flex}
+      #help-box{background:#0a0a0a;border:1.5px solid #ff0000;border-radius:16px;padding:28px 22px;max-width:420px;width:100%;font-family:inherit;box-shadow:0 0 30px rgba(255,0,0,.12)}
+      #help-sec{font-size:9px;font-weight:900;letter-spacing:2.5px;color:#ff0000;text-transform:uppercase;margin-bottom:10px}
+      #help-txt{font-size:14px;line-height:1.75;color:rgba(255,255,255,.9);margin:0 0 20px;white-space:pre-wrap}
+      .hbts{display:flex;gap:8px}
+      #h-tour{flex:1;background:rgba(0,255,65,.08);border:1px solid #00ff41;color:#00ff41;font-size:11px;font-weight:700;letter-spacing:1px;padding:10px;border-radius:8px;cursor:pointer;font-family:inherit}
+      #h-close{flex:1;background:#ff0000;border:none;color:#fff;font-size:11px;font-weight:900;letter-spacing:1px;padding:10px;border-radius:8px;cursor:pointer;font-family:inherit}
+    `;
+    document.head.appendChild(sty);
+
+    /* ── DATOS SLIDES ── */
+    const SLIDES = [
+      { icon:'⏱️', kicker:'Antes de empezar',
+        body:'Antes de empezar, <em>2 minutos que pueden marcar la diferencia.</em>' },
+      { icon:'🏥', kicker:'Tu voz en emergencia',
+        body:'Esta planilla es <em>tu voz cuando no puedes hablar.</em> En una emergencia, el médico tendrá segundos para tomar decisiones críticas. Lo que rellenes aquí puede ser la diferencia entre estar bien o estar peor.' },
+      { icon:'🔒', kicker:'Tu privacidad, garantizada',
+        body:'<em>Tus datos médicos nunca salen de tu dispositivo.</em><br><br>DoctorQR no almacena tu historial médico en ningún servidor. Todo lo que rellenas vive únicamente en tu móvil u ordenador — ni nosotros, ni ninguna IA, ni ninguna nube tienen acceso a tu información médica.<br><br>Lo único que guardamos es tu cuenta de acceso — email y contraseña cifrada. <em>Nada más. Tú tienes el control total.</em>' },
+      { icon:'✅', kicker:'Solo lo que sabes con certeza',
+        body:'Rellena solo lo que sabes con certeza. Si no conoces un dato, marca "No sé" o "Ninguna conocida". <b>Una información incorrecta puede ser igual de peligrosa que ninguna información.</b>' },
+      { icon:'💊', kicker:'¿No recuerdas algún dato?',
+        body:'¿No recuerdas tus vacunas o tu tipo de sangre? Consulta con tu médico de cabecera. <em>Vale la pena hacer ese esfuerzo una sola vez.</em>' },
+      { icon:'🛡️', kicker:'Tus datos, tu control',
+        body:'Eres el único que puede editar esta planilla, cuantas veces quieras. <em>Tus datos médicos viven únicamente en tu dispositivo.</em><br><br>Empieza hoy por <b>alergias, medicación y contactos de emergencia</b> — esas tres secciones salvan vidas.' }
+    ];
+
+    /* ── MENSAJES DE AYUDA POR SECCIÓN ── */
+    const HELP = {
+      'sec-1':       'Indica los idiomas en que puedes comunicarte con el equipo médico. Crítico si pierdes la consciencia en otro país.',
+      'sec-2':       'Peso, altura y grupo sanguíneo son críticos para calcular dosis. Si no sabes tu grupo sanguíneo, pídelo en tu centro de salud.',
+      'sec-3':       'Estos datos están bloqueados y verificados. Son los que aparecerán en tu QR de emergencia.',
+      'sec-4':       'Este campo es completamente confidencial. Solo lo ve el médico que te atiende en emergencia. Si prefieres no indicarlo, selecciona "Prefiero no indicar".\n\nSabemos que los campos de VIH y Hepatitis son muy personales. Los incluimos porque el equipo médico necesita protegerse y darte el tratamiento correcto. Esta información nunca sale de tu dispositivo.',
+      'sec-5':       'Lista todas las condiciones diagnosticadas. Si tienes dudas del nombre exacto, escríbelo como lo recuerdas — cualquier pista es útil.',
+      'sec-6':       'Incluye dosis y horarios. Especialmente importante si tomas anticoagulantes, insulina o medicación psiquiátrica.',
+      'sec-7':       'Las cirugías previas pueden afectar decisiones de anestesia. Inclúyelas aunque sean antiguas.',
+      'sec-8':       'No hace falta recordar fechas exactas. Marca las que sabes que tienes.',
+      'sec-habitos': 'Sé honesto. El tabaco, alcohol y otras sustancias afectan directamente los tratamientos y las dosis.',
+      'sec-familiar':'Enfermedades hereditarias como diabetes, cardiopatías o cáncer pueden ser relevantes en urgencias.',
+      'sec-9':       'Si tienes restricciones sobre tratamientos o transfusiones, indícalo. Se respetará siempre que sea posible.',
+      'sec-10':      'Añade al menos dos contactos. Incluye a alguien que conozca tu historial y pueda tomar decisiones por ti.',
+      'sec-11':      'Tu médico de cabecera y tu seguro. En urgencias graves, el hospital necesita saber con quién coordinarse.'
+    };
+
+    const SEC_LABELS = {
+      'sec-1':'01 — Idiomas','sec-2':'02 — Datos físicos','sec-3':'03 — Identificación',
+      'sec-4':'04 — Datos críticos','sec-5':'05 — Enfermedades','sec-6':'06 — Medicación',
+      'sec-7':'07 — Cirugías','sec-8':'08 — Vacunas','sec-habitos':'Hábitos',
+      'sec-familiar':'Historial familiar','sec-9':'09 — Religión',
+      'sec-10':'10 — Contactos','sec-11':'11 — Médico y seguro'
+    };
+
+    let cur = 0;
+
+    /* ── LÓGICA TOUR ── */
+    function goTo(n) {
+      document.querySelectorAll('.tslide').forEach((el, i) => el.classList.toggle('on', i === n));
+      document.querySelectorAll('.tdot').forEach((el, i) => el.classList.toggle('on', i === n));
+      cur = n;
+      document.getElementById('t-prev').style.display = n === 0 ? 'none' : '';
+      document.getElementById('t-skip').style.display = n === SLIDES.length - 1 ? 'none' : '';
+      document.getElementById('t-next').textContent   = n === SLIDES.length - 1 ? 'Comenzar ✓' : 'Siguiente →';
+    }
+
+    function tourNext() { if (cur < SLIDES.length - 1) goTo(cur + 1); else tourDone(); }
+    function tourPrev() { if (cur > 0) goTo(cur - 1); }
+
+    function tourDone() {
+      document.getElementById('tour-ov').classList.remove('vis');
+      document.body.style.overflow = '';
+      localStorage.setItem('dqr_tour', '1');
+    }
+
+    function openTour() {
+      closeHelp();
+      goTo(0);
+      document.getElementById('tour-ov').classList.add('vis');
+      document.body.style.overflow = 'hidden';
+    }
+
+    /* ── LÓGICA AYUDA ── */
+    function getCurrentSec() {
+      const ids = Object.keys(HELP);
+      let best = ids[0], bestV = -1;
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const v = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+        if (v > bestV) { bestV = v; best = id; }
+      });
+      return best;
+    }
+
+    function showHelp() {
+      const sec = getCurrentSec();
+      document.getElementById('help-sec').textContent = SEC_LABELS[sec] || '';
+      document.getElementById('help-txt').textContent = HELP[sec]      || '';
+      document.getElementById('help-ov').classList.add('vis');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeHelp() {
+      document.getElementById('help-ov').classList.remove('vis');
+      document.body.style.overflow = '';
+    }
+
+    /* ── EXPONER GLOBALES ── */
+    window.openTour  = openTour;
+    window.showHelp  = showHelp;
+    window.closeHelp = closeHelp;
+
+    /* ── CONSTRUIR DOM TOUR ── */
+    const tourOv  = document.createElement('div'); tourOv.id  = 'tour-ov';
+    const tourBox = document.createElement('div'); tourBox.id = 'tour-box';
+    tourOv.appendChild(tourBox); document.body.appendChild(tourOv);
+
+    SLIDES.forEach((sl, i) => {
+      const d = document.createElement('div');
+      d.className = 'tslide' + (i === 0 ? ' on' : '');
+      d.innerHTML = `<div class="tslide-icon">${sl.icon}</div>`
+                  + `<div class="tslide-kicker">${sl.kicker}</div>`
+                  + `<div class="tslide-body">${sl.body}</div>`;
+      tourBox.appendChild(d);
+    });
+
+    const dotsW = document.createElement('div'); dotsW.className = 'tdots'; tourBox.appendChild(dotsW);
+    SLIDES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'tdot' + (i === 0 ? ' on' : '');
+      d.onclick = () => goTo(i);
+      dotsW.appendChild(d);
+    });
+
+    const navEl = document.createElement('div'); navEl.className = 'tnav'; tourBox.appendChild(navEl);
+    const skipB = document.createElement('button'); skipB.id = 't-skip'; skipB.textContent = 'Saltar';       skipB.onclick = tourDone; navEl.appendChild(skipB);
+    const prevB = document.createElement('button'); prevB.id = 't-prev'; prevB.textContent = '←';            prevB.onclick = tourPrev; prevB.style.display = 'none'; navEl.appendChild(prevB);
+    const nextB = document.createElement('button'); nextB.id = 't-next'; nextB.textContent = 'Siguiente →';  nextB.onclick = tourNext; navEl.appendChild(nextB);
+
+    /* ── CONSTRUIR DOM AYUDA ── */
+    const hBtn = document.createElement('button'); hBtn.id = 'help-btn'; hBtn.textContent = '?'; hBtn.onclick = showHelp; document.body.appendChild(hBtn);
+
+    const hOv  = document.createElement('div'); hOv.id  = 'help-ov'; hOv.onclick = closeHelp;
+    const hBox = document.createElement('div'); hBox.id  = 'help-box'; hBox.onclick = e => e.stopPropagation();
+    hBox.innerHTML = '<div id="help-sec"></div>'
+                   + '<p id="help-txt"></p>'
+                   + '<div class="hbts">'
+                   + '<button id="h-tour" onclick="openTour()">&#9654; Ver tour completo</button>'
+                   + '<button id="h-close" onclick="closeHelp()">Cerrar</button>'
+                   + '</div>';
+    hOv.appendChild(hBox); document.body.appendChild(hOv);
+
+    /* ── AUTO-INICIO (primera visita) ── */
+    if (!localStorage.getItem('dqr_tour')) openTour();
+
+  })();
+  </script>
+
 </body>
 </html>
