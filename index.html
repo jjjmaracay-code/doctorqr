@@ -1467,22 +1467,25 @@
         }
       });
 
-      const docType   = user.doc_type   || profile.doc_type   || '';
-      const docNumber = user.doc_number || profile.doc_number || '';
-      if (docType && docNumber) {
-        // Mostrar el contenedor ANTES de asignar value — sin selectDocType() que es de form.js
-        const fieldContainer = document.getElementById('field-' + docType);
-        if (fieldContainer) fieldContainer.style.display = 'block';
-        const docChipEl = document.querySelector(`[data-group="doc-type"][data-value="${docType}"]`);
-        if (docChipEl) docChipEl.classList.add('active');
-        const docInp = document.getElementById('input-' + docType);
-        if (docInp) {
-          docInp.value = docNumber;
-          docInp.disabled = true;
-          docInp.style.opacity = '0.6';
-          docInp.style.cursor  = 'not-allowed';
+      setTimeout(() => {
+        const u2       = JSON.parse(localStorage.getItem('doctorqr_user')    || '{}');
+        const p2       = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
+        const docType   = (u2.doc_type   || p2.doc_type   || '').toLowerCase();
+        const docNumber =  u2.doc_number || p2.doc_number || '';
+        if (docType && docNumber) {
+          const container = document.getElementById('field-' + docType);
+          const chip      = document.querySelector(`[data-group="doc-type"][data-value="${docType}"]`);
+          const input     = document.getElementById('input-' + docType);
+          if (container) container.style.display = 'block';
+          if (chip)      chip.classList.add('active');
+          if (input) {
+            input.value           = docNumber;
+            input.disabled        = true;
+            input.style.opacity   = '0.6';
+            input.style.cursor    = 'not-allowed';
+          }
         }
-      }
+      }, 200);
 
       const docChips = document.querySelectorAll('[data-group="doc-type"]');
       docChips.forEach(chip => {
