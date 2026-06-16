@@ -320,6 +320,16 @@
           <div class="field-hint">Modifica qué medicamentos pueden administrarse</div>
         </div>
         <div class="field">
+          <div class="field-label">SEMANAS DE GESTACIÓN AL NACER</div>
+          <input type="number" id="f-semanas-gestacion" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término"/>
+          <div class="field-hint">Relevante para prematuros — afecta dosis y desarrollo</div>
+        </div>
+        <div class="field">
+          <div class="field-label">SEMANAS DE LACTANCIA ACTIVA</div>
+          <input type="number" id="f-semanas-lactancia" min="0" max="200" placeholder="Ej: 6 semanas"/>
+          <div class="field-hint">Duración de la lactancia actual — relevante para medicamentos</div>
+        </div>
+        <div class="field">
           <div class="field-label">Donante de órganos</div>
           <div class="chips" data-group="organ-donor" data-single="true">
             <div class="chip" data-value="Sí">Sí</div>
@@ -689,6 +699,39 @@
           </div>
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Riesgo vital inmediato — distinto de alergia simple</div>
         </div>
+        <div class="field">
+          <div class="field-label">¿PORTADOR DE VIH?</div>
+          <div class="chips" data-group="vih" data-single="true">
+            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="Prefiero no indicar">Prefiero no indicar</div>
+          </div>
+          <div class="field-hint">Relevante para precauciones universales y tratamientos antivirales</div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿PORTADOR DE HEPATITIS B O C?</div>
+          <div class="chips" data-group="hepatitis" data-single="true">
+            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="Prefiero no indicar">Prefiero no indicar</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿TUBERCULOSIS ACTIVA?</div>
+          <div class="chips" data-group="tuberculosis" data-single="true">
+            <div class="chip chip-danger" data-value="Sí — activa">Sí — activa</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Requiere aislamiento respiratorio — crítico en urgencias</div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿DESFIBRILADOR IMPLANTABLE (DAI)?</div>
+          <div class="chips" data-group="dai" data-single="true">
+            <div class="chip chip-danger" data-value="SÍ — llevo DAI">SÍ — llevo DAI</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+          <div class="field-hint">Contraindicado con bisturí eléctrico, RM y ciertos equipos — informar siempre</div>
+        </div>
       </div>
     </div>
 
@@ -834,6 +877,53 @@
             <div class="chip" data-value="No">No</div>
           </div>
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Crítico en trauma y cirugía — modifica todo el protocolo de actuación</div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿ACV / ICTUS PREVIO?</div>
+          <div class="chips" data-group="acv-previo" data-single="true">
+            <div class="chip chip-danger" data-value="Sí" onclick="checkAcv(this)">Sí</div>
+            <div class="chip" data-value="No" onclick="checkAcv(this)">No</div>
+          </div>
+          <div id="acv-year-wrap" style="display:none;margin-top:8px">
+            <input type="number" id="f-acv-year" min="1950" max="2026" placeholder="Año aproximado"/>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿STENTS CORONARIOS?</div>
+          <div class="chips" data-group="stents" data-single="true">
+            <div class="chip chip-danger" data-value="Sí" onclick="checkStents(this)">Sí</div>
+            <div class="chip" data-value="No" onclick="checkStents(this)">No</div>
+          </div>
+          <div id="stents-year-wrap" style="display:none;margin-top:8px">
+            <input type="number" id="f-stents-year" min="1950" max="2026" placeholder="Año de implantación"/>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿TRATAMIENTO ONCOLÓGICO ACTIVO?</div>
+          <div class="chips" data-group="tratamiento-oncologico" data-single="true">
+            <div class="chip chip-danger" data-value="Sí — en tratamiento activo">Sí — en tratamiento activo</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Inmunosupresión — modifica protocolos de infección y medicación</div>
+        </div>
+        <div class="field">
+          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿PUERTO / CATÉTER IMPLANTADO?</div>
+          <div class="chips" data-group="puerto-cateter" data-single="true">
+            <div class="chip chip-danger" data-value="Sí — Port-a-cath">Sí — Port-a-cath</div>
+            <div class="chip chip-danger" data-value="Sí — otro catéter">Sí — otro catéter</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+          <div class="field-hint">No presionar ni puncionar la zona — informar antes de cualquier vía</div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿DIAGNÓSTICO EN SALUD Y BIENESTAR EMOCIONAL?</div>
+          <div class="chips" data-group="salud-emocional-dx" data-single="true">
+            <div class="chip" data-value="Sí" onclick="checkSaludEmocional(this)">Sí</div>
+            <div class="chip" data-value="No" onclick="checkSaludEmocional(this)">No</div>
+          </div>
+          <div id="salud-emocional-cual-wrap" style="display:none;margin-top:8px">
+            <input type="text" id="f-salud-emocional-cual" placeholder="¿Cuál? (opcional — solo si deseas indicarlo)"/>
+          </div>
         </div>
       </div>
     </div>
@@ -999,10 +1089,13 @@
         <div class="field">
           <div class="field-label">¿TIENE MATERIAL DE OSTEOSÍNTESIS?</div>
           <div class="chips" data-group="material-osteosintesis" data-single="true">
-            <div class="chip" data-value="Sí — tornillos/placas/clavos">Sí — tornillos/placas/clavos</div>
-            <div class="chip" data-value="Sí — prótesis metálica">Sí — prótesis metálica</div>
-            <div class="chip" data-value="No">No</div>
-            <div class="chip" data-value="No sé">No sé</div>
+            <div class="chip" data-value="Sí — tornillos/placas/clavos" onclick="checkMaterialOsteo(this)">Sí — tornillos/placas/clavos</div>
+            <div class="chip" data-value="Sí — prótesis metálica" onclick="checkMaterialOsteo(this)">Sí — prótesis metálica</div>
+            <div class="chip" data-value="No" onclick="checkMaterialOsteo(this)">No</div>
+            <div class="chip" data-value="No sé" onclick="checkMaterialOsteo(this)">No sé</div>
+          </div>
+          <div id="material-osteo-detalle-wrap" style="display:none;margin-top:8px">
+            <input type="text" id="f-material-osteo-detalle" placeholder="Tipo y localización (ej: placa tibial derecha, clavo femoral — 2018)"/>
           </div>
           <div class="field-hint">Afecta resonancias magnéticas y radiografías</div>
         </div>
@@ -1033,6 +1126,14 @@
             <div class="chip" data-value="No sé">No sé</div>
           </div>
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Genética — letal si no se previene antes de anestesia general</div>
+        </div>
+        <div class="field">
+          <div class="field-label">¿CESÁREA PREVIA?</div>
+          <div class="chips" data-group="cesarea-previa" data-single="true">
+            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip" data-value="No">No</div>
+          </div>
+          <div class="field-hint">Relevante en nuevos partos y cirugías abdominales</div>
         </div>
       </div>
     </div>

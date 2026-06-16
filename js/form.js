@@ -322,6 +322,22 @@
         year_visit_2:          v('year-visit-2'),
         country_visit_3:       v('country-visit-3'),
         year_visit_3:          v('year-visit-3'),
+        semanas_gestacion:     v('f-semanas-gestacion'),
+        semanas_lactancia:     v('f-semanas-lactancia'),
+        vih:                   getChip('vih'),
+        hepatitis:             getChip('hepatitis'),
+        tuberculosis:          getChip('tuberculosis'),
+        dai:                   getChip('dai'),
+        acv_previo:            getChip('acv-previo'),
+        acv_year:              v('f-acv-year'),
+        stents:                getChip('stents'),
+        stents_year:           v('f-stents-year'),
+        tratamiento_oncologico: getChip('tratamiento-oncologico'),
+        puerto_cateter:        getChip('puerto-cateter'),
+        salud_emocional_dx:    getChip('salud-emocional-dx'),
+        salud_emocional_cual:  v('f-salud-emocional-cual'),
+        cesarea_previa:        getChip('cesarea-previa'),
+        material_osteo_detalle: v('f-material-osteo-detalle'),
         updated_at:            new Date().toISOString(),
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
@@ -476,6 +492,28 @@
       restoreChips('religion-restrictions', saved.religion_restrictions);
       restoreChips('insurer',               saved.insurer);
 
+      set('f-semanas-gestacion',            saved.semanas_gestacion);
+      set('f-semanas-lactancia',            saved.semanas_lactancia);
+      restoreChip ('vih',                   saved.vih);
+      restoreChip ('hepatitis',             saved.hepatitis);
+      restoreChip ('tuberculosis',          saved.tuberculosis);
+      restoreChip ('dai',                   saved.dai);
+      restoreChip ('acv-previo',            saved.acv_previo);
+      set('f-acv-year',                     saved.acv_year);
+      if (saved.acv_previo === 'Sí') document.getElementById('acv-year-wrap').style.display = 'block';
+      restoreChip ('stents',                saved.stents);
+      set('f-stents-year',                  saved.stents_year);
+      if (saved.stents === 'Sí') document.getElementById('stents-year-wrap').style.display = 'block';
+      restoreChip ('tratamiento-oncologico',saved.tratamiento_oncologico);
+      restoreChip ('puerto-cateter',        saved.puerto_cateter);
+      restoreChip ('salud-emocional-dx',    saved.salud_emocional_dx);
+      set('f-salud-emocional-cual',         saved.salud_emocional_cual);
+      if (saved.salud_emocional_dx === 'Sí') document.getElementById('salud-emocional-cual-wrap').style.display = 'block';
+      restoreChip ('cesarea-previa',        saved.cesarea_previa);
+      set('f-material-osteo-detalle',       saved.material_osteo_detalle);
+      if (['Sí — tornillos/placas/clavos','Sí — prótesis metálica'].includes(saved.material_osteosintesis))
+        document.getElementById('material-osteo-detalle-wrap').style.display = 'block';
+
       if (saved.lang_spoken && saved.lang_spoken.length > 0) {
         renderLangLevels(saved.lang_levels || {});
       }
@@ -516,6 +554,27 @@
       const val = el.dataset.value || el.textContent.trim();
       const block = document.getElementById('pregnancy-weeks-block');
       block.style.display = val === 'Sí — estoy embarazada' ? 'block' : 'none';
+    }
+
+    function checkAcv(el) {
+      const val = el.dataset.value || el.textContent.trim();
+      document.getElementById('acv-year-wrap').style.display = val === 'Sí' ? 'block' : 'none';
+    }
+
+    function checkStents(el) {
+      const val = el.dataset.value || el.textContent.trim();
+      document.getElementById('stents-year-wrap').style.display = val === 'Sí' ? 'block' : 'none';
+    }
+
+    function checkMaterialOsteo(el) {
+      const val = el.dataset.value || el.textContent.trim();
+      const show = val === 'Sí — tornillos/placas/clavos' || val === 'Sí — prótesis metálica';
+      document.getElementById('material-osteo-detalle-wrap').style.display = show ? 'block' : 'none';
+    }
+
+    function checkSaludEmocional(el) {
+      const val = el.dataset.value || el.textContent.trim();
+      document.getElementById('salud-emocional-cual-wrap').style.display = val === 'Sí' ? 'block' : 'none';
     }
 
     // ===== INIT =====

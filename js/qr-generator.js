@@ -184,7 +184,7 @@ const QR_TYPES = [
   },
   {
     id: 'qr-e5',
-    title: 'QR-E5 SALUD MENTAL',
+    title: 'QR-E5 SALUD Y BIENESTAR EMOCIONAL',
     subtitle: 'Psiquiatría · Tutor · Crisis',
     color: '#00ffcc',
     darkColor: '#00cc99',
@@ -264,7 +264,8 @@ function buildQRData(type, profile) {
       'epipen','anafilaxia_previa',
       'anticoagulado','pacemaker',
       'dificultad_intubacion','complicaciones_anestesia',
-      'religion_restrictions'
+      'religion_restrictions',
+      'vih','hepatitis','tuberculosis'
     ]),
     ..._pa(profile, 'meds', 3)
   };
@@ -284,7 +285,10 @@ function buildQRData(type, profile) {
 
     case 'qr-u1':
       extra = {
-        ..._p(profile, ['ultima_toma_medicacion','material_osteosintesis','hipertermia_maligna_familiar']),
+        ..._p(profile, [
+          'ultima_toma_medicacion','material_osteosintesis','hipertermia_maligna_familiar',
+          'dai','puerto_cateter'
+        ]),
         ..._pa(profile, 'meds', 5),
         ..._pa(profile, 'diseases', 5),
         ..._pa(profile, 'conditions', 5),
@@ -294,7 +298,8 @@ function buildQRData(type, profile) {
 
     case 'qr-u2':
       extra = _p(profile, [
-        'stents','acv_previo','epilepsia',
+        'stents','stents_year','acv_previo','acv_year',
+        'epilepsia','dai',
         'muerte_subita_familiar','desfibrilador'
       ]);
       break;
@@ -310,7 +315,7 @@ function buildQRData(type, profile) {
     case 'qr-e1':
       extra = {
         ..._p(profile, [
-          'ultima_toma_medicacion','material_osteosintesis',
+          'ultima_toma_medicacion','material_osteosintesis','material_osteo_detalle',
           'hipertermia_maligna_familiar','organ_donor','advance_directive'
         ]),
         ..._pa(profile, 'meds', 5),
@@ -336,7 +341,7 @@ function buildQRData(type, profile) {
 
     case 'qr-e3':
       extra = {
-        ..._p(profile, ['weight','height','prematuro',
+        ..._p(profile, ['weight','height','prematuro','semanas_gestacion',
           'guardian_name','guardian_phone_prefix','guardian_phone_num']),
         ..._pa(profile, 'vaccines', null),
         ..._pa(profile, 'diseases', 5),
@@ -346,7 +351,7 @@ function buildQRData(type, profile) {
 
     case 'qr-e4':
       extra = _p(profile, [
-        'embarazo','embarazo_semanas','lactancia',
+        'embarazo','embarazo_semanas','lactancia','semanas_lactancia',
         'cesarea_previa','complicaciones_embarazo','diabetes_gestacional'
       ]);
       break;
@@ -354,8 +359,8 @@ function buildQRData(type, profile) {
     case 'qr-e5':
       extra = {
         ..._p(profile, [
-          'diagnostico_psiquiatrico','riesgo_suicida_previo',
-          'internamiento_previo','can_decide'
+          'diagnostico_psiquiatrico','salud_emocional_dx','salud_emocional_cual',
+          'riesgo_suicida_previo','internamiento_previo','can_decide'
         ]),
         ..._pa(profile, 'meds', 5)
       };
