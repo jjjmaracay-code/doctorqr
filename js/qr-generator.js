@@ -574,10 +574,30 @@ function printEmergencyQR() {
   const nombre = ((d.nombre || '') + ' ' + (d.apellidos || '')).trim();
   const sangre = d.sangre || '';
 
+  const MONTHLY_THEME = {
+    0:  { color: '#4fc3f7', cause: 'Salud Mental',                    ong: 'Teléfono de la Esperanza',       tel: '717 003 717', web: 'telefonodelaesperanza.org' },
+    1:  { color: '#e53935', cause: 'Salud del Corazón',               ong: 'Fundación Española del Corazón', tel: '900 150 080', web: 'fundaciondelcorazon.com' },
+    2:  { color: '#43a047', cause: 'Salud Global',                    ong: 'Cruz Roja',                      tel: '900 10 11 10', web: 'cruzroja.es' },
+    3:  { color: '#1565c0', cause: 'Autismo y Salud Mental',          ong: 'FEAFES',                         tel: '91 523 17 46', web: 'feafes.com' },
+    4:  { color: '#f48fb1', cause: 'Cáncer',                          ong: 'AECC',                           tel: '900 100 036', web: 'aecc.es' },
+    5:  { color: '#ff6f00', cause: 'Diversidad e Inclusión',          ong: 'FELGTBI+',                       tel: '91 360 46 05', web: 'felgtbi.org' },
+    6:  { color: '#ff6d00', cause: 'Salud en Verano',                 ong: 'Cruz Roja Mayores',              tel: '900 22 22 92', web: 'cruzroja.es' },
+    7:  { color: '#00acc1', cause: 'Seguridad en Viaje',              ong: 'DYA',                            tel: '900 11 33 55', web: 'dya.es' },
+    8:  { color: '#f9a825', cause: 'Alzheimer',                       ong: 'CEAFA',                          tel: '948 17 47 17', web: 'ceafa.es' },
+    9:  { color: '#e91e63', cause: 'Cáncer de Mama',                  ong: 'AECC',                           tel: '900 100 036', web: 'aecc.es' },
+    10: { color: '#1565c0', cause: 'Diabetes',                        ong: 'FEDE',                           tel: '91 539 06 36', web: 'fede.es' },
+    11: { color: '#b71c1c', cause: 'VIH/SIDA y Donación de Sangre',  ong: 'CESIDA / Cruz Roja',             tel: '91 523 41 18', web: 'cesida.org' }
+  };
+  const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const month = new Date().getMonth();
+  const theme = MONTHLY_THEME[month];
+  const monthName = MONTH_NAMES[month];
+  const gratuito = theme.tel.startsWith('900') ? ' · gratuito' : '';
+
   const win = window.open('', '_blank');
   win.document.write(`<!DOCTYPE html>
 <html><head><meta charset="UTF-8">
-<title>DoctorQR</title>
+<title>DoctorQR — ${nombre || 'Tarjeta de emergencia'}</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{background:#fff;font-family:'Courier New',Courier,monospace}
@@ -588,7 +608,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   letter-spacing:2px;text-transform:uppercase;color:#999;margin:5mm 0 2mm}
 .face-label{text-align:center;font-size:6.5pt;letter-spacing:1.5px;
   text-transform:uppercase;margin:2mm 0 1.5mm}
-.face-label.front{color:#cc0000}
+.face-label.front{color:${theme.color}}
 .face-label.back{color:#00ff41;background:#111;padding:1mm 0}
 .cut{border:none;border-top:1.5px dashed #bbb;margin:4mm 0;text-align:center}
 .cut-text{display:inline-block;background:#fff;color:#aaa;
@@ -596,32 +616,48 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .card-wrap{display:flex;justify-content:center}
 .card{width:85.6mm;height:54mm;border-radius:3.5mm;padding:3mm 4mm;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between}
-.card-front{background:#fff;border:2px solid #cc0000}
+.card-front{background:#fff;border:2px solid ${theme.color}}
 .card-back{background:#000;border:2px solid #00ff41}
-.front-title{font-size:5.5pt;font-weight:900;color:#cc0000;
+.front-title{font-size:5.5pt;font-weight:900;color:${theme.color};
   letter-spacing:2px;text-transform:uppercase}
 .front-name{font-size:8.5pt;font-weight:900;color:#000;
   text-align:center;word-break:break-word}
-.front-info{font-size:6.5pt;color:#333;text-align:center}
+.front-blood{background:#cc0000;color:#fff;font-size:7pt;font-weight:900;
+  padding:1mm 3mm;border-radius:2mm;letter-spacing:1px}
+.front-footer{font-size:5pt;color:#888;letter-spacing:0.5px;text-align:center}
 .back-logo{font-size:11pt;font-weight:900;letter-spacing:3px;
   color:#00ff41;text-shadow:0 0 8px #00ff41}
 .back-tagline{font-size:5.5pt;font-weight:900;letter-spacing:1.5px;
   color:#00ff41;text-align:center;text-transform:uppercase;line-height:1.5}
+.back-sep{width:100%;border-top:0.5pt solid ${theme.color};margin:1.5mm 0}
+.cause-name{font-size:6pt;font-weight:900;color:${theme.color};
+  letter-spacing:1px;text-transform:uppercase;text-align:center}
+.cause-ong{font-size:5.5pt;color:${theme.color};text-align:center;
+  letter-spacing:0.3px;line-height:1.6}
+.cause-web{font-size:5pt;color:${theme.color};opacity:0.65;text-align:center}
 .brace-wrap{display:flex;justify-content:center}
 .brace{width:185mm;height:22mm;border-radius:3mm;padding:2mm 4mm;
   display:flex;align-items:center;gap:3mm}
-.brace-front{background:#fff;border:1.5px solid #cc0000}
+.brace-front{background:#fff;border:1.5px solid ${theme.color}}
 .brace-back{background:#000;border:1.5px solid #00ff41}
 .brace-info{flex:1;overflow:hidden}
 .brace-name{font-size:8pt;font-weight:900;color:#000;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brace-meta{font-size:6.5pt;color:#333}
-.brace-site{font-size:5.5pt;color:#cc0000;letter-spacing:0.5px}
+.brace-site{font-size:5.5pt;color:${theme.color};letter-spacing:0.5px}
+.brace-notch{width:8mm;height:22mm;display:flex;align-items:center;
+  justify-content:center;font-size:14pt;color:${theme.color};
+  border-left:1pt dashed ${theme.color};padding-left:1mm;flex-shrink:0}
 .brace-brand{text-align:right;flex:1}
 .brace-logo{font-size:9pt;font-weight:900;letter-spacing:2px;
   color:#00ff41;text-shadow:0 0 6px #00ff41}
-.brace-tagline-sm{font-size:4.5pt;color:#00ff41;
-  text-transform:uppercase;line-height:1.4}
+.brace-cause{font-size:5pt;font-weight:700;color:${theme.color};
+  text-transform:uppercase;letter-spacing:0.4px;line-height:1.5}
+.brace-tel{font-size:5pt;color:${theme.color};opacity:0.8}
+.brace-fold-hint{text-align:center;font-size:5.5pt;color:#aaa;
+  margin:1.5mm 0;letter-spacing:0.5px}
+.eco-msg{text-align:center;font-size:6pt;color:#888;letter-spacing:0.4px;
+  margin-top:5mm;padding:2mm 0;border-top:0.5pt solid #ddd}
 @media print{.instr{display:none}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
@@ -629,7 +665,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <body><div class="page">
 
 <div class="instr">
-  Imprimir &rarr; Plastificar &rarr; Doblar por la l&iacute;nea de corte &nbsp;|&nbsp; Pulsera: doblar y llevar en la mu&ntilde;eca
+  Imprimir &rarr; Plastificar &rarr; Doblar por la l&iacute;nea de corte &nbsp;|&nbsp; Pulsera: doblar extremo, pasar por muesca &#9655;|, plastificar
 </div>
 
 <div class="section-label">&#9632; TARJETA SANITARIA</div>
@@ -638,7 +674,8 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   <div class="front-title">QR EMERGENCIA &mdash; DOCTORQR</div>
   <div id="qcf"></div>
   <div class="front-name">${nombre || '&mdash;'}</div>
-  <div class="front-info">${sangre ? '&#129405; ' + sangre + ' &middot; ' : ''}doctorqr.app</div>
+  ${sangre ? '<div class="front-blood">&#129405; ' + sangre + '</div>' : ''}
+  <div class="front-footer">Edici&oacute;n ${monthName} &middot; doctorqr.app</div>
 </div></div>
 
 <div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR AQU&Iacute; &nbsp; &#9988;</span></div>
@@ -648,6 +685,10 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   <div class="back-logo">DOCTOR<span style="opacity:0.4">QR</span></div>
   <div id="qcb"></div>
   <div class="back-tagline">TU HISTORIAL M&Eacute;DICO<br>DE EMERGENCIA</div>
+  <div class="back-sep"></div>
+  <div class="cause-name">&#9632; ${theme.cause}</div>
+  <div class="cause-ong">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
+  <div class="cause-web">${theme.web}</div>
 </div></div>
 
 <div class="cut"><span class="cut-text">&#9988; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; &#9988;</span></div>
@@ -661,7 +702,9 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
     <div class="brace-meta">${sangre ? '&#129405; ' + sangre : ''}</div>
     <div class="brace-site">doctorqr.app</div>
   </div>
+  <div class="brace-notch">&#9655;|</div>
 </div></div>
+<div class="brace-fold-hint">Doblar extremo &middot; pasar por muesca &#9655;| &middot; plastificar</div>
 
 <div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR &nbsp; &#9988;</span></div>
 
@@ -670,16 +713,21 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   <div id="qbb"></div>
   <div class="brace-brand">
     <div class="brace-logo">DOCTORQR</div>
-    <div class="brace-tagline-sm">TU HISTORIAL M&Eacute;DICO<br>DE EMERGENCIA<br>doctorqr.app</div>
+    <div class="brace-cause">&#9632; ${theme.cause}</div>
+    <div class="brace-tel">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
   </div>
 </div></div>
+
+<div class="eco-msg">
+  &#127807; Tarjeta y pulsera en un solo folio &middot; Colaboramos con el medio ambiente &middot; Plastifica para mayor durabilidad
+</div>
 
 </div>
 <script>
   var pUrl=\`${patientUrl}\`,bUrl='https://doctorqr.app',M=QRCode.CorrectLevel.M;
-  new QRCode(document.getElementById('qcf'),{text:pUrl,width:95,height:95,colorDark:'#cc0000',colorLight:'#ffffff',correctLevel:M});
-  new QRCode(document.getElementById('qcb'),{text:bUrl,width:80,height:80,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
-  new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'#cc0000',colorLight:'#ffffff',correctLevel:M});
+  new QRCode(document.getElementById('qcf'),{text:pUrl,width:95,height:95,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
+  new QRCode(document.getElementById('qcb'),{text:bUrl,width:70,height:70,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
+  new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
   new QRCode(document.getElementById('qbb'),{text:bUrl,width:52,height:52,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
