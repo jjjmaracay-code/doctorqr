@@ -431,46 +431,118 @@ function generateAllQRs() {
 
 function printEmergencyQR() {
   const d = getFormData();
-  const type = QR_TYPES[0];
-  const url = buildQRUrl(type, d);
+  const patientUrl = buildQRUrl(QR_TYPES[0], d);
+  const nombre = ((d.nombre || '') + ' ' + (d.apellidos || '')).trim();
+  const sangre = d.sangre || '';
 
   const win = window.open('', '_blank');
   win.document.write(`<!DOCTYPE html>
 <html><head><meta charset="UTF-8">
+<title>DoctorQR</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#fff;font-family:Arial,sans-serif;
-    display:flex;flex-direction:column;
-    align-items:center;padding:10mm}
-  .card{width:85.6mm;height:53.98mm;
-    border:2px solid #cc0000;border-radius:4mm;
-    padding:3mm 4mm;display:flex;
-    flex-direction:column;align-items:center;
-    justify-content:space-between}
-  .card-title{font-size:7pt;font-weight:900;
-    color:#cc0000;letter-spacing:2px;
-    text-transform:uppercase}
-  .card-name{font-size:8pt;font-weight:bold;text-align:center}
-  .card-info{font-size:6pt;color:#333;text-align:center}
-  @media print{body{padding:0}}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'Courier New',Courier,monospace}
+.page{width:190mm;padding:8mm;margin:0 auto}
+.instr{text-align:center;font-size:7pt;color:#555;letter-spacing:1px;
+  padding:3mm;border:1px solid #ddd;border-radius:2mm;margin-bottom:6mm}
+.section-label{text-align:center;font-size:7pt;font-weight:900;
+  letter-spacing:2px;text-transform:uppercase;color:#999;margin:5mm 0 2mm}
+.face-label{text-align:center;font-size:6.5pt;letter-spacing:1.5px;
+  text-transform:uppercase;margin:2mm 0 1.5mm}
+.face-label.front{color:#cc0000}
+.face-label.back{color:#00ff41;background:#111;padding:1mm 0}
+.cut{border:none;border-top:1.5px dashed #bbb;margin:4mm 0;text-align:center}
+.cut-text{display:inline-block;background:#fff;color:#aaa;
+  font-size:6pt;letter-spacing:1px;padding:0 3mm;position:relative;top:-8px}
+.card-wrap{display:flex;justify-content:center}
+.card{width:85.6mm;height:54mm;border-radius:3.5mm;padding:3mm 4mm;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+.card-front{background:#fff;border:2px solid #cc0000}
+.card-back{background:#000;border:2px solid #00ff41}
+.front-title{font-size:5.5pt;font-weight:900;color:#cc0000;
+  letter-spacing:2px;text-transform:uppercase}
+.front-name{font-size:8.5pt;font-weight:900;color:#000;
+  text-align:center;word-break:break-word}
+.front-info{font-size:6.5pt;color:#333;text-align:center}
+.back-logo{font-size:11pt;font-weight:900;letter-spacing:3px;
+  color:#00ff41;text-shadow:0 0 8px #00ff41}
+.back-tagline{font-size:5.5pt;font-weight:900;letter-spacing:1.5px;
+  color:#00ff41;text-align:center;text-transform:uppercase;line-height:1.5}
+.brace-wrap{display:flex;justify-content:center}
+.brace{width:185mm;height:22mm;border-radius:3mm;padding:2mm 4mm;
+  display:flex;align-items:center;gap:3mm}
+.brace-front{background:#fff;border:1.5px solid #cc0000}
+.brace-back{background:#000;border:1.5px solid #00ff41}
+.brace-info{flex:1;overflow:hidden}
+.brace-name{font-size:8pt;font-weight:900;color:#000;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brace-meta{font-size:6.5pt;color:#333}
+.brace-site{font-size:5.5pt;color:#cc0000;letter-spacing:0.5px}
+.brace-brand{text-align:right;flex:1}
+.brace-logo{font-size:9pt;font-weight:900;letter-spacing:2px;
+  color:#00ff41;text-shadow:0 0 6px #00ff41}
+.brace-tagline-sm{font-size:4.5pt;color:#00ff41;
+  text-transform:uppercase;line-height:1.4}
+@media print{.instr{display:none}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
-</head><body>
-<div class="card">
-  <div class="card-title">QR EMERGENCIA — DOCTORQR</div>
-  <div id="qr-print"></div>
-  <div class="card-name">${d.nombre || ''} ${d.apellidos || ''}</div>
-  <div class="card-info">${d.sangre || ''} · doctorqr.app</div>
+</head>
+<body><div class="page">
+
+<div class="instr">
+  Imprimir &rarr; Plastificar &rarr; Doblar por la l&iacute;nea de corte &nbsp;|&nbsp; Pulsera: doblar y llevar en la mu&ntilde;eca
+</div>
+
+<div class="section-label">&#9632; TARJETA SANITARIA</div>
+<div class="face-label front">CARA FRONTAL &mdash; visible</div>
+<div class="card-wrap"><div class="card card-front">
+  <div class="front-title">QR EMERGENCIA &mdash; DOCTORQR</div>
+  <div id="qcf"></div>
+  <div class="front-name">${nombre || '&mdash;'}</div>
+  <div class="front-info">${sangre ? '&#129405; ' + sangre + ' &middot; ' : ''}doctorqr.app</div>
+</div></div>
+
+<div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR AQU&Iacute; &nbsp; &#9988;</span></div>
+
+<div class="face-label back">CARA DORSAL &mdash; interior al doblar</div>
+<div class="card-wrap"><div class="card card-back">
+  <div class="back-logo">DOCTOR<span style="opacity:0.4">QR</span></div>
+  <div id="qcb"></div>
+  <div class="back-tagline">TU HISTORIAL M&Eacute;DICO<br>DE EMERGENCIA</div>
+</div></div>
+
+<div class="cut"><span class="cut-text">&#9988; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; &#9988;</span></div>
+
+<div class="section-label">&#9675; PULSERA M&Eacute;DICA</div>
+<div class="face-label front">CARA FRONTAL</div>
+<div class="brace-wrap"><div class="brace brace-front">
+  <div id="qbf"></div>
+  <div class="brace-info">
+    <div class="brace-name">${nombre || '&mdash;'}</div>
+    <div class="brace-meta">${sangre ? '&#129405; ' + sangre : ''}</div>
+    <div class="brace-site">doctorqr.app</div>
+  </div>
+</div></div>
+
+<div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR &nbsp; &#9988;</span></div>
+
+<div class="face-label back">CARA DORSAL</div>
+<div class="brace-wrap"><div class="brace brace-back">
+  <div id="qbb"></div>
+  <div class="brace-brand">
+    <div class="brace-logo">DOCTORQR</div>
+    <div class="brace-tagline-sm">TU HISTORIAL M&Eacute;DICO<br>DE EMERGENCIA<br>doctorqr.app</div>
+  </div>
+</div></div>
+
 </div>
 <script>
-  new QRCode(document.getElementById('qr-print'), {
-    text: \`${url}\`,
-    width: 110, height: 110,
-    colorDark: '#cc0000',
-    colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.M
-  });
-  setTimeout(() => window.print(), 800);
+  var pUrl=\`${patientUrl}\`,bUrl='https://doctorqr.app',M=QRCode.CorrectLevel.M;
+  new QRCode(document.getElementById('qcf'),{text:pUrl,width:95,height:95,colorDark:'#cc0000',colorLight:'#ffffff',correctLevel:M});
+  new QRCode(document.getElementById('qcb'),{text:bUrl,width:80,height:80,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
+  new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'#cc0000',colorLight:'#ffffff',correctLevel:M});
+  new QRCode(document.getElementById('qbb'),{text:bUrl,width:52,height:52,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
+  setTimeout(function(){window.print()},1500);
 <\/script>
 </body></html>`);
   win.document.close();
