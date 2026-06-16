@@ -881,9 +881,13 @@
     ⚠ IMPORTANTE — Los datos de identidad introducidos (nombre, apellidos, fecha de nacimiento, documento y email) quedan BLOQUEADOS de forma permanente tras la verificación. Asegúrate de que son correctos antes de continuar.
   </div>
 
-  <button class="btn-primary" id="btn-send-otp" disabled>
-    ENVIAR CÓDIGO DE VERIFICACIÓN
-  </button>
+  <div id="btn-send-otp-wrap" style="width:100%">
+    <button class="btn-primary" id="btn-send-otp" disabled style="pointer-events:none;width:100%">
+      ENVIAR CÓDIGO DE VERIFICACIÓN
+    </button>
+  </div>
+
+  <div id="missing-fields-msg" style="display:none;margin-top:12px;padding:12px 14px;border:1px solid rgba(255,68,68,0.5);border-radius:8px;font-size:11px;color:#ff4444;letter-spacing:0.5px;line-height:1.8"></div>
 
 </div><!-- fin screen-2 -->
 
@@ -1352,12 +1356,84 @@ function checkStep2Ready() {
   const docOk     = validateDocNum(docType, docNum).ok;
   const pwdOk     = validatePwd(pwd1Buffer).valid && pwd1Buffer === pwd2Buffer && pwd2Buffer.length === PIN_LENGTH;
   const ready     = nombre.length>=2 && apellidos.length>=2 && fnac && docType && docOk && sexo && emailOk && pwdOk;
-  document.getElementById('btn-send-otp').disabled = !ready;
+  const btnOtp = document.getElementById('btn-send-otp');
+  btnOtp.disabled = !ready;
+  btnOtp.style.pointerEvents = ready ? '' : 'none';
+  if (ready) ocultarCamposFaltantes();
+}
+
+function obtenerCamposFaltantes() {
+  const nombre    = document.getElementById('r-nombre').value.trim();
+  const apellidos = document.getElementById('r-apellidos').value.trim();
+  const fnac      = document.getElementById('r-fnac').value;
+  const docType   = getSelectedChip('doc-type');
+  const docNum    = document.getElementById('r-docnum').value.trim();
+  const sexo      = getSelectedChip('bio-sex');
+  const email     = document.getElementById('r-email').value.trim();
+  const emailOk   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const docOk     = validateDocNum(docType, docNum).ok;
+  const pwdValid  = validatePwd(pwd1Buffer);
+  const pwdMatch  = pwd1Buffer === pwd2Buffer;
+  const pwdLen    = pwd2Buffer.length === PIN_LENGTH;
+
+  const faltan = [];
+  if (nombre.length < 2)    faltan.push('Nombre (mínimo 2 caracteres)');
+  if (apellidos.length < 2) faltan.push('Apellidos (mínimo 2 caracteres)');
+  if (!fnac)                faltan.push('Fecha de nacimiento');
+  if (!docType)             faltan.push('Tipo de documento');
+  else if (!docOk)          faltan.push('Número de documento inválido para ' + docType);
+  if (!sexo)                faltan.push('Sexo biológico');
+  if (!email)               faltan.push('Email');
+  else if (!emailOk)        faltan.push('Email con formato inválido');
+  if (pwd1Buffer.length === 0) {
+    faltan.push('PIN — introduce tu contraseña');
+  } else if (!pwdValid.valid) {
+    faltan.push('PIN — necesita al menos una letra y un símbolo');
+  } else if (!pwdMatch) {
+    faltan.push('PIN — la confirmación no coincide');
+  } else if (!pwdLen) {
+    faltan.push('PIN — confirma los ' + PIN_LENGTH + ' caracteres');
+  }
+  return faltan;
+}
+
+function mostrarCamposFaltantes() {
+  const faltan = obtenerCamposFaltantes();
+  if (!faltan.length) return;
+  const msg = document.getElementById('missing-fields-msg');
+  msg.innerHTML = '⚠ Faltan los siguientes campos:<br>• ' + faltan.join('<br>• ');
+  msg.style.display = 'block';
+}
+
+function ocultarCamposFaltantes() {
+  const msg = document.getElementById('missing-fields-msg');
+  msg.style.display = 'none';
+  msg.innerHTML = '';
 }
 
 ['r-nombre','r-apellidos','r-fnac','r-email'].forEach(id => {
   document.getElementById(id).addEventListener('input', checkStep2Ready);
 });
+
+// Click en el wrapper del botón cuando está deshabilitado → mostrar campos faltantes
+// (pointer-events:none en el botón deja que el click llegue al wrapper)
+document.getElementById('btn-send-otp-wrap').addEventListener('click', function() {
+  const btn = document.getElementById('btn-send-otp');
+  if (btn.disabled) mostrarCamposFaltantes();
+});
+
+// Timer: si tras 45s en pantalla 2 el botón sigue disabled → mostrar aviso
+let _step2Timer = null;
+function _hookStep2Timer(n) {
+  clearTimeout(_step2Timer);
+  if (n === 2) {
+    _step2Timer = setTimeout(() => {
+      if (document.getElementById('btn-send-otp').disabled) {
+        mostrarCamposFaltantes();
+      }
+    }, 45000);
+  }
+}
 
 // ===== TÉRMINOS =====
 let termsChecked = false;
@@ -1798,6 +1874,7 @@ function goToScreen(n){
   }
   document.getElementById('step-label').textContent=STEP_LABELS[n]||'';
   window.scrollTo(0,0);
+  _hookStep2Timer(n);
 }
 
 
