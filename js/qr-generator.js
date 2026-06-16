@@ -2,18 +2,43 @@
 // DATOS BASE — VAN EN ABSOLUTAMENTE TODOS LOS QR
 // ============================================
 const BASE_FIELDS = [
+  // Identidad
   'nombre','apellidos','fecha_nacimiento',
   'doc_type','doc_number','sangre',
+  // Alergias
   'allergy_med','allergy_anesthesia',
+  'allergy_food','allergy_env',
   'latex_guantes','epipen','anafilaxia_previa',
+  // Medicación
   'anticoagulado','pacemaker',
-  'meds','med_doses',
-  'ultima_toma_medicacion','can_decide',
-  'lang','religion_restrictions',
+  'meds','med_doses','medicacion_alto_riesgo',
+  'ultima_toma_medicacion',
+  // Condiciones
+  'diseases','conditions',
+  'implant_detail',
+  'dificultad_intubacion','complicaciones_anestesia',
+  'material_osteosintesis',
+  // Decisiones
+  'can_decide','religion_restrictions',
   'advance_directive','organ_donor',
-  'ec1_name','ec1_phone_num',
-  'ec2_name','ec2_phone_num',
-  'doctor_name','doctor_phone_num'
+  // Historial
+  'surgeries','last_surgery_date',
+  'vaccines',
+  'tabaco','alcohol','drogas','actividad_fisica',
+  'enfermedades_familiares','muerte_subita_familiar',
+  'hipertermia_maligna_familiar',
+  // Biométrico
+  'weight','height',
+  // Contactos emergencia
+  'ec1_name','ec1_rel','ec1_phone_prefix','ec1_phone_num',
+  'ec2_name','ec2_rel','ec2_phone_prefix','ec2_phone_num',
+  'guardian_name','guardian_phone_prefix','guardian_phone_num',
+  // Médico
+  'doctor_name','doctor_phone_prefix','doctor_phone_num',
+  // Seguro
+  'insurer','policy','health_card_num','ss_country',
+  // Idioma
+  'lang'
 ];
 
 // ============================================

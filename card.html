@@ -9,86 +9,86 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --green: #00ff41;
-      --red: #cc0000;
+      --red: #ff0000;
       --amber: #ffcc00;
       --bg: #ffffff;
-      --card-bg: rgba(204,0,0,0.03);
+      --card-bg: rgba(255,0,0,0.03);
       --card-border: rgba(0,0,0,0.10);
-      --text: #111111;
-      --dim: rgba(0,0,0,0.45);
+      --text: #000000;
+      --dim: rgba(0,0,0,0.55);
     }
-    body { background: var(--bg); color: var(--text); font-family: 'Courier New', Courier, monospace; min-height: 100vh; padding-bottom: 90px; }
+    body { background: var(--bg); color: var(--text); font-family: 'Courier New', Courier, monospace; font-size: 18px; min-height: 100vh; padding-bottom: 90px; }
 
     /* HEADER */
     .header { background: rgba(255,255,255,0.98); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,0.1); }
     .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .logo { font-size: 11px; font-weight: 900; letter-spacing: 3px; color: #cc0000; text-shadow: 0 0 8px rgba(204,0,0,0.3); }
+    .logo { font-size: 11px; font-weight: 900; letter-spacing: 3px; color: #ff0000; text-shadow: 0 0 8px rgba(255,0,0,0.3); }
     .lang-switcher { display: flex; gap: 5px; }
     .lang-btn { background: transparent; border: 1px solid rgba(0,0,0,0.2); color: rgba(0,0,0,0.45); font-family: inherit; font-size: 10px; letter-spacing: 1px; padding: 3px 7px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
-    .lang-btn.active { border-color: #cc0000; color: #cc0000; text-shadow: 0 0 6px rgba(204,0,0,0.3); }
-    .patient-name { font-size: clamp(18px, 5vw, 26px); font-weight: 900; letter-spacing: 2px; color: #111111; line-height: 1.2; margin-bottom: 8px; word-break: break-word; }
+    .lang-btn.active { border-color: #ff0000; color: #ff0000; text-shadow: 0 0 6px rgba(255,0,0,0.3); }
+    .patient-name { font-size: clamp(28px, 7vw, 32px); font-weight: 900; letter-spacing: 2px; color: #000000; line-height: 1.2; margin-bottom: 8px; word-break: break-word; }
     .patient-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .blood-badge { background: var(--red); color: #fff; font-size: 15px; font-weight: 900; letter-spacing: 2px; padding: 4px 14px; border-radius: 6px; box-shadow: 0 0 10px rgba(204,0,0,0.35); }
+    .blood-badge { background: var(--red); color: #fff; font-size: 22px; font-weight: 900; letter-spacing: 2px; padding: 8px 20px; border-radius: 8px; box-shadow: 0 0 14px rgba(255,0,0,0.5); }
     .age-badge { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
     .qr-type-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); color: rgba(0,0,0,0.35); }
     .ts-note { font-size: 9px; color: rgba(0,0,0,0.25); letter-spacing: 1px; margin-top: 4px; }
 
     /* SEARCH */
     .search-bar { background: rgba(255,255,255,0.98); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 10px 16px; display: flex; align-items: center; gap: 8px; position: sticky; z-index: 99; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-    .search-input { flex: 1; background: rgba(204,0,0,0.04); border: 1px solid rgba(204,0,0,0.3); color: #cc0000; font-family: inherit; font-size: 12px; letter-spacing: 1px; padding: 7px 12px; border-radius: 6px; outline: none; transition: border-color 0.15s; min-width: 0; }
-    .search-input:focus { border-color: #cc0000; box-shadow: 0 0 8px rgba(204,0,0,0.18); }
-    .search-input::placeholder { color: rgba(204,0,0,0.3); }
-    .search-counter { font-size: 10px; color: var(--dim); white-space: nowrap; min-width: 62px; text-align: center; }
+    .search-input { flex: 1; background: rgba(255,0,0,0.04); border: 1px solid rgba(255,0,0,0.3); color: #ff0000; font-family: inherit; font-size: 14px; letter-spacing: 1px; padding: 7px 12px; border-radius: 6px; outline: none; transition: border-color 0.15s; min-width: 0; }
+    .search-input:focus { border-color: #ff0000; box-shadow: 0 0 8px rgba(255,0,0,0.18); }
+    .search-input::placeholder { color: rgba(255,0,0,0.35); }
+    .search-counter { font-size: 12px; color: var(--dim); white-space: nowrap; min-width: 62px; text-align: center; }
     .search-nav { display: flex; gap: 4px; }
-    .nav-btn { background: transparent; border: 1px solid rgba(204,0,0,0.25); color: #cc0000; font-family: inherit; font-size: 14px; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-    .nav-btn:hover { background: rgba(204,0,0,0.06); }
+    .nav-btn { background: transparent; border: 1px solid rgba(255,0,0,0.25); color: #ff0000; font-family: inherit; font-size: 16px; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .nav-btn:hover { background: rgba(255,0,0,0.06); }
     .nav-btn:disabled { opacity: 0.22; cursor: default; }
     mark { background: #ffcc00; color: #000; border-radius: 2px; padding: 0 1px; }
     mark.current { background: #ff6600; color: #fff; }
 
     /* TABS */
     .tabs { display: flex; border-bottom: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.98); position: sticky; z-index: 98; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-    .tab-btn { flex: 1; background: transparent; border: none; border-bottom: 2px solid transparent; color: rgba(0,0,0,0.45); font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 13px 6px; cursor: pointer; transition: all 0.2s; }
-    .tab-btn.active { color: #cc0000; border-bottom-color: #cc0000; text-shadow: 0 0 8px rgba(204,0,0,0.3); }
+    .tab-btn { flex: 1; background: transparent; border: none; border-bottom: 3px solid transparent; color: rgba(0,0,0,0.45); font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 2px; padding: 14px 6px; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { color: #ff0000; border-bottom-color: #ff0000; }
 
     /* PANELS */
     .tab-panel { display: none; padding: 16px; }
     .tab-panel.active { display: block; }
 
     /* SECTIONS */
-    .section { margin-bottom: 20px; }
-    .section-title { font-size: 9px; font-weight: 900; letter-spacing: 3px; color: #cc0000; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(204,0,0,0.15); }
-    .section-title.red   { color: var(--red);   border-bottom-color: rgba(204,0,0,0.2); }
-    .section-title.amber { color: var(--amber);  border-bottom-color: rgba(180,120,0,0.2); }
+    .section { margin-bottom: 28px; }
+    .section-title { font-size: 16px; font-weight: 900; letter-spacing: 3px; color: #ff0000; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid rgba(255,0,0,0.2); }
+    .section-title.red   { color: var(--red);   border-bottom-color: rgba(255,0,0,0.3); }
+    .section-title.amber { color: #cc7700;       border-bottom-color: rgba(180,120,0,0.25); }
 
     /* BADGES */
-    .badge-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
-    .badge { font-size: 11px; letter-spacing: 0.5px; padding: 5px 10px; border-radius: 6px; font-weight: 700; display: inline-block; margin: 2px 2px 2px 0; }
-    .b-red   { background: rgba(255,34,68,0.15);  border: 1px solid rgba(255,34,68,0.5);  color: #ff6680; }
-    .b-amber { background: rgba(255,204,0,0.10);  border: 1px solid rgba(255,204,0,0.4);  color: #ffcc00; }
-    .b-green { background: rgba(0,255,65,0.07);   border: 1px solid rgba(0,255,65,0.3);   color: var(--green); }
-    .b-gray  { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.14); color: rgba(0,0,0,0.65); }
+    .badge-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+    .badge { font-size: 13px; letter-spacing: 0.5px; padding: 7px 14px; border-radius: 6px; font-weight: 700; display: inline-block; margin: 2px 2px 2px 0; }
+    .b-red   { background: rgba(255,0,0,0.08);   border: 1px solid rgba(255,0,0,0.5);   color: #cc0000; }
+    .b-amber { background: rgba(180,120,0,0.08); border: 1px solid rgba(180,120,0,0.4); color: #8a5e00; }
+    .b-green { background: rgba(0,120,0,0.07);   border: 1px solid rgba(0,120,0,0.35);  color: #006600; }
+    .b-gray  { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: rgba(0,0,0,0.70); }
 
     /* DATA ROWS */
-    .data-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); align-items: flex-start; }
+    .data-row { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.08); align-items: flex-start; }
     .data-row:last-child { border-bottom: none; }
-    .data-label { font-size: 9px; letter-spacing: 1.5px; color: var(--dim); min-width: 110px; padding-top: 2px; flex-shrink: 0; }
-    .data-value { font-size: 13px; color: var(--text); line-height: 1.5; word-break: break-word; }
-    .data-value.crit { color: #ff7788; font-weight: 700; }
+    .data-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--dim); min-width: 130px; padding-top: 1px; flex-shrink: 0; }
+    .data-value { font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; word-break: break-word; }
+    .data-value.crit { color: #cc0000; font-weight: 900; }
 
     /* CONTACTS */
-    .contact-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
-    .contact-name { font-size: 14px; font-weight: 700; color: #111111; margin-bottom: 2px; }
-    .contact-rel  { font-size: 10px; color: var(--dim); letter-spacing: 1px; margin-bottom: 8px; }
-    .tel-link { display: inline-block; font-size: 17px; font-weight: 900; color: #cc0000; text-decoration: none; letter-spacing: 1px; text-shadow: 0 0 6px rgba(204,0,0,0.3); }
-    .tel-link:hover { text-shadow: 0 0 14px rgba(204,0,0,0.5); }
-    .tel-sm { font-size: 14px; }
+    .contact-card { background: rgba(255,0,0,0.02); border: 1.5px solid rgba(255,0,0,0.15); border-radius: 12px; padding: 18px; margin-bottom: 14px; }
+    .contact-name { font-size: 20px; font-weight: 900; color: #000000; margin-bottom: 4px; }
+    .contact-rel  { font-size: 13px; font-weight: 600; color: var(--dim); letter-spacing: 1px; margin-bottom: 10px; }
+    .tel-link { display: inline-block; font-size: 24px; font-weight: 900; color: #ff0000; text-decoration: none; letter-spacing: 1px; }
+    .tel-link:hover { color: #cc0000; }
+    .tel-sm { font-size: 18px; }
 
     /* STATES */
     .empty { color: var(--dim); font-size: 11px; letter-spacing: 1px; text-align: center; padding: 24px 0; }
     .error-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; padding: 24px; text-align: center; gap: 16px; }
-    .error-icon  { font-size: 56px; color: var(--red); text-shadow: 0 0 24px rgba(204,0,0,0.4); }
-    .error-title { font-size: 16px; color: #cc0000; letter-spacing: 2px; }
+    .error-icon  { font-size: 56px; color: var(--red); }
+    .error-title { font-size: 18px; font-weight: 900; color: #ff0000; letter-spacing: 2px; }
     .error-msg   { font-size: 12px; color: var(--dim); max-width: 280px; line-height: 1.8; }
 
     /* FOOTER */
@@ -406,23 +406,29 @@ function renderContactos(d, t) {
 
   // Contactos emergencia
   let contacts = '';
+  const buildTel = (prefix, num) => [prefix, num].filter(Boolean).join('');
   if (d.ec1_name || d.ec1_phone_num) {
+    const tel1 = buildTel(d.ec1_phone_prefix, d.ec1_phone_num);
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.ec1_name || '—')}</div>
-      ${d.ec1_phone_num ? `<a class="tel-link" href="tel:${esc(d.ec1_phone_num)}">${esc(d.ec1_phone_num)}</a>` : ''}
+      ${d.ec1_rel ? `<div class="contact-rel">${esc(d.ec1_rel)}</div>` : ''}
+      ${tel1 ? `<a class="tel-link" href="tel:${esc(tel1)}">${esc(tel1)}</a>` : ''}
     </div>`;
   }
   if (d.ec2_name || d.ec2_phone_num) {
+    const tel2 = buildTel(d.ec2_phone_prefix, d.ec2_phone_num);
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.ec2_name || '—')}</div>
-      ${d.ec2_phone_num ? `<a class="tel-link" href="tel:${esc(d.ec2_phone_num)}">${esc(d.ec2_phone_num)}</a>` : ''}
+      ${d.ec2_rel ? `<div class="contact-rel">${esc(d.ec2_rel)}</div>` : ''}
+      ${tel2 ? `<a class="tel-link" href="tel:${esc(tel2)}">${esc(tel2)}</a>` : ''}
     </div>`;
   }
   if (d.guardian_name || d.guardian_phone_num) {
+    const telG = buildTel(d.guardian_phone_prefix, d.guardian_phone_num);
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.guardian_name || '—')}</div>
       <div class="contact-rel">${t.l_tutor}</div>
-      ${d.guardian_phone_num ? `<a class="tel-link" href="tel:${esc(d.guardian_phone_num)}">${esc(d.guardian_phone_num)}</a>` : ''}
+      ${telG ? `<a class="tel-link" href="tel:${esc(telG)}">${esc(telG)}</a>` : ''}
     </div>`;
   }
   if (contacts) html += section(t.s_contacts, contacts);
@@ -430,13 +436,16 @@ function renderContactos(d, t) {
   // Medico
   let doc = '';
   doc += row(t.l_docname,   d.doctor_name,      false);
-  doc += telRow(t.l_doctel, d.doctor_phone_num, 'tel-sm');
+  const docTel = buildTel(d.doctor_phone_prefix, d.doctor_phone_num);
+  if (docTel) doc += telRow(t.l_doctel, docTel, 'tel-sm');
   if (doc) html += section(t.s_doctor, doc);
 
   // Seguro
   let ins = '';
-  ins += row(t.l_insurer, d.insurer, false);
-  ins += row(t.l_policy,  d.policy,  false);
+  ins += row(t.l_insurer,      d.insurer,       false);
+  ins += row(t.l_policy,       d.policy,        false);
+  ins += row('TARJETA SANIT.', d.health_card_num, false);
+  ins += row('PAÍS SEG. SOC.', d.ss_country,    false);
   if (ins) html += section(t.s_insurance, ins);
 
   return html || `<div class="empty">${t.nodata}</div>`;
