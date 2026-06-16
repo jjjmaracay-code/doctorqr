@@ -476,30 +476,28 @@ async function parseData() {
 
     if (id) {
       const t = params.get('t') || '';
+
+      // 1. Cargar desde la nube por doctorqr_id — acceso público de emergencia
+      try {
+        const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`);
+        if (res.ok) {
+          const { profile } = await res.json();
+          if (profile) {
+            profile._qr_type = t;
+            return profile;
+          }
+        }
+      } catch (_) {}
+
+      // 2. Fallback: localStorage en el mismo dispositivo
       const saved = localStorage.getItem('doctorqr_profile');
       if (saved) {
         const d = JSON.parse(saved);
         d._qr_type = t;
         return d;
       }
-      // Sin localStorage: intentar cargar desde la nube si hay sesión activa
-      const token = localStorage.getItem('doctorqr_token');
-      if (token && !token.startsWith('biometric_')) {
-        try {
-          const res = await fetch(`${BACKEND}/api/profile/load`, {
-            headers: { 'Authorization': 'Bearer ' + token }
-          });
-          if (res.ok) {
-            const { profile } = await res.json();
-            if (profile) {
-              profile._qr_type = t;
-              profile._from_cloud = true;
-              return profile;
-            }
-          }
-        } catch (_) {}
-      }
-      // Modo minimal: solo datos básicos de la URL
+
+      // 3. Fallback final: solo parámetros básicos de la URL
       const n = decodeURIComponent(params.get('n') || '');
       const parts = n.trim().split(' ');
       return {
@@ -559,8 +557,7 @@ function renderApp() {
       </div>
     </div>
 
-    ${d._minimal ? `<div class="minimal-banner">&#128241; Para ver el historial completo, escanea este QR desde el dispositivo del paciente</div>` : ''}
-    ${d._from_cloud ? `<div class="minimal-banner" style="border-color:rgba(0,200,80,0.4);color:#00aa44">&#9729; Datos cargados desde la nube</div>` : ''}
+    ${d._minimal ? `<div class="minimal-banner">&#9888; Historial no disponible &mdash; datos b&aacute;sicos del QR</div>` : ''}
 
     <div class="tabs" id="tabs">
       <button class="tab-btn active" id="tbtn-urgente"   onclick="switchTab('urgente')">${t.tab_u}</button>

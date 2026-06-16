@@ -370,19 +370,28 @@
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
 
-      const _tok = localStorage.getItem('doctorqr_token');
-      if (_tok && !_tok.startsWith('biometric_')) {
-        fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
-          body: JSON.stringify({ profile })
-        }).catch(() => {});
-      }
-
       const toast = document.getElementById('toast');
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2800);
-      generateAllQRs();
+      generateAllQRs(); // crea doctorqr_id en localStorage si no existía
+
+      const _tok = localStorage.getItem('doctorqr_token');
+      if (_tok && !_tok.startsWith('biometric_')) {
+        const _qrId = localStorage.getItem('doctorqr_id');
+        fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
+          body: JSON.stringify({ profile, doctorqr_id: _qrId })
+        })
+        .then(r => r.ok ? r.json() : null)
+        .then(json => {
+          if (json?.success) {
+            const ts = document.getElementById('toast-sync');
+            if (ts) { ts.classList.add('show'); setTimeout(() => ts.classList.remove('show'), 2500); }
+          }
+        })
+        .catch(() => {});
+      }
     }
 
     // ===== LOAD SAVED =====
