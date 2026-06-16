@@ -1470,6 +1470,11 @@
       const docType   = user.doc_type   || profile.doc_type   || '';
       const docNumber = user.doc_number || profile.doc_number || '';
       if (docType && docNumber) {
+        // Mostrar el contenedor ANTES de asignar value — sin selectDocType() que es de form.js
+        const fieldContainer = document.getElementById('field-' + docType);
+        if (fieldContainer) fieldContainer.style.display = 'block';
+        const docChipEl = document.querySelector(`[data-group="doc-type"][data-value="${docType}"]`);
+        if (docChipEl) docChipEl.classList.add('active');
         const docInp = document.getElementById('input-' + docType);
         if (docInp) {
           docInp.value = docNumber;
