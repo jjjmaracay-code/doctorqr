@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>DoctorQR</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #00ff41;
+      --red: #ff2244;
+      --amber: #ffcc00;
+      --bg: #000;
+      --card-bg: rgba(0,255,65,0.04);
+      --card-border: rgba(0,255,65,0.15);
+      --text: #e0e0e0;
+      --dim: rgba(255,255,255,0.4);
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Courier New', Courier, monospace; min-height: 100vh; padding-bottom: 90px; }
+
+    /* HEADER */
+    .header { background: rgba(0,0,0,0.97); border-bottom: 1px solid var(--card-border); padding: 12px 16px; position: sticky; top: 0; z-index: 100; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .logo { font-size: 11px; font-weight: 900; letter-spacing: 3px; color: var(--green); text-shadow: 0 0 8px var(--green); }
+    .lang-switcher { display: flex; gap: 5px; }
+    .lang-btn { background: transparent; border: 1px solid rgba(0,255,65,0.25); color: var(--dim); font-family: inherit; font-size: 10px; letter-spacing: 1px; padding: 3px 7px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+    .lang-btn.active { border-color: var(--green); color: var(--green); text-shadow: 0 0 6px var(--green); }
+    .patient-name { font-size: clamp(18px, 5vw, 26px); font-weight: 900; letter-spacing: 2px; color: #fff; line-height: 1.2; margin-bottom: 8px; word-break: break-word; }
+    .patient-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .blood-badge { background: var(--red); color: #fff; font-size: 15px; font-weight: 900; letter-spacing: 2px; padding: 4px 14px; border-radius: 6px; box-shadow: 0 0 14px rgba(255,34,68,0.55); }
+    .age-badge { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
+    .qr-type-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.35); }
+    .ts-note { font-size: 9px; color: rgba(255,255,255,0.18); letter-spacing: 1px; margin-top: 4px; }
+
+    /* SEARCH */
+    .search-bar { background: rgba(0,0,0,0.95); border-bottom: 1px solid var(--card-border); padding: 10px 16px; display: flex; align-items: center; gap: 8px; position: sticky; z-index: 99; }
+    .search-input { flex: 1; background: rgba(0,255,65,0.06); border: 1px solid rgba(0,255,65,0.3); color: var(--green); font-family: inherit; font-size: 12px; letter-spacing: 1px; padding: 7px 12px; border-radius: 6px; outline: none; transition: border-color 0.15s; min-width: 0; }
+    .search-input:focus { border-color: var(--green); box-shadow: 0 0 8px rgba(0,255,65,0.18); }
+    .search-input::placeholder { color: rgba(0,255,65,0.3); }
+    .search-counter { font-size: 10px; color: var(--dim); white-space: nowrap; min-width: 62px; text-align: center; }
+    .search-nav { display: flex; gap: 4px; }
+    .nav-btn { background: transparent; border: 1px solid rgba(0,255,65,0.22); color: var(--green); font-family: inherit; font-size: 14px; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .nav-btn:hover { background: rgba(0,255,65,0.1); }
+    .nav-btn:disabled { opacity: 0.22; cursor: default; }
+    mark { background: #ffcc00; color: #000; border-radius: 2px; padding: 0 1px; }
+    mark.current { background: #ff6600; color: #fff; }
+
+    /* TABS */
+    .tabs { display: flex; border-bottom: 1px solid var(--card-border); background: rgba(0,0,0,0.95); position: sticky; z-index: 98; }
+    .tab-btn { flex: 1; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--dim); font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 13px 6px; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { color: var(--green); border-bottom-color: var(--green); text-shadow: 0 0 8px var(--green); }
+
+    /* PANELS */
+    .tab-panel { display: none; padding: 16px; }
+    .tab-panel.active { display: block; }
+
+    /* SECTIONS */
+    .section { margin-bottom: 20px; }
+    .section-title { font-size: 9px; font-weight: 900; letter-spacing: 3px; color: var(--green); text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(0,255,65,0.15); }
+    .section-title.red   { color: var(--red);   border-bottom-color: rgba(255,34,68,0.2); }
+    .section-title.amber { color: var(--amber);  border-bottom-color: rgba(255,204,0,0.2); }
+
+    /* BADGES */
+    .badge-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+    .badge { font-size: 11px; letter-spacing: 0.5px; padding: 5px 10px; border-radius: 6px; font-weight: 700; display: inline-block; margin: 2px 2px 2px 0; }
+    .b-red   { background: rgba(255,34,68,0.15);  border: 1px solid rgba(255,34,68,0.5);  color: #ff6680; }
+    .b-amber { background: rgba(255,204,0,0.10);  border: 1px solid rgba(255,204,0,0.4);  color: #ffcc00; }
+    .b-green { background: rgba(0,255,65,0.07);   border: 1px solid rgba(0,255,65,0.3);   color: var(--green); }
+    .b-gray  { background: rgba(255,255,255,0.05);border: 1px solid rgba(255,255,255,0.14);color: rgba(255,255,255,0.55); }
+
+    /* DATA ROWS */
+    .data-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); align-items: flex-start; }
+    .data-row:last-child { border-bottom: none; }
+    .data-label { font-size: 9px; letter-spacing: 1.5px; color: var(--dim); min-width: 110px; padding-top: 2px; flex-shrink: 0; }
+    .data-value { font-size: 13px; color: var(--text); line-height: 1.5; word-break: break-word; }
+    .data-value.crit { color: #ff7788; font-weight: 700; }
+
+    /* CONTACTS */
+    .contact-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+    .contact-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .contact-rel  { font-size: 10px; color: var(--dim); letter-spacing: 1px; margin-bottom: 8px; }
+    .tel-link { display: inline-block; font-size: 17px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: 1px; text-shadow: 0 0 6px rgba(0,255,65,0.3); }
+    .tel-link:hover { text-shadow: 0 0 14px rgba(0,255,65,0.6); }
+    .tel-sm { font-size: 14px; }
+
+    /* STATES */
+    .empty { color: var(--dim); font-size: 11px; letter-spacing: 1px; text-align: center; padding: 24px 0; }
+    .error-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; padding: 24px; text-align: center; gap: 16px; }
+    .error-icon  { font-size: 56px; color: var(--red); text-shadow: 0 0 24px var(--red); }
+    .error-title { font-size: 16px; color: var(--green); letter-spacing: 2px; }
+    .error-msg   { font-size: 12px; color: var(--dim); max-width: 280px; line-height: 1.8; }
+
+    /* FOOTER */
+    .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.97); border-top: 1px solid var(--card-border); padding: 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .btn-profile { display: block; width: 100%; max-width: 420px; background: var(--green); color: #000; font-family: inherit; font-size: 11px; font-weight: 900; letter-spacing: 3px; padding: 12px; border: none; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; transition: opacity 0.15s; }
+    .btn-profile:hover { opacity: 0.85; }
+    .footer-note { font-size: 9px; color: var(--dim); letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+<script>
+// ================================================================
+// i18n
+// ================================================================
+const T = {
+  es: {
+    ph: 'Buscar en historial...',
+    results: (n, tot) => `${n} de ${tot}`,
+    no_results: 'Sin resultados',
+    tab_u: 'URGENTE', tab_h: 'HISTORIAL', tab_c: 'CONTACTOS',
+    years: 'años', generated: 'GEN.',
+    s_allergy: '⚠ Alergias graves',
+    s_med: '💊 Medicación activa',
+    s_cond: '🩺 Condiciones críticas',
+    s_devices: '🔧 Dispositivos implantados',
+    s_restrict: '✡ Restricciones',
+    s_diseases: '📋 Enfermedades y condiciones',
+    s_surg: '🔪 Cirugías',
+    s_vacc: '💉 Vacunas',
+    s_family: '🧬 Historial familiar',
+    s_habits: '🚶 Hábitos',
+    s_contacts: '📞 Contactos de emergencia',
+    s_doctor: '👨‍⚕️ Médico habitual',
+    s_insurance: '🏥 Seguro médico',
+    l_drug: 'ALERGIA FÁRMACOS', l_anest: 'ALERGIA ANESTESIA',
+    l_food: 'ALERGIA ALIMENTOS', l_env: 'ALERGIA AMBIENTAL',
+    l_latex: 'LÁTEX', l_epipen: 'EPIPEN', l_anaph: 'ANAFILAXIA PREVIA',
+    l_anticoa: 'ANTICOAGULADO', l_pace: 'MARCAPASOS',
+    l_meds: 'MEDICACIÓN', l_dose: 'DOSIS', l_last: 'ÚTIMA TOMA',
+    l_highrisk: 'ALTO RIESGO',
+    l_implant: 'IMPLANTES', l_intub: 'INTUBACIÓN', l_anestcomp: 'COMP. ANESTESIA',
+    l_dental: 'PRÓTESIS DENTAL', l_hearing: 'AUDÍFONO', l_vision: 'GAFAS/LENTILLAS',
+    l_religion: 'RESTR. RELIGIOSAS', l_donor: 'DONANTE ÓRGANOS', l_decide: 'PUEDE DECIDIR',
+    l_adv: 'VOLUNTADES ANTIC.',
+    l_lastsurg: 'ÚTIMA CIRUGÍA', l_vaccal: 'CALENDARIO VACUNAL',
+    l_famdis: 'ENF. FAMILIARES', l_sudeath: 'MUERTE SÚBITA FAM.', l_hiperterm: 'HIPERT. MALIGNA FAM.',
+    l_tobacco: 'TABACO', l_alcohol: 'ALCOHOL', l_drugs: 'DROGAS',
+    l_pregnancy: 'EMBARAZO', l_weeks: 'SEMANAS', l_breast: 'LACTANCIA', l_hormonal: 'TERAPIA HORMONAL',
+    l_weight: 'PESO', l_height: 'TALLA', l_prof: 'PROFESIÓN', l_travel: 'VIAJES RECIENTES',
+    l_tutor: 'TUTOR LEGAL',
+    l_docname: 'MÉDICO', l_doctel: 'TELÉFONO', l_specialist: 'ESPECIALISTA',
+    l_insurer: 'ASEGURADORA', l_policy: 'Nº PÓLIZA', l_hospital: 'HOSP. REFERENCIA',
+    btn: 'ACCEDER AL PERFIL COMPLETO',
+    footnote: 'Datos proporcionados por el paciente · doctorqr.app',
+    err_title: 'CÓDIGO INVÁLIDO',
+    err_msg: 'No se pudo leer el código QR. El código puede estar dañado o ser inválido.',
+    nodata: '— No especificado —',
+  },
+  en: {
+    ph: 'Search medical history...',
+    results: (n, tot) => `${n} of ${tot}`,
+    no_results: 'No results',
+    tab_u: 'URGENT', tab_h: 'HISTORY', tab_c: 'CONTACTS',
+    years: 'years', generated: 'GEN.',
+    s_allergy: '⚠ Severe Allergies',
+    s_med: '💊 Active Medication',
+    s_cond: '🩺 Critical Conditions',
+    s_devices: '🔧 Implanted Devices',
+    s_restrict: '✡ Restrictions',
+    s_diseases: '📋 Diseases & Conditions',
+    s_surg: '🔪 Surgeries',
+    s_vacc: '💉 Vaccines',
+    s_family: '🧬 Family History',
+    s_habits: '🚶 Habits',
+    s_contacts: '📞 Emergency Contacts',
+    s_doctor: '👨‍⚕️ Primary Physician',
+    s_insurance: '🏥 Health Insurance',
+    l_drug: 'DRUG ALLERGY', l_anest: 'ANESTHESIA ALLERGY',
+    l_food: 'FOOD ALLERGY', l_env: 'ENV. ALLERGY',
+    l_latex: 'LATEX', l_epipen: 'EPIPEN', l_anaph: 'PRIOR ANAPHYLAXIS',
+    l_anticoa: 'ANTICOAGULATED', l_pace: 'PACEMAKER',
+    l_meds: 'MEDICATION', l_dose: 'DOSAGE', l_last: 'LAST DOSE',
+    l_highrisk: 'HIGH RISK',
+    l_implant: 'IMPLANTS', l_intub: 'INTUBATION', l_anestcomp: 'ANESTHESIA COMP.',
+    l_dental: 'DENTAL PROSTHESIS', l_hearing: 'HEARING AID', l_vision: 'GLASSES/CONTACTS',
+    l_religion: 'RELIGIOUS RESTR.', l_donor: 'ORGAN DONOR', l_decide: 'CAN DECIDE',
+    l_adv: 'ADVANCE DIRECTIVE',
+    l_lastsurg: 'LAST SURGERY', l_vaccal: 'VACCINE SCHEDULE',
+    l_famdis: 'FAMILY DISEASES', l_sudeath: 'FAMILY SUDDEN DEATH', l_hiperterm: 'FAM. MALIG. HYPERTHERMIA',
+    l_tobacco: 'TOBACCO', l_alcohol: 'ALCOHOL', l_drugs: 'DRUGS',
+    l_pregnancy: 'PREGNANCY', l_weeks: 'WEEKS', l_breast: 'BREASTFEEDING', l_hormonal: 'HORMONAL THERAPY',
+    l_weight: 'WEIGHT', l_height: 'HEIGHT', l_prof: 'PROFESSION', l_travel: 'RECENT TRAVEL',
+    l_tutor: 'LEGAL GUARDIAN',
+    l_docname: 'PHYSICIAN', l_doctel: 'PHONE', l_specialist: 'SPECIALIST',
+    l_insurer: 'INSURER', l_policy: 'POLICY No.', l_hospital: 'REF. HOSPITAL',
+    btn: 'VIEW FULL PROFILE',
+    footnote: 'Data provided by the patient · doctorqr.app',
+    err_title: 'INVALID CODE',
+    err_msg: 'Could not read the QR code. The code may be damaged or invalid.',
+    nodata: '— Not specified —',
+  },
+  fr: {
+    ph: 'Rechercher dans le dossier...',
+    results: (n, tot) => `${n} sur ${tot}`,
+    no_results: 'Aucun résultat',
+    tab_u: 'URGENT', tab_h: 'HISTORIQUE', tab_c: 'CONTACTS',
+    years: 'ans', generated: 'GÉN.',
+    s_allergy: '⚠ Allergies graves',
+    s_med: '💊 Médicaments actifs',
+    s_cond: '🩺 Conditions critiques',
+    s_devices: '🔧 Dispositifs implantés',
+    s_restrict: '✡ Restrictions',
+    s_diseases: '📋 Maladies et conditions',
+    s_surg: '🔪 Chirurgies',
+    s_vacc: '💉 Vaccins',
+    s_family: '🧬 Antécédents familiaux',
+    s_habits: '🚶 Habitudes',
+    s_contacts: '📞 Contacts d\'urgence',
+    s_doctor: '👨‍⚕️ Médecin traitant',
+    s_insurance: '🏥 Assurance maladie',
+    l_drug: 'ALLERGIE MÉDICAMENTS', l_anest: 'ALLERGIE ANESTHÉSIE',
+    l_food: 'ALLERGIE ALIMENTAIRE', l_env: 'ALLERGIE ENVIRONN.',
+    l_latex: 'LATEX', l_epipen: 'EPIPEN', l_anaph: 'ANAPHYLAXIE ANTÉR.',
+    l_anticoa: 'ANTICOAGULÉ', l_pace: 'PACEMAKER',
+    l_meds: 'MÉDICAMENT', l_dose: 'DOSAGE', l_last: 'DERNIÈRE PRISE',
+    l_highrisk: 'HAUT RISQUE',
+    l_implant: 'IMPLANTS', l_intub: 'INTUBATION', l_anestcomp: 'COMP. ANESTHÉSIE',
+    l_dental: 'PROTHÈSE DENTAIRE', l_hearing: 'AIDE AUDITIVE', l_vision: 'LUNETTES/LENTILLES',
+    l_religion: 'RESTR. RELIGIEUSES', l_donor: 'DONNEUR D\'ORGANES', l_decide: 'PEUT DÉCIDER',
+    l_adv: 'DIRECTIVES ANTICIPÉES',
+    l_lastsurg: 'DERNIÈRE CHIRURGIE', l_vaccal: 'CALENDRIER VACCINAL',
+    l_famdis: 'MALADIES FAMIL.', l_sudeath: 'MORT SUBITE FAMIL.', l_hiperterm: 'HYPERTHERM. MALIGNE FAM.',
+    l_tobacco: 'TABAC', l_alcohol: 'ALCOOL', l_drugs: 'DROGUES',
+    l_pregnancy: 'GROSSESSE', l_weeks: 'SEMAINES', l_breast: 'ALLAITEMENT', l_hormonal: 'THÉRAPIE HORMONALE',
+    l_weight: 'POIDS', l_height: 'TAILLE', l_prof: 'PROFESSION', l_travel: 'VOYAGES RÉCENTS',
+    l_tutor: 'TUTEUR LÉGAL',
+    l_docname: 'MÉDECIN', l_doctel: 'TÉLÉPHONE', l_specialist: 'SPÉCIALISTE',
+    l_insurer: 'ASSUREUR', l_policy: 'No. POLICE', l_hospital: 'HÔPITAL DE RÉF.',
+    btn: 'VOIR LE PROFIL COMPLET',
+    footnote: 'Données fournies par le patient · doctorqr.app',
+    err_title: 'CODE INVALIDE',
+    err_msg: 'Impossible de lire le code QR. Le code peut être endommagé ou invalide.',
+    nodata: '— Non spécifié —',
+  }
+};
+
+// ================================================================
+// Helpers
+// ================================================================
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function arr(v) {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.filter(Boolean);
+  return String(v).split(/[,;]\s*/).map(s => s.trim()).filter(Boolean);
+}
+
+function calcAge(ds) {
+  if (!ds) return null;
+  const d = new Date(ds);
+  if (isNaN(d)) return null;
+  return Math.floor((Date.now() - d) / (365.25 * 24 * 3600 * 1000));
+}
+
+function isCrit(v) {
+  if (!v) return false;
+  const u = v.toUpperCase();
+  return u.startsWith('SÍ') || u.startsWith('SI ') || u === 'SI' ||
+         u.includes('YES') || u.includes('CONFIRMAD') ||
+         u.includes('DIFÍCIL') || u.includes('DIFICIL');
+}
+
+// ================================================================
+// Render helpers
+// ================================================================
+function section(title, body, color) {
+  if (!body) return '';
+  return `<div class="section"><div class="section-title ${color||''}">${title}</div>${body}</div>`;
+}
+
+function badges(items, cls) {
+  if (!items.length) return '';
+  return `<div class="badge-list">${items.map(i => `<span class="badge ${cls}">${esc(i)}</span>`).join('')}</div>`;
+}
+
+function row(label, val, crit) {
+  if (!val) return '';
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value${crit ? ' crit' : ''}">${esc(val)}</span></div>`;
+}
+
+function badgeRow(label, items, cls) {
+  if (!items.length) return '';
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value">${items.map(i => `<span class="badge ${cls}">${esc(i)}</span>`).join('')}</span></div>`;
+}
+
+function telRow(label, tel, cls) {
+  if (!tel) return '';
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value"><a class="tel-link ${cls||''}" href="tel:${esc(tel)}">${esc(tel)}</a></span></div>`;
+}
+
+// ================================================================
+// Tab renderers
+// ================================================================
+function renderUrgente(d, t) {
+  let html = '';
+
+  // Alergias
+  let al = '';
+  al += badgeRow(t.l_drug,  arr(d.alergias_med),       'badge b-red');
+  al += badgeRow(t.l_anest, arr(d.alergias_anestesia),  'badge b-red');
+  al += badgeRow(t.l_food,  arr(d.alergias_alim),       'badge b-amber');
+  al += badgeRow(t.l_env,   arr(d.alergias_ambient),    'badge b-amber');
+  al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));
+  al += row(t.l_epipen, d.epipen,             false);
+  al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
+  if (al) html += section(t.s_allergy, al, 'red');
+
+  // Medicacion
+  let med = '';
+  med += badgeRow(t.l_meds,     arr(d.medicacion_chips),        'badge b-amber');
+  med += badgeRow(t.l_highrisk, arr(d.medicacion_alto_riesgo),  'badge b-red');
+  med += row(t.l_dose,    d.medicacion_dosis, false);
+  med += row(t.l_last,    d.ultima_toma,      false);
+  med += row(t.l_anticoa, d.anticoagulado,    isCrit(d.anticoagulado));
+  if (med) html += section(t.s_med, med, 'amber');
+
+  // Condiciones criticas
+  let cond = '';
+  const conds  = arr(d.condiciones);
+  const diseas = arr(d.enfermedades);
+  if (conds.length)  cond += badges(conds,  'badge b-red');
+  if (diseas.length) cond += (cond ? '<br style="display:block;margin:4px 0">' : '') + badges(diseas, 'badge b-amber');
+  cond += row(t.l_adv,    d.voluntades_anticipadas, false);
+  cond += row(t.l_decide, d.puede_decidir,           false);
+  if (cond) html += section(t.s_cond, cond);
+
+  // Dispositivos
+  let dev = '';
+  dev += row(t.l_pace,      d.marcapasos,                isCrit(d.marcapasos));
+  dev += row(t.l_implant,   d.material_osteosintesis,    false);
+  dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
+  dev += row(t.l_anestcomp, d.complicaciones_anestesia,  false);
+  dev += row(t.l_dental,    d.protesis_dental_removible, false);
+  dev += row(t.l_hearing,   d.audifono,                  false);
+  dev += row(t.l_vision,    d.gafas_lentillas,           false);
+  if (dev) html += section(t.s_devices, dev);
+
+  // Restricciones
+  let res = '';
+  const relVal = d['religión_restricciones'] || d.religion_restricciones || '';
+  res += row(t.l_religion, relVal,           false);
+  res += row(t.l_donor,    d.donante_organos, false);
+  if (res) html += section(t.s_restrict, res);
+
+  return html || `<div class="empty">${t.nodata}</div>`;
+}
+
+function renderHistorial(d, t) {
+  let html = '';
+
+  // Enfermedades + condiciones (deduplicadas)
+  const all = [...new Set([...arr(d.enfermedades), ...arr(d.condiciones)])];
+  if (all.length) html += section(t.s_diseases, badges(all, 'badge b-gray'));
+
+  // Cirugias
+  let surg = '';
+  const surgs = arr(d.cirugias);
+  if (surgs.length) surg += badges(surgs, 'badge b-gray');
+  surg += row(t.l_lastsurg, d.last_surgery_date, false);
+  if (surg) html += section(t.s_surg, surg);
+
+  // Vacunas
+  let vacc = '';
+  const vaccs = arr(d.vacunas);
+  if (vaccs.length) vacc += badges(vaccs, 'badge b-green');
+  vacc += row(t.l_vaccal, d.calendario_vacunal, false);
+  if (vacc) html += section(t.s_vacc, vacc);
+
+  // Historial familiar
+  let fam = '';
+  fam += badgeRow(t.l_famdis, arr(d.enfermedades_familiares), 'badge b-gray');
+  fam += row(t.l_sudeath,   d.muerte_subita_familiar,       isCrit(d.muerte_subita_familiar));
+  fam += row(t.l_hiperterm, d.hipertermia_maligna_familiar, isCrit(d.hipertermia_maligna_familiar));
+  if (fam) html += section(t.s_family, fam);
+
+  // Habitos
+  let hab = '';
+  hab += row(t.l_tobacco, d.habitos_tabaco,  false);
+  hab += row(t.l_alcohol, d.habitos_alcohol, false);
+  hab += row(t.l_drugs,   d.habitos_drogas,  false);
+  if (hab) html += section(t.s_habits, hab);
+
+  // Datos extra
+  let extra = '';
+  extra += row(t.l_pregnancy, d.embarazo,          false);
+  extra += row(t.l_weeks,     d.embarazo_semanas,  false);
+  extra += row(t.l_breast,    d.lactancia,         false);
+  extra += row(t.l_hormonal,  d.terapia_hormonal,  false);
+  extra += row(t.l_weight,    d.peso,              false);
+  extra += row(t.l_height,    d.altura,            false);
+  extra += row(t.l_prof,      d.profesion,         false);
+  const travel = [d.country_visit_1, d.country_visit_2, d.country_visit_3].filter(Boolean).join(', ');
+  extra += row(t.l_travel, travel, false);
+  if (extra) html += `<div class="section">${extra}</div>`;
+
+  return html || `<div class="empty">${t.nodata}</div>`;
+}
+
+function renderContactos(d, t) {
+  let html = '';
+
+  // Contactos emergencia
+  let contacts = '';
+  if (d.contacto1_nombre || d.contacto1_tel) {
+    contacts += `<div class="contact-card">
+      <div class="contact-name">${esc(d.contacto1_nombre || '—')}</div>
+      ${d.contacto1_tel ? `<a class="tel-link" href="tel:${esc(d.contacto1_tel)}">${esc(d.contacto1_tel)}</a>` : ''}
+    </div>`;
+  }
+  if (d.contacto2_nombre || d.contacto2_tel) {
+    contacts += `<div class="contact-card">
+      <div class="contact-name">${esc(d.contacto2_nombre || '—')}</div>
+      ${d.contacto2_tel ? `<a class="tel-link" href="tel:${esc(d.contacto2_tel)}">${esc(d.contacto2_tel)}</a>` : ''}
+    </div>`;
+  }
+  if (d.tutor_nombre || d.tutor_tel) {
+    contacts += `<div class="contact-card">
+      <div class="contact-name">${esc(d.tutor_nombre || '—')}</div>
+      <div class="contact-rel">${t.l_tutor}</div>
+      ${d.tutor_tel ? `<a class="tel-link" href="tel:${esc(d.tutor_tel)}">${esc(d.tutor_tel)}</a>` : ''}
+    </div>`;
+  }
+  if (contacts) html += section(t.s_contacts, contacts);
+
+  // Medico
+  let doc = '';
+  doc += row(t.l_docname,    d.medico_nombre,       false);
+  doc += telRow(t.l_doctel,  d.medico_tel,          'tel-sm');
+  doc += row(t.l_specialist, d.medico_especialista, false);
+  if (doc) html += section(t.s_doctor, doc);
+
+  // Seguro
+  let ins = '';
+  ins += row(t.l_insurer,  d.aseguradora,          false);
+  ins += row(t.l_policy,   d.numero_poliza,         false);
+  ins += row(t.l_hospital, d.hospital_referencia,   false);
+  if (ins) html += section(t.s_insurance, ins);
+
+  return html || `<div class="empty">${t.nodata}</div>`;
+}
+
+// ================================================================
+// App state
+// ================================================================
+let data         = null;
+let lang         = 'es';
+let t            = T.es;
+let activeTab    = 'urgente';
+let searchMatches = [];
+let searchCurrent = -1;
+
+function detectLang() {
+  const l = (navigator.language || 'es').slice(0, 2).toLowerCase();
+  return T[l] ? l : 'es';
+}
+
+function parseData() {
+  try {
+    const params     = new URLSearchParams(window.location.search);
+    const compressed = params.get('d') || window.location.hash.slice(1);
+    if (!compressed) return null;
+    const json = LZString.decompressFromEncodedURIComponent(compressed);
+    if (!json) return null;
+    return JSON.parse(json);
+  } catch(e) { return null; }
+}
+
+// ================================================================
+// Render app
+// ================================================================
+function renderApp() {
+  const d    = data;
+  const age  = calcAge(d.fecha_nacimiento);
+  const name = [d.nombre, d.apellidos].filter(Boolean).join(' ') || '—';
+
+  document.getElementById('app').innerHTML = `
+    <header class="header" id="hdr">
+      <div class="header-top">
+        <div class="logo">DOCTOR<span style="color:#fff">QR</span></div>
+        <div class="lang-switcher">
+          <button class="lang-btn ${lang==='es'?'active':''}" onclick="setLang('es')">ES</button>
+          <button class="lang-btn ${lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
+          <button class="lang-btn ${lang==='fr'?'active':''}" onclick="setLang('fr')">FR</button>
+        </div>
+      </div>
+      <div class="patient-name">${esc(name)}</div>
+      <div class="patient-meta">
+        ${d.sangre ? `<span class="blood-badge">${esc(d.sangre)}</span>` : ''}
+        ${age !== null ? `<span class="age-badge">${age} ${t.years}</span>` : ''}
+        ${d.qr ? `<span class="qr-type-badge">${esc(d.qr.toUpperCase())}</span>` : ''}
+      </div>
+      ${d.ts ? `<div class="ts-note">${t.generated} ${esc(d.ts)}</div>` : ''}
+    </header>
+
+    <div class="search-bar" id="sbar">
+      <input class="search-input" id="sinput" type="search" placeholder="${esc(t.ph)}"
+             autocomplete="off" autocorrect="off" spellcheck="false">
+      <span class="search-counter" id="sctr"></span>
+      <div class="search-nav">
+        <button class="nav-btn" id="sprev" disabled>↑</button>
+        <button class="nav-btn" id="snext" disabled>↓</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" id="tbtn-urgente"   onclick="switchTab('urgente')">${t.tab_u}</button>
+      <button class="tab-btn"        id="tbtn-historial" onclick="switchTab('historial')">${t.tab_h}</button>
+      <button class="tab-btn"        id="tbtn-contactos" onclick="switchTab('contactos')">${t.tab_c}</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-urgente">${renderUrgente(d, t)}</div>
+    <div class="tab-panel"        id="panel-historial">${renderHistorial(d, t)}</div>
+    <div class="tab-panel"        id="panel-contactos">${renderContactos(d, t)}</div>
+
+    <div class="footer">
+      <a class="btn-profile" href="https://doctorqr.app">${t.btn}</a>
+      <div class="footer-note">${esc(t.footnote)}</div>
+    </div>`;
+
+  positionSticky();
+  initSearch();
+}
+
+function positionSticky() {
+  requestAnimationFrame(() => {
+    const hdr  = document.getElementById('hdr');
+    const sbar = document.getElementById('sbar');
+    const tabs = document.getElementById('tabs');
+    if (!hdr || !sbar || !tabs) return;
+    const hh = hdr.offsetHeight;
+    sbar.style.top = hh + 'px';
+    tabs.style.top = (hh + sbar.offsetHeight) + 'px';
+  });
+}
+
+function renderError() {
+  document.getElementById('app').innerHTML = `
+    <div class="error-screen">
+      <div class="logo" style="margin-bottom:16px">DOCTOR<span style="color:#fff">QR</span></div>
+      <div class="error-icon">⚠</div>
+      <div class="error-title">${esc(t.err_title)}</div>
+      <div class="error-msg">${esc(t.err_msg)}</div>
+    </div>`;
+}
+
+// ================================================================
+// Tab switching
+// ================================================================
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tbtn-' + name).classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  activeTab = name;
+}
+
+// ================================================================
+// Search
+// ================================================================
+function initSearch() {
+  const inp  = document.getElementById('sinput');
+  const prev = document.getElementById('sprev');
+  const next = document.getElementById('snext');
+  if (!inp) return;
+
+  inp.addEventListener('input', () => runSearch(inp.value));
+  prev.addEventListener('click', () => navigate(-1));
+  next.addEventListener('click', () => navigate(1));
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === 'ArrowDown') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowUp')  { e.preventDefault(); navigate(-1); }
+    if (e.key === 'Escape')   { inp.value = ''; runSearch(''); inp.blur(); }
+  });
+}
+
+function getTextNodes(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = []; let n;
+  while ((n = walker.nextNode())) {
+    if (n.nodeValue.trim()) nodes.push(n);
+  }
+  return nodes;
+}
+
+function clearMarks() {
+  document.querySelectorAll('.tab-panel mark').forEach(m => {
+    m.parentNode.replaceChild(document.createTextNode(m.textContent), m);
+    m.parentNode.normalize();
+  });
+}
+
+function runSearch(q) {
+  clearMarks();
+  searchMatches = [];
+  searchCurrent = -1;
+  updateCounter();
+  const prev = document.getElementById('sprev');
+  const next = document.getElementById('snext');
+
+  if (!q || q.length < 2) {
+    if (prev) prev.disabled = true;
+    if (next) next.disabled = true;
+    return;
+  }
+
+  const ql = q.toLowerCase();
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    getTextNodes(panel).forEach(node => {
+      const txt = node.nodeValue;
+      const low = txt.toLowerCase();
+      let idx = low.indexOf(ql);
+      if (idx === -1) return;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      while (idx !== -1) {
+        if (idx > last) frag.appendChild(document.createTextNode(txt.slice(last, idx)));
+        const mk = document.createElement('mark');
+        mk.textContent = txt.slice(idx, idx + q.length);
+        frag.appendChild(mk);
+        searchMatches.push(mk);
+        last = idx + q.length;
+        idx = low.indexOf(ql, last);
+      }
+      if (last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  });
+
+  if (searchMatches.length) {
+    searchCurrent = 0;
+    highlight();
+    if (prev) prev.disabled = false;
+    if (next) next.disabled = false;
+  } else {
+    if (prev) prev.disabled = true;
+    if (next) next.disabled = true;
+  }
+  updateCounter();
+}
+
+function navigate(dir) {
+  if (!searchMatches.length) return;
+  searchCurrent = (searchCurrent + dir + searchMatches.length) % searchMatches.length;
+  highlight();
+  updateCounter();
+}
+
+function highlight() {
+  searchMatches.forEach((m, i) => m.classList.toggle('current', i === searchCurrent));
+  const cur = searchMatches[searchCurrent];
+  if (!cur) return;
+  const panel = cur.closest('.tab-panel');
+  if (panel) {
+    const id = panel.id.replace('panel-', '');
+    if (id !== activeTab) switchTab(id);
+  }
+  setTimeout(() => cur.scrollIntoView({ behavior: 'smooth', block: 'center' }), 40);
+}
+
+function updateCounter() {
+  const el  = document.getElementById('sctr');
+  const inp = document.getElementById('sinput');
+  if (!el) return;
+  if (!searchMatches.length) {
+    el.textContent = inp && inp.value.length >= 2 ? t.no_results : '';
+    return;
+  }
+  el.textContent = t.results(searchCurrent + 1, searchMatches.length);
+}
+
+// ================================================================
+// Language switch
+// ================================================================
+function setLang(l) {
+  if (!T[l]) return;
+  const prevQ = document.getElementById('sinput')?.value || '';
+  const prevTab = activeTab;
+  lang = l;
+  t    = T[l];
+  document.documentElement.lang = l;
+  renderApp();
+  if (prevTab !== 'urgente') switchTab(prevTab);
+  if (prevQ.length >= 2) {
+    const inp = document.getElementById('sinput');
+    if (inp) { inp.value = prevQ; runSearch(prevQ); }
+  }
+}
+
+// ================================================================
+// Boot
+// ================================================================
+lang = detectLang();
+t    = T[lang];
+data = parseData();
+if (data) renderApp();
+else       renderError();
+</script>
+</body>
+</html>
