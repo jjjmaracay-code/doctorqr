@@ -9,47 +9,47 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --green: #00ff41;
-      --red: #ff2244;
+      --red: #cc0000;
       --amber: #ffcc00;
-      --bg: #000;
-      --card-bg: rgba(0,255,65,0.04);
-      --card-border: rgba(0,255,65,0.15);
-      --text: #e0e0e0;
-      --dim: rgba(255,255,255,0.4);
+      --bg: #ffffff;
+      --card-bg: rgba(204,0,0,0.03);
+      --card-border: rgba(0,0,0,0.10);
+      --text: #111111;
+      --dim: rgba(0,0,0,0.45);
     }
     body { background: var(--bg); color: var(--text); font-family: 'Courier New', Courier, monospace; min-height: 100vh; padding-bottom: 90px; }
 
     /* HEADER */
-    .header { background: rgba(0,0,0,0.97); border-bottom: 1px solid var(--card-border); padding: 12px 16px; position: sticky; top: 0; z-index: 100; }
+    .header { background: rgba(255,255,255,0.98); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,0.1); }
     .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .logo { font-size: 11px; font-weight: 900; letter-spacing: 3px; color: var(--green); text-shadow: 0 0 8px var(--green); }
+    .logo { font-size: 11px; font-weight: 900; letter-spacing: 3px; color: #cc0000; text-shadow: 0 0 8px rgba(204,0,0,0.3); }
     .lang-switcher { display: flex; gap: 5px; }
-    .lang-btn { background: transparent; border: 1px solid rgba(0,255,65,0.25); color: var(--dim); font-family: inherit; font-size: 10px; letter-spacing: 1px; padding: 3px 7px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
-    .lang-btn.active { border-color: var(--green); color: var(--green); text-shadow: 0 0 6px var(--green); }
-    .patient-name { font-size: clamp(18px, 5vw, 26px); font-weight: 900; letter-spacing: 2px; color: #fff; line-height: 1.2; margin-bottom: 8px; word-break: break-word; }
+    .lang-btn { background: transparent; border: 1px solid rgba(0,0,0,0.2); color: rgba(0,0,0,0.45); font-family: inherit; font-size: 10px; letter-spacing: 1px; padding: 3px 7px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+    .lang-btn.active { border-color: #cc0000; color: #cc0000; text-shadow: 0 0 6px rgba(204,0,0,0.3); }
+    .patient-name { font-size: clamp(18px, 5vw, 26px); font-weight: 900; letter-spacing: 2px; color: #111111; line-height: 1.2; margin-bottom: 8px; word-break: break-word; }
     .patient-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .blood-badge { background: var(--red); color: #fff; font-size: 15px; font-weight: 900; letter-spacing: 2px; padding: 4px 14px; border-radius: 6px; box-shadow: 0 0 14px rgba(255,34,68,0.55); }
+    .blood-badge { background: var(--red); color: #fff; font-size: 15px; font-weight: 900; letter-spacing: 2px; padding: 4px 14px; border-radius: 6px; box-shadow: 0 0 10px rgba(204,0,0,0.35); }
     .age-badge { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
-    .qr-type-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.35); }
-    .ts-note { font-size: 9px; color: rgba(255,255,255,0.18); letter-spacing: 1px; margin-top: 4px; }
+    .qr-type-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); color: rgba(0,0,0,0.35); }
+    .ts-note { font-size: 9px; color: rgba(0,0,0,0.25); letter-spacing: 1px; margin-top: 4px; }
 
     /* SEARCH */
-    .search-bar { background: rgba(0,0,0,0.95); border-bottom: 1px solid var(--card-border); padding: 10px 16px; display: flex; align-items: center; gap: 8px; position: sticky; z-index: 99; }
-    .search-input { flex: 1; background: rgba(0,255,65,0.06); border: 1px solid rgba(0,255,65,0.3); color: var(--green); font-family: inherit; font-size: 12px; letter-spacing: 1px; padding: 7px 12px; border-radius: 6px; outline: none; transition: border-color 0.15s; min-width: 0; }
-    .search-input:focus { border-color: var(--green); box-shadow: 0 0 8px rgba(0,255,65,0.18); }
-    .search-input::placeholder { color: rgba(0,255,65,0.3); }
+    .search-bar { background: rgba(255,255,255,0.98); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 10px 16px; display: flex; align-items: center; gap: 8px; position: sticky; z-index: 99; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .search-input { flex: 1; background: rgba(204,0,0,0.04); border: 1px solid rgba(204,0,0,0.3); color: #cc0000; font-family: inherit; font-size: 12px; letter-spacing: 1px; padding: 7px 12px; border-radius: 6px; outline: none; transition: border-color 0.15s; min-width: 0; }
+    .search-input:focus { border-color: #cc0000; box-shadow: 0 0 8px rgba(204,0,0,0.18); }
+    .search-input::placeholder { color: rgba(204,0,0,0.3); }
     .search-counter { font-size: 10px; color: var(--dim); white-space: nowrap; min-width: 62px; text-align: center; }
     .search-nav { display: flex; gap: 4px; }
-    .nav-btn { background: transparent; border: 1px solid rgba(0,255,65,0.22); color: var(--green); font-family: inherit; font-size: 14px; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-    .nav-btn:hover { background: rgba(0,255,65,0.1); }
+    .nav-btn { background: transparent; border: 1px solid rgba(204,0,0,0.25); color: #cc0000; font-family: inherit; font-size: 14px; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .nav-btn:hover { background: rgba(204,0,0,0.06); }
     .nav-btn:disabled { opacity: 0.22; cursor: default; }
     mark { background: #ffcc00; color: #000; border-radius: 2px; padding: 0 1px; }
     mark.current { background: #ff6600; color: #fff; }
 
     /* TABS */
-    .tabs { display: flex; border-bottom: 1px solid var(--card-border); background: rgba(0,0,0,0.95); position: sticky; z-index: 98; }
-    .tab-btn { flex: 1; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--dim); font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 13px 6px; cursor: pointer; transition: all 0.2s; }
-    .tab-btn.active { color: var(--green); border-bottom-color: var(--green); text-shadow: 0 0 8px var(--green); }
+    .tabs { display: flex; border-bottom: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.98); position: sticky; z-index: 98; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .tab-btn { flex: 1; background: transparent; border: none; border-bottom: 2px solid transparent; color: rgba(0,0,0,0.45); font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 13px 6px; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { color: #cc0000; border-bottom-color: #cc0000; text-shadow: 0 0 8px rgba(204,0,0,0.3); }
 
     /* PANELS */
     .tab-panel { display: none; padding: 16px; }
@@ -57,9 +57,9 @@
 
     /* SECTIONS */
     .section { margin-bottom: 20px; }
-    .section-title { font-size: 9px; font-weight: 900; letter-spacing: 3px; color: var(--green); text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(0,255,65,0.15); }
-    .section-title.red   { color: var(--red);   border-bottom-color: rgba(255,34,68,0.2); }
-    .section-title.amber { color: var(--amber);  border-bottom-color: rgba(255,204,0,0.2); }
+    .section-title { font-size: 9px; font-weight: 900; letter-spacing: 3px; color: #cc0000; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(204,0,0,0.15); }
+    .section-title.red   { color: var(--red);   border-bottom-color: rgba(204,0,0,0.2); }
+    .section-title.amber { color: var(--amber);  border-bottom-color: rgba(180,120,0,0.2); }
 
     /* BADGES */
     .badge-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
@@ -67,10 +67,10 @@
     .b-red   { background: rgba(255,34,68,0.15);  border: 1px solid rgba(255,34,68,0.5);  color: #ff6680; }
     .b-amber { background: rgba(255,204,0,0.10);  border: 1px solid rgba(255,204,0,0.4);  color: #ffcc00; }
     .b-green { background: rgba(0,255,65,0.07);   border: 1px solid rgba(0,255,65,0.3);   color: var(--green); }
-    .b-gray  { background: rgba(255,255,255,0.05);border: 1px solid rgba(255,255,255,0.14);color: rgba(255,255,255,0.55); }
+    .b-gray  { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.14); color: rgba(0,0,0,0.65); }
 
     /* DATA ROWS */
-    .data-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); align-items: flex-start; }
+    .data-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); align-items: flex-start; }
     .data-row:last-child { border-bottom: none; }
     .data-label { font-size: 9px; letter-spacing: 1.5px; color: var(--dim); min-width: 110px; padding-top: 2px; flex-shrink: 0; }
     .data-value { font-size: 13px; color: var(--text); line-height: 1.5; word-break: break-word; }
@@ -78,21 +78,21 @@
 
     /* CONTACTS */
     .contact-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
-    .contact-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .contact-name { font-size: 14px; font-weight: 700; color: #111111; margin-bottom: 2px; }
     .contact-rel  { font-size: 10px; color: var(--dim); letter-spacing: 1px; margin-bottom: 8px; }
-    .tel-link { display: inline-block; font-size: 17px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: 1px; text-shadow: 0 0 6px rgba(0,255,65,0.3); }
-    .tel-link:hover { text-shadow: 0 0 14px rgba(0,255,65,0.6); }
+    .tel-link { display: inline-block; font-size: 17px; font-weight: 900; color: #cc0000; text-decoration: none; letter-spacing: 1px; text-shadow: 0 0 6px rgba(204,0,0,0.3); }
+    .tel-link:hover { text-shadow: 0 0 14px rgba(204,0,0,0.5); }
     .tel-sm { font-size: 14px; }
 
     /* STATES */
     .empty { color: var(--dim); font-size: 11px; letter-spacing: 1px; text-align: center; padding: 24px 0; }
     .error-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; padding: 24px; text-align: center; gap: 16px; }
-    .error-icon  { font-size: 56px; color: var(--red); text-shadow: 0 0 24px var(--red); }
-    .error-title { font-size: 16px; color: var(--green); letter-spacing: 2px; }
+    .error-icon  { font-size: 56px; color: var(--red); text-shadow: 0 0 24px rgba(204,0,0,0.4); }
+    .error-title { font-size: 16px; color: #cc0000; letter-spacing: 2px; }
     .error-msg   { font-size: 12px; color: var(--dim); max-width: 280px; line-height: 1.8; }
 
     /* FOOTER */
-    .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.97); border-top: 1px solid var(--card-border); padding: 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.98); border-top: 1px solid var(--card-border); padding: 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 -2px 8px rgba(0,0,0,0.08); }
     .btn-profile { display: block; width: 100%; max-width: 420px; background: var(--green); color: #000; font-family: inherit; font-size: 11px; font-weight: 900; letter-spacing: 3px; padding: 12px; border: none; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; transition: opacity 0.15s; }
     .btn-profile:hover { opacity: 0.85; }
     .footer-note { font-size: 9px; color: var(--dim); letter-spacing: 1px; }
@@ -302,10 +302,10 @@ function renderUrgente(d, t) {
 
   // Alergias
   let al = '';
-  al += badgeRow(t.l_drug,  arr(d.alergias_med),       'badge b-red');
-  al += badgeRow(t.l_anest, arr(d.alergias_anestesia),  'badge b-red');
-  al += badgeRow(t.l_food,  arr(d.alergias_alim),       'badge b-amber');
-  al += badgeRow(t.l_env,   arr(d.alergias_ambient),    'badge b-amber');
+  al += badgeRow(t.l_drug,  arr(d.allergy_med),        'badge b-red');
+  al += badgeRow(t.l_anest, arr(d.allergy_anesthesia),  'badge b-red');
+  al += badgeRow(t.l_food,  arr(d.allergy_food),        'badge b-amber');
+  al += badgeRow(t.l_env,   arr(d.allergy_env),         'badge b-amber');
   al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));
   al += row(t.l_epipen, d.epipen,             false);
   al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
@@ -313,26 +313,26 @@ function renderUrgente(d, t) {
 
   // Medicacion
   let med = '';
-  med += badgeRow(t.l_meds,     arr(d.medicacion_chips),        'badge b-amber');
+  med += badgeRow(t.l_meds,     arr(d.meds),                    'badge b-amber');
   med += badgeRow(t.l_highrisk, arr(d.medicacion_alto_riesgo),  'badge b-red');
-  med += row(t.l_dose,    d.medicacion_dosis, false);
-  med += row(t.l_last,    d.ultima_toma,      false);
+  med += row(t.l_dose,    d.med_doses,               false);
+  med += row(t.l_last,    d.ultima_toma_medicacion,  false);
   med += row(t.l_anticoa, d.anticoagulado,    isCrit(d.anticoagulado));
   if (med) html += section(t.s_med, med, 'amber');
 
   // Condiciones criticas
   let cond = '';
-  const conds  = arr(d.condiciones);
-  const diseas = arr(d.enfermedades);
+  const conds  = arr(d.conditions);
+  const diseas = arr(d.diseases);
   if (conds.length)  cond += badges(conds,  'badge b-red');
   if (diseas.length) cond += (cond ? '<br style="display:block;margin:4px 0">' : '') + badges(diseas, 'badge b-amber');
-  cond += row(t.l_adv,    d.voluntades_anticipadas, false);
-  cond += row(t.l_decide, d.puede_decidir,           false);
+  cond += row(t.l_adv,    d.advance_directive, false);
+  cond += row(t.l_decide, d.can_decide,        false);
   if (cond) html += section(t.s_cond, cond);
 
   // Dispositivos
   let dev = '';
-  dev += row(t.l_pace,      d.marcapasos,                isCrit(d.marcapasos));
+  dev += row(t.l_pace,      d.pacemaker,                 isCrit(d.pacemaker));
   dev += row(t.l_implant,   d.material_osteosintesis,    false);
   dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
   dev += row(t.l_anestcomp, d.complicaciones_anestesia,  false);
@@ -343,9 +343,8 @@ function renderUrgente(d, t) {
 
   // Restricciones
   let res = '';
-  const relVal = d['religión_restricciones'] || d.religion_restricciones || '';
-  res += row(t.l_religion, relVal,           false);
-  res += row(t.l_donor,    d.donante_organos, false);
+  res += row(t.l_religion, d.religion_restrictions, false);
+  res += row(t.l_donor,    d.organ_donor,           false);
   if (res) html += section(t.s_restrict, res);
 
   return html || `<div class="empty">${t.nodata}</div>`;
@@ -355,19 +354,19 @@ function renderHistorial(d, t) {
   let html = '';
 
   // Enfermedades + condiciones (deduplicadas)
-  const all = [...new Set([...arr(d.enfermedades), ...arr(d.condiciones)])];
+  const all = [...new Set([...arr(d.diseases), ...arr(d.conditions)])];
   if (all.length) html += section(t.s_diseases, badges(all, 'badge b-gray'));
 
   // Cirugias
   let surg = '';
-  const surgs = arr(d.cirugias);
+  const surgs = arr(d.surgeries);
   if (surgs.length) surg += badges(surgs, 'badge b-gray');
   surg += row(t.l_lastsurg, d.last_surgery_date, false);
   if (surg) html += section(t.s_surg, surg);
 
   // Vacunas
   let vacc = '';
-  const vaccs = arr(d.vacunas);
+  const vaccs = arr(d.vaccines);
   if (vaccs.length) vacc += badges(vaccs, 'badge b-green');
   vacc += row(t.l_vaccal, d.calendario_vacunal, false);
   if (vacc) html += section(t.s_vacc, vacc);
@@ -381,9 +380,9 @@ function renderHistorial(d, t) {
 
   // Habitos
   let hab = '';
-  hab += row(t.l_tobacco, d.habitos_tabaco,  false);
-  hab += row(t.l_alcohol, d.habitos_alcohol, false);
-  hab += row(t.l_drugs,   d.habitos_drogas,  false);
+  hab += row(t.l_tobacco, d.tabaco,  false);
+  hab += row(t.l_alcohol, d.alcohol, false);
+  hab += row(t.l_drugs,   d.drogas,  false);
   if (hab) html += section(t.s_habits, hab);
 
   // Datos extra
@@ -392,8 +391,8 @@ function renderHistorial(d, t) {
   extra += row(t.l_weeks,     d.embarazo_semanas,  false);
   extra += row(t.l_breast,    d.lactancia,         false);
   extra += row(t.l_hormonal,  d.terapia_hormonal,  false);
-  extra += row(t.l_weight,    d.peso,              false);
-  extra += row(t.l_height,    d.altura,            false);
+  extra += row(t.l_weight,    d.weight,  false);
+  extra += row(t.l_height,    d.height,  false);
   extra += row(t.l_prof,      d.profesion,         false);
   const travel = [d.country_visit_1, d.country_visit_2, d.country_visit_3].filter(Boolean).join(', ');
   extra += row(t.l_travel, travel, false);
@@ -407,39 +406,37 @@ function renderContactos(d, t) {
 
   // Contactos emergencia
   let contacts = '';
-  if (d.contacto1_nombre || d.contacto1_tel) {
+  if (d.ec1_name || d.ec1_phone_num) {
     contacts += `<div class="contact-card">
-      <div class="contact-name">${esc(d.contacto1_nombre || '—')}</div>
-      ${d.contacto1_tel ? `<a class="tel-link" href="tel:${esc(d.contacto1_tel)}">${esc(d.contacto1_tel)}</a>` : ''}
+      <div class="contact-name">${esc(d.ec1_name || '—')}</div>
+      ${d.ec1_phone_num ? `<a class="tel-link" href="tel:${esc(d.ec1_phone_num)}">${esc(d.ec1_phone_num)}</a>` : ''}
     </div>`;
   }
-  if (d.contacto2_nombre || d.contacto2_tel) {
+  if (d.ec2_name || d.ec2_phone_num) {
     contacts += `<div class="contact-card">
-      <div class="contact-name">${esc(d.contacto2_nombre || '—')}</div>
-      ${d.contacto2_tel ? `<a class="tel-link" href="tel:${esc(d.contacto2_tel)}">${esc(d.contacto2_tel)}</a>` : ''}
+      <div class="contact-name">${esc(d.ec2_name || '—')}</div>
+      ${d.ec2_phone_num ? `<a class="tel-link" href="tel:${esc(d.ec2_phone_num)}">${esc(d.ec2_phone_num)}</a>` : ''}
     </div>`;
   }
-  if (d.tutor_nombre || d.tutor_tel) {
+  if (d.guardian_name || d.guardian_phone_num) {
     contacts += `<div class="contact-card">
-      <div class="contact-name">${esc(d.tutor_nombre || '—')}</div>
+      <div class="contact-name">${esc(d.guardian_name || '—')}</div>
       <div class="contact-rel">${t.l_tutor}</div>
-      ${d.tutor_tel ? `<a class="tel-link" href="tel:${esc(d.tutor_tel)}">${esc(d.tutor_tel)}</a>` : ''}
+      ${d.guardian_phone_num ? `<a class="tel-link" href="tel:${esc(d.guardian_phone_num)}">${esc(d.guardian_phone_num)}</a>` : ''}
     </div>`;
   }
   if (contacts) html += section(t.s_contacts, contacts);
 
   // Medico
   let doc = '';
-  doc += row(t.l_docname,    d.medico_nombre,       false);
-  doc += telRow(t.l_doctel,  d.medico_tel,          'tel-sm');
-  doc += row(t.l_specialist, d.medico_especialista, false);
+  doc += row(t.l_docname,   d.doctor_name,      false);
+  doc += telRow(t.l_doctel, d.doctor_phone_num, 'tel-sm');
   if (doc) html += section(t.s_doctor, doc);
 
   // Seguro
   let ins = '';
-  ins += row(t.l_insurer,  d.aseguradora,          false);
-  ins += row(t.l_policy,   d.numero_poliza,         false);
-  ins += row(t.l_hospital, d.hospital_referencia,   false);
+  ins += row(t.l_insurer, d.insurer, false);
+  ins += row(t.l_policy,  d.policy,  false);
   if (ins) html += section(t.s_insurance, ins);
 
   return html || `<div class="empty">${t.nodata}</div>`;
@@ -482,7 +479,7 @@ function renderApp() {
   document.getElementById('app').innerHTML = `
     <header class="header" id="hdr">
       <div class="header-top">
-        <div class="logo">DOCTOR<span style="color:#fff">QR</span></div>
+        <div class="logo">DOCTOR<span style="color:#111111">QR</span></div>
         <div class="lang-switcher">
           <button class="lang-btn ${lang==='es'?'active':''}" onclick="setLang('es')">ES</button>
           <button class="lang-btn ${lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
@@ -542,7 +539,7 @@ function positionSticky() {
 function renderError() {
   document.getElementById('app').innerHTML = `
     <div class="error-screen">
-      <div class="logo" style="margin-bottom:16px">DOCTOR<span style="color:#fff">QR</span></div>
+      <div class="logo" style="margin-bottom:16px">DOCTOR<span style="color:#111111">QR</span></div>
       <div class="error-icon">⚠</div>
       <div class="error-title">${esc(t.err_title)}</div>
       <div class="error-msg">${esc(t.err_msg)}</div>

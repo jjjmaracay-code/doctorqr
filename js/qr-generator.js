@@ -4,16 +4,16 @@
 const BASE_FIELDS = [
   'nombre','apellidos','fecha_nacimiento',
   'doc_type','doc_number','sangre',
-  'alergias_med','alergias_anestesia',
+  'allergy_med','allergy_anesthesia',
   'latex_guantes','epipen','anafilaxia_previa',
-  'anticoagulado','marcapasos',
-  'medicacion_chips','medicacion_dosis',
-  'ultima_toma','puede_decidir',
-  'idioma_preferido','religión_restricciones',
-  'voluntades_anticipadas','donante_organos',
-  'contacto1_nombre','contacto1_tel',
-  'contacto2_nombre','contacto2_tel',
-  'medico_nombre','medico_tel'
+  'anticoagulado','pacemaker',
+  'meds','med_doses',
+  'ultima_toma_medicacion','can_decide',
+  'lang','religion_restrictions',
+  'advance_directive','organ_donor',
+  'ec1_name','ec1_phone_num',
+  'ec2_name','ec2_phone_num',
+  'doctor_name','doctor_phone_num'
 ];
 
 // ============================================
@@ -28,9 +28,9 @@ const QR_TYPES = [
     darkColor: '#cc0000',
     always: true,
     extra: [
-      'alergias_alim','condiciones',
-      'enfermedades','tutor_nombre',
-      'tutor_tel','peso','altura'
+      'allergy_food','conditions',
+      'diseases','guardian_name',
+      'guardian_phone_num','weight','height'
     ]
   },
   {
@@ -41,17 +41,17 @@ const QR_TYPES = [
     darkColor: '#cc4400',
     always: true,
     extra: [
-      'alergias_alim','alergias_ambient',
-      'enfermedades','condiciones',
-      'cirugias','vacunas',
+      'allergy_food','allergy_env',
+      'diseases','conditions',
+      'surgeries','vaccines',
       'medicacion_alto_riesgo',
-      'habitos_alcohol','habitos_drogas',
+      'alcohol','drogas',
       'country_visit_1','country_visit_2',
-      'country_visit_3','peso','altura',
+      'country_visit_3','weight','height',
       'profesion','last_surgery_date',
       'material_osteosintesis',
-      'tutor_nombre','tutor_tel',
-      'hospital_referencia','aseguradora'
+      'guardian_name','guardian_phone_num',
+      'insurer'
     ]
   },
   {
@@ -68,13 +68,13 @@ const QR_TYPES = [
       'Ictus previo','SÍ — ANTICOAGULADO',
       'Muerte súbita']),
     extra: [
-      'enfermedades','condiciones',
+      'diseases','conditions',
       'medicacion_alto_riesgo',
       'dificultad_intubacion',
       'muerte_subita_familiar',
       'enfermedades_familiares',
-      'habitos_tabaco','peso','altura',
-      'hospital_referencia','aseguradora'
+      'tabaco','weight','height',
+      'insurer'
     ]
   },
   {
@@ -90,11 +90,11 @@ const QR_TYPES = [
       'Anestesia general','Lidocaína',
       'Propofol']),
     extra: [
-      'alergias_alim','alergias_ambient',
-      'enfermedades','condiciones',
+      'allergy_food','allergy_env',
+      'diseases','conditions',
       'medicacion_alto_riesgo',
-      'habitos_alcohol',
-      'hospital_referencia','aseguradora'
+      'alcohol',
+      'insurer'
     ]
   },
   {
@@ -111,7 +111,7 @@ const QR_TYPES = [
       'Colostomía','Ileostomía',
       'Fístula arteriovenosa']),
     extra: [
-      'cirugias','condiciones','enfermedades',
+      'surgeries','conditions','diseases',
       'material_osteosintesis',
       'protesis_dental_removible',
       'audifono','gafas_lentillas',
@@ -119,11 +119,11 @@ const QR_TYPES = [
       'complicaciones_anestesia',
       'hipertermia_maligna_familiar',
       'medicacion_alto_riesgo',
-      'last_surgery_date','peso','altura',
-      'donante_organos','voluntades_anticipadas',
-      'religión_restricciones',
-      'hospital_referencia','aseguradora',
-      'numero_poliza'
+      'last_surgery_date','weight','height',
+      'organ_donor','advance_directive',
+      'religion_restrictions',
+      'insurer',
+      'policy'
     ]
   },
   {
@@ -137,14 +137,14 @@ const QR_TYPES = [
       'Port-a-cath','Inmunosupresores',
       'Rituximab','Metotrexato']),
     extra: [
-      'enfermedades','condiciones',
-      'cirugias','medicacion_alto_riesgo',
-      'alergias_alim',
+      'diseases','conditions',
+      'surgeries','medicacion_alto_riesgo',
+      'allergy_food',
       'country_visit_1','country_visit_2',
-      'country_visit_3','peso','altura',
-      'hospital_referencia','aseguradora',
-      'numero_poliza','medico_especialista',
-      'vacunas'
+      'country_visit_3','weight','height',
+      'insurer',
+      'policy','doctor_phone_num',
+      'vaccines'
     ]
   },
   {
@@ -158,14 +158,14 @@ const QR_TYPES = [
       return calcAge(d.fecha_nacimiento) < 16;
     },
     extra: [
-      'peso','altura','vacunas',
-      'calendario_vacunal',
-      'alergias_alim','alergias_ambient',
-      'enfermedades','condiciones',
+      'weight','height','vaccines',
+      'vaccine_complete',
+      'allergy_food','allergy_env',
+      'diseases','conditions',
       'medicacion_alto_riesgo',
-      'tutor_nombre','tutor_tel',
-      'hospital_referencia','aseguradora',
-      'puede_decidir'
+      'guardian_name','guardian_phone_num',
+      'insurer',
+      'can_decide'
     ]
   },
   {
@@ -179,14 +179,14 @@ const QR_TYPES = [
       'Sí — lactancia materna activa']),
     extra: [
       'embarazo','embarazo_semanas',
-      'lactancia','cirugias',
-      'alergias_alim','condiciones',
-      'enfermedades','terapia_hormonal',
+      'lactancia','surgeries',
+      'allergy_food','conditions',
+      'diseases','terapia_hormonal',
       'medicacion_alto_riesgo',
-      'peso','altura',
-      'tutor_nombre','tutor_tel',
-      'hospital_referencia','aseguradora',
-      'numero_poliza'
+      'weight','height',
+      'guardian_name','guardian_phone_num',
+      'insurer',
+      'policy'
     ]
   },
   {
@@ -201,12 +201,12 @@ const QR_TYPES = [
       'Litio','No — tutor legal',
       'Ansiedad crónica','TOC']),
     extra: [
-      'enfermedades','condiciones',
+      'diseases','conditions',
       'medicacion_alto_riesgo',
-      'habitos_alcohol','habitos_drogas',
-      'tutor_nombre','tutor_tel',
-      'hospital_referencia','aseguradora',
-      'puede_decidir'
+      'alcohol','drogas',
+      'guardian_name','guardian_phone_num',
+      'insurer',
+      'can_decide'
     ]
   }
 ];
