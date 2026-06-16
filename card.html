@@ -467,7 +467,9 @@ function detectLang() {
   return T[l] ? l : 'es';
 }
 
-function parseData() {
+const BACKEND = 'https://doctorqr-backend-production.up.railway.app';
+
+async function parseData() {
   try {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -480,7 +482,24 @@ function parseData() {
         d._qr_type = t;
         return d;
       }
-      // Sin localStorage: modo minimal con params básicos de URL
+      // Sin localStorage: intentar cargar desde la nube si hay sesión activa
+      const token = localStorage.getItem('doctorqr_token');
+      if (token && !token.startsWith('biometric_')) {
+        try {
+          const res = await fetch(`${BACKEND}/api/profile/load`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (res.ok) {
+            const { profile } = await res.json();
+            if (profile) {
+              profile._qr_type = t;
+              profile._from_cloud = true;
+              return profile;
+            }
+          }
+        } catch (_) {}
+      }
+      // Modo minimal: solo datos básicos de la URL
       const n = decodeURIComponent(params.get('n') || '');
       const parts = n.trim().split(' ');
       return {
@@ -540,7 +559,8 @@ function renderApp() {
       </div>
     </div>
 
-    ${d._minimal ? `<div class="minimal-banner">📱 Para ver el historial completo, escanea este QR desde el dispositivo del paciente</div>` : ''}
+    ${d._minimal ? `<div class="minimal-banner">&#128241; Para ver el historial completo, escanea este QR desde el dispositivo del paciente</div>` : ''}
+    ${d._from_cloud ? `<div class="minimal-banner" style="border-color:rgba(0,200,80,0.4);color:#00aa44">&#9729; Datos cargados desde la nube</div>` : ''}
 
     <div class="tabs" id="tabs">
       <button class="tab-btn active" id="tbtn-urgente"   onclick="switchTab('urgente')">${t.tab_u}</button>
@@ -731,9 +751,11 @@ function setLang(l) {
 // ================================================================
 lang = detectLang();
 t    = T[lang];
-data = parseData();
-if (data) renderApp();
-else       renderError();
+parseData().then(d => {
+  data = d;
+  if (data) renderApp();
+  else       renderError();
+});
 </script>
 </body>
 </html>

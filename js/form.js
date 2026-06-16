@@ -369,6 +369,16 @@
         updated_at:            new Date().toISOString(),
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
+
+      const _tok = localStorage.getItem('doctorqr_token');
+      if (_tok && !_tok.startsWith('biometric_')) {
+        fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
+          body: JSON.stringify({ profile })
+        }).catch(() => {});
+      }
+
       const toast = document.getElementById('toast');
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2800);
