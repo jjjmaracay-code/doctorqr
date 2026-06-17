@@ -60,6 +60,7 @@
     .section-title { font-size: 16px; font-weight: 900; letter-spacing: 3px; color: #ff0000; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid rgba(255,0,0,0.2); }
     .section-title.red   { color: var(--red);   border-bottom-color: rgba(255,0,0,0.3); }
     .section-title.amber { color: #cc7700;       border-bottom-color: rgba(180,120,0,0.25); }
+    .section-title.gray  { color: rgba(0,0,0,0.55); border-bottom-color: rgba(0,0,0,0.12); }
 
     /* BADGES */
     .badge-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
@@ -120,6 +121,7 @@ const T = {
     s_devices: '🔧 Dispositivos implantados',
     s_restrict: '✡ Restricciones',
     s_risk: '🔴 Factores de riesgo inmediato',
+    s_sup: '🧪 Suplementos y sustancias', l_sup: 'SUPLEMENTOS',
     s_diseases: '📋 Enfermedades y condiciones',
     s_surg: '🔪 Cirugías',
     s_vacc: '💉 Vacunas',
@@ -164,6 +166,7 @@ const T = {
     s_devices: '🔧 Implanted Devices',
     s_restrict: '✡ Restrictions',
     s_risk: '🔴 Immediate Risk Factors',
+    s_sup: '🧪 Supplements & Substances', l_sup: 'SUPPLEMENTS',
     s_diseases: '📋 Diseases & Conditions',
     s_surg: '🔪 Surgeries',
     s_vacc: '💉 Vaccines',
@@ -208,6 +211,7 @@ const T = {
     s_devices: '🔧 Dispositifs implantés',
     s_restrict: '✡ Restrictions',
     s_risk: '🔴 Facteurs de risque immédiats',
+    s_sup: '🧪 Suppléments et substances', l_sup: 'SUPPLÉMENTS',
     s_diseases: '📋 Maladies et conditions',
     s_surg: '🔪 Chirurgies',
     s_vacc: '💉 Vaccins',
@@ -304,15 +308,15 @@ function telRow(label, tel, cls) {
 
 // Secciones visibles por tipo de QR. 'restrictions' siempre se muestra (no va aquí).
 const VISIBLE_SECTIONS = {
-  emergency: { u: ['allergy','medication','devices','risk_factors'],                                    h: [] },
-  critical:  { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
-  cardio:    { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','family'] },
-  allergy:   { u: ['allergy','medication','risk_factors'],                                               h: ['diseases','habits'] },
-  surgery:   { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','family'] },
-  oncology:  { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
-  pediatric: { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','vaccines','extra'] },
-  obstetric: { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','extra'] },
-  mental:    { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
+  emergency: { u: ['allergy','medication','supplements','devices','risk_factors'],                                    h: [] },
+  critical:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
+  cardio:    { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','family'] },
+  allergy:   { u: ['allergy','medication','supplements','risk_factors'],                                               h: ['diseases','habits'] },
+  surgery:   { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','family'] },
+  oncology:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
+  pediatric: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','vaccines','extra'] },
+  obstetric: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','extra'] },
+  mental:    { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
 };
 
 function renderUrgente(d, t, vis) {
@@ -338,6 +342,12 @@ function renderUrgente(d, t, vis) {
     med += row(t.l_last,    d.ultima_toma_medicacion,  false);
     med += row(t.l_anticoa, d.anticoagulado,    isCrit(d.anticoagulado));
     if (med) html += section(t.s_med, med, 'amber');
+  }
+
+  if (!vis || vis.includes('supplements')) {
+    let sup = '';
+    sup += badgeRow(t.l_sup, arr(d.suplementos), 'badge b-gray');
+    if (sup) html += section(t.s_sup, sup, 'gray');
   }
 
   if (!vis || vis.includes('conditions')) {

@@ -366,6 +366,11 @@
         semanas_lactancia_aplica: getChip('semanas-lactancia-aplica'),
         cesarea_previa:        getChip('cesarea-previa'),
         material_osteo_detalle: v('f-material-osteo-detalle'),
+        suplementos: (() => {
+          const fromChips = getChips('suplementos');
+          const extras = Array.from(document.querySelectorAll('#suplementos-extra-wrap .extra-med-input')).map(i => i.value.trim()).filter(Boolean);
+          return [...fromChips, ...extras];
+        })(),
         updated_at:            new Date().toISOString(),
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
@@ -582,6 +587,11 @@
       }
       restoreChip ('cesarea-previa',        saved.cesarea_previa);
       set('f-material-osteo-detalle',       saved.material_osteo_detalle);
+      restoreChips('suplementos', saved.suplementos);
+      if (Array.isArray(saved.suplementos)) {
+        const supVals = Array.from(document.querySelectorAll('[data-group="suplementos"] .chip')).map(c => c.dataset.value);
+        saved.suplementos.filter(s => !supVals.includes(s)).forEach(s => addSupExtraWithValue(s));
+      }
       if (['Sí — tornillos/placas/clavos','Sí — prótesis metálica'].includes(saved.material_osteosintesis))
         document.getElementById('material-osteo-detalle-wrap').style.display = 'block';
 
@@ -679,6 +689,29 @@
       const willActivate = !chipEl.classList.contains('active');
       const wrap = document.getElementById('tutor-legal-wrap');
       if (wrap) wrap.style.display = (willActivate && chipEl.dataset.value === 'Sí') ? 'block' : 'none';
+    }
+
+    function addSupExtra() {
+      const wrap = document.getElementById('suplementos-extra-wrap');
+      const btn  = document.getElementById('btn-add-sup');
+      if (!wrap) return;
+      const count = wrap.querySelectorAll('.extra-med-input').length;
+      if (count >= 3) { if (btn) btn.style.display = 'none'; return; }
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'extra-med-input';
+      inp.placeholder = 'Nombre del suplemento...';
+      inp.style.cssText = 'display:block;margin-top:6px;width:100%';
+      wrap.appendChild(inp);
+      if (count + 1 >= 3 && btn) btn.style.display = 'none';
+    }
+
+    function addSupExtraWithValue(value) {
+      addSupExtra();
+      const wrap = document.getElementById('suplementos-extra-wrap');
+      if (!wrap) return;
+      const inputs = wrap.querySelectorAll('.extra-med-input');
+      if (inputs.length) inputs[inputs.length - 1].value = value;
     }
 
     function addMedExtra(type) {

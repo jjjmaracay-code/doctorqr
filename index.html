@@ -1075,6 +1075,29 @@
       </div>
     </div>
 
+    <!-- SECCIÓN — SUPLEMENTOS Y SUSTANCIAS -->
+    <div class="form-section" id="sec-suplementos">
+      <div class="section-header" onclick="toggleSection('sec-suplementos')">
+        <span class="section-title">Suplementos y sustancias de uso regular</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-hint">Vitaminas, proteínas y estimulantes pueden interactuar con fármacos de urgencia</div>
+          <div class="chips" data-group="suplementos">
+            <div class="chip" data-value="Cafeína (dosis alta)">Cafeína (dosis alta)</div>
+            <div class="chip" data-value="Omega 3">Omega 3</div>
+            <div class="chip" data-value="Creatina">Creatina</div>
+            <div class="chip" data-value="Proteína">Proteína</div>
+            <div class="chip" data-value="Multivitamínico">Multivitamínico</div>
+            <div class="chip" data-value="Melatonina">Melatonina</div>
+          </div>
+          <div id="suplementos-extra-wrap" style="margin-top:4px"></div>
+          <button type="button" class="btn-add-med" id="btn-add-sup" onclick="addSupExtra()">+ Añadir otro suplemento</button>
+        </div>
+      </div>
+    </div>
+
     <!-- SECCIÓN 07 — CIRUGÍAS Y HOSPITALIZACIONES -->
     <div class="form-section" id="sec-7">
       <div class="section-header" onclick="toggleSection('sec-7')">
