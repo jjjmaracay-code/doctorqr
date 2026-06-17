@@ -378,7 +378,6 @@
       const toast = document.getElementById('toast');
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2800);
-      generateAllQRs(); // crea doctorqr_id en localStorage si no existía
 
       const _tok = localStorage.getItem('doctorqr_token');
       if (_tok && !_tok.startsWith('biometric_')) {
@@ -388,14 +387,26 @@
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
           body: JSON.stringify({ profile, doctorqr_id: _qrId })
         })
-        .then(r => r.ok ? r.json() : null)
-        .then(json => {
-          if (json?.success) {
-            const ts = document.getElementById('toast-sync');
-            if (ts) { ts.classList.add('show'); setTimeout(() => ts.classList.remove('show'), 2500); }
+        .then(async r => {
+          if (r.status === 409) {
+            const tc = document.getElementById('toast-conflict');
+            if (tc) { tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 8000); }
+            return; // datos del servidor más recientes — no generar QR desincronizado
           }
+          if (r.ok) {
+            const json = await r.json();
+            if (json?.success) {
+              const ts = document.getElementById('toast-sync');
+              if (ts) { ts.classList.add('show'); setTimeout(() => ts.classList.remove('show'), 2500); }
+            }
+          }
+          generateAllQRs();
         })
-        .catch(() => {});
+        .catch(() => {
+          generateAllQRs(); // error de red: el save local ocurrió, generar igualmente
+        });
+      } else {
+        generateAllQRs(); // sin autenticación: flujo local directo
       }
     }
 
