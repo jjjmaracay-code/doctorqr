@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -646,6 +646,10 @@ function clearMarks() {
   });
 }
 
+function normalize(str) {
+  return str.normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
 function runSearch(q) {
   clearMarks();
   searchMatches = [];
@@ -654,17 +658,17 @@ function runSearch(q) {
   const prev = document.getElementById('sprev');
   const next = document.getElementById('snext');
 
-  if (!q || q.length < 2) {
+  if (!q || q.length < 1) {
     if (prev) prev.disabled = true;
     if (next) next.disabled = true;
     return;
   }
 
-  const ql = q.toLowerCase();
+  const ql = normalize(q.toLowerCase());
   document.querySelectorAll('.tab-panel').forEach(panel => {
     getTextNodes(panel).forEach(node => {
       const txt = node.nodeValue;
-      const low = txt.toLowerCase();
+      const low = normalize(txt.toLowerCase());
       let idx = low.indexOf(ql);
       if (idx === -1) return;
       const frag = document.createDocumentFragment();
