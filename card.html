@@ -119,6 +119,7 @@ const T = {
     s_cond: '🩺 Condiciones críticas',
     s_devices: '🔧 Dispositivos implantados',
     s_restrict: '✡ Restricciones',
+    s_risk: '🔴 Factores de riesgo inmediato',
     s_diseases: '📋 Enfermedades y condiciones',
     s_surg: '🔪 Cirugías',
     s_vacc: '💉 Vacunas',
@@ -162,6 +163,7 @@ const T = {
     s_cond: '🩺 Critical Conditions',
     s_devices: '🔧 Implanted Devices',
     s_restrict: '✡ Restrictions',
+    s_risk: '🔴 Immediate Risk Factors',
     s_diseases: '📋 Diseases & Conditions',
     s_surg: '🔪 Surgeries',
     s_vacc: '💉 Vaccines',
@@ -205,6 +207,7 @@ const T = {
     s_cond: '🩺 Conditions critiques',
     s_devices: '🔧 Dispositifs implantés',
     s_restrict: '✡ Restrictions',
+    s_risk: '🔴 Facteurs de risque immédiats',
     s_diseases: '📋 Maladies et conditions',
     s_surg: '🔪 Chirurgies',
     s_vacc: '💉 Vaccins',
@@ -301,15 +304,15 @@ function telRow(label, tel, cls) {
 
 // Secciones visibles por tipo de QR. 'restrictions' siempre se muestra (no va aquí).
 const VISIBLE_SECTIONS = {
-  emergency: { u: ['allergy','medication','devices'],                                    h: [] },
-  critical:  { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
-  cardio:    { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','family'] },
-  allergy:   { u: ['allergy','medication'],                                               h: ['diseases','habits'] },
-  surgery:   { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','family'] },
-  oncology:  { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
-  pediatric: { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','vaccines','extra'] },
-  obstetric: { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','extra'] },
-  mental:    { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','habits'] },
+  emergency: { u: ['allergy','medication','devices','risk_factors'],                                    h: [] },
+  critical:  { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
+  cardio:    { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','family'] },
+  allergy:   { u: ['allergy','medication','risk_factors'],                                               h: ['diseases','habits'] },
+  surgery:   { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','family'] },
+  oncology:  { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
+  pediatric: { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','vaccines','extra'] },
+  obstetric: { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','extra'] },
+  mental:    { u: ['allergy','medication','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
 };
 
 function renderUrgente(d, t, vis) {
@@ -358,6 +361,15 @@ function renderUrgente(d, t, vis) {
     dev += row(t.l_hearing,   d.audifono,                  false);
     dev += row(t.l_vision,    d.gafas_lentillas,           false);
     if (dev) html += section(t.s_devices, dev);
+  }
+
+  if (!vis || vis.includes('risk_factors')) {
+    let rf = '';
+    rf += row(t.l_pregnancy, d.embarazo,          isCrit(d.embarazo));
+    rf += row(t.l_weeks,     d.embarazo_semanas,  false);
+    rf += row(t.l_drugs,     d.drogas,            isCrit(d.drogas));
+    rf += row(t.l_alcohol,   d.alcohol,           isCrit(d.alcohol));
+    if (rf) html += section(t.s_risk, rf, 'red');
   }
 
   // Restricciones: siempre visible (lang_spoken + religion son datos always-show)
