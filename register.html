@@ -1773,6 +1773,9 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
     const data = await response.json();
     if (data.success) {
       localStorage.setItem('doctorqr_token', data.token);
+      if (data.doctorqr_id) {
+        localStorage.setItem('doctorqr_id', data.doctorqr_id);
+      }
       localStorage.setItem('doctorqr_user', JSON.stringify({
         ...data.user,
         fecha_nacimiento: regData.fecha_nacimiento,
