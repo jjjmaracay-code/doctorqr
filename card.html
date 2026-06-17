@@ -135,7 +135,7 @@ const T = {
     l_highrisk: 'ALTO RIESGO',
     l_implant: 'IMPLANTES', l_intub: 'INTUBACIÓN', l_anestcomp: 'COMP. ANESTESIA',
     l_dental: 'PRÓTESIS DENTAL', l_hearing: 'AUDÍFONO', l_vision: 'GAFAS/LENTILLAS',
-    l_religion: 'RESTR. RELIGIOSAS', l_donor: 'DONANTE ÓRGANOS', l_decide: 'PUEDE DECIDIR',
+    l_religion: 'RESTR. RELIGIOSAS', l_donor: 'DONANTE ÓRGANOS', l_decide: 'PUEDE DECIDIR', l_lang: 'IDIOMAS',
     l_adv: 'VOLUNTADES ANTIC.',
     l_lastsurg: 'ÚTIMA CIRUGÍA', l_vaccal: 'CALENDARIO VACUNAL',
     l_famdis: 'ENF. FAMILIARES', l_sudeath: 'MUERTE SÚBITA FAM.', l_hiperterm: 'HIPERT. MALIGNA FAM.',
@@ -178,7 +178,7 @@ const T = {
     l_highrisk: 'HIGH RISK',
     l_implant: 'IMPLANTS', l_intub: 'INTUBATION', l_anestcomp: 'ANESTHESIA COMP.',
     l_dental: 'DENTAL PROSTHESIS', l_hearing: 'HEARING AID', l_vision: 'GLASSES/CONTACTS',
-    l_religion: 'RELIGIOUS RESTR.', l_donor: 'ORGAN DONOR', l_decide: 'CAN DECIDE',
+    l_religion: 'RELIGIOUS RESTR.', l_donor: 'ORGAN DONOR', l_decide: 'CAN DECIDE', l_lang: 'LANGUAGES',
     l_adv: 'ADVANCE DIRECTIVE',
     l_lastsurg: 'LAST SURGERY', l_vaccal: 'VACCINE SCHEDULE',
     l_famdis: 'FAMILY DISEASES', l_sudeath: 'FAMILY SUDDEN DEATH', l_hiperterm: 'FAM. MALIG. HYPERTHERMIA',
@@ -221,7 +221,7 @@ const T = {
     l_highrisk: 'HAUT RISQUE',
     l_implant: 'IMPLANTS', l_intub: 'INTUBATION', l_anestcomp: 'COMP. ANESTHÉSIE',
     l_dental: 'PROTHÈSE DENTAIRE', l_hearing: 'AIDE AUDITIVE', l_vision: 'LUNETTES/LENTILLES',
-    l_religion: 'RESTR. RELIGIEUSES', l_donor: 'DONNEUR D\'ORGANES', l_decide: 'PEUT DÉCIDER',
+    l_religion: 'RESTR. RELIGIEUSES', l_donor: 'DONNEUR D\'ORGANES', l_decide: 'PEUT DÉCIDER', l_lang: 'LANGUES',
     l_adv: 'DIRECTIVES ANTICIPÉES',
     l_lastsurg: 'DERNIÈRE CHIRURGIE', l_vaccal: 'CALENDRIER VACCINAL',
     l_famdis: 'MALADIES FAMIL.', l_sudeath: 'MORT SUBITE FAMIL.', l_hiperterm: 'HYPERTHERM. MALIGNE FAM.',
@@ -298,106 +298,133 @@ function telRow(label, tel, cls) {
 // ================================================================
 // Tab renderers
 // ================================================================
-function renderUrgente(d, t) {
+
+// Secciones visibles por tipo de QR. 'restrictions' siempre se muestra (no va aquí).
+const VISIBLE_SECTIONS = {
+  emergency: { u: ['allergy','medication','devices'],                                    h: [] },
+  critical:  { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
+  cardio:    { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','family'] },
+  allergy:   { u: ['allergy','medication'],                                               h: ['diseases','habits'] },
+  surgery:   { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','family'] },
+  oncology:  { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
+  pediatric: { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','vaccines','extra'] },
+  obstetric: { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','surgeries','extra'] },
+  mental:    { u: ['allergy','medication','conditions','devices'],                        h: ['diseases','habits'] },
+};
+
+function renderUrgente(d, t, vis) {
   let html = '';
 
-  // Alergias
-  let al = '';
-  al += badgeRow(t.l_drug,  arr(d.allergy_med),        'badge b-red');
-  al += badgeRow(t.l_anest, arr(d.allergy_anesthesia),  'badge b-red');
-  al += badgeRow(t.l_food,  arr(d.allergy_food),        'badge b-amber');
-  al += badgeRow(t.l_env,   arr(d.allergy_env),         'badge b-amber');
-  al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));
-  al += row(t.l_epipen, d.epipen,             false);
-  al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
-  if (al) html += section(t.s_allergy, al, 'red');
+  if (!vis || vis.includes('allergy')) {
+    let al = '';
+    al += badgeRow(t.l_drug,  arr(d.allergy_med),        'badge b-red');
+    al += badgeRow(t.l_anest, arr(d.allergy_anesthesia),  'badge b-red');
+    al += badgeRow(t.l_food,  arr(d.allergy_food),        'badge b-amber');
+    al += badgeRow(t.l_env,   arr(d.allergy_env),         'badge b-amber');
+    al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));
+    al += row(t.l_epipen, d.epipen,             false);
+    al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
+    if (al) html += section(t.s_allergy, al, 'red');
+  }
 
-  // Medicacion
-  let med = '';
-  med += badgeRow(t.l_meds,     arr(d.meds),                    'badge b-amber');
-  med += badgeRow(t.l_highrisk, arr(d.medicacion_alto_riesgo),  'badge b-red');
-  med += row(t.l_dose,    d.med_doses,               false);
-  med += row(t.l_last,    d.ultima_toma_medicacion,  false);
-  med += row(t.l_anticoa, d.anticoagulado,    isCrit(d.anticoagulado));
-  if (med) html += section(t.s_med, med, 'amber');
+  if (!vis || vis.includes('medication')) {
+    let med = '';
+    med += badgeRow(t.l_meds,     arr(d.meds),                    'badge b-amber');
+    med += badgeRow(t.l_highrisk, arr(d.medicacion_alto_riesgo),  'badge b-red');
+    med += row(t.l_dose,    d.med_doses,               false);
+    med += row(t.l_last,    d.ultima_toma_medicacion,  false);
+    med += row(t.l_anticoa, d.anticoagulado,    isCrit(d.anticoagulado));
+    if (med) html += section(t.s_med, med, 'amber');
+  }
 
-  // Condiciones criticas
-  let cond = '';
-  const conds  = arr(d.conditions);
-  const diseas = arr(d.diseases);
-  if (conds.length)  cond += badges(conds,  'badge b-red');
-  if (diseas.length) cond += (cond ? '<br style="display:block;margin:4px 0">' : '') + badges(diseas, 'badge b-amber');
-  cond += row(t.l_adv,    d.advance_directive, false);
-  cond += row(t.l_decide, d.can_decide,        false);
-  if (cond) html += section(t.s_cond, cond);
+  if (!vis || vis.includes('conditions')) {
+    let cond = '';
+    const conds  = arr(d.conditions);
+    const diseas = arr(d.diseases);
+    if (conds.length)  cond += badges(conds,  'badge b-red');
+    if (diseas.length) cond += (cond ? '<br style="display:block;margin:4px 0">' : '') + badges(diseas, 'badge b-amber');
+    cond += row(t.l_adv,    d.advance_directive, false);
+    cond += row(t.l_decide, d.can_decide,        false);
+    if (cond) html += section(t.s_cond, cond);
+  }
 
-  // Dispositivos
-  let dev = '';
-  dev += row(t.l_pace,      d.pacemaker,                 isCrit(d.pacemaker));
-  dev += row(t.l_implant,   d.material_osteosintesis,    false);
-  dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
-  dev += row(t.l_anestcomp, d.complicaciones_anestesia,  false);
-  dev += row(t.l_dental,    d.protesis_dental_removible, false);
-  dev += row(t.l_hearing,   d.audifono,                  false);
-  dev += row(t.l_vision,    d.gafas_lentillas,           false);
-  if (dev) html += section(t.s_devices, dev);
+  if (!vis || vis.includes('devices')) {
+    let dev = '';
+    dev += row(t.l_pace,      d.pacemaker,                 isCrit(d.pacemaker));
+    dev += row(t.l_implant,   d.material_osteosintesis,    false);
+    dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
+    dev += row(t.l_anestcomp, d.complicaciones_anestesia,  false);
+    dev += row(t.l_dental,    d.protesis_dental_removible, false);
+    dev += row(t.l_hearing,   d.audifono,                  false);
+    dev += row(t.l_vision,    d.gafas_lentillas,           false);
+    if (dev) html += section(t.s_devices, dev);
+  }
 
-  // Restricciones
-  let res = '';
-  res += row(t.l_religion, d.religion_restrictions, false);
-  res += row(t.l_donor,    d.organ_donor,           false);
-  if (res) html += section(t.s_restrict, res);
+  // Restricciones: siempre visible (lang_spoken + religion son datos always-show)
+  {
+    let res = '';
+    res += badgeRow(t.l_lang,    arr(d.lang_spoken),        'badge b-gray');
+    res += row(t.l_religion, d.religion_restrictions, false);
+    res += row(t.l_donor,    d.organ_donor,           false);
+    if (res) html += section(t.s_restrict, res);
+  }
 
   return html || `<div class="empty">${t.nodata}</div>`;
 }
 
-function renderHistorial(d, t) {
+function renderHistorial(d, t, vis) {
   let html = '';
 
-  // Enfermedades + condiciones (deduplicadas)
-  const all = [...new Set([...arr(d.diseases), ...arr(d.conditions)])];
-  if (all.length) html += section(t.s_diseases, badges(all, 'badge b-gray'));
+  if (!vis || vis.includes('diseases')) {
+    const all = [...new Set([...arr(d.diseases), ...arr(d.conditions)])];
+    if (all.length) html += section(t.s_diseases, badges(all, 'badge b-gray'));
+  }
 
-  // Cirugias
-  let surg = '';
-  const surgs = arr(d.surgeries);
-  if (surgs.length) surg += badges(surgs, 'badge b-gray');
-  surg += row(t.l_lastsurg, d.last_surgery_date, false);
-  if (surg) html += section(t.s_surg, surg);
+  if (!vis || vis.includes('surgeries')) {
+    let surg = '';
+    const surgs = arr(d.surgeries);
+    if (surgs.length) surg += badges(surgs, 'badge b-gray');
+    surg += row(t.l_lastsurg, d.last_surgery_date, false);
+    if (surg) html += section(t.s_surg, surg);
+  }
 
-  // Vacunas
-  let vacc = '';
-  const vaccs = arr(d.vaccines);
-  if (vaccs.length) vacc += badges(vaccs, 'badge b-green');
-  vacc += row(t.l_vaccal, d.calendario_vacunal, false);
-  if (vacc) html += section(t.s_vacc, vacc);
+  if (!vis || vis.includes('vaccines')) {
+    let vacc = '';
+    const vaccs = arr(d.vaccines);
+    if (vaccs.length) vacc += badges(vaccs, 'badge b-green');
+    vacc += row(t.l_vaccal, d.calendario_vacunal, false);
+    if (vacc) html += section(t.s_vacc, vacc);
+  }
 
-  // Historial familiar
-  let fam = '';
-  fam += badgeRow(t.l_famdis, arr(d.enfermedades_familiares), 'badge b-gray');
-  fam += row(t.l_sudeath,   d.muerte_subita_familiar,       isCrit(d.muerte_subita_familiar));
-  fam += row(t.l_hiperterm, d.hipertermia_maligna_familiar, isCrit(d.hipertermia_maligna_familiar));
-  if (fam) html += section(t.s_family, fam);
+  if (!vis || vis.includes('family')) {
+    let fam = '';
+    fam += badgeRow(t.l_famdis, arr(d.enfermedades_familiares), 'badge b-gray');
+    fam += row(t.l_sudeath,   d.muerte_subita_familiar,       isCrit(d.muerte_subita_familiar));
+    fam += row(t.l_hiperterm, d.hipertermia_maligna_familiar, isCrit(d.hipertermia_maligna_familiar));
+    if (fam) html += section(t.s_family, fam);
+  }
 
-  // Habitos
-  let hab = '';
-  hab += row(t.l_tobacco, d.tabaco,  false);
-  hab += row(t.l_alcohol, d.alcohol, false);
-  hab += row(t.l_drugs,   d.drogas,  false);
-  if (hab) html += section(t.s_habits, hab);
+  if (!vis || vis.includes('habits')) {
+    let hab = '';
+    hab += row(t.l_tobacco, d.tabaco,  false);
+    hab += row(t.l_alcohol, d.alcohol, false);
+    hab += row(t.l_drugs,   d.drogas,  false);
+    if (hab) html += section(t.s_habits, hab);
+  }
 
-  // Datos extra
-  let extra = '';
-  extra += row(t.l_pregnancy, d.embarazo,          false);
-  extra += row(t.l_weeks,     d.embarazo_semanas,  false);
-  extra += row(t.l_breast,    d.lactancia,         false);
-  extra += row(t.l_hormonal,  d.terapia_hormonal,  false);
-  extra += row(t.l_weight,    d.weight,  false);
-  extra += row(t.l_height,    d.height,  false);
-  extra += row(t.l_prof,      d.profesion,         false);
-  const travel = [d.country_visit_1, d.country_visit_2, d.country_visit_3].filter(Boolean).join(', ');
-  extra += row(t.l_travel, travel, false);
-  if (extra) html += `<div class="section">${extra}</div>`;
+  if (!vis || vis.includes('extra')) {
+    let extra = '';
+    extra += row(t.l_pregnancy, d.embarazo,          false);
+    extra += row(t.l_weeks,     d.embarazo_semanas,  false);
+    extra += row(t.l_breast,    d.lactancia,         false);
+    extra += row(t.l_hormonal,  d.terapia_hormonal,  false);
+    extra += row(t.l_weight,    d.weight,  false);
+    extra += row(t.l_height,    d.height,  false);
+    extra += row(t.l_prof,      d.profesion,         false);
+    const travel = [d.country_visit_1, d.country_visit_2, d.country_visit_3].filter(Boolean).join(', ');
+    extra += row(t.l_travel, travel, false);
+    if (extra) html += `<div class="section">${extra}</div>`;
+  }
 
   return html || `<div class="empty">${t.nodata}</div>`;
 }
@@ -527,6 +554,7 @@ function renderApp() {
   const d    = data;
   const age  = calcAge(d.fecha_nacimiento);
   const name = [d.nombre, d.apellidos].filter(Boolean).join(' ') || '—';
+  const vCfg = VISIBLE_SECTIONS[(d._qr_type || '').toLowerCase()];
 
   document.getElementById('app').innerHTML = `
     <header class="header" id="hdr">
@@ -565,8 +593,8 @@ function renderApp() {
       <button class="tab-btn"        id="tbtn-contactos" onclick="switchTab('contactos')">${t.tab_c}</button>
     </div>
 
-    <div class="tab-panel active" id="panel-urgente">${renderUrgente(d, t)}</div>
-    <div class="tab-panel"        id="panel-historial">${renderHistorial(d, t)}</div>
+    <div class="tab-panel active" id="panel-urgente">${renderUrgente(d, t, vCfg && vCfg.u)}</div>
+    <div class="tab-panel"        id="panel-historial">${renderHistorial(d, t, vCfg && vCfg.h)}</div>
     <div class="tab-panel"        id="panel-contactos">${renderContactos(d, t)}</div>
 
     <div class="footer">
