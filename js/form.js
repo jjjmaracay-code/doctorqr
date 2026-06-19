@@ -388,6 +388,12 @@
           body: JSON.stringify({ profile, doctorqr_id: _qrId })
         })
         .then(async r => {
+          if (r.status === 402) {
+            const tb = document.getElementById('trial-expired-banner');
+            if (tb) tb.style.display = 'flex';
+            setTimeout(() => { window.location.href = 'paywall.html'; }, 3000);
+            return; // trial expirado — no guardar ni generar QR
+          }
           if (r.status === 409) {
             const tc = document.getElementById('toast-conflict');
             if (tc) { tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 8000); }
