@@ -1145,39 +1145,6 @@
       </button>
     </div>
 
-    <div class="tfa-separator">— O —</div>
-
-    <!-- OPCIÓN C — Biometría (siempre visible, deshabilitada en escritorio) -->
-    <div class="tfa-option" id="tfa-biometric">
-      <div class="tfa-option-title">OPCIÓN C — BIOMETRÍA</div>
-      <div class="tfa-option-desc">
-        Usa tu huella dactilar o reconocimiento facial para verificar tu identidad en cada acceso.
-      </div>
-      <div style="display:flex;gap:10px;margin-bottom:12px">
-        <div class="chip-reg" id="chip-huella" data-biometric="huella"
-             style="flex:1;text-align:center;padding:12px 8px;cursor:pointer">
-          👆 HUELLA DACTILAR
-        </div>
-        <div class="chip-reg" id="chip-face" data-biometric="face"
-             style="flex:1;text-align:center;padding:12px 8px;cursor:pointer">
-          🤳 RECONOCIMIENTO FACIAL
-        </div>
-      </div>
-      <div id="biometric-unavail-note" style="display:none;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-align:center;margin-bottom:12px;line-height:1.6">
-        Disponible solo en dispositivos móviles compatibles
-      </div>
-      <button id="btn-setup-biometric" disabled style="
-        width:100%;padding:14px;
-        background:transparent;
-        border:1.5px solid #00ff41;
-        border-radius:10px;color:#00ff41;
-        font-family:inherit;font-size:11px;
-        font-weight:900;letter-spacing:2px;
-        text-transform:uppercase;cursor:pointer;
-        opacity:0.4">
-        ACTIVAR BIOMETRÍA
-      </button>
-    </div>
   </div>
 </div><!-- fin screen-4 -->
 
@@ -1997,89 +1964,6 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// ===== COMPLETAR REGISTRO (biometría local) =====
-function completarRegistro(tfaMethod) {
-  localStorage.setItem(AUTH_KEY, JSON.stringify({
-    ...regData,
-    otp_verified:     true,
-    twofa_method:     tfaMethod,
-    campos_bloqueados: true,
-  }));
-  localStorage.setItem('doctorqr_token', 'biometric_' + Date.now());
-  localStorage.setItem('doctorqr_user', JSON.stringify({ ...regData, twofa_method: tfaMethod }));
-  goToScreen(5);
-  populateSuccessScreen({ ...regData, twofa_method: tfaMethod });
-}
-
-// ===== BIOMETRÍA =====
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-const hasBiometric = isMobile && window.PublicKeyCredential !== undefined;
-
-// Siempre visible — chips deshabilitados en escritorio
-if (!hasBiometric) {
-  ['chip-huella', 'chip-face'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.opacity = '0.4';
-    el.style.pointerEvents = 'none';
-    el.style.cursor = 'default';
-  });
-  const note = document.getElementById('biometric-unavail-note');
-  if (note) note.style.display = 'block';
-  const btnBio = document.getElementById('btn-setup-biometric');
-  if (btnBio) { btnBio.style.opacity = '0.2'; btnBio.style.pointerEvents = 'none'; }
-}
-
-let selectedBiometricType = null;
-
-['chip-huella', 'chip-face'].forEach(id => {
-  document.getElementById(id)?.addEventListener('click', function() {
-    if (!hasBiometric) return;
-    document.querySelectorAll('#tfa-biometric .chip-reg').forEach(c => c.classList.remove('active'));
-    this.classList.add('active');
-    selectedBiometricType = this.dataset.biometric;
-    const btn = document.getElementById('btn-setup-biometric');
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  });
-});
-
-document.getElementById('btn-setup-biometric')?.addEventListener('click', async () => {
-  try {
-    const challenge = new Uint8Array(32);
-    crypto.getRandomValues(challenge);
-
-    const credential = await navigator.credentials.create({
-      publicKey: {
-        challenge,
-        rp: { name: 'DoctorQR', id: location.hostname || 'doctorqr.app' },
-        user: {
-          id: new TextEncoder().encode(regData.email || 'user'),
-          name: regData.email || 'user',
-          displayName: 'DoctorQR User'
-        },
-        pubKeyCredParams: [
-          { alg: -7, type: 'public-key' },
-          { alg: -257, type: 'public-key' }
-        ],
-        authenticatorSelection: {
-          authenticatorAttachment: 'platform',
-          userVerification: 'required'
-        },
-        timeout: 60000
-      }
-    });
-
-    if (credential) {
-      localStorage.setItem('doctorqr_biometric_id', credential.id);
-      localStorage.setItem('doctorqr_pending_email', regData.email || '');
-      showToast('Biometría configurada correctamente');
-      completarRegistro(selectedBiometricType || 'biometric');
-    }
-  } catch(err) {
-    showToast('No se pudo configurar la biometría: ' + err.message);
-  }
-});
 </script>
 </body>
 </html>

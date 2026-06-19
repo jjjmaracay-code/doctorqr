@@ -392,20 +392,12 @@ const QR_TYPE_CODES = {
   'qr-e5':        'mental'
 };
 
-function getOrCreateUserID(profile) {
-  let id = localStorage.getItem('doctorqr_id');
-  if (!id) {
-    const initials = ((profile.nombre || 'X').substring(0, 3))
-      .toUpperCase().replace(/\s/g, 'X');
-    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-    id = initials + '-' + random;
-    localStorage.setItem('doctorqr_id', id);
-  }
-  return id;
+function getOrCreateUserID() {
+  return localStorage.getItem('doctorqr_id') || 'UNKNOWN';
 }
 
 function buildQRUrl(type, formData) {
-  const id = getOrCreateUserID(formData);
+  const id = getOrCreateUserID();
   const t  = QR_TYPE_CODES[type.id] || type.id;
   const n  = encodeURIComponent(((formData.nombre || '') + ' ' + (formData.apellidos || '')).trim());
   const s  = encodeURIComponent(formData.sangre || '');
@@ -516,6 +508,11 @@ function generateAllQRs() {
     return;
   }
 
+  if (getOrCreateUserID() === 'UNKNOWN') {
+    alert('Tu sesión no tiene un ID de perfil válido.\nCierra sesión, vuelve a iniciarla y recarga la página.');
+    return;
+  }
+
   const carousel = document.getElementById('qr-carousel');
   const dotsWrap = document.getElementById('qr-dots');
 
@@ -569,6 +566,10 @@ function generateAllQRs() {
 // ============================================
 
 function printEmergencyQR() {
+  if (getOrCreateUserID() === 'UNKNOWN') {
+    alert('No es posible imprimir el QR: tu perfil no tiene un ID válido.\nCierra sesión, vuelve a entrar y recarga la página.');
+    return;
+  }
   const d = getFormData();
   const patientUrl = buildQRUrl(QR_TYPES[0], d);
   const nombre = ((d.nombre || '') + ' ' + (d.apellidos || '')).trim();
