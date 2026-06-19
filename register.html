@@ -336,6 +336,66 @@
   .checkbox-text { font-size:11px; font-weight:300; color:rgba(255,255,255,0.8); line-height:1.6; }
   .checkbox-text strong { color:var(--green); font-weight:600; }
 
+  /* ===== CHECKBOX REAL (accesible) ===== */
+  .chk-real {
+    position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;
+  }
+  .chk-real:checked + .checkbox-box {
+    background:var(--green); border-color:var(--green);
+    box-shadow:0 0 10px rgba(0,255,65,0.4);
+  }
+  .chk-real:checked + .checkbox-box::after {
+    content:'✓'; color:#000; font-size:12px; font-weight:900;
+  }
+  .chk-real:focus-visible + .checkbox-box {
+    outline:2px solid var(--green); outline-offset:3px;
+  }
+
+  /* ===== SELECTOR TIPO REGISTRO ===== */
+  .reg-type-selector {
+    padding:14px; border-radius:10px;
+    border:1px solid rgba(0,255,65,0.15);
+    background:rgba(0,255,65,0.04);
+    margin-bottom:16px;
+  }
+  .reg-type-label {
+    font-size:10px; font-weight:600; letter-spacing:2px;
+    text-transform:uppercase; color:rgba(0,255,65,0.85);
+    margin-bottom:12px;
+  }
+  .reg-type-option {
+    display:flex; align-items:center; gap:12px;
+    padding:9px 0; cursor:pointer; user-select:none;
+  }
+  .reg-type-option + .reg-type-option {
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+  .chk-radio {
+    position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;
+  }
+  .radio-box {
+    width:18px; height:18px; border-radius:50%;
+    border:2px solid rgba(0,255,65,0.3);
+    background:transparent; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.15s;
+  }
+  .chk-radio:checked + .radio-box {
+    border-color:var(--green); background:var(--green);
+    box-shadow:0 0 8px rgba(0,255,65,0.4);
+  }
+  .chk-radio:checked + .radio-box::after {
+    content:''; width:6px; height:6px;
+    border-radius:50%; background:#000;
+  }
+  .chk-radio:focus-visible + .radio-box {
+    outline:2px solid var(--green); outline-offset:3px;
+  }
+  .reg-type-text {
+    font-size:12px; font-weight:400;
+    color:rgba(255,255,255,0.8); line-height:1.5; letter-spacing:0.5px;
+  }
+
   /* ===== TÉRMINOS ===== */
   .terms-scroll {
     max-height:340px; overflow-y:auto;
@@ -632,94 +692,126 @@
       <h3>DOCTORQR — TÉRMINOS Y CONDICIONES DE USO</h3>
       <p style="font-size:10px;color:rgba(255,255,255,0.4);margin:0 0 14px;letter-spacing:1px;">Versión 1.0 — Junio 2026</p>
 
-      <h3>1. NATURALEZA DEL SERVICIO</h3>
-      <p>DoctorQR es una herramienta digital de información médica personal para situaciones de emergencia. No es un dispositivo médico, no está certificado como producto sanitario y no tiene validez clínica oficial. No sustituye en ningún caso el diagnóstico, tratamiento, prescripción médica ni el criterio de ningún profesional sanitario. No establece relación médico-paciente de ningún tipo.</p>
+      <h3>Qué es DoctorQR, y qué no es, bajo ninguna circunstancia</h3>
+      <p>DoctorQR es una herramienta digital. Te ayuda a guardar tu información médica, para usarla en una emergencia.</p>
+      <p>DoctorQR no es un dispositivo médico. No tiene un certificado oficial como producto sanitario. Esto significa que no tiene validez clínica oficial, por sí mismo.</p>
+      <p>DoctorQR no sustituye el diagnóstico de un médico. Tampoco sustituye ningún tratamiento, ni ninguna receta médica. El criterio de un profesional de la salud, siempre tiene prioridad sobre la información de esta aplicación.</p>
+      <p>Usar DoctorQR no crea ninguna relación entre médico y paciente. DoctorQR es, únicamente, una herramienta de apoyo. No es un servicio médico, en sí mismo.</p>
 
-      <h3>2. RESPONSABILIDAD EXCLUSIVA DEL USUARIO</h3>
-      <p>El usuario es el ÚNICO y EXCLUSIVO responsable de la veracidad, exactitud, integridad y actualización permanente de todos los datos médicos introducidos en DoctorQR.</p>
-      <p>El usuario se compromete a:<br>
-      — Introducir únicamente datos verídicos y contrastados con su médico.<br>
-      — Actualizar sus datos cada vez que cambie su situación médica, medicación o alergias.<br>
-      — Mantener el código QR accesible en todo momento para situaciones de emergencia.<br>
-      — Informar a sus familiares y contactos de emergencia de la existencia y ubicación del QR.</p>
-      <p>DoctorQR advierte expresamente que datos médicos incorrectos, desactualizados o falsos pueden ser más peligrosos que no disponer de ningún dato, y pueden provocar decisiones médicas erróneas con consecuencias graves o letales para el usuario y terceros.</p>
-      <p>DoctorQR declina toda responsabilidad derivada de datos incorrectos, falsos o desactualizados introducidos por el usuario.</p>
+      <h3>Tu responsabilidad, sobre los datos que introduces</h3>
+      <p>Tú eres el único responsable de tus datos médicos, en DoctorQR. Esto incluye que sean verdaderos. También incluye que estén completos, y actualizados.</p>
+      <p>Te comprometes a hacer esto:<br>
+      — Introducir solo datos verdaderos, que coincidan con lo que tu médico te ha dicho.<br>
+      — Actualizar tus datos, cada vez que algo cambie. Esto incluye tu situación médica, tu medicación, o tus alergias.<br>
+      — Mantener tu código QR accesible, siempre. Esto es importante, para las emergencias.<br>
+      — Avisar a tus familiares, y a tus contactos de emergencia. Ellos deben saber que el código QR existe. También deben saber, dónde encontrarlo.</p>
+      <p>DoctorQR te avisa de algo importante. Unos datos médicos incorrectos, viejos, o falsos, pueden ser más peligrosos que no tener ningún dato. Pueden hacer que un médico tome una decisión equivocada. Esto puede tener consecuencias graves. En algunos casos, puede poner en peligro tu vida.</p>
+      <p>Por esta razón, DoctorQR no se hace responsable de los problemas causados por datos incorrectos, falsos, o desactualizados, que tú hayas introducido.</p>
 
-      <h3>3. DATOS DE IDENTIDAD PERMANENTES</h3>
-      <p>Los datos de identidad introducidos durante el registro (nombre completo, apellidos, fecha de nacimiento, número de documento de identidad y correo electrónico) quedan bloqueados de forma permanente e irreversible tras la verificación inicial mediante código OTP enviado al correo electrónico.</p>
-      <p>Este bloqueo es una medida de seguridad destinada a garantizar la integridad y autenticidad de la identidad del titular del perfil médico, y a prevenir suplantaciones de identidad.</p>
-      <p>Si el usuario detecta un error en sus datos de identidad tras la verificación, deberá cancelar su cuenta y crear una nueva con los datos correctos. DoctorQR no puede modificar datos de identidad verificados bajo ninguna circunstancia.</p>
+      <h3>Tus datos de identidad, bloqueados de forma permanente</h3>
+      <p>Durante el registro, introduces algunos datos de identidad. Estos son tu nombre completo, tus apellidos, tu fecha de nacimiento, tu número de documento de identidad, y tu correo electrónico.</p>
+      <p>Estos datos se bloquean, para siempre. Esto pasa, justo después de que verifiques tu cuenta, con el código que te enviamos al correo electrónico. Una vez bloqueados, no se pueden cambiar.</p>
+      <p>Esta medida existe, por seguridad. Su objetivo es proteger tu identidad. También evita que otra persona se haga pasar por ti.</p>
+      <p>Si te equivocaste, al escribir tus datos de identidad, tienes una solución. Debes cancelar tu cuenta. Después, puedes crear una cuenta nueva, con los datos correctos. DoctorQR no puede modificar datos de identidad ya verificados, bajo ninguna circunstancia.</p>
 
-      <h3>4. SEGURIDAD DE LA CUENTA</h3>
-      <p>DoctorQR implementa las siguientes medidas de seguridad para proteger el acceso a la cuenta:<br>
-      — Verificación de correo electrónico mediante código OTP de un solo uso, enviado una única vez durante el registro.<br>
-      — Contraseña personal elegida por el usuario.<br>
-      — Autenticación de doble factor (2FA) obligatoria, mediante uno de estos métodos: reconocimiento biométrico (huella dactilar o facial) disponible en dispositivos compatibles, aplicación Google Authenticator (TOTP), o código de verificación enviado al correo electrónico.</p>
-      <p>El usuario es responsable de:<br>
-      — Mantener su contraseña segura y no compartirla con nadie.<br>
-      — Mantener acceso a su método de doble factor activo.<br>
-      — Notificar a DoctorQR de inmediato ante cualquier acceso no autorizado sospechado.</p>
-      <p>DoctorQR no almacena contraseñas en texto plano. Las contraseñas se almacenan cifradas mediante algoritmos seguros.</p>
+      <h3>Seguridad de tu cuenta, con seis capas de protección</h3>
+      <p>DoctorQR usa seis capas de seguridad, para proteger tu cuenta y tus datos.</p>
+      <p>La primera capa verifica tu correo electrónico, durante el registro, con un código de un solo uso.</p>
+      <p>La segunda capa es tu contraseña personal. Tú la eliges. Nunca se guarda como texto simple, siempre cifrada, con métodos de seguridad reconocidos como estándar de la industria.</p>
+      <p>La tercera capa es la autenticación de doble factor, también llamada 2FA. Esta es obligatoria. Puedes elegir uno de estos tres métodos: tu huella dactilar o tu rostro, si tu dispositivo lo permite; la aplicación Google Authenticator; o un código que te enviamos a tu correo electrónico.</p>
+      <p>La cuarta capa cifra tus datos médicos, con una clave que viene de tu propia cuenta. Nadie puede leerlos, sin tu código QR.</p>
+      <p>La quinta capa es el acceso exclusivo, mediante tu código QR personal. No existe otra vía de acceso a tu información médica.</p>
+      <p>La sexta capa es el registro de auditoría. Cada acceso mediante tu QR queda registrado, con fecha, hora, y dirección de internet.</p>
+      <p>Tú eres responsable de estas tres cosas: mantener tu contraseña segura, sin compartirla con nadie; mantener activo tu método de doble factor; y avisar a DoctorQR de inmediato, si sospechas que alguien accedió a tu cuenta sin permiso.</p>
 
-      <h3>5. PROTOCOLO DE RECUPERACIÓN DE ACCESO</h3>
-      <p>En caso de pérdida de acceso a la cuenta, el usuario puede iniciar el proceso de recuperación desde la pantalla de login.</p>
-      <p>El proceso de recuperación requiere:<br>
-      — Acceso al correo electrónico registrado.<br>
-      — Verificación mediante código OTP enviado al correo electrónico, válido durante 30 minutos.<br>
-      — Confirmación con el método de doble factor configurado durante el registro.<br>
-      — Creación de una nueva contraseña.</p>
-      <p>Si el usuario introduce un código de verificación erróneo, el sistema mostrará un aviso indicando los intentos restantes. Tras 3 intentos fallidos consecutivos, la cuenta entra en estado de BLOQUEO TEMPORAL inmediato.</p>
-      <p>En ese momento se ofrecen dos opciones:<br>
-      — RECUPERAR LA CUENTA: el sistema envía un código de recuperación al correo electrónico registrado. El usuario dispone de 30 minutos para completar la verificación mediante ese código, su método de doble factor y una nueva contraseña. Si transcurren los 30 minutos sin completar el proceso, la cuenta queda CANCELADA de forma automática e irreversible.<br>
-      — CANCELAR LA CUENTA: eliminación inmediata y definitiva de todos los datos. El usuario puede crear una nueva cuenta desde cero.</p>
-      <p>DoctorQR no puede proporcionar acceso a cuentas sin superar el proceso de verificación completo, bajo ninguna circunstancia, para garantizar la seguridad de los datos médicos.</p>
+      <h3>Recuperación de tu acceso, en caso de pérdida</h3>
+      <p>Si pierdes el acceso a tu cuenta, puedes empezar a recuperarla desde la pantalla de inicio de sesión.</p>
+      <p>Para recuperar tu cuenta, necesitas cuatro cosas: acceso a tu correo electrónico registrado; verificar un código que te enviamos a ese correo, válido durante 30 minutos; confirmar tu identidad con tu método de doble factor; y crear una contraseña nueva.</p>
+      <p>Si escribes mal el código de verificación, el sistema te avisa. Te dice cuántos intentos te quedan. Después de tres intentos fallidos seguidos, tu cuenta entra en un bloqueo temporal, de inmediato.</p>
+      <p>En ese momento, tienes dos opciones.</p>
+      <p>La primera opción es recuperar la cuenta. Te enviamos un código de recuperación a tu correo electrónico. Tienes 30 minutos para completar la verificación. Necesitas ese código, tu doble factor, y una contraseña nueva. Si no terminas este proceso en 30 minutos, tu cuenta se cancela, de forma automática. Esta cancelación no se puede revertir. Esto significa que perderás todos tus datos médicos guardados. Y que tendrías que volver a registrarte, desde el principio, como si fueras un usuario nuevo.</p>
+      <p>La segunda opción es cancelar la cuenta. Esto elimina todos tus datos, de inmediato, y para siempre. Después, puedes crear una cuenta nueva, desde el principio.</p>
+      <p>DoctorQR no puede darte acceso a una cuenta, sin que completes todo el proceso de verificación. Esto es así, bajo cualquier circunstancia. Su objetivo es proteger tus datos médicos.</p>
 
-      <h3>6. CANCELACIÓN DE CUENTA</h3>
-      <p>El usuario puede cancelar su cuenta en cualquier momento desde la configuración de su perfil. La cancelación es irreversible e implica:<br>
-      — Eliminación permanente de todos los datos de identidad almacenados en los servidores de DoctorQR.<br>
-      — Invalidación inmediata de todos los códigos QR generados asociados a la cuenta.<br>
-      — Imposibilidad de recuperar los datos una vez completada la cancelación.</p>
-      <p>Para cancelar la cuenta se requiere confirmación mediante contraseña y doble factor, y escribir la palabra ELIMINAR en el campo de confirmación.</p>
+      <h3>Cancelación de tu cuenta, de forma permanente e irreversible</h3>
+      <p>Puedes cancelar tu cuenta, en cualquier momento. Esto se hace, desde la configuración de tu perfil. Esta acción no se puede revertir.</p>
+      <p>Cancelar tu cuenta hace tres cosas: elimina, para siempre, todos tus datos guardados en nuestros servidores; invalida, de inmediato, todos los códigos QR que generaste con esa cuenta; y hace imposible recuperar tus datos, una vez que termine la cancelación.</p>
+      <p>Para cancelar tu cuenta, necesitas confirmar tres cosas: tu contraseña; tu doble factor; y escribir la palabra ELIMINAR, en el campo de confirmación.</p>
 
-      <h3>7. ALMACENAMIENTO Y SEGURIDAD DE DATOS</h3>
-      <p>Tus datos de identidad (nombre, email, documento) se almacenan en nuestros servidores para gestionar tu cuenta de forma segura.</p>
-      <p>Tus datos médicos se almacenan cifrados con AES-256 en nuestros servidores únicamente para hacer posible el acceso de emergencia desde cualquier dispositivo. Este es el propósito esencial de DoctorQR — que el médico pueda acceder a tu información cuando más lo necesitas.</p>
-      <p>Nadie, incluido el equipo de DoctorQR, puede leer tus datos médicos — están cifrados con una clave derivada de tu cuenta. Solo son accesibles mediante el escaneo de tu QR personal.</p>
-      <p>Cada acceso a tus datos mediante QR queda registrado con fecha, hora e IP del acceso. Puedes solicitar este registro en <a href="mailto:privacy@doctorqr.app" style="color:#00ff41;">privacy@doctorqr.app</a></p>
-      <p>Puedes eliminar tu cuenta y todos tus datos en cualquier momento desde la configuración de tu perfil.</p>
+      <h3>Cómo guardamos tu información, sin sorpresas</h3>
+      <p>Tus datos de identidad se guardan en nuestros servidores, para gestionar tu cuenta de forma segura.</p>
+      <p>Tus datos médicos se guardan cifrados, con sistemas reconocidos como estándar de la industria. Lo hacemos por una única razón: hacer posible el acceso de emergencia, desde cualquier dispositivo. Este es el propósito esencial de DoctorQR. Que un profesional sanitario pueda acceder a tu información, justo cuando más lo necesitas.</p>
+      <p>Nadie puede leer tus datos médicos. Esto incluye al equipo de DoctorQR. Tus datos están cifrados, con una clave que viene de tu propia cuenta. Solo se pueden leer, cuando alguien escanea tu código QR personal.</p>
+      <p>Cada vez que alguien accede a tus datos con tu QR, lo registramos. Guardamos la fecha, la hora, y la dirección de internet, de ese acceso.</p>
+      <p>Si cancelas tu cuenta, eliminamos también este registro de accesos, junto con el resto de tus datos. No conservamos ningún historial, después de la cancelación.</p>
 
-      <h3>8. USO DEL CÓDIGO QR EN EMERGENCIAS</h3>
-      <p>El código QR generado por DoctorQR está diseñado para ser utilizado exclusivamente en situaciones de emergencia médica por personal sanitario autorizado.</p>
-      <p>El usuario autoriza expresamente el acceso a su información médica a través del código QR en situaciones de emergencia.</p>
-      <p>La información contenida en el QR es orientativa y no vinculante para el personal sanitario. El médico o paramédico debe contrastar siempre la información con el historial clínico oficial antes de tomar decisiones médicas críticas.</p>
-      <p>DoctorQR no puede controlar ni es responsable del uso que el personal sanitario haga de la información contenida en el código QR.</p>
+      <h3>El uso de tu código QR, en una emergencia médica real</h3>
+      <p>Tu código QR de DoctorQR tiene un propósito claro. Está diseñado para que el personal sanitario lo use, en una emergencia médica.</p>
+      <p>Tú autorizas, de forma expresa, que el personal sanitario pueda acceder a tu información médica, a través de tu código QR, en una situación de emergencia.</p>
+      <p>La información de tu QR es orientativa. No es una fuente vinculante, para el personal sanitario. El médico, o el paramédico, siempre debe comprobar esta información con tu historial clínico oficial, antes de tomar una decisión médica crítica.</p>
+      <p>DoctorQR no puede controlar cómo usa el personal sanitario la información de tu código QR. Por esta razón, no nos hacemos responsables de ese uso.</p>
 
-      <h3>9. MENORES DE EDAD</h3>
-      <p>Queda expresamente prohibido el registro en DoctorQR de personas menores de 18 años sin la autorización expresa y supervisión de su tutor legal.</p>
-      <p>El tutor legal que registre a un menor bajo su tutela asume íntegramente la responsabilidad sobre la veracidad de los datos médicos introducidos y sobre el cumplimiento de estos términos.</p>
+      <h3>Edad mínima, y gestión de cuentas por tutela</h3>
+      <p>Para usar DoctorQR, necesitas tener, al menos, 21 años. DoctorQR establece esta edad porque busca un nivel de madurez suficiente para responsabilizarse de datos médicos.</p>
+      <p>Si tienes 21 años, o más, pero no puedes introducir tus propios datos por ti mismo —por ejemplo, por una discapacidad, o una situación de dependencia—, tu tutor legal puede hacerlo en tu nombre.</p>
+      <p>DoctorQR no verifica documentalmente la condición de tutor legal. Quien declara actuar como tutor, al marcar la casilla de confirmación correspondiente, asume frente a DoctorQR toda la responsabilidad legal de esa declaración. Si esa declaración fuera falsa, la responsabilidad por cualquier consecuencia derivada es exclusivamente de quien la realizó. DoctorQR se reserva el derecho de cancelar cualquier cuenta donde existan indicios razonables de una declaración de tutela falsa.</p>
 
-      <h3>10. MODIFICACIONES DE LOS TÉRMINOS</h3>
-      <p>DoctorQR se reserva el derecho de modificar estos términos en cualquier momento. El usuario será notificado por correo electrónico de cualquier cambio sustancial con un mínimo de 15 días de antelación.</p>
-      <p>El uso continuado del servicio tras la notificación implica la aceptación de los nuevos términos. Si el usuario no acepta los nuevos términos, debe cancelar su cuenta antes de la fecha de entrada en vigor.</p>
+      <h3>Cambios en estos términos, siempre con aviso previo</h3>
+      <p>DoctorQR puede cambiar estos términos, en cualquier momento. Si hacemos un cambio importante, te avisaremos por correo electrónico. Te avisaremos, al menos, 15 días antes de que el cambio entre en vigor.</p>
+      <p>Si sigues usando DoctorQR, después de ese aviso, esto significa que aceptas los nuevos términos. Si no los aceptas, debes cancelar tu cuenta, antes de la fecha en que el cambio entre en vigor.</p>
 
-      <h3>11. LIMITACIÓN DE RESPONSABILIDAD</h3>
-      <p>DoctorQR, sus creadores y colaboradores no serán responsables bajo ninguna circunstancia de daños directos, indirectos, incidentales, especiales o consecuentes derivados del uso o mal uso de la aplicación, incluyendo pero no limitado a:<br>
-      — Decisiones médicas basadas en información incorrecta introducida por el usuario.<br>
-      — Pérdida de acceso a la cuenta por pérdida de credenciales.<br>
-      — Uso no autorizado de los códigos QR generados.<br>
-      — Interrupción del servicio por causas técnicas o de fuerza mayor.</p>
+      <h3>Límites de nuestra responsabilidad, explicados con claridad</h3>
+      <p>DoctorQR, las personas que lo crearon, y quienes colaboran en el proyecto, no son responsables de ciertos daños. Esto incluye daños directos, indirectos, incidentales, especiales, o derivados del uso, o mal uso, de la aplicación.</p>
+      <p>Algunos ejemplos de esto son: decisiones médicas basadas en información incorrecta que tú introdujiste; pérdida de acceso a tu cuenta por perder tus credenciales; uso no autorizado de los códigos QR que generaste; e interrupción del servicio por causas técnicas, o de fuerza mayor.</p>
+      <p>Ningún sistema digital ofrece una seguridad absoluta. DoctorQR no asume responsabilidad, por incidentes ajenos a su control, o a su diligencia razonable.</p>
 
-      <h3>12. LEGISLACIÓN APLICABLE</h3>
-      <p>Estos términos se rigen por la legislación española vigente. Para cualquier controversia derivada del uso de DoctorQR, las partes se someten a la jurisdicción de los Juzgados y Tribunales de Madrid, con renuncia expresa a cualquier otro fuero.</p>
-      <p>Es de aplicación el Reglamento (UE) 2016/679 (RGPD), la Ley Orgánica 3/2018 (LOPDGDD) y la Ley 34/2002 de Servicios de la Sociedad de la Información (LSSI).</p>
+      <h3>Legislación aplicable, y dónde se resuelven los conflictos</h3>
+      <p>Estos términos se rigen, por la legislación española vigente. Si surge cualquier conflicto, sobre el uso de DoctorQR, ambas partes se someten a los Juzgados y Tribunales de Madrid. Esto significa que renunciamos, de forma expresa, a cualquier otro lugar donde se pudiera resolver ese conflicto.</p>
+      <p>A DoctorQR le aplican tres normas principales: el Reglamento General de Protección de Datos de la Unión Europea (RGPD — Reglamento UE 2016/679); la Ley Orgánica 3/2018, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD); y la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI).</p>
     </div>
 
-    <div class="checkbox-wrap" id="terms-chk-wrap">
-      <div class="checkbox-box" id="terms-chk"></div>
-      <div class="checkbox-text">
-        He leído y acepto los términos de uso de DoctorQR. Consiento expresamente el almacenamiento cifrado de mis datos médicos en los servidores de DoctorQR para hacer posible el acceso de emergencia. Asumo la <strong>responsabilidad total</strong> sobre la veracidad de mis datos médicos.
-      </div>
+    <!-- Selector: ¿te registras tú mismo o como tutor? -->
+    <div class="reg-type-selector">
+      <div class="reg-type-label">¿Cómo te registras?</div>
+      <label class="reg-type-option">
+        <input type="radio" name="reg-type" id="reg-self" value="self" class="chk-radio" checked>
+        <span class="radio-box"></span>
+        <span class="reg-type-text">Me registro a mí mismo</span>
+      </label>
+      <label class="reg-type-option">
+        <input type="radio" name="reg-type" id="reg-tutor" value="tutor" class="chk-radio">
+        <span class="radio-box"></span>
+        <span class="reg-type-text">Actúo como tutor legal de otra persona</span>
+      </label>
     </div>
+
+    <!-- Checkbox 1 — Términos y Condiciones -->
+    <label class="checkbox-wrap" id="chk-wrap-1">
+      <input type="checkbox" id="chk-1" class="chk-real">
+      <span class="checkbox-box"></span>
+      <span class="checkbox-text">He leído, y/o escuchado, comprendido, y acepto los <strong>Términos y Condiciones</strong> de uso de DoctorQR.</span>
+    </label>
+
+    <!-- Checkbox 2 — Consentimiento datos de salud -->
+    <label class="checkbox-wrap" id="chk-wrap-2">
+      <input type="checkbox" id="chk-2" class="chk-real">
+      <span class="checkbox-box"></span>
+      <span class="checkbox-text">He leído, y/o escuchado, comprendido, y consiento expresamente el tratamiento de mis <strong>datos de salud</strong> —categoría especial, Art. 9 RGPD— mediante almacenamiento cifrado en los servidores de DoctorQR, para hacer posible el acceso de emergencia. Entiendo que puedo retirar este consentimiento eliminando mi cuenta en cualquier momento. (<a href="privacy.html" style="color:var(--green);" onclick="event.stopPropagation()">Política de Privacidad</a>)</span>
+    </label>
+
+    <!-- Checkbox 3 — Veracidad de datos -->
+    <label class="checkbox-wrap" id="chk-wrap-3">
+      <input type="checkbox" id="chk-3" class="chk-real">
+      <span class="checkbox-box"></span>
+      <span class="checkbox-text">He leído, y/o escuchado, comprendido, y declaro que los datos médicos que introduzco son <strong>veraces y actualizados</strong>, y asumo la responsabilidad descrita en estos términos.</span>
+    </label>
+
+    <!-- Checkbox 4 — Declaración de tutela (solo visible si se eligió tutor) -->
+    <label class="checkbox-wrap" id="chk-wrap-4" style="display:none;">
+      <input type="checkbox" id="chk-4" class="chk-real">
+      <span class="checkbox-box"></span>
+      <span class="checkbox-text">Declaro, bajo mi <strong>responsabilidad legal</strong>, que actúo como tutor legal de la persona cuyos datos médicos voy a introducir. Asumo toda la responsabilidad derivada de esta declaración, incluyendo las consecuencias de que fuera falsa.</span>
+    </label>
 
     <button class="btn-primary" id="btn-accept-terms" disabled>
       CONTINUAR
@@ -1431,15 +1523,36 @@ function _hookStep2Timer(n) {
 }
 
 // ===== TÉRMINOS =====
-let termsChecked = false;
-document.getElementById('terms-chk-wrap').addEventListener('click', () => {
-  termsChecked = !termsChecked;
-  document.getElementById('terms-chk').classList.toggle('checked', termsChecked);
-  document.getElementById('btn-accept-terms').disabled = !termsChecked;
+function checkTermsReady() {
+  const c1 = document.getElementById('chk-1').checked;
+  const c2 = document.getElementById('chk-2').checked;
+  const c3 = document.getElementById('chk-3').checked;
+  const isTutor = document.getElementById('reg-tutor').checked;
+  const c4 = isTutor ? document.getElementById('chk-4').checked : true;
+  document.getElementById('btn-accept-terms').disabled = !(c1 && c2 && c3 && c4);
+}
+
+['chk-1','chk-2','chk-3','chk-4'].forEach(id => {
+  document.getElementById(id).addEventListener('change', checkTermsReady);
 });
+
+document.querySelectorAll('input[name="reg-type"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const isTutor = document.getElementById('reg-tutor').checked;
+    const wrap4 = document.getElementById('chk-wrap-4');
+    wrap4.style.display = isTutor ? '' : 'none';
+    if (!isTutor) document.getElementById('chk-4').checked = false;
+    checkTermsReady();
+  });
+});
+
 document.getElementById('btn-accept-terms').addEventListener('click', () => {
-  if (!termsChecked) return;
-  goToScreen(2);
+  const isTutor = document.getElementById('reg-tutor').checked;
+  const c1 = document.getElementById('chk-1').checked;
+  const c2 = document.getElementById('chk-2').checked;
+  const c3 = document.getElementById('chk-3').checked;
+  const c4 = isTutor ? document.getElementById('chk-4').checked : true;
+  if (c1 && c2 && c3 && c4) goToScreen(2);
 });
 
 // ===== VOZ MASCULINA =====

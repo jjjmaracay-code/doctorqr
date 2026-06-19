@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#00ff41">
+<title>DoctorQR · Política de Privacidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #00ff41;
+    --bg: #080808;
+    --surface: #111111;
+    --text: #e8e8e8;
+    --muted: rgba(255,255,255,0.35);
+    --border: rgba(0,255,65,0.15);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background:var(--bg);
+    min-height:100vh;
+    font-family:'Inter',system-ui,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ===== HEADER ===== */
+  .priv-header {
+    width:100%; max-width:600px;
+    padding:32px 24px 20px;
+    display:flex; flex-direction:column; align-items:center;
+    position:relative; z-index:1;
+  }
+
+  .priv-brand {
+    font-family:'Arial Black',Arial,sans-serif;
+    font-size:26px; font-weight:900; letter-spacing:10px;
+    margin-bottom:4px;
+  }
+  .priv-brand .txt-doctor { color:#00ff41; text-shadow:0 0 10px #00ff41,0 0 25px rgba(0,255,65,0.6); }
+  .priv-brand .txt-qr     { color:#ffffff; text-shadow:0 0 10px #ffffff,0 0 20px rgba(255,255,255,0.4); }
+
+  .priv-tagline {
+    font-size:9px; font-weight:300;
+    color:rgba(0,255,65,0.5);
+    letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:20px;
+  }
+
+  .priv-page-title {
+    font-size:11px; font-weight:700; letter-spacing:4px;
+    text-transform:uppercase; color:var(--green);
+    border-bottom:1px solid rgba(0,255,65,0.15);
+    padding-bottom:12px; width:100%; text-align:center;
+    margin-bottom:4px;
+  }
+
+  /* ===== CONTENIDO ===== */
+  .priv-body {
+    width:100%; max-width:600px;
+    padding:0 24px 60px;
+    position:relative; z-index:1;
+  }
+
+  .priv-card {
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:28px 24px;
+  }
+
+  .priv-card h3 {
+    font-size:10px; font-weight:700; letter-spacing:3px;
+    text-transform:uppercase; color:var(--green);
+    margin-top:24px; margin-bottom:10px;
+    padding-top:20px;
+    border-top:1px solid rgba(0,255,65,0.06);
+  }
+  .priv-card h3:first-child { margin-top:0; padding-top:0; border-top:none; }
+
+  .priv-card p {
+    font-size:11px; font-weight:300;
+    color:rgba(255,255,255,0.75);
+    line-height:1.85; letter-spacing:0.4px;
+    margin-bottom:10px;
+  }
+  .priv-card p:last-child { margin-bottom:0; }
+
+  .priv-card strong { color:var(--green); font-weight:600; }
+
+  .priv-card a { color:var(--green); text-decoration:underline; }
+
+  .version-badge {
+    font-size:9px; color:rgba(255,255,255,0.3);
+    letter-spacing:1px; margin-bottom:20px;
+    text-align:center; display:block;
+  }
+
+  /* ===== FOOTER ===== */
+  .priv-footer {
+    text-align:center; padding:20px 24px 8px;
+    font-size:11px; color:rgba(255,255,255,0.25);
+    letter-spacing:1px; position:relative; z-index:1;
+  }
+  .priv-footer a {
+    color:rgba(0,255,65,0.5);
+    text-decoration:underline;
+  }
+</style>
+</head>
+<body>
+
+<div class="priv-header">
+  <div class="priv-brand">
+    <span class="txt-doctor">DOCTOR</span><span class="txt-qr">QR</span>
+  </div>
+  <div class="priv-tagline">Tu historial médico de emergencia</div>
+  <div class="priv-page-title">Política de Privacidad</div>
+</div>
+
+<div class="priv-body">
+  <span class="version-badge">Versión 1.0 — Junio 2026</span>
+
+  <div class="priv-card">
+
+    <h3>Quién es el responsable del tratamiento de tus datos</h3>
+    <p>DoctorQR es responsable de cómo se procesan tus datos, dentro de la aplicación. Esto se explica en detalle, en esta política.</p>
+    <p>DoctorQR no es responsable de la veracidad de los datos médicos que tú introduces. Esa responsabilidad es exclusivamente tuya. Esto se explica también, en los <a href="register.html">Términos y Condiciones</a>.</p>
+    <p>Si tienes alguna duda, puedes contactarnos a través del buzón de contacto, disponible en la aplicación.</p>
+
+    <h3>Qué datos recogemos, y por qué importa la diferencia</h3>
+    <p>Recogemos tus datos personales, y tus datos médicos. Son los mismos que introduces, al rellenar tu perfil en la aplicación.</p>
+    <p>Tus datos médicos pertenecen a una <strong>categoría especial</strong>, según el Reglamento General de Protección de Datos de la Unión Europea (RGPD). La ley les da, en su Artículo 9, la protección más alta que existe, para cualquier tipo de dato personal.</p>
+
+    <h3>Para qué usamos tus datos, sin desviaciones ni excepciones</h3>
+    <p>Usamos tus datos personales, para mantener tu cuenta segura.</p>
+    <p>Usamos tus datos médicos, para hacer posible algo único. Que cualquier profesional sanitario, en cualquier lugar, pueda acceder a tu información vital. En el momento exacto en que más importa. Escaneando tu código QR.</p>
+    <p>No usamos tus datos para publicidad. No los vendemos. No los compartimos con nadie, fuera de este propósito.</p>
+
+    <h3>Por qué podemos usar tus datos, según el Artículo 9 del RGPD</h3>
+    <p>Tratamos tus datos médicos, por dos razones legales.</p>
+    <p>La primera es tu <strong>consentimiento expreso</strong>, que nos das durante el registro.</p>
+    <p>La segunda es proteger tu vida. El Artículo 9, apartado 2, letra c del RGPD, permite tratar datos de salud cuando es necesario para proteger los intereses vitales de una persona. Especialmente, cuando esa persona no puede dar su consentimiento, en ese momento exacto. Esto es, precisamente, la razón de ser de DoctorQR.</p>
+
+    <h3>Seguridad de nivel hospitalario, según el Artículo 32 del RGPD</h3>
+    <p>DoctorQR protege tus datos médicos con <strong>seis capas de seguridad independientes</strong>. Estas capas trabajan en conjunto, en todo momento.</p>
+    <p><strong>Capa 1 —</strong> Verificación de identidad por correo electrónico, durante el registro.</p>
+    <p><strong>Capa 2 —</strong> Tu contraseña personal. Nunca se transmite, ni se guarda, como texto legible. Se almacena siempre cifrada, con algoritmos reconocidos como estándar de seguridad bancaria.</p>
+    <p><strong>Capa 3 —</strong> Autenticación de doble factor, obligatoria para todas las cuentas. Puedes elegir entre reconocimiento biométrico, una aplicación de autenticación, o un código por correo electrónico.</p>
+    <p><strong>Capa 4 —</strong> Cifrado de tus datos médicos, con una clave que viene de tu propia cuenta. Ni siquiera el equipo de DoctorQR puede leerlos.</p>
+    <p><strong>Capa 5 —</strong> Acceso exclusivo mediante tu código QR personal. Solo se descifran tus datos, en el instante exacto en que alguien escanea ese código específico. En ningún otro momento, y por ninguna otra vía.</p>
+    <p><strong>Capa 6 —</strong> Registro de auditoría. Cada acceso mediante tu QR queda registrado, con fecha, hora, y dirección de internet. Mientras tu cuenta esté activa.</p>
+    <p>Este nivel de protección cumple, y supera, los requisitos del Artículo 32 del RGPD.</p>
+
+    <h3>Dónde se guardan tus datos, dentro y fuera de la Unión Europea</h3>
+    <p>Tu información está resguardada y cifrada, con presencia en Europa y en Estados Unidos.</p>
+    <p>Cuando tus datos se encuentran fuera de la Unión Europea, aplicamos las garantías legales que exige la normativa europea, para cualquier transferencia internacional de datos.</p>
+
+    <h3>Quién puede acceder a tus datos, sin ninguna excepción oculta</h3>
+    <p><strong>Tú</strong> puedes acceder a tus datos, siempre, y en cualquier momento.</p>
+    <p><strong>El personal sanitario</strong> puede acceder a tus datos médicos, únicamente, cuando escanea tu código QR personal. En una situación de emergencia real.</p>
+    <p><strong>Nadie más</strong> puede acceder a tus datos. Bajo ninguna circunstancia.</p>
+    <p>La información de tu código QR es orientativa. El criterio médico profesional siempre tiene la última palabra. Como corresponde.</p>
+
+    <h3>Cuánto tiempo guardamos tus datos, y qué pasa cuando te vas</h3>
+    <p>Guardamos tus datos, mientras tu cuenta esté activa.</p>
+    <p>Si cancelas tu cuenta, eliminamos todo, de forma permanente e irreversible. Esto incluye tu identidad, tus datos médicos, y el registro de accesos mediante tu QR. Sin excepciones, y sin ningún historial posterior.</p>
+
+    <h3>Tus derechos, reconocidos por el RGPD (Artículos 15 a 22)</h3>
+    <p><strong>Acceso —</strong> Puedes pedirnos una copia de todos tus datos.</p>
+    <p><strong>Rectificación —</strong> Puedes corregir datos incorrectos. Recuerda que tus datos de identidad se bloquean tras la verificación inicial. Tus datos médicos, puedes actualizarlos tú mismo, cuando quieras, desde tu perfil.</p>
+    <p><strong>Supresión —</strong> Puedes eliminar todos tus datos, cancelando tu cuenta.</p>
+    <p><strong>Portabilidad —</strong> Puedes recibir tus datos, en un formato que puedas reutilizar.</p>
+    <p><strong>Oposición —</strong> Puedes oponerte al tratamiento de tus datos, en cualquier momento.</p>
+    <p><strong>Retirada del consentimiento —</strong> Puedes retirar tu consentimiento cuando quieras. Esto no afecta a los tratamientos que ya hicimos, antes de esa retirada.</p>
+    <p>Puedes ejercer todos estos derechos, a través del buzón de contacto disponible en la aplicación.</p>
+
+    <h3>Si ocurre un incidente de seguridad, actuamos según la ley</h3>
+    <p>Te lo notificaremos, según exige el RGPD. En los plazos, y mediante los canales, que la normativa establece.</p>
+
+    <h3>Cómo presentar una reclamación, si algo no te convence</h3>
+    <p>Puedes contactarnos primero, a través del buzón de la aplicación.</p>
+    <p>También tienes derecho a presentar una reclamación ante la <strong>Agencia Española de Protección de Datos (AEPD)</strong>, en su página web: <a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a></p>
+
+    <h3>Sobre las cookies que usamos, y las que nunca usaremos</h3>
+    <p>DoctorQR usa, únicamente, <strong>cookies técnicas</strong>. Son las que necesita la aplicación, para funcionar correctamente.</p>
+    <p>No usamos cookies de seguimiento. No usamos cookies de publicidad. Nunca.</p>
+
+    <h3>Cambios futuros en esta política, siempre con aviso previo</h3>
+    <p>Podemos cambiar esta política, en cualquier momento. Si hacemos un cambio importante, te avisaremos por correo electrónico. Con, al menos, 15 días de antelación.</p>
+
+    <h3>Nota final, sobre los límites de cualquier sistema digital</h3>
+    <p>Ningún sistema digital ofrece una seguridad absoluta. Esto es así, para cualquier aplicación que exista.</p>
+    <p>DoctorQR no asume responsabilidad, por incidentes ajenos a su control, o a su diligencia razonable.</p>
+
+  </div>
+</div>
+
+<div class="priv-footer">
+  <a href="register.html">← Volver al registro</a>
+</div>
+
+</body>
+</html>
