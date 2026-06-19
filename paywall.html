@@ -498,7 +498,7 @@
     </div>
 
     <button class="plan-btn btn-pro"
-            onclick="alert('Pago con Stripe — próximamente')">ACTIVAR PRO</button>
+            onclick="iniciarPago('pro', this)">ACTIVAR PRO</button>
 
     <hr class="plan-sep">
 
@@ -542,7 +542,7 @@
     </div>
 
     <button class="plan-btn btn-lifetime"
-            onclick="alert('Pago con Stripe — próximamente')">ACCESO DE POR VIDA</button>
+            onclick="iniciarPago('lifetime', this)">ACCESO DE POR VIDA</button>
 
     <hr class="plan-sep">
 
@@ -585,6 +585,44 @@
   </div>
   <div class="pw-footer-copy">© 2025 DoctorQR · Tu historial médico siempre contigo</div>
 </div>
+
+<script>
+function iniciarPago(plan, btn) {
+  const token = localStorage.getItem('doctorqr_token');
+  if (!token) {
+    window.location.href = 'register.html';
+    return;
+  }
+
+  const textoOriginal = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Procesando...';
+
+  fetch('https://doctorqr-backend-production.up.railway.app/api/stripe/create-checkout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({ plan })
+  })
+  .then(async r => {
+    const data = await r.json();
+    if (r.ok && data.url) {
+      window.location.href = data.url;
+    } else {
+      btn.disabled = false;
+      btn.textContent = textoOriginal;
+      alert(data.error || 'Error al iniciar el pago. Inténtalo de nuevo.');
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = textoOriginal;
+    alert('Error de conexión. Comprueba tu internet e inténtalo de nuevo.');
+  });
+}
+</script>
 
 </body>
 </html>
