@@ -445,7 +445,7 @@
           const extras = Array.from(document.querySelectorAll('#suplementos-extra-wrap .extra-med-input')).map(i => i.value.trim()).filter(Boolean);
           return [...fromChips, ...extras];
         })(),
-        updated_at:            new Date().toISOString(),
+        updated_at:            (JSON.parse(localStorage.getItem('doctorqr_profile') || '{}').updated_at) || null,
       };
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
 
@@ -476,6 +476,11 @@
           if (r.ok) {
             const json = await r.json();
             if (json?.success) {
+              if (json.updated_at) {
+                const stored = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
+                stored.updated_at = json.updated_at;
+                localStorage.setItem('doctorqr_profile', JSON.stringify(stored));
+              }
               const ts = document.getElementById('toast-sync');
               if (ts) { ts.classList.add('show'); setTimeout(() => ts.classList.remove('show'), 2500); }
             }
