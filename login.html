@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DoctorQR · Acceso">
+<meta name="theme-color" content="#00ff41">
+<title>DoctorQR · Acceso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #00ff41;
+    --red: #ff0000;
+    --red-soft: #ff4444;
+    --bg: #080808;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --text: #e8e8e8;
+    --muted: rgba(255,255,255,0.35);
+    --border: rgba(0,255,65,0.15);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background:var(--bg);
+    min-height:100vh;
+    min-height:-webkit-fill-available;
+    font-family:'Inter',system-ui,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .reg-header {
+    width:100%; max-width:480px;
+    padding:32px 24px 0;
+    display:flex; flex-direction:column; align-items:center;
+    position:relative; z-index:1;
+  }
+
+  .reg-logo-wrap {
+    margin-bottom:-120px;
+    perspective:800px;
+    filter:drop-shadow(0 0 12px #00ff41) drop-shadow(0 0 30px rgba(0,255,65,0.4));
+  }
+
+  .logo-rotate {
+    animation: logo3d 8s ease-in-out infinite;
+    transform-style: preserve-3d;
+    display: inline-block;
+  }
+
+  @keyframes logo3d {
+    0%   { transform: rotateY(0deg); }
+    25%  { transform: rotateY(180deg); }
+    50%  { transform: rotateY(360deg); }
+    75%  { transform: rotateY(180deg); filter: drop-shadow(0 0 18px #ff0000) drop-shadow(0 0 35px #ff0000); }
+    100% { transform: rotateY(360deg); }
+  }
+
+  @keyframes shake {
+    0%,100% { transform:translateX(0); }
+    20% { transform:translateX(-5px); }
+    40% { transform:translateX(5px); }
+    60% { transform:translateX(-3px); }
+    80% { transform:translateX(3px); }
+  }
+
+  .reg-brand {
+    font-family:'Arial Black',Arial,sans-serif;
+    font-size:28px; font-weight:900; letter-spacing:10px;
+    margin-bottom:4px;
+  }
+  .reg-brand .txt-doctor { color:#00ff41; text-shadow:0 0 10px #00ff41,0 0 25px rgba(0,255,65,0.6); }
+  .reg-brand .txt-qr     { color:#ffffff; text-shadow:0 0 10px #ffffff,0 0 20px rgba(255,255,255,0.4); }
+
+  .reg-tagline {
+    font-size:10px; font-weight:300;
+    color:rgba(0,255,65,0.6);
+    letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:28px;
+  }
+
+  .reg-form {
+    width:100%; max-width:480px;
+    padding:0 24px 56px;
+    position:relative; z-index:1;
+  }
+
+  .form-card {
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:24px 20px;
+    margin-bottom:14px;
+  }
+
+  .form-card-title {
+    font-size:10px; font-weight:600;
+    letter-spacing:4px; text-transform:uppercase;
+    color:#00ff41;
+    margin-bottom:18px; padding-bottom:10px;
+    border-bottom:1px solid rgba(0,255,65,0.08);
+  }
+
+  .field-wrap { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
+  .field-wrap:last-child { margin-bottom:0; }
+
+  .field-label {
+    font-size:10px; font-weight:600;
+    letter-spacing:2px; text-transform:uppercase;
+    color:rgba(0,255,65,0.85);
+  }
+
+  .field-input {
+    width:100%; padding:13px 14px;
+    border-radius:10px;
+    border:1px solid rgba(0,255,65,0.3);
+    background:rgba(0,255,65,0.06);
+    font-family:'Inter',sans-serif; font-size:15px; font-weight:400;
+    color:#fff; outline:none;
+    transition:border-color 0.15s,background 0.15s;
+    -webkit-appearance:none;
+  }
+  .field-input:focus { border-color:rgba(0,255,65,0.5); background:rgba(0,255,65,0.08); }
+  .field-input::placeholder { color:rgba(255,255,255,0.2); }
+
+  .field-hint { font-size:10px; font-weight:300; color:rgba(255,255,255,0.5); letter-spacing:1px; line-height:1.5; }
+  .field-hint.error { color:var(--red-soft); }
+
+  .btn-primary {
+    width:100%; padding:16px; border-radius:14px; border:none;
+    background:var(--green); color:#000;
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    cursor:pointer; transition:all 0.15s;
+    box-shadow:0 0 24px rgba(0,255,65,0.3);
+    margin-bottom:12px;
+  }
+  .btn-primary:hover   { background:#44ff77; box-shadow:0 0 32px rgba(0,255,65,0.5); }
+  .btn-primary:active  { background:#00cc33; transform:scale(0.98); }
+  .btn-primary:disabled {
+    background:rgba(0,255,65,0.15); color:rgba(0,255,65,0.35);
+    cursor:not-allowed; box-shadow:none;
+  }
+
+  .btn-secondary {
+    width:100%; padding:14px; border-radius:14px;
+    border:1px solid rgba(0,255,65,0.3);
+    background:transparent; color:#00ff41;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:2px; text-transform:uppercase;
+    cursor:pointer; transition:all 0.15s; margin-bottom:12px;
+  }
+  .btn-secondary:hover  { background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.6); }
+  .btn-secondary:active { transform:scale(0.98); }
+  .btn-secondary:disabled { opacity:0.3; cursor:not-allowed; }
+
+  /* Código 2FA */
+  .code-display { display:flex; gap:6px; justify-content:center; margin-bottom:12px; }
+  .code-char {
+    width:40px; height:52px; border-radius:10px;
+    border:1.5px solid rgba(0,255,65,0.2);
+    background:rgba(0,255,65,0.04);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:700; color:var(--green);
+    font-family:'Inter',monospace; transition:all 0.15s;
+  }
+  .code-char.filled { border-color:var(--green); background:rgba(0,255,65,0.1); box-shadow:0 0 8px rgba(0,255,65,0.3); }
+  .code-char.error  { border-color:var(--red-soft); background:rgba(255,68,68,0.1); animation:shake 0.4s ease; }
+
+  .pin-keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
+  .key-btn {
+    aspect-ratio:1.4; border-radius:8px;
+    border:1px solid rgba(0,255,65,0.15);
+    background:rgba(0,255,65,0.04);
+    font-family:'Inter',sans-serif; font-size:16px; font-weight:400;
+    color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.1s; user-select:none;
+  }
+  .key-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.35); }
+  .key-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.93); }
+  .key-btn.del    { font-size:14px; color:var(--muted); }
+
+  .code-timer { text-align:center; font-size:11px; font-weight:300; color:var(--muted); margin-bottom:10px; letter-spacing:1px; }
+  .code-timer span { color:var(--green); font-weight:600; }
+
+  .resend-btn {
+    display:block; width:100%; background:none; border:none;
+    color:var(--green); font-family:'Inter',sans-serif; font-size:11px;
+    font-weight:500; letter-spacing:1px; text-transform:uppercase;
+    cursor:pointer; padding:6px 0; margin-bottom:14px; text-align:center;
+    opacity:1; transition:opacity 0.2s;
+  }
+  .resend-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+  /* Bloqueo */
+  .block-countdown {
+    font-size:38px; font-weight:900; color:#ff0000;
+    text-align:center; text-shadow:0 0 16px #ff0000;
+    margin:12px 0; letter-spacing:4px;
+  }
+
+  /* Toast */
+  .toast {
+    position:fixed; bottom:32px; left:50%;
+    transform:translateX(-50%) translateY(120px);
+    background:var(--green); color:#000;
+    font-family:'Inter',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase;
+    padding:12px 28px; border-radius:30px;
+    transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index:999; white-space:nowrap; pointer-events:none;
+  }
+  .toast.error-toast { background:#ff4444; color:#fff; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  /* Pantallas */
+  .screen { width:100%; display:none; flex-direction:column; align-items:center; }
+  .screen.active { display:flex; }
+
+  .nav-link {
+    text-align:center; padding:8px 0 4px;
+    font-size:11px; font-weight:300;
+    color:rgba(255,255,255,0.25); letter-spacing:1px;
+  }
+  .nav-link a { color:rgba(0,255,65,0.5); text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<header class="reg-header">
+  <div class="reg-logo-wrap">
+    <span class="logo-rotate">🩺</span>
+  </div>
+  <div class="reg-brand">
+    <span class="txt-doctor">DOCTOR</span><span class="txt-qr">QR</span>
+  </div>
+  <p class="reg-tagline">Tu perfil médico de emergencia</p>
+</header>
+
+<main class="reg-form">
+
+  <!-- ===== PANTALLA L1 — EMAIL + CONTRASEÑA ===== -->
+  <div class="screen active" id="screen-l1">
+    <div class="form-card">
+      <div class="form-card-title">Iniciar sesión</div>
+
+      <div class="field-wrap">
+        <label class="field-label" for="login-email">Correo electrónico</label>
+        <input class="field-input" type="email" id="login-email"
+               placeholder="tu@email.com" autocomplete="email" inputmode="email">
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label" for="login-password">Contraseña</label>
+        <input class="field-input" type="password" id="login-password"
+               placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <div class="field-hint error" id="login-error" style="margin-bottom:12px;display:none;"></div>
+
+      <button class="btn-primary" id="btn-login">ENTRAR</button>
+
+      <div class="nav-link">
+        <a href="recovery.html">¿Olvidaste tu contraseña?</a>
+      </div>
+    </div>
+
+    <div class="nav-link">
+      ¿No tienes cuenta?
+      <a href="register.html">Regístrate</a>
+    </div>
+  </div>
+
+  <!-- ===== PANTALLA L2 — VERIFICACIÓN 2FA ===== -->
+  <div class="screen" id="screen-l2">
+    <div class="form-card">
+      <div class="form-card-title">Verificación de seguridad</div>
+
+      <div class="field-hint" id="l2-hint" style="margin-bottom:16px;line-height:1.7;"></div>
+
+      <div class="code-display">
+        <div class="code-char" id="l2-c0">·</div>
+        <div class="code-char" id="l2-c1">·</div>
+        <div class="code-char" id="l2-c2">·</div>
+        <div class="code-char" id="l2-c3">·</div>
+        <div class="code-char" id="l2-c4">·</div>
+        <div class="code-char" id="l2-c5">·</div>
+      </div>
+
+      <div class="code-timer" id="l2-timer" style="display:none;">
+        El código expira en <span id="l2-timer-count">10:00</span>
+      </div>
+
+      <button class="resend-btn" id="btn-resend-login" style="display:none;" disabled>
+        Reenviar código
+      </button>
+
+      <div class="pin-keypad">
+        <button class="key-btn" data-l2="1">1</button>
+        <button class="key-btn" data-l2="2">2</button>
+        <button class="key-btn" data-l2="3">3</button>
+        <button class="key-btn" data-l2="4">4</button>
+        <button class="key-btn" data-l2="5">5</button>
+        <button class="key-btn" data-l2="6">6</button>
+        <button class="key-btn" data-l2="7">7</button>
+        <button class="key-btn" data-l2="8">8</button>
+        <button class="key-btn" data-l2="9">9</button>
+        <button class="key-btn" id="clr-l2">CLR</button>
+        <button class="key-btn" data-l2="0">0</button>
+        <button class="key-btn del" id="del-l2">⌫</button>
+      </div>
+
+      <button class="btn-primary" id="btn-verify-l2" disabled>VERIFICAR CÓDIGO</button>
+    </div>
+
+    <div class="nav-link">
+      <a href="#" id="btn-back-l1">← Volver al inicio de sesión</a>
+    </div>
+  </div>
+
+  <!-- ===== PANTALLA L3 — CUENTA BLOQUEADA ===== -->
+  <div class="screen" id="screen-l3">
+    <div class="form-card">
+      <div class="form-card-title">Cuenta bloqueada</div>
+      <div class="field-hint" style="margin-bottom:16px;line-height:1.7;">
+        Demasiados intentos fallidos. Tu cuenta estará disponible en:
+      </div>
+      <div class="block-countdown" id="l3-countdown">--:--</div>
+      <div class="field-hint" style="margin-bottom:20px;text-align:center;">
+        Si no recuerdas tu contraseña, puedes recuperar el acceso.
+      </div>
+      <a href="recovery.html">
+        <button class="btn-secondary">RECUPERAR ACCESO</button>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://doctorqr-backend-production.up.railway.app';
+
+let loginEmail      = '';
+let l2Method        = '';
+let l2Buffer        = '';
+let l2ResendCd      = 60;
+let l2ResendIntvl   = null;
+let l2TimerSecs     = 600;
+let l2TimerIntvl    = null;
+
+// ===== UTILIDADES =====
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('error-toast', isError);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function goTo(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ===== PANTALLA L1 — LOGIN =====
+
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errorEl  = document.getElementById('login-error');
+  const btn      = document.getElementById('btn-login');
+
+  errorEl.style.display = 'none';
+
+  if (!email || !password) {
+    errorEl.textContent = 'Introduce tu email y contraseña.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Verificando…';
+
+  try {
+    const res  = await fetch(`${API}/api/auth/login`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+
+    if (res.status === 423) {
+      iniciarBloqueo(data.block_expires);
+      return;
+    }
+
+    if (!res.ok || !data.requires_2fa) {
+      errorEl.textContent = data.error || 'Credenciales incorrectas.';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    loginEmail = email;
+    l2Method   = data.twofa_method;
+    await iniciarL2();
+
+  } catch (e) {
+    showToast('Error de conexión con el servidor', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'ENTRAR';
+  }
+});
+
+// Permitir enviar con Enter
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('btn-login').click();
+});
+
+// ===== PANTALLA L2 — 2FA =====
+
+async function iniciarL2() {
+  l2Buffer = '';
+  updateL2Display();
+  document.getElementById('btn-verify-l2').disabled = true;
+
+  const hint = document.getElementById('l2-hint');
+
+  if (l2Method === 'totp') {
+    hint.textContent = 'Introduce el código de 6 dígitos de tu app autenticadora (Google Authenticator u otra).';
+    document.getElementById('l2-timer').style.display      = 'none';
+    document.getElementById('btn-resend-login').style.display = 'none';
+  } else {
+    // método email: enviar código automáticamente
+    hint.textContent = 'Te hemos enviado un código de 6 dígitos a ' + loginEmail + '. Introdúcelo a continuación.';
+    document.getElementById('l2-timer').style.display      = 'block';
+    document.getElementById('btn-resend-login').style.display = 'block';
+
+    try {
+      await fetch(`${API}/api/auth/recover`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email: loginEmail })
+      });
+    } catch (e) { /* continúa — el usuario puede reenviar manualmente */ }
+
+    iniciarTimerL2();
+    iniciarResendL2();
+  }
+
+  goTo('screen-l2');
+}
+
+function iniciarTimerL2() {
+  clearInterval(l2TimerIntvl);
+  l2TimerSecs = 600;
+  const countEl = document.getElementById('l2-timer-count');
+  l2TimerIntvl = setInterval(() => {
+    l2TimerSecs--;
+    const m = Math.floor(l2TimerSecs / 60);
+    const s = l2TimerSecs % 60;
+    countEl.textContent = m + ':' + String(s).padStart(2, '0');
+    if (l2TimerSecs <= 0) {
+      clearInterval(l2TimerIntvl);
+      countEl.textContent = '0:00';
+    }
+  }, 1000);
+}
+
+function iniciarResendL2() {
+  clearInterval(l2ResendIntvl);
+  l2ResendCd = 60;
+  const btn = document.getElementById('btn-resend-login');
+  btn.disabled = true;
+  btn.textContent = `Reenviar código (${l2ResendCd}s)`;
+  l2ResendIntvl = setInterval(() => {
+    l2ResendCd--;
+    if (l2ResendCd <= 0) {
+      clearInterval(l2ResendIntvl);
+      btn.disabled = false;
+      btn.textContent = 'Reenviar código';
+    } else {
+      btn.textContent = `Reenviar código (${l2ResendCd}s)`;
+    }
+  }, 1000);
+}
+
+document.getElementById('btn-resend-login').addEventListener('click', async () => {
+  try {
+    await fetch(`${API}/api/auth/recover`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: loginEmail })
+    });
+    showToast('Código reenviado a ' + loginEmail);
+    iniciarTimerL2();
+    iniciarResendL2();
+  } catch (e) {
+    showToast('Error al reenviar. Intenta de nuevo.', true);
+  }
+});
+
+// Teclado PIN
+document.querySelectorAll('[data-l2]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (l2Buffer.length >= 6) return;
+    l2Buffer += btn.dataset.l2;
+    updateL2Display();
+    document.getElementById('btn-verify-l2').disabled = l2Buffer.length !== 6;
+  });
+});
+
+document.getElementById('del-l2').addEventListener('click', () => {
+  l2Buffer = l2Buffer.slice(0, -1);
+  updateL2Display();
+  document.getElementById('btn-verify-l2').disabled = l2Buffer.length !== 6;
+});
+
+document.getElementById('clr-l2').addEventListener('click', () => {
+  l2Buffer = '';
+  updateL2Display();
+  document.getElementById('btn-verify-l2').disabled = true;
+});
+
+function updateL2Display() {
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('l2-c' + i);
+    if (!el) continue;
+    const ch = l2Buffer[i];
+    el.textContent = ch ? '●' : '·';
+    el.classList.toggle('filled', !!ch);
+    el.classList.remove('error');
+  }
+}
+
+// Verificar código
+document.getElementById('btn-verify-l2').addEventListener('click', async () => {
+  if (l2Buffer.length !== 6) return;
+  const btn = document.getElementById('btn-verify-l2');
+  btn.disabled = true;
+
+  try {
+    const res  = await fetch(`${API}/api/auth/verify-2fa`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: loginEmail, code: l2Buffer, method: l2Method })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      clearInterval(l2TimerIntvl);
+      clearInterval(l2ResendIntvl);
+
+      localStorage.setItem('doctorqr_token', data.token);
+      localStorage.setItem('doctorqr_id', data.doctorqr_id || '');
+      localStorage.setItem('doctorqr_user', JSON.stringify(data.user));
+      window.location.href = 'index.html';
+    } else {
+      for (let i = 0; i < 6; i++) {
+        const el = document.getElementById('l2-c' + i);
+        if (el) { el.classList.add('error'); setTimeout(() => el.classList.remove('error'), 600); }
+      }
+      l2Buffer = '';
+      updateL2Display();
+      showToast(data.error || 'Código incorrecto — intenta de nuevo', true);
+      btn.disabled = true;
+    }
+  } catch (e) {
+    showToast('Error de conexión con el servidor', true);
+    btn.disabled = l2Buffer.length !== 6;
+  }
+});
+
+// Volver a L1
+document.getElementById('btn-back-l1').addEventListener('click', e => {
+  e.preventDefault();
+  clearInterval(l2TimerIntvl);
+  clearInterval(l2ResendIntvl);
+  l2Buffer = '';
+  updateL2Display();
+  goTo('screen-l1');
+});
+
+// ===== PANTALLA L3 — BLOQUEO =====
+
+function iniciarBloqueo(blockExpires) {
+  goTo('screen-l3');
+  const el = document.getElementById('l3-countdown');
+
+  const tick = () => {
+    const diff = Math.max(0, blockExpires - Date.now());
+    const m    = Math.floor(diff / 60000);
+    const s    = Math.floor((diff % 60000) / 1000);
+    el.textContent = m + ':' + String(s).padStart(2, '0');
+    if (diff <= 0) {
+      clearInterval(intvl);
+      el.textContent = '0:00';
+      showToast('Cuenta desbloqueada. Puedes intentar de nuevo.');
+      goTo('screen-l1');
+    }
+  };
+  tick();
+  const intvl = setInterval(tick, 1000);
+}
+</script>
+</body>
+</html>
