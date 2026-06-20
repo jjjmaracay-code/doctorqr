@@ -747,8 +747,9 @@ function getTextNodes(root) {
 
 function clearMarks() {
   document.querySelectorAll('.tab-panel mark').forEach(m => {
-    m.parentNode.replaceChild(document.createTextNode(m.textContent), m);
-    m.parentNode.normalize();
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
   });
 }
 
