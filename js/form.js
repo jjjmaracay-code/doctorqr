@@ -546,6 +546,19 @@
           }
         }
       }
+      const restoreChips = (group, values) => {
+        if (!Array.isArray(values)) return;
+        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
+          if (values.includes(chip.dataset.value)) chip.classList.add('active');
+        });
+      };
+      const restoreChip = (group, value) => {
+        if (!value) return;
+        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
+          if (chip.dataset.value === value) chip.classList.add('active');
+        });
+      };
+
       restoreChip ('sexo-biologico',        saved.sexo_biologico);
       restoreChip ('identidad-genero',      saved.identidad_genero);
       restoreChips('terapia-hormonal',      saved.terapia_hormonal);
@@ -580,19 +593,6 @@
       set('year-visit-2',           saved.year_visit_2);
       set('country-visit-3',        saved.country_visit_3);
       set('year-visit-3',           saved.year_visit_3);
-
-      const restoreChips = (group, values) => {
-        if (!Array.isArray(values)) return;
-        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
-          if (values.includes(chip.dataset.value)) chip.classList.add('active');
-        });
-      };
-      const restoreChip = (group, value) => {
-        if (!value) return;
-        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
-          if (chip.dataset.value === value) chip.classList.add('active');
-        });
-      };
 
       restoreChips('lang-spoken',           saved.lang_spoken);
       restoreChips('lang-written',          saved.lang_written);
