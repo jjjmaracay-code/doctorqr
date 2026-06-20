@@ -53,13 +53,15 @@ const QR_TYPES = [
     subtitle: 'Marcapasos · Epilepsia · ACV',
     color: '#ff3300',
     darkColor: '#cc1100',
-    condition: (d) => hasAny(d, [
-      'Marcapasos','Desfibrilador',
-      'Stent coronario','Válvula cardíaca',
-      'Fibrilación auricular','Arritmia',
-      'Insuficiencia cardíaca','Epilepsia',
-      'Ictus previo','SÍ — ANTICOAGULADO',
-      'Muerte súbita']),
+    condition: (d) =>
+      d.pacemaker === 'SÍ' ||
+      (d.muerte_subita_familiar || '').startsWith('SÍ') ||
+      hasAny(d, [
+        'Marcapasos','Desfibrilador',
+        'Stent coronario','Válvula cardíaca',
+        'Fibrilación auricular','Arritmia',
+        'Insuficiencia cardíaca','Epilepsia',
+        'Ictus previo','SÍ — ANTICOAGULADO']),
     extra: [
       'diseases','conditions',
       'medicacion_alto_riesgo',
@@ -96,13 +98,16 @@ const QR_TYPES = [
     subtitle: 'Implantes · Anestesia · Quirófano',
     color: '#0066ff',
     darkColor: '#0044cc',
-    condition: (d) => hasAny(d, [
-      'Marcapasos','Prótesis','Stent',
-      'Válvula','Implante','Port-a-cath',
-      'SÍ — intubación difícil',
-      'SÍ — hipertermia maligna',
-      'Colostomía','Ileostomía',
-      'Fístula arteriovenosa']),
+    condition: (d) =>
+      d.pacemaker === 'SÍ' ||
+      d.stents === 'Sí' ||
+      (d.hipertermia_maligna_familiar || '').startsWith('SÍ') ||
+      hasAny(d, [
+        'Marcapasos','Prótesis',
+        'Stent coronario','Válvula','Implante','Port-a-cath',
+        'SÍ — intubación difícil',
+        'Colostomía','Ileostomía',
+        'Fístula arteriovenosa']),
     extra: [
       'surgeries','conditions','diseases',
       'material_osteosintesis',
