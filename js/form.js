@@ -68,6 +68,28 @@
           if (wrap) wrap.style.display = noAplica ? 'none' : '';
           if (noAplica) { const inp = document.getElementById('f-semanas-lactancia'); if (inp) inp.value = ''; }
         }
+        if (group && group.dataset.group === 'terapia-hormonal-activa') {
+          const siChip = document.querySelector('[data-group="terapia-hormonal-activa"] .chip[data-value="Sí"]');
+          const detalle = document.getElementById('terapia-hormonal-detalle');
+          const show = siChip && siChip.classList.contains('active');
+          if (detalle) detalle.style.display = show ? 'block' : 'none';
+          if (!show) {
+            document.querySelectorAll('[data-group="terapia-hormonal-tipos"] .chip').forEach(c => c.classList.remove('active'));
+            ['f-terapia-hormonal-otra', 'f-terapia-hormonal-dosis', 'f-terapia-hormonal-duracion-valor'].forEach(id => {
+              const el = document.getElementById(id); if (el) el.value = '';
+            });
+            const otraWrap = document.getElementById('terapia-hormonal-otra-wrap');
+            if (otraWrap) otraWrap.style.display = 'none';
+            const durUnit = document.getElementById('f-terapia-hormonal-duracion-unidad');
+            if (durUnit) durUnit.value = '';
+          }
+        }
+        if (group && group.dataset.group === 'terapia-hormonal-tipos') {
+          const otraActive = document.querySelector('[data-group="terapia-hormonal-tipos"] .chip[data-value="Otra"].active');
+          const otraWrap = document.getElementById('terapia-hormonal-otra-wrap');
+          if (otraWrap) otraWrap.style.display = otraActive ? 'block' : 'none';
+          if (!otraActive) { const el = document.getElementById('f-terapia-hormonal-otra'); if (el) el.value = ''; }
+        }
         clearChipsSearch(chip);
       });
     });
@@ -343,8 +365,12 @@
         email:                 getEmailValue(),
         sexo_biologico:        getChip('sexo-biologico'),
         identidad_genero:      getChip('identidad-genero'),
-        terapia_hormonal:      getChips('terapia-hormonal'),
-        tiempo_terapia_hormonal: getChip('tiempo-terapia-hormonal'),
+        terapia_hormonal_activa:          getChip('terapia-hormonal-activa') || 'No',
+        terapia_hormonal_tipos:           getChips('terapia-hormonal-tipos'),
+        terapia_hormonal_otra:            v('f-terapia-hormonal-otra'),
+        terapia_hormonal_dosis_frecuencia: v('f-terapia-hormonal-dosis'),
+        terapia_hormonal_duracion_valor:  v('f-terapia-hormonal-duracion-valor'),
+        terapia_hormonal_duracion_unidad: v('f-terapia-hormonal-duracion-unidad'),
         lang:                  v('f-lang'),
         sangre:                v('f-blood'),
         allergy_med:           getChips('allergy-med'),
@@ -561,8 +587,20 @@
 
       restoreChip ('sexo-biologico',        saved.sexo_biologico);
       restoreChip ('identidad-genero',      saved.identidad_genero);
-      restoreChips('terapia-hormonal',      saved.terapia_hormonal);
-      restoreChip ('tiempo-terapia-hormonal', saved.tiempo_terapia_hormonal);
+      restoreChip ('terapia-hormonal-activa',       saved.terapia_hormonal_activa);
+      restoreChips('terapia-hormonal-tipos',        saved.terapia_hormonal_tipos);
+      set('f-terapia-hormonal-otra',                saved.terapia_hormonal_otra);
+      set('f-terapia-hormonal-dosis',               saved.terapia_hormonal_dosis_frecuencia);
+      set('f-terapia-hormonal-duracion-valor',      saved.terapia_hormonal_duracion_valor);
+      set('f-terapia-hormonal-duracion-unidad',     saved.terapia_hormonal_duracion_unidad);
+      if (saved.terapia_hormonal_activa === 'Sí') {
+        const _det = document.getElementById('terapia-hormonal-detalle');
+        if (_det) _det.style.display = 'block';
+        if (Array.isArray(saved.terapia_hormonal_tipos) && saved.terapia_hormonal_tipos.includes('Otra')) {
+          const _ow = document.getElementById('terapia-hormonal-otra-wrap');
+          if (_ow) _ow.style.display = 'block';
+        }
+      }
       set('f-blood',                saved.sangre || saved.blood);
       set('f-med-doses',            saved.med_doses);
       set('f-surgery-year',         saved.surgery_year);
@@ -719,13 +757,6 @@
       ['dni','nie','pasaporte'].forEach(t => {
         document.getElementById('field-' + t).style.display = t === type ? 'block' : 'none';
       });
-    }
-
-    function checkGenderHormone(el) {
-      const val = el.dataset.value || el.textContent.trim();
-      const block = document.getElementById('hormone-block');
-      const showHormone = ['Hombre trans', 'Mujer trans', 'No binario'];
-      block.style.display = showHormone.includes(val) ? 'block' : 'none';
     }
 
     function checkPregnancy(el) {

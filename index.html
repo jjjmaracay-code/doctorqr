@@ -462,33 +462,12 @@
         <div class="form-group">
           <div class="field-label">IDENTIDAD DE GÉNERO</div>
           <div class="chips" data-group="identidad-genero" data-single="true">
-            <div class="chip" data-value="Hombre cisgénero" onclick="checkGenderHormone(this)">Hombre cisgénero</div>
-            <div class="chip" data-value="Mujer cisgénero" onclick="checkGenderHormone(this)">Mujer cisgénero</div>
-            <div class="chip" data-value="Hombre trans" onclick="checkGenderHormone(this)">Hombre trans</div>
-            <div class="chip" data-value="Mujer trans" onclick="checkGenderHormone(this)">Mujer trans</div>
-            <div class="chip" data-value="No binario" onclick="checkGenderHormone(this)">No binario</div>
-            <div class="chip" data-value="Prefiero no decir" onclick="checkGenderHormone(this)">Prefiero no decir</div>
-          </div>
-        </div>
-        <!-- hormone-block (hidden) -->
-        <div class="form-group" id="hormone-block" style="display:none">
-          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ TERAPIA HORMONAL ACTIVA</div>
-          <div class="field-hint" style="margin-bottom:8px">Crítico — interacciones con anestesia y modificación de valores analíticos</div>
-          <div class="chips" data-group="terapia-hormonal">
-            <div class="chip" data-value="Testosterona">Testosterona</div>
-            <div class="chip" data-value="Estrógenos">Estrógenos</div>
-            <div class="chip" data-value="Antiandrógenos">Antiandrógenos</div>
-            <div class="chip" data-value="Progesterona">Progesterona</div>
-            <div class="chip" data-value="Bloqueadores hormonales">Bloqueadores hormonales</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Hombre cisgénero">Hombre cisgénero</div>
+            <div class="chip" data-value="Mujer cisgénero">Mujer cisgénero</div>
+            <div class="chip" data-value="Hombre trans">Hombre trans</div>
+            <div class="chip" data-value="Mujer trans">Mujer trans</div>
+            <div class="chip" data-value="No binario">No binario</div>
             <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
-          </div>
-          <div class="field-label" style="margin-top:12px">TIEMPO EN TERAPIA HORMONAL</div>
-          <div class="chips" data-group="tiempo-terapia-hormonal" data-single="true">
-            <div class="chip" data-value="Menos de 1 año">Menos de 1 año</div>
-            <div class="chip" data-value="1-3 años">1-3 años</div>
-            <div class="chip" data-value="Más de 3 años">Más de 3 años</div>
-            <div class="chip" data-value="No aplica">No aplica</div>
           </div>
         </div>
         <!-- CAMPO EMAIL -->
@@ -1307,6 +1286,58 @@
             <div class="chip" data-value="Sí">Sí</div>
             <div class="chip" data-value="No">No</div>
             <div class="chip" data-value="No sé">No sé</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN — TERAPIA HORMONAL -->
+    <div class="form-section" id="sec-hormonal-terapia">
+      <div class="section-header" onclick="toggleSection('sec-hormonal-terapia')">
+        <span class="section-title">— Terapia hormonal</span>
+        <span class="section-chevron">›</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <div class="field-label">¿RECIBE TERAPIA HORMONAL ACTUALMENTE?</div>
+          <div class="chips" data-group="terapia-hormonal-activa" data-single="true">
+            <div class="chip active" data-value="No">No</div>
+            <div class="chip" data-value="Sí">Sí</div>
+          </div>
+        </div>
+        <div id="terapia-hormonal-detalle" style="display:none">
+          <div class="field">
+            <div class="field-label">TIPO DE TERAPIA HORMONAL</div>
+            <div class="chips" data-group="terapia-hormonal-tipos">
+              <div class="chip" data-value="Levotiroxina (tiroides)">Levotiroxina (tiroides)</div>
+              <div class="chip" data-value="Corticoides (corticoterapia crónica)">Corticoides (corticoterapia crónica)</div>
+              <div class="chip" data-value="Anticonceptivos hormonales">Anticonceptivos hormonales</div>
+              <div class="chip" data-value="Terapia hormonal feminizante (estrógenos)">Terapia hormonal feminizante (estrógenos)</div>
+              <div class="chip" data-value="Terapia hormonal masculinizante (testosterona)">Terapia hormonal masculinizante (testosterona)</div>
+              <div class="chip" data-value="Terapia hormonal menopáusica">Terapia hormonal menopáusica</div>
+              <div class="chip" data-value="Testosterona (hipogonadismo)">Testosterona (hipogonadismo)</div>
+              <div class="chip" data-value="Terapia hormonal oncológica">Terapia hormonal oncológica</div>
+              <div class="chip" data-value="Hormona de crecimiento (GH)">Hormona de crecimiento (GH)</div>
+              <div class="chip" data-value="Otra">+ Otra</div>
+            </div>
+            <div id="terapia-hormonal-otra-wrap" style="display:none;margin-top:8px">
+              <input type="text" id="f-terapia-hormonal-otra" placeholder="Especifica el tipo de terapia hormonal" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">DOSIS Y FRECUENCIA</div>
+            <input type="text" id="f-terapia-hormonal-dosis" placeholder="ej. 50mcg/día, 100mg IM/3 semanas, parche semanal" />
+          </div>
+          <div class="field">
+            <div class="field-label">DURACIÓN DEL TRATAMIENTO</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="number" id="f-terapia-hormonal-duracion-valor" min="1" placeholder="ej. 6" style="width:80px" />
+              <select id="f-terapia-hormonal-duracion-unidad">
+                <option value="">— Unidad —</option>
+                <option value="Meses">Meses</option>
+                <option value="Años">Años</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>

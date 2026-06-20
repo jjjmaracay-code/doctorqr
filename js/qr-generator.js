@@ -176,7 +176,7 @@ const QR_TYPES = [
       'embarazo','embarazo_semanas',
       'lactancia','surgeries',
       'allergy_food','conditions',
-      'diseases','terapia_hormonal',
+      'diseases',
       'medicacion_alto_riesgo',
       'weight','height',
       'guardian_name','guardian_phone_num',
@@ -270,9 +270,15 @@ function buildQRData(type, profile) {
       'anticoagulado','pacemaker',
       'dificultad_intubacion','complicaciones_anestesia',
       'religion_restrictions',
-      'vih','hepatitis','tuberculosis'
+      'vih','hepatitis','tuberculosis',
+      'terapia_hormonal_activa',
+      'terapia_hormonal_otra',
+      'terapia_hormonal_dosis_frecuencia',
+      'terapia_hormonal_duracion_valor',
+      'terapia_hormonal_duracion_unidad'
     ]),
-    ..._pa(profile, 'meds', 3)
+    ..._pa(profile, 'meds', 3),
+    ..._pa(profile, 'terapia_hormonal_tipos', null)
   };
 
   // Idioma si no es español (lang_spoken puede ser array o string)

@@ -134,13 +134,13 @@ const T = {
     l_food: 'ALERGIA ALIMENTOS', l_env: 'ALERGIA AMBIENTAL',
     l_latex: 'LÁTEX', l_epipen: 'EPIPEN', l_anaph: 'ANAFILAXIA PREVIA',
     l_anticoa: 'ANTICOAGULADO', l_pace: 'MARCAPASOS',
-    l_meds: 'MEDICACIÓN', l_dose: 'DOSIS', l_last: 'ÚTIMA TOMA',
+    l_meds: 'MEDICACIÓN', l_dose: 'DOSIS', l_last: 'ÚLTIMA TOMA',
     l_highrisk: 'ALTO RIESGO',
     l_implant: 'IMPLANTES', l_intub: 'INTUBACIÓN', l_anestcomp: 'COMP. ANESTESIA',
     l_dental: 'PRÓTESIS DENTAL', l_hearing: 'AUDÍFONO', l_vision: 'GAFAS/LENTILLAS',
     l_religion: 'RESTR. RELIGIOSAS', l_donor: 'DONANTE ÓRGANOS', l_decide: 'PUEDE DECIDIR', l_lang: 'IDIOMAS',
     l_adv: 'VOLUNTADES ANTIC.',
-    l_lastsurg: 'ÚTIMA CIRUGÍA', l_vaccal: 'CALENDARIO VACUNAL',
+    l_lastsurg: 'ÚLTIMA CIRUGÍA', l_vaccal: 'CALENDARIO VACUNAL',
     l_famdis: 'ENF. FAMILIARES', l_sudeath: 'MUERTE SÚBITA FAM.', l_hiperterm: 'HIPERT. MALIGNA FAM.',
     l_tobacco: 'TABACO', l_alcohol: 'ALCOHOL', l_drugs: 'DROGAS',
     l_pregnancy: 'EMBARAZO', l_weeks: 'SEMANAS', l_breast: 'LACTANCIA', l_hormonal: 'TERAPIA HORMONAL',
@@ -154,6 +154,7 @@ const T = {
     l_ayudas: 'AYUDAS TÉCNICAS', l_med_adjust: 'ÚLT. AJUSTE MED.',
     l_vacc_complete: 'VAC. COMPLETA', l_act_fisica: 'ACTIVIDAD FÍSICA',
     l_identidad_genero: 'IDENTIDAD DE GÉNERO', l_tiempo_hormonal: 'TIEMPO T. HORMONAL', l_cesarea: 'CESÁREA PREVIA',
+    l_hormonal_tipos: 'TIPO T. HORMONAL', l_hormonal_dosis: 'DOSIS/FRECUENCIA', l_hormonal_duracion: 'DURACIÓN',
     l_docname: 'MÉDICO', l_doctel: 'TELÉFONO', l_specialist: 'ESPECIALISTA',
     l_insurer: 'ASEGURADORA', l_policy: 'Nº PÓLIZA', l_hospital: 'HOSP. REFERENCIA',
     btn: 'ACCEDER AL PERFIL COMPLETO',
@@ -207,6 +208,7 @@ const T = {
     l_ayudas: 'ASSISTIVE DEVICES', l_med_adjust: 'LAST MED. ADJUST',
     l_vacc_complete: 'VAC. COMPLETE', l_act_fisica: 'PHYSICAL ACTIVITY',
     l_identidad_genero: 'GENDER IDENTITY', l_tiempo_hormonal: 'HORMONAL THERAPY TIME', l_cesarea: 'PRIOR C-SECTION',
+    l_hormonal_tipos: 'HORMONAL THERAPY TYPE', l_hormonal_dosis: 'DOSE/FREQUENCY', l_hormonal_duracion: 'DURATION',
     l_docname: 'PHYSICIAN', l_doctel: 'PHONE', l_specialist: 'SPECIALIST',
     l_insurer: 'INSURER', l_policy: 'POLICY No.', l_hospital: 'REF. HOSPITAL',
     btn: 'VIEW FULL PROFILE',
@@ -260,6 +262,7 @@ const T = {
     l_ayudas: 'AIDES TECHNIQUES', l_med_adjust: 'DERN. AJUST. MÉD.',
     l_vacc_complete: 'VAC. COMPLÈTE', l_act_fisica: 'ACTIVITÉ PHYSIQUE',
     l_identidad_genero: 'IDENTITÉ DE GENRE', l_tiempo_hormonal: 'DURÉE T. HORMONALE', l_cesarea: 'CÉSARIENNE ANTÉR.',
+    l_hormonal_tipos: 'TYPE T. HORMONALE', l_hormonal_dosis: 'DOSE/FRÉQUENCE', l_hormonal_duracion: 'DURÉE T.',
     l_docname: 'MÉDECIN', l_doctel: 'TÉLÉPHONE', l_specialist: 'SPÉCIALISTE',
     l_insurer: 'ASSUREUR', l_policy: 'No. POLICE', l_hospital: 'HÔPITAL DE RÉF.',
     btn: 'VOIR LE PROFIL COMPLET',
@@ -367,6 +370,15 @@ function renderUrgente(d, t, vis) {
     med += row(t.l_med_adjust, d.med_last_adjust,        false);
     med += row(t.l_anticoa,    d.anticoagulado,    isCrit(d.anticoagulado));
     med += badgeRow(t.l_psiq, arr(d.meds_psiquiatria), 'badge b-amber');
+    med += row(t.l_hormonal, d.terapia_hormonal_activa || 'No', false);
+    if (d.terapia_hormonal_activa === 'Sí') {
+      const _tipos = arr(d.terapia_hormonal_tipos);
+      if (d.terapia_hormonal_otra) _tipos.push(d.terapia_hormonal_otra);
+      med += badgeRow(t.l_hormonal_tipos, _tipos, 'badge b-amber');
+      med += row(t.l_hormonal_dosis, d.terapia_hormonal_dosis_frecuencia, false);
+      const _dur = [d.terapia_hormonal_duracion_valor, d.terapia_hormonal_duracion_unidad].filter(Boolean).join(' ');
+      if (_dur) med += row(t.l_hormonal_duracion, _dur, false);
+    }
     if (med) html += section(t.s_med, med, 'amber');
   }
 
@@ -408,9 +420,6 @@ function renderUrgente(d, t, vis) {
     dev += row(t.l_implant,   d.material_osteosintesis,    false);
     dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
     dev += row(t.l_anestcomp, d.complicaciones_anestesia,  false);
-    dev += row(t.l_dental,    d.protesis_dental_removible, false);
-    dev += row(t.l_hearing,   d.audifono,                  false);
-    dev += row(t.l_vision,    d.gafas_lentillas,              false);
     dev += badgeRow(t.l_ayudas, arr(d.ayudas_tecnicas),     'badge b-gray');
     if (dev) html += section(t.s_devices, dev);
   }
@@ -459,7 +468,6 @@ function renderHistorial(d, t, vis) {
     let vacc = '';
     const vaccs = arr(d.vaccines);
     if (vaccs.length) vacc += badges(vaccs, 'badge b-green');
-    vacc += row(t.l_vaccal,        d.calendario_vacunal, false);
     vacc += row(t.l_vacc_complete, d.vaccine_complete,  false);
     if (vacc) html += section(t.s_vacc, vacc);
   }
@@ -486,8 +494,6 @@ function renderHistorial(d, t, vis) {
     extra += row(t.l_pregnancy, d.embarazo,          false);
     extra += row(t.l_weeks,     d.embarazo_semanas,  false);
     extra += row(t.l_breast,    d.lactancia,         false);
-    extra += row(t.l_hormonal,        d.terapia_hormonal,        false);
-    extra += row(t.l_tiempo_hormonal, d.tiempo_terapia_hormonal, false);
     extra += row(t.l_identidad_genero, d.identidad_genero,       false);
     extra += row(t.l_cesarea,         d.cesarea_previa,          false);
     extra += row(t.l_weight,          d.weight,                  false);
@@ -776,10 +782,10 @@ function runSearch(q) {
       while (idx !== -1) {
         if (idx > last) frag.appendChild(document.createTextNode(txt.slice(last, idx)));
         const mk = document.createElement('mark');
-        mk.textContent = txt.slice(idx, idx + q.length);
+        mk.textContent = txt.slice(idx, idx + ql.length);
         frag.appendChild(mk);
         searchMatches.push(mk);
-        last = idx + q.length;
+        last = idx + ql.length;
         idx = low.indexOf(ql, last);
       }
       if (last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
@@ -803,6 +809,8 @@ function navigate(dir) {
   if (!searchMatches.length) return;
   searchCurrent = (searchCurrent + dir + searchMatches.length) % searchMatches.length;
   highlight();
+  const cur = searchMatches[searchCurrent];
+  if (cur) cur.scrollIntoView({ behavior: 'instant', block: 'nearest' });
   updateCounter();
 }
 
@@ -815,7 +823,6 @@ function highlight() {
     const id = panel.id.replace('panel-', '');
     if (id !== activeTab) switchTab(id);
   }
-  setTimeout(() => cur.scrollIntoView({ behavior: 'smooth', block: 'center' }), 40);
 }
 
 function updateCounter() {
