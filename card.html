@@ -291,7 +291,7 @@ function calcAge(ds) {
 }
 
 function isCrit(v) {
-  if (!v) return false;
+  if (typeof v !== 'string' || !v) return false;
   const u = v.toUpperCase();
   return u.startsWith('SÍ') || u.startsWith('SI ') || u === 'SI' ||
          u.includes('YES') || u.includes('CONFIRMAD') ||
