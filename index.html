@@ -1641,6 +1641,18 @@
   <div class="toast toast-sync" id="toast-sync">&#9729; Perfil sincronizado &#10003;</div>
   <div class="toast toast-conflict" id="toast-conflict">⚠️ Hay una versión más reciente guardada desde otro dispositivo. Recarga antes de continuar editando.</div>
 
+  <!-- Modal validación secciones vacías -->
+  <div id="modal-validacion" role="dialog" aria-modal="true">
+    <div class="modal-validacion-card">
+      <h3>Secciones sin completar</h3>
+      <p id="modal-validacion-texto"></p>
+      <div class="modal-validacion-btns">
+        <button class="btn-volver-revisar" id="btn-volver-revisar">Volver a revisar</button>
+        <button class="btn-continuar-igual" id="btn-continuar-igual">Continuar igual</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     (function(){
       const token = localStorage.getItem('doctorqr_token');

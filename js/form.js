@@ -240,7 +240,81 @@
     }
 
     // ===== GENERATE =====
-    function generate() {
+    // ===== VALIDACIÓN NO BLOQUEANTE =====
+    const SECCIONES_VALIDACION = [
+      { id: 'sec-1',           nombre: '01 — Idiomas y comunicación' },
+      { id: 'sec-2',           nombre: '02 — Datos físicos' },
+      { id: 'sec-3',           nombre: '03 — Identificación' },
+      { id: 'sec-4',           nombre: '04 — Datos críticos' },
+      { id: 'sec-5',           nombre: '05 — Enfermedades y condiciones' },
+      { id: 'sec-6',           nombre: '06 — Medicación actual' },
+      { id: 'sec-suplementos', nombre: 'Suplementos y sustancias' },
+      { id: 'sec-7',           nombre: '07 — Cirugías y hospitalizaciones' },
+      { id: 'sec-8',           nombre: '08 — Vacunas' },
+      { id: 'sec-habitos',     nombre: 'Hábitos y estilo de vida' },
+      { id: 'sec-familiar',    nombre: 'Historial familiar' },
+      { id: 'sec-9',           nombre: '09 — Religión y restricciones' },
+      { id: 'sec-10',          nombre: '10 — Contactos de emergencia' },
+      { id: 'sec-11',          nombre: '11 — Médico y seguro' },
+    ];
+
+    function seccionTieneValor(secEl) {
+      // chip activo visible
+      const chips = secEl.querySelectorAll('.chip.active');
+      for (const c of chips) {
+        if (c.offsetParent !== null) return true;
+      }
+      // input / select / textarea visible con valor
+      const fields = secEl.querySelectorAll('input, select, textarea');
+      for (const f of fields) {
+        if (f.offsetParent !== null && f.value.trim() !== '') return true;
+      }
+      return false;
+    }
+
+    function checkSeccionesVacias() {
+      return SECCIONES_VALIDACION
+        .filter(({ id }) => {
+          const el = document.getElementById(id);
+          return el && !seccionTieneValor(el);
+        })
+        .map(({ nombre }) => nombre);
+    }
+
+    function mostrarModalValidacion(seccionesVacias) {
+      return new Promise(resolve => {
+        const modal   = document.getElementById('modal-validacion');
+        const texto   = document.getElementById('modal-validacion-texto');
+        const btnSi   = document.getElementById('btn-continuar-igual');
+        const btnNo   = document.getElementById('btn-volver-revisar');
+
+        texto.innerHTML = 'Faltan estas secciones: <strong>'
+          + seccionesVacias.join(', ')
+          + '</strong>. ¿Continuar igual?';
+
+        modal.classList.add('open');
+
+        function cerrar(resultado) {
+          modal.classList.remove('open');
+          btnSi.removeEventListener('click', onSi);
+          btnNo.removeEventListener('click', onNo);
+          resolve(resultado);
+        }
+        function onSi() { cerrar(true);  }
+        function onNo() { cerrar(false); }
+
+        btnSi.addEventListener('click', onSi);
+        btnNo.addEventListener('click', onNo);
+      });
+    }
+
+    async function generate() {
+      const vacias = checkSeccionesVacias();
+      if (vacias.length > 0) {
+        const continuar = await mostrarModalValidacion(vacias);
+        if (!continuar) return;
+      }
+
       const v = id => document.getElementById(id).value;
       const profile = {
         lang_spoken:           getChips('lang-spoken'),
