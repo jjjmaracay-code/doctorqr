@@ -146,6 +146,10 @@ const T = {
     l_pregnancy: 'EMBARAZO', l_weeks: 'SEMANAS', l_breast: 'LACTANCIA', l_hormonal: 'TERAPIA HORMONAL',
     l_weight: 'PESO', l_height: 'TALLA', l_prof: 'PROFESIÓN', l_travel: 'VIAJES RECIENTES',
     l_tutor: 'TUTOR LEGAL',
+    l_psiq: 'MED. PSIQUIÁTRICA', l_dai: 'DAI', l_stents: 'STENTS', l_port: 'PUERTO/CATÉTER',
+    l_acv: 'ACV/ICTUS PREVIO', l_vih: 'VIH', l_hepatitis: 'HEPATITIS', l_tuberculosis: 'TUBERCULOSIS',
+    l_oncol: 'TRAT. ONCOLÓGICO', l_salud_emoc: 'SALUD EMOCIONAL', l_diag_psiq: 'DIAGNÓSTICO PSIQ.',
+    l_decide_salud: 'DECISIÓN SALUD', l_tutor_nombre: 'NOMBRE TUTOR',
     l_docname: 'MÉDICO', l_doctel: 'TELÉFONO', l_specialist: 'ESPECIALISTA',
     l_insurer: 'ASEGURADORA', l_policy: 'Nº PÓLIZA', l_hospital: 'HOSP. REFERENCIA',
     btn: 'ACCEDER AL PERFIL COMPLETO',
@@ -191,6 +195,10 @@ const T = {
     l_pregnancy: 'PREGNANCY', l_weeks: 'WEEKS', l_breast: 'BREASTFEEDING', l_hormonal: 'HORMONAL THERAPY',
     l_weight: 'WEIGHT', l_height: 'HEIGHT', l_prof: 'PROFESSION', l_travel: 'RECENT TRAVEL',
     l_tutor: 'LEGAL GUARDIAN',
+    l_psiq: 'PSYCH. MEDICATION', l_dai: 'DAI (ICD)', l_stents: 'STENTS', l_port: 'PORT/CATHETER',
+    l_acv: 'PRIOR STROKE', l_vih: 'HIV', l_hepatitis: 'HEPATITIS', l_tuberculosis: 'TUBERCULOSIS',
+    l_oncol: 'CANCER TREATMENT', l_salud_emoc: 'MENTAL HEALTH', l_diag_psiq: 'PSYCH. DIAGNOSIS',
+    l_decide_salud: 'HEALTH DECISIONS', l_tutor_nombre: 'GUARDIAN NAME',
     l_docname: 'PHYSICIAN', l_doctel: 'PHONE', l_specialist: 'SPECIALIST',
     l_insurer: 'INSURER', l_policy: 'POLICY No.', l_hospital: 'REF. HOSPITAL',
     btn: 'VIEW FULL PROFILE',
@@ -236,6 +244,10 @@ const T = {
     l_pregnancy: 'GROSSESSE', l_weeks: 'SEMAINES', l_breast: 'ALLAITEMENT', l_hormonal: 'THÉRAPIE HORMONALE',
     l_weight: 'POIDS', l_height: 'TAILLE', l_prof: 'PROFESSION', l_travel: 'VOYAGES RÉCENTS',
     l_tutor: 'TUTEUR LÉGAL',
+    l_psiq: 'MÉD. PSYCHIATRIQUE', l_dai: 'DAI', l_stents: 'STENTS', l_port: 'PORT/CATHÉTER',
+    l_acv: 'AVC ANTÉRIEUR', l_vih: 'VIH', l_hepatitis: 'HÉPATITE', l_tuberculosis: 'TUBERCULOSE',
+    l_oncol: 'TRAITEMENT ONCO.', l_salud_emoc: 'SANTÉ MENTALE', l_diag_psiq: 'DIAGNOSTIC PSYCH.',
+    l_decide_salud: 'DÉCISIONS SANTÉ', l_tutor_nombre: 'NOM TUTEUR',
     l_docname: 'MÉDECIN', l_doctel: 'TÉLÉPHONE', l_specialist: 'SPÉCIALISTE',
     l_insurer: 'ASSUREUR', l_policy: 'No. POLICE', l_hospital: 'HÔPITAL DE RÉF.',
     btn: 'VOIR LE PROFIL COMPLET',
@@ -308,10 +320,10 @@ function telRow(label, tel, cls) {
 
 // Secciones visibles por tipo de QR. 'restrictions' siempre se muestra (no va aquí).
 const VISIBLE_SECTIONS = {
-  emergency: { u: ['allergy','medication','supplements','devices','risk_factors'],                                    h: [] },
+  emergency: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                       h: [] },
   critical:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
   cardio:    { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','family'] },
-  allergy:   { u: ['allergy','medication','supplements','risk_factors'],                                               h: ['diseases','habits'] },
+  allergy:   { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
   surgery:   { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','family'] },
   oncology:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
   pediatric: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','vaccines','extra'] },
@@ -341,6 +353,7 @@ function renderUrgente(d, t, vis) {
     med += row(t.l_dose,    d.med_doses,               false);
     med += row(t.l_last,    d.ultima_toma_medicacion,  false);
     med += row(t.l_anticoa, d.anticoagulado,    isCrit(d.anticoagulado));
+    med += badgeRow(t.l_psiq, arr(d.meds_psiquiatria), 'badge b-amber');
     if (med) html += section(t.s_med, med, 'amber');
   }
 
@@ -358,11 +371,26 @@ function renderUrgente(d, t, vis) {
     if (diseas.length) cond += (cond ? '<br style="display:block;margin:4px 0">' : '') + badges(diseas, 'badge b-amber');
     cond += row(t.l_adv,    d.advance_directive, false);
     cond += row(t.l_decide, d.can_decide,        false);
+    const acvVal = d.acv_previo ? (d.acv_previo + (d.acv_year ? ` (${d.acv_year})` : '')) : '';
+    cond += row(t.l_acv,          acvVal,                        isCrit(d.acv_previo));
+    cond += row(t.l_vih,          d.vih,                         isCrit(d.vih));
+    cond += row(t.l_hepatitis,    d.hepatitis,                   isCrit(d.hepatitis));
+    cond += row(t.l_tuberculosis, d.tuberculosis,                isCrit(d.tuberculosis));
+    cond += row(t.l_oncol,        d.tratamiento_oncologico,      isCrit(d.tratamiento_oncologico));
+    cond += row(t.l_salud_emoc,   d.salud_emocional_dx,          false);
+    cond += badgeRow(t.l_diag_psiq, arr(d.salud_emocional_diagnostico), 'badge b-gray');
+    cond += row(t.l_decide_salud, d.puede_decidir_salud,         false);
+    cond += row(t.l_tutor,        d.tutor_legal,                 false);
+    cond += row(t.l_tutor_nombre, d.tutor_legal_nombre,          false);
     if (cond) html += section(t.s_cond, cond);
   }
 
   if (!vis || vis.includes('devices')) {
     let dev = '';
+    dev += row(t.l_dai,   d.dai,          isCrit(d.dai));
+    const stentsVal = d.stents ? (d.stents + (d.stents_year ? ` (${d.stents_year})` : '')) : '';
+    dev += row(t.l_stents, stentsVal,     isCrit(d.stents));
+    dev += row(t.l_port,  d.puerto_cateter, false);
     dev += row(t.l_pace,      d.pacemaker,                 isCrit(d.pacemaker));
     dev += row(t.l_implant,   d.material_osteosintesis,    false);
     dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
