@@ -536,6 +536,12 @@
             saved = _data.profile;
             if (_data.updated_at) saved.updated_at = _data.updated_at;
             localStorage.setItem('doctorqr_profile', JSON.stringify(saved));
+            if (_data.plan_type) {
+              const _u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
+              _u.plan_type  = _data.plan_type;
+              _u.created_at = _data.created_at;
+              localStorage.setItem('doctorqr_user', JSON.stringify(_u));
+            }
           }
         } catch (_) {
           // sin red o error del servidor — cae a localStorage

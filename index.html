@@ -23,6 +23,109 @@
     <div class="teb-sub">Redirigiendo a los planes en 3 segundos…</div>
   </div>
 
+  <!-- OVERLAY PLANES -->
+  <div id="plans-ov" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
+    <div id="plans-box" style="background:#0a0a0a;border:1.5px solid rgba(255,215,0,0.3);border-radius:20px;padding:28px 20px 20px;max-width:420px;width:100%;font-family:'Inter',sans-serif;position:relative;">
+
+      <!-- Slide 0: estado trial -->
+      <div class="pslide" id="pslide-0">
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-size:36px;margin-bottom:8px;">⏳</div>
+          <div style="font-size:9px;font-weight:900;letter-spacing:3px;color:#ffd700;text-transform:uppercase;margin-bottom:12px;">Tu periodo de prueba</div>
+          <div id="plans-days" style="font-size:52px;font-weight:900;color:#00ff41;text-shadow:0 0 20px rgba(0,255,65,0.5);line-height:1;margin-bottom:4px;">--</div>
+          <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,0.5);letter-spacing:1px;margin-bottom:20px;">días restantes de prueba gratuita</div>
+          <div style="background:rgba(0,255,65,0.05);border:1px solid rgba(0,255,65,0.12);border-radius:12px;padding:16px;text-align:left;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(0,255,65,0.6);text-transform:uppercase;margin-bottom:10px;">Con un plan de pago tienes</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:rgba(255,255,255,0.8);line-height:1.4;">
+              <div>✓ <span>Sincronización permanente cifrada AES-256</span></div>
+              <div>✓ <span>Acceso completo a los 9 QR médicos</span></div>
+              <div>✓ <span>Tus datos siempre disponibles, sin caducidad</span></div>
+              <div>✓ <span>card.html multiidioma ES / EN / FR</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 1: Pro -->
+      <div class="pslide" id="pslide-1" style="display:none;">
+        <div style="border:1px solid rgba(255,215,0,0.25);border-radius:16px;padding:20px;background:rgba(255,215,0,0.03);position:relative;">
+          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#0a0a0a;padding:0 10px;font-size:9px;font-weight:700;letter-spacing:2px;color:#ffd700;text-transform:uppercase;">FLEXIBLE</div>
+          <div style="text-align:center;margin-bottom:14px;">
+            <svg width="44" height="64" viewBox="0 0 54 80" fill="none" style="margin-bottom:8px;">
+              <path d="M27,12 Q11,3 10,14 Q17,18 27,16" fill="#ffd700" opacity="0.92"/>
+              <path d="M27,12 Q43,3 44,14 Q37,18 27,16" fill="#ffd700" opacity="0.92"/>
+              <path d="M10,14 Q6,18 9,22 Q13,18 17,18" fill="#ffd700" opacity="0.6"/>
+              <path d="M44,14 Q48,18 45,22 Q41,18 37,18" fill="#ffd700" opacity="0.6"/>
+              <line x1="27" y1="10" x2="27" y2="74" stroke="#ffd700" stroke-width="3" stroke-linecap="round"/>
+              <path d="M27,72 C16,60 38,50 27,40 C16,30 38,20 27,16" fill="none" stroke="#ffd700" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M27,72 C38,60 16,50 27,40 C38,30 16,20 27,16" fill="none" stroke="#d4a400" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="20.5" cy="17" r="3.8" fill="#ffd700"/><circle cx="33.5" cy="17" r="3.8" fill="#d4a400"/>
+              <circle cx="19.5" cy="16" r="1.3" fill="#000"/><circle cx="32.5" cy="16" r="1.3" fill="#000"/>
+              <circle cx="27" cy="9" r="3.5" fill="#ffd700" opacity="0.85"/>
+            </svg>
+            <div style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;color:#ffd700;text-shadow:0 0 16px rgba(255,215,0,0.35);margin-bottom:8px;">Pro</div>
+            <div style="font-size:36px;font-weight:900;color:#fff;line-height:1;"><span style="font-size:18px;vertical-align:top;margin-top:6px;display:inline-block;">€</span>4<span style="font-size:20px;">.99</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:14px;">al mes · cancela cuando quieras</div>
+          </div>
+          <button class="plans-pay-btn" onclick="iniciarPago('pro', this)"
+            style="width:100%;padding:14px;border-radius:10px;border:none;background:#ffd700;color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-bottom:14px;box-shadow:0 0 24px rgba(255,215,0,0.3);">
+            ACTIVAR PRO
+          </button>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;font-size:12px;color:rgba(255,255,255,0.75);">
+            <li><span style="color:#ffd700;margin-right:6px;">✓</span>Acceso completo a los 9 QR médicos</li>
+            <li><span style="color:#ffd700;margin-right:6px;">✓</span>Sincronización servidor cifrada AES-256</li>
+            <li><span style="color:#ffd700;margin-right:6px;">✓</span>card.html multiidioma ES / EN / FR</li>
+            <li><span style="color:#ffd700;margin-right:6px;">✓</span>Cancela en cualquier momento</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slide 2: Lifetime -->
+      <div class="pslide" id="pslide-2" style="display:none;">
+        <div style="border:1.5px solid rgba(255,51,51,0.35);border-radius:16px;padding:20px;background:rgba(255,51,51,0.03);position:relative;">
+          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#0a0a0a;padding:0 10px;font-size:9px;font-weight:700;letter-spacing:2px;color:#ff3333;text-transform:uppercase;white-space:nowrap;">◆ MEJOR VALOR — Ahorra desde el mes 7</div>
+          <div style="text-align:center;margin-bottom:14px;">
+            <svg width="60" height="68" viewBox="0 0 76 84" fill="none" style="margin-bottom:8px;">
+              <polygon points="38,8 58,32 38,36 18,32" fill="rgba(255,51,51,0.18)" stroke="#ff6666" stroke-width="1.2"/>
+              <polygon points="38,8 62,32 38,76 14,32" fill="rgba(255,51,51,0.08)" stroke="#ff3333" stroke-width="2.2"/>
+              <line x1="18" y1="32" x2="38" y2="36" stroke="#ff6666" stroke-width="0.9" opacity="0.5"/>
+              <line x1="58" y1="32" x2="38" y2="36" stroke="#ff9999" stroke-width="0.9" opacity="0.5"/>
+              <line x1="38" y1="8" x2="58" y2="32" stroke="#ff6666" stroke-width="1.8" opacity="0.75"/>
+            </svg>
+            <div style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;color:#ff3333;text-shadow:0 0 16px rgba(255,51,51,0.4);margin-bottom:8px;">Lifetime</div>
+            <div style="font-size:36px;font-weight:900;color:#fff;line-height:1;"><span style="font-size:18px;vertical-align:top;margin-top:6px;display:inline-block;">€</span>29<span style="font-size:20px;">.99</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:14px;">pago único · tuyo para siempre</div>
+          </div>
+          <button class="plans-pay-btn" onclick="iniciarPago('lifetime', this)"
+            style="width:100%;padding:14px;border-radius:10px;border:none;background:#ff3333;color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-bottom:14px;box-shadow:0 0 24px rgba(255,51,51,0.3);">
+            ACCESO DE POR VIDA
+          </button>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;font-size:12px;color:rgba(255,255,255,0.75);">
+            <li><span style="color:#ff3333;margin-right:6px;">✓</span>Todo lo de Pro, para siempre</li>
+            <li><span style="color:#ff3333;margin-right:6px;">✓</span>Un solo pago, sin renovaciones</li>
+            <li><span style="color:#ff3333;margin-right:6px;">✓</span>Acceso a todas las funciones futuras incluido</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Dots + nav -->
+      <div style="display:flex;gap:6px;justify-content:center;margin:18px 0 14px;" id="plans-dots">
+        <span class="pdot pdot-on" data-pi="0"></span>
+        <span class="pdot" data-pi="1"></span>
+        <span class="pdot" data-pi="2"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button id="p-skip" onclick="closePlans()" style="flex:1;background:none;border:none;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:1px;cursor:pointer;font-family:'Inter',sans-serif;text-align:left;padding:0;">Continuar sin cambiar</button>
+        <button id="p-prev" onclick="plansNav(-1)" style="display:none;background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:14px;padding:9px 14px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;">‹</button>
+        <button id="p-next" onclick="plansNav(1)"  style="background:#ffd700;border:none;color:#000;font-size:11px;font-weight:900;padding:10px 20px;border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:1px;white-space:nowrap;">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+  <style>
+    .pdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:background .2s;}
+    .pdot-on{background:#ffd700;}
+  </style>
+
   <!-- LOGO -->
   <div class="logo-wrap">
     <div class="logo-container">
@@ -158,6 +261,15 @@
     <div style="font-size:10px;font-weight:300;color:rgba(255,255,255,0.25);letter-spacing:1px;margin-top:4px;">
       <a href="recovery.html" style="color:rgba(255,68,68,0.5);text-decoration:underline;">¿Olvidaste tu contraseña?</a>
     </div>
+    <button id="btn-ver-planes" onclick="openPlans()"
+      style="margin-top:14px;background:none;border:1px solid rgba(255,215,0,0.35);color:#ffd700;
+             font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;
+             text-transform:uppercase;padding:7px 18px;border-radius:20px;cursor:pointer;
+             transition:all 0.15s;-webkit-tap-highlight-color:transparent;"
+      onmouseover="this.style.borderColor='rgba(255,215,0,0.7)';this.style.background='rgba(255,215,0,0.07)'"
+      onmouseout="this.style.borderColor='rgba(255,215,0,0.35)';this.style.background='none'">
+      ⭐ Ver planes
+    </button>
   </div>
 
   <!-- FORMULARIO -->
@@ -1942,6 +2054,97 @@
     /* ── AUTO-INICIO (primera visita) ── */
     if (!localStorage.getItem('dqr_tour')) openTour();
 
+  })();
+
+  // ===== CARRUSEL DE PLANES =====
+  let _plansCur = 0;
+  const _PLANS_N = 3;
+
+  function _plansGoTo(n) {
+    _plansCur = n;
+    for (let i = 0; i < _PLANS_N; i++) {
+      const sl = document.getElementById('pslide-' + i);
+      if (sl) sl.style.display = i === n ? 'block' : 'none';
+    }
+    document.querySelectorAll('.pdot').forEach((d, i) => {
+      d.classList.toggle('pdot-on', i === n);
+    });
+    const prev = document.getElementById('p-prev');
+    const next = document.getElementById('p-next');
+    if (prev) prev.style.display = n === 0 ? 'none' : '';
+    if (next) next.textContent = n === _PLANS_N - 1 ? 'Cerrar ✓' : 'Siguiente →';
+  }
+
+  function plansNav(dir) {
+    if (_plansCur + dir >= _PLANS_N) { closePlans(); return; }
+    _plansGoTo(Math.max(0, Math.min(_PLANS_N - 1, _plansCur + dir)));
+  }
+
+  function openPlans() {
+    _plansGoTo(0);
+    const ov = document.getElementById('plans-ov');
+    if (ov) { ov.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  }
+
+  function closePlans() {
+    const ov = document.getElementById('plans-ov');
+    if (ov) { ov.style.display = 'none'; document.body.style.overflow = ''; }
+  }
+
+  document.querySelectorAll('.pdot').forEach(d => {
+    d.addEventListener('click', () => _plansGoTo(Number(d.dataset.pi)));
+  });
+
+  function iniciarPago(plan, btn) {
+    const token = localStorage.getItem('doctorqr_token');
+    if (!token) { window.location.href = 'login.html'; return; }
+    const textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Procesando...';
+    fetch('https://doctorqr-backend-production.up.railway.app/api/stripe/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ plan })
+    })
+    .then(async r => {
+      const data = await r.json();
+      if (r.ok && data.url) { window.location.href = data.url; }
+      else { btn.disabled = false; btn.textContent = textoOriginal; alert(data.error || 'Error al iniciar el pago. Inténtalo de nuevo.'); }
+    })
+    .catch(() => { btn.disabled = false; btn.textContent = textoOriginal; alert('Error de conexión. Inténtalo de nuevo.'); });
+  }
+
+  // Auto-mostrar si plan_type === 'trial'
+  (async function initPlansOverlay() {
+    const API_BASE = 'https://doctorqr-backend-production.up.railway.app';
+    let u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
+
+    if (!u.plan_type) {
+      try {
+        const tok = localStorage.getItem('doctorqr_token');
+        const r   = await fetch(API_BASE + '/api/profile/me', { headers: { Authorization: 'Bearer ' + tok } });
+        if (r.ok) {
+          const d  = await r.json();
+          u.plan_type  = d.plan_type;
+          u.created_at = d.created_at;
+          localStorage.setItem('doctorqr_user', JSON.stringify(u));
+        }
+      } catch (_) {}
+    }
+
+    // Actualizar contador de días
+    const diasEl = document.getElementById('plans-days');
+    if (diasEl && u.created_at) {
+      const dias = (Date.now() - Number(u.created_at) * 1000) / 86_400_000;
+      diasEl.textContent = Math.max(0, Math.ceil(30 - dias));
+    }
+
+    // Ocultar botón "Ver planes" si ya es pro/lifetime (opcional: mantenerlo visible siempre)
+    // Lo dejamos siempre visible para que cualquier usuario pueda revisar/cambiar
+
+    if (u.plan_type === 'trial' || !u.plan_type) {
+      openPlans();
+    }
   })();
   </script>
 
