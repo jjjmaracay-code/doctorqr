@@ -534,6 +534,7 @@
           if (_res.ok) {
             const _data = await _res.json();
             saved = _data.profile;
+            if (_data.updated_at) saved.updated_at = _data.updated_at;
             localStorage.setItem('doctorqr_profile', JSON.stringify(saved));
           }
         } catch (_) {
