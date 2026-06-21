@@ -836,14 +836,10 @@ function updateCodeDisplay(which) {
 
 // ===== CHECK RESET READY =====
 function checkResetReady() {
-  const auth = {
-    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
-    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
-  };
   const pwdOk  = validatePwd(newPwdBuf).valid && newPwdBuf === confPwdBuf && confPwdBuf.length === PIN_LEN;
   let tfaOk = false;
-  if (auth.twofa_method === 'totp')  tfaOk = tfaBuf.length === PIN_LEN;
-  if (auth.twofa_method === 'email') tfaOk = tfaEmailBuf.length === PIN_LEN;
+  if (recTwofaMethod === 'totp')  tfaOk = tfaBuf.length === PIN_LEN;
+  if (recTwofaMethod === 'email') tfaOk = tfaEmailBuf.length === PIN_LEN;
   document.getElementById('btn-reset').disabled = !(pwdOk && tfaOk);
 }
 
@@ -1016,76 +1012,55 @@ async function initScreen3() {
     document.getElementById('tfa-title').textContent = 'Verificación — Código por email';
     document.getElementById('tfa-totp-wrap').style.display = 'none';
     document.getElementById('tfa-email-wrap').style.display = 'block';
-    await sendTfaEmailCode(auth);
+    await sendTfaEmailCode();
     startTfaEmailTimer();
   }
 }
 
-async function sendTfaEmailCode(auth) {
-  tfaEmailCode = generateCode();
+async function sendTfaEmailCode() {
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
-      to_name:  auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
-      to_email: auth.email,
-      code:     tfaEmailCode,
-      app_name: 'DoctorQR — Verificación 2FA',
-      alert:    'Código 2FA válido 10 minutos',
-      intro:    'Código de verificación para restablecer tu acceso a DoctorQR.',
-      message_title:'Verificación doble factor',
-      message:  'Introduce este código en la app para confirmar el cambio de contraseña.',
+    await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/send-reset-tfa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: recEmail })
     });
-  } catch(e) {
-    console.log('🔑 Código 2FA email:', tfaEmailCode);
-  }
+  } catch (e) { /* el usuario verá el toast si el código no llega */ }
 }
 
 // ===== RESTABLECER ACCESO =====
 document.getElementById('btn-reset').addEventListener('click', async () => {
-  const auth = {
-    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
-    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
-  };
+  const btn = document.getElementById('btn-reset');
+  btn.disabled = true;
+  btn.textContent = 'Procesando...';
 
-  if (auth.twofa_method === 'totp') {
-    try {
-      const totp = new OTPAuth.TOTP({
-        issuer:'DoctorQR', label:auth.email,
-        algorithm:'SHA1', digits:6, period:30,
-        secret:OTPAuth.Secret.fromBase32(auth.totp_secret),
-      });
-      const delta = totp.validate({ token:tfaBuf, window:1 });
-      if (delta === null) {
-        for(let i=0;i<6;i++){
-          const el=document.getElementById('tf'+i);
-          if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
-        }
-        tfaBuf=''; updateCodeDisplay('tfa');
-        showToast('Código Authenticator incorrecto', true);
-        return;
-      }
-    } catch(e) {
-      showToast('Error al verificar 2FA', true);
-      return;
-    }
-  } else {
-    if (tfaEmailBuf !== tfaEmailCode) {
+  const tfa_code = recTwofaMethod === 'totp' ? tfaBuf : tfaEmailBuf;
+  try {
+    const r = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: recEmail, tfa_code, new_password: newPwdBuf })
+    });
+    const d = await r.json();
+    if (!r.ok) {
+      const errPrefix = recTwofaMethod === 'totp' ? 'tf' : 'te';
       for(let i=0;i<6;i++){
-        const el=document.getElementById('te'+i);
+        const el=document.getElementById(errPrefix+i);
         if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
       }
-      tfaEmailBuf=''; updateCodeDisplay('tfaemail');
-      showToast('Código email incorrecto', true);
+      if (recTwofaMethod === 'totp') { tfaBuf=''; updateCodeDisplay('tfa'); }
+      else { tfaEmailBuf=''; updateCodeDisplay('tfaemail'); }
+      showToast(d.error || 'Código 2FA incorrecto', true);
+      btn.disabled = false;
+      btn.textContent = 'RESTABLECER ACCESO';
       return;
     }
+    clearInterval(tfaTimerIntvl);
+    goToScreen(4);
+  } catch (e) {
+    showToast('Error de conexión', true);
+    btn.disabled = false;
+    btn.textContent = 'RESTABLECER ACCESO';
   }
-
-  const pwdHash = await sha256(newPwdBuf);
-  auth.password_hash = pwdHash;
-  localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
-
-  clearInterval(tfaTimerIntvl);
-  goToScreen(4);
-  showToast('✓ Acceso restablecido');
 });
 
 document.getElementById('btn-enter').addEventListener('click', () => {
