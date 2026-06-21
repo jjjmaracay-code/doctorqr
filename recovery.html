@@ -836,7 +836,10 @@ function updateCodeDisplay(which) {
 
 // ===== CHECK RESET READY =====
 function checkResetReady() {
-  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  const auth = {
+    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
+    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
+  };
   const pwdOk  = validatePwd(newPwdBuf).valid && newPwdBuf === confPwdBuf && confPwdBuf.length === PIN_LEN;
   let tfaOk = false;
   if (auth.twofa_method === 'totp')  tfaOk = tfaBuf.length === PIN_LEN;
@@ -865,7 +868,10 @@ document.getElementById('rec-email').addEventListener('input', function() {
 document.getElementById('btn-send-rec').addEventListener('click', async () => {
   recEmail = document.getElementById('rec-email').value.trim();
 
-  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  const auth = {
+    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
+    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
+  };
   if (auth.email && auth.email.toLowerCase() !== recEmail.toLowerCase()) {
     showToast('Email no encontrado en este dispositivo', true);
     return;
@@ -943,7 +949,10 @@ document.getElementById('btn-verify-rec').addEventListener('click', () => {
 // ===== REENVÍO =====
 document.getElementById('btn-resend-rec').addEventListener('click', async () => {
   recCode = generateCode();
-  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  const auth = {
+    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
+    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
+  };
   try {
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
       to_name:  auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
@@ -1004,7 +1013,10 @@ function startTfaEmailTimer() {
 
 // ===== INIT PANTALLA 3 =====
 async function initScreen3() {
-  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  const auth = {
+    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
+    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
+  };
 
   if (auth.twofa_method === 'totp') {
     document.getElementById('tfa-title').textContent = 'Verificación — Google Authenticator';
@@ -1039,7 +1051,10 @@ async function sendTfaEmailCode(auth) {
 
 // ===== RESTABLECER ACCESO =====
 document.getElementById('btn-reset').addEventListener('click', async () => {
-  const auth = JSON.parse(localStorage.getItem(AUTH_KEY) || '{}');
+  const auth = {
+    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
+    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
+  };
 
   if (auth.twofa_method === 'totp') {
     try {
