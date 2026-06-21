@@ -726,8 +726,8 @@ const LETTERS   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const SYMBOLS   = ['@','#','$','%','&','*','!','?','+','-','=','_','.',',',':',';','(',')','{','}','[',']','|','~','`','<','>','/','\\','"',"'"];
 const PIN_LEN   = 6;
 
-let recCode     = '';
 let recBuffer   = '';
+let recTwofaMethod = 'email';
 let newPwdBuf   = '';
 let confPwdBuf  = '';
 let tfaBuf      = '';
@@ -868,44 +868,31 @@ document.getElementById('rec-email').addEventListener('input', function() {
 document.getElementById('btn-send-rec').addEventListener('click', async () => {
   recEmail = document.getElementById('rec-email').value.trim();
 
-  const auth = {
-    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
-    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
-  };
-  if (auth.email && auth.email.toLowerCase() !== recEmail.toLowerCase()) {
-    showToast('Email no encontrado en este dispositivo', true);
-    return;
-  }
-
   const btn = document.getElementById('btn-send-rec');
   btn.disabled = true;
   btn.textContent = 'Enviando...';
 
-  recCode = generateCode();
-
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
-      to_name:       auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
-      to_email:      recEmail,
-      code:          recCode,
-      app_name:      'DoctorQR — Recuperación de acceso',
-      subject:       'DoctorQR — Recuperación de acceso',
-      alert:         'Código válido 30 minutos',
-      intro:         'Has solicitado recuperar el acceso a tu cuenta DoctorQR.',
-      message_title: 'Código de recuperación',
-      message:       'Válido durante 30 minutos. Si no has solicitado esto, ignora este mensaje.',
+    const r = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/recover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: recEmail })
     });
-    showToast('Código enviado');
-  } catch(e) {
-    console.error('EmailJS:', e);
-    console.log('🔑 Código de prueba:', recCode);
-    showToast('Modo desarrollo — código en consola');
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'Error al enviar código');
+    showToast('Código enviado a tu email');
+  } catch (e) {
+    showToast(e.message || 'Error al enviar código', true);
+    btn.disabled = false;
+    btn.textContent = 'ENVIAR CÓDIGO DE RECUPERACIÓN';
+    return;
   }
 
   document.getElementById('rec-email-shown').textContent = recEmail;
   goToScreen(2);
   startRecTimer(1800); // 30 min
   btn.textContent = 'ENVIAR CÓDIGO DE RECUPERACIÓN';
+  btn.disabled = false;
 });
 
 // ===== OTP TECLADO (pantalla 2) =====
@@ -931,43 +918,51 @@ function updateRecDisplay() {
 }
 
 // ===== VERIFICAR OTP =====
-document.getElementById('btn-verify-rec').addEventListener('click', () => {
-  if (recBuffer !== recCode) {
-    for (let i=0;i<6;i++) {
-      const el=document.getElementById('rc'+i);
-      if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
+document.getElementById('btn-verify-rec').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-verify-rec');
+  btn.disabled = true;
+  btn.textContent = 'Verificando...';
+  try {
+    const r = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/verify-recovery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: recEmail, code: recBuffer })
+    });
+    const d = await r.json();
+    if (!r.ok) {
+      for (let i=0;i<6;i++) {
+        const el=document.getElementById('rc'+i);
+        if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
+      }
+      recBuffer=''; updateRecDisplay();
+      showToast(d.error || 'Código incorrecto', true);
+      btn.disabled = false;
+      btn.textContent = 'VERIFICAR';
+      return;
     }
-    recBuffer=''; updateRecDisplay();
-    showToast('Código incorrecto', true);
-    return;
+    recTwofaMethod = d.twofa_method || 'email';
+    clearInterval(recTimerIntvl);
+    initScreen3();
+    goToScreen(3);
+  } catch (e) {
+    showToast('Error de conexión', true);
+    btn.disabled = false;
+    btn.textContent = 'VERIFICAR';
   }
-  clearInterval(recTimerIntvl);
-  initScreen3();
-  goToScreen(3);
 });
 
 // ===== REENVÍO =====
 document.getElementById('btn-resend-rec').addEventListener('click', async () => {
-  recCode = generateCode();
-  const auth = {
-    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
-    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
-  };
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_BACKUP_TEMPLATE_ID, {
-      to_name:  auth.nombre ? auth.nombre+' '+auth.apellidos : 'Usuario',
-      to_email: recEmail,
-      code:     recCode,
-      app_name: 'DoctorQR — Recuperación',
-      alert:'Nuevo código válido 30 minutos',
-      intro:'Has solicitado un nuevo código de recuperación.',
-      message_title:'Nuevo código de recuperación',
-      message:'Válido durante 30 minutos.',
+    const r = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/recover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: recEmail })
     });
-    showToast('Nuevo código enviado');
-  } catch(e) {
-    console.log('🔑 Nuevo código:', recCode);
-    showToast('Modo desarrollo — código en consola');
+    const d = await r.json();
+    showToast(r.ok ? 'Nuevo código enviado' : (d.error || 'Error al reenviar'), !r.ok);
+  } catch (e) {
+    showToast('Error de conexión', true);
   }
   recBuffer=''; updateRecDisplay();
   startRecTimer(1800);
@@ -1013,13 +1008,7 @@ function startTfaEmailTimer() {
 
 // ===== INIT PANTALLA 3 =====
 async function initScreen3() {
-  const auth = {
-    ...JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'),
-    ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
-  };
-
-  console.log('AUTH DEBUG:', auth);
-  if (auth.twofa_method === 'totp') {
+  if (recTwofaMethod === 'totp') {
     document.getElementById('tfa-title').textContent = 'Verificación — Google Authenticator';
     document.getElementById('tfa-totp-wrap').style.display = 'block';
     document.getElementById('tfa-email-wrap').style.display = 'none';
