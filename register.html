@@ -1089,9 +1089,8 @@
       Obligatorio — sin esto no podrás acceder a DoctorQR
     </div>
 
-    <!-- OPCIÓN A — Google Authenticator -->
     <div class="tfa-option">
-      <div class="tfa-option-title">OPCIÓN A — Google Authenticator</div>
+      <div class="tfa-option-title">Google Authenticator</div>
       <div class="tfa-option-desc">
         Descarga Google Authenticator, escanea el QR y escribe el código que aparece en la app.
       </div>
@@ -1129,19 +1128,6 @@
 
       <button class="btn-primary" id="btn-verify-totp" disabled>
         CONFIRMAR CON AUTHENTICATOR
-      </button>
-    </div>
-
-    <div class="tfa-separator">— O —</div>
-
-    <!-- OPCIÓN B — Email -->
-    <div class="tfa-option">
-      <div class="tfa-option-title">Opción B — Código por email</div>
-      <div class="tfa-option-desc">
-        En cada inicio de sesión recibirás un código de 6 dígitos en tu email. Válido 10 minutos.
-      </div>
-      <button class="btn-secondary" id="btn-use-email-tfa">
-        USAR CÓDIGO POR EMAIL
       </button>
     </div>
 
@@ -1847,7 +1833,7 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
       body: JSON.stringify({
         email:  regData.email,
         code:   totpBuffer,
-        method: selectedTfaMethod
+        method: 'totp'
       })
     });
     const data = await response.json();
@@ -1886,33 +1872,6 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
   btn.disabled = totpBuffer.length !== 6;
 });
 
-// ===== 2FA POR EMAIL =====
-document.getElementById('btn-use-email-tfa').addEventListener('click', async () => {
-  try {
-    const res = await fetch(`${API}/api/auth/setup-2fa`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: regData.email, method: 'email' })
-    });
-    const data = await res.json();
-    if (!data.success) { showToast(data.error || 'Error al configurar 2FA'); return; }
-
-    await fetch(`${API}/api/auth/recover`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: regData.email })
-    });
-
-    selectedTfaMethod = 'email';
-    document.getElementById('totp-qr-img').style.display = 'none';
-    document.getElementById('totp-secret-text').textContent = 'Introduce el código enviado a tu correo';
-    totpBuffer = ''; updateTOTPDisplay();
-    showToast('Código enviado a ' + regData.email + ' — introdúcelo abajo');
-  } catch(e) {
-    console.error('Setup email 2FA:', e);
-    showToast('Error de conexión con el servidor');
-  }
-});
 
 function populateSuccessScreen(auth){
   document.getElementById('success-nombre').textContent = auth.nombre+' '+auth.apellidos;
@@ -1920,7 +1879,7 @@ function populateSuccessScreen(auth){
   document.getElementById('success-doc').textContent    = auth.doc_type+' '+auth.doc_number;
   document.getElementById('success-sexo').textContent   = auth.sexo_biologico;
   document.getElementById('success-email').textContent  = auth.email;
-  document.getElementById('success-2fa').textContent    = auth.twofa_method==='totp' ? 'Google Authenticator' : 'Código por email';
+  document.getElementById('success-2fa').textContent    = 'Google Authenticator';
 }
 
 document.getElementById('btn-go-profile').addEventListener('click',()=>{
