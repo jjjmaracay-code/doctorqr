@@ -710,7 +710,11 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     }
 
     if (!res.ok || !data.requires_2fa) {
-      errorEl.textContent = data.error || 'Credenciales incorrectas.';
+      if (data.remaining_attempts !== undefined) {
+        errorEl.textContent = `Credenciales incorrectas — Te quedan ${data.remaining_attempts} intentos`;
+      } else {
+        errorEl.textContent = data.error || 'Credenciales incorrectas.';
+      }
       errorEl.style.display = 'block';
       return;
     }
