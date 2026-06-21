@@ -275,6 +275,10 @@
       onmouseout="this.style.borderColor='rgba(255,68,68,0.25)';this.style.color='rgba(255,68,68,0.6)'">
       Cerrar sesión
     </button>
+    <div id="plan-badge"
+      style="margin-top:6px;font-size:10px;font-weight:500;letter-spacing:1px;
+             color:rgba(255,255,255,0.35);text-align:center;">
+    </div>
   </div>
 
   <!-- FORMULARIO -->
@@ -2166,6 +2170,33 @@
 
     if (u.plan_type === 'trial' || !u.plan_type) {
       openPlans();
+    }
+
+    // Indicador de plan activo
+    const badge = document.getElementById('plan-badge');
+    if (badge) {
+      if (u.plan_type === 'pro') {
+        badge.textContent = 'Plan actual: Pro';
+        badge.style.color = '#00ff41';
+      } else if (u.plan_type === 'lifetime') {
+        badge.textContent = 'Plan actual: Lifetime';
+        badge.style.color = '#ffd700';
+      } else {
+        const dias = u.created_at
+          ? Math.max(0, Math.ceil(30 - (Date.now() - Number(u.created_at) * 1000) / 86_400_000))
+          : '?';
+        badge.textContent = `Plan actual: Gratis — ${dias} días restantes`;
+        badge.style.color = 'rgba(255,255,255,0.35)';
+      }
+    }
+
+    // Scroll automático a la planilla tras volver de Stripe con éxito
+    if (new URLSearchParams(window.location.search).get('checkout') === 'success') {
+      history.replaceState(null, '', window.location.pathname);
+      setTimeout(() => {
+        const formEl = document.getElementById('form');
+        if (formEl) formEl.scrollIntoView({ behavior: 'smooth' });
+      }, 400);
     }
   })();
   </script>
