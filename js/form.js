@@ -522,8 +522,28 @@
     }
 
     // ===== LOAD SAVED =====
-    function loadSaved() {
-      const saved = JSON.parse(localStorage.getItem('doctorqr_profile') || 'null');
+    async function loadSaved() {
+      let saved = null;
+
+      const _tok = localStorage.getItem('doctorqr_token');
+      if (_tok) {
+        try {
+          const _res = await fetch('https://doctorqr-backend-production.up.railway.app/api/profile/me', {
+            headers: { Authorization: 'Bearer ' + _tok }
+          });
+          if (_res.ok) {
+            const _data = await _res.json();
+            saved = _data.profile;
+            localStorage.setItem('doctorqr_profile', JSON.stringify(saved));
+          }
+        } catch (_) {
+          // sin red o error del servidor — cae a localStorage
+        }
+      }
+
+      if (!saved) {
+        saved = JSON.parse(localStorage.getItem('doctorqr_profile') || 'null');
+      }
 
       const refreshVal = () => {
         document.querySelectorAll('.phone-field').forEach(pf => validatePhoneField(pf));
