@@ -244,6 +244,75 @@
     color:rgba(255,255,255,0.25); letter-spacing:1px;
   }
   .nav-link a { color:rgba(0,255,65,0.5); text-decoration:underline; }
+
+  /* Wrapper ojo + input */
+  .pwd-wrap { position:relative; display:flex; align-items:center; }
+  .pwd-wrap .field-input { padding-right:44px; }
+  .eye-btn {
+    position:absolute; right:12px;
+    background:none; border:none; cursor:pointer; padding:4px;
+    color:rgba(0,255,65,0.45); transition:color 0.15s;
+    display:flex; align-items:center; justify-content:center;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .eye-btn:hover { color:rgba(0,255,65,0.9); }
+
+  /* Teclado personalizado contraseña */
+  .pwd-keyboard {
+    width:100%; max-width:480px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px 14px 14px;
+    margin-bottom:14px;
+    display:none;
+  }
+  .pwd-keyboard.visible { display:block; }
+
+  .kbd-num-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:7px; margin-bottom:10px;
+  }
+  .kbd-letters-grid {
+    display:grid; grid-template-columns:repeat(9,1fr);
+    gap:3px; margin-bottom:6px;
+  }
+  .kbd-symbols-grid {
+    display:grid; grid-template-columns:repeat(8,1fr);
+    gap:3px; margin-bottom:10px;
+  }
+  .kbd-section-label {
+    font-size:9px; font-weight:600; letter-spacing:3px;
+    text-transform:uppercase; color:rgba(0,255,65,0.35);
+    text-align:center; margin-bottom:6px;
+  }
+  .kbd-num-btn {
+    aspect-ratio:1.5; border-radius:8px;
+    border:1px solid rgba(0,255,65,0.15);
+    background:rgba(0,255,65,0.04);
+    font-family:'Inter',sans-serif; font-size:16px; font-weight:400;
+    color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.1s; user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .kbd-num-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.35); }
+  .kbd-num-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.93); }
+  .kbd-num-btn.del    { font-size:13px; color:var(--muted); }
+  .kbd-num-btn.clr    { font-size:10px; letter-spacing:1px; color:var(--muted); }
+  .kbd-char-btn {
+    aspect-ratio:1; border-radius:5px;
+    border:1px solid rgba(0,255,65,0.12);
+    background:rgba(0,255,65,0.03);
+    font-family:'Inter',sans-serif;
+    font-size:clamp(9px,2.5vw,12px); font-weight:500;
+    color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.1s; user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .kbd-char-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.3); }
+  .kbd-char-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.9); }
 </style>
 </head>
 <body>
@@ -273,8 +342,17 @@
 
       <div class="field-wrap">
         <label class="field-label" for="login-password">Contraseña</label>
-        <input class="field-input" type="password" id="login-password"
-               placeholder="••••••••" autocomplete="current-password">
+        <div class="pwd-wrap">
+          <input class="field-input" type="password" id="login-password"
+                 placeholder="••••••••" autocomplete="current-password"
+                 inputmode="none">
+          <button class="eye-btn" id="eye-btn" type="button" tabindex="-1" aria-label="Mostrar/ocultar contraseña">
+            <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div class="field-hint error" id="login-error" style="margin-bottom:12px;display:none;"></div>
@@ -284,6 +362,20 @@
       <div class="nav-link">
         <a href="recovery.html">¿Olvidaste tu contraseña?</a>
       </div>
+    </div>
+
+    <!-- Teclado personalizado contraseña -->
+    <div class="pwd-keyboard" id="pwd-keyboard">
+      <!-- Fila numérica -->
+      <div class="kbd-num-grid" id="kbd-num-grid"></div>
+
+      <!-- Letras -->
+      <div class="kbd-section-label">Letra</div>
+      <div class="kbd-letters-grid" id="kbd-letters-grid"></div>
+
+      <!-- Símbolos -->
+      <div class="kbd-section-label">Símbolo</div>
+      <div class="kbd-symbols-grid" id="kbd-symbols-grid"></div>
     </div>
 
     <div class="nav-link">
@@ -362,6 +454,76 @@
 
 <script>
 const API = 'https://doctorqr-backend-production.up.railway.app';
+
+// ===== TECLADO CONTRASEÑA =====
+const KBD_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const KBD_SYMBOLS = ['@','#','$','%','&','*','!','?','+','-','=','_','.',',',':',';','(',')','{','}','[',']','|','~','`','<','>','/','\\','"',"'",'!'];
+
+(function buildPwdKeyboard() {
+  const pwdInput   = document.getElementById('login-password');
+  const keyboard   = document.getElementById('pwd-keyboard');
+  const numGrid    = document.getElementById('kbd-num-grid');
+  const letGrid    = document.getElementById('kbd-letters-grid');
+  const symGrid    = document.getElementById('kbd-symbols-grid');
+
+  function appendChar(c) { pwdInput.value += c; }
+  function deleteLast()  { pwdInput.value = pwdInput.value.slice(0, -1); }
+  function clearAll()    { pwdInput.value = ''; }
+
+  // Numérico (0-9 + CLR + ⌫)
+  [1,2,3,4,5,6,7,8,9,'CLR',0,'⌫'].forEach(v => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'kbd-num-btn' + (v === '⌫' ? ' del' : v === 'CLR' ? ' clr' : '');
+    btn.textContent = v;
+    btn.addEventListener('click', () => {
+      if (v === '⌫') deleteLast();
+      else if (v === 'CLR') clearAll();
+      else appendChar(String(v));
+    });
+    numGrid.appendChild(btn);
+  });
+
+  // Letras
+  KBD_LETTERS.forEach(l => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'kbd-char-btn';
+    btn.textContent = l;
+    btn.addEventListener('click', () => appendChar(l));
+    letGrid.appendChild(btn);
+  });
+
+  // Símbolos
+  KBD_SYMBOLS.forEach(s => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'kbd-char-btn';
+    btn.textContent = s;
+    btn.addEventListener('click', () => appendChar(s));
+    symGrid.appendChild(btn);
+  });
+
+  // Mostrar/ocultar teclado
+  pwdInput.addEventListener('focus', () => keyboard.classList.add('visible'));
+  document.getElementById('login-email').addEventListener('focus', () => keyboard.classList.remove('visible'));
+})();
+
+// ===== OJO CONTRASEÑA =====
+(function initEye() {
+  const btn   = document.getElementById('eye-btn');
+  const input = document.getElementById('login-password');
+  const icon  = document.getElementById('eye-icon');
+  const eyeOpen  = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  const eyeClosed = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  btn.addEventListener('click', () => {
+    const showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    icon.innerHTML = showing ? eyeOpen : eyeClosed;
+  });
+})();
+
+// =====
 
 let loginEmail      = '';
 let l2Method        = '';
