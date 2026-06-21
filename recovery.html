@@ -1018,6 +1018,7 @@ async function initScreen3() {
     ...JSON.parse(localStorage.getItem('doctorqr_user') || '{}')
   };
 
+  console.log('AUTH DEBUG:', auth);
   if (auth.twofa_method === 'totp') {
     document.getElementById('tfa-title').textContent = 'Verificación — Google Authenticator';
     document.getElementById('tfa-totp-wrap').style.display = 'block';
