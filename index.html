@@ -1790,6 +1790,97 @@
     RECLAMACIONES Y SUGERENCIAS
   </a>
 
+  <div style="text-align:center;margin-top:24px;margin-bottom:8px;">
+    <button id="btn-eliminar-cuenta" onclick="abrirModalEliminar()"
+      style="background:none;border:none;color:rgba(255,68,68,0.35);
+             font-family:'Inter',sans-serif;font-size:10px;font-weight:500;
+             letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+             text-decoration:underline;padding:8px 0;
+             -webkit-tap-highlight-color:transparent;">
+      Eliminar mi cuenta
+    </button>
+  </div>
+
+  <!-- Modal eliminación de cuenta -->
+  <div id="modal-eliminar" style="display:none;position:fixed;inset:0;
+       background:rgba(0,0,0,0.85);z-index:9000;
+       overflow-y:auto;-webkit-overflow-scrolling:touch;">
+    <div style="max-width:480px;margin:40px auto;padding:0 16px 48px;">
+      <div style="background:#111;border:1px solid rgba(255,68,68,0.3);
+                  border-radius:20px;padding:28px 22px;">
+
+        <!-- Título -->
+        <div style="font-size:10px;font-weight:900;letter-spacing:4px;
+                    text-transform:uppercase;color:#ff4444;
+                    margin-bottom:20px;padding-bottom:12px;
+                    border-bottom:1px solid rgba(255,68,68,0.15);">
+          Eliminar tu cuenta — Acción irreversible
+        </div>
+
+        <!-- Texto legal -->
+        <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,0.55);
+                    line-height:1.8;margin-bottom:20px;">
+          <p style="margin-bottom:10px;">Al confirmar, tu cuenta y todos tus datos se eliminarán de forma permanente e inmediata. Esto incluye:</p>
+          <ul style="padding-left:16px;margin-bottom:10px;">
+            <li style="margin-bottom:6px;">Tu perfil médico completo (alergias, historial, contactos de emergencia, todo lo que rellenaste).</li>
+            <li style="margin-bottom:6px;">Los 9 códigos QR generados — dejarán de funcionar de inmediato. Cualquier QR impreso, en tu pulsera, o guardado en tu teléfono ya no mostrará información.</li>
+            <li style="margin-bottom:6px;">Tu historial de cuenta y configuración.</li>
+          </ul>
+          <p style="margin-bottom:10px;">Si tienes una suscripción de pago activa (Pro), se cancelará automáticamente al eliminar tu cuenta. No se realizarán más cobros, pero no se reembolsará el periodo ya pagado.</p>
+          <p style="margin-bottom:10px;">No existe forma de recuperar estos datos después de confirmar. No hay copia de seguridad ni periodo de gracia — la eliminación es inmediata y definitiva.</p>
+          <p style="margin-bottom:10px;">Esta solicitud se procesa conforme a tu derecho de supresión ("derecho al olvido") bajo el Reglamento General de Protección de Datos (RGPD) y la LOPDGDD.</p>
+          <p style="color:rgba(255,68,68,0.7);font-weight:500;">Para confirmar, introduce tu contraseña y escribe ELIMINAR en el campo de abajo.</p>
+        </div>
+
+        <!-- Campo contraseña -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+                      color:rgba(255,68,68,0.7);margin-bottom:6px;">Contraseña</div>
+          <input id="del-pwd" type="password" placeholder="Tu contraseña actual"
+            style="width:100%;padding:12px 14px;border-radius:10px;
+                   border:1px solid rgba(255,68,68,0.25);background:rgba(255,68,68,0.05);
+                   font-family:'Inter',sans-serif;font-size:14px;color:#fff;outline:none;
+                   -webkit-appearance:none;"
+            oninput="validarCamposEliminar()">
+        </div>
+
+        <!-- Campo confirmación ELIMINAR -->
+        <div style="margin-bottom:20px;">
+          <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+                      color:rgba(255,68,68,0.7);margin-bottom:6px;">Escribe ELIMINAR para confirmar</div>
+          <input id="del-confirm" type="text" placeholder="ELIMINAR" autocomplete="off"
+            style="width:100%;padding:12px 14px;border-radius:10px;
+                   border:1px solid rgba(255,68,68,0.25);background:rgba(255,68,68,0.05);
+                   font-family:'Inter',sans-serif;font-size:14px;color:#fff;outline:none;
+                   -webkit-appearance:none;"
+            oninput="validarCamposEliminar()">
+        </div>
+
+        <!-- Mensaje de error -->
+        <div id="del-error" style="display:none;font-size:11px;color:#ff4444;
+                                    margin-bottom:14px;letter-spacing:1px;"></div>
+
+        <!-- Botones -->
+        <button id="btn-del-confirmar" onclick="ejecutarEliminarCuenta()" disabled
+          style="width:100%;padding:15px;border-radius:14px;border:none;
+                 background:rgba(255,68,68,0.15);color:rgba(255,68,68,0.35);
+                 font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
+                 letter-spacing:3px;text-transform:uppercase;cursor:not-allowed;
+                 margin-bottom:10px;transition:all 0.15s;">
+          Eliminar mi cuenta definitivamente
+        </button>
+        <button onclick="cerrarModalEliminar()"
+          style="width:100%;padding:13px;border-radius:14px;
+                 border:1px solid rgba(255,255,255,0.1);background:none;
+                 font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
+                 letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);
+                 cursor:pointer;transition:all 0.15s;">
+          Cancelar — conservar mi cuenta
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast">Datos guardados</div>
   <div class="toast toast-sync" id="toast-sync">&#9729; Perfil sincronizado &#10003;</div>
   <div class="toast toast-conflict" id="toast-conflict">⚠️ Hay una versión más reciente guardada desde otro dispositivo. Recarga antes de continuar editando.</div>
@@ -2088,6 +2179,76 @@
   function plansNav(dir) {
     if (_plansCur + dir >= _PLANS_N) { closePlans(); return; }
     _plansGoTo(Math.max(0, Math.min(_PLANS_N - 1, _plansCur + dir)));
+  }
+
+  function abrirModalEliminar() {
+    document.getElementById('del-pwd').value = '';
+    document.getElementById('del-confirm').value = '';
+    document.getElementById('del-error').style.display = 'none';
+    const btn = document.getElementById('btn-del-confirmar');
+    btn.disabled = true;
+    btn.style.background = 'rgba(255,68,68,0.15)';
+    btn.style.color = 'rgba(255,68,68,0.35)';
+    btn.style.cursor = 'not-allowed';
+    btn.textContent = 'Eliminar mi cuenta definitivamente';
+    document.getElementById('modal-eliminar').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function cerrarModalEliminar() {
+    document.getElementById('modal-eliminar').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function validarCamposEliminar() {
+    const pwd     = document.getElementById('del-pwd').value;
+    const confirm = document.getElementById('del-confirm').value;
+    const btn     = document.getElementById('btn-del-confirmar');
+    const ok = pwd.length > 0 && confirm === 'ELIMINAR';
+    btn.disabled        = !ok;
+    btn.style.background = ok ? '#ff4444'             : 'rgba(255,68,68,0.15)';
+    btn.style.color      = ok ? '#fff'                : 'rgba(255,68,68,0.35)';
+    btn.style.cursor     = ok ? 'pointer'             : 'not-allowed';
+  }
+
+  async function ejecutarEliminarCuenta() {
+    const pwd     = document.getElementById('del-pwd').value;
+    const errorEl = document.getElementById('del-error');
+    const btn     = document.getElementById('btn-del-confirmar');
+    const u       = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
+
+    btn.disabled = true;
+    btn.textContent = 'Eliminando...';
+    errorEl.style.display = 'none';
+
+    try {
+      const res  = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/account', {
+        method:  'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email: u.email, password: pwd })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.removeItem('doctorqr_token');
+        localStorage.removeItem('doctorqr_user');
+        localStorage.removeItem('doctorqr_profile');
+        localStorage.removeItem('doctorqr_id');
+        window.location.href = 'login.html';
+      } else {
+        errorEl.textContent = data.error || 'Error al eliminar la cuenta.';
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Eliminar mi cuenta definitivamente';
+        validarCamposEliminar();
+      }
+    } catch (_) {
+      errorEl.textContent = 'Error de conexión. Inténtalo de nuevo.';
+      errorEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Eliminar mi cuenta definitivamente';
+      validarCamposEliminar();
+    }
   }
 
   async function cerrarSesion() {
