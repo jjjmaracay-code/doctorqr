@@ -276,8 +276,9 @@
       Cerrar sesión
     </button>
     <div id="plan-badge"
-      style="margin-top:6px;font-size:10px;font-weight:500;letter-spacing:1px;
-             color:rgba(255,255,255,0.35);text-align:center;">
+      style="margin-top:6px;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
+             letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;
+             border:1px solid transparent;display:inline-block;">
     </div>
   </div>
 
@@ -2178,15 +2179,18 @@
       if (u.plan_type === 'pro') {
         badge.textContent = 'Plan actual: Pro';
         badge.style.color = '#00ff41';
+        badge.style.borderColor = 'rgba(0,255,65,0.35)';
       } else if (u.plan_type === 'lifetime') {
         badge.textContent = 'Plan actual: Lifetime';
         badge.style.color = '#ffd700';
+        badge.style.borderColor = 'rgba(255,215,0,0.35)';
       } else {
         const dias = u.created_at
           ? Math.max(0, Math.ceil(30 - (Date.now() - Number(u.created_at) * 1000) / 86_400_000))
           : '?';
         badge.textContent = `Plan actual: Gratis — ${dias} días restantes`;
         badge.style.color = 'rgba(255,255,255,0.35)';
+        badge.style.borderColor = 'rgba(255,255,255,0.2)';
       }
     }
 
