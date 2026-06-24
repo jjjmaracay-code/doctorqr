@@ -273,50 +273,35 @@
   }
   .pwd-keyboard.visible { display:block; }
 
-  .kbd-num-grid {
-    display:grid; grid-template-columns:repeat(3,1fr);
-    gap:7px; margin-bottom:10px;
+  /* ── Teclado QWERTY ── */
+  .qwerty-row {
+    display:flex; gap:5px; margin-bottom:5px;
   }
-  .kbd-letters-grid {
-    display:grid; grid-template-columns:repeat(9,1fr);
-    gap:3px; margin-bottom:6px;
-  }
-  .kbd-symbols-grid {
-    display:grid; grid-template-columns:repeat(8,1fr);
-    gap:3px; margin-bottom:10px;
-  }
-  .kbd-section-label {
-    font-size:9px; font-weight:600; letter-spacing:3px;
-    text-transform:uppercase; color:rgba(0,255,65,0.35);
-    text-align:center; margin-bottom:6px;
-  }
-  .kbd-num-btn {
-    aspect-ratio:1.5; border-radius:8px;
-    border:1px solid rgba(0,255,65,0.15);
-    background:rgba(0,255,65,0.04);
-    font-family:'Inter',sans-serif; font-size:16px; font-weight:400;
-    color:var(--text); cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    transition:all 0.1s; user-select:none;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .kbd-num-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.35); }
-  .kbd-num-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.93); }
-  .kbd-num-btn.del    { font-size:13px; color:var(--muted); }
-  .kbd-num-btn.clr    { font-size:10px; letter-spacing:1px; color:var(--muted); }
-  .kbd-char-btn {
-    aspect-ratio:1; border-radius:5px;
+  .qwerty-row:last-child { margin-bottom:0; }
+  .qwerty-key {
+    flex:1; height:42px; border-radius:8px;
     border:1px solid rgba(0,255,65,0.12);
-    background:rgba(0,255,65,0.03);
-    font-family:'Inter',sans-serif;
-    font-size:clamp(9px,2.5vw,12px); font-weight:500;
-    color:var(--text); cursor:pointer;
+    background:rgba(0,255,65,0.04);
+    font-family:'Inter',sans-serif; font-size:15px; font-weight:500;
+    color:var(--text); cursor:pointer; min-width:0;
     display:flex; align-items:center; justify-content:center;
-    transition:all 0.1s; user-select:none;
+    transition:background 0.08s, transform 0.08s; user-select:none;
     -webkit-tap-highlight-color:transparent;
   }
-  .kbd-char-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.3); }
-  .kbd-char-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.9); }
+  .qwerty-key:active { background:var(--green) !important; color:#000 !important; transform:scale(0.92); }
+  .qwerty-action {
+    background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.22);
+    font-size:13px; color:rgba(0,255,65,0.7);
+  }
+  .qwerty-shift-on {
+    background:rgba(0,255,65,0.22) !important; border-color:rgba(0,255,65,0.55) !important;
+    color:var(--green) !important;
+  }
+  .qwerty-done {
+    background:rgba(0,255,65,0.12); border-color:rgba(0,255,65,0.35);
+    color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.4px;
+  }
+  .qwerty-space { font-size:0; border-color:rgba(0,255,65,0.1); }
 </style>
 </head>
 <body>
@@ -492,18 +477,9 @@
       </div>
     </div>
 
-    <!-- Teclado personalizado contraseña -->
+    <!-- Teclado QWERTY contraseña -->
     <div class="pwd-keyboard" id="pwd-keyboard">
-      <!-- Fila numérica -->
-      <div class="kbd-num-grid" id="kbd-num-grid"></div>
-
-      <!-- Letras -->
-      <div class="kbd-section-label">Letra</div>
-      <div class="kbd-letters-grid" id="kbd-letters-grid"></div>
-
-      <!-- Símbolos -->
-      <div class="kbd-section-label">Símbolo</div>
-      <div class="kbd-symbols-grid" id="kbd-symbols-grid"></div>
+      <div id="qwerty-login"></div>
     </div>
 
     <div class="nav-link">
@@ -583,56 +559,81 @@
 <script>
 const API = 'https://doctorqr-backend-production.up.railway.app';
 
-// ===== TECLADO CONTRASEÑA =====
-const KBD_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const KBD_SYMBOLS = ['@','#','$','%','&','*','!','?','+','-','=','_','.',',',':',';','(',')','{','}','[',']','|','~','`','<','>','/','\\','"',"'",'!'];
+// ===== TECLADO QWERTY CONTRASEÑA =====
+(function() {
+  const pwdInput = document.getElementById('login-password');
+  const keyboard = document.getElementById('pwd-keyboard');
+  const kbdEl    = document.getElementById('qwerty-login');
 
-(function buildPwdKeyboard() {
-  const pwdInput   = document.getElementById('login-password');
-  const keyboard   = document.getElementById('pwd-keyboard');
-  const numGrid    = document.getElementById('kbd-num-grid');
-  const letGrid    = document.getElementById('kbd-letters-grid');
-  const symGrid    = document.getElementById('kbd-symbols-grid');
+  const ROWS_LETTERS = [
+    ['q','w','e','r','t','y','u','i','o','p'],
+    ['a','s','d','f','g','h','j','k','l'],
+    ['SHIFT','z','x','c','v','b','n','m','DEL'],
+    ['NUMS','SPACE','DONE']
+  ];
+  const ROWS_NUMS = [
+    ['1','2','3','4','5','6','7','8','9','0'],
+    ['-','/','_',';','(',')','&','@','"',"'"],
+    ['.', ',','?','!','%','*','DEL'],
+    ['BACK','SPACE','DONE']
+  ];
+
+  let mode = 'letters', shift = false;
 
   function appendChar(c) { pwdInput.value += c; }
-  function deleteLast()  { pwdInput.value = pwdInput.value.slice(0, -1); }
-  function clearAll()    { pwdInput.value = ''; }
+  function deleteLast()  { pwdInput.value = pwdInput.value.slice(0,-1); }
 
-  // Numérico (0-9 + CLR + ⌫)
-  [1,2,3,4,5,6,7,8,9,'CLR',0,'⌫'].forEach(v => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'kbd-num-btn' + (v === '⌫' ? ' del' : v === 'CLR' ? ' clr' : '');
-    btn.textContent = v;
-    btn.addEventListener('click', () => {
-      if (v === '⌫') deleteLast();
-      else if (v === 'CLR') clearAll();
-      else appendChar(String(v));
+  function render() {
+    kbdEl.innerHTML = '';
+    const rows = mode === 'letters' ? ROWS_LETTERS : ROWS_NUMS;
+    rows.forEach((row, ri) => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'qwerty-row';
+      if (mode === 'letters' && ri === 1) rowEl.style.cssText = 'padding:0 4.5%;display:flex;gap:5px;margin-bottom:5px;';
+      row.forEach(key => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        if (key === 'SHIFT') {
+          btn.className = 'qwerty-key qwerty-action' + (shift ? ' qwerty-shift-on' : '');
+          btn.textContent = '⇧'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { shift = !shift; render(); });
+        } else if (key === 'DEL') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = '⌫'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => deleteLast());
+        } else if (key === 'NUMS') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = '123'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { mode = 'nums'; render(); });
+        } else if (key === 'BACK') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = 'ABC'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { mode = 'letters'; render(); });
+        } else if (key === 'SPACE') {
+          btn.className = 'qwerty-key qwerty-space';
+          btn.style.flex = '4'; btn.setAttribute('aria-label','espacio');
+          btn.addEventListener('click', () => appendChar(' '));
+        } else if (key === 'DONE') {
+          btn.className = 'qwerty-key qwerty-done';
+          btn.textContent = 'Listo'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => keyboard.classList.remove('visible'));
+        } else {
+          btn.className = 'qwerty-key';
+          btn.textContent = (shift && mode === 'letters') ? key.toUpperCase() : key;
+          btn.style.flex = '1';
+          btn.addEventListener('click', ((k) => () => {
+            const c = (shift && mode === 'letters') ? k.toUpperCase() : k;
+            appendChar(c);
+            if (shift && mode === 'letters') { shift = false; render(); }
+          })(key));
+        }
+        rowEl.appendChild(btn);
+      });
+      kbdEl.appendChild(rowEl);
     });
-    numGrid.appendChild(btn);
-  });
+  }
 
-  // Letras
-  KBD_LETTERS.forEach(l => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'kbd-char-btn';
-    btn.textContent = l;
-    btn.addEventListener('click', () => appendChar(l));
-    letGrid.appendChild(btn);
-  });
-
-  // Símbolos
-  KBD_SYMBOLS.forEach(s => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'kbd-char-btn';
-    btn.textContent = s;
-    btn.addEventListener('click', () => appendChar(s));
-    symGrid.appendChild(btn);
-  });
-
-  // Mostrar/ocultar teclado
+  render();
   pwdInput.addEventListener('focus', () => keyboard.classList.add('visible'));
   document.getElementById('login-email').addEventListener('focus', () => keyboard.classList.remove('visible'));
 })();

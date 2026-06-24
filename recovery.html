@@ -205,34 +205,50 @@
   .key-btn.empty { border-color:transparent; background:transparent; pointer-events:none; }
   .key-btn.del   { color:var(--muted); font-size:14px; }
 
-  .char-keyboard { margin-bottom:8px; }
-  .char-keyboard-label { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:rgba(0,255,65,0.35); margin-bottom:6px; text-align:center; }
-  .letters-grid { display:grid; grid-template-columns:repeat(9,1fr); gap:3px; margin-bottom:6px; }
-  .symbols-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:3px; }
-  .char-key {
-    aspect-ratio:1; border-radius:5px;
+  /* ── Teclado QWERTY ── */
+  .qwerty-row { display:flex; gap:5px; margin-bottom:5px; }
+  .qwerty-row:last-child { margin-bottom:0; }
+  .qwerty-key {
+    flex:1; height:42px; border-radius:8px;
     border:1px solid rgba(0,255,65,0.12);
-    background:rgba(0,255,65,0.03);
-    font-family:'Inter',sans-serif; font-size:clamp(9px,2.5vw,12px); font-weight:500;
-    color:var(--text); cursor:pointer;
+    background:rgba(0,255,65,0.04);
+    font-family:'Inter',sans-serif; font-size:15px; font-weight:500;
+    color:var(--text); cursor:pointer; min-width:0;
     display:flex; align-items:center; justify-content:center;
-    transition:all 0.1s; user-select:none;
+    transition:background 0.08s, transform 0.08s; user-select:none;
+    -webkit-tap-highlight-color:transparent;
   }
-  .char-key:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.3); }
-  .char-key:active { background:var(--green) !important; color:#000 !important; transform:scale(0.9); }
+  .qwerty-key:active { background:var(--green) !important; color:#000 !important; transform:scale(0.92); }
+  .qwerty-action {
+    background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.22);
+    font-size:13px; color:rgba(0,255,65,0.7);
+  }
+  .qwerty-shift-on {
+    background:rgba(0,255,65,0.22) !important; border-color:rgba(0,255,65,0.55) !important;
+    color:var(--green) !important;
+  }
+  .qwerty-done {
+    background:rgba(0,255,65,0.12); border-color:rgba(0,255,65,0.35);
+    color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.4px;
+  }
+  .qwerty-space { font-size:0; border-color:rgba(0,255,65,0.1); }
+  .pwd-strength { display:flex; flex-wrap:wrap; gap:6px 12px; margin:8px 0 10px; }
+  .pwd-req { font-size:10px; font-weight:500; letter-spacing:0.2px; color:rgba(0,255,65,0.3); transition:color 0.2s; }
+  .pwd-req::before { content:'○ '; }
+  .pwd-req.ok { color:var(--green); }
+  .pwd-req.ok::before { content:'✓ '; }
 
   /* ===== CONTRASEÑA DISPLAY ===== */
-  .pwd-display { display:flex; gap:8px; justify-content:center; margin-bottom:10px; }
-
-  .pwd-char {
-    width:36px; height:44px; border-radius:8px;
+  .pwd-dots {
+    min-height:44px; padding:6px 12px; border-radius:8px;
     border:1.5px solid rgba(0,255,65,0.2);
     background:rgba(0,255,65,0.04);
-    display:flex; align-items:center; justify-content:center;
     font-size:18px; font-weight:700; color:var(--green);
-    transition:all 0.15s;
+    text-align:center; letter-spacing:5px; word-break:break-all;
+    line-height:1.6; margin-bottom:10px; transition:border-color 0.15s;
   }
-  .pwd-char.filled { border-color:var(--green); background:rgba(0,255,65,0.1); box-shadow:0 0 8px rgba(0,255,65,0.3); }
+  .pwd-dots.empty { color:rgba(0,255,65,0.2); letter-spacing:2px; font-size:14px; }
+  .pwd-dots.valid { border-color:var(--green); box-shadow:0 0 8px rgba(0,255,65,0.25); }
 
   .pwd-validation { font-size:10px; font-weight:300; color:rgba(255,255,255,0.3); text-align:center; margin-bottom:10px; letter-spacing:1px; min-height:16px; }
 
@@ -548,77 +564,31 @@
 
     <div class="info-box green">
       <div class="info-box-text">
-        Crea tu nueva contraseña: <strong>4 números + 1 letra + 1 símbolo</strong>. Puedes combinarlos en cualquier orden.
+        Crea tu nueva contraseña: <strong>mínimo 8 caracteres, al menos 1 número y 1 símbolo</strong>. Cuanto más larga, más segura.
       </div>
     </div>
 
     <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(0,255,65,0.5);margin-bottom:8px;">NUEVA CONTRASEÑA</div>
-    <div class="pwd-display">
-      <div class="pwd-char" id="np0">·</div>
-      <div class="pwd-char" id="np1">·</div>
-      <div class="pwd-char" id="np2">·</div>
-      <div class="pwd-char" id="np3">·</div>
-      <div class="pwd-char" id="np4">·</div>
-      <div class="pwd-char" id="np5">·</div>
+    <div class="pwd-dots empty" id="np-dots">· · · · · · · ·</div>
+    <div class="pwd-validation" id="newpwd-hint">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
+    <div class="pwd-strength" id="str-newpwd">
+      <span class="pwd-req" id="rn-len">Mínimo 8 caracteres</span>
+      <span class="pwd-req" id="rn-num">Al menos 1 número</span>
+      <span class="pwd-req" id="rn-sym">Al menos 1 símbolo</span>
     </div>
-    <div class="pwd-validation" id="newpwd-hint">Introduce 4 números, 1 letra y 1 símbolo</div>
 
-    <div class="pin-keypad">
-      <button class="key-btn green-key" data-target="newpwd" data-val="1">1</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="2">2</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="3">3</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="4">4</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="5">5</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="6">6</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="7">7</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="8">8</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="9">9</button>
-      <button class="key-btn green-key" id="clr-newpwd">CLR</button>
-      <button class="key-btn green-key" data-target="newpwd" data-val="0">0</button>
-      <button class="key-btn del green-key" id="del-newpwd">⌫</button>
-    </div>
-    <div class="char-keyboard">
-      <div class="char-keyboard-label">Letra</div>
-      <div class="letters-grid" id="letters-new"></div>
-    </div>
-    <div class="char-keyboard">
-      <div class="char-keyboard-label">Símbolo</div>
-      <div class="symbols-grid" id="symbols-new"></div>
-    </div>
+    <div id="qwerty-kbd-new"></div>
 
     <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(0,255,65,0.5);margin:20px 0 8px;">CONFIRMAR CONTRASEÑA</div>
-    <div class="pwd-display">
-      <div class="pwd-char" id="cp0">·</div>
-      <div class="pwd-char" id="cp1">·</div>
-      <div class="pwd-char" id="cp2">·</div>
-      <div class="pwd-char" id="cp3">·</div>
-      <div class="pwd-char" id="cp4">·</div>
-      <div class="pwd-char" id="cp5">·</div>
-    </div>
+    <div class="pwd-dots empty" id="cp-dots">· · · · · · · ·</div>
     <div class="pwd-validation" id="confirmpwd-hint">Repite la nueva contraseña</div>
+    <div class="pwd-strength" id="str-confirmpwd">
+      <span class="pwd-req" id="rc-len">Mínimo 8 caracteres</span>
+      <span class="pwd-req" id="rc-num">Al menos 1 número</span>
+      <span class="pwd-req" id="rc-sym">Al menos 1 símbolo</span>
+    </div>
 
-    <div class="pin-keypad">
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="1">1</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="2">2</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="3">3</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="4">4</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="5">5</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="6">6</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="7">7</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="8">8</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="9">9</button>
-      <button class="key-btn green-key" id="clr-confirmpwd">CLR</button>
-      <button class="key-btn green-key" data-target="confirmpwd" data-val="0">0</button>
-      <button class="key-btn del green-key" id="del-confirmpwd">⌫</button>
-    </div>
-    <div class="char-keyboard">
-      <div class="char-keyboard-label">Letra</div>
-      <div class="letters-grid" id="letters-confirm"></div>
-    </div>
-    <div class="char-keyboard">
-      <div class="char-keyboard-label">Símbolo</div>
-      <div class="symbols-grid" id="symbols-confirm"></div>
-    </div>
+    <div id="qwerty-kbd-confirm"></div>
 
     <!-- 2FA DINÁMICO -->
     <div class="tfa-section" id="tfa-section">
@@ -737,33 +707,87 @@ let recTimerIntvl = null;
 let tfaTimerIntvl = null;
 let recEmail    = '';
 
-// ===== TECLADO LETRAS/SÍMBOLOS =====
-function buildCharKeyboard(lettersId, symbolsId, target) {
-  const lg = document.getElementById(lettersId);
-  const sg = document.getElementById(symbolsId);
-  if (!lg || !sg) return;
-  LETTERS.forEach(l => {
-    const btn = document.createElement('button');
-    btn.className = 'char-key';
-    btn.textContent = l;
-    btn.addEventListener('click', () => handleInput(target, l));
-    lg.appendChild(btn);
-  });
-  SYMBOLS.forEach(s => {
-    const btn = document.createElement('button');
-    btn.className = 'char-key';
-    btn.textContent = s;
-    btn.addEventListener('click', () => handleInput(target, s));
-    sg.appendChild(btn);
-  });
+// ===== TECLADO QWERTY =====
+function buildQwertyKbd(containerId, appendFn, deleteFn) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const ROWS_LETTERS = [
+    ['q','w','e','r','t','y','u','i','o','p'],
+    ['a','s','d','f','g','h','j','k','l'],
+    ['SHIFT','z','x','c','v','b','n','m','DEL'],
+    ['NUMS','SPACE']
+  ];
+  const ROWS_NUMS = [
+    ['1','2','3','4','5','6','7','8','9','0'],
+    ['-','/','_',';','(',')','&','@','"',"'"],
+    ['.', ',','?','!','%','*','DEL'],
+    ['BACK','SPACE']
+  ];
+  let mode = 'letters', shift = false;
+  function render() {
+    container.innerHTML = '';
+    const rows = mode === 'letters' ? ROWS_LETTERS : ROWS_NUMS;
+    rows.forEach((row, ri) => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'qwerty-row';
+      if (mode === 'letters' && ri === 1) rowEl.style.cssText = 'padding:0 4.5%;display:flex;gap:5px;margin-bottom:5px;';
+      row.forEach(key => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        if (key === 'SHIFT') {
+          btn.className = 'qwerty-key qwerty-action' + (shift ? ' qwerty-shift-on' : '');
+          btn.textContent = '⇧'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { shift = !shift; render(); });
+        } else if (key === 'DEL') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = '⌫'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => deleteFn());
+        } else if (key === 'NUMS') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = '123'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { mode = 'nums'; render(); });
+        } else if (key === 'BACK') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = 'ABC'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { mode = 'letters'; render(); });
+        } else if (key === 'SPACE') {
+          btn.className = 'qwerty-key qwerty-space';
+          btn.style.flex = '4'; btn.setAttribute('aria-label','espacio');
+          btn.addEventListener('click', () => appendFn(' '));
+        } else if (key === 'DONE') {
+          btn.className = 'qwerty-key qwerty-done';
+          btn.textContent = 'Listo'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => {});
+        } else {
+          btn.className = 'qwerty-key';
+          btn.textContent = (shift && mode === 'letters') ? key.toUpperCase() : key;
+          btn.style.flex = '1';
+          btn.addEventListener('click', ((k) => () => {
+            const c = (shift && mode === 'letters') ? k.toUpperCase() : k;
+            appendFn(c);
+            if (shift && mode === 'letters') { shift = false; render(); }
+          })(key));
+        }
+        rowEl.appendChild(btn);
+      });
+      container.appendChild(rowEl);
+    });
+  }
+  render();
 }
-buildCharKeyboard('letters-new',     'symbols-new',     'newpwd');
-buildCharKeyboard('letters-confirm', 'symbols-confirm', 'confirmpwd');
+buildQwertyKbd('qwerty-kbd-new',
+  c => handleInput('newpwd', c),
+  () => { newPwdBuf = newPwdBuf.slice(0,-1); updatePwdDisplay('newpwd'); }
+);
+buildQwertyKbd('qwerty-kbd-confirm',
+  c => handleInput('confirmpwd', c),
+  () => { confPwdBuf = confPwdBuf.slice(0,-1); updatePwdDisplay('confirmpwd'); }
+);
 
 // ===== INPUT HANDLER =====
 function handleInput(target, val) {
-  if (target === 'newpwd')     { if (newPwdBuf.length  >= PIN_LEN) return; newPwdBuf  += val; updatePwdDisplay('newpwd'); }
-  if (target === 'confirmpwd') { if (confPwdBuf.length >= PIN_LEN) return; confPwdBuf += val; updatePwdDisplay('confirmpwd'); }
+  if (target === 'newpwd')     { newPwdBuf  += val; updatePwdDisplay('newpwd'); }
+  if (target === 'confirmpwd') { confPwdBuf += val; updatePwdDisplay('confirmpwd'); }
   if (target === 'tfa')        { if (tfaBuf.length      >= PIN_LEN) return; tfaBuf      += val; updateCodeDisplay('tfa'); }
   if (target === 'tfaemail')   { if (tfaEmailBuf.length >= PIN_LEN) return; tfaEmailBuf += val; updateCodeDisplay('tfaemail'); }
 }
@@ -772,51 +796,43 @@ document.querySelectorAll('.key-btn[data-target]').forEach(btn => {
   btn.addEventListener('click', () => handleInput(btn.dataset.target, btn.dataset.val));
 });
 
-document.getElementById('del-newpwd').addEventListener('click',    () => { newPwdBuf  = newPwdBuf.slice(0,-1);   updatePwdDisplay('newpwd'); });
-document.getElementById('del-confirmpwd').addEventListener('click', () => { confPwdBuf = confPwdBuf.slice(0,-1);  updatePwdDisplay('confirmpwd'); });
 document.getElementById('del-tfa').addEventListener('click',        () => { tfaBuf      = tfaBuf.slice(0,-1);      updateCodeDisplay('tfa'); });
 document.getElementById('del-tfaemail').addEventListener('click',   () => { tfaEmailBuf = tfaEmailBuf.slice(0,-1); updateCodeDisplay('tfaemail'); });
-document.getElementById('clr-newpwd').addEventListener('click',     () => { newPwdBuf  = ''; updatePwdDisplay('newpwd'); });
-document.getElementById('clr-confirmpwd').addEventListener('click', () => { confPwdBuf = ''; updatePwdDisplay('confirmpwd'); });
 document.getElementById('clr-tfa').addEventListener('click',        () => { tfaBuf      = ''; updateCodeDisplay('tfa'); });
 document.getElementById('clr-tfaemail').addEventListener('click',   () => { tfaEmailBuf = ''; updateCodeDisplay('tfaemail'); });
 
 // ===== DISPLAYS =====
 function updatePwdDisplay(which) {
   const buf    = which === 'newpwd' ? newPwdBuf : confPwdBuf;
-  const prefix = which === 'newpwd' ? 'np' : 'cp';
+  const dotsId = which === 'newpwd' ? 'np-dots' : 'cp-dots';
   const hintId = which === 'newpwd' ? 'newpwd-hint' : 'confirmpwd-hint';
+  const strPfx = which === 'newpwd' ? 'rn-' : 'rc-';
 
-  for (let i = 0; i < PIN_LEN; i++) {
-    const el = document.getElementById(prefix + i);
-    if (!el) continue;
-    el.classList.remove('filled');
-    el.textContent = i < buf.length ? '●' : '·';
-    if (i < buf.length) el.classList.add('filled');
+  const dotsEl = document.getElementById(dotsId);
+  if (dotsEl) {
+    if (buf.length === 0) {
+      dotsEl.textContent = '· · · · · · · ·';
+      dotsEl.classList.add('empty');
+      dotsEl.classList.remove('valid');
+    } else {
+      dotsEl.textContent = '●'.repeat(buf.length);
+      dotsEl.classList.remove('empty');
+      dotsEl.classList.toggle('valid', validatePwd(buf).valid);
+    }
   }
 
+  // Indicador de 3 requisitos en vivo
+  document.getElementById(strPfx+'len').classList.toggle('ok', buf.length >= 8);
+  document.getElementById(strPfx+'num').classList.toggle('ok', /[0-9]/.test(buf));
+  document.getElementById(strPfx+'sym').classList.toggle('ok', /[^A-Za-z0-9\s]/.test(buf));
+
   const hint = document.getElementById(hintId);
-  if (buf.length === 0) {
-    hint.textContent = which === 'newpwd' ? 'Introduce 4 números, 1 letra y 1 símbolo' : 'Repite la nueva contraseña';
-    hint.style.color = 'rgba(255,255,255,0.3)';
-  } else if (buf.length < PIN_LEN) {
-    const v = validatePwd(buf);
-    const missing = [];
-    const nums = (buf.match(/[0-9]/g)||[]).length;
-    if (nums < 4) missing.push((4-nums)+' número'+(4-nums>1?'s':''));
-    if (!v.hasLetter) missing.push('1 letra');
-    if (!v.hasSymbol) missing.push('1 símbolo');
-    hint.textContent = missing.length ? 'Falta: '+missing.join(', ') : '✓ Completa los 6 caracteres';
-    hint.style.color = 'rgba(255,200,100,0.7)';
+  if (which === 'confirmpwd' && buf.length > 0) {
+    if (confPwdBuf === newPwdBuf) { hint.textContent='✓ Coinciden'; hint.style.color='#00ff41'; }
+    else                           { hint.textContent='✗ No coinciden'; hint.style.color='#ff4444'; }
   } else {
-    if (which === 'confirmpwd') {
-      if (confPwdBuf === newPwdBuf) { hint.textContent='✓ Coinciden'; hint.style.color='#00ff41'; }
-      else                           { hint.textContent='✗ No coinciden'; hint.style.color='#ff4444'; }
-    } else {
-      const v = validatePwd(buf);
-      hint.textContent = v.valid ? '✓ Contraseña válida' : '✗ Revisa los requisitos';
-      hint.style.color = v.valid ? '#00ff41' : '#ff4444';
-    }
+    hint.textContent = which === 'newpwd' ? 'Mínimo 8 caracteres, 1 número y 1 símbolo' : 'Repite la nueva contraseña';
+    hint.style.color = 'rgba(255,255,255,0.3)';
   }
   checkResetReady();
 }
@@ -836,7 +852,7 @@ function updateCodeDisplay(which) {
 
 // ===== CHECK RESET READY =====
 function checkResetReady() {
-  const pwdOk  = validatePwd(newPwdBuf).valid && newPwdBuf === confPwdBuf && confPwdBuf.length === PIN_LEN;
+  const pwdOk  = validatePwd(newPwdBuf).valid && newPwdBuf === confPwdBuf && confPwdBuf.length >= 8;
   let tfaOk = false;
   if (recTwofaMethod === 'totp')  tfaOk = tfaBuf.length === PIN_LEN;
   if (recTwofaMethod === 'email') tfaOk = tfaEmailBuf.length === PIN_LEN;
@@ -844,11 +860,8 @@ function checkResetReady() {
 }
 
 function validatePwd(pwd) {
-  const nums = (pwd.match(/[0-9]/g)||[]).length;
   return {
-    valid: nums>=4 && /[A-Za-z]/.test(pwd) && /[@#$%&*!?+\-=_.,:;()\[\]{}|~`<>/\\'"]/g.test(pwd) && pwd.length===PIN_LEN,
-    hasLetter: /[A-Za-z]/.test(pwd),
-    hasSymbol: /[@#$%&*!?+\-=_.,:;()\[\]{}|~`<>/\\'"]/g.test(pwd),
+    valid: pwd.length >= 8 && /[0-9]/.test(pwd) && /[^A-Za-z0-9\s]/.test(pwd),
   };
 }
 
