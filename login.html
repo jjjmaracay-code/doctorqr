@@ -279,10 +279,10 @@
   }
   .qwerty-row:last-child { margin-bottom:0; }
   .qwerty-key {
-    flex:1; height:42px; border-radius:8px;
+    flex:1; height:48px; border-radius:8px;
     border:1px solid rgba(0,255,65,0.12);
     background:rgba(0,255,65,0.04);
-    font-family:'Inter',sans-serif; font-size:15px; font-weight:500;
+    font-family:'Inter',sans-serif; font-size:17px; font-weight:500;
     color:var(--text); cursor:pointer; min-width:0;
     display:flex; align-items:center; justify-content:center;
     transition:background 0.08s, transform 0.08s; user-select:none;
@@ -302,6 +302,9 @@
     color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.4px;
   }
   .qwerty-space { font-size:0; border-color:rgba(0,255,65,0.1); }
+  .domain-btns { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+  .domain-btn { flex:1; padding:6px 4px; border-radius:6px; border:1px solid rgba(0,255,65,0.2); background:rgba(0,255,65,0.04); font-family:'Inter',sans-serif; font-size:11px; font-weight:500; color:rgba(0,255,65,0.7); cursor:pointer; white-space:nowrap; transition:background 0.1s; }
+  .domain-btn:active { background:rgba(0,255,65,0.15); }
 </style>
 </head>
 <body>
@@ -451,6 +454,11 @@
         <label class="field-label" for="login-email">Correo electrónico</label>
         <input class="field-input" type="email" id="login-email"
                placeholder="tu@email.com" autocomplete="email" inputmode="email">
+        <div class="domain-btns" id="domain-btns-login">
+          <button type="button" class="domain-btn" data-domain="@gmail.com">@gmail.com</button>
+          <button type="button" class="domain-btn" data-domain="@hotmail.com">@hotmail.com</button>
+          <button type="button" class="domain-btn" data-domain="@icloud.com">@icloud.com</button>
+        </div>
       </div>
 
       <div class="field-wrap">
@@ -559,6 +567,19 @@
 <script>
 const API = 'https://doctorqr-backend-production.up.railway.app';
 
+// ===== SONIDO TECLA =====
+let _clickCtx;
+function playKeyClick() {
+  if (!_clickCtx) _clickCtx = new (window.AudioContext||window.webkitAudioContext)();
+  const osc = _clickCtx.createOscillator();
+  const gain = _clickCtx.createGain();
+  osc.connect(gain); gain.connect(_clickCtx.destination);
+  osc.frequency.value = 800;
+  gain.gain.setValueAtTime(0.04, _clickCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, _clickCtx.currentTime + 0.05);
+  osc.start(); osc.stop(_clickCtx.currentTime + 0.05);
+}
+
 // ===== TECLADO QWERTY CONTRASEÑA =====
 (function() {
   const pwdInput = document.getElementById('login-password');
@@ -569,19 +590,20 @@ const API = 'https://doctorqr-backend-production.up.railway.app';
     ['q','w','e','r','t','y','u','i','o','p'],
     ['a','s','d','f','g','h','j','k','l'],
     ['SHIFT','z','x','c','v','b','n','m','DEL'],
-    ['NUMS','SPACE','DONE']
+    ['NUMS','CLR','SPACE','DONE']
   ];
   const ROWS_NUMS = [
     ['1','2','3','4','5','6','7','8','9','0'],
     ['-','/','_',';','(',')','&','@','"',"'"],
     ['.', ',','?','!','%','*','DEL'],
-    ['BACK','SPACE','DONE']
+    ['BACK','CLR','SPACE','DONE']
   ];
 
   let mode = 'letters', shift = false;
 
-  function appendChar(c) { pwdInput.value += c; }
-  function deleteLast()  { pwdInput.value = pwdInput.value.slice(0,-1); }
+  function appendChar(c) { playKeyClick(); pwdInput.value += c; }
+  function deleteLast()  { playKeyClick(); pwdInput.value = pwdInput.value.slice(0,-1); }
+  function clearAll()    { playKeyClick(); pwdInput.value = ''; }
 
   function render() {
     kbdEl.innerHTML = '';
@@ -596,19 +618,23 @@ const API = 'https://doctorqr-backend-production.up.railway.app';
         if (key === 'SHIFT') {
           btn.className = 'qwerty-key qwerty-action' + (shift ? ' qwerty-shift-on' : '');
           btn.textContent = '⇧'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => { shift = !shift; render(); });
+          btn.addEventListener('click', () => { playKeyClick(); shift = !shift; render(); });
         } else if (key === 'DEL') {
           btn.className = 'qwerty-key qwerty-action';
           btn.textContent = '⌫'; btn.style.flex = '1.5';
           btn.addEventListener('click', () => deleteLast());
+        } else if (key === 'CLR') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = 'Limpiar'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => clearAll());
         } else if (key === 'NUMS') {
           btn.className = 'qwerty-key qwerty-action';
           btn.textContent = '123'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => { mode = 'nums'; render(); });
+          btn.addEventListener('click', () => { playKeyClick(); mode = 'nums'; render(); });
         } else if (key === 'BACK') {
           btn.className = 'qwerty-key qwerty-action';
           btn.textContent = 'ABC'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => { mode = 'letters'; render(); });
+          btn.addEventListener('click', () => { playKeyClick(); mode = 'letters'; render(); });
         } else if (key === 'SPACE') {
           btn.className = 'qwerty-key qwerty-space';
           btn.style.flex = '4'; btn.setAttribute('aria-label','espacio');
@@ -616,7 +642,7 @@ const API = 'https://doctorqr-backend-production.up.railway.app';
         } else if (key === 'DONE') {
           btn.className = 'qwerty-key qwerty-done';
           btn.textContent = 'Listo'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => keyboard.classList.remove('visible'));
+          btn.addEventListener('click', () => { playKeyClick(); keyboard.classList.remove('visible'); });
         } else {
           btn.className = 'qwerty-key';
           btn.textContent = (shift && mode === 'letters') ? key.toUpperCase() : key;
@@ -637,6 +663,18 @@ const API = 'https://doctorqr-backend-production.up.railway.app';
   pwdInput.addEventListener('focus', () => keyboard.classList.add('visible'));
   document.getElementById('login-email').addEventListener('focus', () => keyboard.classList.remove('visible'));
 })();
+
+// ===== BOTONES DOMINIO EMAIL =====
+document.querySelectorAll('.domain-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const domain = btn.dataset.domain;
+    const input  = btn.closest('.field-wrap').querySelector('input[type="email"]');
+    if (!input) return;
+    const val = input.value;
+    input.value = val.includes('@') ? val.slice(0, val.indexOf('@')) + domain : val + domain;
+    input.dispatchEvent(new Event('input'));
+  });
+});
 
 // ===== OJO CONTRASEÑA =====
 (function initEye() {

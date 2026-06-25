@@ -209,10 +209,10 @@
   .qwerty-row { display:flex; gap:5px; margin-bottom:5px; }
   .qwerty-row:last-child { margin-bottom:0; }
   .qwerty-key {
-    flex:1; height:42px; border-radius:8px;
+    flex:1; height:48px; border-radius:8px;
     border:1px solid rgba(0,255,65,0.12);
     background:rgba(0,255,65,0.04);
-    font-family:'Inter',sans-serif; font-size:15px; font-weight:500;
+    font-family:'Inter',sans-serif; font-size:17px; font-weight:500;
     color:var(--text); cursor:pointer; min-width:0;
     display:flex; align-items:center; justify-content:center;
     transition:background 0.08s, transform 0.08s; user-select:none;
@@ -232,6 +232,10 @@
     color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.4px;
   }
   .qwerty-space { font-size:0; border-color:rgba(0,255,65,0.1); }
+  .domain-btns { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+  .domain-btn { flex:1; padding:6px 4px; border-radius:6px; border:1px solid rgba(0,255,65,0.2); background:rgba(0,255,65,0.04); font-family:'Inter',sans-serif; font-size:11px; font-weight:500; color:rgba(0,255,65,0.7); cursor:pointer; white-space:nowrap; transition:background 0.1s; }
+  .domain-btn:active { background:rgba(0,255,65,0.15); }
+  .pwd-hint-static { font-size:10px; color:rgba(255,255,255,0.35); line-height:1.5; margin:6px 0 10px; font-family:'Inter',sans-serif; }
   .pwd-strength { display:flex; flex-wrap:wrap; gap:6px 12px; margin:8px 0 10px; }
   .pwd-req { font-size:10px; font-weight:500; letter-spacing:0.2px; color:rgba(0,255,65,0.3); transition:color 0.2s; }
   .pwd-req::before { content:'○ '; }
@@ -494,6 +498,11 @@
     <div class="field-wrap">
       <div class="field-label">Correo electrónico registrado</div>
       <input class="field-input" id="rec-email" type="email" placeholder="tu@email.com" autocomplete="email">
+      <div class="domain-btns">
+        <button type="button" class="domain-btn" data-domain="@gmail.com">@gmail.com</button>
+        <button type="button" class="domain-btn" data-domain="@hotmail.com">@hotmail.com</button>
+        <button type="button" class="domain-btn" data-domain="@icloud.com">@icloud.com</button>
+      </div>
       <div class="field-hint" id="rec-email-hint"></div>
     </div>
 
@@ -575,7 +584,9 @@
       <span class="pwd-req" id="rn-len">Mínimo 8 caracteres</span>
       <span class="pwd-req" id="rn-num">Al menos 1 número</span>
       <span class="pwd-req" id="rn-sym">Al menos 1 símbolo</span>
+      <span class="pwd-req" id="rn-up">Al menos 1 mayúscula</span>
     </div>
+    <div class="pwd-hint-static">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
     <div id="qwerty-kbd-new"></div>
 
@@ -586,7 +597,9 @@
       <span class="pwd-req" id="rc-len">Mínimo 8 caracteres</span>
       <span class="pwd-req" id="rc-num">Al menos 1 número</span>
       <span class="pwd-req" id="rc-sym">Al menos 1 símbolo</span>
+      <span class="pwd-req" id="rc-up">Al menos 1 mayúscula</span>
     </div>
+    <div class="pwd-hint-static">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
     <div id="qwerty-kbd-confirm"></div>
 
@@ -708,20 +721,33 @@ let tfaTimerIntvl = null;
 let recEmail    = '';
 
 // ===== TECLADO QWERTY =====
-function buildQwertyKbd(containerId, appendFn, deleteFn) {
+// ===== SONIDO TECLA =====
+let _clickCtx;
+function playKeyClick() {
+  if (!_clickCtx) _clickCtx = new (window.AudioContext||window.webkitAudioContext)();
+  const osc = _clickCtx.createOscillator();
+  const gain = _clickCtx.createGain();
+  osc.connect(gain); gain.connect(_clickCtx.destination);
+  osc.frequency.value = 800;
+  gain.gain.setValueAtTime(0.04, _clickCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, _clickCtx.currentTime + 0.05);
+  osc.start(); osc.stop(_clickCtx.currentTime + 0.05);
+}
+
+function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const ROWS_LETTERS = [
     ['q','w','e','r','t','y','u','i','o','p'],
     ['a','s','d','f','g','h','j','k','l'],
     ['SHIFT','z','x','c','v','b','n','m','DEL'],
-    ['NUMS','SPACE']
+    ['NUMS','SPACE','CLR']
   ];
   const ROWS_NUMS = [
     ['1','2','3','4','5','6','7','8','9','0'],
     ['-','/','_',';','(',')','&','@','"',"'"],
     ['.', ',','?','!','%','*','DEL'],
-    ['BACK','SPACE']
+    ['BACK','SPACE','CLR']
   ];
   let mode = 'letters', shift = false;
   function render() {
@@ -737,32 +763,33 @@ function buildQwertyKbd(containerId, appendFn, deleteFn) {
         if (key === 'SHIFT') {
           btn.className = 'qwerty-key qwerty-action' + (shift ? ' qwerty-shift-on' : '');
           btn.textContent = '⇧'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => { shift = !shift; render(); });
+          btn.addEventListener('click', () => { playKeyClick(); shift = !shift; render(); });
         } else if (key === 'DEL') {
           btn.className = 'qwerty-key qwerty-action';
           btn.textContent = '⌫'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => deleteFn());
+          btn.addEventListener('click', () => { playKeyClick(); deleteFn(); });
+        } else if (key === 'CLR') {
+          btn.className = 'qwerty-key qwerty-action';
+          btn.textContent = 'Limpiar'; btn.style.flex = '1.5';
+          btn.addEventListener('click', () => { playKeyClick(); if (clearFn) clearFn(); });
         } else if (key === 'NUMS') {
           btn.className = 'qwerty-key qwerty-action';
           btn.textContent = '123'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => { mode = 'nums'; render(); });
+          btn.addEventListener('click', () => { playKeyClick(); mode = 'nums'; render(); });
         } else if (key === 'BACK') {
           btn.className = 'qwerty-key qwerty-action';
           btn.textContent = 'ABC'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => { mode = 'letters'; render(); });
+          btn.addEventListener('click', () => { playKeyClick(); mode = 'letters'; render(); });
         } else if (key === 'SPACE') {
           btn.className = 'qwerty-key qwerty-space';
           btn.style.flex = '4'; btn.setAttribute('aria-label','espacio');
-          btn.addEventListener('click', () => appendFn(' '));
-        } else if (key === 'DONE') {
-          btn.className = 'qwerty-key qwerty-done';
-          btn.textContent = 'Listo'; btn.style.flex = '1.5';
-          btn.addEventListener('click', () => {});
+          btn.addEventListener('click', () => { playKeyClick(); appendFn(' '); });
         } else {
           btn.className = 'qwerty-key';
           btn.textContent = (shift && mode === 'letters') ? key.toUpperCase() : key;
           btn.style.flex = '1';
           btn.addEventListener('click', ((k) => () => {
+            playKeyClick();
             const c = (shift && mode === 'letters') ? k.toUpperCase() : k;
             appendFn(c);
             if (shift && mode === 'letters') { shift = false; render(); }
@@ -777,12 +804,26 @@ function buildQwertyKbd(containerId, appendFn, deleteFn) {
 }
 buildQwertyKbd('qwerty-kbd-new',
   c => handleInput('newpwd', c),
-  () => { newPwdBuf = newPwdBuf.slice(0,-1); updatePwdDisplay('newpwd'); }
+  () => { newPwdBuf = newPwdBuf.slice(0,-1); updatePwdDisplay('newpwd'); },
+  () => { newPwdBuf = ''; updatePwdDisplay('newpwd'); }
 );
 buildQwertyKbd('qwerty-kbd-confirm',
   c => handleInput('confirmpwd', c),
-  () => { confPwdBuf = confPwdBuf.slice(0,-1); updatePwdDisplay('confirmpwd'); }
+  () => { confPwdBuf = confPwdBuf.slice(0,-1); updatePwdDisplay('confirmpwd'); },
+  () => { confPwdBuf = ''; updatePwdDisplay('confirmpwd'); }
 );
+
+// ===== BOTONES DOMINIO EMAIL =====
+document.querySelectorAll('.domain-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const domain = btn.dataset.domain;
+    const input  = btn.closest('.field-wrap').querySelector('input[type="email"]');
+    if (!input) return;
+    const val = input.value;
+    input.value = val.includes('@') ? val.slice(0, val.indexOf('@')) + domain : val + domain;
+    input.dispatchEvent(new Event('input'));
+  });
+});
 
 // ===== INPUT HANDLER =====
 function handleInput(target, val) {
@@ -821,10 +862,11 @@ function updatePwdDisplay(which) {
     }
   }
 
-  // Indicador de 3 requisitos en vivo
+  // Indicador de 4 requisitos en vivo
   document.getElementById(strPfx+'len').classList.toggle('ok', buf.length >= 8);
   document.getElementById(strPfx+'num').classList.toggle('ok', /[0-9]/.test(buf));
   document.getElementById(strPfx+'sym').classList.toggle('ok', /[^A-Za-z0-9\s]/.test(buf));
+  document.getElementById(strPfx+'up').classList.toggle('ok',  /[A-Z]/.test(buf));
 
   const hint = document.getElementById(hintId);
   if (which === 'confirmpwd' && buf.length > 0) {
@@ -861,7 +903,7 @@ function checkResetReady() {
 
 function validatePwd(pwd) {
   return {
-    valid: pwd.length >= 8 && /[0-9]/.test(pwd) && /[^A-Za-z0-9\s]/.test(pwd),
+    valid: pwd.length >= 8 && /[0-9]/.test(pwd) && /[^A-Za-z0-9\s]/.test(pwd) && /[A-Z]/.test(pwd),
   };
 }
 
