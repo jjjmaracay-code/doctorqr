@@ -1,6 +1,6 @@
 {
-  "name": "DoctorQR",
-  "short_name": "DoctorQR",
+  "name": "Atabeyapp",
+  "short_name": "Atabeyapp",
   "description": "Tu historial médico en un QR. Listo para una emergencia real.",
   "start_url": "/",
   "display": "standalone",

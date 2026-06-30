@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="theme-color" content="#000000">
-  <title>DoctorQR</title>
+  <title>Atabeyapp</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -637,7 +637,7 @@ function renderApp() {
   document.getElementById('app').innerHTML = `
     <header class="header" id="hdr">
       <div class="header-top">
-        <div class="logo">DOCTOR<span style="color:#111111">QR</span></div>
+        <div class="logo">ATABEY<span style="color:#111111">APP</span></div>
         <div class="lang-switcher">
           <button class="lang-btn ${lang==='es'?'active':''}" onclick="setLang('es')">ES</button>
           <button class="lang-btn ${lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
@@ -699,7 +699,7 @@ function positionSticky() {
 function renderError() {
   document.getElementById('app').innerHTML = `
     <div class="error-screen">
-      <div class="logo" style="margin-bottom:16px">DOCTOR<span style="color:#111111">QR</span></div>
+      <div class="logo" style="margin-bottom:16px">ATABEY<span style="color:#111111">APP</span></div>
       <div class="error-icon">⚠</div>
       <div class="error-title">${esc(t.err_title)}</div>
       <div class="error-msg">${esc(t.err_msg)}</div>
