@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DoctorQR · Registro">
-<meta name="theme-color" content="#00ff41">
+<meta name="theme-color" content="#12A5FF">
 <title>DoctorQR · Registro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 
 <style>
   :root {
-    --green: #00ff41;
+    --green: #12A5FF;
     --red: #ff0000;
     --red-soft: #ff4444;
     --bg: #080808;
@@ -22,7 +22,7 @@
     --surface2: #1a1a1a;
     --text: #e8e8e8;
     --muted: rgba(255,255,255,0.35);
-    --border: rgba(0,255,65,0.15);
+    --border: rgba(18,165,255,0.15);
   }
 
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
@@ -44,8 +44,8 @@
     position:fixed;
     inset:0;
     background:
-      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px),
-      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px);
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(18,165,255,0.02) 40px,rgba(18,165,255,0.02) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(18,165,255,0.02) 40px,rgba(18,165,255,0.02) 41px);
     pointer-events:none;
     z-index:0;
   }
@@ -61,7 +61,7 @@
   .reg-logo-wrap {
     margin-bottom:-120px;
     perspective:800px;
-    filter:drop-shadow(0 0 12px #00ff41) drop-shadow(0 0 30px rgba(0,255,65,0.4));
+    filter:drop-shadow(0 0 12px #12A5FF) drop-shadow(0 0 30px rgba(18,165,255,0.4));
   }
 
   .logo-rotate {
@@ -92,12 +92,12 @@
     font-size:28px; font-weight:900; letter-spacing:10px;
     margin-bottom:4px;
   }
-  .reg-brand .txt-doctor { color:#00ff41; text-shadow:0 0 10px #00ff41,0 0 25px rgba(0,255,65,0.6); }
+  .reg-brand .txt-doctor { color:#12A5FF; text-shadow:0 0 10px #12A5FF,0 0 25px rgba(18,165,255,0.6); }
   .reg-brand .txt-qr     { color:#ffffff; text-shadow:0 0 10px #ffffff,0 0 20px rgba(255,255,255,0.4); }
 
   .reg-tagline {
     font-size:10px; font-weight:300;
-    color:rgba(0,255,65,0.6);
+    color:rgba(18,165,255,0.6);
     letter-spacing:2px; text-transform:uppercase;
     margin-bottom:28px;
   }
@@ -110,17 +110,17 @@
 
   .step-dot {
     width:28px; height:28px; border-radius:50%;
-    border:2px solid rgba(0,255,65,0.2);
+    border:2px solid rgba(18,165,255,0.2);
     background:transparent;
     display:flex; align-items:center; justify-content:center;
     font-size:11px; font-weight:700; color:var(--muted);
     flex-shrink:0; transition:all 0.3s;
   }
-  .step-dot.active { border-color:var(--green); background:var(--green); color:#000; box-shadow:0 0 14px rgba(0,255,65,0.5); }
-  .step-dot.done   { border-color:rgba(0,255,65,0.5); background:rgba(0,255,65,0.15); color:var(--green); }
+  .step-dot.active { border-color:var(--green); background:var(--green); color:#000; box-shadow:0 0 14px rgba(18,165,255,0.5); }
+  .step-dot.done   { border-color:rgba(18,165,255,0.5); background:rgba(18,165,255,0.15); color:var(--green); }
 
-  .step-line { flex:1; height:2px; background:rgba(0,255,65,0.1); transition:background 0.3s; }
-  .step-line.done { background:rgba(0,255,65,0.4); }
+  .step-line { flex:1; height:2px; background:rgba(18,165,255,0.1); transition:background 0.3s; }
+  .step-line.done { background:rgba(18,165,255,0.4); }
 
   .step-label {
     font-size:9px; letter-spacing:2px; text-transform:uppercase;
@@ -146,9 +146,9 @@
   .form-card-title {
     font-size:10px; font-weight:600;
     letter-spacing:4px; text-transform:uppercase;
-    color:#00ff41;
+    color:#12A5FF;
     margin-bottom:18px; padding-bottom:10px;
-    border-bottom:1px solid rgba(0,255,65,0.08);
+    border-bottom:1px solid rgba(18,165,255,0.08);
   }
 
   /* ===== INPUTS ===== */
@@ -158,20 +158,20 @@
   .field-label {
     font-size:10px; font-weight:600;
     letter-spacing:2px; text-transform:uppercase;
-    color:rgba(0,255,65,0.85);
+    color:rgba(18,165,255,0.85);
   }
 
   .field-input {
     width:100%; padding:13px 14px;
     border-radius:10px;
-    border:1px solid rgba(0,255,65,0.3);
-    background:rgba(0,255,65,0.06);
+    border:1px solid rgba(18,165,255,0.3);
+    background:rgba(18,165,255,0.06);
     font-family:'Inter',sans-serif; font-size:15px; font-weight:400;
     color:#fff; outline:none;
     transition:border-color 0.15s,background 0.15s;
     -webkit-appearance:none;
   }
-  .field-input:focus { border-color:rgba(0,255,65,0.5); background:rgba(0,255,65,0.08); }
+  .field-input:focus { border-color:rgba(18,165,255,0.5); background:rgba(18,165,255,0.08); }
   .field-input::placeholder { color:rgba(255,255,255,0.2); }
   .field-input:disabled {
     opacity:0.55; cursor:not-allowed;
@@ -189,29 +189,29 @@
   .chips-reg { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
   .chip-reg {
     padding:7px 14px; border-radius:20px;
-    border:1px solid rgba(0,255,65,0.2);
-    background:rgba(0,255,65,0.04);
+    border:1px solid rgba(18,165,255,0.2);
+    background:rgba(18,165,255,0.04);
     color:rgba(255,255,255,0.55);
     font-size:12px; font-weight:500;
     cursor:pointer; transition:all 0.15s;
     letter-spacing:0.5px; user-select:none;
     -webkit-tap-highlight-color:transparent;
   }
-  .chip-reg:hover { border-color:rgba(0,255,65,0.4); color:rgba(255,255,255,0.9); }
-  .chip-reg.active { background:rgba(0,255,65,0.15); border-color:#00ff41; color:#00ff41; font-weight:600; }
+  .chip-reg:hover { border-color:rgba(18,165,255,0.4); color:rgba(255,255,255,0.9); }
+  .chip-reg.active { background:rgba(18,165,255,0.15); border-color:#12A5FF; color:#12A5FF; font-weight:600; }
   .chip-reg.locked { pointer-events:none; opacity:0.65; }
 
   /* ===== CONTRASEÑA ===== */
   .pwd-dots {
     min-height:44px; padding:6px 12px; border-radius:8px;
-    border:1.5px solid rgba(0,255,65,0.2);
-    background:rgba(0,255,65,0.04);
+    border:1.5px solid rgba(18,165,255,0.2);
+    background:rgba(18,165,255,0.04);
     font-size:18px; font-weight:700; color:var(--green);
     text-align:center; letter-spacing:5px; word-break:break-all;
     line-height:1.6; margin-bottom:12px; transition:border-color 0.15s;
   }
-  .pwd-dots.empty { color:rgba(0,255,65,0.2); letter-spacing:2px; font-size:14px; }
-  .pwd-dots.valid { border-color:var(--green); box-shadow:0 0 8px rgba(0,255,65,0.25); }
+  .pwd-dots.empty { color:rgba(18,165,255,0.2); letter-spacing:2px; font-size:14px; }
+  .pwd-dots.valid { border-color:var(--green); box-shadow:0 0 8px rgba(18,165,255,0.25); }
 
   @keyframes shake {
     0%,100% { transform:translateX(0); }
@@ -231,14 +231,14 @@
 
   .key-btn {
     aspect-ratio:1.4; border-radius:8px;
-    border:1px solid rgba(0,255,65,0.15);
-    background:rgba(0,255,65,0.04);
+    border:1px solid rgba(18,165,255,0.15);
+    background:rgba(18,165,255,0.04);
     font-family:'Inter',sans-serif; font-size:16px; font-weight:400;
     color:var(--text); cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:all 0.1s; user-select:none;
   }
-  .key-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.35); }
+  .key-btn:hover  { background:rgba(18,165,255,0.1); border-color:rgba(18,165,255,0.35); }
   .key-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.93); }
   .key-btn.empty  { border-color:transparent; background:transparent; pointer-events:none; }
   .key-btn.del    { font-size:14px; color:var(--muted); }
@@ -248,8 +248,8 @@
   .qwerty-row:last-child { margin-bottom:0; }
   .qwerty-key {
     flex:1; height:48px; border-radius:8px;
-    border:1px solid rgba(0,255,65,0.12);
-    background:rgba(0,255,65,0.04);
+    border:1px solid rgba(18,165,255,0.12);
+    background:rgba(18,165,255,0.04);
     font-family:'Inter',sans-serif; font-size:17px; font-weight:500;
     color:var(--text); cursor:pointer; min-width:0;
     display:flex; align-items:center; justify-content:center;
@@ -257,26 +257,26 @@
     -webkit-tap-highlight-color:transparent;
   }
   .qwerty-key:active { background:var(--green) !important; color:#000 !important; transform:scale(0.92); }
-  .kbd-pressed { background:rgba(0,255,65,0.45) !important; color:#000 !important; box-shadow:0 0 16px rgba(0,255,65,0.65) !important; transform:scale(1.08) !important; transition:transform 90ms ease, box-shadow 90ms ease !important; }
+  .kbd-pressed { background:rgba(18,165,255,0.45) !important; color:#000 !important; box-shadow:0 0 16px rgba(18,165,255,0.65) !important; transform:scale(1.08) !important; transition:transform 90ms ease, box-shadow 90ms ease !important; }
   .qwerty-action {
-    background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.22);
-    font-size:13px; color:rgba(0,255,65,0.7);
+    background:rgba(18,165,255,0.08); border-color:rgba(18,165,255,0.22);
+    font-size:13px; color:rgba(18,165,255,0.7);
   }
   .qwerty-shift-on {
-    background:rgba(0,255,65,0.22) !important; border-color:rgba(0,255,65,0.55) !important;
+    background:rgba(18,165,255,0.22) !important; border-color:rgba(18,165,255,0.55) !important;
     color:var(--green) !important;
   }
   .qwerty-done {
-    background:rgba(0,255,65,0.12); border-color:rgba(0,255,65,0.35);
+    background:rgba(18,165,255,0.12); border-color:rgba(18,165,255,0.35);
     color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.4px;
   }
-  .qwerty-space { font-size:0; border-color:rgba(0,255,65,0.1); }
+  .qwerty-space { font-size:0; border-color:rgba(18,165,255,0.1); }
   .domain-btns { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
-  .domain-btn { flex:1; padding:6px 4px; border-radius:6px; border:1px solid rgba(0,255,65,0.2); background:rgba(0,255,65,0.04); font-family:'Inter',sans-serif; font-size:11px; font-weight:500; color:rgba(0,255,65,0.7); cursor:pointer; white-space:nowrap; transition:background 0.1s; }
-  .domain-btn:active { background:rgba(0,255,65,0.15); }
+  .domain-btn { flex:1; padding:6px 4px; border-radius:6px; border:1px solid rgba(18,165,255,0.2); background:rgba(18,165,255,0.04); font-family:'Inter',sans-serif; font-size:11px; font-weight:500; color:rgba(18,165,255,0.7); cursor:pointer; white-space:nowrap; transition:background 0.1s; }
+  .domain-btn:active { background:rgba(18,165,255,0.15); }
   .pwd-hint-static { font-size:10px; color:rgba(255,255,255,0.35); line-height:1.5; margin:6px 0 10px; font-family:'Inter',sans-serif; }
   .pwd-strength { display:flex; flex-wrap:wrap; gap:6px 12px; margin:8px 0 10px; }
-  .pwd-req { font-size:10px; font-weight:500; letter-spacing:0.2px; color:rgba(0,255,65,0.3); transition:color 0.2s; }
+  .pwd-req { font-size:10px; font-weight:500; letter-spacing:0.2px; color:rgba(18,165,255,0.3); transition:color 0.2s; }
   .pwd-req::before { content:'○ '; }
   .pwd-req.ok { color:var(--green); }
   .pwd-req.ok::before { content:'✓ '; }
@@ -284,22 +284,22 @@
   .security-badge {
     display:flex; align-items:center; gap:10px;
     padding:10px 14px; border-radius:10px;
-    border:1px solid rgba(0,255,65,0.1);
-    background:rgba(0,255,65,0.03); margin-top:8px;
+    border:1px solid rgba(18,165,255,0.1);
+    background:rgba(18,165,255,0.03); margin-top:8px;
   }
-  .security-badge-text { font-size:10px; font-weight:300; color:rgba(0,255,65,0.5); line-height:1.5; letter-spacing:0.5px; }
+  .security-badge-text { font-size:10px; font-weight:300; color:rgba(18,165,255,0.5); line-height:1.5; letter-spacing:0.5px; }
 
   /* ===== CÓDIGO OTP / TOTP ===== */
   .code-display { display:flex; gap:6px; justify-content:center; margin-bottom:12px; }
   .code-char {
     width:40px; height:52px; border-radius:10px;
-    border:1.5px solid rgba(0,255,65,0.2);
-    background:rgba(0,255,65,0.04);
+    border:1.5px solid rgba(18,165,255,0.2);
+    background:rgba(18,165,255,0.04);
     display:flex; align-items:center; justify-content:center;
     font-size:22px; font-weight:700; color:var(--green);
     font-family:'Inter',monospace; transition:all 0.15s;
   }
-  .code-char.filled { border-color:var(--green); background:rgba(0,255,65,0.1); box-shadow:0 0 8px rgba(0,255,65,0.3); }
+  .code-char.filled { border-color:var(--green); background:rgba(18,165,255,0.1); box-shadow:0 0 8px rgba(18,165,255,0.3); }
   .code-char.error  { border-color:var(--red-soft); background:rgba(255,68,68,0.1); animation:shake 0.4s ease; }
 
   /* ===== BOTONES ===== */
@@ -309,46 +309,46 @@
     font-family:'Inter',sans-serif; font-size:13px; font-weight:700;
     letter-spacing:3px; text-transform:uppercase;
     cursor:pointer; transition:all 0.15s;
-    box-shadow:0 0 24px rgba(0,255,65,0.3);
+    box-shadow:0 0 24px rgba(18,165,255,0.3);
     margin-bottom:12px;
   }
-  .btn-primary:hover   { background:#44ff77; box-shadow:0 0 32px rgba(0,255,65,0.5); }
+  .btn-primary:hover   { background:#44ff77; box-shadow:0 0 32px rgba(18,165,255,0.5); }
   .btn-primary:active  { background:#00cc33; transform:scale(0.98); }
   .btn-primary:disabled {
-    background:rgba(0,255,65,0.15); color:rgba(0,255,65,0.35);
+    background:rgba(18,165,255,0.15); color:rgba(18,165,255,0.35);
     cursor:not-allowed; box-shadow:none;
   }
 
   .btn-secondary {
     width:100%; padding:14px; border-radius:14px;
-    border:1px solid rgba(0,255,65,0.3);
-    background:transparent; color:#00ff41;
+    border:1px solid rgba(18,165,255,0.3);
+    background:transparent; color:#12A5FF;
     font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
     letter-spacing:2px; text-transform:uppercase;
     cursor:pointer; transition:all 0.15s; margin-bottom:12px;
   }
-  .btn-secondary:hover  { background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.6); }
+  .btn-secondary:hover  { background:rgba(18,165,255,0.08); border-color:rgba(18,165,255,0.6); }
   .btn-secondary:active { transform:scale(0.98); }
 
   /* ===== CHECKBOX ===== */
   .checkbox-wrap {
     display:flex; align-items:flex-start; gap:12px;
     padding:14px; border-radius:10px;
-    border:1px solid rgba(0,255,65,0.1);
-    background:rgba(0,255,65,0.03);
+    border:1px solid rgba(18,165,255,0.1);
+    background:rgba(18,165,255,0.03);
     cursor:pointer; margin-bottom:16px;
     transition:border-color 0.15s;
   }
-  .checkbox-wrap:hover { border-color:rgba(0,255,65,0.25); }
+  .checkbox-wrap:hover { border-color:rgba(18,165,255,0.25); }
 
   .checkbox-box {
     width:20px; height:20px; border-radius:5px;
-    border:2px solid rgba(0,255,65,0.3);
+    border:2px solid rgba(18,165,255,0.3);
     background:transparent;
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0; margin-top:1px; transition:all 0.15s;
   }
-  .checkbox-box.checked { background:var(--green); border-color:var(--green); box-shadow:0 0 10px rgba(0,255,65,0.4); }
+  .checkbox-box.checked { background:var(--green); border-color:var(--green); box-shadow:0 0 10px rgba(18,165,255,0.4); }
   .checkbox-box.checked::after { content:'✓'; color:#000; font-size:12px; font-weight:900; }
 
   .checkbox-text { font-size:11px; font-weight:300; color:rgba(255,255,255,0.8); line-height:1.6; }
@@ -360,7 +360,7 @@
   }
   .chk-real:checked + .checkbox-box {
     background:var(--green); border-color:var(--green);
-    box-shadow:0 0 10px rgba(0,255,65,0.4);
+    box-shadow:0 0 10px rgba(18,165,255,0.4);
   }
   .chk-real:checked + .checkbox-box::after {
     content:'✓'; color:#000; font-size:12px; font-weight:900;
@@ -372,13 +372,13 @@
   /* ===== SELECTOR TIPO REGISTRO ===== */
   .reg-type-selector {
     padding:14px; border-radius:10px;
-    border:1px solid rgba(0,255,65,0.15);
-    background:rgba(0,255,65,0.04);
+    border:1px solid rgba(18,165,255,0.15);
+    background:rgba(18,165,255,0.04);
     margin-bottom:16px;
   }
   .reg-type-label {
     font-size:10px; font-weight:600; letter-spacing:2px;
-    text-transform:uppercase; color:rgba(0,255,65,0.85);
+    text-transform:uppercase; color:rgba(18,165,255,0.85);
     margin-bottom:12px;
   }
   .reg-type-option {
@@ -393,14 +393,14 @@
   }
   .radio-box {
     width:18px; height:18px; border-radius:50%;
-    border:2px solid rgba(0,255,65,0.3);
+    border:2px solid rgba(18,165,255,0.3);
     background:transparent; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
     transition:all 0.15s;
   }
   .chk-radio:checked + .radio-box {
     border-color:var(--green); background:var(--green);
-    box-shadow:0 0 8px rgba(0,255,65,0.4);
+    box-shadow:0 0 8px rgba(18,165,255,0.4);
   }
   .chk-radio:checked + .radio-box::after {
     content:''; width:6px; height:6px;
@@ -418,18 +418,18 @@
   .terms-scroll {
     max-height:340px; overflow-y:auto;
     padding:16px; border-radius:10px;
-    border:1px solid rgba(0,255,65,0.1);
+    border:1px solid rgba(18,165,255,0.1);
     background:rgba(0,0,0,0.4);
     font-size:10px; font-weight:300;
     color:rgba(255,255,255,0.7);
     line-height:1.8; letter-spacing:0.5px;
     margin-bottom:14px;
     scrollbar-width:thin;
-    scrollbar-color:rgba(0,255,65,0.3) transparent;
+    scrollbar-color:rgba(18,165,255,0.3) transparent;
   }
   .terms-scroll::-webkit-scrollbar { width:4px; }
   .terms-scroll::-webkit-scrollbar-track { background:transparent; }
-  .terms-scroll::-webkit-scrollbar-thumb { background:rgba(0,255,65,0.3); border-radius:4px; }
+  .terms-scroll::-webkit-scrollbar-thumb { background:rgba(18,165,255,0.3); border-radius:4px; }
   .terms-scroll h3 {
     font-size:10px; font-weight:700; letter-spacing:3px;
     color:var(--green); margin-bottom:10px; margin-top:18px;
@@ -445,7 +445,7 @@
     background:rgba(255,255,255,0.03);
     margin-bottom:14px;
   }
-  .locked-icon { color:rgba(0,255,65,0.4); font-size:14px; flex-shrink:0; }
+  .locked-icon { color:rgba(18,165,255,0.4); font-size:14px; flex-shrink:0; }
   .locked-value { font-family:'Inter',sans-serif; font-size:14px; font-weight:400; color:var(--muted); }
   .locked-label { font-size:9px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.2); margin-bottom:4px; }
 
@@ -456,7 +456,7 @@
   .resend-btn {
     background:none; border:none;
     font-family:'Inter',sans-serif; font-size:11px;
-    color:rgba(0,255,65,0.5); cursor:pointer;
+    color:rgba(18,165,255,0.5); cursor:pointer;
     text-decoration:underline; letter-spacing:1px;
     display:block; margin:0 auto 12px;
   }
@@ -464,8 +464,8 @@
 
   /* ===== 2FA ===== */
   .tfa-option {
-    border-radius:14px; border:1px solid rgba(0,255,65,0.1);
-    background:rgba(0,255,65,0.03);
+    border-radius:14px; border:1px solid rgba(18,165,255,0.1);
+    background:rgba(18,165,255,0.03);
     padding:20px; margin-bottom:14px;
   }
   .tfa-option-title {
@@ -482,16 +482,16 @@
     display:block; margin:12px auto;
     border-radius:8px; padding:8px;
     background:#000;
-    box-shadow:0 0 20px rgba(0,255,65,0.2);
+    box-shadow:0 0 20px rgba(18,165,255,0.2);
     width:200px; height:200px;
   }
 
   .totp-secret {
     font-family:monospace; font-size:11px; letter-spacing:2px;
-    color:rgba(0,255,65,0.6); text-align:center;
+    color:rgba(18,165,255,0.6); text-align:center;
     padding:8px; border-radius:8px;
-    border:1px solid rgba(0,255,65,0.1);
-    background:rgba(0,255,65,0.03);
+    border:1px solid rgba(18,165,255,0.1);
+    background:rgba(18,165,255,0.03);
     word-break:break-all; margin-bottom:14px;
   }
 
@@ -502,15 +502,15 @@
   /* ===== ÉXITO ===== */
   .success-icon {
     width:80px; height:80px; border-radius:50%;
-    background:rgba(0,255,65,0.1); border:2px solid var(--green);
+    background:rgba(18,165,255,0.1); border:2px solid var(--green);
     display:flex; align-items:center; justify-content:center;
     margin:0 auto 20px;
-    box-shadow:0 0 30px rgba(0,255,65,0.3);
+    box-shadow:0 0 30px rgba(18,165,255,0.3);
   }
 
   .success-title {
     font-family:'Times New Roman',serif; font-size:24px; font-weight:900;
-    color:var(--green); text-shadow:0 0 20px rgba(0,255,65,0.5);
+    color:var(--green); text-shadow:0 0 20px rgba(18,165,255,0.5);
     margin-bottom:8px; text-align:center;
   }
 
@@ -524,7 +524,7 @@
     padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05);
   }
   .summary-row:last-child { border-bottom:none; }
-  .summary-key { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(0,255,65,0.5); }
+  .summary-key { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(18,165,255,0.5); }
   .summary-val { font-size:12px; font-weight:400; color:rgba(255,255,255,0.8); text-align:right; max-width:60%; word-break:break-all; }
 
   /* ===== TOAST ===== */
@@ -538,7 +538,7 @@
     border-radius:30px; z-index:999;
     transition:all 0.3s ease;
     text-transform:uppercase; white-space:nowrap;
-    box-shadow:0 0 40px rgba(0,255,65,0.5);
+    box-shadow:0 0 40px rgba(18,165,255,0.5);
     pointer-events:none;
   }
   .toast.show { transform:translate(-50%,-50%) scale(1); opacity:1; }
@@ -594,42 +594,42 @@
 
           <!-- Cruz 6 — verde exterior -->
           <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z"
-            fill="none" stroke="#00ff41" stroke-width="2.0" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="2.0" stroke-linejoin="round"
             filter="url(#glow-soft)" opacity="0.70">
             <animate attributeName="opacity" values="0.70;0.35;0.70" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 1 -->
           <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.8" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.8" stroke-linejoin="round"
             filter="url(#glow-soft)" opacity="0.95">
             <animate attributeName="opacity" values="0.95;0.55;0.95" dur="2.8s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 2 -->
           <path d="M139,82 L181,82 L181,134 L233,134 L233,176 L181,176 L181,228 L139,228 L139,176 L87,176 L87,134 L139,134 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.7" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.7" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.82">
             <animate attributeName="opacity" values="0.82;0.46;0.82" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 3 -->
           <path d="M146,89 L174,89 L174,141 L226,141 L226,169 L174,169 L174,221 L146,221 L146,169 L94,169 L94,141 L146,141 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.5" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.5" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.65">
             <animate attributeName="opacity" values="0.65;0.34;0.65" dur="2.8s" begin="0.36s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 4 -->
           <path d="M153,96 L167,96 L167,148 L219,148 L219,162 L167,162 L167,214 L153,214 L153,162 L101,162 L101,148 L153,148 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.4" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.4" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.46">
             <animate attributeName="opacity" values="0.46;0.22;0.46" dur="2.8s" begin="0.54s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 5 — interior -->
           <path d="M160,103 L160,103 L160,155 L212,155 L212,155 L160,155 L160,207 L160,207 L160,155 L108,155 L108,155 L160,155 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.2" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.2" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.28">
             <animate attributeName="opacity" values="0.28;0.12;0.28" dur="2.8s" begin="0.72s" repeatCount="indefinite"/>
           </path>
@@ -837,7 +837,7 @@
 
     <div style="text-align:center;padding:8px 0 4px;font-size:11px;font-weight:300;color:rgba(255,255,255,0.25);letter-spacing:1px;">
       ¿Ya tienes cuenta?
-      <a href="login.html" style="color:rgba(0,255,65,0.5);text-decoration:underline;">Inicia sesión</a>
+      <a href="login.html" style="color:rgba(18,165,255,0.5);text-decoration:underline;">Inicia sesión</a>
     </div>
   </div>
 </div><!-- fin screen-1 -->
@@ -903,11 +903,11 @@
 
   <div class="form-card">
     <div class="form-card-title">Contraseña maestra</div>
-    <div class="field-hint" style="margin-bottom:14px;color:rgba(0,255,65,0.45);">
+    <div class="field-hint" style="margin-bottom:14px;color:rgba(18,165,255,0.45);">
       Mínimo 8 caracteres · al menos 1 número y 1 símbolo · cuanto más larga, más segura
     </div>
 
-    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(0,255,65,0.5);margin-bottom:8px;">CREAR</div>
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;">CREAR</div>
     <div class="pwd-dots empty" id="pwd1-dots">· · · · · · · ·</div>
     <div class="pin-validation" id="pwd1-hint">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
     <div class="pwd-strength" id="str-pwd1">
@@ -920,7 +920,7 @@
 
     <div id="qwerty-kbd-1"></div>
 
-    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(0,255,65,0.5);margin-bottom:8px;margin-top:20px;">CONFIRMAR</div>
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;margin-top:20px;">CONFIRMAR</div>
     <div class="pwd-dots empty" id="pwd2-dots">· · · · · · · ·</div>
     <div class="pin-validation" id="pwd2-hint">Repite la contraseña</div>
     <div class="pwd-strength" id="str-pwd2">
@@ -934,7 +934,7 @@
     <div id="qwerty-kbd-2"></div>
 
     <div class="security-badge" style="margin-top:16px;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" stroke-width="1.5"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/><polyline points="9 12 11 14 15 10"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.5"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/><polyline points="9 12 11 14 15 10"/></svg>
       <div class="security-badge-text">Cuanto más larga y variada, más difícil de romper</div>
     </div>
   </div>
@@ -1037,7 +1037,7 @@
       Si el contador llega a cero, la cuenta<br>se cancelará automáticamente.
     </div>
 
-    <button id="btn-recover-blocked" style="width:100%;padding:16px;margin-bottom:12px;background:transparent;border:2px solid #00ff41;border-radius:12px;color:#00ff41;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;cursor:pointer;text-shadow:0 0 8px #00ff41">
+    <button id="btn-recover-blocked" style="width:100%;padding:16px;margin-bottom:12px;background:transparent;border:2px solid #12A5FF;border-radius:12px;color:#12A5FF;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;cursor:pointer;text-shadow:0 0 8px #12A5FF">
       RECUPERAR MI CUENTA
     </button>
 
@@ -1075,7 +1075,7 @@
 
       <img id="totp-qr-img" alt="QR 2FA">
 
-      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(0,255,65,0.4);text-align:center;margin-bottom:4px;">Clave secreta (manual)</div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(18,165,255,0.4);text-align:center;margin-bottom:4px;">Clave secreta (manual)</div>
       <div class="totp-secret" id="totp-secret-text">—</div>
 
       <div class="field-hint" style="margin-bottom:12px;">Introduce el código de 6 dígitos que ves en la app:</div>
@@ -1118,7 +1118,7 @@
   <div class="form-card">
     <div style="text-align:center;padding:16px 0 24px;">
       <div class="success-icon">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00ff41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
       </div>
@@ -1388,7 +1388,7 @@ function updatePwdDisplay(num) {
 
   const hint = document.getElementById(hintId);
   if (num === 2 && buf.length > 0) {
-    if (pwd2Buffer === pwd1Buffer) { hint.textContent = '✓ Las contraseñas coinciden'; hint.style.color = '#00ff41'; }
+    if (pwd2Buffer === pwd1Buffer) { hint.textContent = '✓ Las contraseñas coinciden'; hint.style.color = '#12A5FF'; }
     else                           { hint.textContent = '✗ Las contraseñas no coinciden'; hint.style.color = '#ff4444'; }
   } else {
     hint.textContent = num === 1 ? 'Mínimo 8 caracteres, 1 número y 1 símbolo' : 'Repite la contraseña';

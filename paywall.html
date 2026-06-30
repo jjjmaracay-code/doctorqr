@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#00ff41">
+<meta name="theme-color" content="#12A5FF">
 <meta name="description" content="DoctorQR — Planes de acceso a tu historial médico de emergencia">
 <title>DoctorQR · Planes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --green:   #00ff41;
+    --green:   #12A5FF;
     --gold:    #ffd700;
     --red:     #ff3333;
     --bg:      #080808;
     --surface: #0f0f0f;
     --text:    #e8e8e8;
     --muted:   rgba(255,255,255,0.38);
-    --border:  rgba(0,255,65,0.14);
+    --border:  rgba(18,165,255,0.14);
   }
 
   *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
@@ -34,8 +34,8 @@
     content:'';
     position:fixed; inset:0;
     background:
-      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,65,0.018) 40px,rgba(0,255,65,0.018) 41px),
-      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,255,65,0.018) 40px,rgba(0,255,65,0.018) 41px);
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(18,165,255,0.018) 40px,rgba(18,165,255,0.018) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(18,165,255,0.018) 40px,rgba(18,165,255,0.018) 41px);
     pointer-events:none; z-index:0;
   }
 
@@ -70,8 +70,8 @@
   }
 
   .trial-banner-inner {
-    background:rgba(0,255,65,0.05);
-    border:1.5px solid rgba(0,255,65,0.35);
+    background:rgba(18,165,255,0.05);
+    border:1.5px solid rgba(18,165,255,0.35);
     border-radius:16px;
     padding:18px 24px;
     display:flex; align-items:center; gap:16px;
@@ -84,7 +84,7 @@
 
   .trial-headline {
     font-size:14px; font-weight:800; letter-spacing:1.5px;
-    color:var(--green); text-shadow:0 0 10px rgba(0,255,65,0.5);
+    color:var(--green); text-shadow:0 0 10px rgba(18,165,255,0.5);
     margin-bottom:4px;
   }
 
@@ -140,19 +140,19 @@
     font-weight:900; letter-spacing:2.5px;
     text-transform:uppercase; text-decoration:none;
     cursor:pointer;
-    box-shadow:0 0 32px rgba(0,255,65,0.38), 0 4px 16px rgba(0,0,0,0.5);
+    box-shadow:0 0 32px rgba(18,165,255,0.38), 0 4px 16px rgba(0,0,0,0.5);
     transition:all .2s;
     animation:pulse-cta 2.8s ease-in-out infinite;
   }
 
   @keyframes pulse-cta {
-    0%,100% { box-shadow:0 0 32px rgba(0,255,65,0.38), 0 4px 16px rgba(0,0,0,0.5); }
-    50%      { box-shadow:0 0 52px rgba(0,255,65,0.62), 0 4px 20px rgba(0,0,0,0.5); }
+    0%,100% { box-shadow:0 0 32px rgba(18,165,255,0.38), 0 4px 16px rgba(0,0,0,0.5); }
+    50%      { box-shadow:0 0 52px rgba(18,165,255,0.62), 0 4px 20px rgba(0,0,0,0.5); }
   }
 
   .btn-trial-main:hover {
     background:#55ff77;
-    box-shadow:0 0 60px rgba(0,255,65,0.7), 0 4px 20px rgba(0,0,0,0.5);
+    box-shadow:0 0 60px rgba(18,165,255,0.7), 0 4px 20px rgba(0,0,0,0.5);
     animation:none;
     transform:translateY(-1px);
   }
@@ -185,7 +185,7 @@
 
   .pw-divider-label {
     font-size:9px; font-weight:700; letter-spacing:3px;
-    color:rgba(0,255,65,0.35); text-transform:uppercase; white-space:nowrap;
+    color:rgba(18,165,255,0.35); text-transform:uppercase; white-space:nowrap;
   }
 
   /* ── GRID PLANES ── */
@@ -238,8 +238,8 @@
   }
 
   .badge-pro {
-    background:rgba(0,255,65,0.1);
-    border:1px solid rgba(0,255,65,0.3);
+    background:rgba(18,165,255,0.1);
+    border:1px solid rgba(18,165,255,0.3);
     color:var(--green);
   }
 
@@ -336,8 +336,8 @@
   }
 
   .guarantee-card {
-    background:rgba(0,255,65,0.03);
-    border:1px solid rgba(0,255,65,0.18);
+    background:rgba(18,165,255,0.03);
+    border:1px solid rgba(18,165,255,0.18);
     border-radius:18px; padding:22px 26px;
     display:flex; align-items:center; gap:20px;
   }
@@ -561,9 +561,9 @@
     <div class="guarantee-shield">
       <svg width="52" height="60" viewBox="0 0 52 60" fill="none">
         <path d="M26 3L4 13V29C4 42 14 52 26 58C38 52 48 42 48 29V13L26 3Z"
-              fill="rgba(0,255,65,0.07)" stroke="#00ff41" stroke-width="2" stroke-linejoin="round"/>
+              fill="rgba(18,165,255,0.07)" stroke="#12A5FF" stroke-width="2" stroke-linejoin="round"/>
         <text x="26" y="36" text-anchor="middle"
-              font-family="Arial" font-size="20" font-weight="900" fill="#00ff41">30</text>
+              font-family="Arial" font-size="20" font-weight="900" fill="#12A5FF">30</text>
       </svg>
     </div>
     <div>

@@ -195,8 +195,8 @@
 
       if (valid) {
         warnEl.style.display = 'none';
-        inp.style.borderColor = '#00ff41';
-        hintEl.innerHTML = (rule ? rule.hint : 'Solo dígitos') + ' <span style="color:#00ff41;font-weight:700">✓</span>';
+        inp.style.borderColor = '#12A5FF';
+        hintEl.innerHTML = (rule ? rule.hint : 'Solo dígitos') + ' <span style="color:#12A5FF;font-weight:700">✓</span>';
       } else {
         warnEl.style.display = 'block';
         inp.style.borderColor = '#ff4444';
@@ -226,15 +226,15 @@
 
       if (!rule || !rule.re) {
         warnEl.style.display = 'none';
-        inp.style.borderColor = '#00ff41';
+        inp.style.borderColor = '#12A5FF';
         return;
       }
 
       const valid = rule.re.test(num);
       if (valid) {
         warnEl.style.display = 'none';
-        inp.style.borderColor = '#00ff41';
-        hintEl.innerHTML = rule.hint + ' <span style="color:#00ff41;font-weight:700">✓</span>';
+        inp.style.borderColor = '#12A5FF';
+        hintEl.innerHTML = rule.hint + ' <span style="color:#12A5FF;font-weight:700">✓</span>';
       } else {
         warnEl.style.display = 'block';
         inp.style.borderColor = '#ff4444';

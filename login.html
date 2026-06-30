@@ -6,14 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DoctorQR · Acceso">
-<meta name="theme-color" content="#00ff41">
+<meta name="theme-color" content="#12A5FF">
 <title>DoctorQR · Acceso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --green: #00ff41;
+    --green: #12A5FF;
     --red: #ff0000;
     --red-soft: #ff4444;
     --bg: #080808;
@@ -21,7 +21,7 @@
     --surface2: #1a1a1a;
     --text: #e8e8e8;
     --muted: rgba(255,255,255,0.35);
-    --border: rgba(0,255,65,0.15);
+    --border: rgba(18,165,255,0.15);
   }
 
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
@@ -43,8 +43,8 @@
     position:fixed;
     inset:0;
     background:
-      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px),
-      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px);
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(18,165,255,0.02) 40px,rgba(18,165,255,0.02) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(18,165,255,0.02) 40px,rgba(18,165,255,0.02) 41px);
     pointer-events:none;
     z-index:0;
   }
@@ -59,7 +59,7 @@
   .reg-logo-wrap {
     margin-bottom:-120px;
     perspective:800px;
-    filter:drop-shadow(0 0 12px #00ff41) drop-shadow(0 0 30px rgba(0,255,65,0.4));
+    filter:drop-shadow(0 0 12px #12A5FF) drop-shadow(0 0 30px rgba(18,165,255,0.4));
   }
 
   .logo-rotate {
@@ -93,12 +93,12 @@
     font-size:28px; font-weight:900; letter-spacing:10px;
     margin-bottom:4px;
   }
-  .reg-brand .txt-doctor { color:#00ff41; text-shadow:0 0 10px #00ff41,0 0 25px rgba(0,255,65,0.6); }
+  .reg-brand .txt-doctor { color:#12A5FF; text-shadow:0 0 10px #12A5FF,0 0 25px rgba(18,165,255,0.6); }
   .reg-brand .txt-qr     { color:#ffffff; text-shadow:0 0 10px #ffffff,0 0 20px rgba(255,255,255,0.4); }
 
   .reg-tagline {
     font-size:10px; font-weight:300;
-    color:rgba(0,255,65,0.6);
+    color:rgba(18,165,255,0.6);
     letter-spacing:2px; text-transform:uppercase;
     margin-bottom:28px;
   }
@@ -120,9 +120,9 @@
   .form-card-title {
     font-size:10px; font-weight:600;
     letter-spacing:4px; text-transform:uppercase;
-    color:#00ff41;
+    color:#12A5FF;
     margin-bottom:18px; padding-bottom:10px;
-    border-bottom:1px solid rgba(0,255,65,0.08);
+    border-bottom:1px solid rgba(18,165,255,0.08);
   }
 
   .field-wrap { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
@@ -131,20 +131,20 @@
   .field-label {
     font-size:10px; font-weight:600;
     letter-spacing:2px; text-transform:uppercase;
-    color:rgba(0,255,65,0.85);
+    color:rgba(18,165,255,0.85);
   }
 
   .field-input {
     width:100%; padding:13px 14px;
     border-radius:10px;
-    border:1px solid rgba(0,255,65,0.3);
-    background:rgba(0,255,65,0.06);
+    border:1px solid rgba(18,165,255,0.3);
+    background:rgba(18,165,255,0.06);
     font-family:'Inter',sans-serif; font-size:15px; font-weight:400;
     color:#fff; outline:none;
     transition:border-color 0.15s,background 0.15s;
     -webkit-appearance:none;
   }
-  .field-input:focus { border-color:rgba(0,255,65,0.5); background:rgba(0,255,65,0.08); }
+  .field-input:focus { border-color:rgba(18,165,255,0.5); background:rgba(18,165,255,0.08); }
   .field-input::placeholder { color:rgba(255,255,255,0.2); }
 
   .field-hint { font-size:10px; font-weight:300; color:rgba(255,255,255,0.5); letter-spacing:1px; line-height:1.5; }
@@ -156,25 +156,25 @@
     font-family:'Inter',sans-serif; font-size:13px; font-weight:700;
     letter-spacing:3px; text-transform:uppercase;
     cursor:pointer; transition:all 0.15s;
-    box-shadow:0 0 24px rgba(0,255,65,0.3);
+    box-shadow:0 0 24px rgba(18,165,255,0.3);
     margin-bottom:12px;
   }
-  .btn-primary:hover   { background:#44ff77; box-shadow:0 0 32px rgba(0,255,65,0.5); }
+  .btn-primary:hover   { background:#44ff77; box-shadow:0 0 32px rgba(18,165,255,0.5); }
   .btn-primary:active  { background:#00cc33; transform:scale(0.98); }
   .btn-primary:disabled {
-    background:rgba(0,255,65,0.15); color:rgba(0,255,65,0.35);
+    background:rgba(18,165,255,0.15); color:rgba(18,165,255,0.35);
     cursor:not-allowed; box-shadow:none;
   }
 
   .btn-secondary {
     width:100%; padding:14px; border-radius:14px;
-    border:1px solid rgba(0,255,65,0.3);
-    background:transparent; color:#00ff41;
+    border:1px solid rgba(18,165,255,0.3);
+    background:transparent; color:#12A5FF;
     font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
     letter-spacing:2px; text-transform:uppercase;
     cursor:pointer; transition:all 0.15s; margin-bottom:12px;
   }
-  .btn-secondary:hover  { background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.6); }
+  .btn-secondary:hover  { background:rgba(18,165,255,0.08); border-color:rgba(18,165,255,0.6); }
   .btn-secondary:active { transform:scale(0.98); }
   .btn-secondary:disabled { opacity:0.3; cursor:not-allowed; }
 
@@ -182,26 +182,26 @@
   .code-display { display:flex; gap:6px; justify-content:center; margin-bottom:12px; }
   .code-char {
     width:40px; height:52px; border-radius:10px;
-    border:1.5px solid rgba(0,255,65,0.2);
-    background:rgba(0,255,65,0.04);
+    border:1.5px solid rgba(18,165,255,0.2);
+    background:rgba(18,165,255,0.04);
     display:flex; align-items:center; justify-content:center;
     font-size:22px; font-weight:700; color:var(--green);
     font-family:'Inter',monospace; transition:all 0.15s;
   }
-  .code-char.filled { border-color:var(--green); background:rgba(0,255,65,0.1); box-shadow:0 0 8px rgba(0,255,65,0.3); }
+  .code-char.filled { border-color:var(--green); background:rgba(18,165,255,0.1); box-shadow:0 0 8px rgba(18,165,255,0.3); }
   .code-char.error  { border-color:var(--red-soft); background:rgba(255,68,68,0.1); animation:shake 0.4s ease; }
 
   .pin-keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
   .key-btn {
     aspect-ratio:1.4; border-radius:8px;
-    border:1px solid rgba(0,255,65,0.15);
-    background:rgba(0,255,65,0.04);
+    border:1px solid rgba(18,165,255,0.15);
+    background:rgba(18,165,255,0.04);
     font-family:'Inter',sans-serif; font-size:16px; font-weight:400;
     color:var(--text); cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:all 0.1s; user-select:none;
   }
-  .key-btn:hover  { background:rgba(0,255,65,0.1); border-color:rgba(0,255,65,0.35); }
+  .key-btn:hover  { background:rgba(18,165,255,0.1); border-color:rgba(18,165,255,0.35); }
   .key-btn:active { background:var(--green) !important; color:#000 !important; transform:scale(0.93); }
   .key-btn.del    { font-size:14px; color:var(--muted); }
 
@@ -247,7 +247,7 @@
     font-size:11px; font-weight:300;
     color:rgba(255,255,255,0.25); letter-spacing:1px;
   }
-  .nav-link a { color:rgba(0,255,65,0.5); text-decoration:underline; }
+  .nav-link a { color:rgba(18,165,255,0.5); text-decoration:underline; }
 
   /* Wrapper ojo + input */
   .pwd-wrap { position:relative; display:flex; align-items:center; }
@@ -255,11 +255,11 @@
   .eye-btn {
     position:absolute; right:12px;
     background:none; border:none; cursor:pointer; padding:4px;
-    color:rgba(0,255,65,0.45); transition:color 0.15s;
+    color:rgba(18,165,255,0.45); transition:color 0.15s;
     display:flex; align-items:center; justify-content:center;
     -webkit-tap-highlight-color:transparent;
   }
-  .eye-btn:hover { color:rgba(0,255,65,0.9); }
+  .eye-btn:hover { color:rgba(18,165,255,0.9); }
   .pwd-hint-static { font-size:10px; color:rgba(255,255,255,0.35); line-height:1.5; margin-top:6px; font-family:'Inter',sans-serif; }
 
   /* Teclado personalizado contraseña */
@@ -281,8 +281,8 @@
   .qwerty-row:last-child { margin-bottom:0; }
   .qwerty-key {
     flex:1; height:48px; border-radius:8px;
-    border:1px solid rgba(0,255,65,0.12);
-    background:rgba(0,255,65,0.04);
+    border:1px solid rgba(18,165,255,0.12);
+    background:rgba(18,165,255,0.04);
     font-family:'Inter',sans-serif; font-size:17px; font-weight:500;
     color:var(--text); cursor:pointer; min-width:0;
     display:flex; align-items:center; justify-content:center;
@@ -290,23 +290,23 @@
     -webkit-tap-highlight-color:transparent;
   }
   .qwerty-key:active { background:var(--green) !important; color:#000 !important; transform:scale(0.92); }
-  .kbd-pressed { background:rgba(0,255,65,0.45) !important; color:#000 !important; box-shadow:0 0 16px rgba(0,255,65,0.65) !important; transform:scale(1.08) !important; transition:transform 90ms ease, box-shadow 90ms ease !important; }
+  .kbd-pressed { background:rgba(18,165,255,0.45) !important; color:#000 !important; box-shadow:0 0 16px rgba(18,165,255,0.65) !important; transform:scale(1.08) !important; transition:transform 90ms ease, box-shadow 90ms ease !important; }
   .qwerty-action {
-    background:rgba(0,255,65,0.08); border-color:rgba(0,255,65,0.22);
-    font-size:13px; color:rgba(0,255,65,0.7);
+    background:rgba(18,165,255,0.08); border-color:rgba(18,165,255,0.22);
+    font-size:13px; color:rgba(18,165,255,0.7);
   }
   .qwerty-shift-on {
-    background:rgba(0,255,65,0.22) !important; border-color:rgba(0,255,65,0.55) !important;
+    background:rgba(18,165,255,0.22) !important; border-color:rgba(18,165,255,0.55) !important;
     color:var(--green) !important;
   }
   .qwerty-done {
-    background:rgba(0,255,65,0.12); border-color:rgba(0,255,65,0.35);
+    background:rgba(18,165,255,0.12); border-color:rgba(18,165,255,0.35);
     color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.4px;
   }
-  .qwerty-space { font-size:0; border-color:rgba(0,255,65,0.1); }
+  .qwerty-space { font-size:0; border-color:rgba(18,165,255,0.1); }
   .domain-btns { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
-  .domain-btn { flex:1; padding:6px 4px; border-radius:6px; border:1px solid rgba(0,255,65,0.2); background:rgba(0,255,65,0.04); font-family:'Inter',sans-serif; font-size:11px; font-weight:500; color:rgba(0,255,65,0.7); cursor:pointer; white-space:nowrap; transition:background 0.1s; }
-  .domain-btn:active { background:rgba(0,255,65,0.15); }
+  .domain-btn { flex:1; padding:6px 4px; border-radius:6px; border:1px solid rgba(18,165,255,0.2); background:rgba(18,165,255,0.04); font-family:'Inter',sans-serif; font-size:11px; font-weight:500; color:rgba(18,165,255,0.7); cursor:pointer; white-space:nowrap; transition:background 0.1s; }
+  .domain-btn:active { background:rgba(18,165,255,0.15); }
 </style>
 </head>
 <body>
@@ -358,42 +358,42 @@
 
           <!-- Cruz 6 — verde exterior -->
           <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z"
-            fill="none" stroke="#00ff41" stroke-width="2.0" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="2.0" stroke-linejoin="round"
             filter="url(#glow-soft)" opacity="0.70">
             <animate attributeName="opacity" values="0.70;0.35;0.70" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 1 -->
           <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.8" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.8" stroke-linejoin="round"
             filter="url(#glow-soft)" opacity="0.95">
             <animate attributeName="opacity" values="0.95;0.55;0.95" dur="2.8s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 2 -->
           <path d="M139,82 L181,82 L181,134 L233,134 L233,176 L181,176 L181,228 L139,228 L139,176 L87,176 L87,134 L139,134 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.7" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.7" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.82">
             <animate attributeName="opacity" values="0.82;0.46;0.82" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 3 -->
           <path d="M146,89 L174,89 L174,141 L226,141 L226,169 L174,169 L174,221 L146,221 L146,169 L94,169 L94,141 L146,141 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.5" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.5" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.65">
             <animate attributeName="opacity" values="0.65;0.34;0.65" dur="2.8s" begin="0.36s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 4 -->
           <path d="M153,96 L167,96 L167,148 L219,148 L219,162 L167,162 L167,214 L153,214 L153,162 L101,162 L101,148 L153,148 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.4" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.4" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.46">
             <animate attributeName="opacity" values="0.46;0.22;0.46" dur="2.8s" begin="0.54s" repeatCount="indefinite"/>
           </path>
 
           <!-- Cruz 5 — interior -->
           <path d="M160,103 L160,103 L160,155 L212,155 L212,155 L160,155 L160,207 L160,207 L160,155 L108,155 L108,155 L160,155 Z"
-            fill="none" stroke="#00ff41" stroke-width="1.2" stroke-linejoin="round"
+            fill="none" stroke="#12A5FF" stroke-width="1.2" stroke-linejoin="round"
             filter="url(#glow-hard)" opacity="0.28">
             <animate attributeName="opacity" values="0.28;0.12;0.28" dur="2.8s" begin="0.72s" repeatCount="indefinite"/>
           </path>

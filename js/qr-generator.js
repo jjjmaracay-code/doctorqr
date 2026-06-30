@@ -561,7 +561,7 @@ function generateAllQRs() {
       if (r.left >= cr.left - 10 && r.left < cr.right - 50) {
         Array.from(dots).forEach((d, j) => {
           d.style.background = i === j ?
-            active[j]?.color || '#00ff41' :
+            active[j]?.color || '#12A5FF' :
             'rgba(255,255,255,0.2)';
         });
       }
@@ -621,7 +621,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .face-label{text-align:center;font-size:6.5pt;letter-spacing:1.5px;
   text-transform:uppercase;margin:2mm 0 1.5mm}
 .face-label.front{color:${theme.color}}
-.face-label.back{color:#00ff41;background:#111;padding:1mm 0}
+.face-label.back{color:#12A5FF;background:#111;padding:1mm 0}
 .cut{border:none;border-top:1.5px dashed #bbb;margin:4mm 0;text-align:center}
 .cut-text{display:inline-block;background:#fff;color:#aaa;
   font-size:6pt;letter-spacing:1px;padding:0 3mm;position:relative;top:-8px}
@@ -629,7 +629,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .card{width:85.6mm;height:54mm;border-radius:3.5mm;padding:3mm 4mm;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between}
 .card-front{background:#fff;border:2px solid ${theme.color}}
-.card-back{background:#000;border:2px solid #00ff41}
+.card-back{background:#000;border:2px solid #12A5FF}
 .front-title{font-size:5.5pt;font-weight:900;color:${theme.color};
   letter-spacing:2px;text-transform:uppercase}
 .front-name{font-size:8.5pt;font-weight:900;color:#000;
@@ -638,9 +638,9 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   padding:1mm 3mm;border-radius:2mm;letter-spacing:1px}
 .front-footer{font-size:5pt;color:#888;letter-spacing:0.5px;text-align:center}
 .back-logo{font-size:11pt;font-weight:900;letter-spacing:3px;
-  color:#00ff41;text-shadow:0 0 8px #00ff41}
+  color:#12A5FF;text-shadow:0 0 8px #12A5FF}
 .back-tagline{font-size:5.5pt;font-weight:900;letter-spacing:1.5px;
-  color:#00ff41;text-align:center;text-transform:uppercase;line-height:1.5}
+  color:#12A5FF;text-align:center;text-transform:uppercase;line-height:1.5}
 .back-sep{width:100%;border-top:0.5pt solid ${theme.color};margin:1.5mm 0}
 .cause-name{font-size:6pt;font-weight:900;color:${theme.color};
   letter-spacing:1px;text-transform:uppercase;text-align:center}
@@ -651,7 +651,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .brace{width:185mm;height:22mm;border-radius:3mm;padding:2mm 4mm;
   display:flex;align-items:center;gap:3mm}
 .brace-front{background:#fff;border:1.5px solid ${theme.color}}
-.brace-back{background:#000;border:1.5px solid #00ff41}
+.brace-back{background:#000;border:1.5px solid #12A5FF}
 .brace-info{flex:1;overflow:hidden}
 .brace-name{font-size:8pt;font-weight:900;color:#000;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -662,7 +662,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   border-left:1pt dashed ${theme.color};padding-left:1mm;flex-shrink:0}
 .brace-brand{text-align:right;flex:1}
 .brace-logo{font-size:9pt;font-weight:900;letter-spacing:2px;
-  color:#00ff41;text-shadow:0 0 6px #00ff41}
+  color:#12A5FF;text-shadow:0 0 6px #12A5FF}
 .brace-cause{font-size:5pt;font-weight:700;color:${theme.color};
   text-transform:uppercase;letter-spacing:0.4px;line-height:1.5}
 .brace-tel{font-size:5pt;color:${theme.color};opacity:0.8}
@@ -738,9 +738,9 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <script>
   var pUrl=\`${patientUrl}\`,bUrl='https://doctorqr.app',M=QRCode.CorrectLevel.M;
   new QRCode(document.getElementById('qcf'),{text:pUrl,width:95,height:95,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
-  new QRCode(document.getElementById('qcb'),{text:bUrl,width:70,height:70,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
+  new QRCode(document.getElementById('qcb'),{text:bUrl,width:70,height:70,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
   new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
-  new QRCode(document.getElementById('qbb'),{text:bUrl,width:52,height:52,colorDark:'#00ff41',colorLight:'#000000',correctLevel:M});
+  new QRCode(document.getElementById('qbb'),{text:bUrl,width:52,height:52,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
 </body></html>`);

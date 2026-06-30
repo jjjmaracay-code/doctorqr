@@ -1,13 +1,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green: #00ff41;
+      --green: #12A5FF;
       --bg: #0a0a0a;
       --card: #111;
-      --border: rgba(0,255,65,0.18);
+      --border: rgba(18,165,255,0.18);
       --text: rgba(255,255,255,0.85);
       --muted: rgba(255,255,255,0.32);
-      --input-bg: rgba(0,255,65,0.03);
+      --input-bg: rgba(18,165,255,0.03);
     }
 
     body {
@@ -38,8 +38,8 @@
     }
 
     .txt-doctor {
-      color: #00ff41;
-      text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;
+      color: #12A5FF;
+      text-shadow: 0 0 10px #12A5FF, 0 0 20px #12A5FF;
     }
 
     .txt-qr {
@@ -50,10 +50,10 @@
     .tagline {
       font-size: 9px;
       letter-spacing: 4px;
-      color: #00ff41;
+      color: #12A5FF;
       text-transform: uppercase;
       text-align: center;
-      text-shadow: 0 0 10px #00ff41;
+      text-shadow: 0 0 10px #12A5FF;
       opacity: 0.8;
     }
 
@@ -73,7 +73,7 @@
     .trial-expired-banner .teb-icon { font-size: 40px; }
     .trial-expired-banner .teb-title {
       font-size: 16px; font-weight: 800; letter-spacing: 2px;
-      color: #00ff41; text-shadow: 0 0 12px rgba(0,255,65,0.6);
+      color: #12A5FF; text-shadow: 0 0 12px rgba(18,165,255,0.6);
     }
     .trial-expired-banner .teb-body {
       font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.7);
@@ -98,7 +98,7 @@
     /* SECCIONES */
     .form-section {
       background: var(--card);
-      border: 1px solid rgba(0,255,65,0.4);
+      border: 1px solid rgba(18,165,255,0.4);
       border-radius: 16px;
       margin-bottom: 10px;
       overflow: hidden;
@@ -106,12 +106,12 @@
     }
 
     .form-section:hover {
-      border-color: #00ff41;
-      box-shadow: 0 0 15px rgba(0,255,65,0.3);
+      border-color: #12A5FF;
+      box-shadow: 0 0 15px rgba(18,165,255,0.3);
     }
 
     .form-section.open {
-      border-color: rgba(0,255,65,0.35);
+      border-color: rgba(18,165,255,0.35);
     }
 
     .section-header {
@@ -134,7 +134,7 @@
 
     .section-chevron {
       font-size: 18px;
-      color: rgba(0,255,65,0.5);
+      color: rgba(18,165,255,0.5);
       transition: transform 0.25s;
       line-height: 1;
     }
@@ -163,10 +163,10 @@
       font-size: 9px;
       font-weight: 600;
       letter-spacing: 2px;
-      color: #00ff41;
+      color: #12A5FF;
       text-transform: uppercase;
       margin-bottom: 8px;
-      text-shadow: 0 0 8px #00ff41;
+      text-shadow: 0 0 8px #12A5FF;
     }
 
     .field input[type="text"],
@@ -177,10 +177,10 @@
     .field select {
       width: 100%;
       padding: 12px 14px;
-      background: rgba(0,255,65,0.05);
-      border: 1px solid #00ff41;
+      background: rgba(18,165,255,0.05);
+      border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       outline: none;
@@ -191,12 +191,12 @@
 
     .field input:focus,
     .field select:focus {
-      border-color: #00ff41;
-      box-shadow: 0 0 8px rgba(0,255,65,0.3);
+      border-color: #12A5FF;
+      box-shadow: 0 0 8px rgba(18,165,255,0.3);
     }
 
     .field input::placeholder {
-      color: rgba(0,255,65,0.4);
+      color: rgba(18,165,255,0.4);
     }
 
     .field select {
@@ -226,9 +226,9 @@
     .chip {
       padding: 7px 14px;
       border-radius: 20px;
-      border: 1px solid #00ff41;
+      border: 1px solid #12A5FF;
       background: transparent;
-      color: #00ff41;
+      color: #12A5FF;
       opacity: 0.6;
       font-family: 'Inter', sans-serif;
       font-size: 11px;
@@ -241,12 +241,12 @@
     }
 
     .chip.active {
-      border-color: #00ff41;
-      background: #00ff41;
+      border-color: #12A5FF;
+      background: #12A5FF;
       color: #000000;
       font-weight: 700;
       opacity: 1;
-      box-shadow: 0 0 12px #00ff41;
+      box-shadow: 0 0 12px #12A5FF;
     }
 
     .chip-danger {
@@ -291,7 +291,7 @@
 
     .lang-level-label {
       font-size: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       white-space: nowrap;
       min-width: 90px;
       opacity: 0.8;
@@ -300,10 +300,10 @@
     .lang-level-row select {
       flex: 1;
       padding: 8px 30px 8px 12px;
-      background: rgba(0,255,65,0.05);
-      border: 1px solid #00ff41;
+      background: rgba(18,165,255,0.05);
+      border: 1px solid #12A5FF;
       border-radius: 8px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: 'Inter', sans-serif;
       font-size: 13px;
       outline: none;
@@ -346,7 +346,7 @@
       grid-column: 1 / -1;
       grid-row: 2;
       font-size: 11px;
-      color: rgba(0,255,65,0.4);
+      color: rgba(18,165,255,0.4);
       letter-spacing: 0.4px;
       min-height: 16px;
     }
@@ -382,7 +382,7 @@
       grid-column: 1 / -1;
       grid-row: 2;
       font-size: 11px;
-      color: rgba(0,255,65,0.4);
+      color: rgba(18,165,255,0.4);
       letter-spacing: 0.4px;
       min-height: 16px;
     }
@@ -396,8 +396,8 @@
 
     /* GRUPOS CONTACTO */
     .contact-group {
-      background: rgba(0,255,65,0.02);
-      border: 1px solid rgba(0,255,65,0.1);
+      background: rgba(18,165,255,0.02);
+      border: 1px solid rgba(18,165,255,0.1);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 14px;
@@ -409,7 +409,7 @@
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 2px;
-      color: rgba(0,255,65,0.4);
+      color: rgba(18,165,255,0.4);
       text-transform: uppercase;
       margin-bottom: 14px;
     }
@@ -436,7 +436,7 @@
 
     .btn-generate:hover {
       opacity: 0.9;
-      box-shadow: 0 0 24px rgba(0,255,65,0.35);
+      box-shadow: 0 0 24px rgba(18,165,255,0.35);
     }
 
     .btn-generate:active { opacity: 0.8; }
@@ -448,9 +448,9 @@
       margin-top: 10px;
       padding: 7px 14px;
       border-radius: 8px;
-      border: 1px dashed rgba(0,255,65,0.4);
+      border: 1px dashed rgba(18,165,255,0.4);
       background: transparent;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: 'Inter', sans-serif;
       font-size: 10px;
       font-weight: 700;
@@ -459,8 +459,8 @@
       transition: border-color 0.15s, background 0.15s;
     }
     .btn-add-med:hover {
-      border-color: #00ff41;
-      background: rgba(0,255,65,0.06);
+      border-color: #12A5FF;
+      background: rgba(18,165,255,0.06);
     }
 
     /* ICONOS SVG */
@@ -481,7 +481,7 @@
       pointer-events: none;
       display: inline-block;
     }
-    .sect-norm { color: #00ff41; }
+    .sect-norm { color: #12A5FF; }
     .sect-crit { color: #ff2222; filter: drop-shadow(0 0 6px #ff2222); }
     .sect-high { color: #ff6600; filter: drop-shadow(0 0 5px #ff6600); }
     .chip-ico {
@@ -573,9 +573,9 @@
     }
 
     .bombilla {
-      fill: #00ff41;
+      fill: #12A5FF;
       animation: parpadeo 0.4s ease-in-out infinite;
-      filter: drop-shadow(0 0 4px #00ff41) drop-shadow(0 0 8px #00ff41);
+      filter: drop-shadow(0 0 4px #12A5FF) drop-shadow(0 0 8px #12A5FF);
     }
 
     @keyframes destello-rojo {
@@ -597,7 +597,7 @@
 
     .field-hint {
       font-size: 11px;
-      color: rgba(0,255,65,0.4);
+      color: rgba(18,165,255,0.4);
       margin-top: 4px;
       letter-spacing: 0.5px;
     }
@@ -612,9 +612,9 @@
     #email-alias, #email-custom-domain,
     #passport-country, #email-domain {
       background: #0d0d0d;
-      border: 1px solid #00ff41;
+      border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: inherit;
       font-size: 14px;
       padding: 12px 16px;
@@ -627,8 +627,8 @@
     #input-dni:focus, #input-nie:focus,
     #input-pasaporte:focus, #email-alias:focus,
     #email-custom-domain:focus {
-      border-color: #00ff41;
-      box-shadow: 0 0 8px rgba(0,255,65,0.3);
+      border-color: #12A5FF;
+      box-shadow: 0 0 8px rgba(18,165,255,0.3);
     }
 
     #passport-country, #email-domain {
@@ -643,7 +643,7 @@
 
     #passport-country option, #email-domain option {
       background: #0d0d0d;
-      color: #00ff41;
+      color: #12A5FF;
     }
 
     .email-field {
@@ -666,17 +666,17 @@
       font-size: 9px;
       font-weight: 600;
       letter-spacing: 2px;
-      color: #00ff41;
+      color: #12A5FF;
       text-transform: uppercase;
       margin-bottom: 8px;
       display: block;
-      text-shadow: 0 0 8px #00ff41;
+      text-shadow: 0 0 8px #12A5FF;
     }
     .form-sublabel {
       font-size: 9px;
       font-weight: 500;
       letter-spacing: 1.5px;
-      color: rgba(0,255,65,0.55);
+      color: rgba(18,165,255,0.55);
       text-transform: uppercase;
       margin-bottom: 6px;
       display: block;
@@ -684,10 +684,10 @@
     .form-select {
       width: 100%;
       padding: 11px 36px 11px 14px;
-      background: rgba(0,255,65,0.05);
-      border: 1px solid #00ff41;
+      background: rgba(18,165,255,0.05);
+      border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       outline: none;
@@ -702,10 +702,10 @@
     .form-select option { background: #1a1a1a; color: #fff; }
     #year-visit-1, #year-visit-2, #year-visit-3 {
       padding: 11px 14px;
-      background: rgba(0,255,65,0.05);
-      border: 1px solid #00ff41;
+      background: rgba(18,165,255,0.05);
+      border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       outline: none;
@@ -719,9 +719,9 @@
 
     #last-surgery-date {
       background: #0d0d0d;
-      border: 1px solid #00ff41;
+      border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: inherit;
       font-size: 13px;
       padding: 10px 14px;
@@ -738,9 +738,9 @@
 
     #pregnancy-weeks {
       background: #0d0d0d;
-      border: 1px solid #00ff41;
+      border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: inherit;
       font-size: 13px;
       padding: 10px 14px;
@@ -762,9 +762,9 @@
     .chips-search {
       width: 100%;
       background: #0d0d0d;
-      border: 1px solid rgba(0,255,65,0.4);
+      border: 1px solid rgba(18,165,255,0.4);
       border-radius: 8px;
-      color: #00ff41;
+      color: #12A5FF;
       font-family: inherit;
       font-size: 12px;
       padding: 8px 14px;
@@ -775,12 +775,12 @@
     }
 
     .chips-search:focus {
-      border-color: #00ff41;
-      box-shadow: 0 0 6px rgba(0,255,65,0.3);
+      border-color: #12A5FF;
+      box-shadow: 0 0 6px rgba(18,165,255,0.3);
     }
 
     .chips-search::placeholder {
-      color: rgba(0,255,65,0.35);
+      color: rgba(18,165,255,0.35);
     }
 
     /* MODAL VALIDACIÓN SECCIONES VACÍAS */
@@ -837,7 +837,7 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-continuar-igual:hover {
-      border-color: rgba(0,255,65,0.45);
+      border-color: rgba(18,165,255,0.45);
       color: var(--text);
     }
     .btn-volver-revisar {

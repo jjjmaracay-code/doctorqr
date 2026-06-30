@@ -6,21 +6,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DoctorQR · Contacto">
-<meta name="theme-color" content="#00ff41">
+<meta name="theme-color" content="#12A5FF">
 <title>DoctorQR · Contacto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --green: #00ff41;
+    --green: #12A5FF;
     --red: #ff0000;
     --bg: #0a0a0a;
     --surface: #111111;
     --surface2: #1a1a1a;
     --text: #e8e8e8;
     --muted: rgba(255,255,255,0.35);
-    --border: rgba(0,255,65,0.15);
+    --border: rgba(18,165,255,0.15);
   }
 
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
@@ -42,8 +42,8 @@
     position:fixed;
     inset:0;
     background:
-      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px),
-      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,255,65,0.02) 40px,rgba(0,255,65,0.02) 41px);
+      repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(18,165,255,0.02) 40px,rgba(18,165,255,0.02) 41px),
+      repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(18,165,255,0.02) 40px,rgba(18,165,255,0.02) 41px);
     pointer-events:none;
     z-index:0;
   }
@@ -59,7 +59,7 @@
   .logo-wrap {
     margin-bottom:-100px;
     perspective:800px;
-    filter:drop-shadow(0 0 12px #00ff41) drop-shadow(0 0 30px rgba(0,255,65,0.4));
+    filter:drop-shadow(0 0 12px #12A5FF) drop-shadow(0 0 30px rgba(18,165,255,0.4));
   }
 
   .logo-rotate {
@@ -85,7 +85,7 @@
     font-size:28px; font-weight:900; letter-spacing:10px;
     margin-bottom:4px;
   }
-  .txt-doctor { color:#00ff41; text-shadow:0 0 10px #00ff41,0 0 25px rgba(0,255,65,0.6); }
+  .txt-doctor { color:#12A5FF; text-shadow:0 0 10px #12A5FF,0 0 25px rgba(18,165,255,0.6); }
   .txt-qr     { color:#ffffff; text-shadow:0 0 10px #ffffff,0 0 20px rgba(255,255,255,0.4); }
 
   /* ===== CONTENEDOR PRINCIPAL ===== */
@@ -123,7 +123,7 @@
   .form-card-title {
     font-size:9px; font-weight:700;
     letter-spacing:3px; text-transform:uppercase;
-    color:rgba(0,255,65,0.5);
+    color:rgba(18,165,255,0.5);
     margin-bottom:20px;
   }
 
@@ -135,7 +135,7 @@
 
   .chip-tipo {
     padding:8px 14px;
-    border:1px solid rgba(0,255,65,0.25);
+    border:1px solid rgba(18,165,255,0.25);
     border-radius:20px;
     font-size:10px; font-weight:600;
     letter-spacing:1.5px; text-transform:uppercase;
@@ -150,8 +150,8 @@
     border-color:var(--green);
     color:var(--green);
     text-shadow:0 0 8px var(--green);
-    box-shadow:0 0 12px rgba(0,255,65,0.15);
-    background:rgba(0,255,65,0.05);
+    box-shadow:0 0 12px rgba(18,165,255,0.15);
+    background:rgba(18,165,255,0.05);
   }
 
   /* ===== INPUTS ===== */
@@ -162,7 +162,7 @@
   .field-label {
     font-size:9px; font-weight:700;
     letter-spacing:2px; text-transform:uppercase;
-    color:rgba(0,255,65,0.5);
+    color:rgba(18,165,255,0.5);
     margin-bottom:8px;
   }
 
@@ -183,8 +183,8 @@
 
   .field-input:focus,
   .field-textarea:focus {
-    border-color:rgba(0,255,65,0.5);
-    box-shadow:0 0 0 3px rgba(0,255,65,0.08);
+    border-color:rgba(18,165,255,0.5);
+    box-shadow:0 0 0 3px rgba(18,165,255,0.08);
   }
 
   .field-input::placeholder,
@@ -235,7 +235,7 @@
     font-weight:900; letter-spacing:3px;
     text-transform:uppercase; cursor:pointer;
     text-shadow:0 0 8px var(--green);
-    box-shadow:0 0 16px rgba(0,255,65,0.15);
+    box-shadow:0 0 16px rgba(18,165,255,0.15);
     transition:all 0.2s;
     margin-bottom:12px;
   }
@@ -245,8 +245,8 @@
   }
 
   .btn-primary:not(:disabled):hover {
-    background:rgba(0,255,65,0.07);
-    box-shadow:0 0 24px rgba(0,255,65,0.25);
+    background:rgba(18,165,255,0.07);
+    box-shadow:0 0 24px rgba(18,165,255,0.25);
   }
 
   .btn-back {
@@ -273,8 +273,8 @@
   }
 
   .result-msg.success {
-    border:1px solid rgba(0,255,65,0.4);
-    background:rgba(0,255,65,0.06);
+    border:1px solid rgba(18,165,255,0.4);
+    background:rgba(18,165,255,0.06);
     color:var(--green);
   }
 
@@ -333,37 +333,37 @@
         </path>
 
         <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z"
-          fill="none" stroke="#00ff41" stroke-width="2.0" stroke-linejoin="round"
+          fill="none" stroke="#12A5FF" stroke-width="2.0" stroke-linejoin="round"
           filter="url(#glow-soft)" opacity="0.70">
           <animate attributeName="opacity" values="0.70;0.35;0.70" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
         </path>
 
         <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z"
-          fill="none" stroke="#00ff41" stroke-width="1.8" stroke-linejoin="round"
+          fill="none" stroke="#12A5FF" stroke-width="1.8" stroke-linejoin="round"
           filter="url(#glow-soft)" opacity="0.95">
           <animate attributeName="opacity" values="0.95;0.55;0.95" dur="2.8s" repeatCount="indefinite"/>
         </path>
 
         <path d="M139,82 L181,82 L181,134 L233,134 L233,176 L181,176 L181,228 L139,228 L139,176 L87,176 L87,134 L139,134 Z"
-          fill="none" stroke="#00ff41" stroke-width="1.7" stroke-linejoin="round"
+          fill="none" stroke="#12A5FF" stroke-width="1.7" stroke-linejoin="round"
           filter="url(#glow-hard)" opacity="0.82">
           <animate attributeName="opacity" values="0.82;0.46;0.82" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
         </path>
 
         <path d="M146,89 L174,89 L174,141 L226,141 L226,169 L174,169 L174,221 L146,221 L146,169 L94,169 L94,141 L146,141 Z"
-          fill="none" stroke="#00ff41" stroke-width="1.5" stroke-linejoin="round"
+          fill="none" stroke="#12A5FF" stroke-width="1.5" stroke-linejoin="round"
           filter="url(#glow-hard)" opacity="0.65">
           <animate attributeName="opacity" values="0.65;0.34;0.65" dur="2.8s" begin="0.36s" repeatCount="indefinite"/>
         </path>
 
         <path d="M153,96 L167,96 L167,148 L219,148 L219,162 L167,162 L167,214 L153,214 L153,162 L101,162 L101,148 L153,148 Z"
-          fill="none" stroke="#00ff41" stroke-width="1.4" stroke-linejoin="round"
+          fill="none" stroke="#12A5FF" stroke-width="1.4" stroke-linejoin="round"
           filter="url(#glow-hard)" opacity="0.46">
           <animate attributeName="opacity" values="0.46;0.22;0.46" dur="2.8s" begin="0.54s" repeatCount="indefinite"/>
         </path>
 
         <path d="M160,103 L160,103 L160,155 L212,155 L212,155 L160,155 L160,207 L160,207 L160,155 L108,155 L108,155 L160,155 Z"
-          fill="none" stroke="#00ff41" stroke-width="1.2" stroke-linejoin="round"
+          fill="none" stroke="#12A5FF" stroke-width="1.2" stroke-linejoin="round"
           filter="url(#glow-hard)" opacity="0.28">
           <animate attributeName="opacity" values="0.28;0.12;0.28" dur="2.8s" begin="0.72s" repeatCount="indefinite"/>
         </path>
