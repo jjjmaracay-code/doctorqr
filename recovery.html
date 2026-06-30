@@ -464,9 +464,30 @@
     </div>
   </div>
 
-  <div class="rec-brand">
-    <span class="txt-doctor" style="filter:url(#rv-glow-text)">DOCTOR</span><span class="txt-qr" style="filter:url(#rv-glow-white)">QR</span>
-  </div>
+  <svg width="160" height="32" viewBox="0 0 320 64" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;overflow:visible;">
+    <defs>
+      <filter id="rwm-glow-red" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="rwm-glow-white-intense" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="7" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="rwm-glow-white" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <text x="20" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="900"
+          font-size="42" letter-spacing="0.5" textLength="148" lengthAdjust="spacingAndGlyphs"
+          fill="#ff4444" filter="url(#rwm-glow-red)">Atabey</text>
+    <text x="182" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="900"
+          font-size="42" letter-spacing="0.5" textLength="80" lengthAdjust="spacingAndGlyphs"
+          fill="#ffffff" filter="url(#rwm-glow-white-intense)">app</text>
+    <text x="270" y="21" font-family="Arial, Helvetica, sans-serif" font-weight="700"
+          font-size="14" fill="#ffffff" filter="url(#rwm-glow-white)">™</text>
+  </svg>
   <div class="rec-tagline">Recuperación de acceso</div>
 
   <div class="steps-wrap">
