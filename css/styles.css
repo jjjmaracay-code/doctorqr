@@ -557,6 +557,11 @@
       animation: logo3d 8s ease-in-out infinite;
       transform-style: preserve-3d;
       display: inline-block;
+      will-change: transform;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo-rotate { animation: none !important; }
     }
 
     @keyframes logo3d {
