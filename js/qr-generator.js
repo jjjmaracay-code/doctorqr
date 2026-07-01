@@ -418,7 +418,7 @@ function buildQRUrl(type, formData) {
   const ec = (formData.ec1_phone_prefix || '') + (formData.ec1_phone_num || '');
   const e  = encodeURIComponent(ec);
 
-  let url = `https://doctorqr.app/card.html?id=${encodeURIComponent(id)}&t=${t}`;
+  let url = `https://atabeyapp.app/card.html?id=${encodeURIComponent(id)}&t=${t}`;
   if (n) url += `&n=${n}`;
   if (s) url += `&s=${s}`;
   if (a) url += `&a=${a}`;
@@ -687,7 +687,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   <div id="qcf"></div>
   <div class="front-name">${nombre || '&mdash;'}</div>
   ${sangre ? '<div class="front-blood">&#129405; ' + sangre + '</div>' : ''}
-  <div class="front-footer">Edici&oacute;n ${monthName} &middot; doctorqr.app</div>
+  <div class="front-footer">Edici&oacute;n ${monthName} &middot; atabeyapp.app</div>
 </div></div>
 
 <div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR AQU&Iacute; &nbsp; &#9988;</span></div>
@@ -712,7 +712,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   <div class="brace-info">
     <div class="brace-name">${nombre || '&mdash;'}</div>
     <div class="brace-meta">${sangre ? '&#129405; ' + sangre : ''}</div>
-    <div class="brace-site">doctorqr.app</div>
+    <div class="brace-site">atabeyapp.app</div>
   </div>
   <div class="brace-notch">&#9655;|</div>
 </div></div>
@@ -736,7 +736,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 
 </div>
 <script>
-  var pUrl=\`${patientUrl}\`,bUrl='https://doctorqr.app',M=QRCode.CorrectLevel.M;
+  var pUrl=\`${patientUrl}\`,bUrl='https://atabeyapp.app',M=QRCode.CorrectLevel.M;
   new QRCode(document.getElementById('qcf'),{text:pUrl,width:95,height:95,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
   new QRCode(document.getElementById('qcb'),{text:bUrl,width:70,height:70,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
   new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
