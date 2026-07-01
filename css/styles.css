@@ -25,7 +25,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
       margin-bottom: 44px;
     }
 
@@ -552,7 +551,7 @@
       100% { stroke-dashoffset: 250; }
     }
 
-    .logo-container { perspective: 800px; margin-bottom: -120px; }
+    .logo-container { perspective: 800px; margin-bottom: -101px; }
 
     .logo-rotate {
       animation: logo3d 8s ease-in-out infinite;

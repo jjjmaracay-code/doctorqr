@@ -213,6 +213,16 @@
   .pwd-dots.empty { color:rgba(18,165,255,0.2); letter-spacing:2px; font-size:14px; }
   .pwd-dots.valid { border-color:var(--green); box-shadow:0 0 8px rgba(18,165,255,0.25); }
 
+  .pwd-dots-wrap { position:relative; }
+  .pwd-dots-wrap .pwd-dots { padding-right:40px; }
+  .pwd-eye-btn {
+    position:absolute; right:8px; top:0; bottom:12px;
+    width:28px; display:flex; align-items:center; justify-content:center;
+    border:none; background:none; padding:0; cursor:pointer;
+    opacity:0.55; transition:opacity 0.15s;
+  }
+  .pwd-eye-btn:hover { opacity:1; }
+
   @keyframes shake {
     0%,100% { transform:translateX(0); }
     20% { transform:translateX(-5px); }
@@ -935,7 +945,12 @@
     </div>
 
     <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;">CREAR</div>
-    <div class="pwd-dots empty" id="pwd1-dots">· · · · · · · ·</div>
+    <div class="pwd-dots-wrap">
+      <div class="pwd-dots empty" id="pwd1-dots">· · · · · · · ·</div>
+      <button type="button" class="pwd-eye-btn" id="pwd1-eye" onclick="togglePwdVisibility(1)" aria-label="Mostrar contraseña">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
     <div class="pin-validation" id="pwd1-hint">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
     <div class="pwd-strength" id="str-pwd1">
       <span class="pwd-req" id="r1-len">Mínimo 8 caracteres</span>
@@ -948,7 +963,12 @@
     <div id="qwerty-kbd-1"></div>
 
     <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;margin-top:20px;">CONFIRMAR</div>
-    <div class="pwd-dots empty" id="pwd2-dots">· · · · · · · ·</div>
+    <div class="pwd-dots-wrap">
+      <div class="pwd-dots empty" id="pwd2-dots">· · · · · · · ·</div>
+      <button type="button" class="pwd-eye-btn" id="pwd2-eye" onclick="togglePwdVisibility(2)" aria-label="Mostrar contraseña">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
     <div class="pin-validation" id="pwd2-hint">Repite la contraseña</div>
     <div class="pwd-strength" id="str-pwd2">
       <span class="pwd-req" id="r2-len">Mínimo 8 caracteres</span>
@@ -1201,6 +1221,8 @@ let otpBuffer   = '';
 let totpBuffer  = '';
 let pwd1Buffer  = '';
 let pwd2Buffer  = '';
+let pwd1Visible = false;
+let pwd2Visible = false;
 let timerIntvl  = null;
 let timerSecs   = 600;
 let resendCd    = 60;
@@ -1394,6 +1416,8 @@ function updatePwdDisplay(num) {
   const hintId = num === 1 ? 'pwd1-hint' : 'pwd2-hint';
   const strPfx = num === 1 ? 'r1-' : 'r2-';
 
+  const visible = num === 1 ? pwd1Visible : pwd2Visible;
+
   const dotsEl = document.getElementById(dotsId);
   if (dotsEl) {
     if (buf.length === 0) {
@@ -1401,7 +1425,7 @@ function updatePwdDisplay(num) {
       dotsEl.classList.add('empty');
       dotsEl.classList.remove('valid');
     } else {
-      dotsEl.textContent = '●'.repeat(buf.length);
+      dotsEl.textContent = visible ? buf : '●'.repeat(buf.length);
       dotsEl.classList.remove('empty');
       dotsEl.classList.toggle('valid', validatePwd(buf).valid);
     }
@@ -1428,6 +1452,20 @@ function validatePwd(pwd) {
   return {
     valid: pwd.length >= 8 && /[0-9]/.test(pwd) && /[^A-Za-z0-9\s]/.test(pwd) && /[A-Z]/.test(pwd),
   };
+}
+
+const EYE_ICON_OPEN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_ICON_OFF  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+function togglePwdVisibility(num) {
+  if (num === 1) pwd1Visible = !pwd1Visible; else pwd2Visible = !pwd2Visible;
+  const visible = num === 1 ? pwd1Visible : pwd2Visible;
+  const btn = document.getElementById(num === 1 ? 'pwd1-eye' : 'pwd2-eye');
+  if (btn) {
+    btn.innerHTML = visible ? EYE_ICON_OFF : EYE_ICON_OPEN;
+    btn.setAttribute('aria-label', visible ? 'Ocultar contraseña' : 'Mostrar contraseña');
+  }
+  updatePwdDisplay(num);
 }
 
 
