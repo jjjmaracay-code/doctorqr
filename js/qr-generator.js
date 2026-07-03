@@ -626,10 +626,11 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .cut-text{display:inline-block;background:#fff;color:#aaa;
   font-size:6pt;letter-spacing:1px;padding:0 3mm;position:relative;top:-8px}
 .card-wrap{display:flex;justify-content:center}
-.card{width:85.6mm;height:54mm;border-radius:3.5mm;padding:1.1mm 4mm;
+.card{width:85.6mm;height:74mm;border-radius:3.5mm;padding:1.1mm 4mm;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between}
 .card-front{background:#fff;border:2px solid ${theme.color}}
-.card-back{background:#000;border:2px solid #12A5FF}
+.card-back{background:#000;border:2px solid #12A5FF;
+  justify-content:center;gap:3mm}
 .stamp-strip{width:100%;background:${theme.color};color:#fff;font-size:6pt;
   font-weight:900;letter-spacing:1.2px;text-transform:uppercase;
   text-align:center;padding:1.2mm 1mm;border-radius:1.5mm}
@@ -644,16 +645,16 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .phone-112-label{font-size:5pt;font-weight:700;letter-spacing:1px;
   text-transform:uppercase;opacity:0.85}
 .phone-ong{font-size:4.5pt;line-height:1.2;color:#666;text-align:center;letter-spacing:0.3px}
-.back-logo{font-size:11pt;font-weight:900;letter-spacing:3px;
+.back-logo{font-size:14pt;font-weight:900;letter-spacing:3.5px;
   color:#12A5FF;text-shadow:0 0 8px #12A5FF}
-.back-tagline{font-size:5.5pt;font-weight:900;letter-spacing:1.5px;
+.back-tagline{font-size:7pt;font-weight:900;letter-spacing:1.8px;
   color:#12A5FF;text-align:center;text-transform:uppercase;line-height:1.5}
-.back-sep{width:100%;border-top:0.5pt solid ${theme.color};margin:1.5mm 0}
-.cause-name{font-size:6pt;font-weight:900;color:${theme.color};
+.back-sep{width:70%;border-top:0.5pt solid ${theme.color};margin:0}
+.cause-name{font-size:7.5pt;font-weight:900;color:${theme.color};
   letter-spacing:1px;text-transform:uppercase;text-align:center}
-.cause-ong{font-size:5.5pt;color:${theme.color};text-align:center;
+.cause-ong{font-size:6.5pt;color:${theme.color};text-align:center;
   letter-spacing:0.3px;line-height:1.6}
-.cause-web{font-size:5pt;color:${theme.color};opacity:0.65;text-align:center}
+.cause-web{font-size:5.5pt;color:${theme.color};opacity:0.65;text-align:center}
 .brace-wrap{display:flex;justify-content:center}
 .brace{width:185mm;height:22mm;border-radius:3mm;padding:2mm 4mm;
   display:flex;align-items:center;gap:3mm}
@@ -745,8 +746,8 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 </div>
 <script>
   var pUrl=\`${patientUrl}\`,bUrl='https://atabeyapp.app',M=QRCode.CorrectLevel.M;
-  new QRCode(document.getElementById('qcf'),{text:pUrl,width:106,height:106,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
-  new QRCode(document.getElementById('qcb'),{text:bUrl,width:70,height:70,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
+  new QRCode(document.getElementById('qcf'),{text:pUrl,width:178,height:178,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
+  new QRCode(document.getElementById('qcb'),{text:bUrl,width:88,height:88,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
   new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
