@@ -609,7 +609,7 @@ function printEmergencyQR() {
   const win = window.open('', '_blank');
   win.document.write(`<!DOCTYPE html>
 <html><head><meta charset="UTF-8">
-<title>DoctorQR — ${nombre || 'Tarjeta de emergencia'}</title>
+<title>Atabeyapp — ${nombre || 'Tarjeta de emergencia'}</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{background:#fff;font-family:'Courier New',Courier,monospace}
@@ -683,7 +683,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <div class="section-label">&#9632; TARJETA SANITARIA</div>
 <div class="face-label front">CARA FRONTAL &mdash; visible</div>
 <div class="card-wrap"><div class="card card-front">
-  <div class="front-title">QR EMERGENCIA &mdash; DOCTORQR</div>
+  <div class="front-title">QR EMERGENCIA &mdash; ATABEYAPP</div>
   <div id="qcf"></div>
   <div class="front-name">${nombre || '&mdash;'}</div>
   ${sangre ? '<div class="front-blood">&#129405; ' + sangre + '</div>' : ''}
@@ -724,7 +724,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <div class="brace-wrap"><div class="brace brace-back">
   <div id="qbb"></div>
   <div class="brace-brand">
-    <div class="brace-logo">DOCTORQR</div>
+    <div class="brace-logo">ATABEYAPP</div>
     <div class="brace-cause">&#9632; ${theme.cause}</div>
     <div class="brace-tel">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
   </div>
