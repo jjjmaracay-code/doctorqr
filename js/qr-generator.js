@@ -694,7 +694,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 
 <div class="face-label back">CARA DORSAL &mdash; interior al doblar</div>
 <div class="card-wrap"><div class="card card-back">
-  <div class="back-logo">DOCTOR<span style="opacity:0.4">QR</span></div>
+  <div class="back-logo">ATABEY<span style="opacity:0.4">APP</span></div>
   <div id="qcb"></div>
   <div class="back-tagline">TU HISTORIAL M&Eacute;DICO<br>DE EMERGENCIA</div>
   <div class="back-sep"></div>
