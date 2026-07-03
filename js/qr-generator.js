@@ -626,17 +626,24 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .cut-text{display:inline-block;background:#fff;color:#aaa;
   font-size:6pt;letter-spacing:1px;padding:0 3mm;position:relative;top:-8px}
 .card-wrap{display:flex;justify-content:center}
-.card{width:85.6mm;height:54mm;border-radius:3.5mm;padding:3mm 4mm;
+.card{width:85.6mm;height:54mm;border-radius:3.5mm;padding:1.1mm 4mm;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between}
 .card-front{background:#fff;border:2px solid ${theme.color}}
 .card-back{background:#000;border:2px solid #12A5FF}
-.front-title{font-size:5.5pt;font-weight:900;color:${theme.color};
-  letter-spacing:2px;text-transform:uppercase}
+.stamp-strip{width:100%;background:${theme.color};color:#fff;font-size:6pt;
+  font-weight:900;letter-spacing:1.2px;text-transform:uppercase;
+  text-align:center;padding:1.2mm 1mm;border-radius:1.5mm}
 .front-name{font-size:8.5pt;font-weight:900;color:#000;
   text-align:center;word-break:break-word}
 .front-blood{background:#cc0000;color:#fff;font-size:7pt;font-weight:900;
   padding:1mm 3mm;border-radius:2mm;letter-spacing:1px}
 .front-footer{font-size:5pt;color:#888;letter-spacing:0.5px;text-align:center}
+.phone-112{display:flex;align-items:baseline;gap:2mm;background:#000;
+  color:#fff;border-radius:2mm;padding:0.8mm 3.5mm}
+.phone-112-num{font-size:11.5pt;font-weight:900;letter-spacing:1px}
+.phone-112-label{font-size:5pt;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;opacity:0.85}
+.phone-ong{font-size:4.5pt;line-height:1.2;color:#666;text-align:center;letter-spacing:0.3px}
 .back-logo{font-size:11pt;font-weight:900;letter-spacing:3px;
   color:#12A5FF;text-shadow:0 0 8px #12A5FF}
 .back-tagline{font-size:5.5pt;font-weight:900;letter-spacing:1.5px;
@@ -651,23 +658,20 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .brace{width:185mm;height:22mm;border-radius:3mm;padding:2mm 4mm;
   display:flex;align-items:center;gap:3mm}
 .brace-front{background:#fff;border:1.5px solid ${theme.color}}
-.brace-back{background:#000;border:1.5px solid #12A5FF}
 .brace-info{flex:1;overflow:hidden}
 .brace-name{font-size:8pt;font-weight:900;color:#000;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brace-badges{display:flex;align-items:center;gap:2mm;margin:0.3mm 0}
 .brace-meta{font-size:6.5pt;color:#333}
+.brace-112{background:#000;color:#fff;font-size:5.5pt;font-weight:900;
+  padding:0.5mm 2mm;border-radius:2mm;letter-spacing:0.5px}
 .brace-site{font-size:5.5pt;color:${theme.color};letter-spacing:0.5px}
-.brace-notch{width:8mm;height:22mm;display:flex;align-items:center;
-  justify-content:center;font-size:14pt;color:${theme.color};
-  border-left:1pt dashed ${theme.color};padding-left:1mm;flex-shrink:0}
-.brace-brand{text-align:right;flex:1}
-.brace-logo{font-size:9pt;font-weight:900;letter-spacing:2px;
-  color:#12A5FF;text-shadow:0 0 6px #12A5FF}
-.brace-cause{font-size:5pt;font-weight:700;color:${theme.color};
-  text-transform:uppercase;letter-spacing:0.4px;line-height:1.5}
-.brace-tel{font-size:5pt;color:${theme.color};opacity:0.8}
+.grommet{width:8mm;height:8mm;border-radius:50%;border:1.5pt solid ${theme.color};
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  color:${theme.color};font-size:8pt}
 .brace-fold-hint{text-align:center;font-size:5.5pt;color:#aaa;
   margin:1.5mm 0;letter-spacing:0.5px}
+.instr-sub{display:block;opacity:0.55;font-size:85%;margin-top:0.8mm}
 .eco-msg{text-align:center;font-size:6pt;color:#888;letter-spacing:0.4px;
   margin-top:5mm;padding:2mm 0;border-top:0.5pt solid #ddd}
 @media print{.instr{display:none}}
@@ -677,17 +681,24 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <body><div class="page">
 
 <div class="instr">
-  Imprimir &rarr; Plastificar &rarr; Doblar por la l&iacute;nea de corte &nbsp;|&nbsp; Pulsera: doblar extremo, pasar por muesca &#9655;|, plastificar
+  Imprimir &rarr; Plastificar &rarr; Doblar la tarjeta por la l&iacute;nea de corte &nbsp;|&nbsp; Pulsera: recortar la tira, pasar una brida de un solo uso por ambos ojales y plastificar
+  <span class="instr-sub">Print &rarr; Laminate &rarr; Fold the card along the cut line &nbsp;|&nbsp; Bracelet: cut out the strip, thread a single-use zip tie through both holes, then laminate</span>
+  <span class="instr-sub">Imprimer &rarr; Plastifier &rarr; Plier la carte le long de la ligne de d&eacute;coupe &nbsp;|&nbsp; Bracelet&nbsp;: d&eacute;couper la bande, passer un collier de serrage &agrave; usage unique dans les deux &oelig;illets, puis plastifier</span>
 </div>
 
 <div class="section-label">&#9632; TARJETA SANITARIA</div>
 <div class="face-label front">CARA FRONTAL &mdash; visible</div>
 <div class="card-wrap"><div class="card card-front">
-  <div class="front-title">QR EMERGENCIA &mdash; ATABEYAPP</div>
+  <div class="stamp-strip">EMERGENCIA &middot; ${monthName} &mdash; ${theme.cause}</div>
   <div id="qcf"></div>
+  <div class="front-footer">atabeyapp.app</div>
   <div class="front-name">${nombre || '&mdash;'}</div>
-  ${sangre ? '<div class="front-blood">&#129405; ' + sangre + '</div>' : ''}
-  <div class="front-footer">Edici&oacute;n ${monthName} &middot; atabeyapp.app</div>
+  ${sangre ? '<div class="front-blood">&#129656; ' + sangre + '</div>' : ''}
+  <div class="phone-112">
+    <span class="phone-112-num">112</span>
+    <span class="phone-112-label">Emergencias</span>
+  </div>
+  <div class="phone-ong">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
 </div></div>
 
 <div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR AQU&Iacute; &nbsp; &#9988;</span></div>
@@ -706,41 +717,37 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <div class="cut"><span class="cut-text">&#9988; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; &#9988;</span></div>
 
 <div class="section-label">&#9675; PULSERA M&Eacute;DICA</div>
-<div class="face-label front">CARA FRONTAL</div>
 <div class="brace-wrap"><div class="brace brace-front">
+  <div class="grommet">&#9675;</div>
   <div id="qbf"></div>
   <div class="brace-info">
     <div class="brace-name">${nombre || '&mdash;'}</div>
-    <div class="brace-meta">${sangre ? '&#129405; ' + sangre : ''}</div>
+    <div class="brace-badges">
+      <span class="brace-meta">${sangre ? '&#129656; ' + sangre : ''}</span>
+      <span class="brace-112">112</span>
+    </div>
     <div class="brace-site">atabeyapp.app</div>
   </div>
-  <div class="brace-notch">&#9655;|</div>
+  <div class="grommet">&#9675;</div>
 </div></div>
-<div class="brace-fold-hint">Doblar extremo &middot; pasar por muesca &#9655;| &middot; plastificar</div>
-
-<div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR &nbsp; &#9988;</span></div>
-
-<div class="face-label back">CARA DORSAL</div>
-<div class="brace-wrap"><div class="brace brace-back">
-  <div id="qbb"></div>
-  <div class="brace-brand">
-    <div class="brace-logo">ATABEYAPP</div>
-    <div class="brace-cause">&#9632; ${theme.cause}</div>
-    <div class="brace-tel">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
-  </div>
-</div></div>
+<div class="brace-fold-hint">
+  Pasar brida de un solo uso por ambos ojales &mdash; no reutilizable
+  <span class="instr-sub">Thread a single-use zip tie through both holes &mdash; not reusable</span>
+  <span class="instr-sub">Passer un collier de serrage &agrave; usage unique dans les deux &oelig;illets &mdash; non r&eacute;utilisable</span>
+</div>
 
 <div class="eco-msg">
   &#127807; Tarjeta y pulsera en un solo folio &middot; Colaboramos con el medio ambiente &middot; Plastifica para mayor durabilidad
+  <span class="instr-sub">Card and bracelet on a single sheet &middot; We help protect the environment &middot; Laminate for extra durability</span>
+  <span class="instr-sub">Carte et bracelet sur une seule feuille &middot; Nous prot&eacute;geons l'environnement &middot; Plastifiez pour plus de durabilit&eacute;</span>
 </div>
 
 </div>
 <script>
   var pUrl=\`${patientUrl}\`,bUrl='https://atabeyapp.app',M=QRCode.CorrectLevel.M;
-  new QRCode(document.getElementById('qcf'),{text:pUrl,width:95,height:95,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
+  new QRCode(document.getElementById('qcf'),{text:pUrl,width:106,height:106,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
   new QRCode(document.getElementById('qcb'),{text:bUrl,width:70,height:70,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
   new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
-  new QRCode(document.getElementById('qbb'),{text:bUrl,width:52,height:52,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
 </body></html>`);
