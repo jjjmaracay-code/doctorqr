@@ -658,15 +658,22 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .brace-wrap{display:flex;justify-content:center}
 .brace{width:185mm;height:22mm;border-radius:3mm;padding:2mm 4mm;
   display:flex;align-items:center;gap:3mm}
-.brace-front{background:#fff;border:1.5px solid ${theme.color}}
+.brace-front{background:linear-gradient(135deg,#fff 0%,${theme.color}1a 100%);
+  border:3px solid ${theme.color}}
+.brace-accent{width:3mm;align-self:stretch;background:${theme.color};
+  border-radius:1.5mm;flex-shrink:0}
 .brace-info{flex:1;overflow:hidden}
-.brace-name{font-size:8pt;font-weight:900;color:#000;
+.brace-name{font-size:8pt;font-weight:900;color:#000;letter-spacing:0.3px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brace-badges{display:flex;align-items:center;gap:2mm;margin:0.3mm 0}
-.brace-meta{font-size:6.5pt;color:#333}
+.brace-meta{font-size:6.5pt;color:#cc0000;font-weight:700;
+  border:1px solid #cc0000;background:#fff;
+  padding:0.4mm 1.8mm;border-radius:4mm}
 .brace-112{background:#000;color:#fff;font-size:5.5pt;font-weight:900;
-  padding:0.5mm 2mm;border-radius:2mm;letter-spacing:0.5px}
+  padding:0.5mm 2mm;border-radius:4mm;letter-spacing:0.5px}
 .brace-site{font-size:5.5pt;color:${theme.color};letter-spacing:0.5px}
+.brace-more-info{font-size:5.5pt;font-weight:900;color:#cc0000;
+  letter-spacing:0.4px;text-transform:uppercase;margin-top:0.3mm}
 .grommet{width:8mm;height:8mm;border-radius:50%;border:1.5pt solid ${theme.color};
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
   color:${theme.color};font-size:8pt}
@@ -720,14 +727,15 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <div class="section-label">&#9675; PULSERA M&Eacute;DICA</div>
 <div class="brace-wrap"><div class="brace brace-front">
   <div class="grommet">&#9675;</div>
-  <div id="qbf"></div>
+  <div class="brace-accent"></div>
   <div class="brace-info">
     <div class="brace-name">${nombre || '&mdash;'}</div>
     <div class="brace-badges">
       <span class="brace-meta">${sangre ? '&#129656; ' + sangre : ''}</span>
-      <span class="brace-112">112</span>
+      <span class="brace-112">&#10010; 112</span>
     </div>
     <div class="brace-site">atabeyapp.app</div>
+    <div class="brace-more-info">VER TARJETA QR &mdash; M&Aacute;S INFO</div>
   </div>
   <div class="grommet">&#9675;</div>
 </div></div>
@@ -748,7 +756,6 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   var pUrl=\`${patientUrl}\`,bUrl='https://atabeyapp.app',M=QRCode.CorrectLevel.M;
   new QRCode(document.getElementById('qcf'),{text:pUrl,width:178,height:178,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
   new QRCode(document.getElementById('qcb'),{text:bUrl,width:88,height:88,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
-  new QRCode(document.getElementById('qbf'),{text:pUrl,width:56,height:56,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
 </body></html>`);
