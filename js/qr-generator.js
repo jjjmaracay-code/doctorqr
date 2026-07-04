@@ -426,6 +426,14 @@ function buildQRUrl(type, formData) {
   return url;
 }
 
+// URL reducida (solo id+t), exclusiva del QR impreso de printEmergencyQR() —
+// n/s/a/e son un fallback de tercer nivel en card.html, no necesario aquí
+function buildEmergencyQRUrl() {
+  const id = getOrCreateUserID();
+  const t  = QR_TYPE_CODES[QR_TYPES[0].id] || QR_TYPES[0].id;
+  return `https://atabeyapp.app/card.html?id=${encodeURIComponent(id)}&t=${t}`;
+}
+
 // ============================================
 // GENERACIÓN VISUAL DE CADA TARJETA QR
 // ============================================
@@ -582,7 +590,7 @@ function printEmergencyQR() {
     return;
   }
   const d = getFormData();
-  const patientUrl = buildQRUrl(QR_TYPES[0], d);
+  const patientUrl = buildEmergencyQRUrl();
   const nombre = ((d.nombre || '') + ' ' + (d.apellidos || '')).trim();
   const sangre = d.sangre || '';
 
