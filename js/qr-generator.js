@@ -640,7 +640,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   justify-content:flex-start;gap:2mm}
 .card-back{background:#000;border:2px solid #12A5FF;
   justify-content:center;gap:3mm}
-.stamp-strip{width:100%;background:${theme.color};color:#fff;font-size:8pt;
+.stamp-strip{width:100%;background:${theme.color};color:#fff;font-size:9.5pt;
   font-weight:900;letter-spacing:1.2px;text-transform:uppercase;
   text-align:center;padding:3mm 1mm;border-radius:1.5mm}
 .front-body{display:flex;align-items:center;gap:2.5mm;width:100%;
