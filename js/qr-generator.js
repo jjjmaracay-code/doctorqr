@@ -628,23 +628,29 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .card-wrap{display:flex;justify-content:center}
 .card{width:85.6mm;height:74mm;border-radius:3.5mm;padding:1.1mm 4mm;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between}
-.card-front{background:#fff;border:2px solid ${theme.color}}
+.card-front{background:#000;border:2px solid ${theme.color};
+  justify-content:flex-start;gap:2mm}
 .card-back{background:#000;border:2px solid #12A5FF;
   justify-content:center;gap:3mm}
 .stamp-strip{width:100%;background:${theme.color};color:#fff;font-size:6pt;
   font-weight:900;letter-spacing:1.2px;text-transform:uppercase;
   text-align:center;padding:1.2mm 1mm;border-radius:1.5mm}
-.front-name{font-size:8.5pt;font-weight:900;color:#000;
+.front-body{display:flex;align-items:center;gap:2.5mm;width:100%;
+  flex:1;min-height:0}
+.front-col{flex:1;min-width:0;display:flex;flex-direction:column;
+  align-items:center;gap:1mm}
+.front-name{font-size:8.5pt;font-weight:900;color:#fff;
   text-align:center;word-break:break-word}
 .front-blood{background:#cc0000;color:#fff;font-size:7pt;font-weight:900;
   padding:1mm 3mm;border-radius:2mm;letter-spacing:1px}
 .front-footer{font-size:5pt;color:#888;letter-spacing:0.5px;text-align:center}
-.phone-112{display:flex;align-items:baseline;gap:2mm;background:#000;
-  color:#fff;border-radius:2mm;padding:0.8mm 3.5mm}
+.phone-112{display:flex;flex-direction:column;align-items:center;gap:0.3mm;
+  background:#000;color:#fff;border:1px solid ${theme.color};
+  border-radius:2mm;padding:0.8mm 3.5mm}
 .phone-112-num{font-size:11.5pt;font-weight:900;letter-spacing:1px}
 .phone-112-label{font-size:5pt;font-weight:700;letter-spacing:1px;
   text-transform:uppercase;opacity:0.85}
-.phone-ong{font-size:4.5pt;line-height:1.2;color:#666;text-align:center;letter-spacing:0.3px}
+.phone-ong{font-size:4.5pt;line-height:1.2;color:#ccc;text-align:center;letter-spacing:0.3px}
 .back-logo{font-size:14pt;font-weight:900;letter-spacing:3.5px;
   color:#12A5FF;text-shadow:0 0 8px #12A5FF}
 .back-tagline{font-size:7pt;font-weight:900;letter-spacing:1.8px;
@@ -672,8 +678,9 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .brace-112{background:#000;color:#fff;font-size:5.5pt;font-weight:900;
   padding:0.5mm 2mm;border-radius:4mm;letter-spacing:0.5px}
 .brace-site{font-size:5.5pt;color:${theme.color};letter-spacing:0.5px}
-.brace-more-info{font-size:5.5pt;font-weight:900;color:#cc0000;
+.brace-more-info{font-size:7pt;font-weight:900;color:#cc0000;
   letter-spacing:0.4px;text-transform:uppercase;margin-top:0.3mm}
+.qcb-frame{background:#fff;padding:2.5mm;border-radius:1.5mm;line-height:0}
 .grommet{width:8mm;height:8mm;border-radius:50%;border:1.5pt solid ${theme.color};
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
   color:${theme.color};font-size:8pt}
@@ -698,15 +705,19 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <div class="face-label front">CARA FRONTAL &mdash; visible</div>
 <div class="card-wrap"><div class="card card-front">
   <div class="stamp-strip">EMERGENCIA &middot; ${monthName} &mdash; ${theme.cause}</div>
-  <div id="qcf"></div>
-  <div class="front-footer">atabeyapp.app</div>
-  <div class="front-name">${nombre || '&mdash;'}</div>
-  ${sangre ? '<div class="front-blood">&#129656; ' + sangre + '</div>' : ''}
-  <div class="phone-112">
-    <span class="phone-112-num">112</span>
-    <span class="phone-112-label">Emergencias</span>
+  <div class="front-body">
+    <div id="qcf"></div>
+    <div class="front-col">
+      <div class="front-footer">atabeyapp.app</div>
+      <div class="front-name">${nombre || '&mdash;'}</div>
+      ${sangre ? '<div class="front-blood">&#129656; ' + sangre + '</div>' : ''}
+      <div class="phone-112">
+        <span class="phone-112-num">112</span>
+        <span class="phone-112-label">Emergencias</span>
+      </div>
+      <div class="phone-ong">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
+    </div>
   </div>
-  <div class="phone-ong">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
 </div></div>
 
 <div class="cut"><span class="cut-text">&#9988; &nbsp; DOBLAR AQU&Iacute; &nbsp; &#9988;</span></div>
@@ -714,7 +725,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <div class="face-label back">CARA DORSAL &mdash; interior al doblar</div>
 <div class="card-wrap"><div class="card card-back">
   <div class="back-logo">ATABEY<span style="opacity:0.4">APP</span></div>
-  <div id="qcb"></div>
+  <div class="qcb-frame"><div id="qcb"></div></div>
   <div class="back-tagline">TU HISTORIAL M&Eacute;DICO<br>DE EMERGENCIA</div>
   <div class="back-sep"></div>
   <div class="cause-name">&#9632; ${theme.cause}</div>
