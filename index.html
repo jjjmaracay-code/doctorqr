@@ -312,6 +312,17 @@
              letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;
              border:1px solid transparent;display:inline-block;">
     </div>
+    <button id="btn-emergency-quick" onclick="handleEmergencyQuickAccess()"
+      style="margin-top:14px;background:none;border:1.5px solid #ff0000;color:#ff0000;
+             font-family:'Inter',sans-serif;font-size:11px;font-weight:900;letter-spacing:2px;
+             text-transform:uppercase;padding:10px 20px;border-radius:20px;cursor:pointer;
+             text-shadow:0 0 8px rgba(255,0,0,0.4);box-shadow:0 0 10px rgba(255,0,0,0.15);
+             transition:all 0.15s;-webkit-tap-highlight-color:transparent;"
+      onmouseover="this.style.background='rgba(255,0,0,0.08)'"
+      onmouseout="this.style.background='none'">
+      Acceso rápido de emergencia
+    </button>
+    <div id="emergency-quick-msg" class="field-hint" style="display:none;color:#ff4444;margin-top:8px;max-width:280px;text-align:center"></div>
   </div>
 
   <!-- FORMULARIO -->
@@ -2431,6 +2442,18 @@
     localStorage.removeItem('doctorqr_profile');
     localStorage.removeItem('doctorqr_id');
     window.location.href = 'login.html';
+  }
+
+  // ===== ACCESO RÁPIDO DE EMERGENCIA (sin depender de #qr-section) =====
+  function handleEmergencyQuickAccess() {
+    const msgEl = document.getElementById('emergency-quick-msg');
+    if (!localStorage.getItem('doctorqr_profile')) {
+      msgEl.textContent = 'No hay ningún perfil guardado en este dispositivo. Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.';
+      msgEl.style.display = 'block';
+      return;
+    }
+    msgEl.style.display = 'none';
+    printEmergencyQR();
   }
 
   function openPlans() {

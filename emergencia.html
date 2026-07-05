@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>Atabeyapp — Acceso rápido de emergencia</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:#000;color:#fff;font-family:'Courier New',Courier,monospace;
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:24px;text-align:center}
+    .box{max-width:380px}
+    .logo{font-size:14px;font-weight:900;letter-spacing:3px;color:#12A5FF;
+      text-shadow:0 0 8px #12A5FF;margin-bottom:20px}
+    .logo span{opacity:0.4}
+    h1{font-size:16px;font-weight:900;color:#fff;letter-spacing:0.5px;
+      margin-bottom:12px;line-height:1.4}
+    p{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:20px}
+    a.btn{display:inline-block;background:#12A5FF;color:#000;font-weight:900;
+      text-decoration:none;padding:12px 26px;border-radius:8px;font-size:13px;
+      letter-spacing:0.5px}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="logo">ATABEY<span>APP</span></div>
+    <div id="msg">
+      <h1>Generando tu QR de emergencia&hellip;</h1>
+      <p>Se abrió una ventana nueva con tu tarjeta y pulsera para imprimir. Si no se abrió, revisa que tu navegador permita ventanas emergentes para este sitio.</p>
+    </div>
+  </div>
+  <script src="js/qr-generator.js"></script>
+  <script>
+    (function(){
+      if (!localStorage.getItem('doctorqr_profile')) {
+        document.getElementById('msg').innerHTML = `
+          <h1>No hay ningún perfil guardado en ESTE dispositivo</h1>
+          <p>Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.</p>
+          <a class="btn" href="login.html">Ir a Atabeyapp</a>
+        `;
+        return;
+      }
+      printEmergencyQR();
+    })();
+  </script>
+</body>
+</html>

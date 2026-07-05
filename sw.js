@@ -6,10 +6,12 @@ const CACHE_URLS = [
   './register.html',
   './recovery.html',
   './card.html',
+  './emergencia.html',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './css/styles.css',
+  './js/qr-generator.js',
 ];
 
 self.addEventListener('install', event => {

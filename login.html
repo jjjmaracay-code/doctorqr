@@ -528,6 +528,11 @@
       ¿No tienes cuenta?
       <a href="register.html">Regístrate</a>
     </div>
+
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);text-align:center">
+      <button type="button" class="btn-secondary" id="btn-emergency-quick" onclick="handleEmergencyQuickAccess()">Acceso rápido de emergencia</button>
+      <div class="field-hint error" id="emergency-quick-msg" style="display:none;margin-top:-4px;margin-bottom:8px"></div>
+    </div>
   </div>
 
   <!-- ===== PANTALLA L2 — VERIFICACIÓN 2FA ===== -->
@@ -598,6 +603,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="js/qr-generator.js"></script>
 <script>
 const API = 'https://doctorqr-backend-production.up.railway.app';
 
@@ -1047,6 +1053,18 @@ function iniciarBloqueo(blockExpires) {
   };
   tick();
   const intvl = setInterval(tick, 1000);
+}
+
+// ===== ACCESO RÁPIDO DE EMERGENCIA (sin sesión activa) =====
+function handleEmergencyQuickAccess() {
+  const msgEl = document.getElementById('emergency-quick-msg');
+  if (!localStorage.getItem('doctorqr_profile')) {
+    msgEl.textContent = 'No hay ningún perfil guardado en ESTE dispositivo. Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.';
+    msgEl.style.display = 'block';
+    return;
+  }
+  msgEl.style.display = 'none';
+  printEmergencyQR();
 }
 </script>
 </body>
