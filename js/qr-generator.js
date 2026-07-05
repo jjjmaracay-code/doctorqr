@@ -593,6 +593,11 @@ function printEmergencyQR() {
   const patientUrl = buildEmergencyQRUrl();
   const nombre = ((d.nombre || '') + ' ' + (d.apellidos || '')).trim();
   const sangre = d.sangre || '';
+  const hasInsectAnaphylaxisRisk =
+    Array.isArray(d.allergy_insect) &&
+    d.allergy_insect.some(v => v !== 'Ninguna conocida') &&
+    (d.epipen === 'Sí — llevo EpiPen encima' || d.epipen === 'Sí — lo tengo en casa') &&
+    d.anafilaxia_previa === 'SÍ — anafilaxia confirmada';
 
   const MONTHLY_THEME = {
     0:  { color: '#4fc3f7', cause: 'Salud Mental',                    ong: 'Teléfono de la Esperanza',       tel: '717 003 717', web: 'telefonodelaesperanza.org' },
@@ -651,6 +656,9 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   text-align:center;word-break:break-word}
 .front-blood{background:#cc0000;color:#fff;font-size:7pt;font-weight:900;
   padding:1mm 3mm;border-radius:2mm;letter-spacing:1px}
+.front-anaphylaxis-alert{width:100%;background:#cc0000;color:#fff;font-size:5.5pt;
+  font-weight:900;text-align:center;letter-spacing:0.3px;line-height:1.35;
+  padding:1mm 1mm;border-radius:2mm;text-transform:uppercase}
 .front-footer{font-size:5pt;color:#888;letter-spacing:0.5px;text-align:center}
 .phone-112{display:flex;flex-direction:column;align-items:center;gap:0.3mm;
   background:#000;color:#fff;border:1px solid ${theme.color};
@@ -723,6 +731,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
         <span class="phone-112-num">112</span>
         <span class="phone-112-label">Emergencias</span>
       </div>
+      ${hasInsectAnaphylaxisRisk ? '<div class="front-anaphylaxis-alert">&#9888; RIESGO ANAFILAXIA POR PICADURA &mdash; VER EPIPEN</div>' : ''}
       <div class="phone-ong">${theme.ong} &middot; ${theme.tel}${gratuito}</div>
     </div>
   </div>
