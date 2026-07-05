@@ -376,7 +376,7 @@ function buildQRData(type, profile) {
       extra = {
         ..._p(profile, [
           'salud_emocional_dx','salud_emocional_diagnostico','salud_emocional_cual',
-          'puede_decidir_salud','tutor_legal','tutor_legal_nombre','tutor_legal_phone',
+          'puede_decidir_salud','tutor_legal',
           'riesgo_suicida_previo','can_decide'
         ]),
         ..._pa(profile, 'meds', 5),

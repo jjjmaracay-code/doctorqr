@@ -149,7 +149,7 @@ const T = {
     l_psiq: 'MED. PSIQUIÁTRICA', l_dai: 'DAI', l_stents: 'STENTS', l_port: 'PUERTO/CATÉTER',
     l_acv: 'ACV/ICTUS PREVIO', l_vih: 'VIH', l_hepatitis: 'HEPATITIS', l_tuberculosis: 'TUBERCULOSIS',
     l_oncol: 'TRAT. ONCOLÓGICO', l_salud_emoc: 'SALUD EMOCIONAL', l_diag_psiq: 'DIAGNÓSTICO PSIQ.',
-    l_decide_salud: 'DECISIÓN SALUD', l_tutor_nombre: 'NOMBRE TUTOR',
+    l_decide_salud: 'DECISIÓN SALUD',
     l_lang_written: 'IDIOMAS ESCRITOS', l_comm_diff: 'DIF. COMUNICACIÓN', l_sign_lang: 'LENGUA DE SIGNOS',
     l_ayudas: 'AYUDAS TÉCNICAS', l_med_adjust: 'ÚLT. AJUSTE MED.',
     l_vacc_complete: 'VAC. COMPLETA', l_act_fisica: 'ACTIVIDAD FÍSICA',
@@ -203,7 +203,7 @@ const T = {
     l_psiq: 'PSYCH. MEDICATION', l_dai: 'DAI (ICD)', l_stents: 'STENTS', l_port: 'PORT/CATHETER',
     l_acv: 'PRIOR STROKE', l_vih: 'HIV', l_hepatitis: 'HEPATITIS', l_tuberculosis: 'TUBERCULOSIS',
     l_oncol: 'CANCER TREATMENT', l_salud_emoc: 'MENTAL HEALTH', l_diag_psiq: 'PSYCH. DIAGNOSIS',
-    l_decide_salud: 'HEALTH DECISIONS', l_tutor_nombre: 'GUARDIAN NAME',
+    l_decide_salud: 'HEALTH DECISIONS',
     l_lang_written: 'WRITTEN LANGUAGES', l_comm_diff: 'COMM. DIFFICULTY', l_sign_lang: 'SIGN LANGUAGE',
     l_ayudas: 'ASSISTIVE DEVICES', l_med_adjust: 'LAST MED. ADJUST',
     l_vacc_complete: 'VAC. COMPLETE', l_act_fisica: 'PHYSICAL ACTIVITY',
@@ -257,7 +257,7 @@ const T = {
     l_psiq: 'MÉD. PSYCHIATRIQUE', l_dai: 'DAI', l_stents: 'STENTS', l_port: 'PORT/CATHÉTER',
     l_acv: 'AVC ANTÉRIEUR', l_vih: 'VIH', l_hepatitis: 'HÉPATITE', l_tuberculosis: 'TUBERCULOSE',
     l_oncol: 'TRAITEMENT ONCO.', l_salud_emoc: 'SANTÉ MENTALE', l_diag_psiq: 'DIAGNOSTIC PSYCH.',
-    l_decide_salud: 'DÉCISIONS SANTÉ', l_tutor_nombre: 'NOM TUTEUR',
+    l_decide_salud: 'DÉCISIONS SANTÉ',
     l_lang_written: 'LANGUES ÉCRITES', l_comm_diff: 'DIF. COMMUNICATION', l_sign_lang: 'LANGUE DES SIGNES',
     l_ayudas: 'AIDES TECHNIQUES', l_med_adjust: 'DERN. AJUST. MÉD.',
     l_vacc_complete: 'VAC. COMPLÈTE', l_act_fisica: 'ACTIVITÉ PHYSIQUE',
@@ -406,7 +406,6 @@ function renderUrgente(d, t, vis) {
     cond += badgeRow(t.l_diag_psiq, arr(d.salud_emocional_diagnostico), 'badge b-gray');
     cond += row(t.l_decide_salud, d.puede_decidir_salud,         false);
     cond += row(t.l_tutor,        d.tutor_legal,                 false);
-    cond += row(t.l_tutor_nombre, d.tutor_legal_nombre,          false);
     if (cond) html += section(t.s_cond, cond);
   }
 

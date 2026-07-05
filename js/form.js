@@ -461,8 +461,6 @@
         })(),
         puede_decidir_salud:   getChip('puede-decidir-salud'),
         tutor_legal:           getChip('tutor-legal'),
-        tutor_legal_nombre:    v('f-tutor-legal-nombre'),
-        tutor_legal_phone:     v('f-tutor-legal-phone'),
         semanas_gestacion_aplica: getChip('semanas-gestacion-aplica'),
         semanas_lactancia_aplica: getChip('semanas-lactancia-aplica'),
         cesarea_previa:        getChip('cesarea-previa'),
@@ -737,8 +735,6 @@
       }
       restoreChip ('puede-decidir-salud',   saved.puede_decidir_salud);
       restoreChip ('tutor-legal',           saved.tutor_legal);
-      set('f-tutor-legal-nombre',           saved.tutor_legal_nombre);
-      set('f-tutor-legal-phone',            saved.tutor_legal_phone);
       if (saved.tutor_legal === 'Sí') { const tw = document.getElementById('tutor-legal-wrap'); if (tw) tw.style.display = 'block'; }
       restoreChip ('semanas-gestacion-aplica', saved.semanas_gestacion_aplica);
       if (saved.semanas_gestacion_aplica === 'No aplica') { const w = document.getElementById('semanas-gestacion-input-wrap'); if (w) w.style.display = 'none'; }
