@@ -376,6 +376,7 @@
         allergy_med:           getChips('allergy-med'),
         allergy_food:          getChips('allergy-food'),
         allergy_env:           getChips('allergy-env'),
+        allergy_insect:        getChips('allergy-insect'),
         allergy_anesthesia:    getChips('allergy-anesthesia'),
         epipen:                getChip('epipen'),
         latex_guantes:         getChip('latex-guantes'),
@@ -676,6 +677,7 @@
       restoreChips('allergy-med',           saved.allergy_med);
       restoreChips('allergy-food',          saved.allergy_food);
       restoreChips('allergy-env',           saved.allergy_env);
+      restoreChips('allergy-insect',        saved.allergy_insect);
       restoreChips('allergy-anesthesia',    saved.allergy_anesthesia);
       restoreChip ('epipen',                saved.epipen);
       restoreChip ('latex-guantes',         saved.latex_guantes);
