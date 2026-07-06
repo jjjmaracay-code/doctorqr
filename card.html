@@ -150,6 +150,7 @@ const T = {
     l_tutor: 'TUTOR LEGAL',
     l_psiq: 'MED. PSIQUIÁTRICA', l_dai: 'DAI', l_stents: 'STENTS', l_port: 'PUERTO/CATÉTER',
     l_acv: 'ACV/ICTUS PREVIO', l_vih: 'VIH', l_hepatitis: 'HEPATITIS', l_tuberculosis: 'TUBERCULOSIS',
+    l_dialisis: 'DIÁLISIS ACTIVA', l_lateralidad: 'BRAZO CON FÍSTULA',
     l_oncol: 'TRAT. ONCOLÓGICO', l_salud_emoc: 'SALUD EMOCIONAL', l_diag_psiq: 'DIAGNÓSTICO PSIQ.',
     l_decide_salud: 'DECISIÓN SALUD',
     l_lang_written: 'IDIOMAS ESCRITOS', l_comm_diff: 'DIF. COMUNICACIÓN', l_sign_lang: 'LENGUA DE SIGNOS',
@@ -206,6 +207,7 @@ const T = {
     l_tutor: 'LEGAL GUARDIAN',
     l_psiq: 'PSYCH. MEDICATION', l_dai: 'DAI (ICD)', l_stents: 'STENTS', l_port: 'PORT/CATHETER',
     l_acv: 'PRIOR STROKE', l_vih: 'HIV', l_hepatitis: 'HEPATITIS', l_tuberculosis: 'TUBERCULOSIS',
+    l_dialisis: 'ACTIVE DIALYSIS', l_lateralidad: 'FISTULA ARM',
     l_oncol: 'CANCER TREATMENT', l_salud_emoc: 'MENTAL HEALTH', l_diag_psiq: 'PSYCH. DIAGNOSIS',
     l_decide_salud: 'HEALTH DECISIONS',
     l_lang_written: 'WRITTEN LANGUAGES', l_comm_diff: 'COMM. DIFFICULTY', l_sign_lang: 'SIGN LANGUAGE',
@@ -262,6 +264,7 @@ const T = {
     l_tutor: 'TUTEUR LÉGAL',
     l_psiq: 'MÉD. PSYCHIATRIQUE', l_dai: 'DAI', l_stents: 'STENTS', l_port: 'PORT/CATHÉTER',
     l_acv: 'AVC ANTÉRIEUR', l_vih: 'VIH', l_hepatitis: 'HÉPATITE', l_tuberculosis: 'TUBERCULOSE',
+    l_dialisis: 'DIALYSE ACTIVE', l_lateralidad: 'BRAS FISTULE',
     l_oncol: 'TRAITEMENT ONCO.', l_salud_emoc: 'SANTÉ MENTALE', l_diag_psiq: 'DIAGNOSTIC PSYCH.',
     l_decide_salud: 'DÉCISIONS SANTÉ',
     l_lang_written: 'LANGUES ÉCRITES', l_comm_diff: 'DIF. COMMUNICATION', l_sign_lang: 'LANGUE DES SIGNES',
@@ -414,6 +417,8 @@ function renderUrgente(d, t, vis) {
     cond += row(t.l_decide, d.can_decide,        false);
     const acvVal = d.acv_previo ? (d.acv_previo + (d.acv_year ? ` (${d.acv_year})` : '')) : '';
     cond += row(t.l_acv,          acvVal,                        isCrit(d.acv_previo));
+    cond += row(t.l_dialisis,     d.dialisis_activa,             d.dialisis_activa === 'Sí');
+    cond += row(t.l_lateralidad,  d.lateralidad_fistula,         d.dialisis_activa === 'Sí');
     cond += row(t.l_vih,          d.vih,                         isCrit(d.vih));
     cond += row(t.l_hepatitis,    d.hepatitis,                   isCrit(d.hepatitis));
     cond += row(t.l_tuberculosis, d.tuberculosis,                isCrit(d.tuberculosis));

@@ -144,6 +144,22 @@
       if (wrap) wrap.style.display = show ? 'block' : 'none';
     }
 
+    // ===== VISIBILIDAD CONDICIONAL: DIÁLISIS =====
+    function updateDialisisVisibility() {
+      const conditionsActive = getChips('conditions');
+      const show = conditionsActive.includes('Fístula arteriovenosa');
+      const wrap = document.getElementById('dialisis-wrap');
+      if (wrap) wrap.style.display = show ? 'block' : 'none';
+      updateLateralidadVisibility();
+    }
+
+    function updateLateralidadVisibility() {
+      const dialisisActiva = getChip('dialisis-activa');
+      const show = dialisisActiva === 'Sí';
+      const wrap = document.getElementById('lateralidad-wrap');
+      if (wrap) wrap.style.display = show ? 'block' : 'none';
+    }
+
     // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -158,6 +174,8 @@
         }
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
         if (group && (group.dataset.group === 'diseases' || group.dataset.group === 'conditions')) updateGlucagonVisibility();
+        if (group && group.dataset.group === 'conditions') updateDialisisVisibility();
+        if (group && group.dataset.group === 'dialisis-activa') updateLateralidadVisibility();
         if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-insect')) renderAllergySeverity();
         if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-food' ||
                       group.dataset.group === 'allergy-insect' || group.dataset.group === 'anafilaxia-previa')) updateAnaphylaxisTrigger();
@@ -498,6 +516,8 @@
         anaphylaxis_trigger_otro: v('f-anaphylaxis-trigger-otro'),
         diseases:              getChips('diseases'),
         conditions:            getChips('conditions'),
+        dialisis_activa:       getChip('dialisis-activa'),
+        lateralidad_fistula:   getChip('lateralidad-fistula'),
         anticoagulado:         getChip('anticoagulado'),
         meds: (() => {
           const fromChips = getChips('meds');
@@ -798,7 +818,10 @@
       restoreChip ('anafilaxia-previa',     saved.anafilaxia_previa);
       restoreChips('diseases',              saved.diseases);
       restoreChips('conditions',            saved.conditions);
+      restoreChip ('dialisis-activa',       saved.dialisis_activa);
+      restoreChip ('lateralidad-fistula',   saved.lateralidad_fistula);
       updateGlucagonVisibility();
+      updateDialisisVisibility();
       restoreChip ('anticoagulado',         saved.anticoagulado);
       restoreChips('meds',                  saved.meds);
       restoreChip ('med-last-adjust',       saved.med_last_adjust);

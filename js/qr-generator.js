@@ -274,6 +274,7 @@ function buildQRData(type, profile) {
       'allergy_food','allergy_env','allergy_insect',
       'epipen','glucagon','anafilaxia_previa','anaphylaxis_trigger',
       'anticoagulado','pacemaker',
+      'dialisis_activa','lateralidad_fistula',
       'dificultad_intubacion','complicaciones_anestesia',
       'religion_restrictions',
       'vih','hepatitis','tuberculosis',
