@@ -43,7 +43,10 @@
     function renderAllergySeverity(savedSeverity) {
       const activeChips = [
         ...document.querySelectorAll('[data-group="allergy-med"] .chip.active'),
-        ...document.querySelectorAll('[data-group="allergy-insect"] .chip.active')
+        ...document.querySelectorAll('[data-group="allergy-insect"] .chip.active'),
+        ...document.querySelectorAll('[data-group="allergy-food"] .chip.active'),
+        ...document.querySelectorAll('[data-group="allergy-env"] .chip.active'),
+        ...document.querySelectorAll('[data-group="allergy-anesthesia"] .chip.active')
       ];
       const container = document.getElementById('allergy-severity-container');
       const current = {};
@@ -190,7 +193,9 @@
           if (otroWrap) otroWrap.style.display = otroActive ? 'block' : 'none';
           if (!otroActive) { const el = document.getElementById('f-advance-directive-otro'); if (el) el.value = ''; }
         }
-        if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-insect')) renderAllergySeverity();
+        if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-insect' ||
+                      group.dataset.group === 'allergy-food' || group.dataset.group === 'allergy-env' ||
+                      group.dataset.group === 'allergy-anesthesia')) renderAllergySeverity();
         if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-food' ||
                       group.dataset.group === 'allergy-insect' || group.dataset.group === 'anafilaxia-previa')) updateAnaphylaxisTrigger();
         if (group && group.dataset.group === 'profesion') {
@@ -922,7 +927,9 @@
       if (saved.lang_spoken && saved.lang_spoken.length > 0) {
         renderLangLevels(saved.lang_levels || {});
       }
-      if ((saved.allergy_med && saved.allergy_med.length > 0) || (saved.allergy_insect && saved.allergy_insect.length > 0)) {
+      if ((saved.allergy_med && saved.allergy_med.length > 0) || (saved.allergy_insect && saved.allergy_insect.length > 0) ||
+          (saved.allergy_food && saved.allergy_food.length > 0) || (saved.allergy_env && saved.allergy_env.length > 0) ||
+          (saved.allergy_anesthesia && saved.allergy_anesthesia.length > 0)) {
         renderAllergySeverity(saved.allergy_severity || {});
       }
       updateAnaphylaxisTrigger(saved.anaphylaxis_trigger, saved.anaphylaxis_trigger_otro);
