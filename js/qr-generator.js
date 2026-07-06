@@ -279,6 +279,7 @@ function buildQRData(type, profile) {
       'dificultad_intubacion','complicaciones_anestesia',
       'religion_restrictions',
       'vih','hepatitis','tuberculosis',
+      'advance_directive_otro','advance_directive_ubicacion',
       'terapia_hormonal_activa',
       'terapia_hormonal_otra',
       'terapia_hormonal_dosis_frecuencia',
@@ -286,6 +287,7 @@ function buildQRData(type, profile) {
       'terapia_hormonal_duracion_unidad'
     ]),
     ..._pa(profile, 'meds', 3),
+    ..._pa(profile, 'advance_directive_instrucciones', null),
     ..._pa(profile, 'terapia_hormonal_tipos', null)
   };
 

@@ -141,7 +141,7 @@ const T = {
     l_implant: 'IMPLANTES', l_intub: 'INTUBACIÓN', l_anestcomp: 'COMP. ANESTESIA',
     l_dental: 'PRÓTESIS DENTAL', l_hearing: 'AUDÍFONO', l_vision: 'GAFAS/LENTILLAS',
     l_religion: 'RESTR. RELIGIOSAS', l_donor: 'DONANTE ÓRGANOS', l_decide: 'PUEDE DECIDIR', l_lang: 'IDIOMAS',
-    l_adv: 'VOLUNTADES ANTIC.',
+    l_adv: 'VOLUNTADES ANTIC.', l_adv_detalle: 'INSTRUCCIONES VOLUNTADES',
     l_lastsurg: 'ÚLTIMA CIRUGÍA', l_vaccal: 'CALENDARIO VACUNAL',
     l_famdis: 'ENF. FAMILIARES', l_sudeath: 'MUERTE SÚBITA FAM.', l_hiperterm: 'HIPERT. MALIGNA FAM.',
     l_tobacco: 'TABACO', l_alcohol: 'ALCOHOL', l_drugs: 'DROGAS',
@@ -198,7 +198,7 @@ const T = {
     l_implant: 'IMPLANTS', l_intub: 'INTUBATION', l_anestcomp: 'ANESTHESIA COMP.',
     l_dental: 'DENTAL PROSTHESIS', l_hearing: 'HEARING AID', l_vision: 'GLASSES/CONTACTS',
     l_religion: 'RELIGIOUS RESTR.', l_donor: 'ORGAN DONOR', l_decide: 'CAN DECIDE', l_lang: 'LANGUAGES',
-    l_adv: 'ADVANCE DIRECTIVE',
+    l_adv: 'ADVANCE DIRECTIVE', l_adv_detalle: 'ADVANCE DIR. INSTRUCTIONS',
     l_lastsurg: 'LAST SURGERY', l_vaccal: 'VACCINE SCHEDULE',
     l_famdis: 'FAMILY DISEASES', l_sudeath: 'FAMILY SUDDEN DEATH', l_hiperterm: 'FAM. MALIG. HYPERTHERMIA',
     l_tobacco: 'TOBACCO', l_alcohol: 'ALCOHOL', l_drugs: 'DRUGS',
@@ -255,7 +255,7 @@ const T = {
     l_implant: 'IMPLANTS', l_intub: 'INTUBATION', l_anestcomp: 'COMP. ANESTHÉSIE',
     l_dental: 'PROTHÈSE DENTAIRE', l_hearing: 'AIDE AUDITIVE', l_vision: 'LUNETTES/LENTILLES',
     l_religion: 'RESTR. RELIGIEUSES', l_donor: 'DONNEUR D\'ORGANES', l_decide: 'PEUT DÉCIDER', l_lang: 'LANGUES',
-    l_adv: 'DIRECTIVES ANTICIPÉES',
+    l_adv: 'DIRECTIVES ANTICIPÉES', l_adv_detalle: 'INSTRUCTIONS DIRECTIVES',
     l_lastsurg: 'DERNIÈRE CHIRURGIE', l_vaccal: 'CALENDRIER VACCINAL',
     l_famdis: 'MALADIES FAMIL.', l_sudeath: 'MORT SUBITE FAMIL.', l_hiperterm: 'HYPERTHERM. MALIGNE FAM.',
     l_tobacco: 'TABAC', l_alcohol: 'ALCOOL', l_drugs: 'DROGUES',
@@ -414,6 +414,9 @@ function renderUrgente(d, t, vis) {
     if (conds.length)  cond += badges(conds,  'badge b-red');
     if (diseas.length) cond += (cond ? '<br style="display:block;margin:4px 0">' : '') + badges(diseas, 'badge b-amber');
     cond += row(t.l_adv,    d.advance_directive, false);
+    const advInstr = arr(d.advance_directive_instrucciones).map(i => (i === 'Otro' && d.advance_directive_otro) ? `Otro: ${d.advance_directive_otro}` : i);
+    const advDetalle = [advInstr.join(', '), d.advance_directive_ubicacion ? `📍 ${d.advance_directive_ubicacion}` : ''].filter(Boolean).join(' — ');
+    cond += row(t.l_adv_detalle, advDetalle, true);
     cond += row(t.l_decide, d.can_decide,        false);
     const acvVal = d.acv_previo ? (d.acv_previo + (d.acv_year ? ` (${d.acv_year})` : '')) : '';
     cond += row(t.l_acv,          acvVal,                        isCrit(d.acv_previo));

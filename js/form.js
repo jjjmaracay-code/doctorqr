@@ -160,6 +160,13 @@
       if (wrap) wrap.style.display = show ? 'block' : 'none';
     }
 
+    // ===== VISIBILIDAD CONDICIONAL: VOLUNTADES ANTICIPADAS =====
+    function updateAdvanceDirectiveVisibility() {
+      const show = getChip('advance-directive') === 'Sí — documento existe';
+      const wrap = document.getElementById('advance-directive-wrap');
+      if (wrap) wrap.style.display = show ? 'block' : 'none';
+    }
+
     // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -176,6 +183,13 @@
         if (group && (group.dataset.group === 'diseases' || group.dataset.group === 'conditions')) updateGlucagonVisibility();
         if (group && group.dataset.group === 'conditions') updateDialisisVisibility();
         if (group && group.dataset.group === 'dialisis-activa') updateLateralidadVisibility();
+        if (group && group.dataset.group === 'advance-directive') updateAdvanceDirectiveVisibility();
+        if (group && group.dataset.group === 'advance-directive-instrucciones') {
+          const otroActive = document.querySelector('[data-group="advance-directive-instrucciones"] .chip[data-value="Otro"].active');
+          const otroWrap = document.getElementById('advance-directive-otro-wrap');
+          if (otroWrap) otroWrap.style.display = otroActive ? 'block' : 'none';
+          if (!otroActive) { const el = document.getElementById('f-advance-directive-otro'); if (el) el.value = ''; }
+        }
         if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-insect')) renderAllergySeverity();
         if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-food' ||
                       group.dataset.group === 'allergy-insect' || group.dataset.group === 'anafilaxia-previa')) updateAnaphylaxisTrigger();
@@ -485,6 +499,9 @@
         lactancia:             getChip('lactancia'),
         organ_donor:           getChip('organ-donor'),
         advance_directive:     getChip('advance-directive'),
+        advance_directive_instrucciones: getChips('advance-directive-instrucciones'),
+        advance_directive_otro: v('f-advance-directive-otro'),
+        advance_directive_ubicacion: v('f-advance-directive-ubicacion'),
         nombre:                v('f-name'),
         apellidos:             '',
         fecha_nacimiento:      v('f-birthdate'),
@@ -804,6 +821,14 @@
       restoreChip ('height',                saved.height);
       restoreChip ('organ-donor',           saved.organ_donor);
       restoreChip ('advance-directive',     saved.advance_directive);
+      restoreChips('advance-directive-instrucciones', saved.advance_directive_instrucciones);
+      set('f-advance-directive-otro',       saved.advance_directive_otro);
+      set('f-advance-directive-ubicacion',  saved.advance_directive_ubicacion);
+      updateAdvanceDirectiveVisibility();
+      if ((saved.advance_directive_instrucciones || []).includes('Otro')) {
+        const _adOw = document.getElementById('advance-directive-otro-wrap');
+        if (_adOw) _adOw.style.display = 'block';
+      }
       restoreChip ('embarazo',              saved.embarazo);
       set('pregnancy-weeks',               saved.embarazo_semanas);
       restoreChip ('lactancia',             saved.lactancia);
