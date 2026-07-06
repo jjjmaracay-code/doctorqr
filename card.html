@@ -442,7 +442,7 @@ function renderUrgente(d, t, vis) {
     dev += row(t.l_pace,      d.pacemaker,                 isCrit(d.pacemaker));
     dev += row(t.l_implant,   d.material_osteosintesis,    false);
     dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
-    dev += row(t.l_anestcomp, d.complicaciones_anestesia,  false);
+    dev += row(t.l_anestcomp, d.complicaciones_anestesia,  isCrit(d.complicaciones_anestesia));
     dev += badgeRow(t.l_ayudas, arr(d.ayudas_tecnicas),     'badge b-gray');
     if (dev) html += section(t.s_devices, dev);
   }
