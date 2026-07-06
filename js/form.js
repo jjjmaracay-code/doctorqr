@@ -1077,8 +1077,25 @@
       });
     }
 
+    // ===== RANGOS DE AÑO DINÁMICOS =====
+    function actualizarRangosAnio() {
+      const anioActual = new Date().getFullYear();
+
+      document.querySelectorAll('#year-visit-1, #year-visit-2, #year-visit-3')
+        .forEach(el => el.max = anioActual);
+
+      ['f-tetanus-year', 'f-surgery-year'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel || !sel.options.length) return;
+        const ultimaOpcion = sel.options[sel.options.length - 1];
+        ultimaOpcion.value = `2020-${anioActual}`;
+        ultimaOpcion.textContent = `2020 – ${anioActual}`;
+      });
+    }
+
     // ===== INIT =====
     initCountrySelects();
     setupValidation();
+    actualizarRangosAnio();
     loadSaved();
     initIcons();
