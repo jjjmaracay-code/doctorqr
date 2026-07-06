@@ -37,6 +37,17 @@
       });
     }
 
+    // ===== VISIBILIDAD CONDICIONAL: GLUCAGÓN =====
+    function updateGlucagonVisibility() {
+      const diseasesActive = getChips('diseases');
+      const conditionsActive = getChips('conditions');
+      const show = diseasesActive.includes('Diabetes T1') ||
+                   diseasesActive.includes('Diabetes T2') ||
+                   conditionsActive.includes('Bomba insulina');
+      const wrap = document.getElementById('glucagon-wrap');
+      if (wrap) wrap.style.display = show ? 'block' : 'none';
+    }
+
     // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -50,6 +61,7 @@
           chip.classList.toggle('active');
         }
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
+        if (group && (group.dataset.group === 'diseases' || group.dataset.group === 'conditions')) updateGlucagonVisibility();
         if (group && group.dataset.group === 'profesion') {
           const otraWrap = document.getElementById('profesion-otra-wrap');
           if (otraWrap) {
@@ -379,6 +391,7 @@
         allergy_insect:        getChips('allergy-insect'),
         allergy_anesthesia:    getChips('allergy-anesthesia'),
         epipen:                getChip('epipen'),
+        glucagon:              getChip('glucagon'),
         latex_guantes:         getChip('latex-guantes'),
         anafilaxia_previa:     getChip('anafilaxia-previa'),
         diseases:              getChips('diseases'),
@@ -678,10 +691,12 @@
       restoreChips('allergy-insect',        saved.allergy_insect);
       restoreChips('allergy-anesthesia',    saved.allergy_anesthesia);
       restoreChip ('epipen',                saved.epipen);
+      restoreChip ('glucagon',              saved.glucagon);
       restoreChip ('latex-guantes',         saved.latex_guantes);
       restoreChip ('anafilaxia-previa',     saved.anafilaxia_previa);
       restoreChips('diseases',              saved.diseases);
       restoreChips('conditions',            saved.conditions);
+      updateGlucagonVisibility();
       restoreChip ('anticoagulado',         saved.anticoagulado);
       restoreChips('meds',                  saved.meds);
       restoreChip ('med-last-adjust',       saved.med_last_adjust);

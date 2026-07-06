@@ -132,7 +132,7 @@ const T = {
     s_insurance: '🏥 Seguro médico',
     l_drug: 'ALERGIA FÁRMACOS', l_anest: 'ALERGIA ANESTESIA',
     l_food: 'ALERGIA ALIMENTOS', l_env: 'ALERGIA AMBIENTAL',
-    l_latex: 'LÁTEX', l_epipen: 'EPIPEN', l_anaph: 'ANAFILAXIA PREVIA',
+    l_latex: 'LÁTEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGÓN', l_anaph: 'ANAFILAXIA PREVIA',
     l_anticoa: 'ANTICOAGULADO', l_pace: 'MARCAPASOS',
     l_meds: 'MEDICACIÓN', l_dose: 'DOSIS', l_last: 'ÚLTIMA TOMA',
     l_highrisk: 'ALTO RIESGO',
@@ -186,7 +186,7 @@ const T = {
     s_insurance: '🏥 Health Insurance',
     l_drug: 'DRUG ALLERGY', l_anest: 'ANESTHESIA ALLERGY',
     l_food: 'FOOD ALLERGY', l_env: 'ENV. ALLERGY',
-    l_latex: 'LATEX', l_epipen: 'EPIPEN', l_anaph: 'PRIOR ANAPHYLAXIS',
+    l_latex: 'LATEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGON', l_anaph: 'PRIOR ANAPHYLAXIS',
     l_anticoa: 'ANTICOAGULATED', l_pace: 'PACEMAKER',
     l_meds: 'MEDICATION', l_dose: 'DOSAGE', l_last: 'LAST DOSE',
     l_highrisk: 'HIGH RISK',
@@ -240,7 +240,7 @@ const T = {
     s_insurance: '🏥 Assurance maladie',
     l_drug: 'ALLERGIE MÉDICAMENTS', l_anest: 'ALLERGIE ANESTHÉSIE',
     l_food: 'ALLERGIE ALIMENTAIRE', l_env: 'ALLERGIE ENVIRONN.',
-    l_latex: 'LATEX', l_epipen: 'EPIPEN', l_anaph: 'ANAPHYLAXIE ANTÉR.',
+    l_latex: 'LATEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGON', l_anaph: 'ANAPHYLAXIE ANTÉR.',
     l_anticoa: 'ANTICOAGULÉ', l_pace: 'PACEMAKER',
     l_meds: 'MÉDICAMENT', l_dose: 'DOSAGE', l_last: 'DERNIÈRE PRISE',
     l_highrisk: 'HAUT RISQUE',
@@ -357,6 +357,7 @@ function renderUrgente(d, t, vis) {
     al += badgeRow(t.l_env,   arr(d.allergy_env),         'badge b-amber');
     al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));
     al += row(t.l_epipen, d.epipen,             false);
+    al += row(t.l_glucagon, d.glucagon,         false);
     al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
     if (al) html += section(t.s_allergy, al, 'red');
   }
