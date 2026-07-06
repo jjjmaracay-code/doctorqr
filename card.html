@@ -131,6 +131,7 @@ const T = {
     s_doctor: '👨‍⚕️ Médico habitual',
     s_insurance: '🏥 Seguro médico',
     l_drug: 'ALERGIA FÁRMACOS', l_anest: 'ALERGIA ANESTESIA',
+    l_insect: 'ALERGIA VENENO INSECTO',
     l_food: 'ALERGIA ALIMENTOS', l_env: 'ALERGIA AMBIENTAL',
     l_latex: 'LÁTEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGÓN', l_anaph: 'ANAFILAXIA PREVIA',
     l_allergy_severity: 'SEVERIDAD ALERGIAS', l_anaph_trigger: 'DESENCADENANTE ANAFILAXIA',
@@ -186,6 +187,7 @@ const T = {
     s_doctor: '👨‍⚕️ Primary Physician',
     s_insurance: '🏥 Health Insurance',
     l_drug: 'DRUG ALLERGY', l_anest: 'ANESTHESIA ALLERGY',
+    l_insect: 'INSECT VENOM ALLERGY',
     l_food: 'FOOD ALLERGY', l_env: 'ENV. ALLERGY',
     l_latex: 'LATEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGON', l_anaph: 'PRIOR ANAPHYLAXIS',
     l_allergy_severity: 'ALLERGY SEVERITY', l_anaph_trigger: 'ANAPHYLAXIS TRIGGER',
@@ -241,6 +243,7 @@ const T = {
     s_doctor: '👨‍⚕️ Médecin traitant',
     s_insurance: '🏥 Assurance maladie',
     l_drug: 'ALLERGIE MÉDICAMENTS', l_anest: 'ALLERGIE ANESTHÉSIE',
+    l_insect: 'ALLERGIE VENIN INSECTE',
     l_food: 'ALLERGIE ALIMENTAIRE', l_env: 'ALLERGIE ENVIRONN.',
     l_latex: 'LATEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGON', l_anaph: 'ANAPHYLAXIE ANTÉR.',
     l_allergy_severity: 'SÉVÉRITÉ ALLERGIES', l_anaph_trigger: 'DÉCLENCHEUR ANAPHYLAXIE',
@@ -362,6 +365,7 @@ function renderUrgente(d, t, vis) {
     let al = '';
     al += badgeRow(t.l_drug,  arr(d.allergy_med),        'badge b-red');
     al += badgeRow(t.l_anest, arr(d.allergy_anesthesia),  'badge b-red');
+    al += badgeRow(t.l_insect, arr(d.allergy_insect),     'badge b-red');
     al += badgeRow(t.l_food,  arr(d.allergy_food),        'badge b-amber');
     al += badgeRow(t.l_env,   arr(d.allergy_env),         'badge b-amber');
     al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));

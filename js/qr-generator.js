@@ -271,6 +271,7 @@ function buildQRData(type, profile) {
   const core = {
     ..._p(profile, [
       'allergy_med','allergy_anesthesia','allergy_severity',
+      'allergy_food','allergy_env','allergy_insect',
       'epipen','glucagon','anafilaxia_previa','anaphylaxis_trigger',
       'anticoagulado','pacemaker',
       'dificultad_intubacion','complicaciones_anestesia',
