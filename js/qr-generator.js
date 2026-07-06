@@ -55,6 +55,7 @@ const QR_TYPES = [
     darkColor: '#cc1100',
     condition: (d) =>
       d.pacemaker === 'SÍ' ||
+      d.dai === 'SÍ — llevo DAI' ||
       (d.muerte_subita_familiar || '').startsWith('SÍ') ||
       hasAny(d, [
         'Marcapasos','Desfibrilador',
