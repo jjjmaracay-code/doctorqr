@@ -78,7 +78,7 @@ const QR_TYPES = [
     title: 'QR-U3 ALERGIAS GRAVES',
     subtitle: 'Anafilaxia · EpiPen · Látex',
     color: '#ffcc00',
-    darkColor: '#cc9900',
+    darkColor: '#956f00',
     condition: (d) => hasAny(d, [
       'SÍ — anafilaxia confirmada',
       'SÍ — ALERGIA AL LÁTEX',
@@ -151,7 +151,7 @@ const QR_TYPES = [
     title: 'QR-E3 PEDIATRÍA',
     subtitle: 'Peso · Vacunas · Tutor legal',
     color: '#00ccff',
-    darkColor: '#0099cc',
+    darkColor: '#007ea9',
     condition: (d) => {
       if (!d.fecha_nacimiento) return false;
       return calcAge(d.fecha_nacimiento) < 16;
@@ -195,7 +195,7 @@ const QR_TYPES = [
     title: 'QR-E5 SALUD Y BIENESTAR EMOCIONAL',
     subtitle: 'Psiquiatría · Tutor · Crisis',
     color: '#00ffcc',
-    darkColor: '#00cc99',
+    darkColor: '#008564',
     condition: (d) => hasAny(d, [
       'Esquizofrenia','Trastorno bipolar',
       'Depresión mayor','IMAO',
