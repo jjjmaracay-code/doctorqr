@@ -836,6 +836,10 @@
           </div>
         </div>
         <div class="field">
+          <div class="field-label">Severidad de alergias a medicamentos e insectos</div>
+          <div id="allergy-severity-container"></div>
+        </div>
+        <div class="field">
           <div class="field-label">Alergias a anestesia</div>
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
@@ -880,6 +884,20 @@
             <div class="chip" data-value="No sé">No sé</div>
           </div>
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Riesgo vital inmediato — distinto de alergia simple</div>
+          <div id="anaphylaxis-trigger-wrap" style="display:none;margin-top:8px">
+            <div class="field-label">¿QUÉ DESENCADENÓ LA ANAFILAXIA?</div>
+            <select id="f-anaphylaxis-trigger"></select>
+            <div id="anaphylaxis-trigger-otro-wrap" style="display:none;margin-top:8px">
+              <input type="text" id="f-anaphylaxis-trigger-otro"
+                placeholder="Describe el desencadenante..."
+                style="width:100%;background:#0d0d0d;
+                border:1px solid #12A5FF;
+                border-radius:10px;color:#12A5FF;
+                font-family:inherit;font-size:13px;
+                padding:10px 14px;box-sizing:border-box;
+                outline:none"/>
+            </div>
+          </div>
         </div>
         <div class="field">
           <div class="field-label">¿PORTADOR DE VIH?</div>

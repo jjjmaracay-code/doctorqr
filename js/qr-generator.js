@@ -270,8 +270,8 @@ function buildQRData(type, profile) {
   // Núcleo de emergencia — en todos los tipos
   const core = {
     ..._p(profile, [
-      'allergy_med','allergy_anesthesia',
-      'epipen','glucagon','anafilaxia_previa',
+      'allergy_med','allergy_anesthesia','allergy_severity',
+      'epipen','glucagon','anafilaxia_previa','anaphylaxis_trigger',
       'anticoagulado','pacemaker',
       'dificultad_intubacion','complicaciones_anestesia',
       'religion_restrictions',

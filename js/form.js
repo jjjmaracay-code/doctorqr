@@ -37,6 +37,102 @@
       });
     }
 
+    // ===== SEVERIDAD DE ALERGIAS (medicamentos + insectos) =====
+    const ALLERGY_SEVERITY = ['Leve', 'Moderada', 'Grave', 'Anafiláctica'];
+
+    function renderAllergySeverity(savedSeverity) {
+      const activeChips = [
+        ...document.querySelectorAll('[data-group="allergy-med"] .chip.active'),
+        ...document.querySelectorAll('[data-group="allergy-insect"] .chip.active')
+      ];
+      const container = document.getElementById('allergy-severity-container');
+      const current = {};
+      container.querySelectorAll('.allergy-severity-row').forEach(row => {
+        current[row.dataset.allergen] = row.querySelector('select').value;
+      });
+      container.innerHTML = '';
+      if (activeChips.length === 0) return;
+      activeChips.forEach(chip => {
+        const allergen = chip.dataset.value;
+        const row = document.createElement('div');
+        row.className = 'allergy-severity-row';
+        row.dataset.allergen = allergen;
+        const label = document.createElement('span');
+        label.className = 'allergy-severity-label';
+        label.textContent = allergen;
+        const sel = document.createElement('select');
+        ALLERGY_SEVERITY.forEach(sev => {
+          const opt = document.createElement('option');
+          opt.value = sev; opt.textContent = sev;
+          sel.appendChild(opt);
+        });
+        if (current[allergen]) sel.value = current[allergen];
+        else if (savedSeverity && savedSeverity[allergen]) sel.value = savedSeverity[allergen];
+        row.appendChild(label);
+        row.appendChild(sel);
+        container.appendChild(row);
+      });
+    }
+
+    function getAllergySeverity() {
+      const severity = {};
+      document.querySelectorAll('#allergy-severity-container .allergy-severity-row').forEach(row => {
+        severity[row.dataset.allergen] = row.querySelector('select').value;
+      });
+      return severity;
+    }
+
+    // ===== DESENCADENANTE DE ANAFILAXIA =====
+    function updateAnaphylaxisTrigger(savedTrigger, savedTriggerOtro) {
+      const wrap = document.getElementById('anaphylaxis-trigger-wrap');
+      const sel  = document.getElementById('f-anaphylaxis-trigger');
+      if (!wrap || !sel) return;
+      const anaphChip = document.querySelector('[data-group="anafilaxia-previa"] .chip.active');
+      const show = !!anaphChip && anaphChip.dataset.value === 'SÍ — anafilaxia confirmada';
+      if (!show) { wrap.style.display = 'none'; return; }
+      const current = sel.value;
+      const activeChips = [
+        ...document.querySelectorAll('[data-group="allergy-med"] .chip.active'),
+        ...document.querySelectorAll('[data-group="allergy-food"] .chip.active'),
+        ...document.querySelectorAll('[data-group="allergy-insect"] .chip.active')
+      ];
+      sel.innerHTML = '';
+      activeChips.forEach(chip => {
+        const opt = document.createElement('option');
+        opt.value = chip.dataset.value; opt.textContent = chip.dataset.value;
+        sel.appendChild(opt);
+      });
+      const otraOpt = document.createElement('option');
+      otraOpt.value = 'Otro / no especificado'; otraOpt.textContent = 'Otro / no especificado';
+      sel.appendChild(otraOpt);
+      if (current) sel.value = current;
+      else if (savedTrigger) sel.value = savedTrigger;
+      wrap.style.display = 'block';
+
+      const otraWrap = document.getElementById('anaphylaxis-trigger-otro-wrap');
+      if (otraWrap) {
+        const showOtra = sel.value === 'Otro / no especificado';
+        otraWrap.style.display = showOtra ? 'block' : 'none';
+        if (showOtra && savedTriggerOtro) {
+          const inp = document.getElementById('f-anaphylaxis-trigger-otro');
+          if (inp) inp.value = savedTriggerOtro;
+        }
+      }
+    }
+
+    // ===== DESENCADENANTE — TEXTO LIBRE "OTRO" =====
+    document.getElementById('f-anaphylaxis-trigger').addEventListener('change', function() {
+      const otraWrap = document.getElementById('anaphylaxis-trigger-otro-wrap');
+      if (!otraWrap) return;
+      if (this.value === 'Otro / no especificado') {
+        otraWrap.style.display = 'block';
+      } else {
+        otraWrap.style.display = 'none';
+        const inp = document.getElementById('f-anaphylaxis-trigger-otro');
+        if (inp) inp.value = '';
+      }
+    });
+
     // ===== VISIBILIDAD CONDICIONAL: GLUCAGÓN =====
     function updateGlucagonVisibility() {
       const diseasesActive = getChips('diseases');
@@ -62,6 +158,9 @@
         }
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
         if (group && (group.dataset.group === 'diseases' || group.dataset.group === 'conditions')) updateGlucagonVisibility();
+        if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-insect')) renderAllergySeverity();
+        if (group && (group.dataset.group === 'allergy-med' || group.dataset.group === 'allergy-food' ||
+                      group.dataset.group === 'allergy-insect' || group.dataset.group === 'anafilaxia-previa')) updateAnaphylaxisTrigger();
         if (group && group.dataset.group === 'profesion') {
           const otraWrap = document.getElementById('profesion-otra-wrap');
           if (otraWrap) {
@@ -389,11 +488,14 @@
         allergy_food:          getChips('allergy-food'),
         allergy_env:           getChips('allergy-env'),
         allergy_insect:        getChips('allergy-insect'),
+        allergy_severity:      getAllergySeverity(),
         allergy_anesthesia:    getChips('allergy-anesthesia'),
         epipen:                getChip('epipen'),
         glucagon:              getChip('glucagon'),
         latex_guantes:         getChip('latex-guantes'),
         anafilaxia_previa:     getChip('anafilaxia-previa'),
+        anaphylaxis_trigger:   v('f-anaphylaxis-trigger'),
+        anaphylaxis_trigger_otro: v('f-anaphylaxis-trigger-otro'),
         diseases:              getChips('diseases'),
         conditions:            getChips('conditions'),
         anticoagulado:         getChip('anticoagulado'),
@@ -772,6 +874,10 @@
       if (saved.lang_spoken && saved.lang_spoken.length > 0) {
         renderLangLevels(saved.lang_levels || {});
       }
+      if ((saved.allergy_med && saved.allergy_med.length > 0) || (saved.allergy_insect && saved.allergy_insect.length > 0)) {
+        renderAllergySeverity(saved.allergy_severity || {});
+      }
+      updateAnaphylaxisTrigger(saved.anaphylaxis_trigger, saved.anaphylaxis_trigger_otro);
 
       checkGenderFields(null);
       refreshVal();

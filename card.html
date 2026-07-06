@@ -133,6 +133,7 @@ const T = {
     l_drug: 'ALERGIA FÁRMACOS', l_anest: 'ALERGIA ANESTESIA',
     l_food: 'ALERGIA ALIMENTOS', l_env: 'ALERGIA AMBIENTAL',
     l_latex: 'LÁTEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGÓN', l_anaph: 'ANAFILAXIA PREVIA',
+    l_allergy_severity: 'SEVERIDAD ALERGIAS', l_anaph_trigger: 'DESENCADENANTE ANAFILAXIA',
     l_anticoa: 'ANTICOAGULADO', l_pace: 'MARCAPASOS',
     l_meds: 'MEDICACIÓN', l_dose: 'DOSIS', l_last: 'ÚLTIMA TOMA',
     l_highrisk: 'ALTO RIESGO',
@@ -187,6 +188,7 @@ const T = {
     l_drug: 'DRUG ALLERGY', l_anest: 'ANESTHESIA ALLERGY',
     l_food: 'FOOD ALLERGY', l_env: 'ENV. ALLERGY',
     l_latex: 'LATEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGON', l_anaph: 'PRIOR ANAPHYLAXIS',
+    l_allergy_severity: 'ALLERGY SEVERITY', l_anaph_trigger: 'ANAPHYLAXIS TRIGGER',
     l_anticoa: 'ANTICOAGULATED', l_pace: 'PACEMAKER',
     l_meds: 'MEDICATION', l_dose: 'DOSAGE', l_last: 'LAST DOSE',
     l_highrisk: 'HIGH RISK',
@@ -241,6 +243,7 @@ const T = {
     l_drug: 'ALLERGIE MÉDICAMENTS', l_anest: 'ALLERGIE ANESTHÉSIE',
     l_food: 'ALLERGIE ALIMENTAIRE', l_env: 'ALLERGIE ENVIRONN.',
     l_latex: 'LATEX', l_epipen: 'EPIPEN', l_glucagon: 'GLUCAGON', l_anaph: 'ANAPHYLAXIE ANTÉR.',
+    l_allergy_severity: 'SÉVÉRITÉ ALLERGIES', l_anaph_trigger: 'DÉCLENCHEUR ANAPHYLAXIE',
     l_anticoa: 'ANTICOAGULÉ', l_pace: 'PACEMAKER',
     l_meds: 'MÉDICAMENT', l_dose: 'DOSAGE', l_last: 'DERNIÈRE PRISE',
     l_highrisk: 'HAUT RISQUE',
@@ -324,6 +327,12 @@ function badgeRow(label, items, cls) {
   return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value">${items.map(i => `<span class="badge ${cls}">${esc(i)}</span>`).join('')}</span></div>`;
 }
 
+function objRow(label, obj) {
+  if (!obj || !Object.keys(obj).length) return '';
+  const items = Object.entries(obj).map(([k, v]) => `${k}: ${v}`).join(', ');
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value">${esc(items)}</span></div>`;
+}
+
 function telRow(label, tel, cls) {
   if (!tel) return '';
   return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value"><a class="tel-link ${cls||''}" href="tel:${esc(tel)}">${esc(tel)}</a></span></div>`;
@@ -358,7 +367,9 @@ function renderUrgente(d, t, vis) {
     al += row(t.l_latex,  d.latex_guantes,      isCrit(d.latex_guantes));
     al += row(t.l_epipen, d.epipen,             false);
     al += row(t.l_glucagon, d.glucagon,         false);
+    al += objRow(t.l_allergy_severity, d.allergy_severity);
     al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
+    al += row(t.l_anaph_trigger, d.anaphylaxis_trigger, true);
     if (al) html += section(t.s_allergy, al, 'red');
   }
 
