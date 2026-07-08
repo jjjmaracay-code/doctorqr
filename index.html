@@ -86,6 +86,46 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+
+    /* ===== BARRA DE TABS DEL FORMULARIO (navegación rápida sec-1..sec-11) ===== */
+    .form-tabs-bar {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      background: #0a0a0a;
+      padding: 10px 0;
+      margin: 16px 48px 20px 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .form-tabs-bar::-webkit-scrollbar { display: none; }
+
+    .form-tab-btn {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(18,165,255,0.08);
+      border: 1px solid rgba(18,165,255,0.35);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(18,165,255,0.9);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .form-tab-btn:active { background: rgba(18,165,255,0.18); }
+
+    #sec-1, #sec-2, #sec-3, #sec-4, #sec-5, #sec-6, #sec-7, #sec-8, #sec-9, #sec-10, #sec-11 {
+      scroll-margin-top: 74px;
+    }
   </style>
 </head>
 <body>
@@ -411,6 +451,21 @@
       Acceso rápido de emergencia
     </button>
     <div id="emergency-quick-msg" class="field-hint" style="display:none;color:#ff4444;margin-top:8px;max-width:280px;text-align:center"></div>
+  </div>
+
+  <!-- ===== BARRA DE TABS — NAVEGACIÓN RÁPIDA ENTRE SECCIONES DEL FORMULARIO ===== -->
+  <div class="form-tabs-bar" id="form-tabs-bar">
+    <button class="form-tab-btn" data-target="sec-1">1</button>
+    <button class="form-tab-btn" data-target="sec-2">2</button>
+    <button class="form-tab-btn" data-target="sec-3">3</button>
+    <button class="form-tab-btn" data-target="sec-4">4</button>
+    <button class="form-tab-btn" data-target="sec-5">5</button>
+    <button class="form-tab-btn" data-target="sec-6">6</button>
+    <button class="form-tab-btn" data-target="sec-7">7</button>
+    <button class="form-tab-btn" data-target="sec-8">8</button>
+    <button class="form-tab-btn" data-target="sec-9">9</button>
+    <button class="form-tab-btn" data-target="sec-10">10</button>
+    <button class="form-tab-btn" data-target="sec-11">11</button>
   </div>
 
   <!-- FORMULARIO -->
@@ -2619,6 +2674,13 @@
   document.getElementById('menu-scroll-top').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById('menu-dropdown').classList.remove('open');
+  });
+
+  // =================== BARRA DE TABS DEL FORMULARIO (navegación sec-1..sec-11) ===================
+  document.querySelectorAll('.form-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById(btn.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
 
   document.querySelectorAll('.pdot').forEach(d => {
