@@ -2584,17 +2584,20 @@
     const pwd     = document.getElementById('del-pwd').value;
     const errorEl = document.getElementById('del-error');
     const btn     = document.getElementById('btn-del-confirmar');
-    const u       = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
 
     btn.disabled = true;
     btn.textContent = 'Eliminando...';
     errorEl.style.display = 'none';
 
     try {
+      const token = localStorage.getItem('doctorqr_token');
       const res  = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/account', {
         method:  'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email: u.email, password: pwd })
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body:    JSON.stringify({ password: pwd })
       });
       const data = await res.json();
 
