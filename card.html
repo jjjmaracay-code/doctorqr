@@ -289,6 +289,10 @@ function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+function escAttr(s) {
+  return esc(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function arr(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.filter(Boolean);
@@ -341,7 +345,7 @@ function objRow(label, obj) {
 
 function telRow(label, tel, cls) {
   if (!tel) return '';
-  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value"><a class="tel-link ${cls||''}" href="tel:${esc(tel)}">${esc(tel)}</a></span></div>`;
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value"><a class="tel-link ${cls||''}" href="tel:${escAttr(tel)}">${esc(tel)}</a></span></div>`;
 }
 
 // ================================================================
@@ -541,7 +545,7 @@ function renderContactos(d, t) {
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.ec1_name || '—')}</div>
       ${d.ec1_rel ? `<div class="contact-rel">${esc(d.ec1_rel)}</div>` : ''}
-      ${tel1 ? `<a class="tel-link" href="tel:${esc(tel1)}">${esc(tel1)}</a>` : ''}
+      ${tel1 ? `<a class="tel-link" href="tel:${escAttr(tel1)}">${esc(tel1)}</a>` : ''}
     </div>`;
   }
   if (d.ec2_name || d.ec2_phone_num) {
@@ -549,7 +553,7 @@ function renderContactos(d, t) {
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.ec2_name || '—')}</div>
       ${d.ec2_rel ? `<div class="contact-rel">${esc(d.ec2_rel)}</div>` : ''}
-      ${tel2 ? `<a class="tel-link" href="tel:${esc(tel2)}">${esc(tel2)}</a>` : ''}
+      ${tel2 ? `<a class="tel-link" href="tel:${escAttr(tel2)}">${esc(tel2)}</a>` : ''}
     </div>`;
   }
   if (d.guardian_name || d.guardian_phone_num) {
@@ -557,7 +561,7 @@ function renderContactos(d, t) {
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.guardian_name || '—')}</div>
       <div class="contact-rel">${t.l_tutor}</div>
-      ${telG ? `<a class="tel-link" href="tel:${esc(telG)}">${esc(telG)}</a>` : ''}
+      ${telG ? `<a class="tel-link" href="tel:${escAttr(telG)}">${esc(telG)}</a>` : ''}
     </div>`;
   }
   if (contacts) html += section(t.s_contacts, contacts);
