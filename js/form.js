@@ -640,6 +640,7 @@
         const _qrId = localStorage.getItem('doctorqr_id');
         fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
           method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
           body: JSON.stringify({ profile, doctorqr_id: _qrId })
         })
@@ -685,6 +686,7 @@
       if (_tok) {
         try {
           const _res = await fetch('https://doctorqr-backend-production.up.railway.app/api/profile/me', {
+            credentials: 'include',
             headers: { Authorization: 'Bearer ' + _tok }
           });
           if (_res.ok) {
