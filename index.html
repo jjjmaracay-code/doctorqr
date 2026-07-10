@@ -2700,6 +2700,7 @@
     btn.textContent = 'Procesando...';
     fetch('https://doctorqr-backend-production.up.railway.app/api/stripe/create-checkout', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
       body: JSON.stringify({ plan })
     })
@@ -2719,7 +2720,10 @@
     if (!u.plan_type) {
       try {
         const tok = localStorage.getItem('doctorqr_token');
-        const r   = await fetch(API_BASE + '/api/profile/me', { headers: { Authorization: 'Bearer ' + tok } });
+        const r   = await fetch(API_BASE + '/api/profile/me', {
+          credentials: 'include',
+          headers: { Authorization: 'Bearer ' + tok }
+        });
         if (r.ok) {
           const d  = await r.json();
           u.plan_type  = d.plan_type;
