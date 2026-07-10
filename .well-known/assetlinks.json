@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.atabeyapp.twa",
+    "sha256_cert_fingerprints": ["C7:04:70:F6:73:0F:AA:9A:92:D8:45:BE:ED:5F:4C:8F:F4:6B:5C:66:FB:4E:94:41:FF:5C:35:D1:04:B2:A5:D6"]
+  }
+}]
