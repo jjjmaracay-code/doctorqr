@@ -1000,6 +1000,7 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
   try {
     const res  = await fetch(`${API}/api/auth/verify-2fa`, {
       method:  'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email: loginEmail, code: l2Buffer, method: l2Method })
     });
