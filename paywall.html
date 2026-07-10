@@ -600,6 +600,7 @@ function iniciarPago(plan, btn) {
 
   fetch('https://doctorqr-backend-production.up.railway.app/api/stripe/create-checkout', {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
