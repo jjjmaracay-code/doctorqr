@@ -1998,6 +1998,7 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
   try {
     const response = await fetch(`${API}/api/auth/verify-2fa`, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email:  regData.email,
