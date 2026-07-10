@@ -2593,6 +2593,7 @@
       const token = localStorage.getItem('doctorqr_token');
       const res  = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/account', {
         method:  'DELETE',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
@@ -2629,6 +2630,7 @@
       if (token) {
         await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/logout', {
           method: 'POST',
+          credentials: 'include',
           headers: { Authorization: 'Bearer ' + token }
         });
       }
