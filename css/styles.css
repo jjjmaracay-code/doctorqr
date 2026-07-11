@@ -500,13 +500,14 @@
     }
 
     .qr-reminder-banner {
-      background: rgba(18,165,255,0.06);
-      border: 1px solid rgba(18,165,255,0.35);
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin: 4px 0 16px;
-      font-size: 11px;
-      line-height: 1.6;
+      background: rgba(18,165,255,0.08);
+      border: 2px solid #12A5FF;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      font-size: 1.05em;
+      font-weight: 600;
+      line-height: 1.5;
       color: rgba(255,255,255,0.75);
       letter-spacing: 0.2px;
     }
@@ -516,9 +517,9 @@
     }
 
     @keyframes qr-reminder-pulse {
-      0%   { box-shadow: 0 0 0 rgba(18,165,255,0); border-color: rgba(18,165,255,0.35); }
-      30%  { box-shadow: 0 0 16px rgba(18,165,255,0.45); border-color: #12A5FF; }
-      100% { box-shadow: 0 0 0 rgba(18,165,255,0); border-color: rgba(18,165,255,0.35); }
+      0%   { box-shadow: 0 0 0 rgba(18,165,255,0); }
+      30%  { box-shadow: 0 0 20px rgba(18,165,255,0.6); }
+      100% { box-shadow: 0 0 0 rgba(18,165,255,0); }
     }
 
     .btn-add-med {
