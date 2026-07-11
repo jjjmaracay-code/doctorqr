@@ -170,9 +170,15 @@
       if (wrap) wrap.style.display = show ? 'block' : 'none';
     }
 
+    // ===== GUARDADO DE EMERGENCIA: bandera de cambios sin guardar =====
+    let hasUnsavedChanges = false;
+    document.addEventListener('input',  () => { hasUnsavedChanges = true; });
+    document.addEventListener('change', () => { hasUnsavedChanges = true; });
+
     // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
+        hasUnsavedChanges = true;
         const group = chip.closest('[data-group]');
         const isSingle = group && group.dataset.single === 'true';
         if (isSingle) {
@@ -544,15 +550,9 @@
       });
     }
 
-    async function generate() {
-      const vacias = checkSeccionesVacias();
-      if (vacias.length > 0) {
-        const continuar = await mostrarModalValidacion(vacias);
-        if (!continuar) return;
-      }
-
+    function buildProfileFromForm() {
       const v = id => document.getElementById(id).value;
-      const profile = {
+      return {
         lang_spoken:           getChips('lang-spoken'),
         lang_levels:           getLangLevels(),
         lang_written:          getChips('lang-written'),
@@ -695,7 +695,19 @@
         })(),
         updated_at:            (JSON.parse(localStorage.getItem('doctorqr_profile') || '{}').updated_at) || null,
       };
+    }
+
+    async function generate() {
+      const vacias = checkSeccionesVacias();
+      if (vacias.length > 0) {
+        const continuar = await mostrarModalValidacion(vacias);
+        if (!continuar) return;
+      }
+
+      const profile = buildProfileFromForm();
       localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
+      hasUnsavedChanges = false;
+      mostrarIndicadorGuardado();
 
       const toast = document.getElementById('toast');
       toast.classList.add('show');
@@ -744,8 +756,47 @@
       }
     }
 
+    // ===== INDICADOR DISCRETO "GUARDADO ✓" =====
+    function mostrarIndicadorGuardado() {
+      const ind = document.getElementById('save-indicator');
+      if (!ind) return;
+      ind.classList.add('show');
+      setTimeout(() => ind.classList.remove('show'), 2500);
+    }
+
+    // ===== GUARDADO DE EMERGENCIA AL CERRAR LA PESTAÑA =====
+    // sendBeacon no sirve aquí: la cookie doctorqr_token es sameSite=lax y
+    // frontend/backend son sitios distintos (atabeyapp.app vs *.up.railway.app),
+    // así que el navegador no la adjunta en peticiones POST cross-site — y
+    // sendBeacon no permite fijar el header Authorization como alternativa.
+    // fetch con keepalive:true sí sobrevive al cierre de la pestaña y sí
+    // permite mandar el header Authorization (el mecanismo que realmente
+    // autentica hoy, igual que en generate()).
+    window.addEventListener('beforeunload', () => {
+      if (!hasUnsavedChanges) return;
+      const _tok = localStorage.getItem('doctorqr_token');
+      if (!_tok || _tok.startsWith('biometric_')) return;
+
+      const profile = buildProfileFromForm();
+      localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
+      localStorage.setItem('doctorqr_pending_sync_notice', '1');
+
+      fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
+        method: 'POST',
+        credentials: 'include',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
+        body: JSON.stringify({ profile, doctorqr_id: localStorage.getItem('doctorqr_id') })
+      }).catch(() => {});
+    });
+
     // ===== LOAD SAVED =====
     async function loadSaved() {
+      if (localStorage.getItem('doctorqr_pending_sync_notice') === '1') {
+        localStorage.removeItem('doctorqr_pending_sync_notice');
+        mostrarIndicadorGuardado();
+      }
+
       let saved = null;
 
       const _tok = localStorage.getItem('doctorqr_token');

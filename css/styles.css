@@ -482,6 +482,23 @@
 
     .btn-generate:active { opacity: 0.8; }
 
+    .save-indicator {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--green, #00f064);
+      margin-top: 10px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    .save-indicator.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .btn-add-med {
       display: inline-flex;
       align-items: center;
