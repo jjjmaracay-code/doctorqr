@@ -499,6 +499,28 @@
       transform: translateY(0);
     }
 
+    .qr-reminder-banner {
+      background: rgba(18,165,255,0.06);
+      border: 1px solid rgba(18,165,255,0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 4px 0 16px;
+      font-size: 11px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.2px;
+    }
+
+    .qr-reminder-banner.pulse {
+      animation: qr-reminder-pulse 0.9s ease;
+    }
+
+    @keyframes qr-reminder-pulse {
+      0%   { box-shadow: 0 0 0 rgba(18,165,255,0); border-color: rgba(18,165,255,0.35); }
+      30%  { box-shadow: 0 0 16px rgba(18,165,255,0.45); border-color: #12A5FF; }
+      100% { box-shadow: 0 0 0 rgba(18,165,255,0); border-color: rgba(18,165,255,0.35); }
+    }
+
     .btn-add-med {
       display: inline-flex;
       align-items: center;

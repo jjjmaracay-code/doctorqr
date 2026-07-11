@@ -747,13 +747,29 @@
             }
           }
           generateAllQRs();
+          mostrarRecordatorioQR();
         })
         .catch(() => {
           generateAllQRs(); // error de red: el save local ocurrió, generar igualmente
+          mostrarRecordatorioQR();
         });
       } else {
         generateAllQRs(); // sin autenticación: flujo local directo
+        mostrarRecordatorioQR();
       }
+    }
+
+    // ===== RECORDATORIO: REGENERAR QR TRAS CADA CAMBIO =====
+    // Se dispara siempre que se llama a generateAllQRs() (primera vez o
+    // regeneración) — no toca qr-generator.js, solo re-anima el aviso ya
+    // presente junto al carrusel para que el usuario lo note de nuevo.
+    function mostrarRecordatorioQR() {
+      const banner = document.getElementById('qr-reminder-banner');
+      if (!banner) return;
+      banner.classList.remove('pulse');
+      void banner.offsetWidth; // fuerza reflow para poder reiniciar la animación en clics consecutivos
+      banner.classList.add('pulse');
+      banner.addEventListener('animationend', () => banner.classList.remove('pulse'), { once: true });
     }
 
     // ===== INDICADOR DISCRETO "GUARDADO ✓" =====
