@@ -1514,7 +1514,11 @@
         </div>
         <div class="field">
           <div class="field-label">Detalle implante activo y año aproximado</div>
-          <input type="text" id="f-implant-detail" placeholder="Ej: Marcapasos Medtronic — 2019"/>
+          <div class="chips" data-group="implant-detail-aplica" data-exclusive-group style="margin-bottom:6px">
+            <div class="chip" data-value="No aplica" data-exclusive-none>No aplica</div>
+          </div>
+          <input type="text" id="f-implant-detail" data-exclusive-target="implant-detail-aplica" placeholder="Ej: Bomba de insulina, Válvula cardíaca mecánica — 2019"/>
+          <div class="field-hint">No incluyas aquí el marcapasos — pregúntalo aparte más abajo.</div>
         </div>
         <div class="field">
           <div class="field-label">¿Marcapasos activo?</div>
