@@ -517,12 +517,12 @@
         </div>
         <div class="field">
           <div class="field-label">Lengua de signos</div>
-          <div class="chips" data-group="sign-lang">
+          <div class="chips" data-group="sign-lang" data-exclusive-group>
             <div class="chip" data-value="LSE">LSE</div>
             <div class="chip" data-value="ASL">ASL</div>
             <div class="chip" data-value="LSF">LSF</div>
             <div class="chip" data-value="Otra">Otra</div>
-            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-value="No" data-exclusive-none>No</div>
           </div>
         </div>
         <div class="field">
@@ -1034,8 +1034,8 @@
         </div>
         <div class="field">
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿HA TENIDO ANAFILAXIA PREVIA?</div>
-          <div class="chips" data-group="anafilaxia-previa" data-single="true">
-            <div class="chip chip-danger" data-value="SÍ — anafilaxia confirmada">SÍ — anafilaxia confirmada</div>
+          <div class="chips" data-group="anafilaxia-previa" data-single="true" data-sino-group="anafilaxia-previa">
+            <div class="chip chip-danger" data-value="SÍ — anafilaxia confirmada" data-sino="si">SÍ — anafilaxia confirmada</div>
             <div class="chip" data-value="Sí — reacción grave sin anafilaxia">Sí — reacción grave sin anafilaxia</div>
             <div class="chip" data-value="No">No</div>
             <div class="chip" data-value="No sé">No sé</div>
@@ -1043,9 +1043,9 @@
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Riesgo vital inmediato — distinto de alergia simple</div>
           <div id="anaphylaxis-trigger-wrap" style="display:none;margin-top:8px">
             <div class="field-label">¿QUÉ DESENCADENÓ LA ANAFILAXIA?</div>
-            <select id="f-anaphylaxis-trigger"></select>
+            <select id="f-anaphylaxis-trigger" data-sino-target="anafilaxia-previa"></select>
             <div id="anaphylaxis-trigger-otro-wrap" style="display:none;margin-top:8px">
-              <input type="text" id="f-anaphylaxis-trigger-otro"
+              <input type="text" id="f-anaphylaxis-trigger-otro" data-sino-target="anafilaxia-previa"
                 placeholder="Describe el desencadenante..."
                 style="width:100%;background:#0d0d0d;
                 border:1px solid #12A5FF;
@@ -1245,22 +1245,22 @@
         </div>
         <div class="field">
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿ACV / ICTUS PREVIO?</div>
-          <div class="chips" data-group="acv-previo" data-single="true">
-            <div class="chip chip-danger" data-value="Sí" onclick="checkAcv(this)">Sí</div>
-            <div class="chip" data-value="No" onclick="checkAcv(this)">No</div>
+          <div class="chips" data-group="acv-previo" data-single="true" data-sino-group="acv-previo">
+            <div class="chip chip-danger" data-value="Sí" data-sino="si" onclick="checkAcv(this)">Sí</div>
+            <div class="chip" data-value="No" data-sino="no" onclick="checkAcv(this)">No</div>
           </div>
           <div id="acv-year-wrap" style="display:none;margin-top:8px">
-            <input type="number" id="f-acv-year" min="1950" max="2026" placeholder="Año aproximado"/>
+            <input type="number" id="f-acv-year" data-sino-target="acv-previo" min="1950" max="2026" placeholder="Año aproximado"/>
           </div>
         </div>
         <div class="field">
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿Tienes algún stent en el corazón?</div>
-          <div class="chips" data-group="stents" data-single="true">
-            <div class="chip chip-danger" data-value="Sí" onclick="checkStents(this)">Sí</div>
-            <div class="chip" data-value="No" onclick="checkStents(this)">No</div>
+          <div class="chips" data-group="stents" data-single="true" data-sino-group="stents">
+            <div class="chip chip-danger" data-value="Sí" data-sino="si" onclick="checkStents(this)">Sí</div>
+            <div class="chip" data-value="No" data-sino="no" onclick="checkStents(this)">No</div>
           </div>
           <div id="stents-year-wrap" style="display:none;margin-top:8px">
-            <input type="number" id="f-stents-year" min="1950" max="2026" placeholder="Año de implantación"/>
+            <input type="number" id="f-stents-year" data-sino-target="stents" min="1950" max="2026" placeholder="Año de implantación"/>
           </div>
         </div>
         <div class="field">
@@ -1599,7 +1599,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="vaccines">
+          <div class="chips" data-group="vaccines" data-exclusive-group>
             <div class="chip" data-value="Cólera">Cólera</div>
             <div class="chip" data-value="COVID-19">COVID-19</div>
             <div class="chip" data-value="Difteria">Difteria</div>
@@ -1625,7 +1625,7 @@
             <div class="chip" data-value="Varicela">Varicela</div>
             <div class="chip" data-value="Viruela del mono">Viruela del mono</div>
             <div class="chip" data-value="VPH">VPH</div>
-            <div class="chip" data-value="No recuerdo">No recuerdo</div>
+            <div class="chip" data-value="No recuerdo" data-exclusive-none>No recuerdo</div>
           </div>
         </div>
         <div class="field">
@@ -1733,15 +1733,15 @@
         </div>
         <div class="field">
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ DROGAS RECREATIVAS</div>
-          <div class="chips" data-group="drogas">
-            <div class="chip" data-value="No consumo">No consumo</div>
+          <div class="chips" data-group="drogas" data-exclusive-group>
+            <div class="chip" data-value="No consumo" data-exclusive-none>No consumo</div>
             <div class="chip chip-danger" data-value="Cocaína">Cocaína</div>
             <div class="chip chip-danger" data-value="Cannabis">Cannabis</div>
             <div class="chip chip-danger" data-value="Anfetaminas/MDMA">Anfetaminas/MDMA</div>
             <div class="chip chip-danger" data-value="Opioides">Opioides</div>
             <div class="chip chip-danger" data-value="Benzodiacepinas no prescritas">Benzodiacepinas no prescritas</div>
             <div class="chip chip-danger" data-value="Otras">Otras</div>
-            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+            <div class="chip" data-value="Prefiero no decir" data-exclusive-none>Prefiero no decir</div>
           </div>
           <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Cocaína + adrenalina = paro cardíaco. Esta información es confidencial y solo visible en emergencia médica</div>
         </div>
