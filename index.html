@@ -507,12 +507,12 @@
         </div>
         <div class="field">
           <div class="field-label">Dificultad de comunicación</div>
-          <div class="chips" data-group="comm-difficulty">
+          <div class="chips" data-group="comm-difficulty" data-exclusive-group>
             <div class="chip" data-value="Mudez">Mudez</div>
             <div class="chip" data-value="Afasia">Afasia</div>
             <div class="chip" data-value="Sordera">Sordera</div>
             <div class="chip" data-value="Discapacidad cognitiva">Discapacidad cognitiva</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field">
@@ -545,7 +545,7 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label">PROFESIÓN ACTUAL</div>
-          <div class="chips" data-group="profesion" data-single="true">
+          <div class="chips" data-group="profesion" data-single="true" data-sino-group="profesion">
             <div class="chip" data-value="Sanitario">Sanitario</div>
             <div class="chip" data-value="Agricultor/Ganadero">Agricultor/Ganadero</div>
             <div class="chip" data-value="Minero/Construcción">Minero/Construcción</div>
@@ -557,10 +557,10 @@
             <div class="chip" data-value="Hostelería">Hostelería</div>
             <div class="chip" data-value="Jubilado">Jubilado</div>
             <div class="chip" data-value="Estudiante">Estudiante</div>
-            <div class="chip" data-value="Otra">Otra</div>
+            <div class="chip" data-value="Otra" data-sino="si">Otra</div>
           </div>
           <div id="profesion-otra-wrap" style="display:none;margin-top:8px">
-            <input type="text" id="profesion-otra-text"
+            <input type="text" id="profesion-otra-text" data-sino-target="profesion"
               placeholder="Describe tu profesión..."
               style="width:100%;background:#0d0d0d;
               border:1px solid #12A5FF;
@@ -572,7 +572,7 @@
         </div>
         <div class="field">
           <div class="field-label">AYUDAS TÉCNICAS QUE USA</div>
-          <div class="chips" data-group="ayudas-tecnicas">
+          <div class="chips" data-group="ayudas-tecnicas" data-exclusive-group>
             <div class="chip" data-value="Gafas">Gafas</div>
             <div class="chip" data-value="Lentillas">Lentillas</div>
             <div class="chip" data-value="Audífono">Audífono</div>
@@ -580,7 +580,7 @@
             <div class="chip" data-value="Silla de ruedas">Silla de ruedas</div>
             <div class="chip" data-value="Muletas/bastón">Muletas/bastón</div>
             <div class="chip" data-value="Andador">Andador</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
           <div class="field-hint">Relevante en anestesia y comunicación durante emergencia</div>
         </div>
@@ -605,15 +605,15 @@
         </div>
         <div class="form-group" id="pregnancy-block">
           <div class="field-label">EMBARAZO ACTUAL</div>
-          <div class="chips" data-group="embarazo" data-single="true">
-            <div class="chip" data-value="Sí — estoy embarazada" onclick="checkPregnancy(this)">Sí — estoy embarazada</div>
+          <div class="chips" data-group="embarazo" data-single="true" data-sino-group="embarazo" data-sino-target="sexo-biologico">
+            <div class="chip" data-value="Sí — estoy embarazada" data-sino="si" onclick="checkPregnancy(this)">Sí — estoy embarazada</div>
             <div class="chip" data-value="No" onclick="checkPregnancy(this)">No</div>
             <div class="chip" data-value="No aplica" onclick="checkPregnancy(this)">No aplica</div>
           </div>
         </div>
         <div class="form-group" id="pregnancy-weeks-block" style="display:none">
           <div class="field-label">SEMANAS DE EMBARAZO</div>
-          <select id="pregnancy-weeks">
+          <select id="pregnancy-weeks" data-sino-target="embarazo sexo-biologico">
             <option value="">— Selecciona —</option>
             <option>1-4 semanas (mes 1)</option>
             <option>5-8 semanas (mes 2)</option>
@@ -630,7 +630,7 @@
         </div>
         <div class="form-group" id="field-lactancia">
           <div class="field-label">¿LACTANCIA ACTIVA?</div>
-          <div class="chips" data-group="lactancia" data-single="true">
+          <div class="chips" data-group="lactancia" data-single="true" data-sino-target="sexo-biologico">
             <div class="chip" data-value="Sí — lactancia materna activa">Sí — lactancia materna activa</div>
             <div class="chip" data-value="No">No</div>
             <div class="chip" data-value="No aplica">No aplica</div>
@@ -639,21 +639,21 @@
         </div>
         <div class="field" id="field-semanas-gestacion">
           <div class="field-label">SEMANAS DE GESTACIÓN AL NACER</div>
-          <div class="chips" data-group="semanas-gestacion-aplica" data-single="true" style="margin-bottom:6px">
+          <div class="chips" data-group="semanas-gestacion-aplica" data-single="true" data-sino-target="sexo-biologico" style="margin-bottom:6px">
             <div class="chip" data-value="No aplica">No aplica</div>
           </div>
           <div id="semanas-gestacion-input-wrap">
-            <input type="number" id="f-semanas-gestacion" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término"/>
+            <input type="number" id="f-semanas-gestacion" data-sino-target="sexo-biologico" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término"/>
             <div class="field-hint">Relevante para prematuros — afecta dosis y desarrollo</div>
           </div>
         </div>
         <div class="field" id="field-semanas-lactancia">
           <div class="field-label">SEMANAS DE LACTANCIA ACTIVA</div>
-          <div class="chips" data-group="semanas-lactancia-aplica" data-single="true" style="margin-bottom:6px">
+          <div class="chips" data-group="semanas-lactancia-aplica" data-single="true" data-sino-target="sexo-biologico" style="margin-bottom:6px">
             <div class="chip" data-value="No aplica">No aplica</div>
           </div>
           <div id="semanas-lactancia-input-wrap">
-            <input type="number" id="f-semanas-lactancia" min="0" max="200" placeholder="Ej: 6 semanas"/>
+            <input type="number" id="f-semanas-lactancia" data-sino-target="sexo-biologico" min="0" max="200" placeholder="Ej: 6 semanas"/>
             <div class="field-hint">Duración de la lactancia actual — relevante para medicamentos</div>
           </div>
         </div>
@@ -667,23 +667,23 @@
         </div>
         <div class="field">
           <div class="field-label">Voluntades anticipadas</div>
-          <div class="chips" data-group="advance-directive" data-single="true">
-            <div class="chip" data-value="Sí — documento existe">Sí — documento existe</div>
-            <div class="chip" data-value="No">No</div>
+          <div class="chips" data-group="advance-directive" data-single="true" data-sino-group="advance-directive">
+            <div class="chip" data-value="Sí — documento existe" data-sino="si">Sí — documento existe</div>
+            <div class="chip" data-value="No" data-sino="no">No</div>
           </div>
           <div id="advance-directive-wrap" style="display:none;margin-top:8px">
             <div class="field-label" style="margin-bottom:6px">INSTRUCCIONES ESPECÍFICAS</div>
-            <div class="chips" data-group="advance-directive-instrucciones">
+            <div class="chips" data-group="advance-directive-instrucciones" data-sino-target="advance-directive">
               <div class="chip" data-value="No reanimar (DNR)">No reanimar (DNR)</div>
               <div class="chip" data-value="No intubar/ventilar">No intubar/ventilar</div>
               <div class="chip" data-value="No transfundir">No transfundir</div>
               <div class="chip" data-value="Otro">+ Otro</div>
             </div>
             <div id="advance-directive-otro-wrap" style="display:none;margin-top:8px">
-              <input type="text" id="f-advance-directive-otro" placeholder="Especifica la instrucción..."/>
+              <input type="text" id="f-advance-directive-otro" data-sino-target="advance-directive" placeholder="Especifica la instrucción..."/>
             </div>
             <div class="field-label" style="margin-top:14px;margin-bottom:6px">UBICACIÓN DEL DOCUMENTO</div>
-            <input type="text" id="f-advance-directive-ubicacion" placeholder="Ej: Notaría X, en casa cajón Y, Registro Nacional de Instrucciones Previas"/>
+            <input type="text" id="f-advance-directive-ubicacion" data-sino-target="advance-directive" placeholder="Ej: Notaría X, en casa cajón Y, Registro Nacional de Instrucciones Previas"/>
           </div>
         </div>
       </div>
@@ -773,11 +773,11 @@
         <!-- Sexo biológico -->
         <div class="form-group">
           <div class="field-label">SEXO BIOLÓGICO</div>
-          <div class="chips" data-group="sexo-biologico" data-single="true">
+          <div class="chips" data-group="sexo-biologico" data-single="true" data-sino-group="sexo-biologico">
             <div class="chip" data-value="Masculino"        onclick="checkGenderFields(this)">Masculino</div>
-            <div class="chip" data-value="Femenino"         onclick="checkGenderFields(this)">Femenino</div>
-            <div class="chip" data-value="Intersexual"      onclick="checkGenderFields(this)">Intersexual</div>
-            <div class="chip" data-value="Prefiero no decir" onclick="checkGenderFields(this)">Prefiero no decir</div>
+            <div class="chip" data-value="Femenino"         data-sino="si" onclick="checkGenderFields(this)">Femenino</div>
+            <div class="chip" data-value="Intersexual"      data-sino="si" onclick="checkGenderFields(this)">Intersexual</div>
+            <div class="chip" data-value="Prefiero no decir" data-sino="si" onclick="checkGenderFields(this)">Prefiero no decir</div>
           </div>
         </div>
         <!-- Identidad de género -->
@@ -884,7 +884,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="allergy-med">
+          <div class="chips" data-group="allergy-med" data-exclusive-group>
             <div class="chip" data-value="AAS">AAS</div>
             <div class="chip" data-value="AINE">AINE</div>
             <div class="chip" data-value="Alopurinol">Alopurinol</div>
@@ -929,7 +929,7 @@
             <div class="chip" data-value="Tramadol">Tramadol</div>
             <div class="chip" data-value="Vancomicina">Vancomicina</div>
             <div class="chip" data-value="Warfarina">Warfarina</div>
-            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
@@ -937,7 +937,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="allergy-food">
+          <div class="chips" data-group="allergy-food" data-exclusive-group>
             <div class="chip" data-value="Altramuces">Altramuces</div>
             <div class="chip" data-value="Apio">Apio</div>
             <div class="chip" data-value="Cacahuetes">Cacahuetes</div>
@@ -959,7 +959,7 @@
             <div class="chip" data-value="Sorbitol">Sorbitol</div>
             <div class="chip" data-value="Sulfitos">Sulfitos</div>
             <div class="chip" data-value="Trigo">Trigo</div>
-            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
@@ -967,7 +967,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="allergy-env">
+          <div class="chips" data-group="allergy-env" data-exclusive-group>
             <div class="chip" data-value="Ácaros">Ácaros</div>
             <div class="chip" data-value="Animales">Animales</div>
             <div class="chip" data-value="Cucarachas">Cucarachas</div>
@@ -977,7 +977,7 @@
             <div class="chip" data-value="Perfumes">Perfumes</div>
             <div class="chip" data-value="Polen">Polen</div>
             <div class="chip" data-value="Productos limpieza">Productos limpieza</div>
-            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
@@ -985,11 +985,11 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="allergy-insect">
+          <div class="chips" data-group="allergy-insect" data-exclusive-group>
             <div class="chip" data-value="Picadura abeja">Picadura abeja</div>
             <div class="chip" data-value="Picadura avispa">Picadura avispa</div>
             <div class="chip" data-value="Picadura hormiga">Picadura hormiga</div>
-            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
@@ -1001,11 +1001,11 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="allergy-anesthesia">
+          <div class="chips" data-group="allergy-anesthesia" data-exclusive-group>
             <div class="chip" data-value="Anestesia general">Anestesia general</div>
             <div class="chip" data-value="Lidocaína">Lidocaína</div>
             <div class="chip" data-value="Propofol">Propofol</div>
-            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
@@ -1104,7 +1104,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="diseases">
+          <div class="chips" data-group="diseases" data-exclusive-group>
             <div class="chip" data-value="Alzheimer">Alzheimer</div>
             <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
             <div class="chip" data-value="Ansiedad crónica">Ansiedad crónica</div>
@@ -1163,7 +1163,7 @@
             <div class="chip" data-value="Trastorno bipolar">Trastorno bipolar</div>
             <div class="chip" data-value="Trombosis venosa">Trombosis venosa</div>
             <div class="chip" data-value="Vértigo crónico">Vértigo crónico</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field">
@@ -1171,7 +1171,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="conditions">
+          <div class="chips" data-group="conditions" data-exclusive-group>
             <div class="chip" data-value="Bomba insulina">Bomba insulina</div>
             <div class="chip" data-value="Catéter permanente">Catéter permanente</div>
             <div class="chip" data-value="Colostomía">Colostomía</div>
@@ -1189,18 +1189,18 @@
             <div class="chip" data-value="Prótesis rodilla">Prótesis rodilla</div>
             <div class="chip" data-value="Sonda gástrica">Sonda gástrica</div>
             <div class="chip" data-value="Válvula cardíaca">Válvula cardíaca</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field" id="dialisis-wrap" style="display:none">
           <div class="field-label">¿EN DIÁLISIS ACTIVA?</div>
-          <div class="chips" data-group="dialisis-activa" data-single="true">
-            <div class="chip" data-value="Sí">Sí</div>
-            <div class="chip" data-value="No">No</div>
+          <div class="chips" data-group="dialisis-activa" data-single="true" data-sino-group="dialisis">
+            <div class="chip" data-value="Sí" data-sino="si">Sí</div>
+            <div class="chip" data-value="No" data-sino="no">No</div>
           </div>
           <div id="lateralidad-wrap" style="display:none;margin-top:8px">
             <div class="field-label">BRAZO CON FÍSTULA</div>
-            <div class="chips" data-group="lateralidad-fistula" data-single="true">
+            <div class="chips" data-group="lateralidad-fistula" data-single="true" data-sino-target="dialisis">
               <div class="chip" data-value="Izquierdo">Izquierdo</div>
               <div class="chip" data-value="Derecho">Derecho</div>
             </div>
@@ -1282,13 +1282,13 @@
         </div>
         <div class="field">
           <div class="field-label">¿DIAGNÓSTICO EN SALUD Y BIENESTAR EMOCIONAL?</div>
-          <div class="chips" data-group="salud-emocional-dx" data-single="true">
-            <div class="chip" data-value="Sí" onclick="checkSaludEmocional(this)">Sí</div>
-            <div class="chip" data-value="No" onclick="checkSaludEmocional(this)">No</div>
+          <div class="chips" data-group="salud-emocional-dx" data-single="true" data-sino-group="salud-emocional">
+            <div class="chip" data-value="Sí" data-sino="si" onclick="checkSaludEmocional(this)">Sí</div>
+            <div class="chip" data-value="No" data-sino="no" onclick="checkSaludEmocional(this)">No</div>
           </div>
           <div id="salud-emocional-cual-wrap" style="display:none;margin-top:12px">
             <div class="field-label" style="margin-bottom:6px">DIAGNÓSTICO PRINCIPAL</div>
-            <div class="chips" data-group="salud-emocional-diagnostico">
+            <div class="chips" data-group="salud-emocional-diagnostico" data-sino-target="salud-emocional">
               <div class="chip" data-value="Depresión mayor">Depresión mayor</div>
               <div class="chip" data-value="Trastorno bipolar">Trastorno bipolar</div>
               <div class="chip" data-value="Esquizofrenia">Esquizofrenia</div>
@@ -1301,11 +1301,11 @@
               <div class="chip" data-value="Otro" onclick="checkSaludEmocionalOtro(this)">Otro</div>
             </div>
             <div id="salud-emocional-otro-wrap" style="display:none;margin-top:6px">
-              <input type="text" id="f-salud-emocional-cual" placeholder="Especifica el diagnóstico..."/>
+              <input type="text" id="f-salud-emocional-cual" data-sino-target="salud-emocional" placeholder="Especifica el diagnóstico..."/>
             </div>
 
             <div class="field-label" style="margin-top:14px;margin-bottom:6px;color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN PSIQUIÁTRICA ACTIVA</div>
-            <div class="chips" data-group="meds-psiquiatria">
+            <div class="chips" data-group="meds-psiquiatria" data-sino-target="salud-emocional">
               <div class="chip chip-danger" data-value="Litio">Litio ⚠️</div>
               <div class="chip chip-danger" data-value="Clozapina">Clozapina ⚠️</div>
               <div class="chip" data-value="Haloperidol">Haloperidol</div>
@@ -1324,7 +1324,7 @@
             <button type="button" class="btn-add-med" id="btn-add-psiq-med" onclick="addMedExtra('psiq')">+ Añadir otro</button>
 
             <div class="field-label" style="margin-top:14px;margin-bottom:6px">¿PUEDE TOMAR DECISIONES MÉDICAS?</div>
-            <div class="chips" data-group="puede-decidir-salud" data-single="true">
+            <div class="chips" data-group="puede-decidir-salud" data-single="true" data-sino-target="salud-emocional">
               <div class="chip" data-value="Sí">Sí</div>
               <div class="chip" data-value="No">No</div>
               <div class="chip" data-value="Depende del momento">Depende del momento</div>
@@ -1352,7 +1352,7 @@
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="chips" data-group="meds">
+          <div class="chips" data-group="meds" data-exclusive-group>
             <div class="chip" data-value="Metformina">Metformina</div>
             <div class="chip" data-value="Insulina">Insulina</div>
             <div class="chip" data-value="Enalapril">Enalapril</div>
@@ -1375,7 +1375,7 @@
             <div class="chip chip-danger" data-value="Ciclosporina">Ciclosporina ⚠️</div>
             <div class="chip chip-danger" data-value="Tacrolimus">Tacrolimus ⚠️</div>
             <div class="chip chip-danger" data-value="Quimioterapia oral">Quimioterapia oral ⚠️</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
           <div id="meds-extra-wrap" style="margin-top:4px"></div>
           <button type="button" class="btn-add-med" id="btn-add-med" onclick="addMedExtra('meds')">+ Añadir otro medicamento</button>
@@ -1383,7 +1383,7 @@
         <div class="field">
           <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN DE ALTO RIESGO DE INTERACCIÓN</div>
           <div class="field-hint" style="margin-bottom:8px;color:#ff4444;opacity:0.8">Interacciones potencialmente letales con anestesia y otros fármacos de urgencia</div>
-          <div class="chips" data-group="medicacion-alto-riesgo">
+          <div class="chips" data-group="medicacion-alto-riesgo" data-exclusive-group>
             <div class="chip chip-danger" data-value="Antiepilépticos">Antiepilépticos</div>
             <div class="chip chip-danger" data-value="Corticoides crónicos">Corticoides crónicos</div>
             <div class="chip chip-danger" data-value="Digoxina">Digoxina</div>
@@ -1392,7 +1392,7 @@
             <div class="chip chip-danger" data-value="Inmunosupresores">Inmunosupresores</div>
             <div class="chip chip-danger" data-value="Insulina">Insulina</div>
             <div class="chip chip-danger" data-value="Litio">Litio</div>
-            <div class="chip" data-value="Ninguno">Ninguno</div>
+            <div class="chip" data-value="Ninguno" data-exclusive-none>Ninguno</div>
           </div>
         </div>
         <div class="field">
@@ -1457,7 +1457,7 @@
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
-          <div class="chips" data-group="surgeries">
+          <div class="chips" data-group="surgeries" data-exclusive-group>
             <div class="chip" data-value="Adenoidectomía">Adenoidectomía</div>
             <div class="chip" data-value="Amigdalectomía">Amigdalectomía</div>
             <div class="chip" data-value="Amputación">Amputación</div>
@@ -1499,7 +1499,7 @@
             <div class="chip" data-value="Trasplante renal">Trasplante renal</div>
             <div class="chip" data-value="Vasectomía">Vasectomía</div>
             <div class="chip" data-value="Vitrectomía">Vitrectomía</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field">
@@ -1538,14 +1538,14 @@
         </div>
         <div class="field">
           <div class="field-label">¿TIENE MATERIAL DE OSTEOSÍNTESIS?</div>
-          <div class="chips" data-group="material-osteosintesis" data-single="true">
-            <div class="chip" data-value="Sí — tornillos/placas/clavos" onclick="checkMaterialOsteo(this)">Sí — tornillos/placas/clavos</div>
-            <div class="chip" data-value="Sí — prótesis metálica" onclick="checkMaterialOsteo(this)">Sí — prótesis metálica</div>
-            <div class="chip" data-value="No" onclick="checkMaterialOsteo(this)">No</div>
-            <div class="chip" data-value="No sé" onclick="checkMaterialOsteo(this)">No sé</div>
+          <div class="chips" data-group="material-osteosintesis" data-single="true" data-sino-group="material-osteo">
+            <div class="chip" data-value="Sí — tornillos/placas/clavos" data-sino="si" onclick="checkMaterialOsteo(this)">Sí — tornillos/placas/clavos</div>
+            <div class="chip" data-value="Sí — prótesis metálica" data-sino="si" onclick="checkMaterialOsteo(this)">Sí — prótesis metálica</div>
+            <div class="chip" data-value="No" data-sino="no" onclick="checkMaterialOsteo(this)">No</div>
+            <div class="chip" data-value="No sé" data-sino="no" onclick="checkMaterialOsteo(this)">No sé</div>
           </div>
           <div id="material-osteo-detalle-wrap" style="display:none;margin-top:8px">
-            <input type="text" id="f-material-osteo-detalle" placeholder="Tipo y localización (ej: placa tibial derecha, clavo femoral — 2018)"/>
+            <input type="text" id="f-material-osteo-detalle" data-sino-target="material-osteo" placeholder="Tipo y localización (ej: placa tibial derecha, clavo femoral — 2018)"/>
           </div>
           <div class="field-hint">Afecta resonancias magnéticas y radiografías</div>
         </div>
@@ -1579,7 +1579,7 @@
         </div>
         <div class="field" id="field-cesarea-previa">
           <div class="field-label">¿CESÁREA PREVIA?</div>
-          <div class="chips" data-group="cesarea-previa" data-single="true">
+          <div class="chips" data-group="cesarea-previa" data-single="true" data-sino-target="sexo-biologico">
             <div class="chip" data-value="Sí">Sí</div>
             <div class="chip" data-value="No">No</div>
           </div>
@@ -1767,7 +1767,7 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label">ENFERMEDADES HEREDITARIAS EN FAMILIA</div>
-          <div class="chips" data-group="enfermedades-familiares">
+          <div class="chips" data-group="enfermedades-familiares" data-exclusive-group>
             <div class="chip" data-value="Alzheimer familiar">Alzheimer familiar</div>
             <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
             <div class="chip" data-value="Cáncer hereditario">Cáncer hereditario</div>
@@ -1780,7 +1780,7 @@
             <div class="chip" data-value="Muerte súbita familiar">Muerte súbita familiar</div>
             <div class="chip" data-value="Parkinson familiar">Parkinson familiar</div>
             <div class="chip" data-value="Talasemia">Talasemia</div>
-            <div class="chip" data-value="Ninguna conocida">Ninguna conocida</div>
+            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
@@ -1819,11 +1819,11 @@
         </div>
         <div class="field">
           <div class="field-label">Restricciones médicas por creencias</div>
-          <div class="chips" data-group="religion-restrictions">
+          <div class="chips" data-group="religion-restrictions" data-exclusive-group>
             <div class="chip chip-danger" data-value="No acepta transfusiones de sangre">No acepta transfusiones de sangre</div>
             <div class="chip chip-danger" data-value="No acepta productos porcinos">No acepta productos porcinos</div>
             <div class="chip chip-danger" data-value="Ayuno religioso activo">Ayuno religioso activo</div>
-            <div class="chip" data-value="Ninguna restricción">Ninguna restricción</div>
+            <div class="chip" data-value="Ninguna restricción" data-exclusive-none>Ninguna restricción</div>
           </div>
           <div class="critical-warning">⚠ CRÍTICO — Esta información puede ser determinante en una emergencia médica</div>
         </div>
@@ -1940,14 +1940,14 @@
         </div>
         <div class="field">
           <div class="field-label">Aseguradora</div>
-          <div class="chips" data-group="insurer">
+          <div class="chips" data-group="insurer" data-exclusive-group>
             <div class="chip" data-value="Sanitas">Sanitas</div>
             <div class="chip" data-value="Adeslas">Adeslas</div>
             <div class="chip" data-value="Asisa">Asisa</div>
             <div class="chip" data-value="Mapfre Salud">Mapfre Salud</div>
             <div class="chip" data-value="DKV">DKV</div>
             <div class="chip" data-value="Seguridad Social">Seguridad Social</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field">

@@ -242,6 +242,72 @@
       });
     });
 
+    // ===== EXCLUSIÓN MUTUA: GRUPOS CON OPCIÓN "NINGUNA/NINGUNO" =====
+    function setupExclusiveGroup(container) {
+      if (!container) return;
+      const groupName  = container.dataset.group;
+      const noneChips  = container.querySelectorAll('.chip[data-exclusive-none]');
+      const otherChips = container.querySelectorAll('.chip:not([data-exclusive-none])');
+
+      function afterExclusion() {
+        if (groupName === 'allergy-med' || groupName === 'allergy-insect' ||
+            groupName === 'allergy-food' || groupName === 'allergy-env' ||
+            groupName === 'allergy-anesthesia') {
+          renderAllergySeverity();
+          updateAnaphylaxisTrigger();
+        }
+        if (groupName === 'diseases' || groupName === 'conditions') updateGlucagonVisibility();
+        if (groupName === 'conditions') updateDialisisVisibility();
+      }
+
+      noneChips.forEach(noneChip => {
+        noneChip.addEventListener('click', () => {
+          if (noneChip.classList.contains('active')) {
+            otherChips.forEach(c => c.classList.remove('active'));
+            afterExclusion();
+          }
+        });
+      });
+
+      otherChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          if (chip.classList.contains('active')) {
+            noneChips.forEach(noneChip => noneChip.classList.remove('active'));
+            afterExclusion();
+          }
+        });
+      });
+    }
+    document.querySelectorAll('[data-exclusive-group]').forEach(setupExclusiveGroup);
+
+    // ===== TOGGLES SÍ/NO QUE LIMPIAN SUB-CAMPOS FANTASMA =====
+    function setupSiNoToggle(toggleContainer) {
+      const groupName = toggleContainer.dataset.sinoGroup;
+      // data-sino-target admite varios nombres separados por espacio (ej. un select
+      // limpiado tanto por su propio toggle como por uno que lo oculta en cascada)
+      const targets = document.querySelectorAll(`[data-sino-target~="${groupName}"]`);
+
+      function clearTargets() {
+        targets.forEach(target => {
+          if (target.classList.contains('chips')) {
+            target.querySelectorAll('.chip.active').forEach(c => c.classList.remove('active'));
+          } else if (target.classList.contains('chip')) {
+            target.classList.remove('active');
+          } else {
+            target.value = '';
+          }
+        });
+      }
+
+      toggleContainer.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const siActivo = toggleContainer.querySelector('.chip.active[data-sino="si"]');
+          if (!siActivo) clearTargets();
+        });
+      });
+    }
+    document.querySelectorAll('[data-sino-group]').forEach(setupSiNoToggle);
+
     // ===== PAÍSES VISITADOS =====
     const VISITED_COUNTRIES_HTML = `
       <option value="">— No aplica —</option>
