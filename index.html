@@ -1397,7 +1397,7 @@
         </div>
         <div class="field">
           <div class="field-label">Dosis y frecuencia</div>
-          <input type="text" id="f-med-doses" placeholder="Metformina 850mg — 2 veces al día"/>
+          <input type="text" id="f-med-doses" data-exclusive-target="medicacion-alto-riesgo" placeholder="Metformina 850mg — 2 veces al día"/>
         </div>
         <div class="field">
           <div class="field-label">Último ajuste de medicación</div>
@@ -1518,14 +1518,14 @@
         </div>
         <div class="field">
           <div class="field-label">¿Marcapasos activo?</div>
-          <div class="chips" data-group="pacemaker" data-single="true">
-            <div class="chip chip-danger" data-value="SÍ">SÍ</div>
-            <div class="chip" data-value="NO">NO</div>
+          <div class="chips" data-group="pacemaker" data-single="true" data-sino-group="pacemaker">
+            <div class="chip chip-danger" data-value="SÍ" data-sino="si">SÍ</div>
+            <div class="chip" data-value="NO" data-sino="no">NO</div>
           </div>
         </div>
         <div class="field">
           <div class="field-label">¿FECHA APROXIMADA ÚLTIMA CIRUGÍA?</div>
-          <select id="last-surgery-date">
+          <select id="last-surgery-date" data-sino-target="pacemaker">
             <option value="">— No aplica / Ninguna —</option>
             <option>Hace menos de 1 mes</option>
             <option>Hace 1-3 meses</option>

@@ -254,6 +254,10 @@
       const groupName  = container.dataset.group;
       const noneChips  = container.querySelectorAll('.chip[data-exclusive-none]');
       const otherChips = container.querySelectorAll('.chip:not([data-exclusive-none])');
+      // campo(s) de texto libre asociados a este grupo (fuera del propio
+      // contenedor .chips — ningún grupo tiene inputs anidados dentro),
+      // enlazados por nombre de grupo igual que data-sino-target
+      const targets    = document.querySelectorAll(`[data-exclusive-target~="${groupName}"]`);
 
       function afterExclusion() {
         if (groupName === 'allergy-med' || groupName === 'allergy-insect' ||
@@ -266,12 +270,21 @@
         if (groupName === 'conditions') updateDialisisVisibility();
       }
 
+      function syncTargets() {
+        const ningunaActiva = Array.from(noneChips).some(c => c.classList.contains('active'));
+        targets.forEach(t => {
+          if (ningunaActiva) { t.value = ''; t.disabled = true; }
+          else { t.disabled = false; }
+        });
+      }
+
       noneChips.forEach(noneChip => {
         noneChip.addEventListener('click', () => {
           if (noneChip.classList.contains('active')) {
             otherChips.forEach(c => c.classList.remove('active'));
             afterExclusion();
           }
+          syncTargets();
         });
       });
 
@@ -281,6 +294,7 @@
             noneChips.forEach(noneChip => noneChip.classList.remove('active'));
             afterExclusion();
           }
+          syncTargets();
         });
       });
     }
@@ -305,10 +319,25 @@
         });
       }
 
+      // disabled solo aplica a campos reales (input/select/textarea) — los
+      // chips/grupos de chips no tienen un equivalente nativo, se dejan como
+      // ya estaban (solo se limpian, vía clearTargets)
+      function setDisabled(disabled) {
+        targets.forEach(target => {
+          if (target.classList.contains('chips') || target.classList.contains('chip')) return;
+          target.disabled = disabled;
+        });
+      }
+
       toggleContainer.querySelectorAll('.chip').forEach(chip => {
         chip.addEventListener('click', () => {
           const siActivo = toggleContainer.querySelector('.chip.active[data-sino="si"]');
-          if (!siActivo) clearTargets();
+          if (!siActivo) {
+            clearTargets();
+            setDisabled(true);
+          } else {
+            setDisabled(false);
+          }
         });
       });
     }
