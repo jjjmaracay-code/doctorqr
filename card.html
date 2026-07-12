@@ -32,6 +32,7 @@
     .age-badge { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
     .qr-type-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); color: rgba(0,0,0,0.35); }
     .ts-note { font-size: 9px; color: rgba(0,0,0,0.25); letter-spacing: 1px; margin-top: 4px; }
+    .meta-sutil { font-size: 11px; color: rgba(0,0,0,0.4); letter-spacing: 0.3px; margin-top: 4px; line-height: 1.5; }
 
     /* SEARCH */
     .search-bar { background: rgba(255,255,255,0.98); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 10px 16px; display: flex; align-items: center; gap: 8px; position: sticky; z-index: 99; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
@@ -158,7 +159,7 @@ const T = {
     l_vacc_complete: 'VAC. COMPLETA', l_act_fisica: 'ACTIVIDAD FÍSICA',
     l_identidad_genero: 'IDENTIDAD DE GÉNERO', l_tiempo_hormonal: 'TIEMPO T. HORMONAL', l_cesarea: 'CESÁREA PREVIA',
     l_hormonal_tipos: 'TIPO T. HORMONAL', l_hormonal_dosis: 'DOSIS/FRECUENCIA', l_hormonal_duracion: 'DURACIÓN',
-    l_docname: 'MÉDICO', l_doctel: 'TELÉFONO', l_specialist: 'ESPECIALISTA',
+    l_docname: 'MÉDICO', l_doctel: 'TELÉFONO', l_specialist: 'ESPECIALISTA', l_email: 'Correo',
     l_insurer: 'ASEGURADORA', l_policy: 'Nº PÓLIZA', l_hospital: 'HOSP. REFERENCIA',
     btn: 'ACCEDER AL PERFIL COMPLETO',
     footnote: 'Datos proporcionados por el paciente · doctorqr.app',
@@ -215,7 +216,7 @@ const T = {
     l_vacc_complete: 'VAC. COMPLETE', l_act_fisica: 'PHYSICAL ACTIVITY',
     l_identidad_genero: 'GENDER IDENTITY', l_tiempo_hormonal: 'HORMONAL THERAPY TIME', l_cesarea: 'PRIOR C-SECTION',
     l_hormonal_tipos: 'HORMONAL THERAPY TYPE', l_hormonal_dosis: 'DOSE/FREQUENCY', l_hormonal_duracion: 'DURATION',
-    l_docname: 'PHYSICIAN', l_doctel: 'PHONE', l_specialist: 'SPECIALIST',
+    l_docname: 'PHYSICIAN', l_doctel: 'PHONE', l_specialist: 'SPECIALIST', l_email: 'Email',
     l_insurer: 'INSURER', l_policy: 'POLICY No.', l_hospital: 'REF. HOSPITAL',
     btn: 'VIEW FULL PROFILE',
     footnote: 'Data provided by the patient · doctorqr.app',
@@ -272,7 +273,7 @@ const T = {
     l_vacc_complete: 'VAC. COMPLÈTE', l_act_fisica: 'ACTIVITÉ PHYSIQUE',
     l_identidad_genero: 'IDENTITÉ DE GENRE', l_tiempo_hormonal: 'DURÉE T. HORMONALE', l_cesarea: 'CÉSARIENNE ANTÉR.',
     l_hormonal_tipos: 'TYPE T. HORMONALE', l_hormonal_dosis: 'DOSE/FRÉQUENCE', l_hormonal_duracion: 'DURÉE T.',
-    l_docname: 'MÉDECIN', l_doctel: 'TÉLÉPHONE', l_specialist: 'SPÉCIALISTE',
+    l_docname: 'MÉDECIN', l_doctel: 'TÉLÉPHONE', l_specialist: 'SPÉCIALISTE', l_email: 'Email',
     l_insurer: 'ASSUREUR', l_policy: 'No. POLICE', l_hospital: 'HÔPITAL DE RÉF.',
     btn: 'VOIR LE PROFIL COMPLET',
     footnote: 'Données fournies par le patient · doctorqr.app',
@@ -677,6 +678,13 @@ function renderApp() {
         ${age !== null ? `<span class="age-badge">${age} ${t.years}</span>` : ''}
         ${d.qr ? `<span class="qr-type-badge">${esc(d.qr.toUpperCase())}</span>` : ''}
       </div>
+      ${(() => {
+        const bits = [];
+        if (d.profesion) bits.push(esc(d.profesion));
+        if (d.email) bits.push(esc(d.email));
+        if (d.doc_type && d.doc_number) bits.push(`${esc(d.doc_type.toUpperCase())}: ${esc(d.doc_number)}`);
+        return bits.length ? `<div class="meta-sutil">${bits.join(' &middot; ')}</div>` : '';
+      })()}
       ${d.ts ? `<div class="ts-note">${t.generated} ${esc(d.ts)}</div>` : ''}
     </header>
 

@@ -23,7 +23,8 @@ const QR_TYPES = [
     extra: [
       'allergy_food','conditions',
       'diseases','guardian_name',
-      'guardian_phone_num','weight','height'
+      'guardian_phone_num','weight','height',
+      'profesion','email','doc_type','doc_number'
     ]
   },
   {
