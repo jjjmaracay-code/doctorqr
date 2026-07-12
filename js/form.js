@@ -598,9 +598,15 @@
         comm_difficulty:       getChips('comm-difficulty'),
         sign_lang:             getChips('sign-lang'),
         can_decide:            getChip('can-decide'),
-        profesion:             getChip('profesion') === 'Otra'
-                               ? (document.getElementById('profesion-otra-text')?.value.trim() || 'Otra')
-                               : getChip('profesion'),
+        profesion: (() => {
+          const chips = getChips('profesion');
+          const idx = chips.indexOf('Otra');
+          if (idx !== -1) {
+            const otraText = document.getElementById('profesion-otra-text')?.value.trim();
+            chips[idx] = otraText || 'Otra';
+          }
+          return chips;
+        })(),
         ayudas_tecnicas:       getChips('ayudas-tecnicas'),
         weight:                getChip('weight'),
         height:                getChip('height'),
@@ -998,14 +1004,22 @@
         const PROFESIONES_CONOCIDAS = ['Sanitario','Agricultor/Ganadero','Minero/Construcción',
           'Químico/Laboratorio','Militar/Policía','Educación','Oficina/Administración',
           'Transporte','Hostelería','Jubilado','Estudiante'];
-        if (saved.profesion && !PROFESIONES_CONOCIDAS.includes(saved.profesion)) {
-          const otraChip = document.querySelector('[data-group="profesion"] .chip[data-value="Otra"]');
-          if (otraChip) otraChip.classList.add('active');
+        let lista = saved.profesion;
+        if (typeof lista === 'string') lista = lista ? [lista] : [];
+        if (!Array.isArray(lista)) lista = [];
+        let otraTexto = null;
+        lista.forEach(val => {
+          if (!val) return;
+          const esConocida = PROFESIONES_CONOCIDAS.includes(val);
+          const valorChip = esConocida ? val : 'Otra';
+          if (!esConocida) otraTexto = val;
+          const chip = document.querySelector(`[data-group="profesion"] .chip[data-value="${valorChip}"]`);
+          if (chip) chip.classList.add('active');
+        });
+        if (otraTexto) {
           const otraWrap = document.getElementById('profesion-otra-wrap');
           if (otraWrap) otraWrap.style.display = 'block';
-          set('profesion-otra-text', saved.profesion);
-        } else {
-          restoreChip('profesion', saved.profesion);
+          set('profesion-otra-text', otraTexto);
         }
       }
       restoreChips('ayudas-tecnicas',       saved.ayudas_tecnicas);

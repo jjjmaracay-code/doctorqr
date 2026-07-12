@@ -526,7 +526,7 @@ function renderHistorial(d, t, vis) {
     extra += row(t.l_cesarea,         d.cesarea_previa,          false);
     extra += row(t.l_weight,          d.weight,                  false);
     extra += row(t.l_height,    d.height,  false);
-    extra += row(t.l_prof,      d.profesion,         false);
+    extra += row(t.l_prof,      Array.isArray(d.profesion) ? d.profesion.join(', ') : d.profesion,         false);
     const travel = [d.country_visit_1, d.country_visit_2, d.country_visit_3].filter(Boolean).join(', ');
     extra += row(t.l_travel, travel, false);
     if (extra) html += `<div class="section">${extra}</div>`;
@@ -680,7 +680,7 @@ function renderApp() {
       </div>
       ${(() => {
         const bits = [];
-        if (d.profesion) bits.push(esc(d.profesion));
+        if (d.profesion) bits.push(esc(Array.isArray(d.profesion) ? d.profesion.join(', ') : d.profesion));
         if (d.email) bits.push(esc(d.email));
         if (d.doc_type && d.doc_number) bits.push(`${esc(d.doc_type.toUpperCase())}: ${esc(d.doc_number)}`);
         return bits.length ? `<div class="meta-sutil">${bits.join(' &middot; ')}</div>` : '';
