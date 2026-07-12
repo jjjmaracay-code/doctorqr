@@ -994,7 +994,20 @@
       restoreChips('comm-difficulty',       saved.comm_difficulty);
       restoreChips('sign-lang',             saved.sign_lang);
       restoreChip ('can-decide',            saved.can_decide);
-      restoreChip ('profesion',             saved.profesion);
+      {
+        const PROFESIONES_CONOCIDAS = ['Sanitario','Agricultor/Ganadero','Minero/Construcción',
+          'Químico/Laboratorio','Militar/Policía','Educación','Oficina/Administración',
+          'Transporte','Hostelería','Jubilado','Estudiante'];
+        if (saved.profesion && !PROFESIONES_CONOCIDAS.includes(saved.profesion)) {
+          const otraChip = document.querySelector('[data-group="profesion"] .chip[data-value="Otra"]');
+          if (otraChip) otraChip.classList.add('active');
+          const otraWrap = document.getElementById('profesion-otra-wrap');
+          if (otraWrap) otraWrap.style.display = 'block';
+          set('profesion-otra-text', saved.profesion);
+        } else {
+          restoreChip('profesion', saved.profesion);
+        }
+      }
       restoreChips('ayudas-tecnicas',       saved.ayudas_tecnicas);
       restoreChip ('weight',                saved.weight);
       restoreChip ('height',                saved.height);
