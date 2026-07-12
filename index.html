@@ -134,6 +134,33 @@
     #sec-1, #sec-2, #sec-3, #sec-4, #sec-5, #sec-6, #sec-7, #sec-8, #sec-9, #sec-10, #sec-11 {
       scroll-margin-top: 74px;
     }
+
+    .scroll-indicator {
+      position: fixed;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ff2222;
+      color: #fff;
+      border: none;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(255,34,34,0.6);
+      z-index: 950;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: scrollIndPulse 1.6s ease-in-out infinite;
+    }
+    .scroll-indicator.visible { display: flex; }
+    .scroll-indicator-down { bottom: 20px; }
+    .scroll-indicator-up { top: 66px; }
+    @keyframes scrollIndPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
   </style>
 </head>
 <body>
@@ -2757,6 +2784,25 @@
     });
   });
 
+  (function() {
+    const down = document.getElementById('scroll-ind-down');
+    const up   = document.getElementById('scroll-ind-up');
+    if (!down || !up) return;
+
+    function updateScrollIndicators() {
+      const atTop    = window.scrollY <= 10;
+      const atBottom = (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 10);
+      down.classList.toggle('visible', atTop && !atBottom);
+      up.classList.toggle('visible', atBottom && !atTop);
+    }
+
+    down.addEventListener('click', () => window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' }));
+    up.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    window.addEventListener('scroll', updateScrollIndicators);
+    window.addEventListener('resize', updateScrollIndicators);
+    updateScrollIndicators();
+  })();
+
   document.querySelectorAll('.pdot').forEach(d => {
     d.addEventListener('click', () => _plansGoTo(Number(d.dataset.pi)));
   });
@@ -2933,6 +2979,9 @@
   }
   // ===== FIN COMPARTIR UBICACIÓN =====
   </script>
+
+  <button class="scroll-indicator scroll-indicator-down" id="scroll-ind-down" aria-label="Más contenido abajo">↓</button>
+  <button class="scroll-indicator scroll-indicator-up" id="scroll-ind-up" aria-label="Volver arriba">↑</button>
 
 </body>
 </html>
