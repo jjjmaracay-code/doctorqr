@@ -942,3 +942,40 @@
       cursor: pointer;
       letter-spacing: 1px;
     }
+
+.form-search-bar {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: #0a0a0a;
+  border-bottom: 1px solid rgba(18,165,255,0.15);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-search-icon { color: rgba(18,165,255,0.5); flex-shrink: 0; }
+.form-search-input {
+  flex: 1;
+  background: rgba(18,165,255,0.06);
+  border: 1px solid rgba(18,165,255,0.25);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #12A5FF;
+  font-family: inherit;
+  font-size: 14px;
+}
+.form-search-input::placeholder { color: rgba(18,165,255,0.4); }
+.form-search-counter { font-size: 11px; color: rgba(18,165,255,0.5); white-space: nowrap; }
+.form-search-nav { display: flex; gap: 4px; }
+.form-search-navbtn {
+  background: transparent;
+  border: 1px solid rgba(18,165,255,0.25);
+  color: #12A5FF;
+  width: 30px; height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.form-search-navbtn:disabled { opacity: 0.3; cursor: default; }
+mark.form-search-mark { background: #ffd700; color: #000; }
+mark.form-search-mark.current { background: #ff6600; color: #fff; }

@@ -453,20 +453,36 @@
     <div id="emergency-quick-msg" class="field-hint" style="display:none;color:#ff4444;margin-top:8px;max-width:280px;text-align:center"></div>
   </div>
 
+  <!-- ===== BUSCADOR UNIVERSAL DEL FORMULARIO ===== -->
+  <div class="form-search-bar" id="form-search-bar">
+    <svg class="form-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="7"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input class="form-search-input" id="form-sinput" type="search" placeholder="Buscar en el formulario..."
+           autocomplete="off" autocorrect="off" spellcheck="false">
+    <span class="form-search-counter" id="form-sctr"></span>
+    <div class="form-search-nav">
+      <button class="form-search-navbtn" id="form-sprev" disabled>↑</button>
+      <button class="form-search-navbtn" id="form-snext" disabled>↓</button>
+    </div>
+  </div>
+
   <!-- ===== BARRA DE TABS — NAVEGACIÓN RÁPIDA ENTRE SECCIONES DEL FORMULARIO ===== -->
   <div class="form-tabs-bar" id="form-tabs-bar">
-    <button class="form-tab-btn" data-target="sec-1">1</button>
-    <button class="form-tab-btn" data-target="sec-2">2</button>
-    <button class="form-tab-btn" data-target="sec-3">3</button>
-    <button class="form-tab-btn" data-target="sec-4">4</button>
-    <button class="form-tab-btn" data-target="sec-5">5</button>
-    <button class="form-tab-btn" data-target="sec-6">6</button>
-    <button class="form-tab-btn" data-target="sec-7">7</button>
-    <button class="form-tab-btn" data-target="sec-8">8</button>
-    <button class="form-tab-btn" data-target="sec-9">9</button>
-    <button class="form-tab-btn" data-target="sec-10">10</button>
-    <button class="form-tab-btn" data-target="sec-11">11</button>
+    <button class="form-tab-btn" data-target="sec-1" title="Idiomas y comunicación">1</button>
+    <button class="form-tab-btn" data-target="sec-2" title="Datos físicos">2</button>
+    <button class="form-tab-btn" data-target="sec-3" title="Identificación">3</button>
+    <button class="form-tab-btn" data-target="sec-4" title="Datos críticos">4</button>
+    <button class="form-tab-btn" data-target="sec-5" title="Enfermedades y condiciones">5</button>
+    <button class="form-tab-btn" data-target="sec-6" title="Medicación actual">6</button>
+    <button class="form-tab-btn" data-target="sec-7" title="Cirugías y hospitalizaciones">7</button>
+    <button class="form-tab-btn" data-target="sec-8" title="Vacunas">8</button>
+    <button class="form-tab-btn" data-target="sec-9" title="Religión y restricciones">9</button>
+    <button class="form-tab-btn" data-target="sec-10" title="Contactos de emergencia">10</button>
+    <button class="form-tab-btn" data-target="sec-11" title="Médico y seguro">11</button>
   </div>
+  <div class="form-tabs-labels" id="form-tabs-labels"></div>
 
   <!-- FORMULARIO -->
   <div id="form">
