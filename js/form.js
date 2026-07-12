@@ -1222,17 +1222,13 @@
 
     function addSupExtra() {
       const wrap = document.getElementById('suplementos-extra-wrap');
-      const btn  = document.getElementById('btn-add-sup');
       if (!wrap) return;
-      const count = wrap.querySelectorAll('.extra-med-input').length;
-      if (count >= 3) { if (btn) btn.style.display = 'none'; return; }
       const inp = document.createElement('input');
       inp.type = 'text';
       inp.className = 'extra-med-input';
       inp.placeholder = 'Nombre del suplemento...';
       inp.style.cssText = 'display:block;margin-top:6px;width:100%';
       wrap.appendChild(inp);
-      if (count + 1 >= 3 && btn) btn.style.display = 'none';
     }
 
     function addSupExtraWithValue(value) {
