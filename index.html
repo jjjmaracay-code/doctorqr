@@ -470,6 +470,7 @@
 
   <!-- ===== BARRA DE TABS — NAVEGACIÓN RÁPIDA ENTRE SECCIONES DEL FORMULARIO ===== -->
   <div class="form-tabs-bar" id="form-tabs-bar">
+    <button class="form-tab-btn" id="btn-tab-inicio" title="Inicio">⌂</button>
     <button class="form-tab-btn" data-target="sec-1" title="Idiomas y comunicación">1</button>
     <button class="form-tab-btn" data-target="sec-2" title="Datos físicos">2</button>
     <button class="form-tab-btn" data-target="sec-3" title="Identificación">3</button>
@@ -2739,7 +2740,10 @@
   });
 
   // =================== BARRA DE TABS DEL FORMULARIO (navegación sec-1..sec-11) ===================
-  document.querySelectorAll('.form-tab-btn').forEach(btn => {
+  document.getElementById('btn-tab-inicio')?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  document.querySelectorAll('.form-tab-btn[data-target]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.getElementById(btn.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
