@@ -742,7 +742,60 @@
       };
     }
 
+    function huellaTutor(profile) {
+      return [profile.guardian_name, profile.guardian_phone_prefix,
+              profile.guardian_phone_num, profile.guardian_doc].join('|');
+    }
+
+    function mostrarModalTutorLegal() {
+      return new Promise(resolve => {
+        const modal = document.getElementById('modal-tutor-legal');
+        const chk   = document.getElementById('chk-tutor-legal-consiente');
+        const btnOk = document.getElementById('btn-tutor-confirmar');
+        const btnNo = document.getElementById('btn-tutor-cancelar');
+        chk.checked = false;
+        btnOk.disabled = true;
+        modal.classList.add('open');
+
+        function onChk() { btnOk.disabled = !chk.checked; }
+        function cerrar(resultado) {
+          modal.classList.remove('open');
+          chk.removeEventListener('change', onChk);
+          btnOk.removeEventListener('click', onOk);
+          btnNo.removeEventListener('click', onNo);
+          resolve(resultado);
+        }
+        function onOk() { cerrar(true); }
+        function onNo() { cerrar(false); }
+
+        chk.addEventListener('change', onChk);
+        btnOk.addEventListener('click', onOk);
+        btnNo.addEventListener('click', onNo);
+      });
+    }
+
     async function generate() {
+      const profilePrevio = buildProfileFromForm();
+
+      if (profilePrevio.tutor_legal === 'Sí') {
+        if (!profilePrevio.guardian_name || !profilePrevio.guardian_phone_num) {
+          alert('Has indicado que existe tutor legal. Debes completar el nombre y '
+              + 'el teléfono del tutor en la Sección 10 — Contactos de emergencia '
+              + 'antes de generar el QR.');
+          document.getElementById('sec-10').scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+
+        const huellaActual = huellaTutor(profilePrevio);
+        const huellaGuardada = localStorage.getItem('doctorqr_tutor_consent_huella');
+        if (huellaActual !== huellaGuardada) {
+          const consiente = await mostrarModalTutorLegal();
+          if (!consiente) return;
+          localStorage.setItem('doctorqr_tutor_consent_huella', huellaActual);
+          localStorage.setItem('doctorqr_tutor_consent_fecha', new Date().toISOString());
+        }
+      }
+
       const vacias = checkSeccionesVacias();
       if (vacias.length > 0) {
         const continuar = await mostrarModalValidacion(vacias);

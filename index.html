@@ -2262,6 +2262,37 @@
   <div class="toast toast-sync" id="toast-sync">&#9729; Perfil sincronizado &#10003;</div>
   <div class="toast toast-conflict" id="toast-conflict">⚠️ Hay una versión más reciente guardada desde otro dispositivo. Recarga antes de continuar editando.</div>
 
+  <!-- Modal consentimiento tutor legal -->
+  <div id="modal-tutor-legal" role="dialog" aria-modal="true">
+    <div class="modal-validacion-card">
+      <h3>Declaración de tutor legal</h3>
+      <p style="text-align:left;font-size:13px;line-height:1.7">
+        Al continuar, usted declara bajo su responsabilidad que:<br><br>
+        1. Los datos de contacto introducidos corresponden a una persona que ostenta
+        la condición de tutor legal mediante un título habilitante válido (resolución
+        judicial, documento notarial o acta administrativa equivalente).<br><br>
+        2. Esta declaración NO otorga ni acredita la condición de tutor legal — es
+        meramente informativa. ATABEYAPP no verifica la veracidad de esta información
+        ni la existencia del título legal correspondiente.<br><br>
+        3. Introducir datos de una persona que no ostenta legalmente dicha condición,
+        o presentarse falsamente como tutor legal, puede constituir usurpación de
+        estado civil (art. 401 CP), falsedad documental (arts. 390-392 CP) y/o
+        estafa (art. 248 CP).<br><br>
+        4. La responsabilidad de cualquier inexactitud recae exclusivamente sobre
+        quien introduce estos datos.
+      </p>
+      <label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:18px;font-size:13px;color:var(--text)">
+        <input type="checkbox" id="chk-tutor-legal-consiente" style="margin-top:3px"/>
+        <span>He leído y acepto esta declaración. Confirmo que los datos son ciertos
+        y que la persona designada ostenta legalmente la condición de tutor legal.</span>
+      </label>
+      <div class="modal-validacion-btns">
+        <button class="btn-volver-revisar" id="btn-tutor-cancelar">Cancelar</button>
+        <button class="btn-continuar-igual" id="btn-tutor-confirmar" disabled>Confirmar y continuar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal validación secciones vacías -->
   <div id="modal-validacion" role="dialog" aria-modal="true">
     <div class="modal-validacion-card">
