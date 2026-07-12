@@ -90,7 +90,7 @@
     /* ===== BARRA DE TABS DEL FORMULARIO (navegación rápida sec-1..sec-11) ===== */
     .form-tabs-bar {
       position: sticky;
-      top: 0;
+      top: 52px;
       z-index: 80;
       display: flex;
       gap: 8px;
@@ -122,6 +122,14 @@
       -webkit-tap-highlight-color: transparent;
     }
     .form-tab-btn:active { background: rgba(18,165,255,0.18); }
+
+    .form-tab-btn-wide {
+      width: auto;
+      border-radius: 15px;
+      padding: 0 10px;
+      white-space: nowrap;
+      font-size: 11px;
+    }
 
     #sec-1, #sec-2, #sec-3, #sec-4, #sec-5, #sec-6, #sec-7, #sec-8, #sec-9, #sec-10, #sec-11 {
       scroll-margin-top: 74px;
@@ -470,18 +478,18 @@
 
   <!-- ===== BARRA DE TABS — NAVEGACIÓN RÁPIDA ENTRE SECCIONES DEL FORMULARIO ===== -->
   <div class="form-tabs-bar" id="form-tabs-bar">
-    <button class="form-tab-btn" id="btn-tab-inicio" title="Inicio">⌂</button>
-    <button class="form-tab-btn" data-target="sec-1" title="Idiomas y comunicación">1</button>
-    <button class="form-tab-btn" data-target="sec-2" title="Datos físicos">2</button>
-    <button class="form-tab-btn" data-target="sec-3" title="Identificación">3</button>
-    <button class="form-tab-btn" data-target="sec-4" title="Datos críticos">4</button>
-    <button class="form-tab-btn" data-target="sec-5" title="Enfermedades y condiciones">5</button>
-    <button class="form-tab-btn" data-target="sec-6" title="Medicación actual">6</button>
-    <button class="form-tab-btn" data-target="sec-7" title="Cirugías y hospitalizaciones">7</button>
-    <button class="form-tab-btn" data-target="sec-8" title="Vacunas">8</button>
-    <button class="form-tab-btn" data-target="sec-9" title="Religión y restricciones">9</button>
-    <button class="form-tab-btn" data-target="sec-10" title="Contactos de emergencia">10</button>
-    <button class="form-tab-btn" data-target="sec-11" title="Médico y seguro">11</button>
+    <button class="form-tab-btn form-tab-btn-wide" id="btn-tab-inicio">⌂</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-1">1 · Idiomas</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-2">2 · Físico</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-3">3 · ID</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-4">4 · Crítico</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-5">5 · Enferm.</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-6">6 · Meds</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-7">7 · Cirugía</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-8">8 · Vacunas</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-9">9 · Religión</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-10">10 · Contacto</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-11">11 · Médico</button>
   </div>
   <div class="form-tabs-labels" id="form-tabs-labels"></div>
 

@@ -888,6 +888,19 @@
     #modal-validacion.open {
       display: flex;
     }
+    #modal-tutor-legal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #modal-tutor-legal.open {
+      display: flex;
+    }
     .modal-validacion-card {
       background: var(--card);
       border: 1px solid var(--border);
