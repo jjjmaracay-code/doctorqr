@@ -273,8 +273,17 @@
       function syncTargets() {
         const ningunaActiva = Array.from(noneChips).some(c => c.classList.contains('active'));
         targets.forEach(t => {
-          if (ningunaActiva) { t.value = ''; t.disabled = true; }
-          else { t.disabled = false; }
+          if (t.classList.contains('chips')) {
+            if (ningunaActiva) {
+              t.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+              t.classList.add('chips-disabled');
+            } else {
+              t.classList.remove('chips-disabled');
+            }
+          } else {
+            if (ningunaActiva) { t.value = ''; t.disabled = true; }
+            else { t.disabled = false; }
+          }
         });
       }
 
@@ -290,6 +299,7 @@
 
       otherChips.forEach(chip => {
         chip.addEventListener('click', () => {
+          if (chip.closest('.chips-disabled')) return;
           if (chip.classList.contains('active')) {
             noneChips.forEach(noneChip => noneChip.classList.remove('active'));
             afterExclusion();

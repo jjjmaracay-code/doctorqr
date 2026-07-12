@@ -499,6 +499,11 @@
       transform: translateY(0);
     }
 
+    .chips.chips-disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
     .qr-reminder-banner {
       background: rgba(18,165,255,0.08);
       border: 2px solid #12A5FF;
