@@ -32,7 +32,7 @@
     .age-badge { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
     .qr-type-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); color: rgba(0,0,0,0.35); }
     .ts-note { font-size: 9px; color: rgba(0,0,0,0.25); letter-spacing: 1px; margin-top: 4px; }
-    .meta-sutil { font-size: 11px; color: rgba(0,0,0,0.4); letter-spacing: 0.3px; margin-top: 4px; line-height: 1.5; }
+    .meta-sutil { font-size: 12px; font-weight: 700; color: rgba(0,0,0,0.65); letter-spacing: 0.3px; margin-top: 4px; line-height: 1.5; }
 
     /* SEARCH */
     .search-bar { background: rgba(255,255,255,0.98); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 10px 16px; display: flex; align-items: center; gap: 8px; position: sticky; z-index: 99; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
@@ -355,7 +355,7 @@ function telRow(label, tel, cls) {
 
 // Secciones visibles por tipo de QR. 'restrictions' siempre se muestra (no va aquí).
 const VISIBLE_SECTIONS = {
-  emergency: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                       h: ['vaccines'] },
+  emergency: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                       h: ['vaccines','extra'] },
   critical:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
   cardio:    { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','family'] },
   allergy:   { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
