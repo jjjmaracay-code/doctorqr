@@ -148,27 +148,6 @@ const QR_TYPES = [
     ]
   },
   {
-    id: 'qr-e3',
-    title: 'QR-E3 PEDIATRÍA',
-    subtitle: 'Peso · Vacunas · Tutor legal',
-    color: '#00ccff',
-    darkColor: '#007ea9',
-    condition: (d) => {
-      if (!d.fecha_nacimiento) return false;
-      return calcAge(d.fecha_nacimiento) < 16;
-    },
-    extra: [
-      'weight','height','vaccines',
-      'vaccine_complete',
-      'allergy_food','allergy_env',
-      'diseases','conditions',
-      'medicacion_alto_riesgo',
-      'guardian_name','guardian_phone_num',
-      'insurer',
-      'can_decide'
-    ]
-  },
-  {
     id: 'qr-e4',
     title: 'QR-E4 OBSTETRICIA',
     subtitle: 'Embarazo · Semanas · Parto',
@@ -361,16 +340,6 @@ function buildQRData(type, profile) {
       };
       break;
 
-    case 'qr-e3':
-      extra = {
-        ..._p(profile, ['weight','height','prematuro','semanas_gestacion',
-          'guardian_name','guardian_phone_prefix','guardian_phone_num']),
-        ..._pa(profile, 'vaccines', null),
-        ..._pa(profile, 'diseases', 5),
-        ..._pa(profile, 'allergy_food', null)
-      };
-      break;
-
     case 'qr-e4':
       extra = _p(profile, [
         'embarazo','embarazo_semanas','lactancia','semanas_lactancia',
@@ -404,7 +373,6 @@ const QR_TYPE_CODES = {
   'qr-u3':        'allergy',
   'qr-e1':        'surgery',
   'qr-e2':        'oncology',
-  'qr-e3':        'pediatric',
   'qr-e4':        'obstetric',
   'qr-e5':        'mental'
 };
