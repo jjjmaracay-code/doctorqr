@@ -521,6 +521,12 @@
       </label>
     </div>
 
+    <!-- CAPTCHA hCaptcha (Web3Forms — protección anti-spam) -->
+    <div class="h-captcha" data-sitekey="f086c42c-488a-49a8-b02a-1198b010388a" style="margin-bottom:14px;"></div>
+    <div class="result-msg error" id="msg-captcha" style="display:none;margin-bottom:14px;">
+      ✕ Por favor, completa el captcha antes de enviar.
+    </div>
+
     <button class="btn-primary" id="btn-enviar" disabled>
       ENVIAR MENSAJE
     </button>
@@ -580,6 +586,17 @@
   // ===== ENVÍO WEB3FORMS =====
   document.getElementById('btn-enviar').addEventListener('click', async () => {
     const btn = document.getElementById('btn-enviar');
+
+    // ===== VERIFICACIÓN hCAPTCHA — Web3Forms espera el token en 'h-captcha-response' =====
+    const hcaptchaToken = (typeof hcaptcha !== 'undefined' && hcaptcha.getResponse)
+      ? hcaptcha.getResponse()
+      : (document.querySelector('textarea[name="h-captcha-response"]')?.value || '');
+    if (!hcaptchaToken) {
+      document.getElementById('msg-captcha').style.display = 'block';
+      return; // No enviar sin captcha completado
+    }
+    document.getElementById('msg-captcha').style.display = 'none';
+
     btn.disabled = true;
     btn.textContent = 'ENVIANDO…';
 
@@ -588,6 +605,7 @@
 
     const payload = {
       access_key: '2347aa30-b511-41b6-a5dd-1c8f80c38a6b',
+      'h-captcha-response': hcaptchaToken,
       subject: '[Atabeyapp ' + tipoSeleccionado + '] ' +
         document.getElementById('inp-asunto').value.trim(),
       from_name: document.getElementById('inp-nombre').value.trim(),
@@ -617,8 +635,12 @@
       document.getElementById('msg-error').style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'ENVIAR MENSAJE';
+      // El token de hCaptcha es de un solo uso: reiniciar para permitir reintento
+      if (typeof hcaptcha !== 'undefined' && hcaptcha.reset) hcaptcha.reset();
     }
   });
 </script>
+<!-- API de hCaptcha (renderiza el widget .h-captcha automáticamente) -->
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </body>
 </html>
