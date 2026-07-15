@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atabeyapp · Instalar la app</title>
+<meta name="description" content="Cómo instalar Atabeyapp en Android, iPhone/iPad y escritorio. Atabeyapp es una PWA: no requiere descarga desde ninguna tienda de apps.">
+<meta name="theme-color" content="#12A5FF">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background:#000;
+    color:#fff;
+    font-family:'Inter',system-ui,sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 48px;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* ===== LOGO (mismo esquema que index.html / styles.css) ===== */
+  .logo-wrap {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:28px;
+  }
+
+  .logo-rotate {
+    animation: logo3d 8s ease-in-out infinite;
+    transform-style: preserve-3d;
+    display: inline-block;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-rotate { animation: none !important; }
+  }
+
+  @keyframes logo3d {
+    0%   { transform: rotateY(0deg); }
+    25%  { transform: rotateY(180deg); }
+    50%  { transform: rotateY(360deg); }
+    75%  {
+      transform: rotateY(180deg);
+      filter: drop-shadow(0 0 18px #ff0000)
+              drop-shadow(0 0 35px #ff0000);
+    }
+    100% { transform: rotateY(360deg); }
+  }
+
+  .logo-rotate svg { width:200px; height:auto; display:block; }
+  .wordmark svg { width:230px; height:auto; display:block; margin:0 auto; }
+
+  .tagline {
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.5);
+    margin-top:10px;
+    text-align:center;
+  }
+
+  /* ===== CONTENIDO ===== */
+  main { width:100%; max-width:480px; }
+
+  h1 {
+    font-size:22px;
+    font-weight:900;
+    text-align:center;
+    letter-spacing:0.5px;
+    margin-bottom:10px;
+  }
+
+  .pwa-note {
+    background:rgba(18,165,255,0.08);
+    border:1px solid rgba(18,165,255,0.35);
+    border-radius:14px;
+    padding:14px 16px;
+    font-size:13px;
+    line-height:1.5;
+    color:rgba(255,255,255,0.85);
+    text-align:center;
+    margin-bottom:26px;
+  }
+  .pwa-note strong { color:#12A5FF; }
+
+  /* ===== PESTAÑAS ===== */
+  .tabs {
+    display:flex;
+    gap:8px;
+    margin-bottom:18px;
+  }
+
+  .tab-btn {
+    flex:1;
+    background:none;
+    border:1px solid rgba(18,165,255,0.3);
+    color:rgba(255,255,255,0.6);
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:11px 4px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:all 0.15s;
+  }
+
+  .tab-btn:hover { border-color:rgba(18,165,255,0.6); }
+
+  .tab-btn[aria-selected="true"] {
+    background:rgba(18,165,255,0.12);
+    border-color:#12A5FF;
+    color:#12A5FF;
+    box-shadow:0 0 14px rgba(18,165,255,0.25);
+  }
+
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  .panel-card {
+    background:#0a0a0a;
+    border:1.5px solid rgba(18,165,255,0.2);
+    border-radius:16px;
+    padding:22px 20px;
+  }
+
+  .panel-card h2 {
+    font-size:14px;
+    font-weight:900;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#12A5FF;
+    margin-bottom:14px;
+  }
+
+  ol.steps {
+    list-style:none;
+    counter-reset: paso;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  ol.steps li {
+    counter-increment: paso;
+    position:relative;
+    padding-left:40px;
+    font-size:14px;
+    line-height:1.55;
+    color:rgba(255,255,255,0.85);
+  }
+
+  ol.steps li::before {
+    content: counter(paso);
+    position:absolute;
+    left:0; top:0;
+    width:26px; height:26px;
+    border-radius:50%;
+    border:1px solid #12A5FF;
+    color:#12A5FF;
+    font-size:12px;
+    font-weight:900;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 10px rgba(18,165,255,0.3);
+  }
+
+  ol.steps b { color:#fff; }
+
+  .panel-hint {
+    margin-top:14px;
+    font-size:12px;
+    line-height:1.5;
+    color:rgba(255,255,255,0.45);
+  }
+
+  /* ===== BOTÓN VOLVER ===== */
+  .btn-go {
+    display:block;
+    width:100%;
+    max-width:480px;
+    margin-top:28px;
+    background:#12A5FF;
+    color:#000;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:900;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    text-align:center;
+    text-decoration:none;
+    padding:15px;
+    border-radius:14px;
+    box-shadow:0 0 22px rgba(18,165,255,0.45);
+    transition:all 0.15s;
+  }
+  .btn-go:hover { box-shadow:0 0 34px rgba(18,165,255,0.7); }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGO (copiado de index.html — misma cruz neón animada) ===== -->
+<div class="logo-wrap">
+  <div class="logo-rotate">
+    <svg width="320" height="370" viewBox="0 0 320 370" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="370" fill="none"/>
+      <defs>
+        <filter id="glow-soft" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-hard" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="3.2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-white" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-red" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-ecg" x="-10%" y="-80%" width="120%" height="260%">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-text" x="-20%" y="-60%" width="140%" height="220%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <radialGradient id="heart-grad" cx="38%" cy="28%" r="65%">
+          <stop offset="0%" stop-color="#ff5555"/>
+          <stop offset="100%" stop-color="#7a0000"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="132" y="75"  width="56" height="160" rx="5" fill="#0a0a0a"/>
+      <rect x="80"  y="127" width="160" height="56"  rx="5" fill="#0a0a0a"/>
+
+      <!-- Cruz blanca neón — más exterior -->
+      <path d="M118,61 L202,61 L202,113 L254,113 L254,197 L202,197 L202,249 L118,249 L118,197 L66,197 L66,113 L118,113 Z"
+        fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"
+        filter="url(#glow-white)" opacity="0.85">
+        <animate attributeName="opacity" values="0.85;0.55;0.85" dur="2.8s" begin="1.1s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Cruz 6 — azul neón vívido, capa más exterior -->
+      <path d="M125,68 L195,68 L195,120 L247,120 L247,190 L195,190 L195,242 L125,242 L125,190 L73,190 L73,120 L125,120 Z"
+        fill="none" stroke="#1E6FFF" stroke-width="2.4" stroke-linejoin="round"
+        filter="url(#glow-soft)" opacity="1.0">
+        <animate attributeName="opacity" values="1.0;0.6;1.0" dur="2.8s" begin="0.9s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Cruz 1 -->
+      <path d="M132,75 L188,75 L188,127 L240,127 L240,183 L188,183 L188,235 L132,235 L132,183 L80,183 L80,127 L132,127 Z"
+        fill="none" stroke="#188AFF" stroke-width="2.2" stroke-linejoin="round"
+        filter="url(#glow-soft)" opacity="1.0">
+        <animate attributeName="opacity" values="1.0;0.6;1.0" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Cruz 2 -->
+      <path d="M139,82 L181,82 L181,134 L233,134 L233,176 L181,176 L181,228 L139,228 L139,176 L87,176 L87,134 L139,134 Z"
+        fill="none" stroke="#12A5FF" stroke-width="2.0" stroke-linejoin="round"
+        filter="url(#glow-hard)" opacity="1.0">
+        <animate attributeName="opacity" values="1.0;0.6;1.0" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Cruz 3 -->
+      <path d="M146,89 L174,89 L174,141 L226,141 L226,169 L174,169 L174,221 L146,221 L146,169 L94,169 L94,141 L146,141 Z"
+        fill="none" stroke="#0CBFFF" stroke-width="1.8" stroke-linejoin="round"
+        filter="url(#glow-hard)" opacity="1.0">
+        <animate attributeName="opacity" values="1.0;0.6;1.0" dur="2.8s" begin="0.36s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Cruz 4 -->
+      <path d="M153,96 L167,96 L167,148 L219,148 L219,162 L167,162 L167,214 L153,214 L153,162 L101,162 L101,148 L153,148 Z"
+        fill="none" stroke="#06DAFF" stroke-width="1.6" stroke-linejoin="round"
+        filter="url(#glow-hard)" opacity="1.0">
+        <animate attributeName="opacity" values="1.0;0.6;1.0" dur="2.8s" begin="0.54s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Cruz 5 — cian neón, capa más interior -->
+      <path d="M160,103 L160,103 L160,155 L212,155 L212,155 L160,155 L160,207 L160,207 L160,155 L108,155 L108,155 L160,155 Z"
+        fill="none" stroke="#00F5FF" stroke-width="1.4" stroke-linejoin="round"
+        filter="url(#glow-hard)" opacity="1.0">
+        <animate attributeName="opacity" values="1.0;0.6;1.0" dur="2.8s" begin="0.72s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Glow rojo ambulancia -->
+      <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z"
+        fill="#ff0000" opacity="0.18" filter="url(#glow-red)">
+        <animateTransform attributeName="transform" type="rotate"
+          values="0 160 160;360 160 160" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.12;0.32;0.12" dur="0.75s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Corazón sólido con pulso -->
+      <path fill="url(#heart-grad)" filter="url(#glow-red)">
+        <animate attributeName="d"
+          values="
+            M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z;
+            M160,206 C160,206 111,175 111,146 C111,128 124,115 140,115 C150,115 160,124 160,124 C160,124 170,115 180,115 C196,115 209,128 209,146 C209,175 160,206 160,206 Z;
+            M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z"
+          dur="0.9s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Borde brillo corazón -->
+      <path d="M160,200 C160,200 116,172 116,147 C116,131 128,119 142,119 C151,119 160,127 160,127 C160,127 169,119 178,119 C192,119 204,131 204,147 C204,172 160,200 160,200 Z"
+        fill="none" stroke="#ff4444" stroke-width="1.5"
+        filter="url(#glow-red)" opacity="0.6">
+        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="0.9s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- ECG -->
+      <polyline
+        points="120,158 130,158 135,158 139,141 143,174 147,128 151,168 155,158 200,158"
+        fill="none" stroke="#ffffff" stroke-width="2.8"
+        stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#glow-ecg)"
+        stroke-dasharray="130" stroke-dashoffset="130">
+        <animate attributeName="stroke-dashoffset"
+          values="130;0;0;130"
+          keyTimes="0;0.55;0.82;1"
+          dur="2s" repeatCount="indefinite"/>
+      </polyline>
+
+    </svg>
+  </div>
+
+  <!-- Wordmark Atabeyapp™ (copiado de index.html) -->
+  <div class="wordmark">
+    <svg width="320" height="64" viewBox="0 0 320 64" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;overflow:visible;">
+      <defs>
+        <linearGradient id="wm-text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1E6FFF"/>
+          <stop offset="100%" stop-color="#00F5FF"/>
+        </linearGradient>
+        <filter id="wm-glow-hard" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="3.2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="wm-glow-white-intense" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="7" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="wm-glow-white" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <text x="20" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="900"
+            font-size="42" letter-spacing="0.5" textLength="148" lengthAdjust="spacingAndGlyphs"
+            fill="url(#wm-text-grad)" filter="url(#wm-glow-hard)">Atabey</text>
+      <text x="182" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="900"
+            font-size="42" letter-spacing="0.5" textLength="80" lengthAdjust="spacingAndGlyphs"
+            fill="#ffffff" filter="url(#wm-glow-white-intense)">app</text>
+      <text x="270" y="21" font-family="Arial, Helvetica, sans-serif" font-weight="700"
+            font-size="14" fill="#ffffff" filter="url(#wm-glow-white)">™</text>
+    </svg>
+  </div>
+
+  <div class="tagline">Tu historial médico en un QR</div>
+</div>
+
+<main>
+  <h1>Instala Atabeyapp en tu dispositivo</h1>
+
+  <p class="pwa-note">
+    <strong>Atabeyapp es una PWA.</strong> No requiere descarga desde ninguna tienda de apps.
+    Se instala directamente desde el navegador y funciona como una app más, incluso sin conexión.
+  </p>
+
+  <!-- ===== PESTAÑAS ANDROID / IOS / ESCRITORIO ===== -->
+  <div class="tabs" role="tablist" aria-label="Plataforma">
+    <button class="tab-btn" id="tab-android" role="tab" aria-selected="true" aria-controls="panel-android">Android</button>
+    <button class="tab-btn" id="tab-ios" role="tab" aria-selected="false" aria-controls="panel-ios">iOS</button>
+    <button class="tab-btn" id="tab-desktop" role="tab" aria-selected="false" aria-controls="panel-desktop">Escritorio</button>
+  </div>
+
+  <section class="tab-panel active" id="panel-android" role="tabpanel" aria-labelledby="tab-android">
+    <div class="panel-card">
+      <h2>Android · Chrome</h2>
+      <ol class="steps">
+        <li>Abre <b>atabeyapp.app</b> en <b>Chrome</b>.</li>
+        <li>Toca el menú <b>⋮</b> (tres puntos, arriba a la derecha).</li>
+        <li>Selecciona <b>«Instalar app»</b> (o «Añadir a pantalla de inicio»).</li>
+        <li>Confirma con <b>«Instalar»</b>. El icono de Atabeyapp aparecerá en tu pantalla de inicio.</li>
+      </ol>
+      <p class="panel-hint">En algunos móviles Chrome muestra directamente un aviso de «Instalar» en la parte inferior: tócalo y listo.</p>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="panel-ios" role="tabpanel" aria-labelledby="tab-ios">
+    <div class="panel-card">
+      <h2>iPhone / iPad · Safari</h2>
+      <ol class="steps">
+        <li>Abre <b>atabeyapp.app</b> en <b>Safari</b> (no funciona desde Chrome en iOS).</li>
+        <li>Toca el botón <b>Compartir</b> (el cuadrado con la flecha hacia arriba).</li>
+        <li>Desliza y selecciona <b>«Añadir a pantalla de inicio»</b>.</li>
+        <li>Toca <b>«Añadir»</b>. El icono de Atabeyapp aparecerá en tu pantalla de inicio.</li>
+      </ol>
+      <p class="panel-hint">iOS no muestra un botón de instalación automático: este es el método oficial de Apple para instalar PWAs.</p>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="panel-desktop" role="tabpanel" aria-labelledby="tab-desktop">
+    <div class="panel-card">
+      <h2>Escritorio · Chrome / Edge</h2>
+      <ol class="steps">
+        <li>Abre <b>atabeyapp.app</b> en <b>Chrome</b> o <b>Edge</b>.</li>
+        <li>Busca el icono de <b>instalar</b> en la barra de direcciones (un monitor con una flecha, a la derecha de la URL).</li>
+        <li>Haz clic y confirma con <b>«Instalar»</b>.</li>
+        <li>Atabeyapp se abrirá en su propia ventana y quedará en tu escritorio o menú de aplicaciones.</li>
+      </ol>
+      <p class="panel-hint">Si no ves el icono, abre el menú <b>⋮</b> del navegador y busca la opción «Instalar Atabeyapp».</p>
+    </div>
+  </section>
+
+  <a class="btn-go" href="index.html">Ir a Atabeyapp</a>
+</main>
+
+<script>
+  // Pestañas de plataforma: sin dependencias, sin inputs de usuario
+  (function () {
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    function selectTab(tab) {
+      tabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+      panels.forEach(p => p.classList.toggle('active', p.id === tab.getAttribute('aria-controls')));
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => selectTab(tab)));
+
+    // Preseleccionar la pestaña según el dispositivo detectado
+    try {
+      const ua = navigator.userAgent;
+      if (/iPhone|iPad|iPod/i.test(ua)) {
+        selectTab(document.getElementById('tab-ios'));
+      } else if (!/Android/i.test(ua) && !/Mobile/i.test(ua)) {
+        selectTab(document.getElementById('tab-desktop'));
+      }
+      // Android (u otro móvil) se queda en la pestaña por defecto
+    } catch (e) {
+      // Si la detección falla, se mantiene Android como pestaña por defecto
+    }
+  })();
+</script>
+
+</body>
+</html>
