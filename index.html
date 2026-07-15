@@ -168,7 +168,7 @@
   <button class="btn-menu-hamburguesa" id="btn-open-menu" aria-label="Menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   <div class="menu-dropdown" id="menu-dropdown">
     <button class="menu-item" id="menu-pwa-install" disabled>
-      <span>Instalar app</span><span class="menu-badge">Próximamente</span>
+      <span>Instalar app</span><span class="menu-badge" id="menu-pwa-badge">Próximamente</span>
     </button>
     <button class="menu-item" id="menu-download-pdf" disabled>
       <span>Descargar PDF</span><span class="menu-badge">Próximamente</span>
@@ -2773,6 +2773,51 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById('menu-dropdown').classList.remove('open');
   });
+
+  // --- Instalar app (PWA): prompt nativo si el navegador lo ofrece, guía si no ---
+  (function () {
+    const btn = document.getElementById('menu-pwa-install');
+    const badge = document.getElementById('menu-pwa-badge');
+    if (!btn || !badge) return;
+
+    // Si ya corre como app instalada, no hay nada que instalar
+    const enStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+    if (enStandalone) {
+      badge.textContent = 'Instalada';
+      return;
+    }
+
+    let deferredPrompt = null;
+
+    // Fallback inmediato: sin beforeinstallprompt (iOS/Safari), el botón abre la guía
+    btn.disabled = false;
+    badge.textContent = 'Guía';
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      badge.textContent = 'Disponible';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      btn.disabled = true;
+      badge.textContent = 'Instalada';
+    });
+
+    btn.addEventListener('click', async () => {
+      document.getElementById('menu-dropdown').classList.remove('open');
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        try { await deferredPrompt.userChoice; } catch (err) {}
+        deferredPrompt = null;
+        badge.textContent = 'Guía';
+      } else {
+        window.location.href = 'install.html';
+      }
+    });
+  })();
 
   // =================== BARRA DE TABS DEL FORMULARIO (navegación sec-1..sec-11) ===================
   document.getElementById('btn-tab-inicio')?.addEventListener('click', () => {
