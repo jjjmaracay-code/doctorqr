@@ -8,7 +8,6 @@
 <meta name="theme-color" content="#ff4444">
 <title>Atabeyapp · Recuperación</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/otpauth/dist/otpauth.umd.js"></script>
 
 <style>
@@ -726,11 +725,6 @@
 
 <script>
 // ===== CONFIG =====
-const EMAILJS_PUBLIC_KEY        = 'OT3h9cqzHbJKpZzdv';
-const EMAILJS_SERVICE_ID        = 'service_685y0yj';
-const EMAILJS_BACKUP_TEMPLATE_ID= 'template_vone66l';
-emailjs.init(EMAILJS_PUBLIC_KEY);
-
 const AUTH_KEY  = 'doctorqr_auth';
 const LETTERS   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const SYMBOLS   = ['@','#','$','%','&','*','!','?','+','-','=','_','.',',',':',';','(',')','{','}','[',']','|','~','`','<','>','/','\\','"',"'"];
