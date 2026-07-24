@@ -193,6 +193,8 @@ const T = {
     footnote: 'Datos proporcionados por el paciente · doctorqr.app',
     err_title: 'CÓDIGO INVÁLIDO',
     err_msg: 'No se pudo leer el código QR. El código puede estar dañado o ser inválido.',
+    expired_title: 'ACCESO CADUCADO',
+    expired_msg: 'Pide que te muestren el QR de nuevo.',
     nodata: '— No especificado —',
   },
   en: {
@@ -250,6 +252,8 @@ const T = {
     footnote: 'Data provided by the patient · doctorqr.app',
     err_title: 'INVALID CODE',
     err_msg: 'Could not read the QR code. The code may be damaged or invalid.',
+    expired_title: 'ACCESS EXPIRED',
+    expired_msg: 'Ask to be shown the QR code again.',
     nodata: '— Not specified —',
   },
   fr: {
@@ -307,6 +311,8 @@ const T = {
     footnote: 'Données fournies par le patient · doctorqr.app',
     err_title: 'CODE INVALIDE',
     err_msg: 'Impossible de lire le code QR. Le code peut être endommagé ou invalide.',
+    expired_title: 'ACCÈS EXPIRÉ',
+    expired_msg: 'Demandez que l\'on vous montre à nouveau le code QR.',
     nodata: '— Non spécifié —',
   }
 };
@@ -790,6 +796,62 @@ function renderError() {
 }
 
 // ================================================================
+// Control de acceso por dispositivo: ventana de 24h desde la primera
+// vista de ESTA tarjeta en ESTE dispositivo/navegador.
+//
+// LIMITACIÓN CONOCIDA (documentada a propósito, no oculta): esta
+// ventana vive en el localStorage de este dispositivo — es evitable
+// borrando datos de navegación o usando modo incógnito. Es una barrera
+// de privacidad razonable para el caso normal (que un médico/
+// paramédico no vuelva a consultar los datos de un paciente pasado un
+// día sin motivo), NO una garantía de seguridad absoluta.
+//
+// Es TOTALMENTE INDEPENDIENTE de la validez del QR/URL en sí: el
+// código físico impreso sigue funcionando para siempre. Cualquier OTRO
+// dispositivo que lo escanee obtiene su propia ventana de 24h desde
+// cero — nunca se bloquea el QR, solo el acceso repetido desde un
+// mismo dispositivo ya usado.
+//
+// La clave incluye tanto `id` como `t` (tipo de QR): cada uno de los 9
+// tipos de tarjeta (qr-emergency, qr-u1, qr-u2...) es un código físico
+// impreso distinto, así que cada uno lleva su propia ventana de 24h
+// independiente en este dispositivo, aunque sean del mismo paciente.
+// Este chequeo vive en el boot común (antes de renderApp()), no
+// duplicado por tipo — aplica igual a los 9 sin excepción.
+function verificarAccesoVigente() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if (!id) return true; // formato legacy sin id — fuera del alcance de este control
+
+  const t = params.get('t') || '';
+  const key = `card_first_view_${id}_${t}`;
+  const ahora = Date.now();
+  const primeraVista = localStorage.getItem(key);
+
+  if (!primeraVista) {
+    // Primera vez que este dispositivo ve esta tarjeta concreta —
+    // arranca la ventana de 24h y deja pasar. No se vuelve a tocar
+    // esta clave mientras siga vigente: la ventana no se alarga con
+    // cada recarga, sigue contando desde esta primera vista.
+    localStorage.setItem(key, String(ahora));
+    return true;
+  }
+
+  const VENTANA_MS = 24 * 60 * 60 * 1000;
+  return (ahora - parseInt(primeraVista, 10)) < VENTANA_MS;
+}
+
+function renderAccesoCaducado() {
+  document.getElementById('app').innerHTML = `
+    <div class="error-screen">
+      <div class="logo" style="margin-bottom:16px">ATABEY<span style="color:#111111">APP</span></div>
+      <div class="error-icon">⚠</div>
+      <div class="error-title">${esc(t.expired_title)}</div>
+      <div class="error-msg">${esc(t.expired_msg)}</div>
+    </div>`;
+}
+
+// ================================================================
 // Tab switching
 // ================================================================
 function switchTab(name) {
@@ -945,8 +1007,9 @@ lang = detectLang();
 t    = T[lang];
 parseData().then(d => {
   data = d;
-  if (data) renderApp();
-  else       renderError();
+  if (!data) { renderError(); return; }
+  if (!verificarAccesoVigente()) { renderAccesoCaducado(); return; }
+  renderApp();
 });
 </script>
 
