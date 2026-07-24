@@ -133,7 +133,7 @@
 
     .section-chevron {
       font-size: 18px;
-      color: rgba(18,165,255,0.5);
+      color: rgba(18,165,255,0.7);
       transition: transform 0.25s;
       line-height: 1;
     }
@@ -179,7 +179,7 @@
       background: rgba(18,165,255,0.05);
       border: 1px solid #12A5FF;
       border-radius: 10px;
-      color: #12A5FF;
+      color: #fff;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       outline: none;
@@ -195,7 +195,7 @@
     }
 
     .field input::placeholder {
-      color: rgba(18,165,255,0.4);
+      color: rgba(18,165,255,0.7);
     }
 
     .field select {
@@ -228,7 +228,7 @@
       border: 1px solid #12A5FF;
       background: transparent;
       color: #12A5FF;
-      opacity: 0.6;
+      opacity: 0.88;
       font-family: 'Inter', sans-serif;
       font-size: 11px;
       font-weight: 500;
@@ -251,7 +251,7 @@
     .chip-danger {
       border-color: #ff0000;
       color: #ff0000;
-      opacity: 0.7;
+      opacity: 0.9;
     }
 
     .chip-danger.active {
@@ -293,7 +293,7 @@
       color: #12A5FF;
       white-space: nowrap;
       min-width: 90px;
-      opacity: 0.8;
+      opacity: 0.95;
     }
 
     .lang-level-row select {
@@ -335,7 +335,7 @@
       color: #12A5FF;
       white-space: nowrap;
       min-width: 90px;
-      opacity: 0.8;
+      opacity: 0.95;
     }
 
     .allergy-severity-row select {
@@ -387,7 +387,7 @@
       grid-column: 1 / -1;
       grid-row: 2;
       font-size: 11px;
-      color: rgba(18,165,255,0.4);
+      color: rgba(18,165,255,0.58);
       letter-spacing: 0.4px;
       min-height: 16px;
     }
@@ -450,7 +450,7 @@
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 2px;
-      color: rgba(18,165,255,0.4);
+      color: rgba(18,165,255,0.62);
       text-transform: uppercase;
       margin-bottom: 14px;
     }
@@ -688,7 +688,7 @@
 
     .field-hint {
       font-size: 11px;
-      color: rgba(18,165,255,0.4);
+      color: rgba(18,165,255,0.58);
       margin-top: 4px;
       letter-spacing: 0.5px;
     }
@@ -871,7 +871,7 @@
     }
 
     .chips-search::placeholder {
-      color: rgba(18,165,255,0.35);
+      color: rgba(18,165,255,0.65);
     }
 
     /* MODAL VALIDACIÓN SECCIONES VACÍAS */
