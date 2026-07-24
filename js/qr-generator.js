@@ -409,6 +409,84 @@ function buildEmergencyQRUrl() {
 }
 
 // ============================================
+// CARGA RESILIENTE DE LA LIBRERÍA QRCode
+// ============================================
+// Mismo CDN + mismo hash SRI que index.html:15. A diferencia del <script>
+// del index, aquí reintentamos indefinidamente con backoff creciente
+// (2s, 4s, 8s, tope 10s) porque en una emergencia el QR debe aparecer
+// sí o sí, sin depender de que el usuario entienda un botón de "reintentar".
+const QR_LIB_URL = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+const QR_LIB_INTEGRITY = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
+const QR_LOAD_TIMEOUT_MS = 5000;
+const QR_BACKOFF_START_MS = 2000;
+const QR_BACKOFF_MAX_MS = 10000;
+
+let _qrCodeLoadingPromise = null;
+
+function ensureQRCodeLoaded() {
+  if (window.QRCode) return Promise.resolve();
+  if (_qrCodeLoadingPromise) return _qrCodeLoadingPromise;
+
+  _qrCodeLoadingPromise = new Promise((resolve) => {
+    function intentar(proximoBackoffMs) {
+      if (window.QRCode) { resolve(); return; }
+
+      const script = document.createElement('script');
+      script.src = QR_LIB_URL;
+      script.integrity = QR_LIB_INTEGRITY;
+      script.crossOrigin = 'anonymous';
+
+      let resuelto = false;
+      const timeoutId = setTimeout(() => {
+        if (resuelto) return;
+        resuelto = true;
+        script.remove();
+        reintentar(proximoBackoffMs);
+      }, QR_LOAD_TIMEOUT_MS);
+
+      script.onload = () => {
+        if (resuelto) return;
+        resuelto = true;
+        clearTimeout(timeoutId);
+        if (window.QRCode) {
+          resolve();
+        } else {
+          // el SRI no coincidió: el navegador bloquea la ejecución sin lanzar onerror
+          script.remove();
+          reintentar(proximoBackoffMs);
+        }
+      };
+
+      script.onerror = () => {
+        if (resuelto) return;
+        resuelto = true;
+        clearTimeout(timeoutId);
+        script.remove();
+        reintentar(proximoBackoffMs);
+      };
+
+      document.head.appendChild(script);
+    }
+
+    function reintentar(delayMs) {
+      setTimeout(() => intentar(Math.min(delayMs * 2, QR_BACKOFF_MAX_MS)), delayMs);
+    }
+
+    intentar(QR_BACKOFF_START_MS);
+  });
+
+  return _qrCodeLoadingPromise;
+}
+
+(function injectQRSpinnerStyle() {
+  if (document.getElementById('qr-spin-style')) return;
+  const style = document.createElement('style');
+  style.id = 'qr-spin-style';
+  style.textContent = '@keyframes qr-spin { to { transform: rotate(360deg); } }';
+  document.head.appendChild(style);
+})();
+
+// ============================================
 // GENERACIÓN VISUAL DE CADA TARJETA QR
 // ============================================
 
@@ -450,8 +528,23 @@ function generateQRCard(type, formData, container) {
   const wrap = document.createElement('div');
   wrap.style.cssText = `
     position:relative;width:200px;height:200px;
+    display:flex;align-items:center;justify-content:center;
   `;
   wrap.id = type.id + '-wrap';
+
+  const loadingIndicator = document.createElement('div');
+  loadingIndicator.style.cssText = `
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    color:${type.color};font-size:10px;letter-spacing:1px;
+    font-family:inherit;opacity:0.8;text-align:center;
+  `;
+  loadingIndicator.innerHTML = `
+    <div style="width:28px;height:28px;border-radius:50%;
+      border:2.5px solid ${type.color}33;border-top-color:${type.color};
+      animation:qr-spin 0.8s linear infinite;"></div>
+    <span>Generando QR…</span>
+  `;
+  wrap.appendChild(loadingIndicator);
 
   const age = d.fecha_nacimiento ?
     calcAge(d.fecha_nacimiento) + ' años' : '';
@@ -477,16 +570,30 @@ function generateQRCard(type, formData, container) {
   card.appendChild(info);
   container.appendChild(card);
 
-  setTimeout(() => {
-    new QRCode(wrap, {
-      text: url,
-      width: 200,
-      height: 200,
-      colorDark: type.darkColor,
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  }, 100);
+  renderQRWhenReady(wrap, url, type);
+}
+
+// Espera (con reintento indefinido si hace falta) a que la librería QRCode
+// esté disponible y solo entonces dibuja el QR. Si el propio constructor
+// falla (no solo la carga del script), reintenta el ciclo completo tras
+// un backoff — nunca deja la tarjeta en un hueco vacío sin explicación.
+function renderQRWhenReady(wrap, url, type) {
+  ensureQRCodeLoaded().then(() => {
+    if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
+    try {
+      wrap.innerHTML = '';
+      new QRCode(wrap, {
+        text: url,
+        width: 200,
+        height: 200,
+        colorDark: type.darkColor,
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch (err) {
+      setTimeout(() => renderQRWhenReady(wrap, url, type), QR_BACKOFF_START_MS);
+    }
+  });
 }
 
 // ============================================
