@@ -85,6 +85,7 @@
     .tel-link { display: inline-block; font-size: 24px; font-weight: 900; color: #ff0000; text-decoration: none; letter-spacing: 1px; }
     .tel-link:hover { color: #cc0000; }
     .tel-sm { font-size: 18px; }
+    .tel-link-inline { font-size: inherit; font-weight: 700; display: inline; }
 
     /* STATES */
     .empty { color: var(--dim); font-size: 11px; letter-spacing: 1px; text-align: center; padding: 24px 0; }
@@ -707,7 +708,7 @@ function renderApp() {
       ${(() => {
         const bits = [];
         if (d.profesion) bits.push(esc(Array.isArray(d.profesion) ? d.profesion.join(', ') : d.profesion));
-        if (d.email) bits.push(esc(d.email));
+        if (d.email) bits.push(`<a class="tel-link tel-link-inline" href="mailto:${escAttr(d.email)}">${esc(d.email)}</a>`);
         if (d.doc_type && d.doc_number) bits.push(`${esc(d.doc_type.toUpperCase())}: ${esc(d.doc_number)}`);
         return bits.length ? `<div class="meta-sutil">${bits.join(' &middot; ')}</div>` : '';
       })()}
