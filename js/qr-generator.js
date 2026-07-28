@@ -411,15 +411,28 @@ function buildEmergencyQRUrl() {
 // ============================================
 // CARGA RESILIENTE DE LA LIBRERÍA QRCode
 // ============================================
-// Mismo CDN + mismo hash SRI que index.html:15. A diferencia del <script>
-// del index, aquí reintentamos indefinidamente con backoff creciente
-// (2s, 4s, 8s, tope 10s) porque en una emergencia el QR debe aparecer
-// sí o sí, sin depender de que el usuario entienda un botón de "reintentar".
-const QR_LIB_URL = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+// Auto-hospedada en vendor/ (mismo archivo, mismo hash SRI, verificado
+// byte a byte contra el original de cdnjs) — ya NO depende de ningún CDN
+// externo ni de la red del dispositivo, que era la causa raíz confirmada
+// del spinner "Generando QR…" atascado indefinidamente: antes, si por
+// cualquier motivo (bloqueador de contenido, proxy que interfiere con
+// CORS, red inestable) el script del CDN no llegaba a ejecutarse, este
+// bucle reintentaba PARA SIEMPRE sin límite de tiempo total ni de
+// intentos, y sin rechazar nunca la promesa — dejando la tarjeta
+// atascada sin ningún aviso al usuario.
+//
+// Se conserva el reintento con backoff (2s, 4s, 8s, tope 10s) como red de
+// seguridad por si el archivo local tarda en estar disponible (arranque
+// en frío del Service Worker, caché intermedia, etc.), pero ahora con un
+// LÍMITE TOTAL (QR_TOTAL_TIMEOUT_MS): agotado ese tiempo, la promesa se
+// RECHAZA y renderQRWhenReady() reemplaza el spinner por un error visible
+// con botón "Reintentar" — nunca queda un estado de carga sin salida.
+const QR_LIB_URL = '/vendor/qrcodejs/qrcode.min.js';
 const QR_LIB_INTEGRITY = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
 const QR_LOAD_TIMEOUT_MS = 5000;
 const QR_BACKOFF_START_MS = 2000;
 const QR_BACKOFF_MAX_MS = 10000;
+const QR_TOTAL_TIMEOUT_MS = 9000; // presupuesto entre intentos; el intento en curso (hasta QR_LOAD_TIMEOUT_MS más) puede excederlo un poco, pero nunca queda sin cota
 
 let _qrCodeLoadingPromise = null;
 
@@ -427,14 +440,21 @@ function ensureQRCodeLoaded() {
   if (window.QRCode) return Promise.resolve();
   if (_qrCodeLoadingPromise) return _qrCodeLoadingPromise;
 
-  _qrCodeLoadingPromise = new Promise((resolve) => {
+  const startedAt = Date.now();
+
+  _qrCodeLoadingPromise = new Promise((resolve, reject) => {
     function intentar(proximoBackoffMs) {
       if (window.QRCode) { resolve(); return; }
+
+      if (Date.now() - startedAt >= QR_TOTAL_TIMEOUT_MS) {
+        _qrCodeLoadingPromise = null; // limpia el caché para permitir un reintento manual limpio
+        reject(new Error('qrcode_load_timeout'));
+        return;
+      }
 
       const script = document.createElement('script');
       script.src = QR_LIB_URL;
       script.integrity = QR_LIB_INTEGRITY;
-      script.crossOrigin = 'anonymous';
 
       let resuelto = false;
       const timeoutId = setTimeout(() => {
@@ -469,7 +489,13 @@ function ensureQRCodeLoaded() {
     }
 
     function reintentar(delayMs) {
-      setTimeout(() => intentar(Math.min(delayMs * 2, QR_BACKOFF_MAX_MS)), delayMs);
+      const restante = QR_TOTAL_TIMEOUT_MS - (Date.now() - startedAt);
+      if (restante <= 0) {
+        _qrCodeLoadingPromise = null;
+        reject(new Error('qrcode_load_timeout'));
+        return;
+      }
+      setTimeout(() => intentar(Math.min(delayMs * 2, QR_BACKOFF_MAX_MS)), Math.min(delayMs, restante));
     }
 
     intentar(QR_BACKOFF_START_MS);
@@ -490,8 +516,61 @@ function ensureQRCodeLoaded() {
 // GENERACIÓN VISUAL DE CADA TARJETA QR
 // ============================================
 
-function generateQRCard(type, formData, container) {
-  const url = buildQRUrl(type, formData);
+function buildQRLoadingIndicator(type) {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    color:${type.color};font-size:10px;letter-spacing:1px;
+    font-family:inherit;opacity:0.8;text-align:center;
+  `;
+  el.innerHTML = `
+    <div style="width:28px;height:28px;border-radius:50%;
+      border:2.5px solid ${type.color}33;border-top-color:${type.color};
+      animation:qr-spin 0.8s linear infinite;"></div>
+    <span>Generando QR…</span>
+  `;
+  return el;
+}
+
+// Estado final de fallo — reemplaza el spinner cuando ensureQRCodeLoaded()
+// se agota (Capa 2) o cuando el propio constructor de QRCode sigue
+// fallando tras QR_CONSTRUCTOR_MAX_RETRIES intentos. Nunca se llega aquí
+// silenciosamente: siempre hay un botón para que el usuario reintente.
+function showQRLoadError(wrap, url, type) {
+  wrap.innerHTML = '';
+  const box = document.createElement('div');
+  box.style.cssText = `
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    color:${type.color};font-size:10px;letter-spacing:1px;
+    font-family:inherit;text-align:center;padding:0 12px;
+  `;
+  box.innerHTML = `
+    <span style="font-size:22px;">&#9888;&#65039;</span>
+    <span>No se pudo generar el QR</span>
+  `;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.textContent = 'Reintentar';
+  btn.style.cssText = `
+    background:transparent;border:1.5px solid ${type.color};color:${type.color};
+    font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+    padding:6px 14px;border-radius:20px;cursor:pointer;font-family:inherit;
+  `;
+  btn.addEventListener('click', () => {
+    wrap.innerHTML = '';
+    wrap.appendChild(buildQRLoadingIndicator(type));
+    _qrCodeLoadingPromise = null; // fuerza un intento de carga nuevo en vez de reutilizar el rechazo anterior
+    renderQRWhenReady(wrap, url, type);
+  });
+  box.appendChild(btn);
+  wrap.appendChild(box);
+}
+
+// Construye el armazón visual de una tarjeta (título, subtítulo, hueco del
+// QR, línea de datos) sin decidir todavía qué mostrar dentro del hueco —
+// lo reutilizan tanto la generación en vivo (generateQRCard) como la
+// restauración desde caché (Capa 3, restoreQRCacheAndRefresh).
+function buildQRCardShell(type, formData, container) {
   const d = formData;
 
   const card = document.createElement('div');
@@ -532,20 +611,6 @@ function generateQRCard(type, formData, container) {
   `;
   wrap.id = type.id + '-wrap';
 
-  const loadingIndicator = document.createElement('div');
-  loadingIndicator.style.cssText = `
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-    color:${type.color};font-size:10px;letter-spacing:1px;
-    font-family:inherit;opacity:0.8;text-align:center;
-  `;
-  loadingIndicator.innerHTML = `
-    <div style="width:28px;height:28px;border-radius:50%;
-      border:2.5px solid ${type.color}33;border-top-color:${type.color};
-      animation:qr-spin 0.8s linear infinite;"></div>
-    <span>Generando QR…</span>
-  `;
-  wrap.appendChild(loadingIndicator);
-
   const age = d.fecha_nacimiento ?
     calcAge(d.fecha_nacimiento) + ' años' : '';
 
@@ -570,14 +635,45 @@ function generateQRCard(type, formData, container) {
   card.appendChild(info);
   container.appendChild(card);
 
+  return { cardEl: card, wrap };
+}
+
+function generateQRCard(type, formData, container) {
+  const url = buildQRUrl(type, formData);
+  const { wrap } = buildQRCardShell(type, formData, container);
+  wrap.appendChild(buildQRLoadingIndicator(type));
   renderQRWhenReady(wrap, url, type);
 }
 
-// Espera (con reintento indefinido si hace falta) a que la librería QRCode
-// esté disponible y solo entonces dibuja el QR. Si el propio constructor
-// falla (no solo la carga del script), reintenta el ciclo completo tras
-// un backoff — nunca deja la tarjeta en un hueco vacío sin explicación.
-function renderQRWhenReady(wrap, url, type) {
+const QR_CONSTRUCTOR_MAX_RETRIES = 2; // 3 intentos en total — un fallo del constructor (p.ej. payload demasiado largo) no se arregla reintentando indefinidamente
+
+// qrcodejs detecta soporte de data-URI la primera vez que dibuja cada
+// instancia cargando una imagen de prueba internamente — según el estado
+// del navegador en ese momento, el <img> real puede tardar en aparecer
+// unos milisegundos tras el constructor, no siempre está listo en el
+// mismo tick síncrono (confirmado con pruebas reales: a veces sí, a
+// veces no). Por eso no se puede asumir que wrap.querySelector('img')
+// ya existe justo después de `new QRCode(...)` — hay que esperarlo.
+function esperarImagenQR(contenedor, maxEsperaMs) {
+  return new Promise(resolve => {
+    const limite = Date.now() + (maxEsperaMs || 1500);
+    (function poll() {
+      const img = contenedor.querySelector('img');
+      if (img && img.src) { resolve(img); return; }
+      if (Date.now() >= limite) { resolve(null); return; }
+      setTimeout(poll, 50);
+    })();
+  });
+}
+
+// Espera (con reintento acotado por QR_TOTAL_TIMEOUT_MS, ver
+// ensureQRCodeLoaded) a que la librería QRCode esté disponible y solo
+// entonces dibuja el QR. Si el propio constructor falla (no solo la carga
+// del script), reintenta un número limitado de veces. En cualquiera de
+// los dos casos de agotamiento, muestra un error visible con botón
+// "Reintentar" — nunca deja la tarjeta atascada sin explicación ni salida.
+function renderQRWhenReady(wrap, url, type, intento) {
+  intento = intento || 0;
   ensureQRCodeLoaded().then(() => {
     if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
     try {
@@ -590,9 +686,161 @@ function renderQRWhenReady(wrap, url, type) {
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
       });
+      esperarImagenQR(wrap).then(img => {
+        if (!wrap.isConnected) return;
+        if (img && img.src) saveQRCacheEntry(type.id, img.src);
+        const banner = wrap.parentElement && wrap.parentElement.querySelector('.qr-stale-banner');
+        if (banner) banner.remove();
+      });
     } catch (err) {
-      setTimeout(() => renderQRWhenReady(wrap, url, type), QR_BACKOFF_START_MS);
+      if (intento >= QR_CONSTRUCTOR_MAX_RETRIES) {
+        showQRLoadError(wrap, url, type);
+        return;
+      }
+      setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1), QR_BACKOFF_START_MS);
     }
+  }).catch(() => {
+    if (!wrap.isConnected) return;
+    showQRLoadError(wrap, url, type);
+  });
+}
+
+// ============================================
+// CAPA 3 — CACHÉ DEL ÚLTIMO QR VÁLIDO (RESPALDO)
+// ============================================
+// Si la generación en vivo falla o se agota (Capa 2), el usuario no debe
+// ver una pantalla vacía ni solo un error — debe ver, como mínimo, el
+// último QR que sí se generó con éxito, con un aviso claro de que puede
+// estar desactualizado. Nota de seguridad importante: el QR únicamente
+// codifica el id + un puñado de campos de "vistazo rápido" (nombre,
+// sangre, una alergia, contacto) en su propia URL — card.html usa ese id
+// para pedir SIEMPRE el historial médico completo y actual al backend en
+// el momento del escaneo (ver card.html, fetch a /api/profile/load). Un
+// QR en caché desactualizado NO expone un historial médico obsoleto
+// completo; el único dato que podría no estar al día son esos campos de
+// vistazo rápido, hasta que termine la actualización en segundo plano —
+// por eso el aviso se mantiene visible mientras tanto y nunca se retira
+// sin una regeneración real confirmada.
+const QR_CACHE_KEY = 'doctorqr_qr_cache';
+
+function getQRCache() {
+  try { return JSON.parse(localStorage.getItem(QR_CACHE_KEY) || '{}'); }
+  catch (e) { return {}; }
+}
+
+function saveQRCacheEntry(typeId, dataUrl) {
+  try {
+    const cache = getQRCache();
+    cache.images = cache.images || {};
+    cache.images[typeId] = dataUrl;
+    cache.savedAt = Date.now();
+    localStorage.setItem(QR_CACHE_KEY, JSON.stringify(cache));
+  } catch (e) { /* localStorage lleno o no disponible: se pierde solo el respaldo, no es crítico */ }
+}
+
+function buildStaleBanner() {
+  const b = document.createElement('div');
+  b.className = 'qr-stale-banner';
+  b.style.cssText = `
+    font-size:8.5px;letter-spacing:0.4px;color:#ffcc00;
+    background:rgba(255,204,0,0.12);border:1px solid rgba(255,204,0,0.4);
+    border-radius:6px;padding:3px 8px;text-align:center;line-height:1.4;
+    font-family:inherit;
+  `;
+  b.textContent = '⏳ Posiblemente desactualizado — actualizando…';
+  return b;
+}
+
+// Restaura, al abrir la app, el último QR válido conocido (si existe)
+// mientras se confirma en segundo plano que sigue reflejando los datos
+// actuales — nunca sustituye al botón "Generar mis QR", solo evita que la
+// pantalla se quede vacía o atascada mientras se confirma.
+function restoreQRCacheAndRefresh() {
+  const formData = getFormData();
+  if (!formData.nombre && !formData.apellidos) return;
+  if (getOrCreateUserID() === 'UNKNOWN') return;
+
+  const cache = getQRCache();
+  if (!cache.images || !Object.keys(cache.images).length) return;
+
+  const carousel = document.getElementById('qr-carousel');
+  const dotsWrap = document.getElementById('qr-dots');
+  const qrSection = document.getElementById('qr-section');
+  if (!carousel || !dotsWrap || !qrSection) return;
+
+  const active = QR_TYPES.filter(t => t.always || (t.condition && t.condition(formData)));
+  const conCache = active.filter(t => cache.images[t.id]);
+  if (!conCache.length) return; // nada útil que restaurar todavía
+
+  carousel.innerHTML = '';
+  dotsWrap.innerHTML = '';
+
+  const wraps = {};
+  active.forEach((type, i) => {
+    const { cardEl, wrap } = buildQRCardShell(type, formData, carousel);
+    wraps[type.id] = wrap;
+
+    if (cache.images[type.id]) {
+      const img = document.createElement('img');
+      img.src = cache.images[type.id];
+      img.width = 200;
+      img.height = 200;
+      img.style.cssText = 'display:block;border-radius:4px;';
+      wrap.appendChild(img);
+      cardEl.appendChild(buildStaleBanner());
+    } else {
+      wrap.appendChild(buildQRLoadingIndicator(type));
+    }
+
+    const dot = document.createElement('div');
+    dot.style.cssText = `
+      width:8px;height:8px;border-radius:50%;
+      background:${i === 0 ? type.color : 'rgba(255,255,255,0.2)'};
+      cursor:pointer;transition:background 0.2s;
+    `;
+    dot.onclick = () => cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    dotsWrap.appendChild(dot);
+  });
+
+  qrSection.style.display = 'block';
+
+  active.forEach(type => {
+    const url = buildQRUrl(type, formData);
+    refreshQRCardSilently(wraps[type.id], url, type);
+  });
+}
+
+// Igual que renderQRWhenReady, pero SIN destino de error visible: si la
+// confirmación en segundo plano falla o se agota, se deja tal cual lo que
+// ya había en pantalla (imagen en caché + aviso, o spinner) — nunca se
+// reemplaza una imagen válida por un hueco vacío o un mensaje de error.
+function refreshQRCardSilently(wrap, url, type) {
+  ensureQRCodeLoaded().then(() => {
+    if (!wrap.isConnected) return;
+    try {
+      const tmp = document.createElement('div');
+      new QRCode(tmp, {
+        text: url,
+        width: 200,
+        height: 200,
+        colorDark: type.darkColor,
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      esperarImagenQR(tmp).then(img => {
+        if (!img || !img.src) return; // no llegó a tiempo: se deja intacto lo que ya había en pantalla
+        if (!wrap.isConnected) return; // pudo haberse regenerado de verdad mientras tanto
+        wrap.innerHTML = '';
+        wrap.appendChild(img);
+        const banner = wrap.parentElement && wrap.parentElement.querySelector('.qr-stale-banner');
+        if (banner) banner.remove();
+        saveQRCacheEntry(type.id, img.src);
+      });
+    } catch (err) {
+      // el constructor falló: se deja intacto lo que ya había en pantalla
+    }
+  }).catch(() => {
+    // Capa 2 se agotó: se deja intacto lo que ya había en pantalla
   });
 }
 
@@ -788,7 +1036,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   margin-top:5mm;padding:2mm 0;border-top:0.5pt solid #ddd}
 @media print{.instr{display:none}}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
+<script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"><\/script>
 </head>
 <body><div class="page">
 
@@ -873,3 +1121,7 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 
 document.getElementById('btn-print-emergency')
   ?.addEventListener('click', printEmergencyQR);
+
+// Capa 3: al cargar la página, restaura el último QR válido conocido (si
+// existe) mientras se confirma en segundo plano — ver restoreQRCacheAndRefresh.
+restoreQRCacheAndRefresh();

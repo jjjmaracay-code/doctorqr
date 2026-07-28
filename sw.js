@@ -1,4 +1,13 @@
-const CACHE_NAME = 'doctorqr-v1';
+// v2: sube la versión para forzar que activate() purgue la caché v1 —
+// necesario porque js/qr-generator.js se sirve con estrategia "cache
+// primero" (ver el handler de fetch más abajo), así que sin este cambio
+// de versión los usuarios con la PWA ya instalada seguirían recibiendo
+// indefinidamente la versión anterior (con el bug del spinner atascado)
+// desde su propia caché, sin importar qué se despliegue en el servidor.
+// Se añaden también los archivos de vendor/ (antes cargados desde CDN
+// externo) para que la app funcione realmente sin red desde el primer
+// arranque, no solo después de una primera visita online.
+const CACHE_NAME = 'doctorqr-v2';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -12,6 +21,9 @@ const CACHE_URLS = [
   './icons/icon-512.png',
   './css/styles.css',
   './js/qr-generator.js',
+  './vendor/qrcodejs/qrcode.min.js',
+  './vendor/lz-string/lz-string-1.4.4.min.js',
+  './vendor/lz-string/lz-string-1.5.0.min.js',
 ];
 
 self.addEventListener('install', event => {

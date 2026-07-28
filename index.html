@@ -12,8 +12,13 @@
   <link rel="stylesheet" href="css/styles.css"/>
   <link rel="manifest" href="/manifest.json"/>
   <meta name="theme-color" content="#12A5FF"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o" crossorigin="anonymous"></script>
+  <!-- Auto-hospedado en vendor/ — antes se cargaba desde CDN externo, lo que
+       dejaba la generación de QR médicos de emergencia dependiente de la red
+       (ver js/qr-generator.js para el motivo completo de este cambio). El
+       hash SRI se conserva sin modificar: el archivo local es una copia
+       byte a byte del original, verificada contra este mismo hash. -->
+  <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
+  <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
   <script src="/js/register-sw.js"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
