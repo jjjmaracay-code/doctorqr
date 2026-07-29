@@ -1034,11 +1034,18 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 .instr-sub{display:block;opacity:0.55;font-size:85%;margin-top:0.8mm}
 .eco-msg{text-align:center;font-size:6pt;color:#888;letter-spacing:0.4px;
   margin-top:5mm;padding:2mm 0;border-top:0.5pt solid #ddd}
-@media print{.instr{display:none}}
+.btn-back-app{display:inline-flex;align-items:center;gap:1.5mm;
+  font-family:Arial,sans-serif;font-size:8.5pt;font-weight:700;
+  color:#12A5FF;text-decoration:none;border:1.5px solid #12A5FF;
+  border-radius:20px;padding:2mm 4mm;margin-bottom:4mm}
+.btn-back-app:hover{background:rgba(18,165,255,0.08)}
+@media print{.instr{display:none}.btn-back-app{display:none}}
 </style>
 <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"><\/script>
 </head>
 <body><div class="page">
+
+<a href="/" class="btn-back-app">&larr; Volver a Atabeyapp</a>
 
 <div class="instr">
   Imprimir &rarr; Plastificar &rarr; Doblar la tarjeta por la l&iacute;nea de corte &nbsp;|&nbsp; Pulsera: recortar la tira, pasar una brida de un solo uso por ambos ojales y plastificar
