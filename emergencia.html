@@ -26,23 +26,20 @@
   <div class="box">
     <div class="logo">ATABEY<span>APP</span></div>
     <div id="msg">
-      <h1>Generando tu QR de emergencia&hellip;</h1>
-      <p>Se abrió una ventana nueva con tu tarjeta y pulsera para imprimir. Si no se abrió, revisa que tu navegador permita ventanas emergentes para este sitio.</p>
+      <h1>Cargando tu Acceso Rápido de Emergencia&hellip;</h1>
     </div>
   </div>
+
+  <!-- Contenedor de la vista de cuadrícula del Acceso Rápido de Emergencia
+       (renderEmergencyQuickView(), en js/qr-generator.js) -->
+  <div id="emergency-quick-view" style="display:none"></div>
+
   <script src="js/qr-generator.js"></script>
   <script>
-    (function(){
-      if (!localStorage.getItem('doctorqr_profile')) {
-        document.getElementById('msg').innerHTML = `
-          <h1>No hay ningún perfil guardado en ESTE dispositivo</h1>
-          <p>Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.</p>
-          <a class="btn" href="login.html">Ir a Atabeyapp</a>
-        `;
-        return;
-      }
-      printEmergencyQR();
-    })();
+    // handleEmergencyQuickAccess() vive en js/qr-generator.js, compartida
+    // con login.html e index.html -- si no hay perfil local, ella misma
+    // rellena #msg con el aviso y el enlace de vuelta a login.html.
+    handleEmergencyQuickAccess();
   </script>
 </body>
 </html>

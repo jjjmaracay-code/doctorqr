@@ -688,7 +688,7 @@ function renderQRWhenReady(wrap, url, type, intento) {
       });
       esperarImagenQR(wrap).then(img => {
         if (!wrap.isConnected) return;
-        if (img && img.src) saveQRCacheEntry(type.id, img.src);
+        if (img && img.src) saveQRCacheEntry(type.id, img.src, url);
         const banner = wrap.parentElement && wrap.parentElement.querySelector('.qr-stale-banner');
         if (banner) banner.remove();
       });
@@ -728,14 +728,32 @@ function getQRCache() {
   catch (e) { return {}; }
 }
 
-function saveQRCacheEntry(typeId, dataUrl) {
+// `url` es la URL exacta que se codificó en el QR (buildQRUrl(type,
+// formData)) -- se guarda como "huella" de qué datos produjeron esta
+// imagen. Como buildQRUrl() es la única fuente de lo que el QR codifica
+// hoy (buildQRData() no se usa en ningún sitio), comparar esta URL contra
+// la que produciría el perfil ACTUAL basta para saber con certeza si la
+// imagen en caché sigue reflejando los datos de hoy o quedó obsoleta --
+// ver isQRCacheFresh().
+function saveQRCacheEntry(typeId, dataUrl, url) {
   try {
     const cache = getQRCache();
     cache.images = cache.images || {};
+    cache.urls = cache.urls || {};
     cache.images[typeId] = dataUrl;
+    if (url) cache.urls[typeId] = url;
     cache.savedAt = Date.now();
     localStorage.setItem(QR_CACHE_KEY, JSON.stringify(cache));
   } catch (e) { /* localStorage lleno o no disponible: se pierde solo el respaldo, no es crítico */ }
+}
+
+// Cierto solo si hay una imagen en caché para este tipo Y la URL que se
+// codificó en ella coincide EXACTAMENTE con la que codificaría el perfil
+// actual -- si el usuario cambió cualquier dato desde el último cacheo,
+// la URL difiere y esto devuelve false, forzando una regeneración real.
+function isQRCacheFresh(cache, typeId, urlActual) {
+  return !!(cache.images && cache.images[typeId] &&
+            cache.urls && cache.urls[typeId] === urlActual);
 }
 
 function buildStaleBanner() {
@@ -776,9 +794,12 @@ function restoreQRCacheAndRefresh() {
   dotsWrap.innerHTML = '';
 
   const wraps = {};
+  const urls = {};
   active.forEach((type, i) => {
     const { cardEl, wrap } = buildQRCardShell(type, formData, carousel);
     wraps[type.id] = wrap;
+    const url = buildQRUrl(type, formData);
+    urls[type.id] = url;
 
     if (cache.images[type.id]) {
       const img = document.createElement('img');
@@ -787,7 +808,11 @@ function restoreQRCacheAndRefresh() {
       img.height = 200;
       img.style.cssText = 'display:block;border-radius:4px;';
       wrap.appendChild(img);
-      cardEl.appendChild(buildStaleBanner());
+      // Solo se avisa de "posible desactualización" si NO podemos
+      // confirmar que la imagen en caché sigue vigente -- si la huella
+      // (URL codificada) coincide con la que produciría el perfil actual,
+      // ya sabemos con certeza que está al día y no hace falta el aviso.
+      if (!isQRCacheFresh(cache, type.id, url)) cardEl.appendChild(buildStaleBanner());
     } else {
       wrap.appendChild(buildQRLoadingIndicator(type));
     }
@@ -805,8 +830,7 @@ function restoreQRCacheAndRefresh() {
   qrSection.style.display = 'block';
 
   active.forEach(type => {
-    const url = buildQRUrl(type, formData);
-    refreshQRCardSilently(wraps[type.id], url, type);
+    refreshQRCardSilently(wraps[type.id], urls[type.id], type);
   });
 }
 
@@ -834,13 +858,177 @@ function refreshQRCardSilently(wrap, url, type) {
         wrap.appendChild(img);
         const banner = wrap.parentElement && wrap.parentElement.querySelector('.qr-stale-banner');
         if (banner) banner.remove();
-        saveQRCacheEntry(type.id, img.src);
+        saveQRCacheEntry(type.id, img.src, url);
       });
     } catch (err) {
       // el constructor falló: se deja intacto lo que ya había en pantalla
     }
   }).catch(() => {
     // Capa 2 se agotó: se deja intacto lo que ya había en pantalla
+  });
+}
+
+// ============================================
+// ACCESO RÁPIDO DE EMERGENCIA — VISTA DE CUADRÍCULA (8 QR, sin sesión)
+// ============================================
+// Punto de entrada único, compartido por login.html, emergencia.html (el
+// acceso directo de la PWA declarado en manifest.json) e index.html --
+// antes cada página tenía su propia copia casi idéntica de esta función;
+// ahora vive solo aquí. Sustituye a la antigua llamada a
+// printEmergencyQR() (esa sigue existiendo, pero solo para el botón
+// "IMPRIMIR QR EMERGENCIA — FORMATO TARJETA" dentro de la app, que es una
+// función distinta: imprimir una tarjeta física, no navegar los 8 QR).
+function handleEmergencyQuickAccess() {
+  const formData = getFormData();
+  if (!formData.nombre && !formData.apellidos) {
+    mostrarSinPerfilParaEmergencia();
+    return;
+  }
+  renderEmergencyQuickView();
+}
+
+// Cada una de las 3 páginas tiene un HTML ligeramente distinto para el
+// estado "sin perfil" (login.html/index.html usan #emergency-quick-msg
+// junto al botón; emergencia.html reemplaza su propio bloque #msg con un
+// enlace de vuelta) -- se respeta el que exista en cada página en vez de
+// forzar una única estructura.
+function mostrarSinPerfilParaEmergencia() {
+  const msgEl = document.getElementById('emergency-quick-msg');
+  if (msgEl) {
+    msgEl.textContent = 'No hay ningún perfil guardado en este dispositivo. Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.';
+    msgEl.style.display = 'block';
+    return;
+  }
+  const msg2 = document.getElementById('msg');
+  if (msg2) {
+    msg2.innerHTML = `
+      <h1>No hay ningún perfil guardado en ESTE dispositivo</h1>
+      <p>Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.</p>
+      <a class="btn" href="login.html">Ir a Atabeyapp</a>
+    `;
+  }
+}
+
+(function injectEmergencyQuickViewStyle() {
+  if (document.getElementById('eqv-style')) return;
+  const style = document.createElement('style');
+  style.id = 'eqv-style';
+  style.textContent = `
+    #emergency-quick-view{position:fixed;inset:0;z-index:9999;display:none;
+      background:#000;color:#fff;overflow-y:auto;
+      font-family:'Courier New',Courier,monospace;}
+    .eqv-header{position:sticky;top:0;z-index:2;
+      background:rgba(0,0,0,0.92);backdrop-filter:blur(6px);
+      padding:16px;display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid rgba(255,255,255,0.08);}
+    .eqv-title{font-size:12px;font-weight:900;letter-spacing:2.5px;
+      color:#12A5FF;text-shadow:0 0 8px #12A5FF;text-transform:uppercase;}
+    .eqv-close{background:transparent;border:1.5px solid rgba(255,255,255,0.35);
+      color:#fff;border-radius:20px;padding:8px 16px;font-size:11px;
+      font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;
+      font-family:inherit;}
+    .eqv-close:hover{background:rgba(255,255,255,0.08);}
+    .eqv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+      gap:22px;padding:22px;max-width:900px;margin:0 auto;}
+    .eqv-card{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .eqv-cover{position:relative;width:100%;aspect-ratio:1/1;border-radius:18px;
+      background:#0a0a0a;display:flex;align-items:center;justify-content:center;
+      overflow:hidden;}
+    .eqv-cover img{width:82%;height:82%;object-fit:contain;border-radius:8px;
+      background:#fff;}
+    .eqv-cover-label{position:absolute;top:8px;left:8px;right:8px;
+      font-size:7.5px;font-weight:900;letter-spacing:1.3px;text-transform:uppercase;
+      text-align:center;pointer-events:none;}
+    .eqv-name{font-size:10px;color:rgba(255,255,255,0.7);text-align:center;
+      letter-spacing:0.3px;word-break:break-word;}
+  `;
+  document.head.appendChild(style);
+})();
+
+function getEmergencyQuickViewContainer() {
+  return document.getElementById('emergency-quick-view');
+}
+
+// "Salir" siempre debe llevar a la pantalla de login. Si ya se está en
+// login.html, el contenedor es un overlay SOBRE esa misma pantalla, así
+// que basta con ocultarlo (evita una recarga innecesaria); desde
+// emergencia.html o index.html sí hace falta navegar de verdad.
+function closeEmergencyQuickView() {
+  const el = getEmergencyQuickViewContainer();
+  if (el) el.style.display = 'none';
+  const path = window.location.pathname;
+  const yaEnLogin = /(^|\/)login(\.html)?\/?$/.test(path);
+  if (!yaEnLogin) window.location.href = 'login.html';
+}
+
+function renderEmergencyQuickView() {
+  const container = getEmergencyQuickViewContainer();
+  if (!container) return; // la página no incluye el contenedor -- no debería ocurrir en las 3 páginas soportadas
+
+  const formData = getFormData();
+  const active = QR_TYPES.filter(t => t.always || (t.condition && t.condition(formData)));
+  const nombreCompleto = ((formData.nombre || '') + ' ' + (formData.apellidos || '')).trim() || 'Perfil sin nombre';
+
+  container.innerHTML = `
+    <div class="eqv-header">
+      <div class="eqv-title">Acceso rápido de emergencia</div>
+      <button type="button" class="eqv-close" id="eqv-close-btn">✕ Salir</button>
+    </div>
+    <div class="eqv-grid" id="eqv-grid"></div>
+  `;
+  container.style.display = 'block';
+  document.getElementById('eqv-close-btn').addEventListener('click', closeEmergencyQuickView);
+
+  const grid = document.getElementById('eqv-grid');
+  const cache = getQRCache();
+
+  active.forEach(type => {
+    const url = buildQRUrl(type, formData);
+
+    const card = document.createElement('div');
+    card.className = 'eqv-card';
+
+    const cover = document.createElement('div');
+    cover.className = 'eqv-cover';
+    cover.style.cssText = `border:2px solid ${type.color};box-shadow:0 0 18px ${type.color}44;`;
+
+    const label = document.createElement('div');
+    label.className = 'eqv-cover-label';
+    label.style.color = type.color;
+    label.style.textShadow = `0 0 6px ${type.color}`;
+    label.textContent = type.title;
+    cover.appendChild(label);
+
+    // renderQRWhenReady()/showQRLoadError() hacen wrap.innerHTML='' antes
+    // de dibujar -- si les pasáramos "cover" directamente, borrarían
+    // "label" en cada intento. Se les pasa este "slot" interno, hermano de
+    // "label" y no ancestro suyo, para que el contenido del QR se pueda
+    // limpiar y redibujar sin afectar a la etiqueta del tipo.
+    const slot = document.createElement('div');
+    slot.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+    cover.appendChild(slot);
+
+    const name = document.createElement('div');
+    name.className = 'eqv-name';
+    name.textContent = nombreCompleto;
+
+    card.appendChild(cover);
+    card.appendChild(name);
+    grid.appendChild(card);
+
+    // Regla central de frescura: si la huella coincide, la caché refleja
+    // los datos actuales -- se muestra al instante. Si no coincide (o no
+    // existe), se regenera en el momento desde el perfil actual (100%
+    // local gracias a las Capas 1-2) -- nunca se muestra una imagen que
+    // no se pueda confirmar que corresponde al perfil de HOY.
+    if (isQRCacheFresh(cache, type.id, url)) {
+      const img = document.createElement('img');
+      img.src = cache.images[type.id];
+      slot.appendChild(img);
+    } else {
+      slot.appendChild(buildQRLoadingIndicator(type));
+      renderQRWhenReady(slot, url, type);
+    }
   });
 }
 
