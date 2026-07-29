@@ -7,7 +7,7 @@
 // Se añaden también los archivos de vendor/ (antes cargados desde CDN
 // externo) para que la app funcione realmente sin red desde el primer
 // arranque, no solo después de una primera visita online.
-const CACHE_NAME = 'doctorqr-v2';
+const CACHE_NAME = 'doctorqr-v3';
 const CACHE_URLS = [
   '/',
   './index.html',
