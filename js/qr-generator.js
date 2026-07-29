@@ -536,7 +536,7 @@ function buildQRLoadingIndicator(type) {
 // se agota (Capa 2) o cuando el propio constructor de QRCode sigue
 // fallando tras QR_CONSTRUCTOR_MAX_RETRIES intentos. Nunca se llega aquí
 // silenciosamente: siempre hay un botón para que el usuario reintente.
-function showQRLoadError(wrap, url, type) {
+function showQRLoadError(wrap, url, type, sizePx) {
   wrap.innerHTML = '';
   const box = document.createElement('div');
   box.style.cssText = `
@@ -560,7 +560,7 @@ function showQRLoadError(wrap, url, type) {
     wrap.innerHTML = '';
     wrap.appendChild(buildQRLoadingIndicator(type));
     _qrCodeLoadingPromise = null; // fuerza un intento de carga nuevo en vez de reutilizar el rechazo anterior
-    renderQRWhenReady(wrap, url, type);
+    renderQRWhenReady(wrap, url, type, 0, sizePx);
   });
   box.appendChild(btn);
   wrap.appendChild(box);
@@ -672,16 +672,17 @@ function esperarImagenQR(contenedor, maxEsperaMs) {
 // del script), reintenta un número limitado de veces. En cualquiera de
 // los dos casos de agotamiento, muestra un error visible con botón
 // "Reintentar" — nunca deja la tarjeta atascada sin explicación ni salida.
-function renderQRWhenReady(wrap, url, type, intento) {
+function renderQRWhenReady(wrap, url, type, intento, sizePx) {
   intento = intento || 0;
+  sizePx = sizePx || 200;
   ensureQRCodeLoaded().then(() => {
     if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
     try {
       wrap.innerHTML = '';
       new QRCode(wrap, {
         text: url,
-        width: 200,
-        height: 200,
+        width: sizePx,
+        height: sizePx,
         colorDark: type.darkColor,
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
@@ -694,14 +695,14 @@ function renderQRWhenReady(wrap, url, type, intento) {
       });
     } catch (err) {
       if (intento >= QR_CONSTRUCTOR_MAX_RETRIES) {
-        showQRLoadError(wrap, url, type);
+        showQRLoadError(wrap, url, type, sizePx);
         return;
       }
-      setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1), QR_BACKOFF_START_MS);
+      setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1, sizePx), QR_BACKOFF_START_MS);
     }
   }).catch(() => {
     if (!wrap.isConnected) return;
-    showQRLoadError(wrap, url, type);
+    showQRLoadError(wrap, url, type, sizePx);
   });
 }
 
@@ -928,18 +929,20 @@ function mostrarSinPerfilParaEmergencia() {
       font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;
       font-family:inherit;}
     .eqv-close:hover{background:rgba(255,255,255,0.08);}
-    .eqv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-      gap:22px;padding:22px;max-width:900px;margin:0 auto;}
-    .eqv-card{display:flex;flex-direction:column;align-items:center;gap:8px;}
-    .eqv-cover{position:relative;width:100%;aspect-ratio:1/1;border-radius:18px;
-      background:#0a0a0a;display:flex;align-items:center;justify-content:center;
-      overflow:hidden;}
-    .eqv-cover img{width:82%;height:82%;object-fit:contain;border-radius:8px;
+    .eqv-grid{display:flex;flex-direction:column;align-items:center;
+      gap:36px;padding:20px 20px 40px;max-width:480px;margin:0 auto;}
+    .eqv-card{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;}
+    .eqv-type-header{display:flex;align-items:center;justify-content:center;
+      gap:9px;width:100%;}
+    .eqv-type-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
+    .eqv-type-title{font-size:16px;font-weight:900;letter-spacing:1.2px;
+      text-transform:uppercase;text-align:center;line-height:1.25;}
+    .eqv-cover{position:relative;width:min(88vw,420px);aspect-ratio:1/1;
+      border-radius:22px;background:#0a0a0a;display:flex;align-items:center;
+      justify-content:center;overflow:hidden;}
+    .eqv-cover img{width:90%;height:90%;object-fit:contain;border-radius:10px;
       background:#fff;}
-    .eqv-cover-label{position:absolute;top:8px;left:8px;right:8px;
-      font-size:7.5px;font-weight:900;letter-spacing:1.3px;text-transform:uppercase;
-      text-align:center;pointer-events:none;}
-    .eqv-name{font-size:10px;color:rgba(255,255,255,0.7);text-align:center;
+    .eqv-name{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;
       letter-spacing:0.3px;word-break:break-word;}
   `;
   document.head.appendChild(style);
@@ -988,22 +991,34 @@ function renderEmergencyQuickView() {
     const card = document.createElement('div');
     card.className = 'eqv-card';
 
+    // Cabecera del tipo: punto de color + título grande, como bloque
+    // propio ENCIMA del QR (no superpuesto sobre el propio patrón) --
+    // así el título se lee sin competir visualmente con el QR y puede
+    // usar un tamaño de fuente mucho mayor.
+    const header = document.createElement('div');
+    header.className = 'eqv-type-header';
+
+    const dot = document.createElement('div');
+    dot.className = 'eqv-type-dot';
+    dot.style.cssText = `background:${type.color};box-shadow:0 0 8px ${type.color};`;
+
+    const title = document.createElement('div');
+    title.className = 'eqv-type-title';
+    title.style.color = type.color;
+    title.style.textShadow = `0 0 8px ${type.color}`;
+    title.textContent = type.title;
+
+    header.appendChild(dot);
+    header.appendChild(title);
+
     const cover = document.createElement('div');
     cover.className = 'eqv-cover';
     cover.style.cssText = `border:2px solid ${type.color};box-shadow:0 0 18px ${type.color}44;`;
 
-    const label = document.createElement('div');
-    label.className = 'eqv-cover-label';
-    label.style.color = type.color;
-    label.style.textShadow = `0 0 6px ${type.color}`;
-    label.textContent = type.title;
-    cover.appendChild(label);
-
     // renderQRWhenReady()/showQRLoadError() hacen wrap.innerHTML='' antes
-    // de dibujar -- si les pasáramos "cover" directamente, borrarían
-    // "label" en cada intento. Se les pasa este "slot" interno, hermano de
-    // "label" y no ancestro suyo, para que el contenido del QR se pueda
-    // limpiar y redibujar sin afectar a la etiqueta del tipo.
+    // de dibujar -- se les pasa este "slot" interno (todo el contenido
+    // de "cover" ahora) para que el QR se pueda limpiar y redibujar sin
+    // afectar a nada fuera de "cover".
     const slot = document.createElement('div');
     slot.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
     cover.appendChild(slot);
@@ -1012,6 +1027,7 @@ function renderEmergencyQuickView() {
     name.className = 'eqv-name';
     name.textContent = nombreCompleto;
 
+    card.appendChild(header);
     card.appendChild(cover);
     card.appendChild(name);
     grid.appendChild(card);
@@ -1027,7 +1043,10 @@ function renderEmergencyQuickView() {
       slot.appendChild(img);
     } else {
       slot.appendChild(buildQRLoadingIndicator(type));
-      renderQRWhenReady(slot, url, type);
+      // 400px de resolución nativa (frente a los 200px del carrusel) --
+      // el hueco del QR aquí puede mostrarse hasta a ~380px de ancho, y
+      // un QR de 200px estirado a ese tamaño se vería borroso.
+      renderQRWhenReady(slot, url, type, 0, 400);
     }
   });
 }
