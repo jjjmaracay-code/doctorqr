@@ -721,7 +721,7 @@
           font-size="14" fill="#ffffff" filter="url(#wm-glow-white)">™</text>
   </svg>
 
-  <div class="reg-tagline">Tu historial médico de emergencia</div>
+  <div class="reg-tagline" data-i18n="register.header.tagline">Tu historial médico de emergencia</div>
 
   <div class="steps-indicator">
     <div class="step-dot active" id="dot-1">1</div>
@@ -734,7 +734,7 @@
     <div class="step-line" id="line-4"></div>
     <div class="step-dot" id="dot-5">✓</div>
   </div>
-  <div class="step-label" id="step-label">Paso 1 de 5 — Términos de uso</div>
+  <div class="step-label" id="step-label" data-i18n="register.step_label.step1">Paso 1 de 5 — Términos de uso</div>
 </div>
 
 <div class="reg-form">
@@ -742,106 +742,109 @@
 <!-- ===== PANTALLA 1 — TÉRMINOS ===== -->
 <div class="screen active" id="screen-1">
   <div class="form-card">
-    <div class="form-card-title">Términos de uso</div>
+    <div class="form-card-title" data-i18n="register.screen1.title">Términos de uso</div>
 
-    <button onclick="readTerms()" style="background:transparent;border:1px solid #ff0000;border-radius:8px;color:#ff0000;font-family:inherit;font-size:10px;font-weight:900;letter-spacing:2px;padding:8px 16px;cursor:pointer;text-shadow:0 0 8px #ff0000;margin-bottom:12px;width:100%;">
+    <button onclick="readTerms()" style="background:transparent;border:1px solid #ff0000;border-radius:8px;color:#ff0000;font-family:inherit;font-size:10px;font-weight:900;letter-spacing:2px;padding:8px 16px;cursor:pointer;text-shadow:0 0 8px #ff0000;margin-bottom:12px;width:100%;" data-i18n="register.screen1.listen_button">
       ▶ ESCUCHAR TÉRMINOS
     </button>
 
     <div class="terms-scroll" id="terms-text">
-      <h3>ATABEYAPP — TÉRMINOS Y CONDICIONES DE USO</h3>
-      <p style="font-size:10px;color:rgba(255,255,255,0.4);margin:0 0 14px;letter-spacing:1px;">Versión 1.0 — Junio 2026</p>
+      <h3 data-i18n="register.terms.title">ATABEYAPP — TÉRMINOS Y CONDICIONES DE USO</h3>
+      <p style="font-size:10px;color:rgba(255,255,255,0.4);margin:0 0 14px;letter-spacing:1px;" data-i18n="register.terms.version">Versión 1.0 — Junio 2026</p>
 
-      <h3>Qué es Atabeyapp, y qué no es, bajo ninguna circunstancia</h3>
-      <p>Atabeyapp es una herramienta digital. Te ayuda a guardar tu información médica, para usarla en una emergencia.</p>
-      <p>Atabeyapp no es un dispositivo médico. No tiene un certificado oficial como producto sanitario. Esto significa que no tiene validez clínica oficial, por sí mismo.</p>
-      <p>Atabeyapp no sustituye el diagnóstico de un médico. Tampoco sustituye ningún tratamiento, ni ninguna receta médica. El criterio de un profesional de la salud, siempre tiene prioridad sobre la información de esta aplicación.</p>
-      <p>Usar Atabeyapp no crea ninguna relación entre médico y paciente. Atabeyapp es, únicamente, una herramienta de apoyo. No es un servicio médico, en sí mismo.</p>
+      <h3 data-i18n="register.terms.s1_title">Qué es Atabeyapp, y qué no es, bajo ninguna circunstancia</h3>
+      <p data-i18n="register.terms.s1_p1">Atabeyapp es una herramienta digital. Te ayuda a guardar tu información médica, para usarla en una emergencia.</p>
+      <p data-i18n="register.terms.s1_p2">Atabeyapp no es un dispositivo médico. No tiene un certificado oficial como producto sanitario. Esto significa que no tiene validez clínica oficial, por sí mismo.</p>
+      <p data-i18n="register.terms.s1_p3">Atabeyapp no sustituye el diagnóstico de un médico. Tampoco sustituye ningún tratamiento, ni ninguna receta médica. El criterio de un profesional de la salud, siempre tiene prioridad sobre la información de esta aplicación.</p>
+      <p data-i18n="register.terms.s1_p4">Usar Atabeyapp no crea ninguna relación entre médico y paciente. Atabeyapp es, únicamente, una herramienta de apoyo. No es un servicio médico, en sí mismo.</p>
 
-      <h3>Tu responsabilidad, sobre los datos que introduces</h3>
-      <p>Tú eres el único responsable de tus datos médicos, en Atabeyapp. Esto incluye que sean verdaderos. También incluye que estén completos, y actualizados.</p>
-      <p>Te comprometes a hacer esto:<br>
+      <h3 data-i18n="register.terms.s2_title">Tu responsabilidad, sobre los datos que introduces</h3>
+      <p data-i18n="register.terms.s2_p1">Tú eres el único responsable de tus datos médicos, en Atabeyapp. Esto incluye que sean verdaderos. También incluye que estén completos, y actualizados.</p>
+      <p data-i18n-html="register.terms.s2_p2_html">Te comprometes a hacer esto:<br>
       — Introducir solo datos verdaderos, que coincidan con lo que tu médico te ha dicho.<br>
       — Actualizar tus datos, cada vez que algo cambie. Esto incluye tu situación médica, tu medicación, o tus alergias.<br>
       — Mantener tu código QR accesible, siempre. Esto es importante, para las emergencias.<br>
       — Avisar a tus familiares, y a tus contactos de emergencia. Ellos deben saber que el código QR existe. También deben saber, dónde encontrarlo.</p>
-      <p>Atabeyapp te avisa de algo importante. Unos datos médicos incorrectos, viejos, o falsos, pueden ser más peligrosos que no tener ningún dato. Pueden hacer que un médico tome una decisión equivocada. Esto puede tener consecuencias graves. En algunos casos, puede poner en peligro tu vida.</p>
-      <p>Por esta razón, Atabeyapp no se hace responsable de los problemas causados por datos incorrectos, falsos, o desactualizados, que tú hayas introducido.</p>
+      <p data-i18n="register.terms.s2_p3">Atabeyapp te avisa de algo importante. Unos datos médicos incorrectos, viejos, o falsos, pueden ser más peligrosos que no tener ningún dato. Pueden hacer que un médico tome una decisión equivocada. Esto puede tener consecuencias graves. En algunos casos, puede poner en peligro tu vida.</p>
+      <p data-i18n="register.terms.s2_p4">Por esta razón, Atabeyapp no se hace responsable de los problemas causados por datos incorrectos, falsos, o desactualizados, que tú hayas introducido.</p>
 
-      <h3>Tus datos de identidad, bloqueados de forma permanente</h3>
-      <p>Durante el registro, introduces algunos datos de identidad. Estos son tu nombre completo, tus apellidos, tu fecha de nacimiento, tu número de documento de identidad, y tu correo electrónico.</p>
-      <p>Estos datos se bloquean, para siempre. Esto pasa, justo después de que verifiques tu cuenta, con el código que te enviamos al correo electrónico. Una vez bloqueados, no se pueden cambiar.</p>
-      <p>Esta medida existe, por seguridad. Su objetivo es proteger tu identidad. También evita que otra persona se haga pasar por ti.</p>
-      <p>Si te equivocaste, al escribir tus datos de identidad, tienes una solución. Debes cancelar tu cuenta. Después, puedes crear una cuenta nueva, con los datos correctos. Atabeyapp no puede modificar datos de identidad ya verificados, bajo ninguna circunstancia.</p>
+      <h3 data-i18n="register.terms.s3_title">Tus datos de identidad, bloqueados de forma permanente</h3>
+      <p data-i18n="register.terms.s3_p1">Durante el registro, introduces algunos datos de identidad. Estos son tu nombre completo, tus apellidos, tu fecha de nacimiento, tu número de documento de identidad, y tu correo electrónico.</p>
+      <p data-i18n="register.terms.s3_p2">Estos datos se bloquean, para siempre. Esto pasa, justo después de que verifiques tu cuenta, con el código que te enviamos al correo electrónico. Una vez bloqueados, no se pueden cambiar.</p>
+      <p data-i18n="register.terms.s3_p3">Esta medida existe, por seguridad. Su objetivo es proteger tu identidad. También evita que otra persona se haga pasar por ti.</p>
+      <p data-i18n="register.terms.s3_p4">Si te equivocaste, al escribir tus datos de identidad, tienes una solución. Debes cancelar tu cuenta. Después, puedes crear una cuenta nueva, con los datos correctos. Atabeyapp no puede modificar datos de identidad ya verificados, bajo ninguna circunstancia.</p>
 
-      <h3>Seguridad de tu cuenta, con seis capas de protección</h3>
-      <p>Atabeyapp usa seis capas de seguridad, para proteger tu cuenta y tus datos.</p>
-      <p>La primera capa verifica tu correo electrónico, durante el registro, con un código de un solo uso.</p>
-      <p>La segunda capa es tu contraseña personal. Tú la eliges. Nunca se guarda como texto simple, siempre cifrada, con métodos de seguridad reconocidos como estándar de la industria.</p>
-      <p>La tercera capa es la autenticación de doble factor, también llamada 2FA, que se pronuncia letra por letra: 2, F, A. Esta es obligatoria. Puedes elegir uno de estos tres métodos: tu huella dactilar o tu rostro, si tu dispositivo lo permite; la aplicación Google Authenticator; o un código que te enviamos a tu correo electrónico.</p>
-      <p>La cuarta capa cifra tus datos médicos, con una clave que viene de tu propia cuenta. Nadie puede leerlos, sin tu código QR.</p>
-      <p>La quinta capa es el acceso exclusivo, mediante tu código QR personal. No existe otra vía de acceso a tu información médica.</p>
-      <p>La sexta capa es el registro de auditoría. Cada acceso mediante tu QR queda registrado, con fecha, hora, y dirección de internet.</p>
-      <p>Tú eres responsable de estas tres cosas: mantener tu contraseña segura, sin compartirla con nadie; mantener activo tu método de doble factor; y avisar a Atabeyapp de inmediato, si sospechas que alguien accedió a tu cuenta sin permiso.</p>
+      <h3 data-i18n="register.terms.s4_title">Seguridad de tu cuenta, con seis capas de protección</h3>
+      <p data-i18n="register.terms.s4_p1">Atabeyapp usa seis capas de seguridad, para proteger tu cuenta y tus datos.</p>
+      <p data-i18n="register.terms.s4_p2">La primera capa verifica tu correo electrónico, durante el registro, con un código de un solo uso.</p>
+      <p data-i18n="register.terms.s4_p3">La segunda capa es tu contraseña personal. Tú la eliges. Nunca se guarda como texto simple, siempre cifrada, con métodos de seguridad reconocidos como estándar de la industria.</p>
+      <p data-i18n="register.terms.s4_p4">La tercera capa es la autenticación de doble factor, también llamada 2FA, que se pronuncia letra por letra: 2, F, A. Esta es obligatoria. Puedes elegir uno de estos tres métodos: tu huella dactilar o tu rostro, si tu dispositivo lo permite; la aplicación Google Authenticator; o un código que te enviamos a tu correo electrónico.</p>
+      <p data-i18n="register.terms.s4_p5">La cuarta capa cifra tus datos médicos, con una clave que viene de tu propia cuenta. Nadie puede leerlos, sin tu código QR.</p>
+      <p data-i18n="register.terms.s4_p6">La quinta capa es el acceso exclusivo, mediante tu código QR personal. No existe otra vía de acceso a tu información médica.</p>
+      <p data-i18n="register.terms.s4_p7">La sexta capa es el registro de auditoría. Cada acceso mediante tu QR queda registrado, con fecha, hora, y dirección de internet.</p>
+      <p data-i18n="register.terms.s4_p8">Tú eres responsable de estas tres cosas: mantener tu contraseña segura, sin compartirla con nadie; mantener activo tu método de doble factor; y avisar a Atabeyapp de inmediato, si sospechas que alguien accedió a tu cuenta sin permiso.</p>
 
-      <h3>Recuperación de tu acceso, en caso de pérdida</h3>
-      <p>Si pierdes el acceso a tu cuenta, puedes empezar a recuperarla desde la pantalla de inicio de sesión.</p>
-      <p>Para recuperar tu cuenta, necesitas cuatro cosas: acceso a tu correo electrónico registrado; verificar un código que te enviamos a ese correo, válido durante 30 minutos; confirmar tu identidad con tu método de doble factor; y crear una contraseña nueva.</p>
-      <p>Si escribes mal el código de verificación, el sistema te avisa. Te dice cuántos intentos te quedan. Después de tres intentos fallidos seguidos, tu cuenta entra en un bloqueo temporal, de inmediato.</p>
-      <p>En ese momento, tienes dos opciones.</p>
-      <p>La primera opción es recuperar la cuenta. Te enviamos un código de recuperación a tu correo electrónico. Tienes 30 minutos para completar la verificación. Necesitas ese código, tu doble factor, y una contraseña nueva. Si no terminas este proceso en 30 minutos, tu cuenta se cancela, de forma automática. Esta cancelación no se puede revertir. Esto significa que perderás todos tus datos médicos guardados. Y que tendrías que volver a registrarte, desde el principio, como si fueras un usuario nuevo.</p>
-      <p>La segunda opción es cancelar la cuenta. Esto elimina todos tus datos, de inmediato, y para siempre. Después, puedes crear una cuenta nueva, desde el principio.</p>
-      <p>Atabeyapp no puede darte acceso a una cuenta, sin que completes todo el proceso de verificación. Esto es así, bajo cualquier circunstancia. Su objetivo es proteger tus datos médicos.</p>
+      <h3 data-i18n="register.terms.s5_title">Recuperación de tu acceso, en caso de pérdida</h3>
+      <p data-i18n="register.terms.s5_p1">Si pierdes el acceso a tu cuenta, puedes empezar a recuperarla desde la pantalla de inicio de sesión.</p>
+      <p data-i18n="register.terms.s5_p2">Para recuperar tu cuenta, necesitas cuatro cosas: acceso a tu correo electrónico registrado; verificar un código que te enviamos a ese correo, válido durante 30 minutos; confirmar tu identidad con tu método de doble factor; y crear una contraseña nueva.</p>
+      <p data-i18n="register.terms.s5_p3">Si escribes mal el código de verificación, el sistema te avisa. Te dice cuántos intentos te quedan. Después de tres intentos fallidos seguidos, tu cuenta entra en un bloqueo temporal, de inmediato.</p>
+      <p data-i18n="register.terms.s5_p4">En ese momento, tienes dos opciones.</p>
+      <p data-i18n="register.terms.s5_p5">La primera opción es recuperar la cuenta. Te enviamos un código de recuperación a tu correo electrónico. Tienes 30 minutos para completar la verificación. Necesitas ese código, tu doble factor, y una contraseña nueva. Si no terminas este proceso en 30 minutos, tu cuenta se cancela, de forma automática. Esta cancelación no se puede revertir. Esto significa que perderás todos tus datos médicos guardados. Y que tendrías que volver a registrarte, desde el principio, como si fueras un usuario nuevo.</p>
+      <p data-i18n="register.terms.s5_p6">La segunda opción es cancelar la cuenta. Esto elimina todos tus datos, de inmediato, y para siempre. Después, puedes crear una cuenta nueva, desde el principio.</p>
+      <p data-i18n="register.terms.s5_p7">Atabeyapp no puede darte acceso a una cuenta, sin que completes todo el proceso de verificación. Esto es así, bajo cualquier circunstancia. Su objetivo es proteger tus datos médicos.</p>
 
-      <h3>Cancelación de tu cuenta, de forma permanente e irreversible</h3>
-      <p>Puedes cancelar tu cuenta, en cualquier momento. Esto se hace, desde la configuración de tu perfil. Esta acción no se puede revertir.</p>
-      <p>Cancelar tu cuenta hace tres cosas: elimina, para siempre, todos tus datos guardados en nuestros servidores; invalida, de inmediato, todos los códigos QR que generaste con esa cuenta; y hace imposible recuperar tus datos, una vez que termine la cancelación.</p>
-      <p>Para cancelar tu cuenta, necesitas confirmar tres cosas: tu contraseña; tu doble factor; y escribir la palabra ELIMINAR, en el campo de confirmación.</p>
+      <h3 data-i18n="register.terms.s6_title">Cancelación de tu cuenta, de forma permanente e irreversible</h3>
+      <p data-i18n="register.terms.s6_p1">Puedes cancelar tu cuenta, en cualquier momento. Esto se hace, desde la configuración de tu perfil. Esta acción no se puede revertir.</p>
+      <p data-i18n="register.terms.s6_p2">Cancelar tu cuenta hace tres cosas: elimina, para siempre, todos tus datos guardados en nuestros servidores; invalida, de inmediato, todos los códigos QR que generaste con esa cuenta; y hace imposible recuperar tus datos, una vez que termine la cancelación.</p>
+      <!-- ATENCIÓN FASE 2 — NO TRADUCIR la palabra "ELIMINAR" en esta clave (register.terms.s6_p3):
+           debe coincidir siempre con la palabra literal que compara js/index.html en `confirm === 'ELIMINAR'`
+           (línea ~2679 de index.html) y con el placeholder del campo real de confirmación de borrado de cuenta. -->
+      <p data-i18n="register.terms.s6_p3">Para cancelar tu cuenta, necesitas confirmar tres cosas: tu contraseña; tu doble factor; y escribir la palabra ELIMINAR, en el campo de confirmación.</p>
 
-      <h3>Cómo guardamos tu información, sin sorpresas</h3>
-      <p>Tus datos de identidad se guardan en nuestros servidores, para gestionar tu cuenta de forma segura.</p>
-      <p>Tus datos médicos se guardan cifrados, con sistemas reconocidos como estándar de la industria. Lo hacemos por una única razón: hacer posible el acceso de emergencia, desde cualquier dispositivo. Este es el propósito esencial de Atabeyapp. Que un profesional sanitario pueda acceder a tu información, justo cuando más lo necesitas.</p>
-      <p>Nadie puede leer tus datos médicos. Esto incluye al equipo de Atabeyapp. Tus datos están cifrados, con una clave que viene de tu propia cuenta. Solo se pueden leer, cuando alguien escanea tu código QR personal.</p>
-      <p>Cada vez que alguien accede a tus datos con tu QR, lo registramos. Guardamos la fecha, la hora, y la dirección de internet, de ese acceso.</p>
-      <p>Si cancelas tu cuenta, eliminamos también este registro de accesos, junto con el resto de tus datos. No conservamos ningún historial, después de la cancelación.</p>
+      <h3 data-i18n="register.terms.s7_title">Cómo guardamos tu información, sin sorpresas</h3>
+      <p data-i18n="register.terms.s7_p1">Tus datos de identidad se guardan en nuestros servidores, para gestionar tu cuenta de forma segura.</p>
+      <p data-i18n="register.terms.s7_p2">Tus datos médicos se guardan cifrados, con sistemas reconocidos como estándar de la industria. Lo hacemos por una única razón: hacer posible el acceso de emergencia, desde cualquier dispositivo. Este es el propósito esencial de Atabeyapp. Que un profesional sanitario pueda acceder a tu información, justo cuando más lo necesitas.</p>
+      <p data-i18n="register.terms.s7_p3">Nadie puede leer tus datos médicos. Esto incluye al equipo de Atabeyapp. Tus datos están cifrados, con una clave que viene de tu propia cuenta. Solo se pueden leer, cuando alguien escanea tu código QR personal.</p>
+      <p data-i18n="register.terms.s7_p4">Cada vez que alguien accede a tus datos con tu QR, lo registramos. Guardamos la fecha, la hora, y la dirección de internet, de ese acceso.</p>
+      <p data-i18n="register.terms.s7_p5">Si cancelas tu cuenta, eliminamos también este registro de accesos, junto con el resto de tus datos. No conservamos ningún historial, después de la cancelación.</p>
 
-      <h3>El uso de tu código QR, en una emergencia médica real</h3>
-      <p>Tu código QR de Atabeyapp tiene un propósito claro. Está diseñado para que el personal sanitario lo use, en una emergencia médica.</p>
-      <p>Tú autorizas, de forma expresa, que el personal sanitario pueda acceder a tu información médica, a través de tu código QR, en una situación de emergencia.</p>
-      <p>La información de tu QR es orientativa. No es una fuente vinculante, para el personal sanitario. El médico, o el paramédico, siempre debe comprobar esta información con tu historial clínico oficial, antes de tomar una decisión médica crítica.</p>
-      <p>Atabeyapp no puede controlar cómo usa el personal sanitario la información de tu código QR. Por esta razón, no nos hacemos responsables de ese uso.</p>
+      <h3 data-i18n="register.terms.s8_title">El uso de tu código QR, en una emergencia médica real</h3>
+      <p data-i18n="register.terms.s8_p1">Tu código QR de Atabeyapp tiene un propósito claro. Está diseñado para que el personal sanitario lo use, en una emergencia médica.</p>
+      <p data-i18n="register.terms.s8_p2">Tú autorizas, de forma expresa, que el personal sanitario pueda acceder a tu información médica, a través de tu código QR, en una situación de emergencia.</p>
+      <p data-i18n="register.terms.s8_p3">La información de tu QR es orientativa. No es una fuente vinculante, para el personal sanitario. El médico, o el paramédico, siempre debe comprobar esta información con tu historial clínico oficial, antes de tomar una decisión médica crítica.</p>
+      <p data-i18n="register.terms.s8_p4">Atabeyapp no puede controlar cómo usa el personal sanitario la información de tu código QR. Por esta razón, no nos hacemos responsables de ese uso.</p>
 
-      <h3>Edad mínima, y gestión de cuentas por tutela</h3>
-      <p>Para usar Atabeyapp, necesitas tener, al menos, 21 años. Atabeyapp establece esta edad porque busca un nivel de madurez suficiente para responsabilizarse de datos médicos.</p>
-      <p>Si tienes 21 años, o más, pero no puedes introducir tus propios datos por ti mismo —por ejemplo, por una discapacidad, o una situación de dependencia—, tu tutor legal puede hacerlo en tu nombre.</p>
-      <p>Atabeyapp no verifica documentalmente la condición de tutor legal. Quien declara actuar como tutor, al marcar la casilla de confirmación correspondiente, asume frente a Atabeyapp toda la responsabilidad legal de esa declaración. Si esa declaración fuera falsa, la responsabilidad por cualquier consecuencia derivada es exclusivamente de quien la realizó. Atabeyapp se reserva el derecho de cancelar cualquier cuenta donde existan indicios razonables de una declaración de tutela falsa.</p>
+      <h3 data-i18n="register.terms.s9_title">Edad mínima, y gestión de cuentas por tutela</h3>
+      <p data-i18n="register.terms.s9_p1">Para usar Atabeyapp, necesitas tener, al menos, 21 años. Atabeyapp establece esta edad porque busca un nivel de madurez suficiente para responsabilizarse de datos médicos.</p>
+      <p data-i18n="register.terms.s9_p2">Si tienes 21 años, o más, pero no puedes introducir tus propios datos por ti mismo —por ejemplo, por una discapacidad, o una situación de dependencia—, tu tutor legal puede hacerlo en tu nombre.</p>
+      <p data-i18n="register.terms.s9_p3">Atabeyapp no verifica documentalmente la condición de tutor legal. Quien declara actuar como tutor, al marcar la casilla de confirmación correspondiente, asume frente a Atabeyapp toda la responsabilidad legal de esa declaración. Si esa declaración fuera falsa, la responsabilidad por cualquier consecuencia derivada es exclusivamente de quien la realizó. Atabeyapp se reserva el derecho de cancelar cualquier cuenta donde existan indicios razonables de una declaración de tutela falsa.</p>
 
-      <h3>Cambios en estos términos, siempre con aviso previo</h3>
-      <p>Atabeyapp puede cambiar estos términos, en cualquier momento. Si hacemos un cambio importante, te avisaremos por correo electrónico. Te avisaremos, al menos, 15 días antes de que el cambio entre en vigor.</p>
-      <p>Si sigues usando Atabeyapp, después de ese aviso, esto significa que aceptas los nuevos términos. Si no los aceptas, debes cancelar tu cuenta, antes de la fecha en que el cambio entre en vigor.</p>
+      <h3 data-i18n="register.terms.s10_title">Cambios en estos términos, siempre con aviso previo</h3>
+      <p data-i18n="register.terms.s10_p1">Atabeyapp puede cambiar estos términos, en cualquier momento. Si hacemos un cambio importante, te avisaremos por correo electrónico. Te avisaremos, al menos, 15 días antes de que el cambio entre en vigor.</p>
+      <p data-i18n="register.terms.s10_p2">Si sigues usando Atabeyapp, después de ese aviso, esto significa que aceptas los nuevos términos. Si no los aceptas, debes cancelar tu cuenta, antes de la fecha en que el cambio entre en vigor.</p>
 
-      <h3>Límites de nuestra responsabilidad, explicados con claridad</h3>
-      <p>Atabeyapp, las personas que lo crearon, y quienes colaboran en el proyecto, no son responsables de ciertos daños. Esto incluye daños directos, indirectos, incidentales, especiales, o derivados del uso, o mal uso, de la aplicación.</p>
-      <p>Algunos ejemplos de esto son: decisiones médicas basadas en información incorrecta que tú introdujiste; pérdida de acceso a tu cuenta por perder tus credenciales; uso no autorizado de los códigos QR que generaste; e interrupción del servicio por causas técnicas, o de fuerza mayor.</p>
-      <p>Ningún sistema digital ofrece una seguridad absoluta. Atabeyapp no asume responsabilidad, por incidentes ajenos a su control, o a su diligencia razonable.</p>
+      <h3 data-i18n="register.terms.s11_title">Límites de nuestra responsabilidad, explicados con claridad</h3>
+      <p data-i18n="register.terms.s11_p1">Atabeyapp, las personas que lo crearon, y quienes colaboran en el proyecto, no son responsables de ciertos daños. Esto incluye daños directos, indirectos, incidentales, especiales, o derivados del uso, o mal uso, de la aplicación.</p>
+      <p data-i18n="register.terms.s11_p2">Algunos ejemplos de esto son: decisiones médicas basadas en información incorrecta que tú introdujiste; pérdida de acceso a tu cuenta por perder tus credenciales; uso no autorizado de los códigos QR que generaste; e interrupción del servicio por causas técnicas, o de fuerza mayor.</p>
+      <p data-i18n="register.terms.s11_p3">Ningún sistema digital ofrece una seguridad absoluta. Atabeyapp no asume responsabilidad, por incidentes ajenos a su control, o a su diligencia razonable.</p>
 
-      <h3>Legislación aplicable, y dónde se resuelven los conflictos</h3>
-      <p>Estos términos se rigen, por la legislación española vigente. Si surge cualquier conflicto, sobre el uso de Atabeyapp, ambas partes se someten a los Juzgados y Tribunales de Madrid. Esto significa que renunciamos, de forma expresa, a cualquier otro lugar donde se pudiera resolver ese conflicto.</p>
-      <p>A Atabeyapp le aplican tres normas principales. El Reglamento General de Protección de Datos de la Unión Europea, conocido como RGPD, que se pronuncia letra por letra: R, G, P, D, en su Reglamento de la Unión Europea, número 2016, barra, 679. La Ley Orgánica 3, del año 2018, de Protección de Datos Personales y garantía de los derechos digitales, conocida como LOPDGDD, que se pronuncia letra por letra: L, O, P, D, G, D, D. Y la Ley 34, del año 2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico, conocida como LSSI, que se pronuncia letra por letra: L, S, S, I.</p>
+      <h3 data-i18n="register.terms.s12_title">Legislación aplicable, y dónde se resuelven los conflictos</h3>
+      <p data-i18n="register.terms.s12_p1">Estos términos se rigen, por la legislación española vigente. Si surge cualquier conflicto, sobre el uso de Atabeyapp, ambas partes se someten a los Juzgados y Tribunales de Madrid. Esto significa que renunciamos, de forma expresa, a cualquier otro lugar donde se pudiera resolver ese conflicto.</p>
+      <p data-i18n="register.terms.s12_p2">A Atabeyapp le aplican tres normas principales. El Reglamento General de Protección de Datos de la Unión Europea, conocido como RGPD, que se pronuncia letra por letra: R, G, P, D, en su Reglamento de la Unión Europea, número 2016, barra, 679. La Ley Orgánica 3, del año 2018, de Protección de Datos Personales y garantía de los derechos digitales, conocida como LOPDGDD, que se pronuncia letra por letra: L, O, P, D, G, D, D. Y la Ley 34, del año 2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico, conocida como LSSI, que se pronuncia letra por letra: L, S, S, I.</p>
     </div>
 
     <!-- Selector: ¿te registras tú mismo o como tutor? -->
     <div class="reg-type-selector">
-      <div class="reg-type-label">¿Cómo te registras?</div>
+      <div class="reg-type-label" data-i18n="register.screen1.reg_type_label">¿Cómo te registras?</div>
       <label class="reg-type-option">
         <input type="radio" name="reg-type" id="reg-self" value="self" class="chk-radio" checked>
         <span class="radio-box"></span>
-        <span class="reg-type-text">Me registro a mí mismo</span>
+        <span class="reg-type-text" data-i18n="register.screen1.reg_type_self">Me registro a mí mismo</span>
       </label>
       <label class="reg-type-option">
         <input type="radio" name="reg-type" id="reg-tutor" value="tutor" class="chk-radio">
         <span class="radio-box"></span>
-        <span class="reg-type-text">Actúo como tutor legal de otra persona</span>
+        <span class="reg-type-text" data-i18n="register.screen1.reg_type_tutor">Actúo como tutor legal de otra persona</span>
       </label>
     </div>
 
@@ -849,35 +852,35 @@
     <label class="checkbox-wrap" id="chk-wrap-1">
       <input type="checkbox" id="chk-1" class="chk-real">
       <span class="checkbox-box"></span>
-      <span class="checkbox-text">He leído, y/o escuchado, comprendido, y acepto los <strong>Términos y Condiciones</strong> de uso de Atabeyapp.</span>
+      <span class="checkbox-text" data-i18n-html="register.screen1.chk1_text_html">He leído, y/o escuchado, comprendido, y acepto los <strong>Términos y Condiciones</strong> de uso de Atabeyapp.</span>
     </label>
 
     <!-- Checkbox 2 — Consentimiento datos de salud -->
     <label class="checkbox-wrap" id="chk-wrap-2">
       <input type="checkbox" id="chk-2" class="chk-real">
       <span class="checkbox-box"></span>
-      <span class="checkbox-text">He leído, y/o escuchado, comprendido, y consiento expresamente el tratamiento de mis <strong>datos de salud</strong> —categoría especial, Art. 9 RGPD— mediante almacenamiento cifrado en los servidores de Atabeyapp, para hacer posible el acceso de emergencia. Entiendo que puedo retirar este consentimiento eliminando mi cuenta en cualquier momento. (<a href="privacy.html" style="color:var(--green);" onclick="event.stopPropagation()">Política de Privacidad</a>)</span>
+      <span class="checkbox-text" data-i18n-html="register.screen1.chk2_text_html">He leído, y/o escuchado, comprendido, y consiento expresamente el tratamiento de mis <strong>datos de salud</strong> —categoría especial, Art. 9 RGPD— mediante almacenamiento cifrado en los servidores de Atabeyapp, para hacer posible el acceso de emergencia. Entiendo que puedo retirar este consentimiento eliminando mi cuenta en cualquier momento. (<a href="privacy.html" style="color:var(--green);" onclick="event.stopPropagation()">Política de Privacidad</a>)</span>
     </label>
 
     <!-- Checkbox 3 — Veracidad de datos -->
     <label class="checkbox-wrap" id="chk-wrap-3">
       <input type="checkbox" id="chk-3" class="chk-real">
       <span class="checkbox-box"></span>
-      <span class="checkbox-text">He leído, y/o escuchado, comprendido, y declaro que los datos médicos que introduzco son <strong>veraces y actualizados</strong>, y asumo la responsabilidad descrita en estos términos.</span>
+      <span class="checkbox-text" data-i18n-html="register.screen1.chk3_text_html">He leído, y/o escuchado, comprendido, y declaro que los datos médicos que introduzco son <strong>veraces y actualizados</strong>, y asumo la responsabilidad descrita en estos términos.</span>
     </label>
 
     <!-- Checkbox 4 — Declaración de tutela (solo visible si se eligió tutor) -->
     <label class="checkbox-wrap" id="chk-wrap-4" style="display:none;">
       <input type="checkbox" id="chk-4" class="chk-real">
       <span class="checkbox-box"></span>
-      <span class="checkbox-text">Declaro, bajo mi <strong>responsabilidad legal</strong>, que actúo como tutor legal de la persona cuyos datos médicos voy a introducir. Asumo toda la responsabilidad derivada de esta declaración, incluyendo las consecuencias de que fuera falsa.</span>
+      <span class="checkbox-text" data-i18n-html="register.screen1.chk4_text_html">Declaro, bajo mi <strong>responsabilidad legal</strong>, que actúo como tutor legal de la persona cuyos datos médicos voy a introducir. Asumo toda la responsabilidad derivada de esta declaración, incluyendo las consecuencias de que fuera falsa.</span>
     </label>
 
-    <button class="btn-primary" id="btn-accept-terms" disabled>
+    <button class="btn-primary" id="btn-accept-terms" disabled data-i18n="register.screen1.continue_button">
       CONTINUAR
     </button>
 
-    <div style="text-align:center;padding:8px 0 4px;font-size:11px;font-weight:300;color:rgba(255,255,255,0.25);letter-spacing:1px;">
+    <div style="text-align:center;padding:8px 0 4px;font-size:11px;font-weight:300;color:rgba(255,255,255,0.25);letter-spacing:1px;" data-i18n-html="register.screen1.has_account_footer_html">
       ¿Ya tienes cuenta?
       <a href="login.html" style="color:rgba(18,165,255,0.5);text-decoration:underline;">Inicia sesión</a>
     </div>
@@ -889,114 +892,114 @@
 <div class="screen" id="screen-2">
 
   <div class="form-card">
-    <div class="form-card-title">Datos de identidad</div>
+    <div class="form-card-title" data-i18n="register.screen2.title">Datos de identidad</div>
 
     <div class="field-wrap">
-      <div class="field-label">Nombre</div>
-      <input class="field-input" id="r-nombre" type="text" placeholder="María" autocomplete="given-name">
+      <div class="field-label" data-i18n="register.screen2.nombre_label">Nombre</div>
+      <input class="field-input" id="r-nombre" type="text" placeholder="María" data-i18n-placeholder="register.screen2.nombre_placeholder" autocomplete="given-name">
     </div>
 
     <div class="field-wrap">
-      <div class="field-label">Apellidos</div>
-      <input class="field-input" id="r-apellidos" type="text" placeholder="García López" autocomplete="family-name">
+      <div class="field-label" data-i18n="register.screen2.apellidos_label">Apellidos</div>
+      <input class="field-input" id="r-apellidos" type="text" placeholder="García López" data-i18n-placeholder="register.screen2.apellidos_placeholder" autocomplete="family-name">
     </div>
 
     <div class="field-wrap">
-      <div class="field-label">Fecha de nacimiento</div>
+      <div class="field-label" data-i18n="register.screen2.fnac_label">Fecha de nacimiento</div>
       <input class="field-input" id="r-fnac" type="date" autocomplete="bday">
     </div>
 
     <div class="field-wrap">
-      <div class="field-label">Tipo de documento</div>
+      <div class="field-label" data-i18n="register.screen2.doc_type_label">Tipo de documento</div>
       <div class="chips-reg" data-group="doc-type" data-single="true">
-        <div class="chip-reg" data-value="DNI">DNI</div>
-        <div class="chip-reg" data-value="NIE">NIE</div>
-        <div class="chip-reg" data-value="PASAPORTE">PASAPORTE</div>
+        <div class="chip-reg" data-value="DNI" data-i18n="register.screen2.doc_type_dni">DNI</div>
+        <div class="chip-reg" data-value="NIE" data-i18n="register.screen2.doc_type_nie">NIE</div>
+        <div class="chip-reg" data-value="PASAPORTE" data-i18n="register.screen2.doc_type_pasaporte">PASAPORTE</div>
       </div>
     </div>
 
     <div class="field-wrap">
-      <div class="field-label">Número de documento</div>
-      <input class="field-input" id="r-docnum" type="text" placeholder="Selecciona tipo primero" maxlength="12" style="text-transform:uppercase" autocomplete="off">
+      <div class="field-label" data-i18n="register.screen2.docnum_label">Número de documento</div>
+      <input class="field-input" id="r-docnum" type="text" placeholder="Selecciona tipo primero" data-i18n-placeholder="register.screen2.docnum_placeholder" maxlength="12" style="text-transform:uppercase" autocomplete="off">
       <div class="field-hint" id="r-docnum-hint"></div>
     </div>
 
     <div class="field-wrap">
-      <div class="field-label">Sexo biológico</div>
+      <div class="field-label" data-i18n="register.screen2.sexo_label">Sexo biológico</div>
       <div class="chips-reg" data-group="bio-sex" data-single="true">
-        <div class="chip-reg" data-value="Masculino">Masculino</div>
-        <div class="chip-reg" data-value="Femenino">Femenino</div>
-        <div class="chip-reg" data-value="Intersexual">Intersexual</div>
-        <div class="chip-reg" data-value="Prefiero no decir">Prefiero no decir</div>
+        <div class="chip-reg" data-value="Masculino" data-i18n="register.screen2.sexo_masculino">Masculino</div>
+        <div class="chip-reg" data-value="Femenino" data-i18n="register.screen2.sexo_femenino">Femenino</div>
+        <div class="chip-reg" data-value="Intersexual" data-i18n="register.screen2.sexo_intersexual">Intersexual</div>
+        <div class="chip-reg" data-value="Prefiero no decir" data-i18n="register.screen2.sexo_prefiero_no_decir">Prefiero no decir</div>
       </div>
     </div>
 
     <div class="field-wrap" style="margin-top:6px">
-      <div class="field-label">Correo electrónico</div>
-      <input class="field-input" id="r-email" type="email" placeholder="tu@email.com" autocomplete="email">
+      <div class="field-label" data-i18n="register.screen2.email_label">Correo electrónico</div>
+      <input class="field-input" id="r-email" type="email" placeholder="tu@email.com" data-i18n-placeholder="register.common.email_placeholder" autocomplete="email">
       <div class="domain-btns">
-        <button type="button" class="domain-btn" data-domain="@gmail.com">@gmail.com</button>
-        <button type="button" class="domain-btn" data-domain="@hotmail.com">@hotmail.com</button>
-        <button type="button" class="domain-btn" data-domain="@icloud.com">@icloud.com</button>
+        <button type="button" class="domain-btn" data-domain="@gmail.com" data-i18n="register.common.domain_gmail">@gmail.com</button>
+        <button type="button" class="domain-btn" data-domain="@hotmail.com" data-i18n="register.common.domain_hotmail">@hotmail.com</button>
+        <button type="button" class="domain-btn" data-domain="@icloud.com" data-i18n="register.common.domain_icloud">@icloud.com</button>
       </div>
-      <div class="field-hint">Recibirás un código de verificación en este correo</div>
+      <div class="field-hint" data-i18n="register.screen2.email_hint">Recibirás un código de verificación en este correo</div>
     </div>
   </div>
 
   <div class="form-card">
-    <div class="form-card-title">Contraseña maestra</div>
-    <div class="field-hint" style="margin-bottom:14px;color:rgba(18,165,255,0.45);">
+    <div class="form-card-title" data-i18n="register.screen2.pwd_title">Contraseña maestra</div>
+    <div class="field-hint" style="margin-bottom:14px;color:rgba(18,165,255,0.45);" data-i18n="register.screen2.pwd_intro_hint">
       Mínimo 8 caracteres · al menos 1 número y 1 símbolo · cuanto más larga, más segura
     </div>
 
-    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;">CREAR</div>
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;" data-i18n="register.screen2.pwd_create_label">CREAR</div>
     <div class="pwd-dots-wrap">
       <div class="pwd-dots empty" id="pwd1-dots">· · · · · · · ·</div>
-      <button type="button" class="pwd-eye-btn" id="pwd1-eye" onclick="togglePwdVisibility(1)" aria-label="Mostrar contraseña">
+      <button type="button" class="pwd-eye-btn" id="pwd1-eye" onclick="togglePwdVisibility(1)" aria-label="Mostrar contraseña" data-i18n-aria="register.common.eye_show_aria">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
-    <div class="pin-validation" id="pwd1-hint">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
+    <div class="pin-validation" id="pwd1-hint" data-i18n="register.common.pwd_validation">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
     <div class="pwd-strength" id="str-pwd1">
-      <span class="pwd-req" id="r1-len">Mínimo 8 caracteres</span>
-      <span class="pwd-req" id="r1-num">Al menos 1 número</span>
-      <span class="pwd-req" id="r1-sym">Al menos 1 símbolo</span>
-      <span class="pwd-req" id="r1-up">Al menos 1 mayúscula</span>
+      <span class="pwd-req" id="r1-len" data-i18n="register.common.req_len">Mínimo 8 caracteres</span>
+      <span class="pwd-req" id="r1-num" data-i18n="register.common.req_num">Al menos 1 número</span>
+      <span class="pwd-req" id="r1-sym" data-i18n="register.common.req_sym">Al menos 1 símbolo</span>
+      <span class="pwd-req" id="r1-up" data-i18n="register.common.req_upper">Al menos 1 mayúscula</span>
     </div>
-    <div class="pwd-hint-static">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
+    <div class="pwd-hint-static" data-i18n="register.common.pwd_static_hint">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
     <div id="qwerty-kbd-1"></div>
 
-    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;margin-top:20px;">CONFIRMAR</div>
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;margin-top:20px;" data-i18n="register.screen2.pwd_confirm_label">CONFIRMAR</div>
     <div class="pwd-dots-wrap">
       <div class="pwd-dots empty" id="pwd2-dots">· · · · · · · ·</div>
-      <button type="button" class="pwd-eye-btn" id="pwd2-eye" onclick="togglePwdVisibility(2)" aria-label="Mostrar contraseña">
+      <button type="button" class="pwd-eye-btn" id="pwd2-eye" onclick="togglePwdVisibility(2)" aria-label="Mostrar contraseña" data-i18n-aria="register.common.eye_show_aria">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
-    <div class="pin-validation" id="pwd2-hint">Repite la contraseña</div>
+    <div class="pin-validation" id="pwd2-hint" data-i18n="register.screen2.pwd_confirm_hint">Repite la contraseña</div>
     <div class="pwd-strength" id="str-pwd2">
-      <span class="pwd-req" id="r2-len">Mínimo 8 caracteres</span>
-      <span class="pwd-req" id="r2-num">Al menos 1 número</span>
-      <span class="pwd-req" id="r2-sym">Al menos 1 símbolo</span>
-      <span class="pwd-req" id="r2-up">Al menos 1 mayúscula</span>
+      <span class="pwd-req" id="r2-len" data-i18n="register.common.req_len">Mínimo 8 caracteres</span>
+      <span class="pwd-req" id="r2-num" data-i18n="register.common.req_num">Al menos 1 número</span>
+      <span class="pwd-req" id="r2-sym" data-i18n="register.common.req_sym">Al menos 1 símbolo</span>
+      <span class="pwd-req" id="r2-up" data-i18n="register.common.req_upper">Al menos 1 mayúscula</span>
     </div>
-    <div class="pwd-hint-static">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
+    <div class="pwd-hint-static" data-i18n="register.common.pwd_static_hint">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
     <div id="qwerty-kbd-2"></div>
 
     <div class="security-badge" style="margin-top:16px;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12A5FF" stroke-width="1.5"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/><polyline points="9 12 11 14 15 10"/></svg>
-      <div class="security-badge-text">Cuanto más larga y variada, más difícil de romper</div>
+      <div class="security-badge-text" data-i18n="register.screen2.security_badge_text">Cuanto más larga y variada, más difícil de romper</div>
     </div>
   </div>
 
-  <div style="border:1px solid #ff0000;border-radius:8px;padding:12px;margin:0 0 14px 0;font-size:10px;color:#ff4444;letter-spacing:1px;line-height:1.6">
+  <div style="border:1px solid #ff0000;border-radius:8px;padding:12px;margin:0 0 14px 0;font-size:10px;color:#ff4444;letter-spacing:1px;line-height:1.6" data-i18n="register.screen2.lock_warning">
     ⚠ IMPORTANTE — Los datos de identidad introducidos (nombre, apellidos, fecha de nacimiento, documento y email) quedan BLOQUEADOS de forma permanente tras la verificación. Asegúrate de que son correctos antes de continuar.
   </div>
 
   <div id="btn-send-otp-wrap" style="width:100%">
-    <button class="btn-primary" id="btn-send-otp" disabled style="pointer-events:none;width:100%">
+    <button class="btn-primary" id="btn-send-otp" disabled style="pointer-events:none;width:100%" data-i18n="register.screen2.send_otp_button">
       ENVIAR CÓDIGO DE VERIFICACIÓN
     </button>
   </div>
@@ -1009,15 +1012,15 @@
 <!-- ===== PANTALLA 3 — VERIFICACIÓN EMAIL ===== -->
 <div class="screen" id="screen-3">
   <div class="form-card">
-    <div class="form-card-title">Datos verificados — solo lectura</div>
+    <div class="form-card-title" data-i18n="register.screen3.locked_title">Datos verificados — solo lectura</div>
 
-    <div class="locked-label">Nombre completo</div>
+    <div class="locked-label" data-i18n="register.screen3.locked_name_label">Nombre completo</div>
     <div class="locked-field">
       <div class="locked-icon">🔒</div>
       <div class="locked-value" id="locked-name">—</div>
     </div>
 
-    <div class="locked-label">Correo electrónico</div>
+    <div class="locked-label" data-i18n="register.screen3.locked_email_label">Correo electrónico</div>
     <div class="locked-field">
       <div class="locked-icon">🔒</div>
       <div class="locked-value" id="locked-email">—</div>
@@ -1025,9 +1028,9 @@
   </div>
 
   <div class="form-card">
-    <div class="form-card-title">Verificación de email</div>
+    <div class="form-card-title" data-i18n="register.screen3.title">Verificación de email</div>
 
-    <div class="field-hint" style="margin-bottom:14px;line-height:1.7;">
+    <div class="field-hint" style="margin-bottom:14px;line-height:1.7;" data-i18n="register.screen3.info_hint">
       Hemos enviado un código a tu email. Introdúcelo para verificar tu identidad. Este es el único correo de verificación que recibirás.
     </div>
 
@@ -1040,11 +1043,11 @@
       <div class="code-char" id="otp-c5">·</div>
     </div>
 
-    <div class="code-timer" id="code-timer">
+    <div class="code-timer" id="code-timer" data-i18n-html="register.screen3.timer_html">
       El código expira en <span id="timer-count">10:00</span>
     </div>
 
-    <button class="resend-btn" id="btn-resend" disabled>Reenviar código</button>
+    <button class="resend-btn" id="btn-resend" disabled data-i18n="register.screen3.resend_button">Reenviar código</button>
 
     <div class="pin-keypad" id="otp-keypad">
       <button class="key-btn" data-otp="1">1</button>
@@ -1056,12 +1059,12 @@
       <button class="key-btn" data-otp="7">7</button>
       <button class="key-btn" data-otp="8">8</button>
       <button class="key-btn" data-otp="9">9</button>
-      <button class="key-btn" id="clr-otp">CLR</button>
+      <button class="key-btn" id="clr-otp" data-i18n="register.screen3.clr">CLR</button>
       <button class="key-btn" data-otp="0">0</button>
       <button class="key-btn del" id="del-otp">⌫</button>
     </div>
 
-    <button class="btn-primary" id="btn-verify-otp" disabled>
+    <button class="btn-primary" id="btn-verify-otp" disabled data-i18n="register.screen3.verify_button">
       VERIFICAR CÓDIGO
     </button>
   </div>
@@ -1072,11 +1075,11 @@
 <div class="screen" id="screen-blocked" style="display:none">
   <div class="form-card">
 
-    <div style="color:#ff0000;font-size:14px;font-weight:900;letter-spacing:3px;text-align:center;margin-bottom:16px;text-shadow:0 0 8px #ff0000">
+    <div style="color:#ff0000;font-size:14px;font-weight:900;letter-spacing:3px;text-align:center;margin-bottom:16px;text-shadow:0 0 8px #ff0000" data-i18n="register.blocked.title">
       ⚠ CUENTA BLOQUEADA
     </div>
 
-    <div style="font-size:12px;color:rgba(255,255,255,0.7);text-align:center;margin-bottom:24px;line-height:1.6">
+    <div style="font-size:12px;color:rgba(255,255,255,0.7);text-align:center;margin-bottom:24px;line-height:1.6" data-i18n-html="register.blocked.subtitle_html">
       Has superado el número máximo de intentos.<br>Elige una opción:
     </div>
 
@@ -1084,25 +1087,25 @@
       30:00
     </div>
 
-    <div style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:24px;line-height:1.6">
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:24px;line-height:1.6" data-i18n-html="register.blocked.timer_desc_html">
       Tiempo restante para recuperar tu cuenta.<br>
       Si el contador llega a cero, la cuenta<br>se cancelará automáticamente.
     </div>
 
-    <button id="btn-recover-blocked" style="width:100%;padding:16px;margin-bottom:12px;background:transparent;border:2px solid #12A5FF;border-radius:12px;color:#12A5FF;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;cursor:pointer;text-shadow:0 0 8px #12A5FF">
+    <button id="btn-recover-blocked" style="width:100%;padding:16px;margin-bottom:12px;background:transparent;border:2px solid #12A5FF;border-radius:12px;color:#12A5FF;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;cursor:pointer;text-shadow:0 0 8px #12A5FF" data-i18n="register.blocked.recover_button">
       RECUPERAR MI CUENTA
     </button>
 
-    <div style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:20px">
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:20px" data-i18n-html="register.blocked.recover_desc_html">
       Se enviará un código a tu correo registrado.<br>
       Tienes 30 minutos para completar la verificación.
     </div>
 
-    <button id="btn-cancel-blocked" style="width:100%;padding:14px;background:transparent;border:1px solid #ff0000;border-radius:12px;color:#ff0000;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;cursor:pointer">
+    <button id="btn-cancel-blocked" style="width:100%;padding:14px;background:transparent;border:1px solid #ff0000;border-radius:12px;color:#ff0000;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;cursor:pointer" data-i18n="register.blocked.cancel_button">
       CANCELAR CUENTA DEFINITIVAMENTE
     </button>
 
-    <div style="font-size:9px;color:rgba(255,0,0,0.4);text-align:center;margin-top:8px">
+    <div style="font-size:9px;color:rgba(255,0,0,0.4);text-align:center;margin-top:8px" data-i18n-html="register.blocked.cancel_warning_html">
       Esta acción es irreversible.<br>Todos tus datos serán eliminados.
     </div>
 
@@ -1113,24 +1116,24 @@
 <!-- ===== PANTALLA 4 — 2FA ===== -->
 <div class="screen" id="screen-4">
   <div class="form-card">
-    <div class="form-card-title">Seguridad — Configura tu doble factor</div>
+    <div class="form-card-title" data-i18n="register.screen4.title">Seguridad — Configura tu doble factor</div>
 
-    <div class="field-hint" style="margin-bottom:20px;color:rgba(255,68,68,0.8);border:1px solid rgba(255,68,68,0.3);padding:10px;border-radius:8px;">
+    <div class="field-hint" style="margin-bottom:20px;color:rgba(255,68,68,0.8);border:1px solid rgba(255,68,68,0.3);padding:10px;border-radius:8px;" data-i18n="register.screen4.mandatory_hint">
       Obligatorio — sin esto no podrás acceder a Atabeyapp
     </div>
 
     <div class="tfa-option">
-      <div class="tfa-option-title">Google Authenticator</div>
-      <div class="tfa-option-desc">
+      <div class="tfa-option-title" data-i18n="register.screen4.totp_title">Google Authenticator</div>
+      <div class="tfa-option-desc" data-i18n="register.screen4.totp_desc">
         Descarga Google Authenticator, escanea el QR y escribe el código que aparece en la app.
       </div>
 
       <img id="totp-qr-img" alt="QR 2FA">
 
-      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(18,165,255,0.4);text-align:center;margin-bottom:4px;">Clave secreta (manual)</div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(18,165,255,0.4);text-align:center;margin-bottom:4px;" data-i18n="register.screen4.secret_label">Clave secreta (manual)</div>
       <div class="totp-secret" id="totp-secret-text">—</div>
 
-      <div class="field-hint" style="margin-bottom:12px;">Introduce el código de 6 dígitos que ves en la app:</div>
+      <div class="field-hint" style="margin-bottom:12px;" data-i18n="register.screen4.enter_code_hint">Introduce el código de 6 dígitos que ves en la app:</div>
 
       <div class="code-display">
         <div class="code-char" id="totp-c0">·</div>
@@ -1151,12 +1154,12 @@
         <button class="key-btn" data-totp="7">7</button>
         <button class="key-btn" data-totp="8">8</button>
         <button class="key-btn" data-totp="9">9</button>
-        <button class="key-btn" id="clr-totp">CLR</button>
+        <button class="key-btn" id="clr-totp" data-i18n="register.screen4.clr">CLR</button>
         <button class="key-btn" data-totp="0">0</button>
         <button class="key-btn del" id="del-totp">⌫</button>
       </div>
 
-      <button class="btn-primary" id="btn-verify-totp" disabled>
+      <button class="btn-primary" id="btn-verify-totp" disabled data-i18n="register.screen4.confirm_button">
         CONFIRMAR CON AUTHENTICATOR
       </button>
     </div>
@@ -1174,38 +1177,38 @@
           <polyline points="20 6 9 17 4 12"/>
         </svg>
       </div>
-      <div class="success-title">Tu cuenta Atabeyapp está lista</div>
-      <div class="success-sub">Tus datos de identidad han sido verificados<br>y quedan bloqueados de forma permanente.</div>
+      <div class="success-title" data-i18n="register.screen5.title">Tu cuenta Atabeyapp está lista</div>
+      <div class="success-sub" data-i18n-html="register.screen5.subtitle_html">Tus datos de identidad han sido verificados<br>y quedan bloqueados de forma permanente.</div>
     </div>
 
-    <div class="form-card-title">Resumen del registro</div>
+    <div class="form-card-title" data-i18n="register.screen5.summary_title">Resumen del registro</div>
 
     <div class="summary-row">
-      <div class="summary-key">Nombre</div>
+      <div class="summary-key" data-i18n="register.screen5.summary_nombre">Nombre</div>
       <div class="summary-val" id="success-nombre">—</div>
     </div>
     <div class="summary-row">
-      <div class="summary-key">Fecha nacimiento</div>
+      <div class="summary-key" data-i18n="register.screen5.summary_fnac">Fecha nacimiento</div>
       <div class="summary-val" id="success-fnac">—</div>
     </div>
     <div class="summary-row">
-      <div class="summary-key">Documento</div>
+      <div class="summary-key" data-i18n="register.screen5.summary_doc">Documento</div>
       <div class="summary-val" id="success-doc">—</div>
     </div>
     <div class="summary-row">
-      <div class="summary-key">Sexo biológico</div>
+      <div class="summary-key" data-i18n="register.screen5.summary_sexo">Sexo biológico</div>
       <div class="summary-val" id="success-sexo">—</div>
     </div>
     <div class="summary-row">
-      <div class="summary-key">Email</div>
+      <div class="summary-key" data-i18n="register.screen5.summary_email">Email</div>
       <div class="summary-val" id="success-email">—</div>
     </div>
     <div class="summary-row" style="border-bottom:none;">
-      <div class="summary-key">Doble factor</div>
+      <div class="summary-key" data-i18n="register.screen5.summary_2fa">Doble factor</div>
       <div class="summary-val" id="success-2fa">—</div>
     </div>
 
-    <button class="btn-primary" id="btn-go-profile" style="margin-top:24px;">
+    <button class="btn-primary" id="btn-go-profile" style="margin-top:24px;" data-i18n="register.screen5.go_profile_button">
       IR A MI PERFIL MÉDICO →
     </button>
   </div>
@@ -1215,6 +1218,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="i18n/loader.js"></script>
 <script>
 // ===== CONFIG API =====
 const API = 'https://doctorqr-backend-production.up.railway.app';
@@ -1307,7 +1311,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'CLR') {
           btn.className = 'qwerty-key qwerty-action';
-          btn.textContent = 'Limpiar'; btn.style.flex = '1.5';
+          btn.textContent = window.t('register.qwerty.clear'); btn.style.flex = '1.5';
           btn._kbdAction = () => { playKeyClick(); if (clearFn) clearFn(); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -1315,7 +1319,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'NUMS') {
           btn.className = 'qwerty-key qwerty-action';
-          btn.textContent = '123'; btn.style.flex = '1.5';
+          btn.textContent = window.t('register.qwerty.nums'); btn.style.flex = '1.5';
           btn._kbdAction = () => { playKeyClick(); mode = 'nums'; render(); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -1323,7 +1327,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'BACK') {
           btn.className = 'qwerty-key qwerty-action';
-          btn.textContent = 'ABC'; btn.style.flex = '1.5';
+          btn.textContent = window.t('register.qwerty.back'); btn.style.flex = '1.5';
           btn._kbdAction = () => { playKeyClick(); mode = 'letters'; render(); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -1331,7 +1335,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'SPACE') {
           btn.className = 'qwerty-key qwerty-space';
-          btn.style.flex = '4'; btn.setAttribute('aria-label','espacio');
+          btn.style.flex = '4'; btn.setAttribute('aria-label', window.t('register.qwerty.space_aria'));
           btn._kbdAction = () => { playKeyClick(); appendFn(' '); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -1381,16 +1385,18 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
   container.addEventListener('touchend', function() { if (_dragKey) { _dragKey.classList.remove('kbd-pressed'); _dragKey = null; } });
   container.addEventListener('touchcancel', function() { if (_dragKey) { _dragKey.classList.remove('kbd-pressed'); _dragKey = null; } });
 }
-buildQwertyKbd('qwerty-kbd-1',
-  c => handlePwdInput(1, c),
-  () => { pwd1Buffer = pwd1Buffer.slice(0,-1); updatePwdDisplay(1); checkStep2Ready(); },
-  () => { pwd1Buffer = ''; updatePwdDisplay(1); checkStep2Ready(); }
-);
-buildQwertyKbd('qwerty-kbd-2',
-  c => handlePwdInput(2, c),
-  () => { pwd2Buffer = pwd2Buffer.slice(0,-1); updatePwdDisplay(2); checkStep2Ready(); },
-  () => { pwd2Buffer = ''; updatePwdDisplay(2); checkStep2Ready(); }
-);
+window.i18nReady.finally(() => {
+  buildQwertyKbd('qwerty-kbd-1',
+    c => handlePwdInput(1, c),
+    () => { pwd1Buffer = pwd1Buffer.slice(0,-1); updatePwdDisplay(1); checkStep2Ready(); },
+    () => { pwd1Buffer = ''; updatePwdDisplay(1); checkStep2Ready(); }
+  );
+  buildQwertyKbd('qwerty-kbd-2',
+    c => handlePwdInput(2, c),
+    () => { pwd2Buffer = pwd2Buffer.slice(0,-1); updatePwdDisplay(2); checkStep2Ready(); },
+    () => { pwd2Buffer = ''; updatePwdDisplay(2); checkStep2Ready(); }
+  );
+});
 
 // ===== BOTONES DOMINIO EMAIL =====
 document.querySelectorAll('.domain-btn').forEach(btn => {
@@ -1444,10 +1450,10 @@ function updatePwdDisplay(num) {
 
   const hint = document.getElementById(hintId);
   if (num === 2 && buf.length > 0) {
-    if (pwd2Buffer === pwd1Buffer) { hint.textContent = '✓ Las contraseñas coinciden'; hint.style.color = '#12A5FF'; }
-    else                           { hint.textContent = '✗ Las contraseñas no coinciden'; hint.style.color = '#ff4444'; }
+    if (pwd2Buffer === pwd1Buffer) { hint.textContent = window.t('register.screen2.pwd_match'); hint.style.color = '#12A5FF'; }
+    else                           { hint.textContent = window.t('register.screen2.pwd_no_match'); hint.style.color = '#ff4444'; }
   } else {
-    hint.textContent = num === 1 ? 'Mínimo 8 caracteres, 1 número y 1 símbolo' : 'Repite la contraseña';
+    hint.textContent = num === 1 ? window.t('register.common.pwd_validation') : window.t('register.screen2.pwd_confirm_hint');
     hint.style.color = 'rgba(255,255,255,0.3)';
   }
   checkStep2Ready();
@@ -1468,7 +1474,7 @@ function togglePwdVisibility(num) {
   const btn = document.getElementById(num === 1 ? 'pwd1-eye' : 'pwd2-eye');
   if (btn) {
     btn.innerHTML = visible ? EYE_ICON_OFF : EYE_ICON_OPEN;
-    btn.setAttribute('aria-label', visible ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    btn.setAttribute('aria-label', visible ? window.t('register.common.eye_hide_aria') : window.t('register.common.eye_show_aria'));
   }
   updatePwdDisplay(num);
 }
@@ -1508,22 +1514,22 @@ function validateDocNum(type, num) {
   const v = num.trim().toUpperCase();
   if (type === 'DNI') {
     const m = v.match(/^(\d{8})([A-Z])$/);
-    if (!m) return { ok:false, msg:'DNI: 8 dígitos + 1 letra (ej: 12345678A)' };
+    if (!m) return { ok:false, msg:window.t('register.screen2.doc_error_dni_format') };
     const expected = DNI_LETTERS[parseInt(m[1]) % 23];
-    if (m[2] !== expected) return { ok:false, msg:'Letra del DNI incorrecta (debería ser '+expected+')' };
-    return { ok:true, msg:'✓ DNI válido' };
+    if (m[2] !== expected) return { ok:false, msg:window.t('register.screen2.doc_error_dni_letter').replace('{n}', expected) };
+    return { ok:true, msg:window.t('register.screen2.doc_valid_dni') };
   }
   if (type === 'NIE') {
     const m = v.match(/^([XYZ])(\d{7})([A-Z])$/);
-    if (!m) return { ok:false, msg:'NIE: X/Y/Z + 7 dígitos + 1 letra (ej: X1234567A)' };
+    if (!m) return { ok:false, msg:window.t('register.screen2.doc_error_nie_format') };
     const map = { X:'0', Y:'1', Z:'2' };
     const expected = DNI_LETTERS[parseInt(map[m[1]]+m[2]) % 23];
-    if (m[3] !== expected) return { ok:false, msg:'Letra del NIE incorrecta (debería ser '+expected+')' };
-    return { ok:true, msg:'✓ NIE válido' };
+    if (m[3] !== expected) return { ok:false, msg:window.t('register.screen2.doc_error_nie_letter').replace('{n}', expected) };
+    return { ok:true, msg:window.t('register.screen2.doc_valid_nie') };
   }
   if (type === 'PASAPORTE') {
-    if (/^[A-Z0-9]{6,12}$/.test(v)) return { ok:true, msg:'✓ Pasaporte válido' };
-    return { ok:false, msg:'Pasaporte: 6-12 caracteres alfanuméricos' };
+    if (/^[A-Z0-9]{6,12}$/.test(v)) return { ok:true, msg:window.t('register.screen2.doc_valid_pasaporte') };
+    return { ok:false, msg:window.t('register.screen2.doc_error_pasaporte_format') };
   }
   return { ok:false, msg:'' };
 }
@@ -1587,22 +1593,22 @@ function obtenerCamposFaltantes() {
   const pwdLen    = pwd2Buffer.length >= 8;
 
   const faltan = [];
-  if (nombre.length < 2)    faltan.push('Nombre (mínimo 2 caracteres)');
-  if (apellidos.length < 2) faltan.push('Apellidos (mínimo 2 caracteres)');
-  if (!fnac)                faltan.push('Fecha de nacimiento');
-  if (!docType)             faltan.push('Tipo de documento');
-  else if (!docOk)          faltan.push('Número de documento inválido para ' + docType);
-  if (!sexo)                faltan.push('Sexo biológico');
-  if (!email)               faltan.push('Email');
-  else if (!emailOk)        faltan.push('Email con formato inválido');
+  if (nombre.length < 2)    faltan.push(window.t('register.screen2.missing_nombre'));
+  if (apellidos.length < 2) faltan.push(window.t('register.screen2.missing_apellidos'));
+  if (!fnac)                faltan.push(window.t('register.screen2.missing_fnac'));
+  if (!docType)             faltan.push(window.t('register.screen2.missing_doc_type'));
+  else if (!docOk)          faltan.push(window.t('register.screen2.missing_doc_invalid').replace('{n}', docType));
+  if (!sexo)                faltan.push(window.t('register.screen2.missing_sexo'));
+  if (!email)               faltan.push(window.t('register.screen2.missing_email'));
+  else if (!emailOk)        faltan.push(window.t('register.screen2.missing_email_format'));
   if (pwd1Buffer.length === 0) {
-    faltan.push('Contraseña — introduce tu contraseña');
+    faltan.push(window.t('register.screen2.missing_pwd_empty'));
   } else if (!pwdValid.valid) {
-    faltan.push('Contraseña — mínimo 8 caracteres, 1 número y 1 símbolo');
+    faltan.push(window.t('register.screen2.missing_pwd_invalid'));
   } else if (!pwdMatch) {
-    faltan.push('Contraseña — la confirmación no coincide');
+    faltan.push(window.t('register.screen2.missing_pwd_mismatch'));
   } else if (!pwdLen) {
-    faltan.push('Contraseña — confirma con mínimo 8 caracteres');
+    faltan.push(window.t('register.screen2.missing_pwd_confirm_len'));
   }
   return faltan;
 }
@@ -1611,7 +1617,7 @@ function mostrarCamposFaltantes() {
   const faltan = obtenerCamposFaltantes();
   if (!faltan.length) return;
   const msg = document.getElementById('missing-fields-msg');
-  msg.innerHTML = '⚠ Faltan los siguientes campos:<br>• ' + faltan.join('<br>• ');
+  msg.innerHTML = window.t('register.screen2.missing_fields_prefix') + faltan.join('<br>• ');
   msg.style.display = 'block';
 }
 
@@ -1713,7 +1719,7 @@ document.getElementById('btn-send-otp').addEventListener('click', async () => {
 
   const btn = document.getElementById('btn-send-otp');
   btn.disabled = true;
-  btn.textContent = 'Enviando código...';
+  btn.textContent = window.t('register.screen2.sending_button');
 
   try {
     const response = await fetch(`${API}/api/auth/register`, {
@@ -1733,23 +1739,23 @@ document.getElementById('btn-send-otp').addEventListener('click', async () => {
     const data = await response.json();
     if (data.success) {
       localStorage.setItem('doctorqr_pending_email', regData.email);
-      showToast('Código enviado a ' + regData.email);
+      showToast(window.t('register.screen2.otp_sent_toast_prefix') + regData.email);
       lockIdentityFields();
       document.getElementById('locked-name').textContent  = regData.nombre + ' ' + regData.apellidos;
       document.getElementById('locked-email').textContent = regData.email;
       goToScreen(3);
       startTimer();
     } else {
-      showToast(data.error || 'Error al registrar');
+      showToast(data.error || window.t('register.screen2.register_error_generic'));
       btn.disabled = false;
     }
   } catch(e) {
     console.error('Registro:', e);
-    showToast('Error de conexión con el servidor');
+    showToast(window.t('register.common.connection_error'));
     btn.disabled = false;
   }
 
-  btn.textContent = 'ENVIAR CÓDIGO DE VERIFICACIÓN';
+  btn.textContent = window.t('register.screen2.send_otp_button');
 });
 
 function lockIdentityFields() {
@@ -1810,13 +1816,13 @@ document.getElementById('btn-verify-otp').addEventListener('click', async () => 
       }
       otpBuffer=''; updateOTPDisplay();
       const intentos = data.remaining_attempts !== undefined
-        ? ` — Te quedan ${data.remaining_attempts} intento${data.remaining_attempts !== 1 ? 's' : ''}`
+        ? window.t(data.remaining_attempts !== 1 ? 'register.screen3.remaining_attempts_plural' : 'register.screen3.remaining_attempts_singular').replace('{n}', data.remaining_attempts)
         : '';
-      showToast((data.error || 'Código incorrecto') + intentos);
+      showToast((data.error || window.t('register.screen3.wrong_code_generic')) + intentos);
     }
   } catch(e) {
     console.error('Verify OTP:', e);
-    showToast('Error de conexión con el servidor');
+    showToast(window.t('register.common.connection_error'));
   }
 
   if (otpBuffer.length === 6) btn.disabled = false;
@@ -1847,7 +1853,7 @@ function startBlockCountdown() {
     if (seconds <= 0) {
       clearInterval(interval);
       cancelAccount();
-      showToast('Tu cuenta ha sido cancelada automáticamente por inactividad.');
+      showToast(window.t('register.blocked.auto_cancel_toast'));
     }
   }, 1000);
 
@@ -1869,10 +1875,10 @@ document.getElementById('btn-recover-blocked').addEventListener('click', async (
       body: JSON.stringify({ email: regData.email })
     });
     const data = await response.json();
-    showToast(data.success ? 'Código de recuperación enviado a tu correo' : (data.error || 'Error al enviar'));
+    showToast(data.success ? window.t('register.blocked.recover_sent_toast') : (data.error || window.t('register.blocked.recover_error_generic')));
   } catch(e) {
     console.error('Recover:', e);
-    showToast('Error de conexión con el servidor');
+    showToast(window.t('register.common.connection_error'));
   }
   // Reiniciar intentos y volver a pantalla OTP con nuevo countdown de 30 min
   otpAttempts = 0;
@@ -1888,15 +1894,15 @@ document.getElementById('btn-recover-blocked').addEventListener('click', async (
     if (el) el.textContent = m + ':' + (s + '').padStart(2, '0');
     if (timerSecs <= 0) {
       clearInterval(timerIntvl);
-      if (el) el.textContent = 'Expirado';
+      if (el) el.textContent = window.t('register.common.expired');
       cancelAccount();
-      showToast('Tiempo agotado. La cuenta ha sido cancelada automáticamente.');
+      showToast(window.t('register.blocked.timeout_cancel_toast'));
     }
   }, 1000);
 });
 
 document.getElementById('btn-cancel-blocked').addEventListener('click', () => {
-  if (confirm('¿Estás seguro? Esta acción es irreversible. Todos tus datos serán eliminados.')) {
+  if (confirm(window.t('register.blocked.confirm_cancel_dialog'))) {
     cancelAccount();
     window.location.href = 'register.html';
   }
@@ -1910,10 +1916,10 @@ document.getElementById('btn-resend').addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: regData.email })
     });
-    showToast('Nuevo código enviado');
+    showToast(window.t('register.screen3.resend_success'));
   } catch(e) {
     console.error('Resend:', e);
-    showToast('Error al reenviar código');
+    showToast(window.t('register.screen3.resend_error'));
   }
   otpBuffer=''; updateOTPDisplay();
   startTimer();
@@ -1930,17 +1936,17 @@ function startTimer() {
     if(el) el.textContent=m+':'+(s+'').padStart(2,'0');
     if(timerSecs<=0){
       clearInterval(timerIntvl);
-      if(el) el.textContent='Expirado';
+      if(el) el.textContent=window.t('register.common.expired');
       document.getElementById('btn-resend').disabled=false;
     }
   },1000);
 
   resendCd=60;
   const rb=document.getElementById('btn-resend');
-  rb.disabled=true; rb.textContent='Reenviar en 60s';
+  rb.disabled=true; rb.textContent=window.t('register.screen3.resend_countdown').replace('{n}', resendCd);
   const ri=setInterval(()=>{
     resendCd--;
-    rb.textContent=resendCd>0?`Reenviar en ${resendCd}s`:'Reenviar código';
+    rb.textContent=resendCd>0?window.t('register.screen3.resend_countdown').replace('{n}', resendCd):window.t('register.screen3.resend_button');
     if(resendCd<=0){clearInterval(ri);rb.disabled=false;}
   },1000);
 }
@@ -1948,7 +1954,7 @@ function startTimer() {
 // ===== TOTP =====
 async function initTOTP() {
   selectedTfaMethod = 'totp';
-  document.getElementById('totp-secret-text').textContent = 'Cargando…';
+  document.getElementById('totp-secret-text').textContent = window.t('register.screen4.loading');
   try {
     const response = await fetch(`${API}/api/auth/setup-2fa`, {
       method: 'POST',
@@ -1960,11 +1966,11 @@ async function initTOTP() {
       document.getElementById('totp-qr-img').src = data.qr_url;
       document.getElementById('totp-secret-text').textContent = data.secret;
     } else {
-      showToast('Error al configurar 2FA: ' + (data.error || ''));
+      showToast(window.t('register.screen4.setup_error_prefix') + (data.error || ''));
     }
   } catch(e) {
     console.error('Setup 2FA:', e);
-    showToast('Error de conexión con el servidor');
+    showToast(window.t('register.common.connection_error'));
   }
 }
 
@@ -2033,11 +2039,11 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
         if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
       }
       totpBuffer=''; updateTOTPDisplay();
-      showToast(data.error || 'Código incorrecto — intenta de nuevo');
+      showToast(data.error || window.t('register.screen4.wrong_code_generic'));
     }
   } catch(e) {
     console.error('Verify 2FA:', e);
-    showToast('Error de conexión con el servidor');
+    showToast(window.t('register.common.connection_error'));
   }
 
   btn.disabled = totpBuffer.length !== 6;
@@ -2050,7 +2056,7 @@ function populateSuccessScreen(auth){
   document.getElementById('success-doc').textContent    = auth.doc_type+' '+auth.doc_number;
   document.getElementById('success-sexo').textContent   = auth.sexo_biologico;
   document.getElementById('success-email').textContent  = auth.email;
-  document.getElementById('success-2fa').textContent    = 'Google Authenticator';
+  document.getElementById('success-2fa').textContent    = window.t('register.screen4.totp_title');
 }
 
 document.getElementById('btn-go-profile').addEventListener('click',()=>{
@@ -2058,13 +2064,15 @@ document.getElementById('btn-go-profile').addEventListener('click',()=>{
 });
 
 // ===== NAVEGACIÓN =====
-const STEP_LABELS={
-  1:'Paso 1 de 5 — Términos de uso',
-  2:'Paso 2 de 5 — Datos de identidad',
-  3:'Paso 3 de 5 — Verificación email',
-  4:'Paso 4 de 5 — Doble factor',
-  5:'¡Registro completado!',
-};
+function getStepLabel(n) {
+  return {
+    1: window.t('register.step_label.step1'),
+    2: window.t('register.step_label.step2'),
+    3: window.t('register.step_label.step3'),
+    4: window.t('register.step_label.step4'),
+    5: window.t('register.step_label.step5'),
+  }[n] || '';
+}
 
 function goToScreen(n){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -2080,7 +2088,7 @@ function goToScreen(n){
     const line=document.getElementById('line-'+i);
     if(line) line.classList.toggle('done',i<n);
   }
-  document.getElementById('step-label').textContent=STEP_LABELS[n]||'';
+  document.getElementById('step-label').textContent=getStepLabel(n);
   window.scrollTo(0,0);
   _hookStep2Timer(n);
 }

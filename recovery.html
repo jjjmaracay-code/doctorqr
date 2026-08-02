@@ -9,6 +9,7 @@
 <title>Atabeyapp · Recuperación</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/otpauth@9.5.1/dist/otpauth.umd.js" integrity="sha384-p+EjzujF9MpGx3yW9qH2b7Ns/r+sSH1CjRiAm65rspWqLl2AeaoQg9z0QHzv8zZj" crossorigin="anonymous"></script>
+<script src="/i18n/loader.js"></script>
 
 <style>
   :root {
@@ -492,7 +493,7 @@
     <text x="270" y="21" font-family="Arial, Helvetica, sans-serif" font-weight="700"
           font-size="14" fill="#ffffff" filter="url(#rwm-glow-white)">™</text>
   </svg>
-  <div class="rec-tagline">Recuperación de acceso</div>
+  <div class="rec-tagline" data-i18n="recovery.header.tagline">Recuperación de acceso</div>
 
   <div class="steps-wrap">
     <div class="steps-row">
@@ -504,7 +505,7 @@
       <div class="step-line" id="line-3"></div>
       <div class="step-dot" id="dot-4">✓</div>
     </div>
-    <div class="step-label" id="step-label">Paso 1 — Solicitar código</div>
+    <div class="step-label" id="step-label" data-i18n="recovery.step_label.step1">Paso 1 — Solicitar código</div>
   </div>
 </div>
 
@@ -513,33 +514,33 @@
 <!-- ===== PANTALLA 1 — SOLICITAR RECUPERACIÓN ===== -->
 <div class="screen active" id="screen-1">
   <div class="rec-card">
-    <div class="rec-card-title">Recuperar acceso</div>
+    <div class="rec-card-title" data-i18n="recovery.screen1.title">Recuperar acceso</div>
 
     <div class="info-box">
-      <div class="info-box-text">
+      <div class="info-box-text" data-i18n-html="recovery.screen1.info_html">
         Introduce el email con el que te registraste. Te enviaremos un código de 6 dígitos <strong>válido durante 30 minutos</strong>.
       </div>
     </div>
 
     <div class="field-wrap">
-      <div class="field-label">Correo electrónico registrado</div>
-      <input class="field-input" id="rec-email" type="email" placeholder="tu@email.com" autocomplete="email">
+      <div class="field-label" data-i18n="recovery.screen1.email_label">Correo electrónico registrado</div>
+      <input class="field-input" id="rec-email" type="email" placeholder="tu@email.com" autocomplete="email" data-i18n-placeholder="recovery.common.email_placeholder">
       <div class="domain-btns">
-        <button type="button" class="domain-btn" data-domain="@gmail.com">@gmail.com</button>
-        <button type="button" class="domain-btn" data-domain="@hotmail.com">@hotmail.com</button>
-        <button type="button" class="domain-btn" data-domain="@icloud.com">@icloud.com</button>
+        <button type="button" class="domain-btn" data-domain="@gmail.com" data-i18n="recovery.common.domain_gmail">@gmail.com</button>
+        <button type="button" class="domain-btn" data-domain="@hotmail.com" data-i18n="recovery.common.domain_hotmail">@hotmail.com</button>
+        <button type="button" class="domain-btn" data-domain="@icloud.com" data-i18n="recovery.common.domain_icloud">@icloud.com</button>
       </div>
       <div class="field-hint" id="rec-email-hint"></div>
     </div>
 
-    <button class="btn-primary" id="btn-send-rec" disabled>
+    <button class="btn-primary" id="btn-send-rec" disabled data-i18n="recovery.screen1.submit_button">
       ENVIAR CÓDIGO DE RECUPERACIÓN
     </button>
 
     <div class="bottom-link">
-      <a onclick="window.location.href='register.html'">← Crear cuenta nueva</a>
+      <a onclick="window.location.href='register.html'" data-i18n="recovery.screen1.create_account_link">← Crear cuenta nueva</a>
       &nbsp;·&nbsp;
-      <a onclick="window.location.href='index.html'">Entrar →</a>
+      <a onclick="window.location.href='index.html'" data-i18n="recovery.screen1.enter_link">Entrar →</a>
     </div>
   </div>
 </div><!-- fin screen-1 -->
@@ -548,10 +549,10 @@
 <!-- ===== PANTALLA 2 — VERIFICAR CÓDIGO ===== -->
 <div class="screen" id="screen-2">
   <div class="rec-card">
-    <div class="rec-card-title">Código de recuperación</div>
+    <div class="rec-card-title" data-i18n="recovery.screen2.title">Código de recuperación</div>
 
     <div class="info-box">
-      <div class="info-box-text">
+      <div class="info-box-text" data-i18n-html="recovery.screen2.info_html">
         Hemos enviado un código a <strong id="rec-email-shown">—</strong>.<br>
         Introdúcelo para recuperar tu acceso. Válido 30 minutos.
       </div>
@@ -566,8 +567,8 @@
       <div class="code-char" id="rc5">·</div>
     </div>
 
-    <div class="code-timer">El código expira en <span id="rec-timer">30:00</span></div>
-    <button class="resend-btn" id="btn-resend-rec" disabled>Reenviar código</button>
+    <div class="code-timer"><span data-i18n="recovery.screen2.timer_prefix">El código expira en</span> <span id="rec-timer">30:00</span></div>
+    <button class="resend-btn" id="btn-resend-rec" disabled data-i18n="recovery.screen2.resend_button">Reenviar código</button>
 
     <div class="pin-keypad">
       <button class="key-btn" data-rec="1">1</button>
@@ -579,15 +580,15 @@
       <button class="key-btn" data-rec="7">7</button>
       <button class="key-btn" data-rec="8">8</button>
       <button class="key-btn" data-rec="9">9</button>
-      <button class="key-btn" id="clr-rec">CLR</button>
+      <button class="key-btn" id="clr-rec" data-i18n="recovery.screen2.clr">CLR</button>
       <button class="key-btn" data-rec="0">0</button>
       <button class="key-btn del" id="del-rec">⌫</button>
     </div>
 
-    <button class="btn-primary" id="btn-verify-rec" disabled>
+    <button class="btn-primary" id="btn-verify-rec" disabled data-i18n="recovery.screen2.verify_button">
       VERIFICAR
     </button>
-    <button class="btn-back" onclick="goToScreen(1)">← Volver</button>
+    <button class="btn-back" onclick="goToScreen(1)" data-i18n="recovery.screen2.back_button">← Volver</button>
   </div>
 </div><!-- fin screen-2 -->
 
@@ -595,48 +596,48 @@
 <!-- ===== PANTALLA 3 — NUEVA CONTRASEÑA + 2FA ===== -->
 <div class="screen" id="screen-3">
   <div class="rec-card green">
-    <div class="rec-card-title">Nueva contraseña maestra</div>
+    <div class="rec-card-title" data-i18n="recovery.screen3.title">Nueva contraseña maestra</div>
 
     <div class="info-box green">
-      <div class="info-box-text">
+      <div class="info-box-text" data-i18n-html="recovery.screen3.info_html">
         Crea tu nueva contraseña: <strong>mínimo 8 caracteres, al menos 1 número y 1 símbolo</strong>. Cuanto más larga, más segura.
       </div>
     </div>
 
-    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;">NUEVA CONTRASEÑA</div>
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin-bottom:8px;" data-i18n="recovery.screen3.new_password_label">NUEVA CONTRASEÑA</div>
     <div class="pwd-dots empty" id="np-dots">· · · · · · · ·</div>
-    <div class="pwd-validation" id="newpwd-hint">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
+    <div class="pwd-validation" id="newpwd-hint" data-i18n="recovery.common.pwd_validation">Mínimo 8 caracteres, 1 número y 1 símbolo</div>
     <div class="pwd-strength" id="str-newpwd">
-      <span class="pwd-req" id="rn-len">Mínimo 8 caracteres</span>
-      <span class="pwd-req" id="rn-num">Al menos 1 número</span>
-      <span class="pwd-req" id="rn-sym">Al menos 1 símbolo</span>
-      <span class="pwd-req" id="rn-up">Al menos 1 mayúscula</span>
+      <span class="pwd-req" id="rn-len" data-i18n="recovery.common.req_len">Mínimo 8 caracteres</span>
+      <span class="pwd-req" id="rn-num" data-i18n="recovery.common.req_num">Al menos 1 número</span>
+      <span class="pwd-req" id="rn-sym" data-i18n="recovery.common.req_sym">Al menos 1 símbolo</span>
+      <span class="pwd-req" id="rn-up" data-i18n="recovery.common.req_upper">Al menos 1 mayúscula</span>
     </div>
-    <div class="pwd-hint-static">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
+    <div class="pwd-hint-static" data-i18n="recovery.common.pwd_static_hint">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
     <div id="qwerty-kbd-new"></div>
 
-    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin:20px 0 8px;">CONFIRMAR CONTRASEÑA</div>
+    <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin:20px 0 8px;" data-i18n="recovery.screen3.confirm_password_label">CONFIRMAR CONTRASEÑA</div>
     <div class="pwd-dots empty" id="cp-dots">· · · · · · · ·</div>
-    <div class="pwd-validation" id="confirmpwd-hint">Repite la nueva contraseña</div>
+    <div class="pwd-validation" id="confirmpwd-hint" data-i18n="recovery.screen3.confirm_password_hint">Repite la nueva contraseña</div>
     <div class="pwd-strength" id="str-confirmpwd">
-      <span class="pwd-req" id="rc-len">Mínimo 8 caracteres</span>
-      <span class="pwd-req" id="rc-num">Al menos 1 número</span>
-      <span class="pwd-req" id="rc-sym">Al menos 1 símbolo</span>
-      <span class="pwd-req" id="rc-up">Al menos 1 mayúscula</span>
+      <span class="pwd-req" id="rc-len" data-i18n="recovery.common.req_len">Mínimo 8 caracteres</span>
+      <span class="pwd-req" id="rc-num" data-i18n="recovery.common.req_num">Al menos 1 número</span>
+      <span class="pwd-req" id="rc-sym" data-i18n="recovery.common.req_sym">Al menos 1 símbolo</span>
+      <span class="pwd-req" id="rc-up" data-i18n="recovery.common.req_upper">Al menos 1 mayúscula</span>
     </div>
-    <div class="pwd-hint-static">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
+    <div class="pwd-hint-static" data-i18n="recovery.common.pwd_static_hint">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
     <div id="qwerty-kbd-confirm"></div>
 
     <!-- 2FA DINÁMICO -->
     <div class="tfa-section" id="tfa-section">
-      <div class="tfa-section-title" id="tfa-title">Verificación doble factor</div>
+      <div class="tfa-section-title" id="tfa-title" data-i18n="recovery.screen3.tfa_title_default">Verificación doble factor</div>
 
       <!-- TOTP -->
       <div id="tfa-totp-wrap" style="display:none;">
         <div class="info-box green" style="margin-bottom:12px;">
-          <div class="info-box-text">Abre <strong>Google Authenticator</strong> e introduce el código de 6 dígitos que aparece para Atabeyapp.</div>
+          <div class="info-box-text" data-i18n-html="recovery.screen3.tfa_totp_info_html">Abre <strong>Google Authenticator</strong> e introduce el código de 6 dígitos que aparece para Atabeyapp.</div>
         </div>
         <div class="code-display">
           <div class="code-char green" id="tf0">·</div>
@@ -656,7 +657,7 @@
           <button class="key-btn green-key" data-target="tfa" data-val="7">7</button>
           <button class="key-btn green-key" data-target="tfa" data-val="8">8</button>
           <button class="key-btn green-key" data-target="tfa" data-val="9">9</button>
-          <button class="key-btn green-key" id="clr-tfa">CLR</button>
+          <button class="key-btn green-key" id="clr-tfa" data-i18n="recovery.screen3.tfa_clr">CLR</button>
           <button class="key-btn green-key" data-target="tfa" data-val="0">0</button>
           <button class="key-btn del green-key" id="del-tfa">⌫</button>
         </div>
@@ -665,7 +666,7 @@
       <!-- EMAIL 2FA -->
       <div id="tfa-email-wrap" style="display:none;">
         <div class="info-box green" style="margin-bottom:12px;">
-          <div class="info-box-text">Te hemos enviado un segundo código de verificación a tu email. Introdúcelo para confirmar el cambio.</div>
+          <div class="info-box-text" data-i18n="recovery.screen3.tfa_email_info">Te hemos enviado un segundo código de verificación a tu email. Introdúcelo para confirmar el cambio.</div>
         </div>
         <div class="code-display">
           <div class="code-char green" id="te0">·</div>
@@ -675,7 +676,7 @@
           <div class="code-char green" id="te4">·</div>
           <div class="code-char green" id="te5">·</div>
         </div>
-        <div class="code-timer">Expira en <span id="tfa-email-timer">10:00</span></div>
+        <div class="code-timer"><span data-i18n="recovery.screen3.tfa_email_timer_prefix">Expira en</span> <span id="tfa-email-timer">10:00</span></div>
         <div class="pin-keypad">
           <button class="key-btn green-key" data-target="tfaemail" data-val="1">1</button>
           <button class="key-btn green-key" data-target="tfaemail" data-val="2">2</button>
@@ -686,14 +687,14 @@
           <button class="key-btn green-key" data-target="tfaemail" data-val="7">7</button>
           <button class="key-btn green-key" data-target="tfaemail" data-val="8">8</button>
           <button class="key-btn green-key" data-target="tfaemail" data-val="9">9</button>
-          <button class="key-btn green-key" id="clr-tfaemail">CLR</button>
+          <button class="key-btn green-key" id="clr-tfaemail" data-i18n="recovery.screen3.tfa_clr">CLR</button>
           <button class="key-btn green-key" data-target="tfaemail" data-val="0">0</button>
           <button class="key-btn del green-key" id="del-tfaemail">⌫</button>
         </div>
       </div>
     </div>
 
-    <button class="btn-primary green-btn" id="btn-reset" disabled style="margin-top:16px;">
+    <button class="btn-primary green-btn" id="btn-reset" disabled style="margin-top:16px;" data-i18n="recovery.screen3.reset_button">
       RESTABLECER ACCESO
     </button>
   </div>
@@ -708,12 +709,12 @@
         <polyline points="20 6 9 17 4 12"/>
       </svg>
     </div>
-    <div class="success-title">Acceso restablecido</div>
-    <div class="success-sub">
+    <div class="success-title" data-i18n="recovery.success.title">Acceso restablecido</div>
+    <div class="success-sub" data-i18n-html="recovery.success.text_html">
       Tu nueva contraseña está activa.<br>
       Tus datos médicos han sido conservados.
     </div>
-    <button class="btn-primary green-btn" id="btn-enter">
+    <button class="btn-primary green-btn" id="btn-enter" data-i18n="recovery.success.enter_button">
       ENTRAR A ATABEYAPP →
     </button>
   </div>
@@ -799,7 +800,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'CLR') {
           btn.className = 'qwerty-key qwerty-action';
-          btn.textContent = 'Limpiar'; btn.style.flex = '1.5';
+          btn.textContent = t('recovery.qwerty.clear'); btn.style.flex = '1.5';
           btn._kbdAction = () => { playKeyClick(); if (clearFn) clearFn(); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -807,7 +808,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'NUMS') {
           btn.className = 'qwerty-key qwerty-action';
-          btn.textContent = '123'; btn.style.flex = '1.5';
+          btn.textContent = t('recovery.qwerty.nums'); btn.style.flex = '1.5';
           btn._kbdAction = () => { playKeyClick(); mode = 'nums'; render(); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -815,7 +816,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'BACK') {
           btn.className = 'qwerty-key qwerty-action';
-          btn.textContent = 'ABC'; btn.style.flex = '1.5';
+          btn.textContent = t('recovery.qwerty.back'); btn.style.flex = '1.5';
           btn._kbdAction = () => { playKeyClick(); mode = 'letters'; render(); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -823,7 +824,7 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
           });
         } else if (key === 'SPACE') {
           btn.className = 'qwerty-key qwerty-space';
-          btn.style.flex = '4'; btn.setAttribute('aria-label','espacio');
+          btn.style.flex = '4'; btn.setAttribute('aria-label', t('recovery.qwerty.space_aria'));
           btn._kbdAction = () => { playKeyClick(); appendFn(' '); };
           btn.addEventListener('click', (e) => {
             if (btn._touchHandledAt && Date.now() - btn._touchHandledAt < 400) return;
@@ -873,16 +874,18 @@ function buildQwertyKbd(containerId, appendFn, deleteFn, clearFn) {
   container.addEventListener('touchend', function() { if (_dragKey) { _dragKey.classList.remove('kbd-pressed'); _dragKey = null; } });
   container.addEventListener('touchcancel', function() { if (_dragKey) { _dragKey.classList.remove('kbd-pressed'); _dragKey = null; } });
 }
-buildQwertyKbd('qwerty-kbd-new',
-  c => handleInput('newpwd', c),
-  () => { newPwdBuf = newPwdBuf.slice(0,-1); updatePwdDisplay('newpwd'); },
-  () => { newPwdBuf = ''; updatePwdDisplay('newpwd'); }
-);
-buildQwertyKbd('qwerty-kbd-confirm',
-  c => handleInput('confirmpwd', c),
-  () => { confPwdBuf = confPwdBuf.slice(0,-1); updatePwdDisplay('confirmpwd'); },
-  () => { confPwdBuf = ''; updatePwdDisplay('confirmpwd'); }
-);
+window.i18nReady.finally(() => {
+  buildQwertyKbd('qwerty-kbd-new',
+    c => handleInput('newpwd', c),
+    () => { newPwdBuf = newPwdBuf.slice(0,-1); updatePwdDisplay('newpwd'); },
+    () => { newPwdBuf = ''; updatePwdDisplay('newpwd'); }
+  );
+  buildQwertyKbd('qwerty-kbd-confirm',
+    c => handleInput('confirmpwd', c),
+    () => { confPwdBuf = confPwdBuf.slice(0,-1); updatePwdDisplay('confirmpwd'); },
+    () => { confPwdBuf = ''; updatePwdDisplay('confirmpwd'); }
+  );
+});
 
 // ===== BOTONES DOMINIO EMAIL =====
 document.querySelectorAll('.domain-btn').forEach(btn => {
@@ -941,10 +944,10 @@ function updatePwdDisplay(which) {
 
   const hint = document.getElementById(hintId);
   if (which === 'confirmpwd' && buf.length > 0) {
-    if (confPwdBuf === newPwdBuf) { hint.textContent='✓ Coinciden'; hint.style.color='#12A5FF'; }
-    else                           { hint.textContent='✗ No coinciden'; hint.style.color='#ff4444'; }
+    if (confPwdBuf === newPwdBuf) { hint.textContent=t('recovery.screen3.pwd_match'); hint.style.color='#12A5FF'; }
+    else                           { hint.textContent=t('recovery.screen3.pwd_no_match'); hint.style.color='#ff4444'; }
   } else {
-    hint.textContent = which === 'newpwd' ? 'Mínimo 8 caracteres, 1 número y 1 símbolo' : 'Repite la nueva contraseña';
+    hint.textContent = which === 'newpwd' ? t('recovery.common.pwd_validation') : t('recovery.screen3.confirm_password_hint');
     hint.style.color = 'rgba(255,255,255,0.3)';
   }
   checkResetReady();
@@ -982,7 +985,7 @@ function validatePwd(pwd) {
 document.getElementById('rec-email').addEventListener('input', function() {
   const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim());
   document.getElementById('btn-send-rec').disabled = !ok;
-  document.getElementById('rec-email-hint').textContent = this.value.trim() && !ok ? 'Email no válido' : '';
+  document.getElementById('rec-email-hint').textContent = this.value.trim() && !ok ? t('recovery.screen1.invalid_email') : '';
   document.getElementById('rec-email-hint').className   = 'field-hint' + (this.value.trim() && !ok ? ' error' : '');
 });
 
@@ -992,7 +995,7 @@ document.getElementById('btn-send-rec').addEventListener('click', async () => {
 
   const btn = document.getElementById('btn-send-rec');
   btn.disabled = true;
-  btn.textContent = 'Enviando...';
+  btn.textContent = t('recovery.screen1.sending_button');
 
   try {
     const r = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/recover', {
@@ -1001,19 +1004,19 @@ document.getElementById('btn-send-rec').addEventListener('click', async () => {
       body: JSON.stringify({ email: recEmail })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d.error || 'Error al enviar código');
-    showToast('Código enviado a tu email');
+    if (!r.ok) throw new Error(d.error || t('recovery.screen1.send_error'));
+    showToast(t('recovery.screen1.code_sent_toast'));
   } catch (e) {
-    showToast(e.message || 'Error al enviar código', true);
+    showToast(e.message || t('recovery.screen1.send_error'), true);
     btn.disabled = false;
-    btn.textContent = 'ENVIAR CÓDIGO DE RECUPERACIÓN';
+    btn.textContent = t('recovery.screen1.submit_button');
     return;
   }
 
   document.getElementById('rec-email-shown').textContent = recEmail;
   goToScreen(2);
   startRecTimer(1800); // 30 min
-  btn.textContent = 'ENVIAR CÓDIGO DE RECUPERACIÓN';
+  btn.textContent = t('recovery.screen1.submit_button');
   btn.disabled = false;
 });
 
@@ -1043,7 +1046,7 @@ function updateRecDisplay() {
 document.getElementById('btn-verify-rec').addEventListener('click', async () => {
   const btn = document.getElementById('btn-verify-rec');
   btn.disabled = true;
-  btn.textContent = 'Verificando...';
+  btn.textContent = t('recovery.screen2.verifying_button');
   try {
     const r = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/verify-recovery', {
       method: 'POST',
@@ -1057,9 +1060,9 @@ document.getElementById('btn-verify-rec').addEventListener('click', async () => 
         if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
       }
       recBuffer=''; updateRecDisplay();
-      showToast(d.error || 'Código incorrecto', true);
+      showToast(d.error || t('recovery.screen2.wrong_code_generic'), true);
       btn.disabled = false;
-      btn.textContent = 'VERIFICAR';
+      btn.textContent = t('recovery.screen2.verify_button');
       return;
     }
     recTwofaMethod = d.twofa_method || 'email';
@@ -1067,9 +1070,9 @@ document.getElementById('btn-verify-rec').addEventListener('click', async () => 
     initScreen3();
     goToScreen(3);
   } catch (e) {
-    showToast('Error de conexión', true);
+    showToast(t('recovery.common.connection_error'), true);
     btn.disabled = false;
-    btn.textContent = 'VERIFICAR';
+    btn.textContent = t('recovery.screen2.verify_button');
   }
 });
 
@@ -1082,9 +1085,9 @@ document.getElementById('btn-resend-rec').addEventListener('click', async () => 
       body: JSON.stringify({ email: recEmail })
     });
     const d = await r.json();
-    showToast(r.ok ? 'Nuevo código enviado' : (d.error || 'Error al reenviar'), !r.ok);
+    showToast(r.ok ? t('recovery.screen2.resend_success') : (d.error || t('recovery.screen2.resend_error_generic')), !r.ok);
   } catch (e) {
-    showToast('Error de conexión', true);
+    showToast(t('recovery.common.connection_error'), true);
   }
   recBuffer=''; updateRecDisplay();
   startRecTimer(1800);
@@ -1101,17 +1104,17 @@ function startRecTimer(secs) {
     if(el) el.textContent=m+':'+(s+'').padStart(2,'0');
     if(remaining<=0){
       clearInterval(recTimerIntvl);
-      if(el) el.textContent='Expirado';
+      if(el) el.textContent=t('recovery.common.expired');
       document.getElementById('btn-resend-rec').disabled=false;
     }
   },1000);
 
   let cd=60;
   const rb=document.getElementById('btn-resend-rec');
-  rb.disabled=true; rb.textContent='Reenviar en 60s';
+  rb.disabled=true; rb.textContent=t('recovery.screen2.resend_countdown').replace('{n}', 60);
   const ri=setInterval(()=>{
     cd--;
-    rb.textContent=cd>0?`Reenviar en ${cd}s`:'Reenviar código';
+    rb.textContent=cd>0?t('recovery.screen2.resend_countdown').replace('{n}', cd):t('recovery.screen2.resend_button');
     if(cd<=0){clearInterval(ri);rb.disabled=false;}
   },1000);
 }
@@ -1124,18 +1127,18 @@ function startTfaEmailTimer() {
     const m=Math.floor(secs/60),s=secs%60;
     const el=document.getElementById('tfa-email-timer');
     if(el) el.textContent=m+':'+(s+'').padStart(2,'0');
-    if(secs<=0){clearInterval(tfaTimerIntvl);if(el)el.textContent='Expirado';}
+    if(secs<=0){clearInterval(tfaTimerIntvl);if(el)el.textContent=t('recovery.common.expired');}
   },1000);
 }
 
 // ===== INIT PANTALLA 3 =====
 async function initScreen3() {
   if (recTwofaMethod === 'totp') {
-    document.getElementById('tfa-title').textContent = 'Verificación — Google Authenticator';
+    document.getElementById('tfa-title').textContent = t('recovery.screen3.tfa_title_totp');
     document.getElementById('tfa-totp-wrap').style.display = 'block';
     document.getElementById('tfa-email-wrap').style.display = 'none';
   } else {
-    document.getElementById('tfa-title').textContent = 'Verificación — Código por email';
+    document.getElementById('tfa-title').textContent = t('recovery.screen3.tfa_title_email');
     document.getElementById('tfa-totp-wrap').style.display = 'none';
     document.getElementById('tfa-email-wrap').style.display = 'block';
     await sendTfaEmailCode();
@@ -1157,7 +1160,7 @@ async function sendTfaEmailCode() {
 document.getElementById('btn-reset').addEventListener('click', async () => {
   const btn = document.getElementById('btn-reset');
   btn.disabled = true;
-  btn.textContent = 'Procesando...';
+  btn.textContent = t('recovery.screen3.processing_button');
 
   const tfa_code = recTwofaMethod === 'totp' ? tfaBuf : tfaEmailBuf;
   try {
@@ -1175,17 +1178,17 @@ document.getElementById('btn-reset').addEventListener('click', async () => {
       }
       if (recTwofaMethod === 'totp') { tfaBuf=''; updateCodeDisplay('tfa'); }
       else { tfaEmailBuf=''; updateCodeDisplay('tfaemail'); }
-      showToast(d.error || 'Código 2FA incorrecto', true);
+      showToast(d.error || t('recovery.screen3.wrong_tfa_code'), true);
       btn.disabled = false;
-      btn.textContent = 'RESTABLECER ACCESO';
+      btn.textContent = t('recovery.screen3.reset_button');
       return;
     }
     clearInterval(tfaTimerIntvl);
     goToScreen(4);
   } catch (e) {
-    showToast('Error de conexión', true);
+    showToast(t('recovery.common.connection_error'), true);
     btn.disabled = false;
-    btn.textContent = 'RESTABLECER ACCESO';
+    btn.textContent = t('recovery.screen3.reset_button');
   }
 });
 
@@ -1194,12 +1197,17 @@ document.getElementById('btn-enter').addEventListener('click', () => {
 });
 
 // ===== NAVEGACIÓN =====
-const STEP_LABELS = {
-  1:'Paso 1 — Solicitar código',
-  2:'Paso 2 — Verificar código',
-  3:'Paso 3 — Nueva contraseña',
-  4:'¡Acceso restablecido!',
-};
+// Función (no objeto estático) para que t() se evalúe en el momento de la
+// llamada, ya con el diccionario cargado -- un objeto literal a nivel
+// superior del script se evaluaría antes de que window.i18nReady resuelva.
+function getStepLabel(n) {
+  return {
+    1: t('recovery.step_label.step1'),
+    2: t('recovery.step_label.step2'),
+    3: t('recovery.step_label.step3'),
+    4: t('recovery.step_label.step4'),
+  }[n] || '';
+}
 function goToScreen(n) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const ids = {1:'screen-1',2:'screen-2',3:'screen-3',4:'screen-success'};
@@ -1215,7 +1223,7 @@ function goToScreen(n) {
     const line=document.getElementById('line-'+i);
     if(line) line.classList.toggle('done',i<n);
   }
-  document.getElementById('step-label').textContent=STEP_LABELS[n]||'';
+  document.getElementById('step-label').textContent=getStepLabel(n);
   window.scrollTo(0,0);
 }
 
