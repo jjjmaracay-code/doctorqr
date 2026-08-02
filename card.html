@@ -199,6 +199,7 @@ const T = {
     err_msg: 'No se pudo leer el código QR. El código puede estar dañado o ser inválido.',
     expired_title: 'ACCESO CADUCADO',
     expired_msg: 'Pide que te muestren el QR de nuevo.',
+    expired_msg_soft: 'Llevas más de 24h viendo esta tarjeta en este dispositivo.',
     nodata: '— No especificado —',
   },
   en: {
@@ -258,6 +259,7 @@ const T = {
     err_msg: 'Could not read the QR code. The code may be damaged or invalid.',
     expired_title: 'ACCESS EXPIRED',
     expired_msg: 'Ask to be shown the QR code again.',
+    expired_msg_soft: 'You have been viewing this card on this device for more than 24h.',
     nodata: '— Not specified —',
   },
   fr: {
@@ -317,6 +319,7 @@ const T = {
     err_msg: 'Impossible de lire le code QR. Le code peut être endommagé ou invalide.',
     expired_title: 'ACCÈS EXPIRÉ',
     expired_msg: 'Demandez que l\'on vous montre à nouveau le code QR.',
+    expired_msg_soft: 'Vous consultez cette fiche sur cet appareil depuis plus de 24h.',
     nodata: '— Non spécifié —',
   },
   pt: {
@@ -376,6 +379,7 @@ const T = {
     err_msg: 'Não foi possível ler o código QR. O código pode estar danificado ou ser inválido.',
     expired_title: 'ACESSO EXPIRADO',
     expired_msg: 'Peça para lhe mostrarem o QR novamente.',
+    expired_msg_soft: 'Está a consultar este cartão neste dispositivo há mais de 24 horas.',
     nodata: '— Não especificado —',
   },
   de: {
@@ -435,6 +439,7 @@ const T = {
     err_msg: 'Der QR-Code konnte nicht gelesen werden. Der Code ist möglicherweise beschädigt oder ungültig.',
     expired_title: 'ZUGANG ABGELAUFEN',
     expired_msg: 'Bitten Sie darum, den QR-Code erneut zu zeigen.',
+    expired_msg_soft: 'Sie sehen sich diese Karte seit mehr als 24 Stunden auf diesem Gerät an.',
     nodata: '— Nicht angegeben —',
   }
 };
@@ -749,6 +754,7 @@ let t            = T.es;
 let activeTab    = 'urgente';
 let searchMatches = [];
 let searchCurrent = -1;
+let accesoVigente = true; // resultado de verificarAccesoVigente(); ya no bloquea el render, solo decide si se muestra el aviso
 
 function detectLang() {
   const l = (navigator.language || 'es').slice(0, 2).toLowerCase();
@@ -856,6 +862,7 @@ function renderApp() {
     </div>
 
     ${d._minimal ? `<div class="minimal-banner">&#9888; Historial no disponible &mdash; datos b&aacute;sicos del QR</div>` : ''}
+    ${!accesoVigente ? `<div class="minimal-banner">${esc(t.expired_msg_soft)}</div>` : ''}
 
     <div class="tabs" id="tabs">
       <button class="tab-btn active" id="tbtn-urgente"   onclick="switchTab('urgente')">${t.tab_u}</button>
@@ -1132,7 +1139,9 @@ t    = T[lang];
 parseData().then(d => {
   data = d;
   if (!data) { renderError(); return; }
-  if (!verificarAccesoVigente()) { renderAccesoCaducado(); return; }
+  // El acceso real siempre gana: la ventana de 24h ya no bloquea el
+  // contenido médico, solo decide si se muestra el aviso informativo.
+  accesoVigente = verificarAccesoVigente();
   renderApp();
 });
 </script>
