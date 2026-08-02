@@ -944,6 +944,18 @@
       </div>
       <div class="field-hint" data-i18n="register.screen2.email_hint">Recibirás un código de verificación en este correo</div>
     </div>
+
+    <div class="field-wrap">
+      <div class="field-label" data-i18n="register.screen2.language_label">Idioma</div>
+      <select class="field-input" id="r-language">
+        <option value="es">🇪🇸 Español</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="pt">🇵🇹 Português</option>
+        <option value="de">🇩🇪 Deutsch</option>
+      </select>
+      <div class="field-hint" data-i18n="register.screen2.language_hint">Se fijará como idioma de tu cuenta tras el registro</div>
+    </div>
   </div>
 
   <div class="form-card">
@@ -1396,6 +1408,34 @@ window.i18nReady.finally(() => {
     () => { pwd2Buffer = pwd2Buffer.slice(0,-1); updatePwdDisplay(2); checkStep2Ready(); },
     () => { pwd2Buffer = ''; updatePwdDisplay(2); checkStep2Ready(); }
   );
+
+  // Preselecciona el idioma que el loader ya detectó (registro previo en
+  // este dispositivo, o si no navigator.language) -- el usuario puede
+  // cambiarlo libremente antes de completar el registro; a partir de ahí
+  // queda fijo (se guarda en doctorqr_user.language).
+  const langSelect = document.getElementById('r-language');
+  if (langSelect && window.currentLanguage) langSelect.value = window.currentLanguage;
+
+  // Cambio de idioma EN VIVO: el resto del formulario (pantallas 3-5,
+  // toasts, validaciones) debe verse en el idioma recién elegido sin
+  // esperar a completar el registro. applyI18n() (dentro de setLanguage)
+  // solo actualiza los elementos data-i18n* -- los teclados QWERTY
+  // escriben sus etiquetas de acción (Limpiar/123/ABC) directamente en
+  // el DOM al construirse, así que hay que reconstruirlos.
+  langSelect?.addEventListener('change', (e) => {
+    window.setLanguage(e.target.value).then(() => {
+      buildQwertyKbd('qwerty-kbd-1',
+        c => handlePwdInput(1, c),
+        () => { pwd1Buffer = pwd1Buffer.slice(0,-1); updatePwdDisplay(1); checkStep2Ready(); },
+        () => { pwd1Buffer = ''; updatePwdDisplay(1); checkStep2Ready(); }
+      );
+      buildQwertyKbd('qwerty-kbd-2',
+        c => handlePwdInput(2, c),
+        () => { pwd2Buffer = pwd2Buffer.slice(0,-1); updatePwdDisplay(2); checkStep2Ready(); },
+        () => { pwd2Buffer = ''; updatePwdDisplay(2); checkStep2Ready(); }
+      );
+    });
+  });
 });
 
 // ===== BOTONES DOMINIO EMAIL =====
@@ -1715,6 +1755,7 @@ document.getElementById('btn-send-otp').addEventListener('click', async () => {
     doc_number:       document.getElementById('r-docnum').value.trim().toUpperCase(),
     sexo_biologico:   getSelectedChip('bio-sex'),
     email:            document.getElementById('r-email').value.trim(),
+    language:         document.getElementById('r-language').value,
   };
 
   const btn = document.getElementById('btn-send-otp');
@@ -2024,6 +2065,7 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
         fecha_nacimiento: regData.fecha_nacimiento,
         doc_type:         regData.doc_type,
         doc_number:       regData.doc_number,
+        language:         regData.language,
       }));
       localStorage.setItem(AUTH_KEY, JSON.stringify({
         ...regData,

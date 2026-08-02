@@ -227,6 +227,8 @@
   "register.common.domain_hotmail": "@hotmail.com",
   "register.common.domain_icloud": "@icloud.com",
   "register.screen2.email_hint": "Recibirás un código de verificación en este correo",
+  "register.screen2.language_label": "Idioma",
+  "register.screen2.language_hint": "Se fijará como idioma de tu cuenta tras el registro",
   "register.screen2.pwd_title": "Contraseña maestra",
   "register.screen2.pwd_intro_hint": "Mínimo 8 caracteres · al menos 1 número y 1 símbolo · cuanto más larga, más segura",
   "register.screen2.pwd_create_label": "CREAR",

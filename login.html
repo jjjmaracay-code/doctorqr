@@ -1016,9 +1016,18 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
       clearInterval(l2TimerIntvl);
       clearInterval(l2ResendIntvl);
 
+      // El idioma de cuenta es puramente local (el backend no lo conoce ni lo
+      // devuelve en data.user) -- si ya había uno guardado en este
+      // dispositivo de un registro/login anterior, se preserva; si no,
+      // el loader.js de la siguiente carga cae a navigator.language.
+      let existingLanguage = null;
+      try { existingLanguage = JSON.parse(localStorage.getItem('doctorqr_user') || '{}').language || null; } catch(_) {}
+
       localStorage.setItem('doctorqr_token', data.token);
       localStorage.setItem('doctorqr_id', data.doctorqr_id || '');
-      localStorage.setItem('doctorqr_user', JSON.stringify(data.user));
+      localStorage.setItem('doctorqr_user', JSON.stringify(
+        existingLanguage ? { ...data.user, language: existingLanguage } : data.user
+      ));
       window.location.href = 'index.html';
     } else {
       for (let i = 0; i < 6; i++) {
