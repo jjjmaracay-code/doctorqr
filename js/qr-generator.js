@@ -937,9 +937,8 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-type-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
     .eqv-type-title{font-size:16px;font-weight:900;letter-spacing:1.2px;
       text-transform:uppercase;text-align:center;line-height:1.25;}
-    .eqv-cover{position:relative;width:min(88vw,420px);aspect-ratio:1/1;
-      border-radius:22px;background:#0a0a0a;display:flex;align-items:center;
-      justify-content:center;overflow:hidden;}
+    .eqv-cover{position:relative;border-radius:22px;background:#0a0a0a;
+      display:flex;align-items:center;justify-content:center;overflow:hidden;}
     .eqv-cover img{width:90%;height:90%;object-fit:contain;border-radius:10px;
       background:#fff;}
     .eqv-name{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;
@@ -1013,7 +1012,15 @@ function renderEmergencyQuickView() {
 
     const cover = document.createElement('div');
     cover.className = 'eqv-cover';
-    cover.style.cssText = `border:2px solid ${type.color};box-shadow:0 0 18px ${type.color}44;`;
+    // Tamaño en px explícito (no aspect-ratio): en Android hay WebViews que
+    // no soportan aspect-ratio de forma consistente -- sin él, .eqv-cover
+    // queda sin altura definida, el <img> (que nunca tiene width/height
+    // propio, ver qrcode.min.js) cae a su tamaño intrínseco de 400px, y
+    // overflow:hidden lo recorta. Con alto y ancho fijos en px no hay
+    // ambigüedad, sea cual sea el soporte de aspect-ratio del navegador.
+    const coverSizePx = Math.round(Math.min(window.innerWidth * 0.88, 420));
+    cover.style.cssText = `border:2px solid ${type.color};box-shadow:0 0 18px ${type.color}44;
+      width:${coverSizePx}px;height:${coverSizePx}px;`;
 
     // renderQRWhenReady()/showQRLoadError() hacen wrap.innerHTML='' antes
     // de dibujar -- se les pasa este "slot" interno (todo el contenido
