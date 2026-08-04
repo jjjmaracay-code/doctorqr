@@ -697,5 +697,20 @@
   "index.conditions.meds_psiq_label": "⚠ MÉDICATION PSYCHIATRIQUE ACTIVE",
   "index.conditions.puede_decidir_label": "POUVEZ-VOUS PRENDRE DES DÉCISIONS MÉDICALES ?",
   "index.conditions.tutor_legal_label": "AVEZ-VOUS UN TUTEUR LÉGAL ?",
-  "index.conditions.tutor_legal_hint": "Complétez les coordonnées à la Section 10 — Contacts d'urgence → Tuteur légal"
+  "index.conditions.tutor_legal_hint": "Complétez les coordonnées à la Section 10 — Contacts d'urgence → Tuteur légal",
+
+  "index.menu.configure_2fa": "Configurer l'authentificateur",
+  "index.twofa_banner.text": "Tu n'as pas terminé la configuration de ton authentificateur — utilisation de l'email comme solution de secours.",
+  "index.twofa_banner.link": "Configurer maintenant",
+  "index.totp_setup.title": "Configurer Google Authenticator",
+  "index.totp_setup.desc": "Scanne le QR avec Google Authenticator et saisis le code à 6 chiffres affiché dans l'application.",
+  "index.totp_setup.secret_label": "Clé secrète (manuelle)",
+  "index.totp_setup.clr": "CLR",
+  "index.totp_setup.cancel_button": "Annuler",
+  "index.totp_setup.confirm_button": "Confirmer le code",
+  "index.totp_setup.loading": "Chargement…",
+  "index.totp_setup.setup_error_prefix": "Erreur lors de la configuration de la 2FA : ",
+  "index.totp_setup.success_toast": "Authentificateur configuré ✓",
+  "index.totp_setup.wrong_code_generic": "Code incorrect — réessaie",
+  "index.common.connection_error": "Erreur de connexion au serveur"
 }

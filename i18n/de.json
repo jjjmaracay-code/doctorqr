@@ -697,5 +697,20 @@
   "index.conditions.meds_psiq_label": "⚠ AKTIVE PSYCHIATRISCHE MEDIKATION",
   "index.conditions.puede_decidir_label": "KÖNNEN SIE MEDIZINISCHE ENTSCHEIDUNGEN TREFFEN?",
   "index.conditions.tutor_legal_label": "HABEN SIE EINEN GESETZLICHEN VORMUND?",
-  "index.conditions.tutor_legal_hint": "Vervollständigen Sie die Kontaktdaten in Abschnitt 10 — Notfallkontakte → Gesetzlicher Vormund"
+  "index.conditions.tutor_legal_hint": "Vervollständigen Sie die Kontaktdaten in Abschnitt 10 — Notfallkontakte → Gesetzlicher Vormund",
+
+  "index.menu.configure_2fa": "Authenticator einrichten",
+  "index.twofa_banner.text": "Sie haben die Einrichtung Ihres Authenticators nicht abgeschlossen — E-Mail wird als Ersatz verwendet.",
+  "index.twofa_banner.link": "Jetzt einrichten",
+  "index.totp_setup.title": "Google Authenticator einrichten",
+  "index.totp_setup.desc": "Scannen Sie den QR-Code mit Google Authenticator und geben Sie den 6-stelligen Code aus der App ein.",
+  "index.totp_setup.secret_label": "Geheimer Schlüssel (manuell)",
+  "index.totp_setup.clr": "CLR",
+  "index.totp_setup.cancel_button": "Abbrechen",
+  "index.totp_setup.confirm_button": "Code bestätigen",
+  "index.totp_setup.loading": "Wird geladen…",
+  "index.totp_setup.setup_error_prefix": "Fehler bei der Einrichtung von 2FA: ",
+  "index.totp_setup.success_toast": "Authenticator eingerichtet ✓",
+  "index.totp_setup.wrong_code_generic": "Falscher Code — versuche es erneut",
+  "index.common.connection_error": "Fehler bei der Verbindung zum Server"
 }

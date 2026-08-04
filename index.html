@@ -183,6 +183,9 @@
     <button class="menu-item" id="menu-share-link" disabled>
       <span data-i18n="index.menu.share_link">Compartir enlace</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
     </button>
+    <button class="menu-item" id="menu-configurar-2fa">
+      <span data-i18n="index.menu.configure_2fa">Configurar autenticador</span>
+    </button>
     <button class="menu-item" id="menu-scroll-top">
       <span data-i18n="index.menu.scroll_top">Volver arriba</span>
     </button>
@@ -194,6 +197,14 @@
     <div class="teb-title" data-i18n="index.trial_expired.title">TU PERIODO DE PRUEBA HA TERMINADO</div>
     <div class="teb-body" data-i18n="index.trial_expired.body">Tu historial médico sigue guardado y seguro. Elige un plan para seguir sincronizando tus datos de emergencia.</div>
     <div class="teb-sub" data-i18n="index.trial_expired.sub">Redirigiendo a los planes en 3 segundos…</div>
+  </div>
+
+  <!-- AVISO 2FA INCOMPLETO — no bloqueante, ver twofa_incomplete en doctorqr_user.
+       Persistente: reaparece en cada carga mientras la cuenta no tenga TOTP
+       confirmado, no se puede descartar de forma permanente. -->
+  <div id="twofa-incomplete-banner" class="twofa-incomplete-banner">
+    <span data-i18n="index.twofa_banner.text">No completaste la configuración de tu autenticador — usando email como respaldo.</span>
+    <a id="twofa-incomplete-link" data-i18n="index.twofa_banner.link">Configurar ahora</a>
   </div>
 
   <!-- Contenedor de la vista de cuadrícula del Acceso Rápido de Emergencia
@@ -2324,6 +2335,51 @@
     </div>
   </div>
 
+  <!-- Modal configurar/reconfigurar autenticador TOTP (Google Authenticator).
+       Reutiliza setup-2fa/verify-2fa YA EXISTENTES (los mismos de
+       register.html pantalla 4), ahora autenticados con el token de la
+       sesión activa -- ver resolveAccountForTfa() en DOCTORQR-BACKEND. -->
+  <div id="modal-totp-setup" role="dialog" aria-modal="true">
+    <div class="totp-setup-card">
+      <h3 data-i18n="index.totp_setup.title">Configurar Google Authenticator</h3>
+      <div class="totp-setup-desc" data-i18n="index.totp_setup.desc">Escanea el QR con Google Authenticator y escribe el código de 6 dígitos que aparece en la app.</div>
+
+      <img id="totp-setup-qr-img" class="totp-setup-qr" alt="QR configuración 2FA">
+
+      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(18,165,255,0.4);text-align:center;margin-bottom:4px;" data-i18n="index.totp_setup.secret_label">Clave secreta (manual)</div>
+      <div class="totp-setup-secret" id="totp-setup-secret-text">—</div>
+
+      <div class="totp-setup-code-display">
+        <div class="totp-setup-code-char" id="totp-setup-c0">·</div>
+        <div class="totp-setup-code-char" id="totp-setup-c1">·</div>
+        <div class="totp-setup-code-char" id="totp-setup-c2">·</div>
+        <div class="totp-setup-code-char" id="totp-setup-c3">·</div>
+        <div class="totp-setup-code-char" id="totp-setup-c4">·</div>
+        <div class="totp-setup-code-char" id="totp-setup-c5">·</div>
+      </div>
+
+      <div class="totp-setup-keypad">
+        <button class="totp-setup-key" data-totp-setup="1">1</button>
+        <button class="totp-setup-key" data-totp-setup="2">2</button>
+        <button class="totp-setup-key" data-totp-setup="3">3</button>
+        <button class="totp-setup-key" data-totp-setup="4">4</button>
+        <button class="totp-setup-key" data-totp-setup="5">5</button>
+        <button class="totp-setup-key" data-totp-setup="6">6</button>
+        <button class="totp-setup-key" data-totp-setup="7">7</button>
+        <button class="totp-setup-key" data-totp-setup="8">8</button>
+        <button class="totp-setup-key" data-totp-setup="9">9</button>
+        <button class="totp-setup-key" id="totp-setup-clr" data-i18n="index.totp_setup.clr">CLR</button>
+        <button class="totp-setup-key" data-totp-setup="0">0</button>
+        <button class="totp-setup-key" id="totp-setup-del">⌫</button>
+      </div>
+
+      <div class="modal-validacion-btns">
+        <button class="btn-continuar-igual" id="btn-totp-setup-cancelar" data-i18n="index.totp_setup.cancel_button">Cancelar</button>
+        <button class="btn-volver-revisar" id="btn-totp-setup-confirmar" disabled data-i18n="index.totp_setup.confirm_button">Confirmar código</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" data-i18n="index.toast.saved">Datos guardados</div>
   <div class="toast toast-sync" id="toast-sync" data-i18n-html="index.toast.synced_html">&#9729; Perfil sincronizado &#10003;</div>
   <div class="toast toast-conflict" id="toast-conflict" data-i18n="index.toast.conflict">⚠️ Hay una versión más reciente guardada desde otro dispositivo. Recarga antes de continuar editando.</div>
@@ -2831,6 +2887,151 @@
         window.location.href = 'install.html';
       }
     });
+  })();
+
+  // =================== CONFIGURAR AUTENTICADOR (2FA, Partes B+C) ===================
+  // Reutiliza setup-2fa/verify-2fa YA EXISTENTES (los mismos de register.html
+  // pantalla 4) -- ahora con el token de la sesión activa en Authorization,
+  // así el backend (resolveAccountForTfa) opera SIEMPRE sobre la cuenta de
+  // esta sesión, ignorando cualquier otro dato -- nadie puede reconfigurar
+  // el 2FA de otra cuenta desde aquí.
+  (function () {
+    const API_BASE = 'https://doctorqr-backend-production.up.railway.app';
+    let totpSetupBuffer = '';
+
+    function showToastSimple(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.className = 'toast show';
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function updateTotpSetupDisplay() {
+      for (let i = 0; i < 6; i++) {
+        const el = document.getElementById('totp-setup-c' + i);
+        if (!el) continue;
+        el.classList.remove('filled', 'error');
+        if (i < totpSetupBuffer.length) { el.textContent = totpSetupBuffer[i]; el.classList.add('filled'); }
+        else el.textContent = '·';
+      }
+      const btn = document.getElementById('btn-totp-setup-confirmar');
+      if (btn) btn.disabled = totpSetupBuffer.length !== 6;
+    }
+
+    function updateTwofaIncompleteBanner() {
+      const banner = document.getElementById('twofa-incomplete-banner');
+      if (!banner) return;
+      let u = {};
+      try { u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}'); } catch (_) {}
+      banner.classList.toggle('show', !!u.twofa_incomplete);
+    }
+
+    async function openTotpSetupModal() {
+      document.getElementById('menu-dropdown')?.classList.remove('open');
+      totpSetupBuffer = '';
+      updateTotpSetupDisplay();
+      document.getElementById('totp-setup-secret-text').textContent = window.t ? window.t('index.totp_setup.loading') : 'Cargando…';
+      document.getElementById('modal-totp-setup').classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      const token = localStorage.getItem('doctorqr_token');
+      try {
+        const res = await fetch(API_BASE + '/api/auth/setup-2fa', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+          body: JSON.stringify({ method: 'totp' })
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('totp-setup-qr-img').src = data.qr_url;
+          document.getElementById('totp-setup-secret-text').textContent = data.secret;
+        } else {
+          showToastSimple((window.t ? window.t('index.totp_setup.setup_error_prefix') : 'Error: ') + (data.error || ''));
+          closeTotpSetupModal();
+        }
+      } catch (e) {
+        showToastSimple(window.t ? window.t('index.common.connection_error') : 'Error de conexión');
+        closeTotpSetupModal();
+      }
+    }
+
+    function closeTotpSetupModal() {
+      document.getElementById('modal-totp-setup')?.classList.remove('open');
+      document.body.style.overflow = '';
+      totpSetupBuffer = '';
+      updateTotpSetupDisplay();
+    }
+
+    document.getElementById('menu-configurar-2fa')?.addEventListener('click', openTotpSetupModal);
+    document.getElementById('twofa-incomplete-link')?.addEventListener('click', openTotpSetupModal);
+    document.getElementById('btn-totp-setup-cancelar')?.addEventListener('click', closeTotpSetupModal);
+
+    document.querySelectorAll('.totp-setup-key[data-totp-setup]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (totpSetupBuffer.length >= 6) return;
+        totpSetupBuffer += btn.dataset.totpSetup;
+        updateTotpSetupDisplay();
+      });
+    });
+    document.getElementById('totp-setup-del')?.addEventListener('click', () => {
+      totpSetupBuffer = totpSetupBuffer.slice(0, -1);
+      updateTotpSetupDisplay();
+    });
+    document.getElementById('totp-setup-clr')?.addEventListener('click', () => {
+      totpSetupBuffer = '';
+      updateTotpSetupDisplay();
+    });
+
+    document.getElementById('btn-totp-setup-confirmar')?.addEventListener('click', async () => {
+      if (totpSetupBuffer.length !== 6) return;
+      const btn = document.getElementById('btn-totp-setup-confirmar');
+      btn.disabled = true;
+      const token = localStorage.getItem('doctorqr_token');
+
+      try {
+        const res = await fetch(API_BASE + '/api/auth/verify-2fa', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+          body: JSON.stringify({ code: totpSetupBuffer, method: 'totp' })
+        });
+        const data = await res.json();
+        if (data.success) {
+          // No se toca doctorqr_token (la sesión activa sigue siendo
+          // válida) -- solo se actualiza el estado de 2FA localmente para
+          // que el banner desaparezca sin esperar al próximo login.
+          try {
+            const u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
+            u.twofa_method = data.user.twofa_method;
+            u.twofa_incomplete = false;
+            localStorage.setItem('doctorqr_user', JSON.stringify(u));
+          } catch (_) {}
+          updateTwofaIncompleteBanner();
+          closeTotpSetupModal();
+          showToastSimple(window.t ? window.t('index.totp_setup.success_toast') : 'Autenticador configurado ✓');
+        } else {
+          // updateTotpSetupDisplay() limpia 'error' de todas las casillas
+          // como primer paso -- por eso el flash de error va DESPUÉS de
+          // vaciar el buffer, nunca antes (si no, se borra a sí mismo en
+          // el mismo tick; ese orden invertido es un bug ya existente en
+          // register.html/updateTOTPDisplay(), no lo reproduzco aquí).
+          totpSetupBuffer = '';
+          updateTotpSetupDisplay();
+          for (let i = 0; i < 6; i++) {
+            const el = document.getElementById('totp-setup-c' + i);
+            if (el) { el.classList.add('error'); setTimeout(() => el.classList.remove('error'), 600); }
+          }
+          showToastSimple(data.error || (window.t ? window.t('index.totp_setup.wrong_code_generic') : 'Código incorrecto'));
+        }
+      } catch (e) {
+        showToastSimple(window.t ? window.t('index.common.connection_error') : 'Error de conexión');
+      }
+      btn.disabled = totpSetupBuffer.length !== 6;
+    });
+
+    updateTwofaIncompleteBanner();
   })();
 
   // =================== BARRA DE TABS DEL FORMULARIO (navegación sec-1..sec-11) ===================

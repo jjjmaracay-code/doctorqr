@@ -697,5 +697,20 @@
   "index.conditions.meds_psiq_label": "⚠ ACTIVE PSYCHIATRIC MEDICATION",
   "index.conditions.puede_decidir_label": "CAN YOU MAKE MEDICAL DECISIONS?",
   "index.conditions.tutor_legal_label": "DO YOU HAVE A LEGAL GUARDIAN?",
-  "index.conditions.tutor_legal_hint": "Complete the contact details in Section 10 — Emergency contacts → Legal guardian"
+  "index.conditions.tutor_legal_hint": "Complete the contact details in Section 10 — Emergency contacts → Legal guardian",
+
+  "index.menu.configure_2fa": "Configure authenticator",
+  "index.twofa_banner.text": "You didn't finish setting up your authenticator — using email as a backup.",
+  "index.twofa_banner.link": "Configure now",
+  "index.totp_setup.title": "Set up Google Authenticator",
+  "index.totp_setup.desc": "Scan the QR with Google Authenticator and enter the 6-digit code shown in the app.",
+  "index.totp_setup.secret_label": "Secret key (manual)",
+  "index.totp_setup.clr": "CLR",
+  "index.totp_setup.cancel_button": "Cancel",
+  "index.totp_setup.confirm_button": "Confirm code",
+  "index.totp_setup.loading": "Loading…",
+  "index.totp_setup.setup_error_prefix": "Error setting up 2FA: ",
+  "index.totp_setup.success_toast": "Authenticator configured ✓",
+  "index.totp_setup.wrong_code_generic": "Incorrect code — try again",
+  "index.common.connection_error": "Error connecting to the server"
 }

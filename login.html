@@ -795,13 +795,14 @@ document.querySelectorAll('.domain-btn').forEach(btn => {
 
 // =====
 
-let loginEmail      = '';
-let l2Method        = '';
-let l2Buffer        = '';
-let l2ResendCd      = 60;
-let l2ResendIntvl   = null;
-let l2TimerSecs     = 600;
-let l2TimerIntvl    = null;
+let loginEmail        = '';
+let l2Method          = '';
+let l2TwofaIncomplete = false;
+let l2Buffer          = '';
+let l2ResendCd        = 60;
+let l2ResendIntvl     = null;
+let l2TimerSecs       = 600;
+let l2TimerIntvl      = null;
 
 // ===== UTILIDADES =====
 
@@ -864,8 +865,9 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       return;
     }
 
-    loginEmail = email;
-    l2Method   = data.twofa_method;
+    loginEmail        = email;
+    l2Method          = data.twofa_method;
+    l2TwofaIncomplete = !!data.twofa_incomplete;
     await iniciarL2();
 
   } catch (e) {
@@ -1023,11 +1025,19 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
       let existingLanguage = null;
       try { existingLanguage = JSON.parse(localStorage.getItem('doctorqr_user') || '{}').language || null; } catch(_) {}
 
+      // twofa_incomplete viaja desde la respuesta de /login (antes de
+      // introducir el código), no desde verify-2fa -- se adjunta aquí al
+      // objeto de usuario para que index.html pueda leerlo sin llamadas
+      // adicionales y mostrar el aviso no bloqueante de la Parte C.
+      const userToSave = {
+        ...data.user,
+        twofa_incomplete: l2TwofaIncomplete,
+        ...(existingLanguage ? { language: existingLanguage } : {})
+      };
+
       localStorage.setItem('doctorqr_token', data.token);
       localStorage.setItem('doctorqr_id', data.doctorqr_id || '');
-      localStorage.setItem('doctorqr_user', JSON.stringify(
-        existingLanguage ? { ...data.user, language: existingLanguage } : data.user
-      ));
+      localStorage.setItem('doctorqr_user', JSON.stringify(userToSave));
       window.location.href = 'index.html';
     } else {
       for (let i = 0; i < 6; i++) {
