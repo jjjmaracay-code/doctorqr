@@ -1006,11 +1006,19 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
   btn.disabled = true;
 
   try {
+    // El backend solo acepta 'totp'/'email' (rechaza cualquier otro valor
+    // con 400 -- ver routes/auth.js verify-2fa). l2Method refleja el
+    // twofa_method de la cuenta, que puede ser NULL/'none' cuando el 2FA
+    // aún no está confirmado -- en ese caso iniciarL2() ya cayó al flujo
+    // de email (envía y pide el código por email), así que el método que
+    // se está verificando de verdad es 'email', nunca el valor crudo de
+    // twofa_method.
+    const verifyMethod = l2Method === 'totp' ? 'totp' : 'email';
     const res  = await fetch(`${API}/api/auth/verify-2fa`, {
       method:  'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ email: loginEmail, code: l2Buffer, method: l2Method })
+      body:    JSON.stringify({ email: loginEmail, code: l2Buffer, method: verifyMethod })
     });
     const data = await res.json();
 
