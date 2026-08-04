@@ -1421,77 +1421,77 @@
     <!-- SECCIÓN 06 — MEDICACIÓN ACTUAL -->
     <div class="form-section" id="sec-6">
       <div class="section-header" onclick="toggleSection('sec-6')">
-        <span class="section-title">06 — Medicación actual</span>
+        <span class="section-title" data-i18n="index.medication.section_title">06 — Medicación actual</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
           <div class="chips" data-group="meds" data-exclusive-group>
-            <div class="chip" data-value="Metformina">Metformina</div>
-            <div class="chip" data-value="Insulina">Insulina</div>
-            <div class="chip" data-value="Enalapril">Enalapril</div>
-            <div class="chip" data-value="Losartán">Losartán</div>
-            <div class="chip" data-value="Atorvastatina">Atorvastatina</div>
-            <div class="chip" data-value="Omeprazol">Omeprazol</div>
-            <div class="chip" data-value="Levotiroxina">Levotiroxina</div>
-            <div class="chip" data-value="Furosemida">Furosemida</div>
-            <div class="chip" data-value="Amoxicilina">Amoxicilina</div>
-            <div class="chip chip-danger" data-value="Digoxina">Digoxina ⚠️</div>
-            <div class="chip chip-danger" data-value="Amiodarona">Amiodarona ⚠️</div>
-            <div class="chip" data-value="Bisoprolol">Bisoprolol</div>
-            <div class="chip" data-value="Amlodipino">Amlodipino</div>
-            <div class="chip" data-value="Levodopa">Levodopa</div>
-            <div class="chip chip-danger" data-value="Fenitoína">Fenitoína ⚠️</div>
-            <div class="chip chip-danger" data-value="Valproato">Valproato ⚠️</div>
-            <div class="chip chip-danger" data-value="Carbamazepina">Carbamazepina ⚠️</div>
-            <div class="chip chip-danger" data-value="Prednisona">Prednisona ⚠️</div>
-            <div class="chip chip-danger" data-value="Metotrexato">Metotrexato ⚠️</div>
-            <div class="chip chip-danger" data-value="Ciclosporina">Ciclosporina ⚠️</div>
-            <div class="chip chip-danger" data-value="Tacrolimus">Tacrolimus ⚠️</div>
-            <div class="chip chip-danger" data-value="Quimioterapia oral">Quimioterapia oral ⚠️</div>
-            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
+            <div class="chip" data-i18n="index.chipval.metformina" data-value="Metformina">Metformina</div>
+            <div class="chip" data-i18n="index.chipval.insulina" data-value="Insulina">Insulina</div>
+            <div class="chip" data-i18n="index.chipval.enalapril" data-value="Enalapril">Enalapril</div>
+            <div class="chip" data-i18n="index.chipval.losartan" data-value="Losartán">Losartán</div>
+            <div class="chip" data-i18n="index.chipval.atorvastatina" data-value="Atorvastatina">Atorvastatina</div>
+            <div class="chip" data-i18n="index.chipval.omeprazol" data-value="Omeprazol">Omeprazol</div>
+            <div class="chip" data-i18n="index.chipval.levotiroxina" data-value="Levotiroxina">Levotiroxina</div>
+            <div class="chip" data-i18n="index.chipval.furosemida" data-value="Furosemida">Furosemida</div>
+            <div class="chip" data-i18n="index.chipval.amoxicilina" data-value="Amoxicilina">Amoxicilina</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.digoxina_warn" data-value="Digoxina">Digoxina ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.amiodarona_warn" data-value="Amiodarona">Amiodarona ⚠️</div>
+            <div class="chip" data-i18n="index.chipval.bisoprolol" data-value="Bisoprolol">Bisoprolol</div>
+            <div class="chip" data-i18n="index.chipval.amlodipino" data-value="Amlodipino">Amlodipino</div>
+            <div class="chip" data-i18n="index.chipval.levodopa" data-value="Levodopa">Levodopa</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.fenitoina_warn" data-value="Fenitoína">Fenitoína ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.valproato" data-value="Valproato">Valproato ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.carbamazepina_psiq" data-value="Carbamazepina">Carbamazepina ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.prednisona_warn" data-value="Prednisona">Prednisona ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.metotrexato_warn" data-value="Metotrexato">Metotrexato ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.ciclosporina_warn" data-value="Ciclosporina">Ciclosporina ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.tacrolimus_warn" data-value="Tacrolimus">Tacrolimus ⚠️</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.quimioterapia_oral_warn" data-value="Quimioterapia oral">Quimioterapia oral ⚠️</div>
+            <div class="chip" data-i18n="index.chipval.ninguna" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
           <div id="meds-extra-wrap" style="margin-top:4px"></div>
-          <button type="button" class="btn-add-med" id="btn-add-med" onclick="addMedExtra('meds')">+ Añadir otro medicamento</button>
+          <button type="button" class="btn-add-med" id="btn-add-med" onclick="addMedExtra('meds')" data-i18n="index.medication.add_another_button">+ Añadir otro medicamento</button>
         </div>
         <div class="field">
-          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN DE ALTO RIESGO DE INTERACCIÓN</div>
-          <div class="field-hint" style="margin-bottom:8px;color:#ff4444;opacity:0.8">Interacciones potencialmente letales con anestesia y otros fármacos de urgencia</div>
+          <div class="field-label" data-i18n="index.medication.high_risk_label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN DE ALTO RIESGO DE INTERACCIÓN</div>
+          <div class="field-hint" data-i18n="index.medication.high_risk_hint" style="margin-bottom:8px;color:#ff4444;opacity:0.8">Interacciones potencialmente letales con anestesia y otros fármacos de urgencia</div>
           <div class="chips" data-group="medicacion-alto-riesgo" data-exclusive-group>
-            <div class="chip chip-danger" data-value="Antiepilépticos">Antiepilépticos</div>
-            <div class="chip chip-danger" data-value="Corticoides crónicos">Corticoides crónicos</div>
-            <div class="chip chip-danger" data-value="Digoxina">Digoxina</div>
-            <div class="chip chip-danger" data-value="IMAO (antidepresivos)">IMAO (antidepresivos)</div>
-            <div class="chip chip-danger" data-value="Inhibidores plaquetarios (Clopidogrel/AAS)">Inhibidores plaquetarios (Clopidogrel/AAS)</div>
-            <div class="chip chip-danger" data-value="Inmunosupresores">Inmunosupresores</div>
-            <div class="chip chip-danger" data-value="Insulina">Insulina</div>
-            <div class="chip chip-danger" data-value="Litio">Litio</div>
-            <div class="chip" data-value="Ninguno" data-exclusive-none>Ninguno</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.antiepilepticos" data-value="Antiepilépticos">Antiepilépticos</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.corticoides_cronicos" data-value="Corticoides crónicos">Corticoides crónicos</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.digoxina" data-value="Digoxina">Digoxina</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.imao" data-value="IMAO (antidepresivos)">IMAO (antidepresivos)</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.inhibidores_plaquetarios" data-value="Inhibidores plaquetarios (Clopidogrel/AAS)">Inhibidores plaquetarios (Clopidogrel/AAS)</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.inmunosupresores" data-value="Inmunosupresores">Inmunosupresores</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.insulina" data-value="Insulina">Insulina</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.litio_plain" data-value="Litio">Litio</div>
+            <div class="chip" data-i18n="index.chipval.ninguno" data-value="Ninguno" data-exclusive-none>Ninguno</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Dosis y frecuencia</div>
+          <div class="field-label" data-i18n="index.medication.doses_label">Dosis y frecuencia</div>
           <input type="text" id="f-med-doses" data-exclusive-target="medicacion-alto-riesgo" placeholder="Metformina 850mg — 2 veces al día"/>
         </div>
         <div class="field">
-          <div class="field-label">Último ajuste de medicación</div>
+          <div class="field-label" data-i18n="index.medication.last_adjust_label">Último ajuste de medicación</div>
           <div class="chips" data-group="med-last-adjust" data-single="true" data-exclusive-target="medicacion-alto-riesgo">
-            <div class="chip" data-value="Esta semana">Esta semana</div>
-            <div class="chip" data-value="Este mes">Este mes</div>
-            <div class="chip" data-value="Este año">Este año</div>
-            <div class="chip" data-value="Hace más de un año">Hace más de un año</div>
+            <div class="chip" data-i18n="index.chipval.esta_semana" data-value="Esta semana">Esta semana</div>
+            <div class="chip" data-i18n="index.chipval.este_mes" data-value="Este mes">Este mes</div>
+            <div class="chip" data-i18n="index.chipval.este_anio" data-value="Este año">Este año</div>
+            <div class="chip" data-i18n="index.chipval.hace_mas_de_un_anio" data-value="Hace más de un año">Hace más de un año</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">ÚLTIMA TOMA DE MEDICACIÓN CRÍTICA</div>
+          <div class="field-label" data-i18n="index.medication.last_dose_label">ÚLTIMA TOMA DE MEDICACIÓN CRÍTICA</div>
           <div class="chips" data-group="ultima-toma-medicacion" data-single="true" data-exclusive-target="medicacion-alto-riesgo">
-            <div class="chip" data-value="Hace menos de 6 horas">Hace menos de 6 horas</div>
-            <div class="chip" data-value="Hace 6-12 horas">Hace 6-12 horas</div>
-            <div class="chip" data-value="Hace 12-24 horas">Hace 12-24 horas</div>
-            <div class="chip" data-value="Hace más de 24 horas">Hace más de 24 horas</div>
-            <div class="chip" data-value="No tomo medicación crítica">No tomo medicación crítica</div>
+            <div class="chip" data-i18n="index.chipval.hace_menos_6h" data-value="Hace menos de 6 horas">Hace menos de 6 horas</div>
+            <div class="chip" data-i18n="index.chipval.hace_6_12h" data-value="Hace 6-12 horas">Hace 6-12 horas</div>
+            <div class="chip" data-i18n="index.chipval.hace_12_24h" data-value="Hace 12-24 horas">Hace 12-24 horas</div>
+            <div class="chip" data-i18n="index.chipval.hace_mas_24h" data-value="Hace más de 24 horas">Hace más de 24 horas</div>
+            <div class="chip" data-i18n="index.chipval.no_tomo_medicacion_critica" data-value="No tomo medicación crítica">No tomo medicación crítica</div>
           </div>
-          <div class="field-hint" style="color:#ff0000;text-shadow:0 0 8px #ff0000,0 0 16px #ff0000">Insulina, anticoagulantes, antiepilépticos — relevante en emergencia</div>
+          <div class="field-hint" data-i18n="index.medication.last_dose_hint" style="color:#ff0000;text-shadow:0 0 8px #ff0000,0 0 16px #ff0000">Insulina, anticoagulantes, antiepilépticos — relevante en emergencia</div>
         </div>
       </div>
     </div>
@@ -1499,22 +1499,22 @@
     <!-- SECCIÓN — SUPLEMENTOS Y SUSTANCIAS -->
     <div class="form-section" id="sec-suplementos">
       <div class="section-header" onclick="toggleSection('sec-suplementos')">
-        <span class="section-title">Suplementos y sustancias de uso regular</span>
+        <span class="section-title" data-i18n="index.supplements.section_title">Suplementos y sustancias de uso regular</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-hint">Vitaminas, proteínas y estimulantes pueden interactuar con fármacos de urgencia</div>
+          <div class="field-hint" data-i18n="index.supplements.hint">Vitaminas, proteínas y estimulantes pueden interactuar con fármacos de urgencia</div>
           <div class="chips" data-group="suplementos">
-            <div class="chip" data-value="Cafeína (dosis alta)">Cafeína (dosis alta)</div>
-            <div class="chip" data-value="Omega 3">Omega 3</div>
-            <div class="chip" data-value="Creatina">Creatina</div>
-            <div class="chip" data-value="Proteína">Proteína</div>
-            <div class="chip" data-value="Multivitamínico">Multivitamínico</div>
-            <div class="chip" data-value="Melatonina">Melatonina</div>
+            <div class="chip" data-i18n="index.chipval.cafeina_dosis_alta" data-value="Cafeína (dosis alta)">Cafeína (dosis alta)</div>
+            <div class="chip" data-i18n="index.chipval.omega3" data-value="Omega 3">Omega 3</div>
+            <div class="chip" data-i18n="index.chipval.creatina" data-value="Creatina">Creatina</div>
+            <div class="chip" data-i18n="index.chipval.proteina" data-value="Proteína">Proteína</div>
+            <div class="chip" data-i18n="index.chipval.multivitaminico" data-value="Multivitamínico">Multivitamínico</div>
+            <div class="chip" data-i18n="index.chipval.melatonina" data-value="Melatonina">Melatonina</div>
           </div>
           <div id="suplementos-extra-wrap" style="margin-top:4px"></div>
-          <button type="button" class="btn-add-med" id="btn-add-sup" onclick="addSupExtra()">+ Añadir otro suplemento</button>
+          <button type="button" class="btn-add-med" id="btn-add-sup" onclick="addSupExtra()" data-i18n="index.supplements.add_another_button">+ Añadir otro suplemento</button>
         </div>
       </div>
     </div>
@@ -1522,62 +1522,62 @@
     <!-- SECCIÓN 07 — CIRUGÍAS Y HOSPITALIZACIONES -->
     <div class="form-section" id="sec-7">
       <div class="section-header" onclick="toggleSection('sec-7')">
-        <span class="section-title">07 — Cirugías y hospitalizaciones</span>
+        <span class="section-title" data-i18n="index.surgeries.section_title">07 — Cirugías y hospitalizaciones</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-label">Cirugías previas</div>
+          <div class="field-label" data-i18n="index.surgeries.previous_label">Cirugías previas</div>
           <div class="chips-search-wrap">
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
           <div class="chips" data-group="surgeries" data-exclusive-group>
-            <div class="chip" data-value="Adenoidectomía">Adenoidectomía</div>
-            <div class="chip" data-value="Amigdalectomía">Amigdalectomía</div>
-            <div class="chip" data-value="Amputación">Amputación</div>
-            <div class="chip" data-value="Aneurisma cerebral">Aneurisma cerebral</div>
-            <div class="chip" data-value="Apendicectomía">Apendicectomía</div>
-            <div class="chip" data-value="Artrodesis">Artrodesis</div>
-            <div class="chip" data-value="Bypass coronario">Bypass coronario</div>
-            <div class="chip" data-value="Bypass femoral">Bypass femoral</div>
-            <div class="chip" data-value="Bypass gástrico">Bypass gástrico</div>
-            <div class="chip" data-value="Cadera">Cadera</div>
-            <div class="chip" data-value="Cataratas">Cataratas</div>
-            <div class="chip" data-value="Cesárea">Cesárea</div>
-            <div class="chip" data-value="Cirugía bariátrica">Cirugía bariátrica</div>
-            <div class="chip" data-value="Colecistectomía">Colecistectomía</div>
-            <div class="chip" data-value="Columna">Columna</div>
-            <div class="chip" data-value="Craneotomía">Craneotomía</div>
-            <div class="chip" data-value="Discectomía">Discectomía</div>
-            <div class="chip" data-value="Endarterectomía">Endarterectomía</div>
-            <div class="chip" data-value="Esplenectomía">Esplenectomía</div>
-            <div class="chip" data-value="Fundoplicatura">Fundoplicatura</div>
-            <div class="chip" data-value="Gastrectomía">Gastrectomía</div>
-            <div class="chip" data-value="Glaucoma">Glaucoma</div>
-            <div class="chip" data-value="Histerectomía">Histerectomía</div>
-            <div class="chip" data-value="Hombro">Hombro</div>
-            <div class="chip" data-value="Laminectomía">Laminectomía</div>
-            <div class="chip" data-value="LASIK">LASIK</div>
-            <div class="chip" data-value="Lumpectomía">Lumpectomía</div>
-            <div class="chip" data-value="Manga gástrica">Manga gástrica</div>
-            <div class="chip" data-value="Mastectomía">Mastectomía</div>
-            <div class="chip" data-value="Miomectomía">Miomectomía</div>
-            <div class="chip" data-value="Nefrectomía">Nefrectomía</div>
-            <div class="chip" data-value="Prostatectomía">Prostatectomía</div>
-            <div class="chip" data-value="Rodilla">Rodilla</div>
-            <div class="chip" data-value="Septoplastia">Septoplastia</div>
-            <div class="chip" data-value="Timpanoplastia">Timpanoplastia</div>
-            <div class="chip" data-value="Tiroidectomía">Tiroidectomía</div>
-            <div class="chip" data-value="Trasplante cardíaco">Trasplante cardíaco</div>
-            <div class="chip" data-value="Trasplante hepático">Trasplante hepático</div>
-            <div class="chip" data-value="Trasplante renal">Trasplante renal</div>
-            <div class="chip" data-value="Vasectomía">Vasectomía</div>
-            <div class="chip" data-value="Vitrectomía">Vitrectomía</div>
-            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
+            <div class="chip" data-i18n="index.chipval.adenoidectomia" data-value="Adenoidectomía">Adenoidectomía</div>
+            <div class="chip" data-i18n="index.chipval.amigdalectomia" data-value="Amigdalectomía">Amigdalectomía</div>
+            <div class="chip" data-i18n="index.chipval.amputacion" data-value="Amputación">Amputación</div>
+            <div class="chip" data-i18n="index.chipval.aneurisma_cerebral" data-value="Aneurisma cerebral">Aneurisma cerebral</div>
+            <div class="chip" data-i18n="index.chipval.apendicectomia" data-value="Apendicectomía">Apendicectomía</div>
+            <div class="chip" data-i18n="index.chipval.artrodesis" data-value="Artrodesis">Artrodesis</div>
+            <div class="chip" data-i18n="index.chipval.bypass_coronario" data-value="Bypass coronario">Bypass coronario</div>
+            <div class="chip" data-i18n="index.chipval.bypass_femoral" data-value="Bypass femoral">Bypass femoral</div>
+            <div class="chip" data-i18n="index.chipval.bypass_gastrico" data-value="Bypass gástrico">Bypass gástrico</div>
+            <div class="chip" data-i18n="index.chipval.cadera" data-value="Cadera">Cadera</div>
+            <div class="chip" data-i18n="index.chipval.cataratas" data-value="Cataratas">Cataratas</div>
+            <div class="chip" data-i18n="index.chipval.cesarea" data-value="Cesárea">Cesárea</div>
+            <div class="chip" data-i18n="index.chipval.cirugia_bariatrica" data-value="Cirugía bariátrica">Cirugía bariátrica</div>
+            <div class="chip" data-i18n="index.chipval.colecistectomia" data-value="Colecistectomía">Colecistectomía</div>
+            <div class="chip" data-i18n="index.chipval.columna" data-value="Columna">Columna</div>
+            <div class="chip" data-i18n="index.chipval.craneotomia" data-value="Craneotomía">Craneotomía</div>
+            <div class="chip" data-i18n="index.chipval.discectomia" data-value="Discectomía">Discectomía</div>
+            <div class="chip" data-i18n="index.chipval.endarterectomia" data-value="Endarterectomía">Endarterectomía</div>
+            <div class="chip" data-i18n="index.chipval.esplenectomia" data-value="Esplenectomía">Esplenectomía</div>
+            <div class="chip" data-i18n="index.chipval.fundoplicatura" data-value="Fundoplicatura">Fundoplicatura</div>
+            <div class="chip" data-i18n="index.chipval.gastrectomia" data-value="Gastrectomía">Gastrectomía</div>
+            <div class="chip" data-i18n="index.chipval.glaucoma" data-value="Glaucoma">Glaucoma</div>
+            <div class="chip" data-i18n="index.chipval.histerectomia" data-value="Histerectomía">Histerectomía</div>
+            <div class="chip" data-i18n="index.chipval.hombro" data-value="Hombro">Hombro</div>
+            <div class="chip" data-i18n="index.chipval.laminectomia" data-value="Laminectomía">Laminectomía</div>
+            <div class="chip" data-i18n="index.chipval.lasik" data-value="LASIK">LASIK</div>
+            <div class="chip" data-i18n="index.chipval.lumpectomia" data-value="Lumpectomía">Lumpectomía</div>
+            <div class="chip" data-i18n="index.chipval.manga_gastrica" data-value="Manga gástrica">Manga gástrica</div>
+            <div class="chip" data-i18n="index.chipval.mastectomia" data-value="Mastectomía">Mastectomía</div>
+            <div class="chip" data-i18n="index.chipval.miomectomia" data-value="Miomectomía">Miomectomía</div>
+            <div class="chip" data-i18n="index.chipval.nefrectomia" data-value="Nefrectomía">Nefrectomía</div>
+            <div class="chip" data-i18n="index.chipval.prostatectomia" data-value="Prostatectomía">Prostatectomía</div>
+            <div class="chip" data-i18n="index.chipval.rodilla" data-value="Rodilla">Rodilla</div>
+            <div class="chip" data-i18n="index.chipval.septoplastia" data-value="Septoplastia">Septoplastia</div>
+            <div class="chip" data-i18n="index.chipval.timpanoplastia" data-value="Timpanoplastia">Timpanoplastia</div>
+            <div class="chip" data-i18n="index.chipval.tiroidectomia" data-value="Tiroidectomía">Tiroidectomía</div>
+            <div class="chip" data-i18n="index.chipval.trasplante_cardiaco" data-value="Trasplante cardíaco">Trasplante cardíaco</div>
+            <div class="chip" data-i18n="index.chipval.trasplante_hepatico" data-value="Trasplante hepático">Trasplante hepático</div>
+            <div class="chip" data-i18n="index.chipval.trasplante_renal" data-value="Trasplante renal">Trasplante renal</div>
+            <div class="chip" data-i18n="index.chipval.vasectomia" data-value="Vasectomía">Vasectomía</div>
+            <div class="chip" data-i18n="index.chipval.vitrectomia" data-value="Vitrectomía">Vitrectomía</div>
+            <div class="chip" data-i18n="index.chipval.ninguna" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Año aproximado última cirugía</div>
+          <div class="field-label" data-i18n="index.surgeries.year_label">Año aproximado última cirugía</div>
           <select id="f-surgery-year">
             <option value="Nunca">Nunca</option>
             <option value="Antes de 2000">Antes de 2000</option>
@@ -1587,22 +1587,22 @@
           </select>
         </div>
         <div class="field">
-          <div class="field-label">Detalle implante activo y año aproximado</div>
+          <div class="field-label" data-i18n="index.surgeries.implant_label">Detalle implante activo y año aproximado</div>
           <div class="chips" data-group="implant-detail-aplica" data-exclusive-group style="margin-bottom:6px">
-            <div class="chip" data-value="No aplica" data-exclusive-none>No aplica</div>
+            <div class="chip" data-i18n="index.chipval.no_aplica" data-value="No aplica" data-exclusive-none>No aplica</div>
           </div>
           <input type="text" id="f-implant-detail" data-exclusive-target="implant-detail-aplica" placeholder="Ej: Bomba de insulina, Válvula cardíaca mecánica — 2019"/>
-          <div class="field-hint">No incluyas aquí el marcapasos — pregúntalo aparte más abajo.</div>
+          <div class="field-hint" data-i18n="index.surgeries.implant_hint">No incluyas aquí el marcapasos — pregúntalo aparte más abajo.</div>
         </div>
         <div class="field">
-          <div class="field-label">¿Marcapasos activo?</div>
+          <div class="field-label" data-i18n="index.surgeries.pacemaker_label">¿Marcapasos activo?</div>
           <div class="chips" data-group="pacemaker" data-single="true" data-sino-group="pacemaker">
-            <div class="chip chip-danger" data-value="SÍ" data-sino="si">SÍ</div>
-            <div class="chip" data-value="NO" data-sino="no">NO</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_caps" data-value="SÍ" data-sino="si">SÍ</div>
+            <div class="chip" data-i18n="index.chipval.no_caps" data-value="NO" data-sino="no">NO</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">¿FECHA APROXIMADA ÚLTIMA CIRUGÍA?</div>
+          <div class="field-label" data-i18n="index.surgeries.last_surgery_date_label">¿FECHA APROXIMADA ÚLTIMA CIRUGÍA?</div>
           <select id="last-surgery-date" data-sino-target="pacemaker">
             <option value="">— No aplica / Ninguna —</option>
             <option>Hace menos de 1 mes</option>
@@ -1612,56 +1612,56 @@
             <option>Hace 1-2 años</option>
             <option>Hace más de 2 años</option>
           </select>
-          <div class="field-hint">Relevante para riesgo trombótico postoperatorio reciente</div>
+          <div class="field-hint" data-i18n="index.surgeries.last_surgery_date_hint">Relevante para riesgo trombótico postoperatorio reciente</div>
         </div>
         <div class="field">
-          <div class="field-label">¿TIENE MATERIAL DE OSTEOSÍNTESIS?</div>
+          <div class="field-label" data-i18n="index.surgeries.osteo_label">¿TIENE MATERIAL DE OSTEOSÍNTESIS?</div>
           <div class="chips" data-group="material-osteosintesis" data-single="true" data-sino-group="material-osteo">
-            <div class="chip" data-value="Sí — tornillos/placas/clavos" data-sino="si" onclick="checkMaterialOsteo(this)">Sí — tornillos/placas/clavos</div>
-            <div class="chip" data-value="Sí — prótesis metálica" data-sino="si" onclick="checkMaterialOsteo(this)">Sí — prótesis metálica</div>
-            <div class="chip" data-value="No" data-sino="no" onclick="checkMaterialOsteo(this)">No</div>
-            <div class="chip" data-value="No sé" data-sino="no" onclick="checkMaterialOsteo(this)">No sé</div>
+            <div class="chip" data-i18n="index.chipval.si_tornillos_placas_clavos" data-value="Sí — tornillos/placas/clavos" data-sino="si" onclick="checkMaterialOsteo(this)">Sí — tornillos/placas/clavos</div>
+            <div class="chip" data-i18n="index.chipval.si_protesis_metalica" data-value="Sí — prótesis metálica" data-sino="si" onclick="checkMaterialOsteo(this)">Sí — prótesis metálica</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No" data-sino="no" onclick="checkMaterialOsteo(this)">No</div>
+            <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé" data-sino="no" onclick="checkMaterialOsteo(this)">No sé</div>
           </div>
           <div id="material-osteo-detalle-wrap" style="display:none;margin-top:8px">
             <input type="text" id="f-material-osteo-detalle" data-sino-target="material-osteo" placeholder="Tipo y localización (ej: placa tibial derecha, clavo femoral — 2018)"/>
           </div>
-          <div class="field-hint">Afecta resonancias magnéticas y radiografías</div>
+          <div class="field-hint" data-i18n="index.surgeries.osteo_hint">Afecta resonancias magnéticas y radiografías</div>
         </div>
         <div class="field">
-          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿DIFICULTAD DE INTUBACIÓN PREVIA?</div>
+          <div class="field-label" data-i18n="index.surgeries.intubation_label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿DIFICULTAD DE INTUBACIÓN PREVIA?</div>
           <div class="chips" data-group="dificultad-intubacion" data-single="true">
-            <div class="chip chip-danger" data-value="SÍ — intubación difícil documentada">SÍ — intubación difícil documentada</div>
-            <div class="chip" data-value="No">No</div>
-            <div class="chip" data-value="No sé">No sé</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_intubacion_dificil" data-value="SÍ — intubación difícil documentada">SÍ — intubación difícil documentada</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé">No sé</div>
           </div>
-          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">El anestesista DEBE saber esto antes de cualquier intervención</div>
+          <div class="field-hint" data-i18n="index.surgeries.intubation_hint" style="color:#ff4444;opacity:0.8;margin-top:6px">El anestesista DEBE saber esto antes de cualquier intervención</div>
         </div>
         <div class="field">
-          <div class="field-label">¿COMPLICACIONES EN ANESTESIA PREVIA?</div>
+          <div class="field-label" data-i18n="index.surgeries.anesthesia_complications_label">¿COMPLICACIONES EN ANESTESIA PREVIA?</div>
           <div class="chips" data-group="complicaciones-anestesia" data-single="true">
-            <div class="chip chip-danger" data-value="SÍ — hipertermia maligna">SÍ — hipertermia maligna</div>
-            <div class="chip chip-danger" data-value="SÍ — reacción alérgica">SÍ — reacción alérgica</div>
-            <div class="chip chip-danger" data-value="SÍ — otras complicaciones">SÍ — otras complicaciones</div>
-            <div class="chip" data-value="No">No</div>
-            <div class="chip" data-value="No sé">No sé</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_hipertermia_maligna" data-value="SÍ — hipertermia maligna">SÍ — hipertermia maligna</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_reaccion_alergica" data-value="SÍ — reacción alérgica">SÍ — reacción alérgica</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_otras_complicaciones" data-value="SÍ — otras complicaciones">SÍ — otras complicaciones</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé">No sé</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿HIPERTERMIA MALIGNA EN FAMILIA?</div>
+          <div class="field-label" data-i18n="index.surgeries.hyperthermia_family_label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿HIPERTERMIA MALIGNA EN FAMILIA?</div>
           <div class="chips" data-group="hipertermia-familiar" data-single="true">
-            <div class="chip chip-danger" data-value="SÍ — caso confirmado en familia">SÍ — caso confirmado en familia</div>
-            <div class="chip" data-value="No">No</div>
-            <div class="chip" data-value="No sé">No sé</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_caso_confirmado_familia" data-value="SÍ — caso confirmado en familia">SÍ — caso confirmado en familia</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé">No sé</div>
           </div>
-          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Genética — letal si no se previene antes de anestesia general</div>
+          <div class="field-hint" data-i18n="index.surgeries.hyperthermia_family_hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Genética — letal si no se previene antes de anestesia general</div>
         </div>
         <div class="field" id="field-cesarea-previa">
-          <div class="field-label">¿CESÁREA PREVIA?</div>
+          <div class="field-label" data-i18n="index.surgeries.cesarean_label">¿CESÁREA PREVIA?</div>
           <div class="chips" data-group="cesarea-previa" data-single="true" data-sino-target="sexo-biologico">
-            <div class="chip" data-value="Sí">Sí</div>
-            <div class="chip" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.si" data-value="Sí">Sí</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No">No</div>
           </div>
-          <div class="field-hint">Relevante en nuevos partos y cirugías abdominales</div>
+          <div class="field-hint" data-i18n="index.surgeries.cesarean_hint">Relevante en nuevos partos y cirugías abdominales</div>
         </div>
       </div>
     </div>
@@ -1669,7 +1669,7 @@
     <!-- SECCIÓN 08 — VACUNAS -->
     <div class="form-section" id="sec-8">
       <div class="section-header" onclick="toggleSection('sec-8')">
-        <span class="section-title">08 — Vacunas</span>
+        <span class="section-title" data-i18n="index.vaccines.section_title">08 — Vacunas</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -1678,36 +1678,36 @@
             <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
           </div>
           <div class="chips" data-group="vaccines" data-exclusive-group>
-            <div class="chip" data-value="Cólera">Cólera</div>
-            <div class="chip" data-value="COVID-19">COVID-19</div>
-            <div class="chip" data-value="Difteria">Difteria</div>
-            <div class="chip" data-value="Encefalitis centroeuropea">Encefalitis centroeuropea</div>
-            <div class="chip" data-value="Encefalitis japonesa">Encefalitis japonesa</div>
-            <div class="chip" data-value="Fiebre amarilla">Fiebre amarilla</div>
-            <div class="chip" data-value="Fiebre tifoidea">Fiebre tifoidea</div>
-            <div class="chip" data-value="Gripe anual">Gripe anual</div>
-            <div class="chip" data-value="Hepatitis A">Hepatitis A</div>
-            <div class="chip" data-value="Hepatitis B">Hepatitis B</div>
-            <div class="chip" data-value="Hib">Hib</div>
-            <div class="chip" data-value="Meningococo">Meningococo</div>
-            <div class="chip" data-value="Neumococo">Neumococo</div>
-            <div class="chip" data-value="Paperas">Paperas</div>
-            <div class="chip" data-value="Polio">Polio</div>
-            <div class="chip" data-value="Rabia">Rabia</div>
-            <div class="chip" data-value="Rotavirus">Rotavirus</div>
-            <div class="chip" data-value="Rubéola">Rubéola</div>
-            <div class="chip" data-value="Sarampión">Sarampión</div>
-            <div class="chip" data-value="Tétanos">Tétanos</div>
-            <div class="chip" data-value="Tos ferina">Tos ferina</div>
-            <div class="chip" data-value="Triple vírica">Triple vírica</div>
-            <div class="chip" data-value="Varicela">Varicela</div>
-            <div class="chip" data-value="Viruela del mono">Viruela del mono</div>
-            <div class="chip" data-value="VPH">VPH</div>
-            <div class="chip" data-value="No recuerdo" data-exclusive-none>No recuerdo</div>
+            <div class="chip" data-i18n="index.chipval.colera" data-value="Cólera">Cólera</div>
+            <div class="chip" data-i18n="index.chipval.covid19" data-value="COVID-19">COVID-19</div>
+            <div class="chip" data-i18n="index.chipval.difteria" data-value="Difteria">Difteria</div>
+            <div class="chip" data-i18n="index.chipval.encefalitis_centroeuropea" data-value="Encefalitis centroeuropea">Encefalitis centroeuropea</div>
+            <div class="chip" data-i18n="index.chipval.encefalitis_japonesa" data-value="Encefalitis japonesa">Encefalitis japonesa</div>
+            <div class="chip" data-i18n="index.chipval.fiebre_amarilla" data-value="Fiebre amarilla">Fiebre amarilla</div>
+            <div class="chip" data-i18n="index.chipval.fiebre_tifoidea" data-value="Fiebre tifoidea">Fiebre tifoidea</div>
+            <div class="chip" data-i18n="index.chipval.gripe_anual" data-value="Gripe anual">Gripe anual</div>
+            <div class="chip" data-i18n="index.chipval.hepatitis_a_vac" data-value="Hepatitis A">Hepatitis A</div>
+            <div class="chip" data-i18n="index.chipval.hepatitis_b_vac" data-value="Hepatitis B">Hepatitis B</div>
+            <div class="chip" data-i18n="index.chipval.hib" data-value="Hib">Hib</div>
+            <div class="chip" data-i18n="index.chipval.meningococo" data-value="Meningococo">Meningococo</div>
+            <div class="chip" data-i18n="index.chipval.neumococo" data-value="Neumococo">Neumococo</div>
+            <div class="chip" data-i18n="index.chipval.paperas" data-value="Paperas">Paperas</div>
+            <div class="chip" data-i18n="index.chipval.polio" data-value="Polio">Polio</div>
+            <div class="chip" data-i18n="index.chipval.rabia" data-value="Rabia">Rabia</div>
+            <div class="chip" data-i18n="index.chipval.rotavirus" data-value="Rotavirus">Rotavirus</div>
+            <div class="chip" data-i18n="index.chipval.rubeola" data-value="Rubéola">Rubéola</div>
+            <div class="chip" data-i18n="index.chipval.sarampion" data-value="Sarampión">Sarampión</div>
+            <div class="chip" data-i18n="index.chipval.tetanos" data-value="Tétanos">Tétanos</div>
+            <div class="chip" data-i18n="index.chipval.tos_ferina" data-value="Tos ferina">Tos ferina</div>
+            <div class="chip" data-i18n="index.chipval.triple_virica" data-value="Triple vírica">Triple vírica</div>
+            <div class="chip" data-i18n="index.chipval.varicela" data-value="Varicela">Varicela</div>
+            <div class="chip" data-i18n="index.chipval.viruela_del_mono" data-value="Viruela del mono">Viruela del mono</div>
+            <div class="chip" data-i18n="index.chipval.vph" data-value="VPH">VPH</div>
+            <div class="chip" data-i18n="index.chipval.no_recuerdo" data-value="No recuerdo" data-exclusive-none>No recuerdo</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Año última vacuna tétanos</div>
+          <div class="field-label" data-i18n="index.vaccines.tetanus_year_label">Año última vacuna tétanos</div>
           <select id="f-tetanus-year">
             <option value="">— Selecciona —</option>
             <option value="No recuerdo">No recuerdo</option>
@@ -1717,11 +1717,11 @@
           </select>
         </div>
         <div class="field">
-          <div class="field-label">¿Calendario vacunal completo?</div>
+          <div class="field-label" data-i18n="index.vaccines.complete_label">¿Calendario vacunal completo?</div>
           <div class="chips" data-group="vaccine-complete" data-single="true">
-            <div class="chip" data-value="Sí">Sí</div>
-            <div class="chip" data-value="No">No</div>
-            <div class="chip" data-value="No sé">No sé</div>
+            <div class="chip" data-i18n="index.chipval.si" data-value="Sí">Sí</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé">No sé</div>
           </div>
         </div>
       </div>
@@ -1730,42 +1730,42 @@
     <!-- SECCIÓN — TERAPIA HORMONAL -->
     <div class="form-section" id="sec-hormonal-terapia">
       <div class="section-header" onclick="toggleSection('sec-hormonal-terapia')">
-        <span class="section-title">— Terapia hormonal</span>
+        <span class="section-title" data-i18n="index.hormonal.section_title">— Terapia hormonal</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-label">¿RECIBE TERAPIA HORMONAL ACTUALMENTE?</div>
+          <div class="field-label" data-i18n="index.hormonal.active_label">¿RECIBE TERAPIA HORMONAL ACTUALMENTE?</div>
           <div class="chips" data-group="terapia-hormonal-activa" data-single="true">
-            <div class="chip active" data-value="No">No</div>
-            <div class="chip" data-value="Sí">Sí</div>
+            <div class="chip active" data-i18n="index.chipval.no" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.si" data-value="Sí">Sí</div>
           </div>
         </div>
         <div id="terapia-hormonal-detalle" style="display:none">
           <div class="field">
-            <div class="field-label">TIPO DE TERAPIA HORMONAL</div>
+            <div class="field-label" data-i18n="index.hormonal.type_label">TIPO DE TERAPIA HORMONAL</div>
             <div class="chips" data-group="terapia-hormonal-tipos">
-              <div class="chip" data-value="Levotiroxina (tiroides)">Levotiroxina (tiroides)</div>
-              <div class="chip" data-value="Corticoides (corticoterapia crónica)">Corticoides (corticoterapia crónica)</div>
-              <div class="chip" data-value="Anticonceptivos hormonales">Anticonceptivos hormonales</div>
-              <div class="chip" data-value="Terapia hormonal feminizante (estrógenos)">Terapia hormonal feminizante (estrógenos)</div>
-              <div class="chip" data-value="Terapia hormonal masculinizante (testosterona)">Terapia hormonal masculinizante (testosterona)</div>
-              <div class="chip" data-value="Terapia hormonal menopáusica">Terapia hormonal menopáusica</div>
-              <div class="chip" data-value="Testosterona (hipogonadismo)">Testosterona (hipogonadismo)</div>
-              <div class="chip" data-value="Terapia hormonal oncológica">Terapia hormonal oncológica</div>
-              <div class="chip" data-value="Hormona de crecimiento (GH)">Hormona de crecimiento (GH)</div>
-              <div class="chip" data-value="Otra">+ Otra</div>
+              <div class="chip" data-i18n="index.chipval.levotiroxina_tiroides" data-value="Levotiroxina (tiroides)">Levotiroxina (tiroides)</div>
+              <div class="chip" data-i18n="index.chipval.corticoides_corticoterapia" data-value="Corticoides (corticoterapia crónica)">Corticoides (corticoterapia crónica)</div>
+              <div class="chip" data-i18n="index.chipval.anticonceptivos_hormonales" data-value="Anticonceptivos hormonales">Anticonceptivos hormonales</div>
+              <div class="chip" data-i18n="index.chipval.terapia_feminizante" data-value="Terapia hormonal feminizante (estrógenos)">Terapia hormonal feminizante (estrógenos)</div>
+              <div class="chip" data-i18n="index.chipval.terapia_masculinizante" data-value="Terapia hormonal masculinizante (testosterona)">Terapia hormonal masculinizante (testosterona)</div>
+              <div class="chip" data-i18n="index.chipval.terapia_menopausica" data-value="Terapia hormonal menopáusica">Terapia hormonal menopáusica</div>
+              <div class="chip" data-i18n="index.chipval.testosterona_hipogonadismo" data-value="Testosterona (hipogonadismo)">Testosterona (hipogonadismo)</div>
+              <div class="chip" data-i18n="index.chipval.terapia_oncologica" data-value="Terapia hormonal oncológica">Terapia hormonal oncológica</div>
+              <div class="chip" data-i18n="index.chipval.hormona_crecimiento" data-value="Hormona de crecimiento (GH)">Hormona de crecimiento (GH)</div>
+              <div class="chip" data-i18n="index.chipval.mas_otra" data-value="Otra">+ Otra</div>
             </div>
             <div id="terapia-hormonal-otra-wrap" style="display:none;margin-top:8px">
               <input type="text" id="f-terapia-hormonal-otra" placeholder="Especifica el tipo de terapia hormonal" />
             </div>
           </div>
           <div class="field">
-            <div class="field-label">DOSIS Y FRECUENCIA</div>
+            <div class="field-label" data-i18n="index.hormonal.dose_label">DOSIS Y FRECUENCIA</div>
             <input type="text" id="f-terapia-hormonal-dosis" placeholder="ej. 50mcg/día, 100mg IM/3 semanas, parche semanal" />
           </div>
           <div class="field">
-            <div class="field-label">DURACIÓN DEL TRATAMIENTO</div>
+            <div class="field-label" data-i18n="index.hormonal.duration_label">DURACIÓN DEL TRATAMIENTO</div>
             <div style="display:flex;gap:8px;align-items:center">
               <input type="number" id="f-terapia-hormonal-duracion-valor" min="1" placeholder="ej. 6" style="width:80px" />
               <select id="f-terapia-hormonal-duracion-unidad">
@@ -1782,55 +1782,55 @@
     <!-- SECCIÓN — HÁBITOS Y ESTILO DE VIDA -->
     <div class="form-section" id="sec-habitos">
       <div class="section-header" onclick="toggleSection('sec-habitos')">
-        <span class="section-title">— Hábitos y estilo de vida</span>
+        <span class="section-title" data-i18n="index.habits.section_title">— Hábitos y estilo de vida</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-label">TABACO</div>
+          <div class="field-label" data-i18n="index.habits.tobacco_label">TABACO</div>
           <div class="chips" data-group="tabaco" data-single="true">
-            <div class="chip" data-value="No fumador">No fumador</div>
-            <div class="chip" data-value="Ex fumador">Ex fumador</div>
-            <div class="chip" data-value="Fumador ocasional">Fumador ocasional</div>
-            <div class="chip" data-value="Fumador — menos 10 cig/día">Fumador — menos 10 cig/día</div>
-            <div class="chip" data-value="Fumador — más 10 cig/día">Fumador — más 10 cig/día</div>
-            <div class="chip" data-value="Vapeador">Vapeador</div>
+            <div class="chip" data-i18n="index.chipval.no_fumador" data-value="No fumador">No fumador</div>
+            <div class="chip" data-i18n="index.chipval.ex_fumador" data-value="Ex fumador">Ex fumador</div>
+            <div class="chip" data-i18n="index.chipval.fumador_ocasional" data-value="Fumador ocasional">Fumador ocasional</div>
+            <div class="chip" data-i18n="index.chipval.fumador_menos_10" data-value="Fumador — menos 10 cig/día">Fumador — menos 10 cig/día</div>
+            <div class="chip" data-i18n="index.chipval.fumador_mas_10" data-value="Fumador — más 10 cig/día">Fumador — más 10 cig/día</div>
+            <div class="chip" data-i18n="index.chipval.vapeador" data-value="Vapeador">Vapeador</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">ALCOHOL</div>
+          <div class="field-label" data-i18n="index.habits.alcohol_label">ALCOHOL</div>
           <div class="chips" data-group="alcohol" data-single="true">
-            <div class="chip" data-value="No consumo">No consumo</div>
-            <div class="chip" data-value="Consumo ocasional">Consumo ocasional</div>
-            <div class="chip" data-value="Consumo moderado — fines de semana">Consumo moderado — fines de semana</div>
-            <div class="chip" data-value="Consumo diario">Consumo diario</div>
-            <div class="chip" data-value="Consumo elevado diario">Consumo elevado diario</div>
-            <div class="chip" data-value="En recuperación">En recuperación</div>
+            <div class="chip" data-i18n="index.chipval.no_consumo" data-value="No consumo">No consumo</div>
+            <div class="chip" data-i18n="index.chipval.consumo_ocasional" data-value="Consumo ocasional">Consumo ocasional</div>
+            <div class="chip" data-i18n="index.chipval.consumo_moderado_finde" data-value="Consumo moderado — fines de semana">Consumo moderado — fines de semana</div>
+            <div class="chip" data-i18n="index.chipval.consumo_diario" data-value="Consumo diario">Consumo diario</div>
+            <div class="chip" data-i18n="index.chipval.consumo_elevado_diario" data-value="Consumo elevado diario">Consumo elevado diario</div>
+            <div class="chip" data-i18n="index.chipval.en_recuperacion" data-value="En recuperación">En recuperación</div>
           </div>
-          <div class="field-hint">Modifica dosificación anestesia e interacciones medicamentosas</div>
+          <div class="field-hint" data-i18n="index.habits.alcohol_hint">Modifica dosificación anestesia e interacciones medicamentosas</div>
         </div>
         <div class="field">
-          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ DROGAS RECREATIVAS</div>
+          <div class="field-label" data-i18n="index.habits.drugs_label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ DROGAS RECREATIVAS</div>
           <div class="chips" data-group="drogas" data-exclusive-group>
-            <div class="chip" data-value="No consumo" data-exclusive-none>No consumo</div>
-            <div class="chip chip-danger" data-value="Cocaína">Cocaína</div>
-            <div class="chip chip-danger" data-value="Cannabis">Cannabis</div>
-            <div class="chip chip-danger" data-value="Anfetaminas/MDMA">Anfetaminas/MDMA</div>
-            <div class="chip chip-danger" data-value="Opioides">Opioides</div>
-            <div class="chip chip-danger" data-value="Benzodiacepinas no prescritas">Benzodiacepinas no prescritas</div>
-            <div class="chip chip-danger" data-value="Otras">Otras</div>
-            <div class="chip" data-value="Prefiero no decir" data-exclusive-none>Prefiero no decir</div>
+            <div class="chip" data-i18n="index.chipval.no_consumo" data-value="No consumo" data-exclusive-none>No consumo</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.cocaina" data-value="Cocaína">Cocaína</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.cannabis" data-value="Cannabis">Cannabis</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.anfetaminas_mdma" data-value="Anfetaminas/MDMA">Anfetaminas/MDMA</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.opioides" data-value="Opioides">Opioides</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.benzodiacepinas_no_prescritas" data-value="Benzodiacepinas no prescritas">Benzodiacepinas no prescritas</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.otras" data-value="Otras">Otras</div>
+            <div class="chip" data-i18n="register.screen2.sexo_prefiero_no_decir" data-value="Prefiero no decir" data-exclusive-none>Prefiero no decir</div>
           </div>
-          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Cocaína + adrenalina = paro cardíaco. Esta información es confidencial y solo visible en emergencia médica</div>
+          <div class="field-hint" data-i18n="index.habits.drugs_hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Cocaína + adrenalina = paro cardíaco. Esta información es confidencial y solo visible en emergencia médica</div>
         </div>
         <div class="field">
-          <div class="field-label">ACTIVIDAD FÍSICA HABITUAL</div>
+          <div class="field-label" data-i18n="index.habits.activity_label">ACTIVIDAD FÍSICA HABITUAL</div>
           <div class="chips" data-group="actividad-fisica" data-single="true">
-            <div class="chip" data-value="Sedentario">Sedentario</div>
-            <div class="chip" data-value="Actividad leve — caminar">Actividad leve — caminar</div>
-            <div class="chip" data-value="Ejercicio moderado — 2-3 días/semana">Ejercicio moderado — 2-3 días/semana</div>
-            <div class="chip" data-value="Ejercicio intenso — 4-5 días/semana">Ejercicio intenso — 4-5 días/semana</div>
-            <div class="chip" data-value="Deportista de alto rendimiento">Deportista de alto rendimiento</div>
+            <div class="chip" data-i18n="index.chipval.sedentario" data-value="Sedentario">Sedentario</div>
+            <div class="chip" data-i18n="index.chipval.actividad_leve_caminar" data-value="Actividad leve — caminar">Actividad leve — caminar</div>
+            <div class="chip" data-i18n="index.chipval.ejercicio_moderado" data-value="Ejercicio moderado — 2-3 días/semana">Ejercicio moderado — 2-3 días/semana</div>
+            <div class="chip" data-i18n="index.chipval.ejercicio_intenso" data-value="Ejercicio intenso — 4-5 días/semana">Ejercicio intenso — 4-5 días/semana</div>
+            <div class="chip" data-i18n="index.chipval.deportista_alto_rendimiento" data-value="Deportista de alto rendimiento">Deportista de alto rendimiento</div>
           </div>
         </div>
       </div>
@@ -1839,37 +1839,37 @@
     <!-- SECCIÓN — HISTORIAL FAMILIAR -->
     <div class="form-section" id="sec-familiar">
       <div class="section-header" onclick="toggleSection('sec-familiar')">
-        <span class="section-title">— Historial familiar</span>
+        <span class="section-title" data-i18n="index.family_history.section_title">— Historial familiar</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-label">ENFERMEDADES HEREDITARIAS EN FAMILIA</div>
+          <div class="field-label" data-i18n="index.family_history.diseases_label">ENFERMEDADES HEREDITARIAS EN FAMILIA</div>
           <div class="chips" data-group="enfermedades-familiares" data-exclusive-group>
-            <div class="chip" data-value="Alzheimer familiar">Alzheimer familiar</div>
-            <div class="chip" data-value="Anemia células falciformes">Anemia células falciformes</div>
-            <div class="chip" data-value="Cáncer hereditario">Cáncer hereditario</div>
-            <div class="chip" data-value="Cardiopatía hereditaria">Cardiopatía hereditaria</div>
-            <div class="chip" data-value="Coagulopatía hereditaria">Coagulopatía hereditaria</div>
-            <div class="chip" data-value="Diabetes tipo 1">Diabetes tipo 1</div>
-            <div class="chip" data-value="Hemofilia">Hemofilia</div>
-            <div class="chip" data-value="Hipertensión familiar">Hipertensión familiar</div>
-            <div class="chip" data-value="Ictus familiar">Ictus familiar</div>
-            <div class="chip" data-value="Muerte súbita familiar">Muerte súbita familiar</div>
-            <div class="chip" data-value="Parkinson familiar">Parkinson familiar</div>
-            <div class="chip" data-value="Talasemia">Talasemia</div>
-            <div class="chip" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
+            <div class="chip" data-i18n="index.chipval.alzheimer_familiar" data-value="Alzheimer familiar">Alzheimer familiar</div>
+            <div class="chip" data-i18n="index.chipval.anemia_celulas_falciformes" data-value="Anemia células falciformes">Anemia células falciformes</div>
+            <div class="chip" data-i18n="index.chipval.cancer_hereditario" data-value="Cáncer hereditario">Cáncer hereditario</div>
+            <div class="chip" data-i18n="index.chipval.cardiopatia_hereditaria" data-value="Cardiopatía hereditaria">Cardiopatía hereditaria</div>
+            <div class="chip" data-i18n="index.chipval.coagulopatia_hereditaria" data-value="Coagulopatía hereditaria">Coagulopatía hereditaria</div>
+            <div class="chip" data-i18n="index.chipval.diabetes_tipo1" data-value="Diabetes tipo 1">Diabetes tipo 1</div>
+            <div class="chip" data-i18n="index.chipval.hemofilia" data-value="Hemofilia">Hemofilia</div>
+            <div class="chip" data-i18n="index.chipval.hipertension_familiar" data-value="Hipertensión familiar">Hipertensión familiar</div>
+            <div class="chip" data-i18n="index.chipval.ictus_familiar" data-value="Ictus familiar">Ictus familiar</div>
+            <div class="chip" data-i18n="index.chipval.muerte_subita_familiar_val" data-value="Muerte súbita familiar">Muerte súbita familiar</div>
+            <div class="chip" data-i18n="index.chipval.parkinson_familiar" data-value="Parkinson familiar">Parkinson familiar</div>
+            <div class="chip" data-i18n="index.chipval.talasemia" data-value="Talasemia">Talasemia</div>
+            <div class="chip" data-i18n="index.chipval.ninguna_conocida" data-value="Ninguna conocida" data-exclusive-none>Ninguna conocida</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿MUERTE SÚBITA EN FAMILIA?</div>
+          <div class="field-label" data-i18n="index.family_history.sudden_death_label" style="color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ ¿MUERTE SÚBITA EN FAMILIA?</div>
           <div class="chips" data-group="muerte-subita-familiar" data-single="true">
-            <div class="chip chip-danger" data-value="SÍ — menor de 50 años">SÍ — menor de 50 años</div>
-            <div class="chip chip-danger" data-value="SÍ — mayor de 50 años">SÍ — mayor de 50 años</div>
-            <div class="chip" data-value="No">No</div>
-            <div class="chip" data-value="No sé">No sé</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_menor_50" data-value="SÍ — menor de 50 años">SÍ — menor de 50 años</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.si_mayor_50" data-value="SÍ — mayor de 50 años">SÍ — mayor de 50 años</div>
+            <div class="chip" data-i18n="index.chipval.no" data-value="No">No</div>
+            <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé">No sé</div>
           </div>
-          <div class="field-hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Canalopatías cardíacas hereditarias — riesgo vital en contexto de emergencia</div>
+          <div class="field-hint" data-i18n="index.family_history.sudden_death_hint" style="color:#ff4444;opacity:0.8;margin-top:6px">Canalopatías cardíacas hereditarias — riesgo vital en contexto de emergencia</div>
         </div>
       </div>
     </div>
@@ -1877,33 +1877,33 @@
     <!-- SECCIÓN 09 — RELIGIÓN Y RESTRICCIONES -->
     <div class="form-section" id="sec-9">
       <div class="section-header" onclick="toggleSection('sec-9')">
-        <span class="section-title">09 — Religión y restricciones</span>
+        <span class="section-title" data-i18n="index.religion.section_title">09 — Religión y restricciones</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-label">Religión (opcional)</div>
+          <div class="field-label" data-i18n="index.religion.religion_label">Religión (opcional)</div>
           <div class="chips" data-group="religion" data-single="true">
-            <div class="chip" data-value="Católica">Católica</div>
-            <div class="chip" data-value="Protestante">Protestante</div>
-            <div class="chip" data-value="Islámica">Islámica</div>
-            <div class="chip" data-value="Judía">Judía</div>
-            <div class="chip" data-value="Budista">Budista</div>
-            <div class="chip" data-value="Testigo de Jehová">Testigo de Jehová</div>
-            <div class="chip" data-value="Otra">Otra</div>
-            <div class="chip" data-value="Ninguna">Ninguna</div>
-            <div class="chip" data-value="Prefiero no decir">Prefiero no decir</div>
+            <div class="chip" data-i18n="index.chipval.catolica" data-value="Católica">Católica</div>
+            <div class="chip" data-i18n="index.chipval.protestante" data-value="Protestante">Protestante</div>
+            <div class="chip" data-i18n="index.chipval.islamica" data-value="Islámica">Islámica</div>
+            <div class="chip" data-i18n="index.chipval.judia" data-value="Judía">Judía</div>
+            <div class="chip" data-i18n="index.chipval.budista" data-value="Budista">Budista</div>
+            <div class="chip" data-i18n="index.chipval.testigo_jehova" data-value="Testigo de Jehová">Testigo de Jehová</div>
+            <div class="chip" data-i18n="index.chipval.otra" data-value="Otra">Otra</div>
+            <div class="chip" data-i18n="index.chipval.ninguna" data-value="Ninguna">Ninguna</div>
+            <div class="chip" data-i18n="register.screen2.sexo_prefiero_no_decir" data-value="Prefiero no decir">Prefiero no decir</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Restricciones médicas por creencias</div>
+          <div class="field-label" data-i18n="index.religion.restrictions_label">Restricciones médicas por creencias</div>
           <div class="chips" data-group="religion-restrictions" data-exclusive-group>
-            <div class="chip chip-danger" data-value="No acepta transfusiones de sangre">No acepta transfusiones de sangre</div>
-            <div class="chip chip-danger" data-value="No acepta productos porcinos">No acepta productos porcinos</div>
-            <div class="chip chip-danger" data-value="Ayuno religioso activo">Ayuno religioso activo</div>
-            <div class="chip" data-value="Ninguna restricción" data-exclusive-none>Ninguna restricción</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.no_acepta_transfusiones" data-value="No acepta transfusiones de sangre">No acepta transfusiones de sangre</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.no_acepta_productos_porcinos" data-value="No acepta productos porcinos">No acepta productos porcinos</div>
+            <div class="chip chip-danger" data-i18n="index.chipval.ayuno_religioso_activo" data-value="Ayuno religioso activo">Ayuno religioso activo</div>
+            <div class="chip" data-i18n="index.chipval.ninguna_restriccion" data-value="Ninguna restricción" data-exclusive-none>Ninguna restricción</div>
           </div>
-          <div class="critical-warning">⚠ CRÍTICO — Esta información puede ser determinante en una emergencia médica</div>
+          <div class="critical-warning" data-i18n="index.religion.critical_warning">⚠ CRÍTICO — Esta información puede ser determinante en una emergencia médica</div>
         </div>
       </div>
     </div>
@@ -1911,18 +1911,18 @@
     <!-- SECCIÓN 10 — CONTACTOS DE EMERGENCIA -->
     <div class="form-section" id="sec-10">
       <div class="section-header" onclick="toggleSection('sec-10')">
-        <span class="section-title">10 — Contactos de emergencia</span>
+        <span class="section-title" data-i18n="index.contacts.section_title">10 — Contactos de emergencia</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="contact-group">
-          <div class="contact-label">Contacto 1</div>
+          <div class="contact-label" data-i18n="index.contacts.contact1_label">Contacto 1</div>
           <div class="field">
-            <div class="field-label">Nombre</div>
+            <div class="field-label" data-i18n="index.contacts.name_label">Nombre</div>
             <input type="text" id="f-ec1-name" placeholder="María García"/>
           </div>
           <div class="field">
-            <div class="field-label">Relación</div>
+            <div class="field-label" data-i18n="index.contacts.relation_label">Relación</div>
             <select id="f-ec1-rel">
               <option value="">— Selecciona —</option>
               <option value="Cónyuge/Pareja">Cónyuge / Pareja</option>
@@ -1935,23 +1935,23 @@
             </select>
           </div>
           <div class="field">
-            <div class="field-label">Teléfono</div>
+            <div class="field-label" data-i18n="index.contacts.phone_label">Teléfono</div>
             <div class="phone-field">
               <select class="phone-prefix" id="f-ec1-phone-prefix"></select>
               <input type="tel" class="phone-number" id="f-ec1-phone-num" placeholder="Número sin prefijo"/>
               <div class="phone-hint"></div>
-              <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+              <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
             </div>
           </div>
         </div>
         <div class="contact-group">
-          <div class="contact-label">Contacto 2</div>
+          <div class="contact-label" data-i18n="index.contacts.contact2_label">Contacto 2</div>
           <div class="field">
-            <div class="field-label">Nombre</div>
+            <div class="field-label" data-i18n="index.contacts.name_label">Nombre</div>
             <input type="text" id="f-ec2-name" placeholder="Carlos García"/>
           </div>
           <div class="field">
-            <div class="field-label">Relación</div>
+            <div class="field-label" data-i18n="index.contacts.relation_label">Relación</div>
             <select id="f-ec2-rel">
               <option value="">— Selecciona —</option>
               <option value="Cónyuge/Pareja">Cónyuge / Pareja</option>
@@ -1964,32 +1964,32 @@
             </select>
           </div>
           <div class="field">
-            <div class="field-label">Teléfono</div>
+            <div class="field-label" data-i18n="index.contacts.phone_label">Teléfono</div>
             <div class="phone-field">
               <select class="phone-prefix" id="f-ec2-phone-prefix"></select>
               <input type="tel" class="phone-number" id="f-ec2-phone-num" placeholder="Número sin prefijo"/>
               <div class="phone-hint"></div>
-              <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+              <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
             </div>
           </div>
         </div>
         <div class="contact-group">
-          <div class="contact-label">Tutor legal</div>
+          <div class="contact-label" data-i18n="index.contacts.guardian_label">Tutor legal</div>
           <div class="field">
-            <div class="field-label">Nombre</div>
+            <div class="field-label" data-i18n="index.contacts.name_label">Nombre</div>
             <input type="text" id="f-guardian-name" placeholder="Nombre del tutor legal"/>
           </div>
           <div class="field">
-            <div class="field-label">Teléfono</div>
+            <div class="field-label" data-i18n="index.contacts.phone_label">Teléfono</div>
             <div class="phone-field">
               <select class="phone-prefix" id="f-guardian-phone-prefix"></select>
               <input type="tel" class="phone-number" id="f-guardian-phone-num" placeholder="Número sin prefijo"/>
               <div class="phone-hint"></div>
-              <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+              <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
             </div>
           </div>
           <div class="field">
-            <div class="field-label">Documento de tutela (opcional)</div>
+            <div class="field-label" data-i18n="index.contacts.guardian_doc_label">Documento de tutela (opcional)</div>
             <input type="text" id="f-guardian-doc" placeholder="Nº expediente / referencia"/>
           </div>
         </div>
@@ -1999,50 +1999,50 @@
     <!-- SECCIÓN 11 — MÉDICO Y SEGURO -->
     <div class="form-section" id="sec-11">
       <div class="section-header" onclick="toggleSection('sec-11')">
-        <span class="section-title">11 — Médico y seguro</span>
+        <span class="section-title" data-i18n="index.medical_insurance.section_title">11 — Médico y seguro</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
         <div class="field">
-          <div class="field-label">Nombre médico de cabecera</div>
+          <div class="field-label" data-i18n="index.medical_insurance.doctor_name_label">Nombre médico de cabecera</div>
           <input type="text" id="f-doctor-name" placeholder="Dr. José Martínez"/>
         </div>
         <div class="field">
-          <div class="field-label">Teléfono médico</div>
+          <div class="field-label" data-i18n="index.medical_insurance.doctor_phone_label">Teléfono médico</div>
           <div class="phone-field">
             <select class="phone-prefix" id="f-doctor-phone-prefix"></select>
             <input type="tel" class="phone-number" id="f-doctor-phone-num" placeholder="Número sin prefijo"/>
             <div class="phone-hint"></div>
-            <div class="phone-warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
+            <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Aseguradora</div>
+          <div class="field-label" data-i18n="index.medical_insurance.insurer_label">Aseguradora</div>
           <div class="chips" data-group="insurer" data-exclusive-group>
-            <div class="chip" data-value="Sanitas">Sanitas</div>
-            <div class="chip" data-value="Adeslas">Adeslas</div>
-            <div class="chip" data-value="Asisa">Asisa</div>
-            <div class="chip" data-value="Mapfre Salud">Mapfre Salud</div>
-            <div class="chip" data-value="DKV">DKV</div>
-            <div class="chip" data-value="Seguridad Social">Seguridad Social</div>
-            <div class="chip" data-value="Ninguna" data-exclusive-none>Ninguna</div>
+            <div class="chip" data-i18n="index.chipval.sanitas" data-value="Sanitas">Sanitas</div>
+            <div class="chip" data-i18n="index.chipval.adeslas" data-value="Adeslas">Adeslas</div>
+            <div class="chip" data-i18n="index.chipval.asisa" data-value="Asisa">Asisa</div>
+            <div class="chip" data-i18n="index.chipval.mapfre_salud" data-value="Mapfre Salud">Mapfre Salud</div>
+            <div class="chip" data-i18n="index.chipval.dkv" data-value="DKV">DKV</div>
+            <div class="chip" data-i18n="index.chipval.seguridad_social" data-value="Seguridad Social">Seguridad Social</div>
+            <div class="chip" data-i18n="index.chipval.ninguna" data-value="Ninguna" data-exclusive-none>Ninguna</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Número de póliza (opcional)</div>
+          <div class="field-label" data-i18n="index.medical_insurance.policy_label">Número de póliza (opcional)</div>
           <input type="text" id="f-policy" placeholder="ES-12345678"/>
         </div>
         <div class="field">
-          <div class="field-label">Tarjeta sanitaria</div>
+          <div class="field-label" data-i18n="index.medical_insurance.health_card_label">Tarjeta sanitaria</div>
           <div class="health-card-field">
             <select id="f-health-card-country"></select>
             <input type="text" id="f-health-card-num" placeholder="Número de tarjeta sanitaria"/>
             <div class="health-card-hint"></div>
-            <div class="health-card-warning" style="display:none;">⚠ Formato no coincide — verifica el número</div>
+            <div class="health-card-warning" data-i18n="index.medical_insurance.health_card_warning" style="display:none;">⚠ Formato no coincide — verifica el número</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">País seguridad social</div>
+          <div class="field-label" data-i18n="index.medical_insurance.ss_country_label">País seguridad social</div>
           <select id="f-ss-country">
             <option value="">— Selecciona —</option>
             <option value="España">España</option>
