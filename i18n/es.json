@@ -1047,5 +1047,7 @@
   "index.chipval.asisa": "Asisa",
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
-  "index.chipval.seguridad_social": "Seguridad Social"
+  "index.chipval.seguridad_social": "Seguridad Social",
+  "index.menu.twofa_status_active": "Activo",
+  "index.menu.twofa_status_pending": "Pendiente"
 }

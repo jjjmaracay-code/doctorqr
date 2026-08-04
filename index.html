@@ -93,6 +93,8 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+    .menu-badge-active { color: var(--green); }
+    .menu-badge-pending { color: #ffd700; }
 
     /* ===== BARRA DE TABS DEL FORMULARIO (navegación rápida sec-1..sec-11) ===== */
     .form-tabs-bar {
@@ -184,7 +186,7 @@
       <span data-i18n="index.menu.share_link">Compartir enlace</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
     </button>
     <button class="menu-item" id="menu-configurar-2fa">
-      <span data-i18n="index.menu.configure_2fa">Configurar autenticador</span>
+      <span data-i18n="index.menu.configure_2fa">Configurar autenticador</span><span class="menu-badge menu-badge-pending" id="menu-2fa-status-badge" data-i18n="index.menu.twofa_status_pending">Pendiente</span>
     </button>
     <button class="menu-item" id="menu-scroll-top">
       <span data-i18n="index.menu.scroll_top">Volver arriba</span>
@@ -2927,6 +2929,25 @@
       banner.classList.toggle('show', !!u.twofa_incomplete);
     }
 
+    // Punto de entrada permanente en el menú (independiente del banner de
+    // aviso, que solo se muestra mientras twofa_method no sea 'totp'/'email').
+    // Aquí solo cambia el texto del badge -- el botón siempre abre el mismo
+    // flujo de setup-2fa/verify-2fa, tanto para configurar por primera vez
+    // como para reconfigurar (p.ej. cambio de dispositivo con Google
+    // Authenticator ya activo).
+    function updateConfigurar2faMenuStatus() {
+      const badge = document.getElementById('menu-2fa-status-badge');
+      if (!badge) return;
+      let u = {};
+      try { u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}'); } catch (_) {}
+      const isActive = u.twofa_method === 'totp';
+      const key = isActive ? 'index.menu.twofa_status_active' : 'index.menu.twofa_status_pending';
+      badge.setAttribute('data-i18n', key);
+      badge.textContent = window.t ? window.t(key) : (isActive ? 'Activo' : 'Pendiente');
+      badge.classList.toggle('menu-badge-active', isActive);
+      badge.classList.toggle('menu-badge-pending', !isActive);
+    }
+
     async function openTotpSetupModal() {
       document.getElementById('menu-dropdown')?.classList.remove('open');
       totpSetupBuffer = '';
@@ -3009,6 +3030,7 @@
             localStorage.setItem('doctorqr_user', JSON.stringify(u));
           } catch (_) {}
           updateTwofaIncompleteBanner();
+          updateConfigurar2faMenuStatus();
           closeTotpSetupModal();
           showToastSimple(window.t ? window.t('index.totp_setup.success_toast') : 'Autenticador configurado ✓');
         } else {
@@ -3032,6 +3054,7 @@
     });
 
     updateTwofaIncompleteBanner();
+    updateConfigurar2faMenuStatus();
   })();
 
   // =================== BARRA DE TABS DEL FORMULARIO (navegación sec-1..sec-11) ===================
