@@ -2964,6 +2964,16 @@
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
           body: JSON.stringify({ method: 'totp' })
         });
+
+        // El rate limiter global de /api/auth/* responde 429 en texto
+        // plano, no JSON -- comprobarlo antes de res.json() evita el falso
+        // "Error de conexión" y muestra la causa real.
+        if (res.status === 429) {
+          showToastSimple(window.t ? window.t('index.common.rate_limited') : 'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.');
+          closeTotpSetupModal();
+          return;
+        }
+
         const data = await res.json();
         if (data.success) {
           document.getElementById('totp-setup-qr-img').src = data.qr_url;
@@ -3018,6 +3028,15 @@
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
           body: JSON.stringify({ code: totpSetupBuffer, method: 'totp' })
         });
+
+        // Ver nota en openTotpSetupModal(): el rate limiter global responde
+        // 429 en texto plano, no JSON.
+        if (res.status === 429) {
+          showToastSimple(window.t ? window.t('index.common.rate_limited') : 'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.');
+          btn.disabled = totpSetupBuffer.length !== 6;
+          return;
+        }
+
         const data = await res.json();
         if (data.success) {
           // No se toca doctorqr_token (la sesión activa sigue siendo

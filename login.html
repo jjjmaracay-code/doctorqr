@@ -606,6 +606,14 @@
 
 </main>
 
+<!-- Salida de ayuda visible en cualquier pantalla (l1/l2/l3) -- fuera de
+     los .screen para no depender de cuál esté activo. Un usuario que no
+     logra completar el login no tenía, hasta ahora, ninguna vía de escape
+     dentro de login.html. -->
+<div class="nav-link" style="padding-bottom:16px;">
+  <a href="contacto.html" data-i18n="login.common.help_link">¿No puedes acceder? Contáctanos</a>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Contenedor de la vista de cuadrícula del Acceso Rápido de Emergencia
@@ -847,6 +855,16 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email, password })
     });
+
+    // El rate limiter global de /api/auth/* (10 peticiones/15min) responde
+    // 429 en texto plano, no JSON -- si se intenta res.json() sobre eso,
+    // lanza una excepción que el catch de abajo mostraba como "Error de
+    // conexión", ocultando la causa real (demasiados intentos).
+    if (res.status === 429) {
+      showToast(t('login.common.rate_limited'), true);
+      return;
+    }
+
     const data = await res.json();
 
     if (res.status === 423) {
@@ -1020,6 +1038,16 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email: loginEmail, code: l2Buffer, method: verifyMethod })
     });
+
+    // Ver nota en btn-login: el rate limiter global responde 429 en texto
+    // plano, no JSON -- comprobarlo antes de res.json() evita el falso
+    // "Error de conexión" y muestra la causa real.
+    if (res.status === 429) {
+      showToast(t('login.common.rate_limited'), true);
+      btn.disabled = l2Buffer.length !== 6;
+      return;
+    }
+
     const data = await res.json();
 
     if (data.success) {
