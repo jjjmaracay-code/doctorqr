@@ -536,7 +536,7 @@ function buildQRLoadingIndicator(type) {
 // se agota (Capa 2) o cuando el propio constructor de QRCode sigue
 // fallando tras QR_CONSTRUCTOR_MAX_RETRIES intentos. Nunca se llega aquí
 // silenciosamente: siempre hay un botón para que el usuario reintente.
-function showQRLoadError(wrap, url, type, sizePx) {
+function showQRLoadError(wrap, url, type, sizePx, correctLevel) {
   wrap.innerHTML = '';
   const box = document.createElement('div');
   box.style.cssText = `
@@ -560,7 +560,7 @@ function showQRLoadError(wrap, url, type, sizePx) {
     wrap.innerHTML = '';
     wrap.appendChild(buildQRLoadingIndicator(type));
     _qrCodeLoadingPromise = null; // fuerza un intento de carga nuevo en vez de reutilizar el rechazo anterior
-    renderQRWhenReady(wrap, url, type, 0, sizePx);
+    renderQRWhenReady(wrap, url, type, 0, sizePx, correctLevel);
   });
   box.appendChild(btn);
   wrap.appendChild(box);
@@ -672,9 +672,16 @@ function esperarImagenQR(contenedor, maxEsperaMs) {
 // del script), reintenta un número limitado de veces. En cualquiera de
 // los dos casos de agotamiento, muestra un error visible con botón
 // "Reintentar" — nunca deja la tarjeta atascada sin explicación ni salida.
-function renderQRWhenReady(wrap, url, type, intento, sizePx) {
+// correctLevel: clave de QRCode.CorrectLevel ('M' por defecto, igual que
+// antes). Se pasa como string, no como QRCode.CorrectLevel.X, porque esta
+// función puede llamarse antes de que la librería termine de cargar --
+// referenciar el objeto QRCode en la firma/valor por defecto reventaría
+// con un ReferenceError si aún no existe. Se resuelve más abajo, ya
+// dentro del .then(), donde QRCode está garantizado.
+function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
   intento = intento || 0;
   sizePx = sizePx || 200;
+  correctLevel = correctLevel || 'M';
   ensureQRCodeLoaded().then(() => {
     if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
     try {
@@ -685,7 +692,7 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx) {
         height: sizePx,
         colorDark: type.darkColor,
         colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
+        correctLevel: QRCode.CorrectLevel[correctLevel]
       });
       esperarImagenQR(wrap).then(img => {
         if (!wrap.isConnected) return;
@@ -695,14 +702,14 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx) {
       });
     } catch (err) {
       if (intento >= QR_CONSTRUCTOR_MAX_RETRIES) {
-        showQRLoadError(wrap, url, type, sizePx);
+        showQRLoadError(wrap, url, type, sizePx, correctLevel);
         return;
       }
-      setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1, sizePx), QR_BACKOFF_START_MS);
+      setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1, sizePx, correctLevel), QR_BACKOFF_START_MS);
     }
   }).catch(() => {
     if (!wrap.isConnected) return;
-    showQRLoadError(wrap, url, type, sizePx);
+    showQRLoadError(wrap, url, type, sizePx, correctLevel);
   });
 }
 
@@ -1053,7 +1060,14 @@ function renderEmergencyQuickView() {
       // 400px de resolución nativa (frente a los 200px del carrusel) --
       // el hueco del QR aquí puede mostrarse hasta a ~380px de ancho, y
       // un QR de 200px estirado a ese tamaño se vería borroso.
-      renderQRWhenReady(slot, url, type, 0, 400);
+      // correctLevel 'H' (frente al 'M' del carrusel normal): el contenido
+      // codificado aquí es corto a propósito (id + un puñado de campos de
+      // vistazo rápido, ver buildQRUrl()), lo que produce muy pocos módulos
+      // y por tanto bloques muy grandes al mostrarse a 400px. Con 'H' el
+      // mismo contenido exige más módulos (patrón más denso/fino) sin
+      // cambiar ni un carácter de lo que se codifica ni tocar
+      // buildEmergencyQRUrl()/card.html.
+      renderQRWhenReady(slot, url, type, 0, 400, 'H');
     }
   });
 }
