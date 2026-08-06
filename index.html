@@ -93,8 +93,6 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .menu-badge-active { color: var(--green); }
-    .menu-badge-pending { color: #ffd700; }
 
     /* ===== BARRA DE TABS DEL FORMULARIO (navegación rápida sec-1..sec-11) ===== */
     .form-tabs-bar {
@@ -186,7 +184,7 @@
       <span data-i18n="index.menu.share_link">Compartir enlace</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
     </button>
     <button class="menu-item" id="menu-configurar-2fa">
-      <span data-i18n="index.menu.configure_2fa">Configurar autenticador</span><span class="menu-badge menu-badge-pending" id="menu-2fa-status-badge" data-i18n="index.menu.twofa_status_pending">Pendiente</span>
+      <span data-i18n="index.menu.reconfigure_2fa">Reconfigurar autenticador</span>
     </button>
     <button class="menu-item" id="menu-scroll-top">
       <span data-i18n="index.menu.scroll_top">Volver arriba</span>
@@ -199,14 +197,6 @@
     <div class="teb-title" data-i18n="index.trial_expired.title">TU PERIODO DE PRUEBA HA TERMINADO</div>
     <div class="teb-body" data-i18n="index.trial_expired.body">Tu historial médico sigue guardado y seguro. Elige un plan para seguir sincronizando tus datos de emergencia.</div>
     <div class="teb-sub" data-i18n="index.trial_expired.sub">Redirigiendo a los planes en 3 segundos…</div>
-  </div>
-
-  <!-- AVISO 2FA INCOMPLETO — no bloqueante, ver twofa_incomplete en doctorqr_user.
-       Persistente: reaparece en cada carga mientras la cuenta no tenga TOTP
-       confirmado, no se puede descartar de forma permanente. -->
-  <div id="twofa-incomplete-banner" class="twofa-incomplete-banner">
-    <span data-i18n="index.twofa_banner.text">No completaste la configuración de tu autenticador — usando email como respaldo.</span>
-    <a id="twofa-incomplete-link" data-i18n="index.twofa_banner.link">Configurar ahora</a>
   </div>
 
   <!-- Contenedor de la vista de cuadrícula del Acceso Rápido de Emergencia
@@ -2434,6 +2424,17 @@
       const token = localStorage.getItem('doctorqr_token');
       if (!token) {
         window.location.href = 'login.html';
+        return;
+      }
+      // Gate obligatorio de TOTP: una sesión sin twofa_method==='totp' (NULL,
+      // 'none' o 'email' de un fallback anterior) no debe llegar nunca al
+      // formulario médico. Se manda de vuelta a un login.html normal --sin
+      // parámetros especiales-- que reautentica y lleva directo a la
+      // pantalla de configuración obligatoria (screen-gate).
+      let user = {};
+      try { user = JSON.parse(localStorage.getItem('doctorqr_user') || '{}'); } catch (_) {}
+      if (user.twofa_method !== 'totp') {
+        window.location.href = 'login.html';
       }
     })();
 
@@ -2921,33 +2922,11 @@
       if (btn) btn.disabled = totpSetupBuffer.length !== 6;
     }
 
-    function updateTwofaIncompleteBanner() {
-      const banner = document.getElementById('twofa-incomplete-banner');
-      if (!banner) return;
-      let u = {};
-      try { u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}'); } catch (_) {}
-      banner.classList.toggle('show', !!u.twofa_incomplete);
-    }
-
-    // Punto de entrada permanente en el menú (independiente del banner de
-    // aviso, que solo se muestra mientras twofa_method no sea 'totp'/'email').
-    // Aquí solo cambia el texto del badge -- el botón siempre abre el mismo
-    // flujo de setup-2fa/verify-2fa, tanto para configurar por primera vez
-    // como para reconfigurar (p.ej. cambio de dispositivo con Google
-    // Authenticator ya activo).
-    function updateConfigurar2faMenuStatus() {
-      const badge = document.getElementById('menu-2fa-status-badge');
-      if (!badge) return;
-      let u = {};
-      try { u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}'); } catch (_) {}
-      const isActive = u.twofa_method === 'totp';
-      const key = isActive ? 'index.menu.twofa_status_active' : 'index.menu.twofa_status_pending';
-      badge.setAttribute('data-i18n', key);
-      badge.textContent = window.t ? window.t(key) : (isActive ? 'Activo' : 'Pendiente');
-      badge.classList.toggle('menu-badge-active', isActive);
-      badge.classList.toggle('menu-badge-pending', !isActive);
-    }
-
+    // Punto de entrada del menú para reconfigurar el autenticador (p.ej.
+    // cambio de dispositivo) -- la configuración inicial obligatoria ahora
+    // vive en el gate de login.html, no aquí. Siempre genera un secreto
+    // nuevo: con la cuenta ya en twofa_method==='totp', la idempotencia
+    // condicional de setup-2fa (routes/auth.js) no aplica.
     async function openTotpSetupModal() {
       document.getElementById('menu-dropdown')?.classList.remove('open');
       totpSetupBuffer = '';
@@ -2996,7 +2975,6 @@
     }
 
     document.getElementById('menu-configurar-2fa')?.addEventListener('click', openTotpSetupModal);
-    document.getElementById('twofa-incomplete-link')?.addEventListener('click', openTotpSetupModal);
     document.getElementById('btn-totp-setup-cancelar')?.addEventListener('click', closeTotpSetupModal);
 
     document.querySelectorAll('.totp-setup-key[data-totp-setup]').forEach(btn => {
@@ -3040,16 +3018,12 @@
         const data = await res.json();
         if (data.success) {
           // No se toca doctorqr_token (la sesión activa sigue siendo
-          // válida) -- solo se actualiza el estado de 2FA localmente para
-          // que el banner desaparezca sin esperar al próximo login.
+          // válida) -- solo se actualiza el estado de 2FA localmente.
           try {
             const u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
             u.twofa_method = data.user.twofa_method;
-            u.twofa_incomplete = false;
             localStorage.setItem('doctorqr_user', JSON.stringify(u));
           } catch (_) {}
-          updateTwofaIncompleteBanner();
-          updateConfigurar2faMenuStatus();
           closeTotpSetupModal();
           showToastSimple(window.t ? window.t('index.totp_setup.success_toast') : 'Autenticador configurado ✓');
         } else {
@@ -3071,9 +3045,6 @@
       }
       btn.disabled = totpSetupBuffer.length !== 6;
     });
-
-    updateTwofaIncompleteBanner();
-    updateConfigurar2faMenuStatus();
   })();
 
   // =================== BARRA DE TABS DEL FORMULARIO (navegación sec-1..sec-11) ===================

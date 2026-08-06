@@ -224,6 +224,30 @@
   }
   .resend-btn:disabled { opacity:0.3; cursor:not-allowed; }
 
+  /* Gate obligatorio de 2FA -- mismo patrón visual que register.html
+     pantalla 4 (bloque QR + secreto manual) */
+  .tfa-option {
+    border-radius:14px; border:1px solid rgba(18,165,255,0.1);
+    background:rgba(18,165,255,0.03);
+    padding:20px; margin-bottom:14px;
+  }
+  .tfa-option-desc { font-size:11px; font-weight:300; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:14px; }
+  #gate-qr-img {
+    display:block; margin:12px auto;
+    border-radius:8px; padding:8px;
+    background:#000;
+    box-shadow:0 0 20px rgba(18,165,255,0.2);
+    width:200px; height:200px;
+  }
+  .totp-secret {
+    font-family:monospace; font-size:11px; letter-spacing:2px;
+    color:rgba(18,165,255,0.6); text-align:center;
+    padding:8px; border-radius:8px;
+    border:1px solid rgba(18,165,255,0.1);
+    background:rgba(18,165,255,0.03);
+    word-break:break-all; margin-bottom:14px;
+  }
+
   /* Bloqueo */
   .block-countdown {
     font-size:38px; font-weight:900; color:#ff0000;
@@ -587,6 +611,57 @@
     </div>
   </div>
 
+  <!-- ===== PANTALLA GATE — CONFIGURACIÓN OBLIGATORIA DE AUTENTICADOR =====
+       Se muestra en vez de L2 cuando twofa_method no es 'totp' todavía.
+       No tiene "volver" -- la única salida es completarla o usar el
+       enlace de verificación por email (nav-link de abajo). -->
+  <div class="screen" id="screen-gate">
+    <div class="form-card">
+      <div class="form-card-title" data-i18n="login.gate.title">Protege tu historial médico</div>
+      <div class="field-hint" style="margin-bottom:18px;line-height:1.7;" data-i18n="login.gate.body">
+        Antes de continuar, confirma un código de verificación con tu aplicación autenticadora (como Google Authenticator) — así nadie más que tú puede ver o modificar tus datos médicos, aunque conozca tu contraseña.
+      </div>
+
+      <div class="tfa-option">
+        <div class="tfa-option-desc" data-i18n="login.gate.scan_hint">Descarga Google Authenticator, escanea el QR y escribe el código de 6 dígitos que aparece en la app.</div>
+
+        <img id="gate-qr-img" alt="QR 2FA">
+        <div class="totp-secret" id="gate-secret-text" data-i18n="login.gate.loading">Cargando…</div>
+
+        <div class="code-display">
+          <div class="code-char" id="gate-c0">·</div>
+          <div class="code-char" id="gate-c1">·</div>
+          <div class="code-char" id="gate-c2">·</div>
+          <div class="code-char" id="gate-c3">·</div>
+          <div class="code-char" id="gate-c4">·</div>
+          <div class="code-char" id="gate-c5">·</div>
+        </div>
+
+        <div class="pin-keypad">
+          <button class="key-btn" data-gate="1">1</button>
+          <button class="key-btn" data-gate="2">2</button>
+          <button class="key-btn" data-gate="3">3</button>
+          <button class="key-btn" data-gate="4">4</button>
+          <button class="key-btn" data-gate="5">5</button>
+          <button class="key-btn" data-gate="6">6</button>
+          <button class="key-btn" data-gate="7">7</button>
+          <button class="key-btn" data-gate="8">8</button>
+          <button class="key-btn" data-gate="9">9</button>
+          <button class="key-btn" id="clr-gate" data-i18n="login.l2.clr">CLR</button>
+          <button class="key-btn" data-gate="0">0</button>
+          <button class="key-btn del" id="del-gate">⌫</button>
+        </div>
+
+        <button class="btn-primary" id="btn-gate-confirmar" disabled data-i18n="login.gate.confirm_button">CONFIRMAR</button>
+        <button class="btn-secondary" id="btn-gate-regenerar" data-i18n="login.gate.regenerate_button">¿No te funciona? Generar un código nuevo</button>
+      </div>
+    </div>
+
+    <div class="nav-link">
+      <a href="#" id="btn-gate-email-fallback" data-i18n="login.gate.email_fallback_link">Prefiero verificar por email por ahora</a>
+    </div>
+  </div>
+
   <!-- ===== PANTALLA L3 — CUENTA BLOQUEADA ===== -->
   <div class="screen" id="screen-l3">
     <div class="form-card">
@@ -805,7 +880,6 @@ document.querySelectorAll('.domain-btn').forEach(btn => {
 
 let loginEmail        = '';
 let l2Method          = '';
-let l2TwofaIncomplete = false;
 let l2Buffer          = '';
 let l2ResendCd        = 60;
 let l2ResendIntvl     = null;
@@ -826,6 +900,24 @@ function goTo(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(screenId).classList.add('active');
   window.scrollTo(0, 0);
+}
+
+// Guarda la sesión y redirige a index.html -- compartido entre el éxito
+// de L2 (TOTP ya confirmado / email) y el éxito del gate (TOTP recién
+// confirmado). Antes cada pantalla duplicaba esta lógica por separado.
+function guardarSesionYRedirigir(data) {
+  let existingLanguage = null;
+  try { existingLanguage = JSON.parse(localStorage.getItem('doctorqr_user') || '{}').language || null; } catch(_) {}
+
+  const userToSave = {
+    ...data.user,
+    ...(existingLanguage ? { language: existingLanguage } : {})
+  };
+
+  localStorage.setItem('doctorqr_token', data.token);
+  localStorage.setItem('doctorqr_id', data.doctorqr_id || '');
+  localStorage.setItem('doctorqr_user', JSON.stringify(userToSave));
+  window.location.href = 'index.html';
 }
 
 // ===== PANTALLA L1 — LOGIN =====
@@ -883,10 +975,13 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       return;
     }
 
-    loginEmail        = email;
-    l2Method          = data.twofa_method;
-    l2TwofaIncomplete = !!data.twofa_incomplete;
-    await iniciarL2();
+    loginEmail = email;
+    l2Method   = data.twofa_method;
+    // TOTP ya confirmado -> pantalla L2 normal. Cualquier otro valor
+    // (NULL/'none'/'email') -> gate obligatorio de configuración, en vez
+    // del envío automático de código por email que hacía antes iniciarL2().
+    if (l2Method === 'totp') await iniciarL2();
+    else await iniciarGate();
 
   } catch (e) {
     showToast(t('login.common.connection_error'), true);
@@ -1053,28 +1148,7 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
     if (data.success) {
       clearInterval(l2TimerIntvl);
       clearInterval(l2ResendIntvl);
-
-      // El idioma de cuenta es puramente local (el backend no lo conoce ni lo
-      // devuelve en data.user) -- si ya había uno guardado en este
-      // dispositivo de un registro/login anterior, se preserva; si no,
-      // el loader.js de la siguiente carga cae a navigator.language.
-      let existingLanguage = null;
-      try { existingLanguage = JSON.parse(localStorage.getItem('doctorqr_user') || '{}').language || null; } catch(_) {}
-
-      // twofa_incomplete viaja desde la respuesta de /login (antes de
-      // introducir el código), no desde verify-2fa -- se adjunta aquí al
-      // objeto de usuario para que index.html pueda leerlo sin llamadas
-      // adicionales y mostrar el aviso no bloqueante de la Parte C.
-      const userToSave = {
-        ...data.user,
-        twofa_incomplete: l2TwofaIncomplete,
-        ...(existingLanguage ? { language: existingLanguage } : {})
-      };
-
-      localStorage.setItem('doctorqr_token', data.token);
-      localStorage.setItem('doctorqr_id', data.doctorqr_id || '');
-      localStorage.setItem('doctorqr_user', JSON.stringify(userToSave));
-      window.location.href = 'index.html';
+      guardarSesionYRedirigir(data);
     } else {
       for (let i = 0; i < 6; i++) {
         const el = document.getElementById('l2-c' + i);
@@ -1099,6 +1173,141 @@ document.getElementById('btn-back-l1').addEventListener('click', e => {
   l2Buffer = '';
   updateL2Display();
   goTo('screen-l1');
+});
+
+// ===== PANTALLA GATE — CONFIGURACIÓN OBLIGATORIA DE AUTENTICADOR =====
+// Se muestra en vez de L2 cuando twofa_method no es 'totp' todavía.
+// Siempre usa email+otp_verified como prueba de identidad (igual que
+// register.html pantalla 4) -- nunca Authorization: Bearer. Una sesión
+// ya abierta pero sin TOTP confirmado (redirect desde index.html) manda
+// de vuelta a un login.html normal en vez de intentar reutilizar el
+// token existente aquí: evita depender de que ese token siga siendo
+// válido (p.ej. tras una rotación de JWT_SECRET) y mantiene un único
+// camino de entrada, más simple de razonar y probar.
+let gateBuffer = '';
+
+async function iniciarGate(opts) {
+  opts = opts || {};
+  gateBuffer = '';
+  updateGateDisplay();
+  document.getElementById('btn-gate-confirmar').disabled = true;
+  document.getElementById('gate-secret-text').textContent = t('login.gate.loading');
+  document.getElementById('gate-qr-img').removeAttribute('src');
+
+  goTo('screen-gate');
+
+  try {
+    const res = await fetch(`${API}/api/auth/setup-2fa`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: loginEmail, method: 'totp', regenerate: !!opts.regenerate })
+    });
+
+    // Ver nota en btn-login: el rate limiter global responde 429 en texto
+    // plano, no JSON.
+    if (res.status === 429) {
+      showToast(t('login.common.rate_limited'), true);
+      return;
+    }
+
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('gate-qr-img').src = data.qr_url;
+      document.getElementById('gate-secret-text').textContent = data.secret;
+      if (opts.regenerate) showToast(t('login.gate.regenerate_success'));
+    } else {
+      showToast(data.error || t('login.common.connection_error'), true);
+    }
+  } catch (e) {
+    showToast(t('login.common.connection_error'), true);
+  }
+}
+
+// Teclado PIN del gate
+document.querySelectorAll('[data-gate]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (gateBuffer.length >= 6) return;
+    gateBuffer += btn.dataset.gate;
+    updateGateDisplay();
+    document.getElementById('btn-gate-confirmar').disabled = gateBuffer.length !== 6;
+  });
+});
+
+document.getElementById('del-gate').addEventListener('click', () => {
+  gateBuffer = gateBuffer.slice(0, -1);
+  updateGateDisplay();
+  document.getElementById('btn-gate-confirmar').disabled = gateBuffer.length !== 6;
+});
+
+document.getElementById('clr-gate').addEventListener('click', () => {
+  gateBuffer = '';
+  updateGateDisplay();
+  document.getElementById('btn-gate-confirmar').disabled = true;
+});
+
+function updateGateDisplay() {
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('gate-c' + i);
+    if (!el) continue;
+    const ch = gateBuffer[i];
+    el.textContent = ch ? '●' : '·';
+    el.classList.toggle('filled', !!ch);
+    el.classList.remove('error');
+  }
+}
+
+// Confirmar código TOTP del gate
+document.getElementById('btn-gate-confirmar').addEventListener('click', async () => {
+  if (gateBuffer.length !== 6) return;
+  const btn = document.getElementById('btn-gate-confirmar');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API}/api/auth/verify-2fa`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: loginEmail, code: gateBuffer, method: 'totp' })
+    });
+
+    if (res.status === 429) {
+      showToast(t('login.common.rate_limited'), true);
+      btn.disabled = gateBuffer.length !== 6;
+      return;
+    }
+
+    const data = await res.json();
+
+    if (data.success) {
+      guardarSesionYRedirigir(data);
+    } else {
+      for (let i = 0; i < 6; i++) {
+        const el = document.getElementById('gate-c' + i);
+        if (el) { el.classList.add('error'); setTimeout(() => el.classList.remove('error'), 600); }
+      }
+      gateBuffer = '';
+      updateGateDisplay();
+      showToast(data.error || t('login.gate.wrong_code_generic'), true);
+      btn.disabled = true;
+    }
+  } catch (e) {
+    showToast(t('login.common.connection_error'), true);
+    btn.disabled = gateBuffer.length !== 6;
+  }
+});
+
+// "¿No te funciona? Generar un código nuevo" -- salta la reutilización
+// del secreto a propósito (routes/auth.js, setup-2fa, regenerate:true).
+document.getElementById('btn-gate-regenerar').addEventListener('click', () => {
+  iniciarGate({ regenerate: true });
+});
+
+// Fallback de email -- reutiliza iniciarL2() tal cual: l2Method sigue sin
+// ser 'totp' en este punto, así que cae directo al envío por email que
+// ya hacía esa función antes de que existiera el gate.
+document.getElementById('btn-gate-email-fallback').addEventListener('click', e => {
+  e.preventDefault();
+  iniciarL2();
 });
 
 // ===== PANTALLA L3 — BLOQUEO =====

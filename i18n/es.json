@@ -13,6 +13,15 @@
   "login.common.connection_error": "Error de conexión con el servidor",
   "login.common.rate_limited": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
   "login.common.help_link": "¿No puedes acceder? Contáctanos",
+  "login.gate.title": "Protege tu historial médico",
+  "login.gate.body": "Antes de continuar, confirma un código de verificación con tu aplicación autenticadora (como Google Authenticator) — así nadie más que tú puede ver o modificar tus datos médicos, aunque conozca tu contraseña.",
+  "login.gate.scan_hint": "Descarga Google Authenticator, escanea el QR y escribe el código de 6 dígitos que aparece en la app.",
+  "login.gate.loading": "Cargando…",
+  "login.gate.confirm_button": "CONFIRMAR",
+  "login.gate.regenerate_button": "¿No te funciona? Generar un código nuevo",
+  "login.gate.regenerate_success": "Código regenerado — escanea el nuevo QR",
+  "login.gate.email_fallback_link": "Prefiero verificar por email por ahora",
+  "login.gate.wrong_code_generic": "Código incorrecto — intenta de nuevo",
   "login.l1.no_account_hint_html": "¿No tienes cuenta? <a href=\"register.html\">Regístrate</a>",
   "login.l1.submit_button": "ENTRAR",
   "login.l1.forgot_password_link": "¿Olvidaste tu contraseña?",
@@ -701,9 +710,7 @@
   "index.conditions.tutor_legal_label": "¿TIENE TUTOR LEGAL?",
   "index.conditions.tutor_legal_hint": "Completa los datos de contacto en Sección 10 — Contactos de emergencia → Tutor legal",
 
-  "index.menu.configure_2fa": "Configurar autenticador",
-  "index.twofa_banner.text": "No completaste la configuración de tu autenticador — usando email como respaldo.",
-  "index.twofa_banner.link": "Configurar ahora",
+  "index.menu.reconfigure_2fa": "Reconfigurar autenticador",
   "index.totp_setup.title": "Configurar Google Authenticator",
   "index.totp_setup.desc": "Escanea el QR con Google Authenticator y escribe el código de 6 dígitos que aparece en la app.",
   "index.totp_setup.secret_label": "Clave secreta (manual)",
@@ -1050,7 +1057,5 @@
   "index.chipval.asisa": "Asisa",
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
-  "index.chipval.seguridad_social": "Seguridad Social",
-  "index.menu.twofa_status_active": "Activo",
-  "index.menu.twofa_status_pending": "Pendiente"
+  "index.chipval.seguridad_social": "Seguridad Social"
 }

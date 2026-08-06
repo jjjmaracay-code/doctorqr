@@ -13,6 +13,15 @@
   "login.common.connection_error": "Error connecting to the server",
   "login.common.rate_limited": "Too many attempts. Wait a few minutes and try again.",
   "login.common.help_link": "Can't sign in? Contact us",
+  "login.gate.title": "Protect your medical record",
+  "login.gate.body": "Before continuing, confirm a verification code from your authenticator app (like Google Authenticator) — that way no one but you can view or change your medical data, even if they know your password.",
+  "login.gate.scan_hint": "Download Google Authenticator, scan the QR code, and enter the 6-digit code shown in the app.",
+  "login.gate.loading": "Loading…",
+  "login.gate.confirm_button": "CONFIRM",
+  "login.gate.regenerate_button": "Not working? Generate a new code",
+  "login.gate.regenerate_success": "Code regenerated — scan the new QR",
+  "login.gate.email_fallback_link": "I'd rather verify by email for now",
+  "login.gate.wrong_code_generic": "Incorrect code — try again",
   "login.l1.no_account_hint_html": "Don't have an account? <a href=\"register.html\">Sign up</a>",
   "login.l1.submit_button": "SIGN IN",
   "login.l1.forgot_password_link": "Forgot your password?",
@@ -701,9 +710,7 @@
   "index.conditions.tutor_legal_label": "DO YOU HAVE A LEGAL GUARDIAN?",
   "index.conditions.tutor_legal_hint": "Complete the contact details in Section 10 — Emergency contacts → Legal guardian",
 
-  "index.menu.configure_2fa": "Configure authenticator",
-  "index.twofa_banner.text": "You didn't finish setting up your authenticator — using email as a backup.",
-  "index.twofa_banner.link": "Configure now",
+  "index.menu.reconfigure_2fa": "Reconfigure authenticator",
   "index.totp_setup.title": "Set up Google Authenticator",
   "index.totp_setup.desc": "Scan the QR with Google Authenticator and enter the 6-digit code shown in the app.",
   "index.totp_setup.secret_label": "Secret key (manual)",
@@ -1050,7 +1057,5 @@
   "index.chipval.asisa": "Asisa",
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
-  "index.chipval.seguridad_social": "Social Security",
-  "index.menu.twofa_status_active": "Active",
-  "index.menu.twofa_status_pending": "Pending"
+  "index.chipval.seguridad_social": "Social Security"
 }

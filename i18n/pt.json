@@ -13,6 +13,15 @@
   "login.common.connection_error": "Erro de conexão com o servidor",
   "login.common.rate_limited": "Muitas tentativas. Aguarda alguns minutos e tenta novamente.",
   "login.common.help_link": "Não consegues aceder? Contacta-nos",
+  "login.gate.title": "Protege o teu histórico médico",
+  "login.gate.body": "Antes de continuar, confirma um código de verificação com a tua aplicação autenticadora (como o Google Authenticator) — assim, ninguém além de ti pode ver ou alterar os teus dados médicos, mesmo conhecendo a tua palavra-passe.",
+  "login.gate.scan_hint": "Descarrega o Google Authenticator, digitaliza o código QR e introduz o código de 6 dígitos apresentado na aplicação.",
+  "login.gate.loading": "A carregar…",
+  "login.gate.confirm_button": "CONFIRMAR",
+  "login.gate.regenerate_button": "Não está a funcionar? Gerar um código novo",
+  "login.gate.regenerate_success": "Código regenerado — digitaliza o novo QR",
+  "login.gate.email_fallback_link": "Prefiro verificar por email por agora",
+  "login.gate.wrong_code_generic": "Código incorreto — tenta novamente",
   "login.l1.no_account_hint_html": "Não tem conta? <a href=\"register.html\">Cadastre-se</a>",
   "login.l1.submit_button": "ENTRAR",
   "login.l1.forgot_password_link": "Esqueceu sua senha?",
@@ -701,9 +710,7 @@
   "index.conditions.tutor_legal_label": "TEM TUTOR LEGAL?",
   "index.conditions.tutor_legal_hint": "Complete os dados de contacto na Secção 10 — Contactos de emergência → Tutor legal",
 
-  "index.menu.configure_2fa": "Configurar autenticador",
-  "index.twofa_banner.text": "Não concluiu a configuração do seu autenticador — a usar o email como método de reserva.",
-  "index.twofa_banner.link": "Configurar agora",
+  "index.menu.reconfigure_2fa": "Reconfigurar autenticador",
   "index.totp_setup.title": "Configurar o Google Authenticator",
   "index.totp_setup.desc": "Digitalize o QR com o Google Authenticator e introduza o código de 6 dígitos apresentado na app.",
   "index.totp_setup.secret_label": "Chave secreta (manual)",
@@ -1050,7 +1057,5 @@
   "index.chipval.asisa": "Asisa",
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
-  "index.chipval.seguridad_social": "Segurança Social",
-  "index.menu.twofa_status_active": "Ativo",
-  "index.menu.twofa_status_pending": "Pendente"
+  "index.chipval.seguridad_social": "Segurança Social"
 }

@@ -13,6 +13,15 @@
   "login.common.connection_error": "Fehler bei der Verbindung zum Server",
   "login.common.rate_limited": "Zu viele Versuche. Warte ein paar Minuten und versuche es erneut.",
   "login.common.help_link": "Kein Zugriff möglich? Kontaktiere uns",
+  "login.gate.title": "Schütze deine Krankenakte",
+  "login.gate.body": "Bevor du fortfährst, bestätige einen Verifizierungscode aus deiner Authenticator-App (wie Google Authenticator) — so kann niemand außer dir deine medizinischen Daten einsehen oder ändern, selbst wenn dein Passwort bekannt ist.",
+  "login.gate.scan_hint": "Lade Google Authenticator herunter, scanne den QR-Code und gib den 6-stelligen Code ein, der in der App angezeigt wird.",
+  "login.gate.loading": "Wird geladen…",
+  "login.gate.confirm_button": "BESTÄTIGEN",
+  "login.gate.regenerate_button": "Funktioniert nicht? Neuen Code generieren",
+  "login.gate.regenerate_success": "Code neu generiert — scanne den neuen QR-Code",
+  "login.gate.email_fallback_link": "Ich verifiziere lieber vorerst per E-Mail",
+  "login.gate.wrong_code_generic": "Falscher Code — versuche es erneut",
   "login.l1.no_account_hint_html": "Noch kein Konto? <a href=\"register.html\">Registrieren</a>",
   "login.l1.submit_button": "ANMELDEN",
   "login.l1.forgot_password_link": "Passwort vergessen?",
@@ -701,9 +710,7 @@
   "index.conditions.tutor_legal_label": "HABEN SIE EINEN GESETZLICHEN VORMUND?",
   "index.conditions.tutor_legal_hint": "Vervollständigen Sie die Kontaktdaten in Abschnitt 10 — Notfallkontakte → Gesetzlicher Vormund",
 
-  "index.menu.configure_2fa": "Authenticator einrichten",
-  "index.twofa_banner.text": "Sie haben die Einrichtung Ihres Authenticators nicht abgeschlossen — E-Mail wird als Ersatz verwendet.",
-  "index.twofa_banner.link": "Jetzt einrichten",
+  "index.menu.reconfigure_2fa": "Authenticator neu einrichten",
   "index.totp_setup.title": "Google Authenticator einrichten",
   "index.totp_setup.desc": "Scannen Sie den QR-Code mit Google Authenticator und geben Sie den 6-stelligen Code aus der App ein.",
   "index.totp_setup.secret_label": "Geheimer Schlüssel (manuell)",
@@ -1050,7 +1057,5 @@
   "index.chipval.asisa": "Asisa",
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
-  "index.chipval.seguridad_social": "Sozialversicherung",
-  "index.menu.twofa_status_active": "Aktiv",
-  "index.menu.twofa_status_pending": "Ausstehend"
+  "index.chipval.seguridad_social": "Sozialversicherung"
 }
