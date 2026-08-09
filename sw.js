@@ -7,7 +7,13 @@
 // Se añaden también los archivos de vendor/ (antes cargados desde CDN
 // externo) para que la app funcione realmente sin red desde el primer
 // arranque, no solo después de una primera visita online.
-const CACHE_NAME = 'doctorqr-v3';
+// v4: mismo motivo que v2 -- el despliegue del gate de 2FA obligatorio
+// (login.html/index.html/css/styles.css/js/*) cambió varios de los
+// archivos servidos con estrategia "cache primero", así que sin este
+// bump los usuarios con la PWA ya instalada seguirían viendo la mezcla
+// de HTML nuevo (red primero) + CSS/JS viejos (caché primero) hasta que
+// algo distinto forzara la purga.
+const CACHE_NAME = 'doctorqr-v4';
 const CACHE_URLS = [
   '/',
   './index.html',
