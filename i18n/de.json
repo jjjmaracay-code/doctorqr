@@ -353,6 +353,9 @@
   "index.trial_expired.title": "DEINE TESTPHASE IST BEENDET",
   "index.trial_expired.body": "Deine medizinische Akte ist weiterhin gespeichert und sicher. Wähle einen Plan, um deine Notfalldaten weiter zu synchronisieren.",
   "index.trial_expired.sub": "Weiterleitung zu den Plänen in 3 Sekunden…",
+  "index.totp_required.title": "SICHERHEITSEINRICHTUNG AUSSTEHEND",
+  "index.totp_required.body": "Deine medizinische Akte ist weiterhin lokal gespeichert. Um sie zu synchronisieren, musst du deinen Authenticator (Google Authenticator) bestätigen.",
+  "index.totp_required.sub": "Weiterleitung zur Bestätigung in 3 Sekunden…",
 
   "index.plans.trial_label": "Deine Testphase",
   "index.plans.days_left_label": "verbleibende Tage der kostenlosen Testphase",

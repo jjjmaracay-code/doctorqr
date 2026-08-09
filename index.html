@@ -199,6 +199,17 @@
     <div class="teb-sub" data-i18n="index.trial_expired.sub">Redirigiendo a los planes en 3 segundos…</div>
   </div>
 
+  <!-- BANNER 2FA REQUERIDO — visible solo cuando /api/profile/save devuelve
+       403 con error:'2fa_required' (require2faTotp, DOCTORQR-BACKEND).
+       Reutiliza el estilo de trial-expired-banner (mismo patrón: bloqueo
+       a pantalla completa + redirect tras unos segundos). -->
+  <div id="totp-required-banner" class="trial-expired-banner">
+    <div class="teb-icon">🔒</div>
+    <div class="teb-title" data-i18n="index.totp_required.title">CONFIGURACIÓN DE SEGURIDAD PENDIENTE</div>
+    <div class="teb-body" data-i18n="index.totp_required.body">Tu historial médico sigue guardado localmente. Para sincronizarlo necesitas confirmar tu autenticador (Google Authenticator).</div>
+    <div class="teb-sub" data-i18n="index.totp_required.sub">Redirigiendo para confirmarlo en 3 segundos…</div>
+  </div>
+
   <!-- Contenedor de la vista de cuadrícula del Acceso Rápido de Emergencia
        (renderEmergencyQuickView(), en js/qr-generator.js) -->
   <div id="emergency-quick-view" style="display:none"></div>

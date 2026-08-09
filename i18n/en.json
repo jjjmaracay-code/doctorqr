@@ -353,6 +353,9 @@
   "index.trial_expired.title": "YOUR TRIAL PERIOD HAS ENDED",
   "index.trial_expired.body": "Your medical record is still saved and secure. Choose a plan to keep syncing your emergency data.",
   "index.trial_expired.sub": "Redirecting to plans in 3 seconds…",
+  "index.totp_required.title": "SECURITY SETUP PENDING",
+  "index.totp_required.body": "Your medical record is still saved locally. To sync it you need to confirm your authenticator (Google Authenticator).",
+  "index.totp_required.sub": "Redirecting to confirm it in 3 seconds…",
 
   "index.plans.trial_label": "Your trial period",
   "index.plans.days_left_label": "days left of free trial",

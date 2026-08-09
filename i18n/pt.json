@@ -353,6 +353,9 @@
   "index.trial_expired.title": "SEU PERÍODO DE TESTE TERMINOU",
   "index.trial_expired.body": "Seu histórico médico continua salvo e seguro. Escolha um plano para continuar sincronizando seus dados de emergência.",
   "index.trial_expired.sub": "Redirecionando para os planos em 3 segundos…",
+  "index.totp_required.title": "CONFIGURAÇÃO DE SEGURANÇA PENDENTE",
+  "index.totp_required.body": "Seu histórico médico continua salvo localmente. Para sincronizá-lo, você precisa confirmar seu autenticador (Google Authenticator).",
+  "index.totp_required.sub": "Redirecionando para confirmar em 3 segundos…",
 
   "index.plans.trial_label": "Seu período de teste",
   "index.plans.days_left_label": "dias restantes de teste gratuito",

@@ -832,6 +832,15 @@
             if (tc) { tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 8000); }
             return; // datos del servidor más recientes — no generar QR desincronizado
           }
+          if (r.status === 403) {
+            const body = await r.json().catch(() => ({}));
+            if (body?.error === '2fa_required') {
+              const tr = document.getElementById('totp-required-banner');
+              if (tr) tr.style.display = 'flex';
+              setTimeout(() => { window.location.href = body.redirect || 'login.html?gate=1'; }, 3000);
+              return; // 2FA sin confirmar — no guardar en silencio ni generar QR desincronizado
+            }
+          }
           if (r.ok) {
             const json = await r.json();
             if (json?.success) {

@@ -353,6 +353,9 @@
   "index.trial_expired.title": "TA PÉRIODE D'ESSAI EST TERMINÉE",
   "index.trial_expired.body": "Ton historique médical reste enregistré et sécurisé. Choisis un forfait pour continuer à synchroniser tes données d'urgence.",
   "index.trial_expired.sub": "Redirection vers les forfaits dans 3 secondes…",
+  "index.totp_required.title": "CONFIGURATION DE SÉCURITÉ EN ATTENTE",
+  "index.totp_required.body": "Ton dossier médical reste enregistré localement. Pour le synchroniser, tu dois confirmer ton authentificateur (Google Authenticator).",
+  "index.totp_required.sub": "Redirection pour le confirmer dans 3 secondes…",
 
   "index.plans.trial_label": "Ta période d'essai",
   "index.plans.days_left_label": "jours restants d'essai gratuit",
