@@ -946,8 +946,8 @@ function mostrarSinPerfilParaEmergencia() {
       text-transform:uppercase;text-align:center;line-height:1.25;}
     .eqv-cover{position:relative;border-radius:22px;background:#0a0a0a;
       display:flex;align-items:center;justify-content:center;overflow:hidden;}
-    .eqv-cover img{width:90%;height:90%;object-fit:contain;border-radius:10px;
-      background:#fff;}
+    .eqv-cover img, .eqv-cover canvas{width:90%;height:90%;object-fit:contain;
+      border-radius:10px;background:#fff;display:block;}
     .eqv-name{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;
       letter-spacing:0.3px;word-break:break-word;}
   `;
