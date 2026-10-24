@@ -1,0 +1,5 @@
+// Run with node --test tests/design-invariants.cjs in the git checkout.
+const {test}=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const {execFileSync}=require('node:child_process');
+const base='ac9a24888b6d7c24d7d6eaa2b808a6bee9763dfb';
+for(const page of ['index.html','login.html','register.html','recovery.html','card.html','contacto.html','install.html','paywall.html'])test(page+': original markup and scripts preserved',()=>{let current=fs.readFileSync(page,'utf8').replace('  <link rel="stylesheet" href="css/atabey-refresh.css?v=1"/>\n','').replace(/<body data-atabey-ui="(?:editor|access|medical)">/,'<body>');assert.equal(current,execFileSync('git',['show',base+':'+page],{encoding:'utf8'}));});
+for(const file of ['sw.js','_headers','_redirects','manifest.json','js/form.js','js/qr-generator.js','js/validation.js','js/search.js','js/register-sw.js','i18n/loader.js','css/styles.css','emergencia.html','eliminar-cuenta.html','privacy.html'])test(file+': unchanged',()=>assert.deepEqual(fs.readFileSync(file),execFileSync('git',['show',base+':'+file])));
