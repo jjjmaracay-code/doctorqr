@@ -17,7 +17,7 @@ const QR_TYPES = [
     id: 'qr-emergency',
     title: 'QR EMERGENCIA',
     subtitle: 'Imprimible · Tarjeta sanitaria',
-    color: '#ff0000',
+    color: '#ff556e',
     darkColor: '#cc0000',
     always: true,
     extra: [
@@ -31,7 +31,7 @@ const QR_TYPES = [
     id: 'qr-u1',
     title: 'QR-U1 CRÍTICO GENERAL',
     subtitle: 'Urgencias · Visión 360°',
-    color: '#ff6600',
+    color: '#ff9b3d',
     darkColor: '#cc4400',
     always: true,
     extra: [
@@ -52,7 +52,7 @@ const QR_TYPES = [
     id: 'qr-u2',
     title: 'QR-U2 CARDIO / NEURO',
     subtitle: 'Marcapasos · Epilepsia · ACV',
-    color: '#ff3300',
+    color: '#ff6945',
     darkColor: '#cc1100',
     condition: (d) =>
       d.pacemaker === 'SÍ' ||
@@ -78,7 +78,7 @@ const QR_TYPES = [
     id: 'qr-u3',
     title: 'QR-U3 ALERGIAS GRAVES',
     subtitle: 'Anafilaxia · EpiPen · Látex',
-    color: '#ffcc00',
+    color: '#ffe066',
     darkColor: '#956f00',
     condition: (d) => hasAny(d, [
       'SÍ — anafilaxia confirmada',
@@ -98,7 +98,7 @@ const QR_TYPES = [
     id: 'qr-e1',
     title: 'QR-E1 CIRUGÍA',
     subtitle: 'Implantes · Anestesia · Quirófano',
-    color: '#0066ff',
+    color: '#4d9dff',
     darkColor: '#0044cc',
     condition: (d) =>
       d.pacemaker === 'SÍ' ||
@@ -130,7 +130,7 @@ const QR_TYPES = [
     id: 'qr-e2',
     title: 'QR-E2 ONCOLOGÍA',
     subtitle: 'Cáncer · Quimio · Inmunoterapia',
-    color: '#9900ff',
+    color: '#bd79ff',
     darkColor: '#6600cc',
     condition: (d) => hasAny(d, [
       'Cáncer activo','Cáncer en remisión',
@@ -151,7 +151,7 @@ const QR_TYPES = [
     id: 'qr-e4',
     title: 'QR-E4 OBSTETRICIA',
     subtitle: 'Embarazo · Semanas · Parto',
-    color: '#ff00aa',
+    color: '#ff62c5',
     darkColor: '#cc0088',
     condition: (d) => {
       const sex = (d.sexo_biologico || '').toLowerCase();
@@ -552,7 +552,7 @@ function showQRLoadError(wrap, url, type, sizePx, correctLevel) {
   btn.type = 'button';
   btn.textContent = 'Reintentar';
   btn.style.cssText = `
-    background:transparent;border:1.5px solid ${type.color};color:${type.color};
+    background:transparent;border:2px solid ${type.color};color:${type.color};
     font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
     padding:6px 14px;border-radius:20px;cursor:pointer;font-family:inherit;
   `;
@@ -576,13 +576,14 @@ function buildQRCardShell(type, formData, container) {
   const card = document.createElement('div');
   card.style.cssText = `
     flex-shrink:0;width:260px;
-    border-radius:16px;padding:20px;
+    --qr-neon:${type.color};
+    border-radius:28px;padding:22px 20px;
     display:flex;flex-direction:column;
     align-items:center;gap:10px;
     scroll-snap-align:start;
-    background:rgba(0,0,0,0.8);
+    background:linear-gradient(150deg,${type.color}18,#08111f 65%);
     border:1.5px solid ${type.color};
-    box-shadow:0 0 20px ${type.color}22;
+    box-shadow:0 0 24px ${type.color}33,inset 0 1px 0 ${type.color}55;
   `;
 
   const title = document.createElement('div');
@@ -599,7 +600,7 @@ function buildQRCardShell(type, formData, container) {
   sub.style.cssText = `
     font-size:9px;letter-spacing:1px;
     text-align:center;
-    color:${type.color};opacity:0.7;
+    color:${type.color};opacity:1;line-height:1.6;
     font-family:inherit;
   `;
   sub.textContent = type.subtitle;
@@ -607,6 +608,7 @@ function buildQRCardShell(type, formData, container) {
   const wrap = document.createElement('div');
   wrap.style.cssText = `
     position:relative;width:200px;height:200px;
+    background:#fff;border-radius:18px;box-shadow:0 0 0 4px #fff,0 0 0 6px ${type.color};
     display:flex;align-items:center;justify-content:center;
   `;
   wrap.id = type.id + '-wrap';
@@ -643,6 +645,78 @@ function generateQRCard(type, formData, container) {
   const { wrap } = buildQRCardShell(type, formData, container);
   wrap.appendChild(buildQRLoadingIndicator(type));
   renderQRWhenReady(wrap, url, type);
+}
+
+// Presentation only: uses qrcodejs' original matrix and error correction.
+// Four light modules around the symbol; no logos or changes to its payload.
+function createOrganicQRCode(target, options) {
+  const original = document.createElement('div');
+  const qr = new QRCode(original, options);
+  try {
+    const matrix = qr._oQRCode;
+    const count = matrix.getModuleCount();
+    // Dense symbols keep square geometry to protect small-size reading.
+    const softness = count > 57 ? 0 : 1;
+    const cell = Math.max(8, Math.ceil(options.width / (count + 8)));
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = (count + 8) * cell;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('canvas_unavailable');
+    let rgb = /^#[0-9a-f]{6}$/i.test(options.colorDark || '')
+      ? options.colorDark.slice(1).match(/../g).map(x => parseInt(x, 16)) : [17, 34, 51];
+    const contrast = () => {
+      const linear = rgb.map(v => { v /= 255; return v <= .04045 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); });
+      return 1.05 / (.2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2] + .05);
+    };
+    while (contrast() < 5) rgb = rgb.map(v => Math.floor(v * .9));
+    const ink = 'rgb(' + rgb.join(',') + ')';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    function rounded(x, y, w, h, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.arcTo(x + w, y, x + w, y + h, radius);
+      ctx.arcTo(x + w, y + h, x, y + h, radius);
+      ctx.arcTo(x, y + h, x, y, radius);
+      ctx.arcTo(x, y, x + w, y, radius);
+      ctx.closePath();
+      ctx.fill();
+    }
+    const dark = (r, c) => r >= 0 && c >= 0 && r < count && c < count && matrix.isDark(r, c);
+    const finder = (r, c) => (r < 7 && (c < 7 || c >= count - 7)) || (r >= count - 7 && c < 7);
+    ctx.fillStyle = ink;
+    for (let r = 0; r < count; r++) for (let c = 0; c < count; c++) {
+      if (!dark(r, c) || finder(r, c)) continue;
+      const x = (c + 4) * cell, y = (r + 4) * cell;
+      // Preserve timing patterns. Joined modules form soft continuous paths.
+      const radius = (r === 6 || c === 6) ? 0 : cell * .36 * softness;
+      rounded(x, y, cell, cell, radius);
+      if (dark(r - 1, c)) ctx.fillRect(x, y, cell, cell / 2);
+      if (dark(r + 1, c)) ctx.fillRect(x, y + cell / 2, cell, cell / 2);
+      if (dark(r, c - 1)) ctx.fillRect(x, y, cell / 2, cell);
+      if (dark(r, c + 1)) ctx.fillRect(x + cell / 2, y, cell / 2, cell);
+    }
+    for (const [r, c] of [[0, 0], [0, count - 7], [count - 7, 0]]) {
+      const x = (c + 4) * cell, y = (r + 4) * cell;
+      ctx.fillStyle = ink;
+      rounded(x, y, 7 * cell, 7 * cell, cell * 1.1 * softness);
+      ctx.fillStyle = '#ffffff';
+      rounded(x + cell, y + cell, 5 * cell, 5 * cell, cell * .7 * softness);
+      ctx.fillStyle = ink;
+      rounded(x + 2 * cell, y + 2 * cell, 3 * cell, 3 * cell, cell * .65 * softness);
+    }
+    const img = document.createElement('img');
+    img.src = canvas.toDataURL('image/png');
+    img.alt = 'Código QR';
+    img.width = options.width;
+    img.height = options.height;
+    img.style.cssText = 'display:block;max-width:100%;height:auto;image-rendering:pixelated;';
+    target.appendChild(img);
+  } catch (_) {
+    // Keep the original renderer if a browser cannot draw the soft version.
+    while (original.firstChild) target.appendChild(original.firstChild);
+  }
+  return qr;
 }
 
 const QR_CONSTRUCTOR_MAX_RETRIES = 2; // 3 intentos en total — un fallo del constructor (p.ej. payload demasiado largo) no se arregla reintentando indefinidamente
@@ -686,11 +760,11 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
     if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
     try {
       wrap.innerHTML = '';
-      new QRCode(wrap, {
+      createOrganicQRCode(wrap, {
         text: url,
         width: sizePx,
         height: sizePx,
-        colorDark: type.darkColor,
+        colorDark: type.color,
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel[correctLevel]
       });
@@ -846,18 +920,20 @@ function restoreQRCacheAndRefresh() {
 // confirmación en segundo plano falla o se agota, se deja tal cual lo que
 // ya había en pantalla (imagen en caché + aviso, o spinner) — nunca se
 // reemplaza una imagen válida por un hueco vacío o un mensaje de error.
-function refreshQRCardSilently(wrap, url, type) {
+function refreshQRCardSilently(wrap, url, type, sizePx, correctLevel) {
+  sizePx = sizePx || 200;
+  correctLevel = correctLevel || 'M';
   ensureQRCodeLoaded().then(() => {
     if (!wrap.isConnected) return;
     try {
       const tmp = document.createElement('div');
-      new QRCode(tmp, {
+      createOrganicQRCode(tmp, {
         text: url,
-        width: 200,
-        height: 200,
-        colorDark: type.darkColor,
+        width: sizePx,
+        height: sizePx,
+        colorDark: type.color,
         colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
+        correctLevel: QRCode.CorrectLevel[correctLevel]
       });
       esperarImagenQR(tmp).then(img => {
         if (!img || !img.src) return; // no llegó a tiempo: se deja intacto lo que ya había en pantalla
@@ -924,7 +1000,7 @@ function mostrarSinPerfilParaEmergencia() {
   style.textContent = `
     #emergency-quick-view{position:fixed;inset:0;z-index:9999;display:none;
       background:#000;color:#fff;overflow-y:auto;
-      font-family:'Courier New',Courier,monospace;}
+      font-family:Inter,system-ui,sans-serif;}
     .eqv-header{position:sticky;top:0;z-index:2;
       background:rgba(0,0,0,0.92);backdrop-filter:blur(6px);
       padding:16px;display:flex;align-items:center;justify-content:space-between;
@@ -944,7 +1020,7 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-type-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
     .eqv-type-title{font-size:16px;font-weight:900;letter-spacing:1.2px;
       text-transform:uppercase;text-align:center;line-height:1.25;}
-    .eqv-cover{position:relative;border-radius:22px;background:#0a0a0a;
+    .eqv-cover{position:relative;border-radius:30px;background:#0a1422;
       display:flex;align-items:center;justify-content:center;overflow:hidden;}
     .eqv-cover img, .eqv-cover canvas{width:90%;height:90%;object-fit:contain;
       border-radius:10px;background:#fff;display:block;}
@@ -1055,6 +1131,8 @@ function renderEmergencyQuickView() {
       const img = document.createElement('img');
       img.src = cache.images[type.id];
       slot.appendChild(img);
+      // Keep the valid cached image while updating only its appearance.
+      refreshQRCardSilently(slot, url, type, 400, 'H');
     } else {
       slot.appendChild(buildQRLoadingIndicator(type));
       // 400px de resolución nativa (frente a los 200px del carrusel) --
@@ -1345,9 +1423,10 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 
 </div>
 <script>
+  ${createOrganicQRCode.toString()}
   var pUrl=\`${patientUrl}\`,bUrl='https://atabeyapp.app',M=QRCode.CorrectLevel.M;
-  new QRCode(document.getElementById('qcf'),{text:pUrl,width:178,height:178,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
-  new QRCode(document.getElementById('qcb'),{text:bUrl,width:88,height:88,colorDark:'#12A5FF',colorLight:'#000000',correctLevel:M});
+  createOrganicQRCode(document.getElementById('qcf'),{text:pUrl,width:178,height:178,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
+  createOrganicQRCode(document.getElementById('qcb'),{text:bUrl,width:88,height:88,colorDark:'#12A5FF',colorLight:'#ffffff',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
 </body></html>`);

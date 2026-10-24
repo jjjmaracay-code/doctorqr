@@ -1,4 +1,6 @@
-# Atabeyapp — revisión visual
+# Atabeyapp — revisión visual inicial
+
+El cambio posterior de QR orgánicos se documenta en [QR-ORGANICOS.md](QR-ORGANICOS.md). Este registro describe el alcance de la primera renovación.
 
 Base exacta: ac9a24888b6d7c24d7d6eaa2b808a6bee9763dfb.
 

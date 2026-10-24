@@ -14,7 +14,8 @@
 // de HTML nuevo (red primero) + CSS/JS viejos (caché primero) hasta que
 // algo distinto forzara la purga.
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
-const CACHE_NAME = 'doctorqr-v5';
+// v6: actualiza el dibujo orgánico del QR, conservando sus datos.
+const CACHE_NAME = 'doctorqr-v6';
 const CACHE_URLS = [
   '/',
   './index.html',
