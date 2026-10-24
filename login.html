@@ -340,6 +340,7 @@
   .domain-btn:active { background:rgba(18,165,255,0.15); }
 </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=1"/>
+  <script defer src="js/totp-recovery.js?v=1"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -605,11 +606,36 @@
       </div>
 
       <button class="btn-primary" id="btn-verify-l2" disabled data-i18n="login.l2.verify_button">VERIFICAR CÓDIGO</button>
+      <button type="button" class="btn-secondary" id="btn-totp-recovery" style="display:none;margin-top:12px">Recuperar autenticador</button>
     </div>
 
     <div class="nav-link">
       <a href="#" id="btn-back-l1" data-i18n="login.l2.back_link">← Volver al inicio de sesión</a>
     </div>
+  </div>
+
+  <div class="screen" id="screen-totp-recovery">
+    <div class="form-card">
+      <div class="form-card-title">Recuperar autenticador</div>
+      <p class="field-hint" style="line-height:1.7;margin-bottom:18px">Primero comprobaremos tu contraseña y tu correo. Después podrás vincular el autenticador de nuevo. Tu historial médico se conserva.</p>
+      <p id="tr-status" class="field-hint" role="status" aria-live="polite"></p>
+      <div id="tr-email-step" style="display:none;margin-top:18px">
+        <label class="field-label" for="tr-email-code">Código recibido en tu correo</label>
+        <input class="field-input" id="tr-email-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6 dígitos">
+        <button type="button" class="btn-primary" id="tr-verify-email" style="margin-top:16px">CONFIRMAR CORREO</button>
+      </div>
+      <div id="tr-totp-step" style="display:none;margin-top:18px">
+        <p class="field-hint" style="line-height:1.7;margin-bottom:12px">Añade esta nueva entrada en tu autenticador. Conserva la anterior hasta terminar la confirmación.</p>
+        <img id="tr-qr" alt="QR para volver a vincular tu autenticador" width="220" height="220" style="display:block;max-width:100%;height:auto;margin:12px auto;background:white;border:10px solid white;border-radius:12px">
+        <p class="field-hint">Si no puedes escanearlo, introduce esta clave manualmente:</p>
+        <div id="tr-secret" class="totp-secret" style="overflow-wrap:anywhere"></div>
+        <p class="field-hint" style="margin-bottom:12px">No compartas este QR ni esta clave.</p>
+        <label class="field-label" for="tr-totp-code">Código de la entrada nueva</label>
+        <input class="field-input" id="tr-totp-code" type="text" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{6}" placeholder="6 dígitos">
+        <button type="button" class="btn-primary" id="tr-confirm" style="margin-top:16px">CONFIRMAR AUTENTICADOR</button>
+      </div>
+    </div>
+    <div class="nav-link"><button type="button" class="btn-secondary" id="tr-back">Volver al inicio de sesión</button></div>
   </div>
 
   <!-- ===== PANTALLA GATE — CONFIGURACIÓN OBLIGATORIA DE AUTENTICADOR =====
@@ -1003,6 +1029,7 @@ async function iniciarL2() {
   l2Buffer = '';
   updateL2Display();
   document.getElementById('btn-verify-l2').disabled = true;
+  document.getElementById('btn-totp-recovery').style.display = 'none';
 
   const hint = document.getElementById('l2-hint');
 
@@ -1157,6 +1184,9 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
       }
       l2Buffer = '';
       updateL2Display();
+      if (data.code === 'totp_configuration_unreadable') {
+        document.dispatchEvent(new CustomEvent('doctorqr:totp-unreadable'));
+      }
       showToast(data.error || t('login.l2.wrong_code_generic'), true);
       btn.disabled = true;
     }
