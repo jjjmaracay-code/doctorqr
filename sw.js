@@ -13,7 +13,8 @@
 // bump los usuarios con la PWA ya instalada seguirían viendo la mezcla
 // de HTML nuevo (red primero) + CSS/JS viejos (caché primero) hasta que
 // algo distinto forzara la purga.
-const CACHE_NAME = 'doctorqr-v4';
+// v5: precarga la capa visual para conservarla al abrir la app sin red.
+const CACHE_NAME = 'doctorqr-v5';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -26,6 +27,7 @@ const CACHE_URLS = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './css/styles.css',
+  './css/atabey-refresh.css?v=1',
   './js/qr-generator.js',
   './vendor/qrcodejs/qrcode.min.js',
   './vendor/lz-string/lz-string-1.4.4.min.js',
