@@ -1,0 +1,423 @@
+/* Presentation only;
+   screen scoped to preserve printed medical records. */
+@media screen  {
+
+body[data-atabey-ui="editor"],body[data-atabey-ui="access"] {
+  --bg:#080e18;
+  --card:#101e30;
+  --surface:#101e30;
+  --surface2:#172a40;
+  --text:#eef5ff;
+  --muted:#a6b7cc;
+  --border:#355570;
+  background-color:var(--bg);
+  background-image:radial-gradient(ellipse at 0 0,#12a5ff29,transparent 55%),radial-gradient(ellipse at 100% 35%,#385cb31f,transparent 60%);
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
+}
+
+body[data-atabey-ui="access"]::before {
+  background:none
+}
+
+[data-atabey-ui] :is(button,a,input,select,textarea):focus-visible {
+  outline:3px solid #80ceff;
+  outline-offset:4px
+}
+
+[data-atabey-ui="editor"] {
+  max-width:760px;
+  padding:32px 24px 100px
+}
+
+[data-atabey-ui="editor"] .logo-wrap {
+  border:1px solid #315774;
+  border-radius:28px;
+  background:linear-gradient(145deg,#12a5ff17,#101e30e6);
+  padding:8px 20px 28px;
+  margin:24px 0 28px;
+  box-shadow:0 20px 70px #0003
+}
+
+[data-atabey-ui="editor"] .logo-container svg {
+  width:260px;
+  max-width:100%;
+  height:auto
+}
+
+[data-atabey-ui="editor"] .logo-container {
+  margin-bottom:-72px
+}
+
+[data-atabey-ui="editor"] .brand-slogan {
+  color:#b9c9dc;
+  line-height:1.8;
+  font-size:14px
+}
+
+[data-atabey-ui="editor"] .form-section {
+  background:linear-gradient(120deg,#122238,#0e1b2b);
+  border:1px solid #355570;
+  border-left:3px solid #12A5FF;
+  border-radius:18px;
+  margin-bottom:14px;
+  box-shadow:0 6px 22px #0002
+}
+
+[data-atabey-ui="editor"] .form-section:hover,[data-atabey-ui="editor"] .form-section.open {
+  border-color:#12a5ffa6;
+  box-shadow:0 8px 28px #0004
+}
+
+[data-atabey-ui="editor"] #sec-4 {
+  border-left-color:#ff4444
+}
+
+[data-atabey-ui="editor"] #sec-6 {
+  border-left-color:#ff9900
+}
+
+[data-atabey-ui="editor"] .section-header {
+  padding:21px 22px;
+  gap:12px
+}
+
+[data-atabey-ui="editor"] .section-title {
+  font-size:12px;
+  letter-spacing:1.2px;
+  line-height:1.6;
+  color:#62c5ff
+}
+
+[data-atabey-ui="editor"] .section-body {
+  padding:6px 22px 26px
+}
+
+[data-atabey-ui="editor"] .form-tabs-bar {
+  background:#0c1726;
+  border-radius:16px;
+  padding:12px;
+  border:1px solid #315774
+}
+
+[data-atabey-ui="editor"] .form-tab-btn {
+  min-width:40px;
+  height:40px;
+  background:#132c43;
+  color:#8dd5ff
+}
+
+[data-atabey-ui="editor"] .btn-menu-hamburguesa {
+  width:44px;
+  height:44px;
+  background:#12273b;
+  box-shadow:0 4px 20px #0005
+}
+
+[data-atabey-ui="editor"] .menu-dropdown {
+  background:#101e30;
+  border-color:#315774
+}
+
+[data-atabey-ui="editor"] :is(.field-label,.form-label) {
+  font-size:11px;
+  letter-spacing:1px;
+  color:#8dd5ff;
+  text-shadow:none;
+  line-height:1.6
+}
+
+[data-atabey-ui="editor"] :is(.field-hint,.form-sublabel,.health-card-hint) {
+  color:#a6b7cc;
+  font-size:12px;
+  line-height:1.65
+}
+
+[data-atabey-ui="editor"] .field :is(input,select),[data-atabey-ui="editor"] :is(.form-select,.chips-search) {
+  background-color:#0b1726;
+  border-color:#385974;
+  border-radius:12px;
+  color:#f3f8ff;
+  min-height:46px;
+  box-shadow:inset 0 2px 4px #0002
+}
+
+[data-atabey-ui="editor"] .field input::placeholder {
+  color:#8ca3bc
+}
+
+[data-atabey-ui="editor"] .chip {
+  min-height:38px;
+  padding:9px 14px;
+  font-size:12px;
+  border-color:#416782;
+  background:#122a40;
+  color:#b7e5ff;
+  box-shadow:none;
+  opacity:1
+}
+
+[data-atabey-ui="editor"] .chip.active {
+  background:#12A5FF;
+  border-color:#12A5FF;
+  color:#031426;
+  box-shadow:0 3px 12px #12a5ff33
+}
+
+[data-atabey-ui="editor"] .chip-danger {
+  border-color:#b34b5c;
+  color:#ff9ba8;
+  background:#331e2b
+}
+
+[data-atabey-ui="editor"] .chip-danger.active {
+  background:#702536;
+  border-color:#ff657d;
+  color:#fff;
+  box-shadow:0 0 0 1px #ff657d
+}
+
+[data-atabey-ui="editor"] .critical-warning {
+  color:#ff9ba8;
+  background:#391e2b;
+  border-color:#a4495a;
+  text-shadow:none;
+  line-height:1.7
+}
+
+[data-atabey-ui="editor"] .btn-generate {
+  border-radius:16px;
+  background:linear-gradient(120deg,#12A5FF,#79d3ff);
+  color:#04182a;
+  box-shadow:0 8px 28px #12a5ff30
+}
+
+[data-atabey-ui="access"] :is(.reg-header,.rec-header) {
+  padding-top:24px
+}
+
+[data-atabey-ui="access"] :is(.reg-form,.rec-form) {
+  max-width:520px
+}
+
+[data-atabey-ui="access"] .form-card {
+  background:linear-gradient(145deg,#14263d,#0e1b2b);
+  border-color:#2d506e;
+  border-radius:24px;
+  padding:28px 24px;
+  box-shadow:0 18px 60px #0005
+}
+
+[data-atabey-ui="access"] .form-card-title {
+  font-size:14px;
+  letter-spacing:1.4px;
+  color:#8dd5ff;
+  padding-bottom:16px;
+  border-bottom-color:#33506b
+}
+
+[data-atabey-ui="access"] .field-label {
+  color:#b8cee3;
+  font-size:11px;
+  letter-spacing:1px
+}
+
+[data-atabey-ui="access"] .field-input {
+  background:#0a1727;
+  border-color:#3b5e7c;
+  border-radius:12px;
+  color:#fff
+}
+
+[data-atabey-ui="access"] .field-input::placeholder {
+  color:#8a9fb7
+}
+
+[data-atabey-ui="access"] .btn-primary {
+  background:linear-gradient(110deg,#12A5FF,#7cd5ff);
+  color:#051727;
+  border-radius:12px;
+  box-shadow:0 6px 22px #12a5ff26
+}
+
+[data-atabey-ui="access"] .btn-primary:hover:not(:disabled) {
+  background:#75d1ff
+}
+
+[data-atabey-ui="access"] .btn-primary:disabled {
+  background:#223c53;
+  color:#9cabb9;
+  box-shadow:none
+}
+
+[data-atabey-ui="access"] :is(.reg-tagline,.rec-tagline) {
+  color:#9ccee9;
+  line-height:1.7;
+  text-align:center
+}
+
+[data-atabey-ui="access"] :is(.rec-card,.panel-card,.plan-card) {
+  background:linear-gradient(145deg,#14263d,#0e1b2b);
+  border-radius:22px;
+  box-shadow:0 14px 44px #0004
+}
+
+[data-atabey-ui="access"] .rec-content {
+  max-width:520px
+}
+
+[data-atabey-ui="access"] .rec-card {
+  border-color:#b34b5c
+}
+
+[data-atabey-ui="access"] .rec-card.green {
+  border-color:#355570
+}
+
+[data-atabey-ui="access"] .plan-pro {
+  border-color:#b59b3e
+}
+
+[data-atabey-ui="access"] .plan-lifetime {
+  border-color:#b34b5c
+}
+
+[data-atabey-ui="access"] .trial-banner-inner {
+  background:#102b40;
+  border-color:#33779e;
+  border-radius:20px
+}
+
+[data-atabey-ui="access"] :is(.hero-sub,.trial-sub,.brand-slogan) {
+  color:#afc2d9;
+  line-height:1.8
+}
+
+[data-atabey-ui="access"] .field-textarea {
+  background:#0a1727;
+  border-color:#3b5e7c;
+  color:#fff;
+  border-radius:12px
+}
+
+[data-atabey-ui="access"] :is(.pwd-hint-static,.nav-link,.field-hint:not(.error)) {
+  color:#a6b7cc
+}
+
+[data-atabey-ui="access"] .nav-link a {
+  color:#80ceff
+}
+
+[data-atabey-ui="editor"] .form-search-bar {
+  background:#101e30;
+  border:1px solid #315774;
+  border-radius:14px
+}
+
+[data-atabey-ui="editor"] .form-search-input {
+  background:#0b1726;
+  color:#eef5ff;
+  border-color:#416782
+}
+
+[data-atabey-ui="editor"] .form-search-input::placeholder {
+  color:#a6b7cc
+}
+
+[data-atabey-ui="access"] .rec-card-title {
+  font-size:13px;
+  letter-spacing:1.4px;
+  color:#ff9ba8
+}
+
+/* Emergency reading remains light;
+   severity colors and sticky navigation retained. */
+[data-atabey-ui="medical"] {
+  background:#f2f6fa;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif
+}
+
+[data-atabey-ui="medical"] .header {
+  border-top:4px solid #ff0000;
+  box-shadow:0 4px 20px #1b365514
+}
+
+[data-atabey-ui="medical"] .tab-panel {
+  max-width:920px;
+  margin-inline:auto
+}
+
+[data-atabey-ui="medical"] .section {
+  background:white;
+  border:1px solid #d8e2ed;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 14px #1b365508
+}
+
+[data-atabey-ui="medical"] .section-title {
+  letter-spacing:1px
+}
+
+[data-atabey-ui="medical"] .data-label {
+  color:#526177
+}
+
+[data-atabey-ui="medical"] .ts-note {
+  color:#58677a
+}
+
+[data-atabey-ui="medical"] .contact-card {
+  background:#fff;
+  border-color:#e5b9bd;
+  box-shadow:0 4px 18px #1b36550a
+}
+
+[data-atabey-ui="medical"] .lang-btn {
+  min-height:34px;
+  color:#526177
+}
+
+[data-atabey-ui="medical"] .lang-btn.active {
+  color:#c60000
+}
+
+@media(max-width:480px) {
+  [data-atabey-ui="editor"] {
+  padding-inline:14px
+}
+[data-atabey-ui="editor"] .section-header {
+  padding:18px 16px
+}
+[data-atabey-ui="editor"] .section-body {
+  padding-inline:16px
+}
+[data-atabey-ui="editor"] .logo-wrap {
+  padding-inline:8px
+}
+[data-atabey-ui="medical"] .section {
+  padding:16px
+}
+[data-atabey-ui="medical"] .data-row {
+  flex-wrap:wrap;
+  gap:6px
+}
+[data-atabey-ui="medical"] .data-label {
+  min-width:0;
+  flex-basis:100%
+}
+
+}
+
+@media(prefers-reduced-motion:reduce) {
+  [data-atabey-ui] *,[data-atabey-ui] *::before,[data-atabey-ui] *::after {
+  animation:none!important;
+  transition:none!important;
+  scroll-behavior:auto!important
+}
+
+}
+
+
+}
