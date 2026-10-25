@@ -130,6 +130,12 @@
   </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=1"/>
 <style>
+/* Large native language control: readable text and a generous touch target. */
+[data-atabey-ui="medical"] .header-top{flex-wrap:wrap;gap:12px}
+[data-atabey-ui="medical"] .lang-switcher{min-width:0;max-width:100%}
+[data-atabey-ui="medical"] .qr-language-select{font-family:system-ui,sans-serif;font-size:18px;font-weight:600;line-height:1.5;min-height:48px;min-width:180px;max-width:100%;padding:10px 14px;border:2px solid #b42323;border-radius:10px;background:#fff;color:#111;cursor:pointer}
+[data-atabey-ui="medical"] .qr-language-select:focus-visible{outline:3px solid #111;outline-offset:3px}
+@media(max-width:420px){[data-atabey-ui="medical"] .header-top .lang-switcher{flex:1 0 100%}[data-atabey-ui="medical"] .header-top .qr-language-select{width:100%}}
 html[dir="rtl"] .patient-meta,html[dir="rtl"] .badge{unicode-bidi:plaintext}
 html[dir="rtl"] :is(.blood-badge,.tel-link,.qr-type-badge){direction:ltr;unicode-bidi:isolate;display:inline-block}
 html[dir="rtl"] .lang-switcher{justify-content:flex-start}
@@ -461,7 +467,7 @@ Object.entries(window.AtabeyQrLanguages || {}).forEach(([code, dictionary]) => {
 });
 function qrLanguageControl() {
   const names={es:'Español',en:'English',fr:'Français',de:'Deutsch',pt:'Português',eu:'Euskara',hi:'हिन्दी',zh:'简体中文',ru:'Русский',ja:'日本語',ar:'العربية'};
-  return '<select aria-label="' + escAttr(t.language || 'Language') + '" onchange="setLang(this.value)" style="max-width:100%;padding:8px;border-radius:8px;background:white;color:#111">' + Object.keys(names).filter(code=>T[code]).map(code=>'<option value="'+code+'"'+(code===lang?' selected':'')+'>'+names[code]+'</option>').join('') + '</select>';
+  return '<select class="qr-language-select" aria-label="' + escAttr(t.language || 'Language') + '" onchange="setLang(this.value)">' + Object.keys(names).filter(code=>T[code]).map(code=>'<option value="'+code+'"'+(code===lang?' selected':'')+'>'+names[code]+'</option>').join('') + '</select>';
 }
 
 function esc(s) {
