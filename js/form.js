@@ -804,69 +804,17 @@
       }
 
       const profile = buildProfileFromForm();
-      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert('Los datos de identidad no coinciden con tu cuenta. No se guardarán ni generarán QR.'); return; }
-      MedicalOwner.write(profile);
-      hasUnsavedChanges = false;
-      mostrarIndicadorGuardado();
-
-      const toast = document.getElementById('toast');
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2800);
-
-      const _tok = localStorage.getItem('doctorqr_token');
-      if (_tok && !_tok.startsWith('biometric_')) {
-        const _qrId = localStorage.getItem('doctorqr_id');
-        fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
-          body: JSON.stringify({ profile, doctorqr_id: _qrId })
-        })
-        .then(async r => {
-          if (r.status === 402) {
-            const tb = document.getElementById('trial-expired-banner');
-            if (tb) tb.style.display = 'flex';
-            setTimeout(() => { window.location.href = 'paywall.html'; }, 3000);
-            return; // trial expirado — no guardar ni generar QR
-          }
-          if (r.status === 409) {
-            const tc = document.getElementById('toast-conflict');
-            if (tc) { tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 8000); }
-            return; // datos del servidor más recientes — no generar QR desincronizado
-          }
-          if (r.status === 403) {
-            const body = await r.json().catch(() => ({}));
-            if (body?.error === '2fa_required') {
-              const tr = document.getElementById('totp-required-banner');
-              if (tr) tr.style.display = 'flex';
-              setTimeout(() => { window.location.href = body.redirect || 'login.html?gate=1'; }, 3000);
-              return; // 2FA sin confirmar — no guardar en silencio ni generar QR desincronizado
-            }
-          }
-          if (!r.ok) { alert('No se ha confirmado el guardado. No se generarán QR.'); return; }
-          if (!MedicalOwner.current()) return;
-          if (r.ok) {
-            const json = await r.json();
-            if (json?.success) {
-              if (json.updated_at) {
-                const stored = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
-                stored.updated_at = json.updated_at;
-                MedicalOwner.write(stored);
-              }
-              const ts = document.getElementById('toast-sync');
-              if (ts) { ts.classList.add('show'); setTimeout(() => ts.classList.remove('show'), 2500); }
-            }
-          }
-          generateAllQRs();
-          mostrarRecordatorioQR();
-        })
-        .catch(() => {
-          alert('No se pudo confirmar el guardado en el servidor. Reintenta con conexión antes de generar QR.');
-        });
-      } else {
-        alert('Inicia sesión para guardar y generar tus QR.');
-      }
+      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert('Los datos de identidad no coinciden con tu cuenta. No se publicarán.'); return; }
+      await ProfileSync.save(profile);
     }
+
+    window.addEventListener('doctorqr:profile-published', event => {
+      hasUnsavedChanges = event.detail.pendingDraft;
+      if (!event.detail.pendingDraft) mostrarIndicadorGuardado();
+      generateAllQRs();
+      mostrarRecordatorioQR();
+    });
+    window.addEventListener('doctorqr:load-latest', () => { hasUnsavedChanges = false; });
 
     // ===== RECORDATORIO: REGENERAR QR TRAS CADA CAMBIO =====
     // Se dispara siempre que se llama a generateAllQRs() (primera vez o
@@ -889,74 +837,22 @@
       setTimeout(() => ind.classList.remove('show'), 2500);
     }
 
-    // ===== GUARDADO DE EMERGENCIA AL CERRAR LA PESTAÑA =====
-    // sendBeacon no sirve aquí: la cookie doctorqr_token es sameSite=lax y
-    // frontend/backend son sitios distintos (atabeyapp.app vs *.up.railway.app),
-    // así que el navegador no la adjunta en peticiones POST cross-site — y
-    // sendBeacon no permite fijar el header Authorization como alternativa.
-    // fetch con keepalive:true sí sobrevive al cierre de la pestaña y sí
-    // permite mandar el header Authorization (el mecanismo que realmente
-    // autentica hoy, igual que en generate()).
-    window.addEventListener('beforeunload', () => {
-      if (!hasUnsavedChanges || !MedicalOwner.current()) return;
-      const _tok = localStorage.getItem('doctorqr_token');
-      if (!_tok || _tok.startsWith('biometric_')) return;
-
-      const profile = buildProfileFromForm();
-      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert('Los datos de identidad no coinciden con tu cuenta. No se guardarán ni generarán QR.'); return; }
-      MedicalOwner.write(profile);
-      localStorage.setItem('doctorqr_pending_sync_notice', '1');
-
-      fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
-        method: 'POST',
-        credentials: 'include',
-        keepalive: true,
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _tok },
-        body: JSON.stringify({ profile, doctorqr_id: localStorage.getItem('doctorqr_id') })
-      }).catch(() => {});
+    // Closing a tab keeps a local draft; it never overwrites another device's server data.
+    let draftTimer;
+    const preserveDraft = () => {
+      if (hasUnsavedChanges && MedicalOwner.current()) ProfileSync.saveDraft(buildProfileFromForm());
+    };
+    for (const event of ['input','change']) document.addEventListener(event, () => {
+      clearTimeout(draftTimer); draftTimer = setTimeout(preserveDraft,250);
     });
+    window.addEventListener('beforeunload', preserveDraft);
+    window.addEventListener('pagehide', preserveDraft);
 
     // ===== LOAD SAVED =====
     async function loadSaved() {
-      if (localStorage.getItem('doctorqr_pending_sync_notice') === '1') {
-        localStorage.removeItem('doctorqr_pending_sync_notice');
-        mostrarIndicadorGuardado();
-      }
-
-      let saved = null;
-
-      const _tok = localStorage.getItem('doctorqr_token');
-      if (_tok) {
-        try {
-          const _res = await fetch('https://doctorqr-backend-production.up.railway.app/api/profile/me', {
-            credentials: 'include',
-            headers: { Authorization: 'Bearer ' + _tok }
-          });
-          if (_res.ok) {
-            const _data = await _res.json();
-            if (!MedicalOwner.current() || _data.doctorqr_id !== MedicalOwner.id() || !MedicalOwner.matches(_data.profile)) { MedicalOwner.discardProfile(); alert('El servidor no ha confirmado la identidad del perfil. No se cargará. Debes introducir de nuevo tus datos médicos.'); return; }
-            saved = _data.profile;
-            if (_data.updated_at) saved.updated_at = _data.updated_at;
-            MedicalOwner.write(saved);
-            if (_data.plan_type) {
-              const _u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
-              _u.plan_type  = _data.plan_type;
-              _u.created_at = _data.created_at;
-              localStorage.setItem('doctorqr_user', JSON.stringify(_u));
-            }
-          } else {
-            MedicalOwner.discardProfile();
-            if (_res.status !== 404) alert('El perfil no se ha podido verificar. No se mostrarán los datos anteriores. Debes introducir de nuevo tus datos médicos y guardarlos.');
-            return;
-          }
-        } catch (_) {
-          // Offline access is restricted to a previously verified profile belonging to this session.
-        }
-      }
-
-      if (!saved) {
-        saved = MedicalOwner.current() ? MedicalOwner.read() : null;
-      }
+      let saved = await ProfileSync.load();
+      if (!MedicalOwner.current()) return;
+      hasUnsavedChanges = !!ProfileSync.draft();
 
       const refreshVal = () => {
         document.querySelectorAll('.phone-field').forEach(pf => validatePhoneField(pf));
@@ -1422,4 +1318,5 @@
     actualizarRangosAnio();
     loadSaved();
     initIcons();
+
 

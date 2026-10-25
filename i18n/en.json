@@ -392,11 +392,11 @@
 
   "index.form.identity_locked_notice": "Verified identity data — not editable",
 
-  "index.qr.generate_button": "Generate my QRs",
+  "index.qr.generate_button": "Save and update my QR codes",
   "index.qr.saved_indicator": "Saved ✓",
   "index.qr.section_title": "YOUR MEDICAL QR CODES",
   "index.qr.section_desc": "Swipe to see all your QRs.\n      Only the ones relevant to your medical profile are generated.",
-  "index.qr.reminder_banner": "Don't forget to tap \"Generate my QRs\" every time you make a change in the form — even though your data saves automatically, the QR doesn't update on its own. And remember to double-check, by scanning it from your phone or another device, that all the information appears correctly.",
+  "index.qr.reminder_banner": "Changes stay as a draft on this device. Save and update your QR codes to publish them, wait for server confirmation, then scan a QR code to check the information.",
   "index.qr.print_button": "PRINT EMERGENCY QR — CARD FORMAT",
 
   "index.location.section_title": "EMERGENCY — SHARE LOCATION",

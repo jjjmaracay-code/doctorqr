@@ -392,11 +392,11 @@
 
   "index.form.identity_locked_notice": "Données d'identité vérifiées — non modifiables",
 
-  "index.qr.generate_button": "Générer mes QR",
+  "index.qr.generate_button": "Enregistrer et actualiser mes QR",
   "index.qr.saved_indicator": "Enregistré ✓",
   "index.qr.section_title": "TES CODES QR MÉDICAUX",
   "index.qr.section_desc": "Fais glisser pour voir tous tes QR.\n      Seuls ceux pertinents pour ton profil médical sont générés.",
-  "index.qr.reminder_banner": "N'oublie pas d'appuyer sur \"Générer mes QR\" à chaque modification du formulaire — même si les données s'enregistrent automatiquement, le QR ne se met pas à jour tout seul. Et pense à vérifier, en le scannant depuis ton téléphone ou un autre appareil, que toutes les informations apparaissent correctement.",
+  "index.qr.reminder_banner": "Les modifications restent en brouillon sur cet appareil. Enregistrez pour les publier, attendez la confirmation du serveur, puis vérifiez un QR.",
   "index.qr.print_button": "IMPRIMER LE QR D'URGENCE — FORMAT CARTE",
 
   "index.location.section_title": "URGENCE — PARTAGER LA LOCALISATION",

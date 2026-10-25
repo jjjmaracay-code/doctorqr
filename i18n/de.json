@@ -392,11 +392,11 @@
 
   "index.form.identity_locked_notice": "Bestätigte Identitätsdaten — nicht bearbeitbar",
 
-  "index.qr.generate_button": "Meine QR-Codes erstellen",
+  "index.qr.generate_button": "Speichern und QR-Codes aktualisieren",
   "index.qr.saved_indicator": "Gespeichert ✓",
   "index.qr.section_title": "DEINE MEDIZINISCHEN QR-CODES",
   "index.qr.section_desc": "Wische, um alle deine QR-Codes zu sehen.\n      Es werden nur die für dein medizinisches Profil relevanten erstellt.",
-  "index.qr.reminder_banner": "Vergiss nicht, bei jeder Änderung im Formular auf \"Meine QR-Codes erstellen\" zu tippen — auch wenn die Daten automatisch gespeichert werden, aktualisiert sich der QR-Code nicht von selbst. Und denk daran, durch Scannen mit deinem Handy oder einem anderen Gerät zu überprüfen, ob alle Informationen korrekt angezeigt werden.",
+  "index.qr.reminder_banner": "Änderungen bleiben als Entwurf auf diesem Gerät. Speichern Sie zur Veröffentlichung, warten Sie auf die Serverbestätigung und prüfen Sie dann einen QR-Code.",
   "index.qr.print_button": "NOTFALL-QR DRUCKEN — KARTENFORMAT",
 
   "index.location.section_title": "NOTFALL — STANDORT TEILEN",

@@ -3,7 +3,7 @@
   'use strict';
   const storage = localStorage;
   const keys = ['doctorqr_profile', 'doctorqr_profile_owner', 'doctorqr_qr_cache',
-    'doctorqr_tutor_consent_huella', 'doctorqr_tutor_consent_fecha', 'doctorqr_pending_sync_notice'];
+    'doctorqr_medical_draft', 'doctorqr_profile_revision', 'doctorqr_tutor_consent_huella', 'doctorqr_tutor_consent_fecha', 'doctorqr_pending_sync_notice'];
   const norm = v => String(v || '').normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
   function purge() { keys.forEach(k => storage.removeItem(k)); }
   function account() {
@@ -33,7 +33,7 @@
     storage.setItem('doctorqr_id', data.doctorqr_id);
     storage.setItem('doctorqr_user', JSON.stringify(data.user));
     storage.setItem('doctorqr_profile_owner', data.doctorqr_id);
-    if (storage.getItem('doctorqr_profile') && !read()) purge();
+    if (storage.getItem('doctorqr_profile') && !read()) { storage.removeItem('doctorqr_profile'); storage.removeItem('doctorqr_qr_cache'); }
     storage.setItem('doctorqr_profile_owner', data.doctorqr_id);
   }
   const initialId = id(), initialToken = storage.getItem('doctorqr_token');
@@ -43,7 +43,8 @@
     storage.setItem('doctorqr_profile', JSON.stringify(profile));
   }
   // Quarantine on upgrade, before any form or QR reader can consume old shared data.
-  if (!validOwner() || (storage.getItem('doctorqr_profile') && !read())) purge();
+  if (!validOwner()) purge();
+  else if (storage.getItem('doctorqr_profile') && !read()) { storage.removeItem('doctorqr_profile'); storage.removeItem('doctorqr_qr_cache'); }
   function discardProfile() {
     const own = current(); purge();
     if (own) storage.setItem('doctorqr_profile_owner', initialId);

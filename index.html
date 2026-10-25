@@ -3,6 +3,7 @@
 <head>
 <script src="/js/birthdate.js?v=1"></script>
 <script src="/js/medical-owner.js?v=1"></script>
+<script src="/js/profile-sync.js?v=1"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -2067,7 +2068,17 @@
 
   </div>
 
-  <button class="btn-generate" onclick="generate()" data-i18n="index.qr.generate_button">Generar mis QR</button>
+  <button class="btn-generate" onclick="generate()" data-i18n="index.qr.generate_button">Guardar y actualizar mis QR</button>
+<section id="profile-sync-panel" role="status" aria-live="polite" hidden style="max-width:960px;margin:16px auto;padding:18px;border:1px solid #66baff;border-radius:16px;background:#122539;color:#e6f4ff">
+  <p id="profile-sync-message"></p>
+  <div id="profile-sync-choices" hidden>
+    <button type="button" id="profile-sync-compare">Comparar versiones</button>
+    <button type="button" id="profile-sync-use-server">Cargar última versión publicada</button>
+    <button type="button" id="profile-sync-use-draft">Publicar mi borrador revisado</button>
+    <div id="profile-sync-differences" style="overflow:auto;max-height:420px"></div>
+  </div>
+</section>
+
   <div id="save-indicator" class="save-indicator" data-i18n="index.qr.saved_indicator">Guardado ✓</div>
 
   <div id="qr-section" style="display:none;padding:0 16px 32px">
@@ -2089,7 +2100,7 @@
     <div id="qr-dots" style="display:flex;justify-content:center;gap:8px;margin:8px 0 24px">
     </div>
     <div id="qr-reminder-banner" class="qr-reminder-banner" data-i18n="index.qr.reminder_banner">
-      No olvides pulsar "Generar mis QR" cada vez que hagas un cambio en el formulario — aunque los datos se guarden automáticamente, el QR no se actualiza solo. Y recuerda revisar, escaneándolo desde tu móvil o desde otro dispositivo, que toda la información aparece correctamente.
+      Los cambios se conservan como borrador en este dispositivo. Pulsa "Guardar y actualizar mis QR" para publicarlos y espera la confirmación del servidor. Después escanea un QR para comprobar la información.
     </div>
     <button id="btn-print-emergency" style="
       width:100%;padding:16px;
@@ -2389,7 +2400,7 @@
 
   <div class="toast" id="toast" data-i18n="index.toast.saved">Datos guardados</div>
   <div class="toast toast-sync" id="toast-sync" data-i18n-html="index.toast.synced_html">&#9729; Perfil sincronizado &#10003;</div>
-  <div class="toast toast-conflict" id="toast-conflict" data-i18n="index.toast.conflict">⚠️ Hay una versión más reciente guardada desde otro dispositivo. Recarga antes de continuar editando.</div>
+
 
   <!-- Modal consentimiento tutor legal -->
   <div id="modal-tutor-legal" role="dialog" aria-modal="true">

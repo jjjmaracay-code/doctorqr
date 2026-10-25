@@ -765,14 +765,20 @@ function detectLang() {
 const BACKEND = 'https://doctorqr-backend-production.up.railway.app';
 
 async function parseData() {
+  window.cardLoadProblem = 'invalid';
   try {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     if (!id) return null;
+    window.cardLoadProblem = 'connection';
     const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      window.cardLoadProblem = res.status === 404 ? 'unpublished' : res.status === 409 ? 'verification' : res.status === 429 ? 'limited' : 'unavailable';
+      return null;
+    }
     const result = await res.json();
-    if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') return null;
+    if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') { window.cardLoadProblem = 'verification'; return null; }
+    window.cardLoadProblem = '';
     return { ...result.profile, _qr_type: params.get('t') || '' };
   } catch (_) { return null; }
 }
@@ -880,13 +886,24 @@ function positionSticky() {
 }
 
 function renderError() {
+  const labels = {
+    es: { title:'PERFIL NO DISPONIBLE', retry:'Reintentar', connection:'No se pudo conectar con el servidor. Comprueba la conexión y vuelve a intentarlo.', unpublished:'Este QR no tiene un perfil publicado disponible. El titular debe guardar y confirmar su perfil, o generar un QR nuevo si eliminó su cuenta anterior.', verification:'El perfil está pendiente de revisión de identidad. El titular debe revisar sus datos y publicarlos desde su cuenta. No se mostrarán datos de otro perfil.', limited:'Se han realizado muchas consultas. Espera un minuto y vuelve a intentarlo.', unavailable:'El servicio no está disponible en este momento. Vuelve a intentarlo más tarde.' },
+    en: { title:'PROFILE UNAVAILABLE', retry:'Retry', connection:'Cannot connect to the server. Check your connection and retry.', unpublished:'No published profile is available for this QR. The owner must save their profile or generate a new QR after recreating their account.', verification:'The profile requires an identity review by its owner. Another patient’s data will never be substituted.', limited:'Too many requests. Wait a minute and retry.', unavailable:'The service is temporarily unavailable. Please retry later.' },
+    fr: { title:'PROFIL INDISPONIBLE', retry:'Réessayer', connection:'Connexion au serveur impossible. Vérifiez votre connexion.', unpublished:'Aucun profil publié pour ce QR. Le titulaire doit publier son profil ou créer un nouveau QR après une nouvelle inscription.', verification:'Le titulaire doit vérifier et republier son profil. Les données d’une autre personne ne seront pas affichées.', limited:'Trop de demandes. Attendez une minute.', unavailable:'Service temporairement indisponible.' },
+    pt: { title:'PERFIL INDISPONÍVEL', retry:'Tentar novamente', connection:'Não foi possível conectar ao servidor. Verifique a conexão.', unpublished:'Não há perfil publicado para este QR. O titular deve publicar o perfil ou gerar outro QR após recriar a conta.', verification:'O titular deve rever e publicar o perfil. Não serão apresentados dados de outra pessoa.', limited:'Muitas consultas. Aguarde um minuto.', unavailable:'Serviço temporariamente indisponível.' },
+    de: { title:'PROFIL NICHT VERFÜGBAR', retry:'Erneut versuchen', connection:'Keine Verbindung zum Server. Prüfen Sie die Internetverbindung.', unpublished:'Für diesen QR ist kein veröffentlichtes Profil verfügbar. Der Inhaber muss es speichern oder nach Neuregistrierung einen neuen QR erstellen.', verification:'Der Inhaber muss die Identität prüfen und das Profil veröffentlichen. Es werden keine Daten anderer Personen angezeigt.', limited:'Zu viele Anfragen. Bitte eine Minute warten.', unavailable:'Der Dienst ist vorübergehend nicht verfügbar.' }
+  };
+  const l = labels[lang] || labels.es;
+  const problem = window.cardLoadProblem;
   document.getElementById('app').innerHTML = `
     <div class="error-screen">
       <div class="logo" style="margin-bottom:16px">ATABEY<span style="color:#111111">APP</span></div>
       <div class="error-icon">⚠</div>
-      <div class="error-title">${esc(t.err_title)}</div>
-      <div class="error-msg">${esc(t.err_msg)}</div>
+      <div class="error-title">${esc(problem === 'invalid' ? t.err_title : l.title)}</div>
+      <div class="error-msg">${esc(l[problem] || t.err_msg)}</div>
+      <button type="button" id="retry-profile" style="margin-top:24px;padding:14px 24px;border:1px solid #a00;border-radius:10px;background:white;color:#a00;font:inherit">${esc(l.retry)}</button>
     </div>`;
+  document.getElementById('retry-profile').addEventListener('click', () => window.location.reload());
 }
 
 // ================================================================
