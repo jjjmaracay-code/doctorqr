@@ -972,6 +972,7 @@
 
       set('f-name',                 saved.nombre || saved.name);
       set('f-birthdate',            saved.fecha_nacimiento || saved.birthdate);
+      AtabeyDates.renderDisplay();
       set('f-lang',                 saved.lang);
 
       // Restaurar tipo documento y número

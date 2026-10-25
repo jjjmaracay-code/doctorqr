@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script src="/js/birthdate.js?v=1"></script>
 <script src="/js/medical-owner.js?v=1"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -781,7 +782,8 @@
         </div>
         <div class="field">
           <div class="field-label" data-i18n="index.identification.birthdate_label">Fecha de nacimiento</div>
-          <input type="date" id="f-birthdate"/>
+          <input type="hidden" id="f-birthdate"/>
+          <input type="text" id="f-birthdate-readable" readonly aria-label="Fecha de nacimiento"/>
         </div>
         <!-- TIPO DOCUMENTO -->
         <div class="form-group">
@@ -2494,6 +2496,7 @@
         }
       }, 200);
 
+      AtabeyDates.renderDisplay();
       const docChips = document.querySelectorAll('[data-group="doc-type"]');
       docChips.forEach(chip => {
         chip.style.pointerEvents = 'none';

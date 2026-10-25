@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script src="/js/birthdate.js?v=1"></script>
 <script src="/js/medical-owner.js?v=1"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -920,7 +921,8 @@
 
     <div class="field-wrap">
       <div class="field-label" data-i18n="register.screen2.fnac_label">Fecha de nacimiento</div>
-      <input class="field-input" id="r-fnac" type="date" autocomplete="bday">
+      <input class="field-input" id="r-fnac" type="date" autocomplete="bday" aria-describedby="r-fnac-readable">
+      <div id="r-fnac-readable" role="status" aria-live="polite" style="margin-top:10px;font-weight:600;color:#a5d8ff"></div>
     </div>
 
     <div class="field-wrap">
@@ -1781,6 +1783,7 @@ function readTerms() {
 
 // ===== ENVIAR OTP (pantalla 2 → 3) =====
 document.getElementById('btn-send-otp').addEventListener('click', async () => {
+  if (!AtabeyDates.confirmBirthdate()) return;
   regData = {
     nombre:           document.getElementById('r-nombre').value.trim(),
     apellidos:        document.getElementById('r-apellidos').value.trim(),
