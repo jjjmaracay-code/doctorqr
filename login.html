@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-title" content="Atabeyapp · Acceso">
 <meta name="theme-color" content="#12A5FF">
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
-<title>Atabeyapp · Acceso</title>
+<title data-i18n="extra.25409d696158e813">Atabeyapp · Acceso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<script src="/i18n/loader.js?v=13"></script>
+<script src="/i18n/loader.js?v=14"></script>
 
 <style>
   :root {
@@ -341,7 +341,7 @@
   .domain-btn:active { background:rgba(18,165,255,0.15); }
 </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=1"/>
-  <script defer src="js/totp-recovery.js?v=12"></script>
+  <script defer src="js/totp-recovery.js?v=14"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -607,7 +607,7 @@
       </div>
 
       <button class="btn-primary" id="btn-verify-l2" disabled data-i18n="login.l2.verify_button">VERIFICAR CÓDIGO</button>
-      <button type="button" class="btn-secondary" id="btn-totp-recovery" style="display:none;margin-top:12px">Recuperar autenticador</button>
+      <button type="button" class="btn-secondary" id="btn-totp-recovery" style="display:none;margin-top:12px"><span data-i18n="extra.6efae3e9c9144569">Recuperar autenticador</span></button>
     </div>
 
     <div class="nav-link">
@@ -617,26 +617,26 @@
 
   <div class="screen" id="screen-totp-recovery">
     <div class="form-card">
-      <div class="form-card-title">Recuperar autenticador</div>
-      <p class="field-hint" style="line-height:1.7;margin-bottom:18px">Primero comprobaremos tu contraseña y tu correo. Después podrás vincular el autenticador de nuevo. Tu historial médico se conserva.</p>
+      <div class="form-card-title"><span data-i18n="extra.6efae3e9c9144569">Recuperar autenticador</span></div>
+      <p class="field-hint" style="line-height:1.7;margin-bottom:18px"><span data-i18n="extra.4ae9beddd70ce79f">Primero comprobaremos tu contraseña y tu correo. Después podrás vincular el autenticador de nuevo. Tu historial médico se conserva.</span></p>
       <p id="tr-status" class="field-hint" role="status" aria-live="polite"></p>
       <div id="tr-email-step" style="display:none;margin-top:18px">
-        <label class="field-label" for="tr-email-code">Código recibido en tu correo</label>
-        <input class="field-input" id="tr-email-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6 dígitos">
-        <button type="button" class="btn-primary" id="tr-verify-email" style="margin-top:16px">CONFIRMAR CORREO</button>
+        <label class="field-label" for="tr-email-code"><span data-i18n="extra.fea2e7878dad379f">Código recibido en tu correo</span></label>
+        <input class="field-input" id="tr-email-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6 dígitos" data-i18n-placeholder="extra.cecbb1196ecc46ac">
+        <button type="button" class="btn-primary" id="tr-verify-email" style="margin-top:16px"><span data-i18n="extra.11926e2d26175846">CONFIRMAR CORREO</span></button>
       </div>
       <div id="tr-totp-step" style="display:none;margin-top:18px">
-        <p class="field-hint" style="line-height:1.7;margin-bottom:12px">Añade esta nueva entrada en tu autenticador. Conserva la anterior hasta terminar la confirmación.</p>
+        <p class="field-hint" style="line-height:1.7;margin-bottom:12px"><span data-i18n="extra.da50034991c7aa60">Añade esta nueva entrada en tu autenticador. Conserva la anterior hasta terminar la confirmación.</span></p>
         <img id="tr-qr" alt="QR para volver a vincular tu autenticador" width="220" height="220" style="display:block;max-width:100%;height:auto;margin:12px auto;background:white;border:10px solid white;border-radius:12px">
-        <p class="field-hint">Si no puedes escanearlo, introduce esta clave manualmente:</p>
+        <p class="field-hint"><span data-i18n="extra.1b24e3943bb09011">Si no puedes escanearlo, introduce esta clave manualmente:</span></p>
         <div id="tr-secret" class="totp-secret" style="overflow-wrap:anywhere"></div>
-        <p class="field-hint" style="margin-bottom:12px">No compartas este QR ni esta clave.</p>
-        <label class="field-label" for="tr-totp-code">Código de la entrada nueva</label>
-        <input class="field-input" id="tr-totp-code" type="text" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{6}" placeholder="6 dígitos">
-        <button type="button" class="btn-primary" id="tr-confirm" style="margin-top:16px">CONFIRMAR AUTENTICADOR</button>
+        <p class="field-hint" style="margin-bottom:12px"><span data-i18n="extra.4433f57936879092">No compartas este QR ni esta clave.</span></p>
+        <label class="field-label" for="tr-totp-code"><span data-i18n="extra.174327ece377dbb6">Código de la entrada nueva</span></label>
+        <input class="field-input" id="tr-totp-code" type="text" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{6}" placeholder="6 dígitos" data-i18n-placeholder="extra.cecbb1196ecc46ac">
+        <button type="button" class="btn-primary" id="tr-confirm" style="margin-top:16px"><span data-i18n="extra.8a211a69a5fa2858">CONFIRMAR AUTENTICADOR</span></button>
       </div>
     </div>
-    <div class="nav-link"><button type="button" class="btn-secondary" id="tr-back">Volver al inicio de sesión</button></div>
+    <div class="nav-link"><button type="button" class="btn-secondary" id="tr-back"><span data-i18n="extra.1581ca4764202ace">Volver al inicio de sesión</span></button></div>
   </div>
 
   <!-- ===== PANTALLA GATE — CONFIGURACIÓN OBLIGATORIA DE AUTENTICADOR =====
@@ -723,7 +723,7 @@
      (renderEmergencyQuickView(), en js/qr-generator.js) -->
 <div id="emergency-quick-view" style="display:none"></div>
 
-<script src="js/qr-generator.js?v=12.3"></script>
+<script src="js/qr-generator.js?v=14"></script>
 <script>
 const API = 'https://doctorqr-backend-production.up.railway.app';
 
@@ -994,7 +994,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       if (data.remaining_attempts !== undefined) {
         errorEl.textContent = t('login.l1.wrong_credentials_n_left').replace('{n}', data.remaining_attempts);
       } else {
-        errorEl.textContent = data.error || t('login.l1.wrong_credentials_generic');
+        errorEl.textContent = (typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || t('login.l1.wrong_credentials_generic');
       }
       errorEl.style.display = 'block';
       registerHintEl.style.display = 'block';
@@ -1186,7 +1186,7 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
       if (data.code === 'totp_configuration_unreadable') {
         document.dispatchEvent(new CustomEvent('doctorqr:totp-unreadable'));
       }
-      showToast(data.error || t('login.l2.wrong_code_generic'), true);
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || t('login.l2.wrong_code_generic'), true);
       btn.disabled = true;
     }
   } catch (e) {
@@ -1246,7 +1246,7 @@ async function iniciarGate(opts) {
       document.getElementById('gate-secret-text').textContent = data.secret;
       if (opts.regenerate) showToast(t('login.gate.regenerate_success'));
     } else {
-      showToast(data.error || t('login.common.connection_error'), true);
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || t('login.common.connection_error'), true);
     }
   } catch (e) {
     showToast(t('login.common.connection_error'), true);
@@ -1317,7 +1317,7 @@ document.getElementById('btn-gate-confirmar').addEventListener('click', async ()
       }
       gateBuffer = '';
       updateGateDisplay();
-      showToast(data.error || t('login.gate.wrong_code_generic'), true);
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || t('login.gate.wrong_code_generic'), true);
       btn.disabled = true;
     }
   } catch (e) {

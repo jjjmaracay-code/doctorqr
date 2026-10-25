@@ -6,10 +6,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#ff4444">
-<title>Atabeyapp · Recuperación</title>
+<title data-i18n="extra.3e64cae220dbad94">Atabeyapp · Recuperación</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/otpauth@9.5.1/dist/otpauth.umd.js" integrity="sha384-p+EjzujF9MpGx3yW9qH2b7Ns/r+sSH1CjRiAm65rspWqLl2AeaoQg9z0QHzv8zZj" crossorigin="anonymous"></script>
-<script src="/i18n/loader.js?v=13"></script>
+<script src="/i18n/loader.js?v=14"></script>
 
 <style>
   :root {
@@ -1005,7 +1005,7 @@ document.getElementById('btn-send-rec').addEventListener('click', async () => {
       body: JSON.stringify({ email: recEmail })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d.error || t('recovery.screen1.send_error'));
+    if (!r.ok) throw new Error((typeof uiServerMessage==='function'?uiServerMessage(d.error):d.error) || t('recovery.screen1.send_error'));
     showToast(t('recovery.screen1.code_sent_toast'));
   } catch (e) {
     showToast(e.message || t('recovery.screen1.send_error'), true);
@@ -1061,7 +1061,7 @@ document.getElementById('btn-verify-rec').addEventListener('click', async () => 
         if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
       }
       recBuffer=''; updateRecDisplay();
-      showToast(d.error || t('recovery.screen2.wrong_code_generic'), true);
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(d.error):d.error) || t('recovery.screen2.wrong_code_generic'), true);
       btn.disabled = false;
       btn.textContent = t('recovery.screen2.verify_button');
       return;
@@ -1086,7 +1086,7 @@ document.getElementById('btn-resend-rec').addEventListener('click', async () => 
       body: JSON.stringify({ email: recEmail })
     });
     const d = await r.json();
-    showToast(r.ok ? t('recovery.screen2.resend_success') : (d.error || t('recovery.screen2.resend_error_generic')), !r.ok);
+    showToast(r.ok ? t('recovery.screen2.resend_success') : ((typeof uiServerMessage==='function'?uiServerMessage(d.error):d.error) || t('recovery.screen2.resend_error_generic')), !r.ok);
   } catch (e) {
     showToast(t('recovery.common.connection_error'), true);
   }
@@ -1179,7 +1179,7 @@ document.getElementById('btn-reset').addEventListener('click', async () => {
       }
       if (recTwofaMethod === 'totp') { tfaBuf=''; updateCodeDisplay('tfa'); }
       else { tfaEmailBuf=''; updateCodeDisplay('tfaemail'); }
-      showToast(d.error || t('recovery.screen3.wrong_tfa_code'), true);
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(d.error):d.error) || t('recovery.screen3.wrong_tfa_code'), true);
       btn.disabled = false;
       btn.textContent = t('recovery.screen3.reset_button');
       return;

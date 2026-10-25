@@ -505,7 +505,7 @@ function ensureQRCodeLoaded() {
   if (document.getElementById('qr-spin-style')) return;
   const style = document.createElement('style');
   style.id = 'qr-spin-style';
-  style.textContent = '@keyframes qr-spin { to { transform: rotate(360deg); } }';
+  style.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.aac8691d20dcdb77","@keyframes qr-spin { to { transform: rotate(360deg); } }",[]);
   document.head.appendChild(style);
 })();
 
@@ -547,7 +547,7 @@ function showQRLoadError(wrap, url, type, sizePx, correctLevel) {
   `;
   const btn = document.createElement('button');
   btn.type = 'button';
-  btn.textContent = 'Reintentar';
+  btn.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a9254c5f812829af","Reintentar",[]);
   btn.style.cssText = `
     background:transparent;border:2px solid ${type.color};color:${type.color};
     font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
@@ -862,7 +862,7 @@ function buildStaleBanner() {
     border-radius:6px;padding:3px 8px;text-align:center;line-height:1.4;
     font-family:inherit;
   `;
-  b.textContent = '⏳ Posiblemente desactualizado — actualizando…';
+  b.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.ede49ddd5dd87733","⏳ Posiblemente desactualizado — actualizando…",[]);
   return b;
 }
 
@@ -994,7 +994,7 @@ function handleEmergencyQuickAccess() {
 function mostrarSinPerfilParaEmergencia() {
   const msgEl = document.getElementById('emergency-quick-msg');
   if (msgEl) {
-    msgEl.textContent = 'No hay ningún perfil guardado en este dispositivo. Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.';
+    msgEl.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.6cec6f26235cfad0","No hay ningún perfil guardado en este dispositivo. Si ya tienes una cuenta, inicia sesión para sincronizarlo aquí.",[]);
     msgEl.style.display = 'block';
     return;
   }
@@ -1012,36 +1012,7 @@ function mostrarSinPerfilParaEmergencia() {
   if (document.getElementById('eqv-style')) return;
   const style = document.createElement('style');
   style.id = 'eqv-style';
-  style.textContent = `
-    #emergency-quick-view{position:fixed;inset:0;z-index:9999;display:none;
-      background:#000;color:#fff;overflow-y:auto;
-      font-family:Inter,system-ui,sans-serif;}
-    .eqv-header{position:sticky;top:0;z-index:2;
-      background:rgba(0,0,0,0.92);backdrop-filter:blur(6px);
-      padding:16px;display:flex;align-items:center;justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,0.08);}
-    .eqv-title{font-size:12px;font-weight:900;letter-spacing:2.5px;
-      color:#12A5FF;text-shadow:0 0 8px #12A5FF;text-transform:uppercase;}
-    .eqv-close{background:transparent;border:1.5px solid rgba(255,255,255,0.35);
-      color:#fff;border-radius:20px;padding:8px 16px;font-size:11px;
-      font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;
-      font-family:inherit;}
-    .eqv-close:hover{background:rgba(255,255,255,0.08);}
-    .eqv-grid{display:flex;flex-direction:column;align-items:center;
-      gap:36px;padding:20px 20px 40px;max-width:480px;margin:0 auto;}
-    .eqv-card{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;}
-    .eqv-type-header{display:flex;align-items:center;justify-content:center;
-      gap:9px;width:100%;}
-    .eqv-type-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
-    .eqv-type-title{font-size:16px;font-weight:900;letter-spacing:1.2px;
-      text-transform:uppercase;text-align:center;line-height:1.25;}
-    .eqv-cover{position:relative;border-radius:30px;background:#0a1422;
-      display:flex;align-items:center;justify-content:center;overflow:hidden;}
-    .eqv-cover img, .eqv-cover canvas{width:90%;height:90%;object-fit:contain;
-      border-radius:10px;background:#fff;display:block;}
-    .eqv-name{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;
-      letter-spacing:0.3px;word-break:break-word;}
-  `;
+  style.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.69584882b10d35ad","\n    #emergency-quick-view{position:fixed;inset:0;z-index:9999;display:none;\n      background:#000;color:#fff;overflow-y:auto;\n      font-family:Inter,system-ui,sans-serif;}\n    .eqv-header{position:sticky;top:0;z-index:2;\n      background:rgba(0,0,0,0.92);backdrop-filter:blur(6px);\n      padding:16px;display:flex;align-items:center;justify-content:space-between;\n      border-bottom:1px solid rgba(255,255,255,0.08);}\n    .eqv-title{font-size:12px;font-weight:900;letter-spacing:2.5px;\n      color:#12A5FF;text-shadow:0 0 8px #12A5FF;text-transform:uppercase;}\n    .eqv-close{background:transparent;border:1.5px solid rgba(255,255,255,0.35);\n      color:#fff;border-radius:20px;padding:8px 16px;font-size:11px;\n      font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;\n      font-family:inherit;}\n    .eqv-close:hover{background:rgba(255,255,255,0.08);}\n    .eqv-grid{display:flex;flex-direction:column;align-items:center;\n      gap:36px;padding:20px 20px 40px;max-width:480px;margin:0 auto;}\n    .eqv-card{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;}\n    .eqv-type-header{display:flex;align-items:center;justify-content:center;\n      gap:9px;width:100%;}\n    .eqv-type-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}\n    .eqv-type-title{font-size:16px;font-weight:900;letter-spacing:1.2px;\n      text-transform:uppercase;text-align:center;line-height:1.25;}\n    .eqv-cover{position:relative;border-radius:30px;background:#0a1422;\n      display:flex;align-items:center;justify-content:center;overflow:hidden;}\n    .eqv-cover img, .eqv-cover canvas{width:90%;height:90%;object-fit:contain;\n      border-radius:10px;background:#fff;display:block;}\n    .eqv-name{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;\n      letter-spacing:0.3px;word-break:break-word;}\n  ",[]);
   document.head.appendChild(style);
 })();
 
@@ -1173,12 +1144,12 @@ function generateAllQRs() {
   const formData = getFormData();
 
   if (!formData.nombre && !formData.apellidos) {
-    alert('Completa al menos tu nombre y apellidos antes de generar los QR.');
+    alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.3c3feadba112b672","Completa al menos tu nombre y apellidos antes de generar los QR.",[]));
     return;
   }
 
   if (getOrCreateUserID() === 'UNKNOWN') {
-    alert('Tu sesión no tiene un ID de perfil válido.\nCierra sesión, vuelve a iniciarla y recarga la página.');
+    alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.0313fc5d5778a014","Tu sesión no tiene un ID de perfil válido.\nCierra sesión, vuelve a iniciarla y recarga la página.",[]));
     return;
   }
 
@@ -1236,7 +1207,7 @@ function generateAllQRs() {
 
 function printEmergencyQR() {
   if (getOrCreateUserID() === 'UNKNOWN') {
-    alert('No es posible imprimir el QR: tu perfil no tiene un ID válido.\nCierra sesión, vuelve a entrar y recarga la página.');
+    alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.d7ddd52db3987d78","No es posible imprimir el QR: tu perfil no tiene un ID válido.\nCierra sesión, vuelve a entrar y recarga la página.",[]));
     return;
   }
   const d = getFormData();

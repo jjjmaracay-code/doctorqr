@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Atabeyapp · Contacto">
 <meta name="theme-color" content="#12A5FF">
-<title>Atabeyapp · Contacto</title>
+<title data-i18n="extra.3cce1bacf4466e87">Atabeyapp · Contacto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
@@ -290,6 +290,7 @@
   }
 </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=1"/>
+<script src="/i18n/loader.js?v=14"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -456,80 +457,80 @@
 <!-- ===== FORMULARIO ===== -->
 <div class="main">
 
-  <div class="page-title">CONTACTO</div>
-  <div class="page-subtitle">Reclamaciones · Sugerencias · Soporte</div>
+  <div class="page-title"><span data-i18n="extra.c2bda6fd6059b54e">CONTACTO</span></div>
+  <div class="page-subtitle"><span data-i18n="extra.067b1af4b5396bc7">Reclamaciones · Sugerencias · Soporte</span></div>
 
   <!-- MENSAJE ÉXITO -->
   <div class="result-msg success" id="msg-success">
-    ✓ Mensaje enviado correctamente.<br>
-    Te responderemos en un plazo máximo de 48 horas.
+    <span data-i18n="extra.23a34ca6d2c42bde">✓ Mensaje enviado correctamente.</span><br>
+    <span data-i18n="extra.43ff416f0d70fc8c">Te responderemos en un plazo máximo de 48 horas.</span>
     <br><br>
     <button class="btn-back" onclick="window.location.href='index.html'">
-      VOLVER AL INICIO
+      <span data-i18n="extra.c6e988e18f111d90">VOLVER AL INICIO</span>
     </button>
   </div>
 
   <!-- MENSAJE ERROR -->
   <div class="result-msg error" id="msg-error">
-    ✕ Error al enviar. Inténtalo de nuevo.
+    <span data-i18n="extra.c79438fa2d0ae8d5">✕ Error al enviar. Inténtalo de nuevo.</span>
   </div>
 
   <div class="form-card" id="contact-form-card">
-    <div class="form-card-title">Tipo de mensaje</div>
+    <div class="form-card-title"><span data-i18n="extra.0896e12fac87a2ce">Tipo de mensaje</span></div>
 
     <div class="chips-tipo" id="chips-tipo">
-      <button class="chip-tipo" data-tipo="Reclamación">RECLAMACIÓN</button>
-      <button class="chip-tipo" data-tipo="Sugerencia">SUGERENCIA</button>
-      <button class="chip-tipo" data-tipo="Error técnico">ERROR TÉCNICO</button>
-      <button class="chip-tipo" data-tipo="Pregunta general">PREGUNTA GENERAL</button>
-      <button class="chip-tipo" data-tipo="Otro">OTRO</button>
+      <button class="chip-tipo" data-tipo="Reclamación"><span data-i18n="extra.d4b70aae73728ca6">RECLAMACIÓN</span></button>
+      <button class="chip-tipo" data-tipo="Sugerencia"><span data-i18n="extra.aea0329f68ed1b8a">SUGERENCIA</span></button>
+      <button class="chip-tipo" data-tipo="Error técnico"><span data-i18n="extra.ad4bbfa2ba3c51da">ERROR TÉCNICO</span></button>
+      <button class="chip-tipo" data-tipo="Pregunta general"><span data-i18n="extra.b0c7936d14b93533">PREGUNTA GENERAL</span></button>
+      <button class="chip-tipo" data-tipo="Otro"><span data-i18n="extra.f6e84ddccf597369">OTRO</span></button>
     </div>
   </div>
 
   <div class="form-card" id="contact-fields-card">
-    <div class="form-card-title">Tus datos de contacto</div>
+    <div class="form-card-title"><span data-i18n="extra.fb91c0da6a7a2015">Tus datos de contacto</span></div>
 
     <div class="field">
-      <div class="field-label">Nombre completo *</div>
+      <div class="field-label"><span data-i18n="extra.15d38639eebe5ebc">Nombre completo *</span></div>
       <input type="text" class="field-input" id="inp-nombre"
-        placeholder="Tu nombre completo" autocomplete="name">
+        placeholder="Tu nombre completo" autocomplete="name" data-i18n-placeholder="extra.9d6288a8165c2fd9">
     </div>
 
     <div class="field">
-      <div class="field-label">Email de contacto *</div>
+      <div class="field-label"><span data-i18n="extra.fe9bfd5886cb6440">Email de contacto *</span></div>
       <input type="email" class="field-input" id="inp-email"
-        placeholder="tu@email.com" autocomplete="email">
+        placeholder="tu@email.com" autocomplete="email" data-i18n-placeholder="extra.111ab10c43158fd8">
     </div>
 
     <div class="field">
-      <div class="field-label">Asunto *</div>
+      <div class="field-label"><span data-i18n="extra.7e6253c718b33e36">Asunto *</span></div>
       <input type="text" class="field-input" id="inp-asunto"
-        placeholder="Describe brevemente el motivo">
+        placeholder="Describe brevemente el motivo" data-i18n-placeholder="extra.1f7b633eeb7e571f">
     </div>
 
     <div class="field">
-      <div class="field-label">Mensaje *</div>
+      <div class="field-label"><span data-i18n="extra.40f396e652d6249b">Mensaje *</span></div>
       <textarea class="field-textarea" id="inp-mensaje"
         placeholder="Describe tu mensaje con el mayor detalle posible (mínimo 20 caracteres)"></textarea>
-      <div class="char-count" id="char-count">0 / mín. 20 caracteres</div>
+      <div class="char-count" id="char-count"><span data-i18n="extra.6f7fe55088c116f0">0 / mín. 20 caracteres</span></div>
     </div>
 
     <div class="checkbox-row">
       <input type="checkbox" id="chk-privacidad">
       <label class="checkbox-label" for="chk-privacidad">
-        He leído y acepto la política de privacidad de Atabeyapp.
-        Mis datos serán utilizados exclusivamente para dar respuesta a esta consulta.
+        <span data-i18n="extra.165102588c6d781c">He leído y acepto la política de privacidad de Atabeyapp.
+        Mis datos serán utilizados exclusivamente para dar respuesta a esta consulta.</span>
       </label>
     </div>
 
     <!-- CAPTCHA hCaptcha (Web3Forms — protección anti-spam) -->
     <div class="h-captcha" data-sitekey="f086c42c-488a-49a8-b02a-1198b010388a" style="margin-bottom:14px;"></div>
     <div class="result-msg error" id="msg-captcha" style="display:none;margin-bottom:14px;">
-      ✕ Por favor, completa el captcha antes de enviar.
+      <span data-i18n="extra.1e73a83733bd6d0e">✕ Por favor, completa el captcha antes de enviar.</span>
     </div>
 
     <button class="btn-primary" id="btn-enviar" disabled>
-      ENVIAR MENSAJE
+      <span data-i18n="extra.54013f3049d018b5">ENVIAR MENSAJE</span>
     </button>
   </div>
 
@@ -599,7 +600,7 @@
     document.getElementById('msg-captcha').style.display = 'none';
 
     btn.disabled = true;
-    btn.textContent = 'ENVIANDO…';
+    btn.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a942c80f7a6b5944","ENVIANDO…",[]);
 
     document.getElementById('msg-success').style.display = 'none';
     document.getElementById('msg-error').style.display = 'none';
@@ -635,7 +636,7 @@
     } catch(e) {
       document.getElementById('msg-error').style.display = 'block';
       btn.disabled = false;
-      btn.textContent = 'ENVIAR MENSAJE';
+      btn.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.54013f3049d018b5","ENVIAR MENSAJE",[]);
       // El token de hCaptcha es de un solo uso: reiniciar para permitir reintento
       if (typeof hcaptcha !== 'undefined' && hcaptcha.reset) hcaptcha.reset();
     }
@@ -645,3 +646,4 @@
 <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </body>
 </html>
+

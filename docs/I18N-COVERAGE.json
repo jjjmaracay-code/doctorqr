@@ -1,269 +1,123 @@
 {
+  "target": [
+    "es",
+    "en",
+    "fr",
+    "de",
+    "pt",
+    "eu",
+    "hi",
+    "zh",
+    "ru",
+    "ja",
+    "ar"
+  ],
+  "excluded": [
+    "ca",
+    "gl"
+  ],
+  "sourceKeyCount": 1602,
   "languages": {
     "es": {
-      "name": "Español",
-      "keys": 1013,
-      "ready": true,
-      "missingKeyCount": 0,
-      "missingKeyExamples": []
-    },
-    "ca": {
-      "name": "Català",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
-    },
-    "eu": {
-      "name": "Euskara",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
-    },
-    "gl": {
-      "name": "Galego",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "c217c8aebeb6a14d5484d35a37565946dd0c1160d47c9bb3bf1168f06d516576"
     },
     "en": {
-      "name": "English",
-      "keys": 1013,
-      "ready": true,
-      "missingKeyCount": 0,
-      "missingKeyExamples": []
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "9919431f104209cfafa2b74d2222b022bf613cd33ebd1fbac4cc0c00428d7ceb"
     },
     "fr": {
-      "name": "Français",
-      "keys": 1013,
-      "ready": true,
-      "missingKeyCount": 0,
-      "missingKeyExamples": []
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "d3a5b47cba667b20b57d4601df5f58ffb17402c906ac8e4526895b61ff9f09cb"
     },
     "de": {
-      "name": "Deutsch",
-      "keys": 1013,
-      "ready": true,
-      "missingKeyCount": 0,
-      "missingKeyExamples": []
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "3e435ba67b60458a75d4d633365fc2d73d357e88589899442a5a5feda1a29106"
     },
     "pt": {
-      "name": "Português",
-      "keys": 1013,
-      "ready": true,
-      "missingKeyCount": 0,
-      "missingKeyExamples": []
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "947612fce58606b7411c3b1b997b05ceab6f984fd6f7d9f4cb1f20215894a6d8"
+    },
+    "eu": {
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "76412582049772aee7aa6100b4ddcdd6431e74acc5e90cb32b3b3331aad72b8a"
     },
     "hi": {
-      "name": "हिन्दी",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "26fbfbe907fa7429a6e4fce32c8dd188afbb0a88d3a7a14fbce0413a71cd6d4a"
     },
     "zh": {
-      "name": "简体中文",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "431f1d26ff058b33d97764fbf953637af2e90add8ed6b58fbeec9c9bd9aa6fcd"
     },
     "ru": {
-      "name": "Русский",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "76ce995aabae732b0633c9b93ad7d3392c7ecf8130bc5fc296aba302ec341d65"
     },
     "ja": {
-      "name": "日本語",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "b995f1ba88abc72f331707e5d33414d246f9277117b07b7a5d07b7fc871e466d"
     },
     "ar": {
-      "name": "العربية",
-      "keys": 0,
-      "ready": false,
-      "missingKeyCount": 1013,
-      "missingKeyExamples": [
-        "audit.medication_detail",
-        "audit.medication_note",
-        "audit.reproductive_note",
-        "audit.reproductive_review",
-        "index.alerts.meteoalarm_desc",
-        "index.alerts.meteoalarm_title",
-        "index.alerts.proteccioncivil_desc",
-        "index.alerts.proteccioncivil_title",
-        "index.alerts.section_desc",
-        "index.alerts.section_title",
-        "index.alerts.usgs_desc",
-        "index.alerts.usgs_title",
-        "index.chipval.aas",
-        "index.chipval.acaros",
-        "index.chipval.actividad_leve_caminar"
-      ]
+      "keys": 1602,
+      "missingKeys": [],
+      "sha256": "70ffe4c308bad6e4dad452e077350758ea6bea537571083be84dc23ed56f0fa6"
     }
   },
   "pages": {
     "privacy.html": {
-      "hasLoader": false,
-      "markedTexts": 0
+      "translationSystem": "application",
+      "markedTexts": 130
     },
     "eliminar-cuenta.html": {
-      "hasLoader": false,
-      "markedTexts": 0
+      "translationSystem": "application",
+      "markedTexts": 19
     },
     "card.html": {
-      "hasLoader": false,
+      "translationSystem": "qr-reader",
       "markedTexts": 0
     },
     "paywall.html": {
-      "hasLoader": false,
-      "markedTexts": 0
-    },
-    "recovery.html": {
-      "hasLoader": true,
-      "markedTexts": 45
-    },
-    "register.html": {
-      "hasLoader": true,
-      "markedTexts": 158
-    },
-    "emergencia.html": {
-      "hasLoader": false,
-      "markedTexts": 0
-    },
-    "contacto.html": {
-      "hasLoader": false,
-      "markedTexts": 0
-    },
-    "login.html": {
-      "hasLoader": true,
+      "translationSystem": "application",
       "markedTexts": 35
     },
+    "recovery.html": {
+      "translationSystem": "application",
+      "markedTexts": 46
+    },
+    "register.html": {
+      "translationSystem": "application",
+      "markedTexts": 159
+    },
+    "emergencia.html": {
+      "translationSystem": "application",
+      "markedTexts": 2
+    },
+    "contacto.html": {
+      "translationSystem": "application",
+      "markedTexts": 25
+    },
+    "login.html": {
+      "translationSystem": "application",
+      "markedTexts": 49
+    },
     "install.html": {
-      "hasLoader": false,
-      "markedTexts": 0
+      "translationSystem": "application",
+      "markedTexts": 36
     },
     "index.html": {
-      "hasLoader": true,
-      "markedTexts": 781
+      "translationSystem": "application",
+      "markedTexts": 962
     }
   }
 }

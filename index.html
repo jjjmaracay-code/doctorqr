@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es" data-app-release="12">
+<html lang="es" data-app-release="14">
 <head>
-<script src="/js/birthdate.js?v=12"></script>
+<script src="/js/birthdate.js?v=14"></script>
 <script src="/js/medical-owner.js?v=12"></script>
-<script src="/js/profile-sync.js?v=12"></script>
+<script src="/js/profile-sync.js?v=14"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-title" content="Atabeyapp"/>
-  <title>Atabeyapp · Tu historial médico en un QR</title>
+  <title data-i18n="extra.c83bbb41f830c590">Atabeyapp · Tu historial médico en un QR</title>
   <meta name="description" content="No es un juguete. No es un adorno. Es tu historial médico, listo para una emergencia real. Atabeyapp. Crea tu código QR médico, gratis 30 días.">
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
@@ -23,8 +23,8 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=13"></script>
-  <script src="i18n/loader.js?v=13"></script>
+  <script src="/js/register-sw.js?v=14"></script>
+  <script src="i18n/loader.js?v=14"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
     .btn-menu-hamburguesa {
@@ -172,7 +172,7 @@
       50% { transform: scale(1.1); }
     }
   </style>
-  <link rel="stylesheet" href="css/atabey-refresh.css?v=12"/>
+  <link rel="stylesheet" href="css/atabey-refresh.css?v=14"/>
 </head>
 <body data-atabey-ui="editor">
 
@@ -257,7 +257,7 @@
               <circle cx="19.5" cy="16" r="1.3" fill="#000"/><circle cx="32.5" cy="16" r="1.3" fill="#000"/>
               <circle cx="27" cy="9" r="3.5" fill="#ffd700" opacity="0.85"/>
             </svg>
-            <div style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;color:#ffd700;text-shadow:0 0 16px rgba(255,215,0,0.35);margin-bottom:8px;">Pro</div>
+            <div style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;color:#ffd700;text-shadow:0 0 16px rgba(255,215,0,0.35);margin-bottom:8px;"><span data-i18n="extra.957b0b874524d09a">Pro</span></div>
             <div style="font-size:36px;font-weight:900;color:#fff;line-height:1;"><span style="font-size:18px;vertical-align:top;margin-top:6px;display:inline-block;">€</span>4<span style="font-size:20px;">.99</span></div>
             <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:14px;" data-i18n="index.plans.pro_period">al mes · cancela cuando quieras</div>
           </div>
@@ -286,7 +286,7 @@
               <line x1="58" y1="32" x2="38" y2="36" stroke="#ff9999" stroke-width="0.9" opacity="0.5"/>
               <line x1="38" y1="8" x2="58" y2="32" stroke="#ff6666" stroke-width="1.8" opacity="0.75"/>
             </svg>
-            <div style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;color:#ff3333;text-shadow:0 0 16px rgba(255,51,51,0.4);margin-bottom:8px;">Lifetime</div>
+            <div style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;color:#ff3333;text-shadow:0 0 16px rgba(255,51,51,0.4);margin-bottom:8px;"><span data-i18n="extra.bdcd897ab8ed5859">Lifetime</span></div>
             <div style="font-size:36px;font-weight:900;color:#fff;line-height:1;"><span style="font-size:18px;vertical-align:top;margin-top:6px;display:inline-block;">€</span>29<span style="font-size:20px;">.99</span></div>
             <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:14px;" data-i18n="index.plans.lifetime_period">pago único · tuyo para siempre</div>
           </div>
@@ -535,17 +535,17 @@
   <!-- ===== BARRA DE TABS — NAVEGACIÓN RÁPIDA ENTRE SECCIONES DEL FORMULARIO ===== -->
   <div class="form-tabs-bar" id="form-tabs-bar">
     <button class="form-tab-btn form-tab-btn-wide" id="btn-tab-inicio">⌂</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-1">1 · Idiomas</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-2">2 · Físico</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-1"><span data-i18n="extra.b5390e8eed31f151">1 · Idiomas</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-2"><span data-i18n="extra.db94303c0b964268">2 · Físico</span></button>
     <button class="form-tab-btn form-tab-btn-wide" data-target="sec-3">3 · ID</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-4">4 · Crítico</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-5">5 · Enferm.</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-6">6 · Meds</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-7">7 · Cirugía</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-8">8 · Vacunas</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-9">9 · Religión</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-10">10 · Contacto</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-11">11 · Médico</button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-4"><span data-i18n="extra.1202aebed66231cf">4 · Crítico</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-5"><span data-i18n="extra.4fef76349427a819">5 · Enferm.</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-6"><span data-i18n="extra.6036340eac9afb6f">6 · Meds</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-7"><span data-i18n="extra.78d696456cf3d554">7 · Cirugía</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-8"><span data-i18n="extra.9caebbdf9994083e">8 · Vacunas</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-9"><span data-i18n="extra.c97906d9215d77aa">9 · Religión</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-10"><span data-i18n="extra.45ac253b2666ab8e">10 · Contacto</span></button>
+    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-11"><span data-i18n="extra.64cfdc761d81ccf2">11 · Médico</span></button>
   </div>
   <div class="form-tabs-labels" id="form-tabs-labels"></div>
 
@@ -648,7 +648,7 @@
               border-radius:10px;color:#12A5FF;
               font-family:inherit;font-size:13px;
               padding:10px 14px;box-sizing:border-box;
-              outline:none"/>
+              outline:none" data-i18n-placeholder="extra.3b5d0bb339886971"/>
           </div>
         </div>
         <div class="field">
@@ -699,18 +699,18 @@
         <div class="form-group" id="pregnancy-weeks-block" style="display:none">
           <div class="field-label" data-i18n="index.physical.pregnancy_weeks_label">SEMANAS DE EMBARAZO</div>
           <select id="pregnancy-weeks" data-sino-target="embarazo sexo-biologico">
-            <option value="">— Selecciona —</option>
-            <option>1-4 semanas (mes 1)</option>
-            <option>5-8 semanas (mes 2)</option>
-            <option>9-12 semanas (mes 3)</option>
-            <option>13-16 semanas (mes 4)</option>
-            <option>17-20 semanas (mes 5)</option>
-            <option>21-24 semanas (mes 6)</option>
-            <option>25-28 semanas (mes 7)</option>
-            <option>29-32 semanas (mes 8)</option>
-            <option>33-36 semanas (mes 9)</option>
-            <option>37-40 semanas (a término)</option>
-            <option>Más de 40 semanas</option>
+            <option value="" data-i18n="extra.088bdb78687dd65e">— Selecciona —</option>
+            <option data-i18n="extra.94d75923cee1358b" value="1-4 semanas (mes 1)">1-4 semanas (mes 1)</option>
+            <option data-i18n="extra.9854cdd914facb5a" value="5-8 semanas (mes 2)">5-8 semanas (mes 2)</option>
+            <option data-i18n="extra.7143d9721313434f" value="9-12 semanas (mes 3)">9-12 semanas (mes 3)</option>
+            <option data-i18n="extra.628937ed4af9b1cb" value="13-16 semanas (mes 4)">13-16 semanas (mes 4)</option>
+            <option data-i18n="extra.10a400d633ac1527" value="17-20 semanas (mes 5)">17-20 semanas (mes 5)</option>
+            <option data-i18n="extra.ab2f9d83fcd5aa26" value="21-24 semanas (mes 6)">21-24 semanas (mes 6)</option>
+            <option data-i18n="extra.ef796d5c846705a0" value="25-28 semanas (mes 7)">25-28 semanas (mes 7)</option>
+            <option data-i18n="extra.c99e401b126f2416" value="29-32 semanas (mes 8)">29-32 semanas (mes 8)</option>
+            <option data-i18n="extra.3df16c73940898c0" value="33-36 semanas (mes 9)">33-36 semanas (mes 9)</option>
+            <option data-i18n="extra.31b546bf185cb5ea" value="37-40 semanas (a término)">37-40 semanas (a término)</option>
+            <option data-i18n="extra.92eab65b0153f8ba" value="Más de 40 semanas">Más de 40 semanas</option>
           </select>
         </div>
         <div class="form-group" id="field-lactancia">
@@ -728,7 +728,7 @@
             <div class="chip" data-i18n="index.chipval.no_aplica" data-value="No aplica">No aplica</div>
           </div>
           <div id="semanas-gestacion-input-wrap">
-            <input type="number" id="f-semanas-gestacion" data-sino-target="sexo-biologico" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término"/>
+            <input type="number" id="f-semanas-gestacion" data-sino-target="sexo-biologico" min="22" max="45" placeholder="Ej: 28 (prematura) · dejar vacío si fue a término" data-i18n-placeholder="extra.6c84c2455253e5e9"/>
             <div class="field-hint" data-i18n="index.physical.gestation_weeks_hint">Relevante para prematuros — afecta dosis y desarrollo</div>
           </div>
         </div>
@@ -738,7 +738,7 @@
             <div class="chip" data-i18n="index.chipval.no_aplica" data-value="No aplica">No aplica</div>
           </div>
           <div id="semanas-lactancia-input-wrap">
-            <input type="number" id="f-semanas-lactancia" data-sino-target="sexo-biologico" min="0" max="200" placeholder="Ej: 6 semanas"/>
+            <input type="number" id="f-semanas-lactancia" data-sino-target="sexo-biologico" min="0" max="200" placeholder="Ej: 6 semanas" data-i18n-placeholder="extra.0cfac199dede7ab5"/>
             <div class="field-hint" data-i18n="index.physical.breastfeeding_weeks_hint">Duración de la lactancia actual — relevante para medicamentos</div>
           </div>
         </div>
@@ -765,10 +765,10 @@
               <div class="chip" data-i18n="index.chipval.mas_otro" data-value="Otro">+ Otro</div>
             </div>
             <div id="advance-directive-otro-wrap" style="display:none;margin-top:8px">
-              <input type="text" id="f-advance-directive-otro" data-sino-target="advance-directive" placeholder="Especifica la instrucción..."/>
+              <input type="text" id="f-advance-directive-otro" data-sino-target="advance-directive" placeholder="Especifica la instrucción..." data-i18n-placeholder="extra.f946b099cc54fa5e"/>
             </div>
             <div class="field-label" data-i18n="index.physical.advance_directive_location_label" style="margin-top:14px;margin-bottom:6px">UBICACIÓN DEL DOCUMENTO</div>
-            <input type="text" id="f-advance-directive-ubicacion" data-sino-target="advance-directive" placeholder="Ej: Notaría X, en casa cajón Y, Registro Nacional de Instrucciones Previas"/>
+            <input type="text" id="f-advance-directive-ubicacion" data-sino-target="advance-directive" placeholder="Ej: Notaría X, en casa cajón Y, Registro Nacional de Instrucciones Previas" data-i18n-placeholder="extra.f8c2ce45711a23c7"/>
           </div>
         </div>
       </div>
@@ -783,12 +783,12 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label" data-i18n="index.identification.full_name_label">Nombre completo</div>
-          <input type="text" id="f-name" placeholder="Juan García López" readonly/>
+          <input type="text" id="f-name" placeholder="Juan García López" readonly data-i18n-placeholder="extra.1b650805c171001d"/>
         </div>
         <div class="field">
           <div class="field-label" data-i18n="index.identification.birthdate_label">Fecha de nacimiento</div>
           <input type="hidden" id="f-birthdate"/>
-          <input type="text" id="f-birthdate-readable" readonly aria-label="Fecha de nacimiento"/>
+          <input type="text" id="f-birthdate-readable" readonly aria-label="Fecha de nacimiento" data-i18n-aria="extra.363aece88d7e04fa"/>
         </div>
         <!-- TIPO DOCUMENTO -->
         <div class="form-group">
@@ -832,24 +832,24 @@
           <div class="field-label" data-i18n="register.screen2.doc_type_pasaporte">PASAPORTE</div>
           <div class="phone-field">
             <select id="passport-country" onchange="updatePassportHint()">
-              <option value="es">🇪🇸 España</option>
-              <option value="fr">🇫🇷 Francia</option>
-              <option value="de">🇩🇪 Alemania</option>
-              <option value="it">🇮🇹 Italia</option>
-              <option value="pt">🇵🇹 Portugal</option>
-              <option value="gb">🇬🇧 Reino Unido</option>
-              <option value="us">🇺🇸 EEUU</option>
-              <option value="mx">🇲🇽 México</option>
-              <option value="ar">🇦🇷 Argentina</option>
-              <option value="co">🇨🇴 Colombia</option>
-              <option value="other">🌍 Otro país</option>
+              <option value="es" data-i18n="extra.3af07f11b78b0961">🇪🇸 España</option>
+              <option value="fr" data-i18n="extra.6a26864a4226f1b4">🇫🇷 Francia</option>
+              <option value="de" data-i18n="extra.2c554157e744eda3">🇩🇪 Alemania</option>
+              <option value="it" data-i18n="extra.27bf5b9617bbdf3f">🇮🇹 Italia</option>
+              <option value="pt" data-i18n="extra.2117b1ce36d502fc">🇵🇹 Portugal</option>
+              <option value="gb" data-i18n="extra.22ec083ff0c926a7">🇬🇧 Reino Unido</option>
+              <option value="us" data-i18n="extra.204f2e55524d3041">🇺🇸 EEUU</option>
+              <option value="mx" data-i18n="extra.a7972893ff13f99f">🇲🇽 México</option>
+              <option value="ar" data-i18n="extra.a7bbf490c2d4b93c">🇦🇷 Argentina</option>
+              <option value="co" data-i18n="extra.9d37abd9918c70c3">🇨🇴 Colombia</option>
+              <option value="other" data-i18n="extra.5e9e268a2082b07c">🌍 Otro país</option>
             </select>
             <input type="text" id="input-pasaporte" maxlength="20"
               placeholder="AAA123456"
-              oninput="validatePassport(this)" readonly/>
+              oninput="validatePassport(this)" readonly data-i18n-placeholder="extra.8f880dfd9a83bc36"/>
           </div>
           <div class="field-hint" id="hint-pasaporte">
-            Formato España: 3 letras + 6 dígitos — ejemplo: AAA123456
+            <span data-i18n="extra.59b5f718f29a455e">Formato España: 3 letras + 6 dígitos — ejemplo: AAA123456</span>
           </div>
           <div class="field-warning" id="warn-pasaporte" data-i18n="index.identification.passport_warning" style="display:none">
             ⚠ Formato no coincide con el país seleccionado — verifica el número
@@ -884,61 +884,61 @@
           <div class="email-field" style="display:flex;align-items:center;gap:6px;">
             <input type="text" id="email-alias"
               placeholder="tunombre"
-              style="flex:1;min-width:0" readonly/>
+              style="flex:1;min-width:0" readonly data-i18n-placeholder="extra.3d32f018cf3c7c88"/>
             <span style="color:#12A5FF;font-size:18px;font-weight:900;
                          text-shadow:0 0 8px #12A5FF;flex-shrink:0">@</span>
             <select id="email-domain" onchange="toggleCustomDomain()"
               style="flex:1;min-width:0">
-              <option value="gmail.com">gmail.com</option>
-              <option value="hotmail.com">hotmail.com</option>
-              <option value="outlook.com">outlook.com</option>
-              <option value="yahoo.com">yahoo.com</option>
-              <option value="icloud.com">icloud.com</option>
-              <option value="protonmail.com">protonmail.com</option>
-              <option value="live.com">live.com</option>
-              <option value="msn.com">msn.com</option>
-              <option value="googlemail.com">googlemail.com</option>
-              <option value="yahoo.es">yahoo.es</option>
-              <option value="hotmail.es">hotmail.es</option>
-              <option value="terra.es">terra.es</option>
-              <option value="telefonica.net">telefonica.net</option>
-              <option value="movistar.es">movistar.es</option>
-              <option value="orange.es">orange.es</option>
-              <option value="gmx.com">gmx.com</option>
-              <option value="gmx.es">gmx.es</option>
-              <option value="tutanota.com">tutanota.com</option>
-              <option value="yandex.com">yandex.com</option>
-              <option value="mail.com">mail.com</option>
-              <option value="zoho.com">zoho.com</option>
-              <option value="custom">✏ Otro dominio...</option>
+              <option value="gmail.com" data-i18n="extra.591bfe88c880df96">gmail.com</option>
+              <option value="hotmail.com" data-i18n="extra.f81e0a262b0f3b39">hotmail.com</option>
+              <option value="outlook.com" data-i18n="extra.06ae6b52ed986ed5">outlook.com</option>
+              <option value="yahoo.com" data-i18n="extra.b33960790a6de22c">yahoo.com</option>
+              <option value="icloud.com" data-i18n="extra.98094d8ac24edb4c">icloud.com</option>
+              <option value="protonmail.com" data-i18n="extra.3e2ae79c33547fe9">protonmail.com</option>
+              <option value="live.com" data-i18n="extra.e4a000438535d167">live.com</option>
+              <option value="msn.com" data-i18n="extra.7795a0faae5ae2c8">msn.com</option>
+              <option value="googlemail.com" data-i18n="extra.38c27a992c92962e">googlemail.com</option>
+              <option value="yahoo.es" data-i18n="extra.1586cb5ffaafa268">yahoo.es</option>
+              <option value="hotmail.es" data-i18n="extra.f3e1ce41e28266ce">hotmail.es</option>
+              <option value="terra.es" data-i18n="extra.6d68f4a39a2fd869">terra.es</option>
+              <option value="telefonica.net" data-i18n="extra.d56965cf21b90185">telefonica.net</option>
+              <option value="movistar.es" data-i18n="extra.1cb285c1b6dc6aee">movistar.es</option>
+              <option value="orange.es" data-i18n="extra.1baa7744436f3b54">orange.es</option>
+              <option value="gmx.com" data-i18n="extra.fb1a8477d681c97d">gmx.com</option>
+              <option value="gmx.es" data-i18n="extra.f04e6dcd272bc2a4">gmx.es</option>
+              <option value="tutanota.com" data-i18n="extra.3a4908053810a15a">tutanota.com</option>
+              <option value="yandex.com" data-i18n="extra.c3b2f6305fe63941">yandex.com</option>
+              <option value="mail.com" data-i18n="extra.48bf93ce6376a670">mail.com</option>
+              <option value="zoho.com" data-i18n="extra.14e0dae7a689043f">zoho.com</option>
+              <option value="custom" data-i18n="extra.e756f67c38f9bbea">✏ Otro dominio...</option>
             </select>
           </div>
           <input type="text" id="email-custom-domain"
             placeholder="midominio.com"
-            style="display:none;margin-top:8px;width:100%" readonly/>
+            style="display:none;margin-top:8px;width:100%" readonly data-i18n-placeholder="extra.5e944b69c22e36c8"/>
           <div class="field-hint" data-i18n="index.identification.email_hint">Ejemplo: tunombre@gmail.com</div>
         </div>
         <div class="field">
           <div class="field-label" data-i18n="index.identification.preferred_lang_label">Idioma preferido</div>
           <select id="f-lang">
-            <option value="es">ES — Español</option>
-            <option value="en">EN — English</option>
-            <option value="fr">FR — Français</option>
-            <option value="de">DE — Deutsch</option>
-            <option value="it">IT — Italiano</option>
-            <option value="pt">PT — Português</option>
+            <option value="es" data-i18n="extra.c3e00d64a4b539d5">ES — Español</option>
+            <option value="en" data-i18n="extra.2776c1e40c52a7cb">EN — English</option>
+            <option value="fr" data-i18n="extra.bb47309d6e5fecd6">FR — Français</option>
+            <option value="de" data-i18n="extra.ddab5084880ab6aa">DE — Deutsch</option>
+            <option value="it" data-i18n="extra.8590f8944b3472d5">IT — Italiano</option>
+            <option value="pt" data-i18n="extra.365f0a7fb09d10e1">PT — Português</option>
             <option value="ar">AR — العربية</option>
             <option value="zh">ZH — 中文</option>
             <option value="ru">RU — Русский</option>
-            <option value="pl">PL — Polski</option>
-            <option value="ro">RO — Română</option>
+            <option value="pl" data-i18n="extra.5e1c891937284b6e">PL — Polski</option>
+            <option value="ro" data-i18n="extra.b664fac2073ff6e6">RO — Română</option>
             <option value="uk">UK — Українська</option>
-            <option value="nl">NL — Nederlands</option>
-            <option value="sv">SV — Svenska</option>
-            <option value="tr">TR — Türkçe</option>
+            <option value="nl" data-i18n="extra.1cfb7b20e4b112e0">NL — Nederlands</option>
+            <option value="sv" data-i18n="extra.97b9f4e927466547">SV — Svenska</option>
+            <option value="tr" data-i18n="extra.9f99646d58ea194f">TR — Türkçe</option>
             <option value="ja">JA — 日本語</option>
             <option value="hi">HI — हिन्दी</option>
-            <option value="other">Otro idioma</option>
+            <option value="other" data-i18n="extra.e7ef1077da12ca46">Otro idioma</option>
           </select>
         </div>
       </div>
@@ -954,7 +954,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.critical.blood_type_label">Tipo de sangre</div>
           <select id="f-blood">
-            <option value="">— Selecciona —</option>
+            <option value="" data-i18n="extra.088bdb78687dd65e">— Selecciona —</option>
             <option value="A+">A+</option>
             <option value="A-">A-</option>
             <option value="B+">B+</option>
@@ -968,7 +968,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.critical.allergy_med_label">Alergias a medicamentos</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="allergy-med" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.aas" data-value="AAS">AAS</div>
@@ -1021,7 +1021,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.critical.allergy_food_label">Alergias alimentarias</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="allergy-food" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.altramuces" data-value="Altramuces">Altramuces</div>
@@ -1051,7 +1051,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.critical.allergy_env_label">Alergias ambientales</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="allergy-env" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.acaros" data-value="Ácaros">Ácaros</div>
@@ -1069,7 +1069,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.critical.allergy_insect_label">Venenos de insecto</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="allergy-insect" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.picadura_abeja" data-value="Picadura abeja">Picadura abeja</div>
@@ -1085,7 +1085,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.critical.allergy_anesthesia_label">Alergias a anestesia</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="allergy-anesthesia" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.anestesia_general" data-value="Anestesia general">Anestesia general</div>
@@ -1138,7 +1138,7 @@
                 border-radius:10px;color:#12A5FF;
                 font-family:inherit;font-size:13px;
                 padding:10px 14px;box-sizing:border-box;
-                outline:none"/>
+                outline:none" data-i18n-placeholder="extra.d570e353d865d3d0"/>
             </div>
           </div>
         </div>
@@ -1188,7 +1188,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.conditions.diseases_label">Enfermedades crónicas</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="diseases" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.alzheimer" data-value="Alzheimer">Alzheimer</div>
@@ -1255,7 +1255,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.conditions.conditions_label">Condiciones especiales</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="conditions" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.bomba_insulina" data-value="Bomba insulina">Bomba insulina</div>
@@ -1299,24 +1299,24 @@
           <div class="field-hint" data-i18n="index.conditions.paises_hint" style="margin-bottom:12px">Relevante para enfermedades tropicales y exposiciones endémicas</div>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div>
-              <div class="form-sublabel">1º — ÚLTIMO PAÍS VISITADO</div>
+              <div class="form-sublabel"><span data-i18n="extra.5c6fe2fb8f44ecee">1º — ÚLTIMO PAÍS VISITADO</span></div>
               <div style="display:flex;gap:8px;align-items:center">
                 <select id="country-visit-1" class="form-select"></select>
-                <input type="number" id="year-visit-1" min="2022" placeholder="Año"/>
+                <input type="number" id="year-visit-1" min="2022" placeholder="Año" data-i18n-placeholder="extra.9100502b8574b07b"/>
               </div>
             </div>
             <div>
-              <div class="form-sublabel">2º — PENÚLTIMO PAÍS VISITADO</div>
+              <div class="form-sublabel"><span data-i18n="extra.d6ed7328793b992f">2º — PENÚLTIMO PAÍS VISITADO</span></div>
               <div style="display:flex;gap:8px;align-items:center">
                 <select id="country-visit-2" class="form-select"></select>
-                <input type="number" id="year-visit-2" min="2022" placeholder="Año"/>
+                <input type="number" id="year-visit-2" min="2022" placeholder="Año" data-i18n-placeholder="extra.9100502b8574b07b"/>
               </div>
             </div>
             <div>
-              <div class="form-sublabel">3º — ANTEPENÚLTIMO PAÍS VISITADO</div>
+              <div class="form-sublabel"><span data-i18n="extra.0951975e7a705073">3º — ANTEPENÚLTIMO PAÍS VISITADO</span></div>
               <div style="display:flex;gap:8px;align-items:center">
                 <select id="country-visit-3" class="form-select"></select>
-                <input type="number" id="year-visit-3" min="2022" placeholder="Año"/>
+                <input type="number" id="year-visit-3" min="2022" placeholder="Año" data-i18n-placeholder="extra.9100502b8574b07b"/>
               </div>
             </div>
           </div>
@@ -1336,7 +1336,7 @@
             <div class="chip" data-i18n="index.chipval.no" data-value="No" data-sino="no" onclick="checkAcv(this)">No</div>
           </div>
           <div id="acv-year-wrap" style="display:none;margin-top:8px">
-            <input type="number" id="f-acv-year" data-sino-target="acv-previo" min="1950" max="2026" placeholder="Año aproximado"/>
+            <input type="number" id="f-acv-year" data-sino-target="acv-previo" min="1950" max="2026" placeholder="Año aproximado" data-i18n-placeholder="extra.ab6c641c71352c74"/>
           </div>
         </div>
         <div class="field">
@@ -1346,7 +1346,7 @@
             <div class="chip" data-i18n="index.chipval.no" data-value="No" data-sino="no" onclick="checkStents(this)">No</div>
           </div>
           <div id="stents-year-wrap" style="display:none;margin-top:8px">
-            <input type="number" id="f-stents-year" data-sino-target="stents" min="1950" max="2026" placeholder="Año de implantación"/>
+            <input type="number" id="f-stents-year" data-sino-target="stents" min="1950" max="2026" placeholder="Año de implantación" data-i18n-placeholder="extra.98acdb9db35c7192"/>
           </div>
         </div>
         <div class="field">
@@ -1387,7 +1387,7 @@
               <div class="chip" data-i18n="index.chipval.otro" data-value="Otro" onclick="checkSaludEmocionalOtro(this)">Otro</div>
             </div>
             <div id="salud-emocional-otro-wrap" style="display:none;margin-top:6px">
-              <input type="text" id="f-salud-emocional-cual" data-sino-target="salud-emocional" placeholder="Especifica el diagnóstico..."/>
+              <input type="text" id="f-salud-emocional-cual" data-sino-target="salud-emocional" placeholder="Especifica el diagnóstico..." data-i18n-placeholder="extra.f480b371c077ea90"/>
             </div>
 
             <div class="field-label" data-i18n="index.conditions.meds_psiq_label" style="margin-top:14px;margin-bottom:6px;color:#ff4444;text-shadow:0 0 8px #ff4444">⚠ MEDICACIÓN PSIQUIÁTRICA ACTIVA</div>
@@ -1407,7 +1407,7 @@
               <div class="chip chip-danger" data-i18n="index.chipval.carbamazepina_psiq" data-value="Carbamazepina">Carbamazepina ⚠️</div>
             </div>
             <div id="meds-psiq-extra-wrap" style="margin-top:4px"></div>
-            <button type="button" class="btn-add-med" id="btn-add-psiq-med" onclick="addMedExtra('psiq')">+ Añadir otro</button>
+            <button type="button" class="btn-add-med" id="btn-add-psiq-med" onclick="addMedExtra('psiq')"><span data-i18n="extra.23a45beb808ad7c4">+ Añadir otro</span></button>
 
             <div class="field-label" data-i18n="index.conditions.puede_decidir_label" style="margin-top:14px;margin-bottom:6px">¿PUEDE TOMAR DECISIONES MÉDICAS?</div>
             <div class="chips" data-group="puede-decidir-salud" data-single="true" data-sino-target="salud-emocional">
@@ -1439,24 +1439,24 @@
       <div class="section-body">
         <div class="field">
           <div class="chips" data-group="meds" data-exclusive-group>
-            <div class="chip" data-value="Apixabán">Apixabán</div>
-            <div class="chip" data-value="Rivaroxabán">Rivaroxabán</div>
-            <div class="chip" data-value="Dabigatrán">Dabigatrán</div>
-            <div class="chip" data-value="Acenocumarol">Acenocumarol</div>
-            <div class="chip" data-value="Warfarina">Warfarina</div>
-            <div class="chip" data-value="Clopidogrel">Clopidogrel</div>
-            <div class="chip" data-value="Ácido acetilsalicílico">Ácido acetilsalicílico</div>
-            <div class="chip" data-value="Empagliflozina">Empagliflozina</div>
-            <div class="chip" data-value="Dapagliflozina">Dapagliflozina</div>
-            <div class="chip" data-value="Semaglutida">Semaglutida</div>
-            <div class="chip" data-value="Salbutamol">Salbutamol</div>
-            <div class="chip" data-value="Budesonida">Budesonida</div>
-            <div class="chip" data-value="Levetiracetam">Levetiracetam</div>
-            <div class="chip" data-value="Lamotrigina">Lamotrigina</div>
-            <div class="chip" data-value="Sertralina">Sertralina</div>
-            <div class="chip" data-value="Litio">Litio</div>
-            <div class="chip" data-value="Paracetamol">Paracetamol</div>
-            <div class="chip" data-value="Ibuprofeno">Ibuprofeno</div>
+            <div class="chip" data-value="Apixabán"><span data-i18n="extra.639b457eb8549dd5">Apixabán</span></div>
+            <div class="chip" data-value="Rivaroxabán"><span data-i18n="extra.bd4f0bf174d4b3a2">Rivaroxabán</span></div>
+            <div class="chip" data-value="Dabigatrán"><span data-i18n="extra.eef752144df87e0d">Dabigatrán</span></div>
+            <div class="chip" data-value="Acenocumarol"><span data-i18n="extra.34c2ddfef4306420">Acenocumarol</span></div>
+            <div class="chip" data-value="Warfarina"><span data-i18n="extra.9b5ad2d1a330e8e6">Warfarina</span></div>
+            <div class="chip" data-value="Clopidogrel"><span data-i18n="extra.f12cf86f6e5e473f">Clopidogrel</span></div>
+            <div class="chip" data-value="Ácido acetilsalicílico"><span data-i18n="extra.4915724a895f4e51">Ácido acetilsalicílico</span></div>
+            <div class="chip" data-value="Empagliflozina"><span data-i18n="extra.c157a237ec1be765">Empagliflozina</span></div>
+            <div class="chip" data-value="Dapagliflozina"><span data-i18n="extra.dd385552c431edef">Dapagliflozina</span></div>
+            <div class="chip" data-value="Semaglutida"><span data-i18n="extra.98d939bb001d21a7">Semaglutida</span></div>
+            <div class="chip" data-value="Salbutamol"><span data-i18n="extra.2e262e3f4b3fb90c">Salbutamol</span></div>
+            <div class="chip" data-value="Budesonida"><span data-i18n="extra.e101aa411ae723e7">Budesonida</span></div>
+            <div class="chip" data-value="Levetiracetam"><span data-i18n="extra.71969f500e1ede40">Levetiracetam</span></div>
+            <div class="chip" data-value="Lamotrigina"><span data-i18n="extra.e87b1eecc1140b9c">Lamotrigina</span></div>
+            <div class="chip" data-value="Sertralina"><span data-i18n="extra.24a5340743432500">Sertralina</span></div>
+            <div class="chip" data-value="Litio"><span data-i18n="extra.55251ec18b80ea14">Litio</span></div>
+            <div class="chip" data-value="Paracetamol"><span data-i18n="extra.4e5b3b162b0f4d48">Paracetamol</span></div>
+            <div class="chip" data-value="Ibuprofeno"><span data-i18n="extra.5733a30535254c7b">Ibuprofeno</span></div>
 
             <div class="chip" data-i18n="index.chipval.metformina" data-value="Metformina">Metformina</div>
             <div class="chip" data-i18n="index.chipval.insulina" data-value="Insulina">Insulina</div>
@@ -1504,7 +1504,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.medication.doses_label">Dosis y frecuencia</div>
           <p id="medication-detail-help" class="field-hint" data-i18n="audit.medication_detail">Para cada medicamento: nombre, cantidad y unidad, vía de administración, horario y última toma si es relevante. Copia tu pauta; no calcules dosis aquí.</p>
-          <input type="text" id="f-med-doses" aria-describedby="medication-detail-help" data-exclusive-target="medicacion-alto-riesgo" placeholder="Metformina 850mg — 2 veces al día"/>
+          <input type="text" id="f-med-doses" aria-describedby="medication-detail-help" data-exclusive-target="medicacion-alto-riesgo" placeholder="Metformina 850mg — 2 veces al día" data-i18n-placeholder="extra.78b2c28851c5df99"/>
         </div>
         <div class="field">
           <div class="field-label" data-i18n="index.medication.last_adjust_label">Último ajuste de medicación</div>
@@ -1562,7 +1562,7 @@
         <div class="field">
           <div class="field-label" data-i18n="index.surgeries.previous_label">Cirugías previas</div>
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="surgeries" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.adenoidectomia" data-value="Adenoidectomía">Adenoidectomía</div>
@@ -1612,8 +1612,8 @@
         <div class="field">
           <div class="field-label" data-i18n="index.surgeries.year_label">Año aproximado última cirugía</div>
           <select id="f-surgery-year">
-            <option value="Nunca">Nunca</option>
-            <option value="Antes de 2000">Antes de 2000</option>
+            <option value="Nunca" data-i18n="extra.12fcd0c7b77c94f2">Nunca</option>
+            <option value="Antes de 2000" data-i18n="extra.3bcf63024b969267">Antes de 2000</option>
             <option value="2000-2010">2000 – 2010</option>
             <option value="2010-2020">2010 – 2020</option>
             <option value="2020-2025">2020 – 2025</option>
@@ -1624,7 +1624,7 @@
           <div class="chips" data-group="implant-detail-aplica" data-exclusive-group style="margin-bottom:6px">
             <div class="chip" data-i18n="index.chipval.no_aplica" data-value="No aplica" data-exclusive-none>No aplica</div>
           </div>
-          <input type="text" id="f-implant-detail" data-exclusive-target="implant-detail-aplica" placeholder="Ej: Bomba de insulina, Válvula cardíaca mecánica — 2019"/>
+          <input type="text" id="f-implant-detail" data-exclusive-target="implant-detail-aplica" placeholder="Ej: Bomba de insulina, Válvula cardíaca mecánica — 2019" data-i18n-placeholder="extra.2e9837e8bc5f375b"/>
           <div class="field-hint" data-i18n="index.surgeries.implant_hint">No incluyas aquí el marcapasos — pregúntalo aparte más abajo.</div>
         </div>
         <div class="field">
@@ -1637,13 +1637,13 @@
         <div class="field">
           <div class="field-label" data-i18n="index.surgeries.last_surgery_date_label">¿FECHA APROXIMADA ÚLTIMA CIRUGÍA?</div>
           <select id="last-surgery-date" data-sino-target="pacemaker">
-            <option value="">— No aplica / Ninguna —</option>
-            <option>Hace menos de 1 mes</option>
-            <option>Hace 1-3 meses</option>
-            <option>Hace 3-6 meses</option>
-            <option>Hace 6-12 meses</option>
-            <option>Hace 1-2 años</option>
-            <option>Hace más de 2 años</option>
+            <option value="" data-i18n="extra.8fdca7603157d224">— No aplica / Ninguna —</option>
+            <option data-i18n="extra.62d0adec0d749075" value="Hace menos de 1 mes">Hace menos de 1 mes</option>
+            <option data-i18n="extra.506b7ccdd8bfbd52" value="Hace 1-3 meses">Hace 1-3 meses</option>
+            <option data-i18n="extra.6276404dbb7018c5" value="Hace 3-6 meses">Hace 3-6 meses</option>
+            <option data-i18n="extra.af390c3cb9c87a13" value="Hace 6-12 meses">Hace 6-12 meses</option>
+            <option data-i18n="extra.1d7d9c55200c8b6d" value="Hace 1-2 años">Hace 1-2 años</option>
+            <option data-i18n="extra.005c8dad83b262ed" value="Hace más de 2 años">Hace más de 2 años</option>
           </select>
           <div class="field-hint" data-i18n="index.surgeries.last_surgery_date_hint">Relevante para riesgo trombótico postoperatorio reciente</div>
         </div>
@@ -1656,7 +1656,7 @@
             <div class="chip" data-i18n="index.chipval.no_se" data-value="No sé" data-sino="no" onclick="checkMaterialOsteo(this)">No sé</div>
           </div>
           <div id="material-osteo-detalle-wrap" style="display:none;margin-top:8px">
-            <input type="text" id="f-material-osteo-detalle" data-sino-target="material-osteo" placeholder="Tipo y localización (ej: placa tibial derecha, clavo femoral — 2018)"/>
+            <input type="text" id="f-material-osteo-detalle" data-sino-target="material-osteo" placeholder="Tipo y localización (ej: placa tibial derecha, clavo femoral — 2018)" data-i18n-placeholder="extra.f97ba47763f8e65f"/>
           </div>
           <div class="field-hint" data-i18n="index.surgeries.osteo_hint">Afecta resonancias magnéticas y radiografías</div>
         </div>
@@ -1708,7 +1708,7 @@
       <div class="section-body">
         <div class="field">
           <div class="chips-search-wrap">
-            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)"/>
+            <input type="text" class="chips-search" placeholder="🔍 Escribe 3 letras para filtrar..." oninput="filterChips(this)" data-i18n-placeholder="extra.ea30532f836ab8f9"/>
           </div>
           <div class="chips" data-group="vaccines" data-exclusive-group>
             <div class="chip" data-i18n="index.chipval.colera" data-value="Cólera">Cólera</div>
@@ -1742,9 +1742,9 @@
         <div class="field">
           <div class="field-label" data-i18n="index.vaccines.tetanus_year_label">Año última vacuna tétanos</div>
           <select id="f-tetanus-year">
-            <option value="">— Selecciona —</option>
-            <option value="No recuerdo">No recuerdo</option>
-            <option value="Antes de 2015">Antes de 2015</option>
+            <option value="" data-i18n="extra.088bdb78687dd65e">— Selecciona —</option>
+            <option value="No recuerdo" data-i18n="extra.336f6f7d3f015919">No recuerdo</option>
+            <option value="Antes de 2015" data-i18n="extra.12e2ccc168bc456e">Antes de 2015</option>
             <option value="2015-2020">2015 – 2020</option>
             <option value="2020-2025">2020 – 2025</option>
           </select>
@@ -1790,21 +1790,21 @@
               <div class="chip" data-i18n="index.chipval.mas_otra" data-value="Otra">+ Otra</div>
             </div>
             <div id="terapia-hormonal-otra-wrap" style="display:none;margin-top:8px">
-              <input type="text" id="f-terapia-hormonal-otra" placeholder="Especifica el tipo de terapia hormonal" />
+              <input type="text" id="f-terapia-hormonal-otra" placeholder="Especifica el tipo de terapia hormonal"  data-i18n-placeholder="extra.478aa1a4870d87fc"/>
             </div>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.hormonal.dose_label">DOSIS Y FRECUENCIA</div>
-            <input type="text" id="f-terapia-hormonal-dosis" placeholder="ej. 50mcg/día, 100mg IM/3 semanas, parche semanal" />
+            <input type="text" id="f-terapia-hormonal-dosis" placeholder="ej. 50mcg/día, 100mg IM/3 semanas, parche semanal"  data-i18n-placeholder="extra.29e2f92d8e368cae"/>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.hormonal.duration_label">DURACIÓN DEL TRATAMIENTO</div>
             <div style="display:flex;gap:8px;align-items:center">
               <input type="number" id="f-terapia-hormonal-duracion-valor" min="1" placeholder="ej. 6" style="width:80px" />
               <select id="f-terapia-hormonal-duracion-unidad">
-                <option value="">— Unidad —</option>
-                <option value="Meses">Meses</option>
-                <option value="Años">Años</option>
+                <option value="" data-i18n="extra.cce5382ebdf65566">— Unidad —</option>
+                <option value="Meses" data-i18n="extra.d2a68b08d85a5600">Meses</option>
+                <option value="Años" data-i18n="extra.b1b6be3e6fa8cbb1">Años</option>
               </select>
             </div>
           </div>
@@ -1952,26 +1952,26 @@
           <div class="contact-label" data-i18n="index.contacts.contact1_label">Contacto 1</div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.name_label">Nombre</div>
-            <input type="text" id="f-ec1-name" placeholder="María García"/>
+            <input type="text" id="f-ec1-name" placeholder="María García" data-i18n-placeholder="extra.0ef6190c1cc2a1f1"/>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.relation_label">Relación</div>
             <select id="f-ec1-rel">
-              <option value="">— Selecciona —</option>
-              <option value="Cónyuge/Pareja">Cónyuge / Pareja</option>
-              <option value="Padre/Madre">Padre / Madre</option>
-              <option value="Hijo/Hija">Hijo / Hija</option>
-              <option value="Hermano/Hermana">Hermano / Hermana</option>
-              <option value="Amigo/Amiga">Amigo / Amiga</option>
-              <option value="Otros familiares">Otros familiares</option>
-              <option value="Otro">Otro</option>
+              <option value="" data-i18n="extra.088bdb78687dd65e">— Selecciona —</option>
+              <option value="Cónyuge/Pareja" data-i18n="extra.08f96c38ea30a53a">Cónyuge / Pareja</option>
+              <option value="Padre/Madre" data-i18n="extra.e570fa590ff881c4">Padre / Madre</option>
+              <option value="Hijo/Hija" data-i18n="extra.fd7e81e89b85c2c4">Hijo / Hija</option>
+              <option value="Hermano/Hermana" data-i18n="extra.05ee0d8a8d9f1d2c">Hermano / Hermana</option>
+              <option value="Amigo/Amiga" data-i18n="extra.2da17a900637f1c8">Amigo / Amiga</option>
+              <option value="Otros familiares" data-i18n="extra.0758b5bd080f3283">Otros familiares</option>
+              <option value="Otro" data-i18n="extra.0d5a52a92cb9f499">Otro</option>
             </select>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.phone_label">Teléfono</div>
             <div class="phone-field">
               <select class="phone-prefix" id="f-ec1-phone-prefix"></select>
-              <input type="tel" class="phone-number" id="f-ec1-phone-num" placeholder="Número sin prefijo"/>
+              <input type="tel" class="phone-number" id="f-ec1-phone-num" placeholder="Número sin prefijo" data-i18n-placeholder="extra.a056d890f71f06bd"/>
               <div class="phone-hint"></div>
               <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
             </div>
@@ -1981,26 +1981,26 @@
           <div class="contact-label" data-i18n="index.contacts.contact2_label">Contacto 2</div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.name_label">Nombre</div>
-            <input type="text" id="f-ec2-name" placeholder="Carlos García"/>
+            <input type="text" id="f-ec2-name" placeholder="Carlos García" data-i18n-placeholder="extra.8797d75723e6a214"/>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.relation_label">Relación</div>
             <select id="f-ec2-rel">
-              <option value="">— Selecciona —</option>
-              <option value="Cónyuge/Pareja">Cónyuge / Pareja</option>
-              <option value="Padre/Madre">Padre / Madre</option>
-              <option value="Hijo/Hija">Hijo / Hija</option>
-              <option value="Hermano/Hermana">Hermano / Hermana</option>
-              <option value="Amigo/Amiga">Amigo / Amiga</option>
-              <option value="Otros familiares">Otros familiares</option>
-              <option value="Otro">Otro</option>
+              <option value="" data-i18n="extra.088bdb78687dd65e">— Selecciona —</option>
+              <option value="Cónyuge/Pareja" data-i18n="extra.08f96c38ea30a53a">Cónyuge / Pareja</option>
+              <option value="Padre/Madre" data-i18n="extra.e570fa590ff881c4">Padre / Madre</option>
+              <option value="Hijo/Hija" data-i18n="extra.fd7e81e89b85c2c4">Hijo / Hija</option>
+              <option value="Hermano/Hermana" data-i18n="extra.05ee0d8a8d9f1d2c">Hermano / Hermana</option>
+              <option value="Amigo/Amiga" data-i18n="extra.2da17a900637f1c8">Amigo / Amiga</option>
+              <option value="Otros familiares" data-i18n="extra.0758b5bd080f3283">Otros familiares</option>
+              <option value="Otro" data-i18n="extra.0d5a52a92cb9f499">Otro</option>
             </select>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.phone_label">Teléfono</div>
             <div class="phone-field">
               <select class="phone-prefix" id="f-ec2-phone-prefix"></select>
-              <input type="tel" class="phone-number" id="f-ec2-phone-num" placeholder="Número sin prefijo"/>
+              <input type="tel" class="phone-number" id="f-ec2-phone-num" placeholder="Número sin prefijo" data-i18n-placeholder="extra.a056d890f71f06bd"/>
               <div class="phone-hint"></div>
               <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
             </div>
@@ -2010,20 +2010,20 @@
           <div class="contact-label" data-i18n="index.contacts.guardian_label">Tutor legal</div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.name_label">Nombre</div>
-            <input type="text" id="f-guardian-name" placeholder="Nombre del tutor legal"/>
+            <input type="text" id="f-guardian-name" placeholder="Nombre del tutor legal" data-i18n-placeholder="extra.3b8e25f634a1fd8e"/>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.phone_label">Teléfono</div>
             <div class="phone-field">
               <select class="phone-prefix" id="f-guardian-phone-prefix"></select>
-              <input type="tel" class="phone-number" id="f-guardian-phone-num" placeholder="Número sin prefijo"/>
+              <input type="tel" class="phone-number" id="f-guardian-phone-num" placeholder="Número sin prefijo" data-i18n-placeholder="extra.a056d890f71f06bd"/>
               <div class="phone-hint"></div>
               <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
             </div>
           </div>
           <div class="field">
             <div class="field-label" data-i18n="index.contacts.guardian_doc_label">Documento de tutela (opcional)</div>
-            <input type="text" id="f-guardian-doc" placeholder="Nº expediente / referencia"/>
+            <input type="text" id="f-guardian-doc" placeholder="Nº expediente / referencia" data-i18n-placeholder="extra.0018afdf5ce7c9c6"/>
           </div>
         </div>
       </div>
@@ -2038,13 +2038,13 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label" data-i18n="index.medical_insurance.doctor_name_label">Nombre médico de cabecera</div>
-          <input type="text" id="f-doctor-name" placeholder="Dr. José Martínez"/>
+          <input type="text" id="f-doctor-name" placeholder="Dr. José Martínez" data-i18n-placeholder="extra.e894dd6958d2229c"/>
         </div>
         <div class="field">
           <div class="field-label" data-i18n="index.medical_insurance.doctor_phone_label">Teléfono médico</div>
           <div class="phone-field">
             <select class="phone-prefix" id="f-doctor-phone-prefix"></select>
-            <input type="tel" class="phone-number" id="f-doctor-phone-num" placeholder="Número sin prefijo"/>
+            <input type="tel" class="phone-number" id="f-doctor-phone-num" placeholder="Número sin prefijo" data-i18n-placeholder="extra.a056d890f71f06bd"/>
             <div class="phone-hint"></div>
             <div class="phone-warning" data-i18n="index.contacts.phone_warning" style="display:none;">⚠ Formato no coincide con el país seleccionado</div>
           </div>
@@ -2069,7 +2069,7 @@
           <div class="field-label" data-i18n="index.medical_insurance.health_card_label">Tarjeta sanitaria</div>
           <div class="health-card-field">
             <select id="f-health-card-country"></select>
-            <input type="text" id="f-health-card-num" placeholder="Número de tarjeta sanitaria"/>
+            <input type="text" id="f-health-card-num" placeholder="Número de tarjeta sanitaria" data-i18n-placeholder="extra.93f3326d792e54ce"/>
             <div class="health-card-hint"></div>
             <div class="health-card-warning" data-i18n="index.medical_insurance.health_card_warning" style="display:none;">⚠ Formato no coincide — verifica el número</div>
           </div>
@@ -2077,15 +2077,15 @@
         <div class="field">
           <div class="field-label" data-i18n="index.medical_insurance.ss_country_label">País seguridad social</div>
           <select id="f-ss-country">
-            <option value="">— Selecciona —</option>
-            <option value="España">España</option>
-            <option value="Francia">Francia</option>
-            <option value="Alemania">Alemania</option>
-            <option value="Italia">Italia</option>
-            <option value="Portugal">Portugal</option>
-            <option value="Reino Unido">Reino Unido</option>
-            <option value="Otro país UE">Otro país UE</option>
-            <option value="Fuera de la UE">Fuera de la UE</option>
+            <option value="" data-i18n="extra.088bdb78687dd65e">— Selecciona —</option>
+            <option value="España" data-i18n="extra.f85c9fe36948469b">España</option>
+            <option value="Francia" data-i18n="extra.6b6251a34becf1c4">Francia</option>
+            <option value="Alemania" data-i18n="extra.7630decd1ac1510e">Alemania</option>
+            <option value="Italia" data-i18n="extra.a7ca3e3d756601d5">Italia</option>
+            <option value="Portugal" data-i18n="extra.4c7de2c3da6dc0ae">Portugal</option>
+            <option value="Reino Unido" data-i18n="extra.b7b48516bc9dce88">Reino Unido</option>
+            <option value="Otro país UE" data-i18n="extra.f579ed38b0cfd53e">Otro país UE</option>
+            <option value="Fuera de la UE" data-i18n="extra.9016f7887057d82a">Fuera de la UE</option>
           </select>
         </div>
       </div>
@@ -2097,9 +2097,9 @@
 <section id="profile-sync-panel" role="status" aria-live="polite" hidden style="max-width:960px;margin:16px auto;padding:18px;border:1px solid #66baff;border-radius:16px;background:#122539;color:#e6f4ff">
   <p id="profile-sync-message"></p>
   <div id="profile-sync-choices" hidden>
-    <button type="button" id="profile-sync-compare">Comparar versiones</button>
-    <button type="button" id="profile-sync-use-server">Cargar última versión publicada</button>
-    <button type="button" id="profile-sync-use-draft">Publicar mi borrador revisado</button>
+    <button type="button" id="profile-sync-compare"><span data-i18n="extra.7c8b806a180afab1">Comparar versiones</span></button>
+    <button type="button" id="profile-sync-use-server"><span data-i18n="extra.68dcca13443fc3ff">Cargar última versión publicada</span></button>
+    <button type="button" id="profile-sync-use-draft"><span data-i18n="extra.cd361f744f327e51">Publicar mi borrador revisado</span></button>
     <div id="profile-sync-differences" style="overflow:auto;max-height:420px"></div>
   </div>
 </section>
@@ -2191,7 +2191,7 @@
           letter-spacing:2px;text-transform:uppercase;
           color:#12A5FF;cursor:pointer;
           -webkit-tap-highlight-color:transparent;">
-          WhatsApp
+          <span data-i18n="extra.6a40edf1fc87a29f">WhatsApp</span>
         </button>
         <button onclick="copyLocationLink()" style="
           flex:1;padding:12px;background:transparent;
@@ -2350,7 +2350,7 @@
                    border:1px solid rgba(255,68,68,0.25);background:rgba(255,68,68,0.05);
                    font-family:'Inter',sans-serif;font-size:14px;color:#fff;outline:none;
                    -webkit-appearance:none;"
-            oninput="validarCamposEliminar()">
+            oninput="validarCamposEliminar()" data-i18n-placeholder="extra.b243b05a8aa416d2">
         </div>
 
         <!-- Mensaje de error -->
@@ -2543,45 +2543,17 @@
     }
     window.i18nReady.finally(prefillarIdentidad);
   </script>
-  <script src="js/validation.js?v=12"></script>
+  <script src="js/validation.js?v=14"></script>
   <script src="js/search.js?v=12"></script>
-  <script src="js/form.js?v=12.2"></script>
-  <script src="js/qr-generator.js?v=12.3"></script>
+  <script src="js/form.js?v=14"></script>
+  <script src="js/qr-generator.js?v=14"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
   <script>
   (function(){
     /* ── ESTILOS ── */
     const sty = document.createElement('style');
-    sty.textContent = `
-      #tour-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.93);display:none;align-items:center;justify-content:center;padding:20px}
-      #tour-ov.vis{display:flex}
-      #tour-box{background:#0a0a0a;border:1.5px solid #12A5FF;border-radius:20px;padding:36px 28px 24px;max-width:420px;width:100%;font-family:inherit}
-      .tslide{display:none;min-height:160px}
-      .tslide.on{display:block}
-      .tslide-icon{font-size:30px;text-align:center;margin-bottom:14px}
-      .tslide-kicker{font-size:9px;font-weight:900;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;text-align:center;margin-bottom:12px}
-      .tslide-body{font-size:15px;line-height:1.8;color:rgba(255,255,255,.88);text-align:center}
-      .tslide-body b{color:#ff0000}
-      .tslide-body em{color:#12A5FF;font-style:normal;font-weight:700}
-      .tdots{display:flex;gap:7px;justify-content:center;margin:22px 0 16px}
-      .tdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:background .2s}
-      .tdot.on{background:#12A5FF}
-      .tnav{display:flex;align-items:center;gap:8px}
-      #t-skip{flex:1;background:none;border:none;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:1px;cursor:pointer;font-family:inherit;text-align:left;padding:0}
-      #t-prev{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);font-size:14px;padding:9px 14px;border-radius:8px;cursor:pointer;font-family:inherit}
-      #t-next{background:#12A5FF;border:none;color:#000;font-size:12px;font-weight:900;padding:10px 22px;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:1px;white-space:nowrap}
-      #help-btn{position:fixed;bottom:24px;right:24px;z-index:998;width:52px;height:52px;border-radius:50%;background:#ff0000;border:2px solid rgba(255,255,255,.25);color:#fff;font-size:22px;font-weight:900;cursor:pointer;font-family:inherit;animation:phb 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center}
-      @keyframes phb{0%,100%{box-shadow:0 0 0 0 rgba(255,0,0,.65),0 0 12px rgba(255,0,0,.3)}55%{box-shadow:0 0 0 18px rgba(255,0,0,0),0 0 22px rgba(255,0,0,.1)}}
-      #help-ov{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:20px}
-      #help-ov.vis{display:flex}
-      #help-box{background:#0a0a0a;border:1.5px solid #ff0000;border-radius:16px;padding:28px 22px;max-width:420px;width:100%;font-family:inherit;box-shadow:0 0 30px rgba(255,0,0,.12)}
-      #help-sec{font-size:9px;font-weight:900;letter-spacing:2.5px;color:#ff0000;text-transform:uppercase;margin-bottom:10px}
-      #help-txt{font-size:14px;line-height:1.75;color:rgba(255,255,255,.9);margin:0 0 20px;white-space:pre-wrap}
-      .hbts{display:flex;gap:8px}
-      #h-tour{flex:1;background:rgba(18,165,255,.08);border:1px solid #12A5FF;color:#12A5FF;font-size:11px;font-weight:700;letter-spacing:1px;padding:10px;border-radius:8px;cursor:pointer;font-family:inherit}
-      #h-close{flex:1;background:#ff0000;border:none;color:#fff;font-size:11px;font-weight:900;letter-spacing:1px;padding:10px;border-radius:8px;cursor:pointer;font-family:inherit}
-    `;
+    sty.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.7bada7afc84fdf8e","\n      #tour-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.93);display:none;align-items:center;justify-content:center;padding:20px}\n      #tour-ov.vis{display:flex}\n      #tour-box{background:#0a0a0a;border:1.5px solid #12A5FF;border-radius:20px;padding:36px 28px 24px;max-width:420px;width:100%;font-family:inherit}\n      .tslide{display:none;min-height:160px}\n      .tslide.on{display:block}\n      .tslide-icon{font-size:30px;text-align:center;margin-bottom:14px}\n      .tslide-kicker{font-size:9px;font-weight:900;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;text-align:center;margin-bottom:12px}\n      .tslide-body{font-size:15px;line-height:1.8;color:rgba(255,255,255,.88);text-align:center}\n      .tslide-body b{color:#ff0000}\n      .tslide-body em{color:#12A5FF;font-style:normal;font-weight:700}\n      .tdots{display:flex;gap:7px;justify-content:center;margin:22px 0 16px}\n      .tdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:background .2s}\n      .tdot.on{background:#12A5FF}\n      .tnav{display:flex;align-items:center;gap:8px}\n      #t-skip{flex:1;background:none;border:none;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:1px;cursor:pointer;font-family:inherit;text-align:left;padding:0}\n      #t-prev{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);font-size:14px;padding:9px 14px;border-radius:8px;cursor:pointer;font-family:inherit}\n      #t-next{background:#12A5FF;border:none;color:#000;font-size:12px;font-weight:900;padding:10px 22px;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:1px;white-space:nowrap}\n      #help-btn{position:fixed;bottom:24px;right:24px;z-index:998;width:52px;height:52px;border-radius:50%;background:#ff0000;border:2px solid rgba(255,255,255,.25);color:#fff;font-size:22px;font-weight:900;cursor:pointer;font-family:inherit;animation:phb 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center}\n      @keyframes phb{0%,100%{box-shadow:0 0 0 0 rgba(255,0,0,.65),0 0 12px rgba(255,0,0,.3)}55%{box-shadow:0 0 0 18px rgba(255,0,0,0),0 0 22px rgba(255,0,0,.1)}}\n      #help-ov{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:20px}\n      #help-ov.vis{display:flex}\n      #help-box{background:#0a0a0a;border:1.5px solid #ff0000;border-radius:16px;padding:28px 22px;max-width:420px;width:100%;font-family:inherit;box-shadow:0 0 30px rgba(255,0,0,.12)}\n      #help-sec{font-size:9px;font-weight:900;letter-spacing:2.5px;color:#ff0000;text-transform:uppercase;margin-bottom:10px}\n      #help-txt{font-size:14px;line-height:1.75;color:rgba(255,255,255,.9);margin:0 0 20px;white-space:pre-wrap}\n      .hbts{display:flex;gap:8px}\n      #h-tour{flex:1;background:rgba(18,165,255,.08);border:1px solid #12A5FF;color:#12A5FF;font-size:11px;font-weight:700;letter-spacing:1px;padding:10px;border-radius:8px;cursor:pointer;font-family:inherit}\n      #h-close{flex:1;background:#ff0000;border:none;color:#fff;font-size:11px;font-weight:900;letter-spacing:1px;padding:10px;border-radius:8px;cursor:pointer;font-family:inherit}\n    ",[]);
     document.head.appendChild(sty);
 
     /* ── DATOS SLIDES ── */
@@ -2636,7 +2608,7 @@
       cur = n;
       document.getElementById('t-prev').style.display = n === 0 ? 'none' : '';
       document.getElementById('t-skip').style.display = n === SLIDES.length - 1 ? 'none' : '';
-      document.getElementById('t-next').textContent   = n === SLIDES.length - 1 ? 'Comenzar ✓' : 'Siguiente →';
+      document.getElementById('t-next').textContent   = n === SLIDES.length - 1 ? (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.63ea75611aaae3b3","Comenzar ✓",[]) : (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.17fd6b8557d4d558","Siguiente →",[]);
     }
 
     function tourNext() { if (cur < SLIDES.length - 1) goTo(cur + 1); else tourDone(); }
@@ -2710,9 +2682,9 @@
     });
 
     const navEl = document.createElement('div'); navEl.className = 'tnav'; tourBox.appendChild(navEl);
-    const skipB = document.createElement('button'); skipB.id = 't-skip'; skipB.textContent = 'Saltar';       skipB.onclick = tourDone; navEl.appendChild(skipB);
+    const skipB = document.createElement('button'); skipB.id = 't-skip'; skipB.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.ecebe9dfe1aa99e5","Saltar",[]);       skipB.onclick = tourDone; navEl.appendChild(skipB);
     const prevB = document.createElement('button'); prevB.id = 't-prev'; prevB.textContent = '←';            prevB.onclick = tourPrev; prevB.style.display = 'none'; navEl.appendChild(prevB);
-    const nextB = document.createElement('button'); nextB.id = 't-next'; nextB.textContent = 'Siguiente →';  nextB.onclick = tourNext; navEl.appendChild(nextB);
+    const nextB = document.createElement('button'); nextB.id = 't-next'; nextB.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.17fd6b8557d4d558","Siguiente →",[]);  nextB.onclick = tourNext; navEl.appendChild(nextB);
 
     /* ── CONSTRUIR DOM AYUDA ── */
     const hBtn = document.createElement('button'); hBtn.id = 'help-btn'; hBtn.textContent = '?'; hBtn.onclick = showHelp; document.body.appendChild(hBtn);
@@ -2818,7 +2790,7 @@
         localStorage.removeItem('doctorqr_id');
         window.location.href = 'login.html';
       } else {
-        errorEl.textContent = data.error || window.t('index.delete_account.error_generic');
+        errorEl.textContent = (typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || window.t('index.delete_account.error_generic');
         errorEl.style.display = 'block';
         btn.disabled = false;
         btn.textContent = window.t('index.delete_account.confirm_button');
@@ -2892,7 +2864,7 @@
     const enStandalone = window.matchMedia('(display-mode: standalone)').matches
       || window.navigator.standalone === true;
     if (enStandalone) {
-      badge.textContent = 'Instalada';
+      badge.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.8cef9a023116b686","Instalada",[]);
       return;
     }
 
@@ -2900,18 +2872,18 @@
 
     // Fallback inmediato: sin beforeinstallprompt (iOS/Safari), el botón abre la guía
     btn.disabled = false;
-    badge.textContent = 'Guía';
+    badge.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.c25a816dd59a2741","Guía",[]);
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      badge.textContent = 'Disponible';
+      badge.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.f4e4f699637be88f","Disponible",[]);
     });
 
     window.addEventListener('appinstalled', () => {
       deferredPrompt = null;
       btn.disabled = true;
-      badge.textContent = 'Instalada';
+      badge.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.8cef9a023116b686","Instalada",[]);
     });
 
     btn.addEventListener('click', async () => {
@@ -2920,7 +2892,7 @@
         deferredPrompt.prompt();
         try { await deferredPrompt.userChoice; } catch (err) {}
         deferredPrompt = null;
-        badge.textContent = 'Guía';
+        badge.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.c25a816dd59a2741","Guía",[]);
       } else {
         window.location.href = 'install.html';
       }
@@ -2966,7 +2938,7 @@
       document.getElementById('menu-dropdown')?.classList.remove('open');
       totpSetupBuffer = '';
       updateTotpSetupDisplay();
-      document.getElementById('totp-setup-secret-text').textContent = window.t ? window.t('index.totp_setup.loading') : 'Cargando…';
+      document.getElementById('totp-setup-secret-text').textContent = window.t ? window.t('index.totp_setup.loading') : (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.205443ee88568e8c","Cargando…",[]);
       document.getElementById('modal-totp-setup').classList.add('open');
       document.body.style.overflow = 'hidden';
 
@@ -3130,7 +3102,7 @@
     .then(async r => {
       const data = await r.json();
       if (r.ok && data.url) { window.location.href = data.url; }
-      else { btn.disabled = false; btn.textContent = textoOriginal; alert(data.error || window.t('index.plans.payment_error_generic')); }
+      else { btn.disabled = false; btn.textContent = textoOriginal; alert((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || window.t('index.plans.payment_error_generic')); }
     })
     .catch(() => { btn.disabled = false; btn.textContent = textoOriginal; alert(window.t('index.plans.connection_error')); });
   }
@@ -3172,18 +3144,18 @@
     const badge = document.getElementById('plan-badge');
     if (badge) {
       if (u.plan_type === 'pro') {
-        badge.textContent = window.t('index.plan_badge.pro');
+        badge.dataset.i18n='index.plan_badge.pro';badge.textContent = window.t('index.plan_badge.pro');
         badge.style.color = '#12A5FF';
         badge.style.borderColor = 'rgba(18,165,255,0.35)';
       } else if (u.plan_type === 'lifetime') {
-        badge.textContent = window.t('index.plan_badge.lifetime');
+        badge.dataset.i18n='index.plan_badge.lifetime';badge.textContent = window.t('index.plan_badge.lifetime');
         badge.style.color = '#ffd700';
         badge.style.borderColor = 'rgba(255,215,0,0.35)';
       } else {
         const dias = u.created_at
           ? Math.max(0, Math.ceil(30 - (Date.now() - Number(u.created_at) * 1000) / 86_400_000))
           : '?';
-        badge.textContent = window.t('index.plan_badge.free').replace('{n}', dias);
+        badge.dataset.i18n='index.plan_badge.free';badge.setAttribute('data-i18n-param-n',dias);badge.textContent = window.t('index.plan_badge.free').replace('{n}', dias);
         badge.style.color = 'rgba(255,255,255,0.35)';
         badge.style.borderColor = 'rgba(255,255,255,0.2)';
       }

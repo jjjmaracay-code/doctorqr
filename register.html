@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script src="/js/birthdate.js?v=12"></script>
+<script src="/js/birthdate.js?v=14"></script>
 <script src="/js/medical-owner.js?v=12"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Atabeyapp · Registro">
 <meta name="theme-color" content="#12A5FF">
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
-<title>Atabeyapp · Registro</title>
+<title data-i18n="extra.ce5602c0dd77844d">Atabeyapp · Registro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
@@ -749,13 +749,17 @@
 
     <div class="field-wrap">
       <div class="field-label" data-i18n="register.screen2.language_label">Idioma</div>
-      <select class="field-input" id="r-language-s1">
-        <option value="es">🇪🇸 Español</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="pt">🇵🇹 Português</option>
-        <option value="de">🇩🇪 Deutsch</option>
-      </select>
+      <select class="field-input" id="r-language-s1"><option value="es">Español</option>
+<option value="en">English</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="pt">Português</option>
+<option value="eu">Euskara</option>
+<option value="hi">हिन्दी</option>
+<option value="zh">简体中文</option>
+<option value="ru">Русский</option>
+<option value="ja">日本語</option>
+<option value="ar">العربية</option></select>
       <div class="field-hint" data-i18n="register.screen2.language_hint">Se fijará como idioma de tu cuenta tras el registro</div>
     </div>
 
@@ -963,13 +967,17 @@
 
     <div class="field-wrap">
       <div class="field-label" data-i18n="register.screen2.language_label">Idioma</div>
-      <select class="field-input" id="r-language">
-        <option value="es">🇪🇸 Español</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="pt">🇵🇹 Português</option>
-        <option value="de">🇩🇪 Deutsch</option>
-      </select>
+      <select class="field-input" id="r-language"><option value="es">Español</option>
+<option value="en">English</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="pt">Português</option>
+<option value="eu">Euskara</option>
+<option value="hi">हिन्दी</option>
+<option value="zh">简体中文</option>
+<option value="ru">Русский</option>
+<option value="ja">日本語</option>
+<option value="ar">العربية</option></select>
       <div class="field-hint" data-i18n="register.screen2.language_hint">Se fijará como idioma de tu cuenta tras el registro</div>
     </div>
   </div>
@@ -1246,7 +1254,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="i18n/loader.js?v=13"></script>
+<script src="i18n/loader.js?v=14"></script>
 <script>
 // ===== CONFIG API =====
 const API = 'https://doctorqr-backend-production.up.railway.app';
@@ -1606,7 +1614,7 @@ function onDocTypeChange() {
   const input = document.getElementById('r-docnum');
   if (type === 'DNI')        { input.placeholder='12345678A';  input.maxLength=9;  }
   else if (type === 'NIE')   { input.placeholder='X1234567A';  input.maxLength=9;  }
-  else if (type === 'PASAPORTE') { input.placeholder='ABC123456'; input.maxLength=12; }
+  else if (type === 'PASAPORTE') { input.placeholder=(typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.da2a1dc977b24f2c","ABC123456",[]); input.maxLength=12; }
   const val = input.value.trim().toUpperCase();
   if (val) {
     const r = validateDocNum(type, val);
@@ -1755,7 +1763,7 @@ document.getElementById('btn-accept-terms').addEventListener('click', () => {
 const synth = window.speechSynthesis;
 // Portugués europeo (pt-PT), coherente con el resto de textos de esa
 // traducción (register.terms.* en pt.json usa "está a", "aceder", etc.).
-const READ_TERMS_VOICE_LANG = { es: 'es-ES', en: 'en-US', fr: 'fr-FR', pt: 'pt-PT', de: 'de-DE' };
+const READ_TERMS_VOICE_LANG = {es:'es-ES',en:'en-US',fr:'fr-FR',pt:'pt-PT',de:'de-DE',eu:'eu-ES',hi:'hi-IN',zh:'zh-CN',ru:'ru-RU',ja:'ja-JP',ar:'ar'};
 function readTerms() {
   if (synth.speaking) { synth.cancel(); return; }
   const text = document.getElementById('terms-text').innerText;
@@ -1824,7 +1832,7 @@ document.getElementById('btn-send-otp').addEventListener('click', async () => {
       goToScreen(3);
       startTimer();
     } else {
-      showToast(data.error || window.t('register.screen2.register_error_generic'));
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || window.t('register.screen2.register_error_generic'));
       btn.disabled = false;
     }
   } catch(e) {
@@ -1896,7 +1904,7 @@ document.getElementById('btn-verify-otp').addEventListener('click', async () => 
       const intentos = data.remaining_attempts !== undefined
         ? window.t(data.remaining_attempts !== 1 ? 'register.screen3.remaining_attempts_plural' : 'register.screen3.remaining_attempts_singular').replace('{n}', data.remaining_attempts)
         : '';
-      showToast((data.error || window.t('register.screen3.wrong_code_generic')) + intentos);
+      showToast(((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || window.t('register.screen3.wrong_code_generic')) + intentos);
     }
   } catch(e) {
     console.error('Verify OTP:', e);
@@ -1953,7 +1961,7 @@ document.getElementById('btn-recover-blocked').addEventListener('click', async (
       body: JSON.stringify({ email: regData.email })
     });
     const data = await response.json();
-    showToast(data.success ? window.t('register.blocked.recover_sent_toast') : (data.error || window.t('register.blocked.recover_error_generic')));
+    showToast(data.success ? window.t('register.blocked.recover_sent_toast') : ((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || window.t('register.blocked.recover_error_generic')));
   } catch(e) {
     console.error('Recover:', e);
     showToast(window.t('register.common.connection_error'));
@@ -2044,7 +2052,7 @@ async function initTOTP() {
       document.getElementById('totp-qr-img').src = data.qr_url;
       document.getElementById('totp-secret-text').textContent = data.secret;
     } else {
-      showToast(window.t('register.screen4.setup_error_prefix') + (data.error || ''));
+      showToast(window.t('register.screen4.setup_error_prefix') + ((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || ''));
     }
   } catch(e) {
     console.error('Setup 2FA:', e);
@@ -2108,7 +2116,7 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
         if(el){el.classList.add('error');setTimeout(()=>el.classList.remove('error'),600);}
       }
       totpBuffer=''; updateTOTPDisplay();
-      showToast(data.error || window.t('register.screen4.wrong_code_generic'));
+      showToast((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || window.t('register.screen4.wrong_code_generic'));
     }
   } catch(e) {
     console.error('Verify 2FA:', e);

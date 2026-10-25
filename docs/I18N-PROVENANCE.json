@@ -1,0 +1,57 @@
+{
+  "eu": {
+    "repo": "gaudi/opus-mt-es-eu-ctranslate2",
+    "revision": "d3c5b1d9191dac7684b54788967906410ee16e81",
+    "license": "Apache-2.0"
+  },
+  "hi": {
+    "repo": "gn64/M2M100_418M_CTranslate2",
+    "revision": "18e406c615ef2991fa74d53734bf66b0a6b10cb4",
+    "license": "MIT",
+    "original": "facebook/m2m100_418M"
+  },
+  "zh": {
+    "repo": "gn64/M2M100_418M_CTranslate2",
+    "revision": "18e406c615ef2991fa74d53734bf66b0a6b10cb4",
+    "license": "MIT",
+    "original": "facebook/m2m100_418M"
+  },
+  "ru": {
+    "repo": "gn64/M2M100_418M_CTranslate2",
+    "revision": "18e406c615ef2991fa74d53734bf66b0a6b10cb4",
+    "license": "MIT",
+    "original": "facebook/m2m100_418M"
+  },
+  "ja": {
+    "repo": "gn64/M2M100_418M_CTranslate2",
+    "revision": "18e406c615ef2991fa74d53734bf66b0a6b10cb4",
+    "license": "MIT",
+    "original": "facebook/m2m100_418M"
+  },
+  "ar": {
+    "repo": "gn64/M2M100_418M_CTranslate2",
+    "revision": "18e406c615ef2991fa74d53734bf66b0a6b10cb4",
+    "license": "MIT",
+    "original": "facebook/m2m100_418M"
+  },
+  "es-en": {
+    "repo": "manancode/opus-mt-es-en-ctranslate2-android",
+    "revision": "3fbfc5fd9e7a1c3fbf35589ece9ecaf5476737f7",
+    "license": "Apache-2.0"
+  },
+  "en-fr": {
+    "repo": "manancode/opus-mt-en-fr-ctranslate2-android",
+    "revision": "0f178fafba1269d603f365850c5b891e72a59db4",
+    "license": "Apache-2.0"
+  },
+  "en-de": {
+    "repo": "manancode/opus-mt-en-de-ctranslate2-android",
+    "revision": "33c80a2d4942fd31dc8fbb206f4b32980bca31c3",
+    "license": "Apache-2.0"
+  },
+  "en-pt": {
+    "repo": "manancode/opus-mt-en-ROMANCE-ctranslate2-android",
+    "revision": "c2fd9734fc50aae0833ca3bae66d53b4caeebfde",
+    "license": "Apache-2.0"
+  }
+}

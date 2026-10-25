@@ -106,7 +106,7 @@
         sel.appendChild(opt);
       });
       const otraOpt = document.createElement('option');
-      otraOpt.value = 'Otro / no especificado'; otraOpt.textContent = 'Otro / no especificado';
+      otraOpt.value = 'Otro / no especificado'; otraOpt.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.1e9b93836e9543dc","Otro / no especificado",[]);
       sel.appendChild(otraOpt);
       if (current) sel.value = current;
       else if (savedTrigger) sel.value = savedTrigger;
@@ -779,7 +779,7 @@
     }
 
     async function generate() {
-      if (!MedicalOwner.current()) { alert('La cuenta cambió. Vuelve a iniciar sesión.'); return; }
+      if (!MedicalOwner.current()) { alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a51070d5fc6fe224","La cuenta cambió. Vuelve a iniciar sesión.",[])); return; }
       const profilePrevio = buildProfileFromForm();
 
       if (profilePrevio.tutor_legal === 'Sí') {
@@ -808,7 +808,7 @@
       }
 
       const profile = buildProfileFromForm();
-      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert('Los datos de identidad no coinciden con tu cuenta. No se publicarán.'); return; }
+      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.0cf7cbc1ba884d51","Los datos de identidad no coinciden con tu cuenta. No se publicarán.",[])); return; }
       await ProfileSync.save(profile);
     }
 
@@ -1203,7 +1203,7 @@
       const inp = document.createElement('input');
       inp.type = 'text';
       inp.className = 'extra-med-input';
-      inp.placeholder = 'Nombre del suplemento...';
+      inp.placeholder = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.51849dc461274e06","Nombre del suplemento...",[]);
       inp.style.cssText = 'display:block;margin-top:6px;width:100%';
       wrap.appendChild(inp);
     }
@@ -1226,7 +1226,7 @@
       const inp = document.createElement('input');
       inp.type = 'text';
       inp.className = 'extra-med-input';
-      inp.placeholder = 'Nombre del medicamento...';
+      inp.placeholder = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.212ea16fd387a059","Nombre del medicamento...",[]);
       inp.style.cssText = 'display:block;margin-top:6px;width:100%';
       wrap.appendChild(inp);
       if (count + 1 >= 5 && btn) btn.style.display = 'none';

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="theme-color" content="#000000">
-  <title>Atabeyapp — Acceso rápido de emergencia</title>
+  <title data-i18n="extra.eb788e4f150ca8dc">Atabeyapp — Acceso rápido de emergencia</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{background:#000;color:#fff;font-family:'Courier New',Courier,monospace;
@@ -22,12 +22,14 @@
       text-decoration:none;padding:12px 26px;border-radius:8px;font-size:13px;
       letter-spacing:0.5px}
   </style>
+<script src="/i18n/loader.js?v=14"></script>
+<link rel="stylesheet" href="/css/atabey-refresh.css?v=14"/>
 </head>
 <body>
   <div class="box">
     <div class="logo">ATABEY<span>APP</span></div>
     <div id="msg">
-      <h1>Cargando tu Acceso Rápido de Emergencia&hellip;</h1>
+      <h1><span data-i18n="extra.1207b60d71a3cc4b">Cargando tu Acceso Rápido de Emergencia</span>&hellip;</h1>
     </div>
   </div>
 
@@ -35,7 +37,7 @@
        (renderEmergencyQuickView(), en js/qr-generator.js) -->
   <div id="emergency-quick-view" style="display:none"></div>
 
-  <script src="js/qr-generator.js?v=12.3"></script>
+  <script src="js/qr-generator.js?v=14"></script>
   <script>
     // handleEmergencyQuickAccess() vive en js/qr-generator.js, compartida
     // con login.html e index.html -- si no hay perfil local, ella misma

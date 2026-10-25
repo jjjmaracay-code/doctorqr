@@ -25,7 +25,7 @@
       throw new Error(res.status === 429 ? 'Demasiados intentos. Espera antes de volver a intentarlo.' :
         'No se pudo completar la solicitud. Inténtalo de nuevo más tarde.');
     }
-    if (!res.ok || !data.success) throw new Error(data.error || 'No se pudo completar la recuperación.');
+    if (!res.ok || !data.success) throw new Error((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || 'No se pudo completar la recuperación.');
     return data;
   }
   document.addEventListener('doctorqr:totp-unreadable', () => {
@@ -35,20 +35,20 @@
     clear();
     const active = generation;
     goTo('screen-totp-recovery');
-    status('Comprobando tu contraseña y enviando el código al correo…');
+    status((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.6525c50656fc3c59","Comprobando tu contraseña y enviando el código al correo…",[]));
     try {
       const data = await request('start', { email: byId('login-email').value.trim(),
         password: byId('login-password').value });
       if (active !== generation) return;
       challenge = data.challenge;
-      status('Introduce el código nuevo que acabamos de enviar a tu correo. Es válido durante 10 minutos.');
+      status((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.622224f26ef8c599","Introduce el código nuevo que acabamos de enviar a tu correo. Es válido durante 10 minutos.",[]));
       byId('tr-email-step').style.display = 'block';
       byId('tr-email-code').focus();
     } catch (err) { if (active === generation) status(err.message); }
   });
   byId('tr-verify-email').addEventListener('click', async () => {
     const code = byId('tr-email-code').value.trim();
-    if (!/^\d{6}$/.test(code)) return status('Introduce los seis dígitos del correo.');
+    if (!/^\d{6}$/.test(code)) return status((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.d2be494da85b7352","Introduce los seis dígitos del correo.",[]));
     const btn = byId('tr-verify-email');
     if (btn.disabled) return;
     btn.disabled = true;
@@ -62,14 +62,14 @@
       byId('tr-secret').textContent = data.secret;
       byId('tr-qr').src = data.qr_url;
       byId('tr-totp-step').style.display = 'block';
-      status('Correo confirmado. Vincula el autenticador y confirma un código de la entrada nueva.');
+      status((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.2e89da72ccfbe2d0","Correo confirmado. Vincula el autenticador y confirma un código de la entrada nueva.",[]));
       byId('tr-totp-code').focus();
     } catch (err) { if (active === generation) status(err.message); }
     finally { if (active === generation) btn.disabled = false; }
   });
   byId('tr-confirm').addEventListener('click', async () => {
     const code = byId('tr-totp-code').value.trim();
-    if (!/^\d{6}$/.test(code)) return status('Introduce los seis dígitos del autenticador nuevo.');
+    if (!/^\d{6}$/.test(code)) return status((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.d23b4b07fa9ea58e","Introduce los seis dígitos del autenticador nuevo.",[]));
     const btn = byId('tr-confirm');
     if (btn.disabled) return;
     btn.disabled = true;
@@ -81,10 +81,11 @@
       localStorage.removeItem('doctorqr_token');
       byId('login-password').value = '';
       goTo('screen-l1');
-      showToast(data.message || 'Autenticador recuperado. Inicia sesión con el código nuevo.');
+      showToast(data.message || (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.53cdb51eb2e89d59","Autenticador recuperado. Inicia sesión con el código nuevo.",[]));
     } catch (err) { if (active === generation) status(err.message); }
     finally { if (active === generation) btn.disabled = false; }
   });
   byId('tr-back').addEventListener('click', () => { clear(); status(''); goTo('screen-l1'); });
   window.addEventListener('pagehide', clear);
 })();
+

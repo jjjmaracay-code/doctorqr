@@ -15,7 +15,7 @@
     if (!owner()?.current() || !owner().matches(profile)) return false;
     localStorage.setItem(DRAFT, JSON.stringify({ owner: owner().id(), profile,
       base_revision: baseRevision, edited_at: Date.now() }));
-    if (!busy && !conflict) notify('Borrador conservado en este dispositivo. Pulsa Guardar y actualizar mis QR para publicarlo.');
+    if (!busy && !conflict) notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.5a8bd95ec7271930","Borrador conservado en este dispositivo. Pulsa Guardar y actualizar mis QR para publicarlo.",[]));
     return true;
   }
   function setRevision(value) {
@@ -53,7 +53,7 @@
     const legacy = owner()?.read();
     try {
       const { res, data: raw } = await request('me');
-      if (![200,404,409].includes(res.status)) throw Error(raw.error || 'No se pudo cargar el perfil.');
+      if (![200,404,409].includes(res.status)) throw Error((typeof uiServerMessage==='function'?uiServerMessage(raw.error):raw.error) || 'No se pudo cargar el perfil.');
       const data = checkedMetadata(raw);
       const clinical = p => JSON.stringify(Object.keys(p || {}).filter(k => k !== 'updated_at' && !k.startsWith('_')).sort().map(k => [k,p[k]]));
       if (!local && legacy && data.profile && clinical(legacy) !== clinical(data.profile)) { saveDraft(legacy); local = draft(); }
@@ -71,12 +71,12 @@
         // Retain the original baseline until the owner explicitly resolves the conflict.
         baseRevision = oldRevision || '';
         pending = data;
-        notify('Otro dispositivo publicó una versión distinta. Tu borrador sigue intacto. Compara las versiones antes de publicar.', true);
+        notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.89879074b5961bd1","Otro dispositivo publicó una versión distinta. Tu borrador sigue intacto. Compara las versiones antes de publicar.",[]), true);
       } else if (!data.profile) {
         if (working) saveDraft(working.profile);
-        notify(working ? (data.review_reason === 'birthdate_corrected' && !local && !legacy ? 'Se recuperó la versión anterior del servidor para revisión, con tu fecha de nacimiento corregida. Puede no incluir cambios recientes: comprueba todos los datos y pulsa Guardar y actualizar mis QR para publicarla.' : 'Tu borrador está recuperado. Revisa los datos y pulsa Guardar y actualizar mis QR para publicar un perfil verificado.') : 'Completa tu perfil y publícalo. El perfil anterior no se mostrará si su identidad no coincide.');
-      } else if (working) notify('Tienes un borrador local pendiente de publicar. La lectura del QR utiliza la última versión confirmada.');
-      else notify('Perfil cargado desde el servidor.');
+        notify(working ? (data.review_reason === 'birthdate_corrected' && !local && !legacy ? (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a1407cec8284a33d","Se recuperó la versión anterior del servidor para revisión, con tu fecha de nacimiento corregida. Puede no incluir cambios recientes: comprueba todos los datos y pulsa Guardar y actualizar mis QR para publicarla.",[]) : (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.9378f9ae23004ccf","Tu borrador está recuperado. Revisa los datos y pulsa Guardar y actualizar mis QR para publicar un perfil verificado.",[])) : (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.b53b993669905ab3","Completa tu perfil y publícalo. El perfil anterior no se mostrará si su identidad no coincide.",[]));
+      } else if (working) notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.3a85c7c6e26f3266","Tienes un borrador local pendiente de publicar. La lectura del QR utiliza la última versión confirmada.",[]));
+      else notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.2628e7f8db8b14b8","Perfil cargado desde el servidor.",[]));
       return working?.profile || data.profile || null;
     } catch (error) {
       notify(error.message + ' Si tienes un borrador local de esta cuenta, se conserva.');
@@ -85,13 +85,13 @@
   }
   async function inspectConflict() {
     const { res, data } = await request('me');
-    if (![200,404,409].includes(res.status)) throw Error(data.error || 'No se pudo comparar el perfil.');
+    if (![200,404,409].includes(res.status)) throw Error((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || 'No se pudo comparar el perfil.');
     pending = checkedMetadata(data);
     const local = draft()?.profile || {};
     const remote = data.profile || {};
     const box = document.getElementById('profile-sync-differences');
     box.replaceChildren();
-    if (!data.profile) { box.textContent = 'El servidor no tiene un perfil médico verificable. Puedes publicar tu borrador revisado.'; return; }
+    if (!data.profile) { box.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.9116ddeab881966c","El servidor no tiene un perfil médico verificable. Puedes publicar tu borrador revisado.",[]); return; }
     const table = document.createElement('table'); table.style.cssText = 'width:100%;text-align:left;border-spacing:8px;overflow-wrap:anywhere';
     const header = document.createElement('tr');
     for (const label of ['Dato','Tu borrador','Última versión publicada']) { const th=document.createElement('th');th.textContent=label;header.appendChild(th); } table.appendChild(header);
@@ -101,7 +101,7 @@
       const row=document.createElement('tr');
       for(const value of [labels[key] || key.replace(/_/g,' '), local[key], remote[key]]) {
         const td=document.createElement('td');td.style.cssText='vertical-align:top;border-top:1px solid #456;padding:8px';
-        td.textContent = value === null || value === undefined || value === '' ? 'Sin dato' : typeof value === 'object' ? JSON.stringify(value) : String(value);
+        td.textContent = value === null || value === undefined || value === '' ? (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.102d6d7274f9b234","Sin dato",[]) : typeof value === 'object' ? JSON.stringify(value) : String(value);
         row.appendChild(td);
       }
       table.appendChild(row);
@@ -110,7 +110,7 @@
   }
   async function save(profile, reviewed = false) {
     if (busy) return { success: false };
-    if (!saveDraft(profile)) { notify('La identidad del borrador no coincide con tu sesión. No se ha publicado.'); return { success:false }; }
+    if (!saveDraft(profile)) { notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.adc8fb7cde997280","La identidad del borrador no coincide con tu sesión. No se ha publicado.",[])); return { success:false }; }
     busy = true;
     try {
       if (reviewed) {
@@ -118,15 +118,15 @@
         setRevision(pending.profile_revision);
       }
       if (!baseRevision) { await load(); throw Error('Revisa el perfil cargado antes de publicar. Tu borrador está conservado.'); }
-      notify('Publicando y verificando el guardado en el servidor…');
+      notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.f99bd7d05938dac1","Publicando y verificando el guardado en el servidor…",[]));
       const { res, data } = await request('save', { profile, doctorqr_id: owner().id(), base_revision: baseRevision });
       if (!res.ok) {
         if (data.code === 'profile_conflict') {
           await inspectConflict();
-          notify('Otro dispositivo cambió el perfil. Nada de este borrador se ha publicado. Compara y elige qué versión conservar.', true);
+          notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.9128fb2b1a2b48be","Otro dispositivo cambió el perfil. Nada de este borrador se ha publicado. Compara y elige qué versión conservar.",[]), true);
           return { success:false, conflict:true };
         }
-        throw Error(data.error || 'No se ha guardado en el servidor.');
+        throw Error((typeof uiServerMessage==='function'?uiServerMessage(data.error):data.error) || 'No se ha guardado en el servidor.');
       }
       checkedMetadata(data);
       if (!data.success || !data.profile) throw Error('El servidor no ha confirmado el guardado.');
@@ -137,7 +137,7 @@
       if (!newest || JSON.stringify(newest.profile) === submitted) localStorage.removeItem(DRAFT);
       else saveDraft(newest.profile);
       pending = null;
-      notify(draft() ? 'Se publicó la versión enviada. Hay cambios posteriores en tu borrador pendientes de publicar.' : 'Guardado en el servidor. Tus QR consultan esta versión verificada.');
+      notify(draft() ? (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.eb9b60d1d1f0bd5c","Se publicó la versión enviada. Hay cambios posteriores en tu borrador pendientes de publicar.",[]) : (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.ffc66ed80c2c2ad1","Guardado en el servidor. Tus QR consultan esta versión verificada.",[]));
       window.dispatchEvent(new CustomEvent('doctorqr:profile-published', { detail: { profile:data.profile, pendingDraft:!!draft() } }));
       return { success:true };
     } catch (error) { notify(error.message + ' Tu borrador se conserva en este dispositivo.'); return { success:false }; }
@@ -152,8 +152,8 @@
     document.getElementById('profile-sync-use-server')?.addEventListener('click', async () => {
       try {
         await inspectConflict();
-        if (!pending.profile) { notify('No hay un perfil publicado verificable. Conserva y revisa tu borrador.',true);return; }
-        if (!confirm('¿Cargar la última versión publicada y descartar este borrador local?')) return;
+        if (!pending.profile) { notify((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.5ba7f2d056a180d4","No hay un perfil publicado verificable. Conserva y revisa tu borrador.",[]),true);return; }
+        if (!confirm((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.25edc734b95204c3","¿Cargar la última versión publicada y descartar este borrador local?",[]))) return;
         setRevision(pending.profile_revision);owner().write({...pending.profile,updated_at:pending.updated_at});localStorage.removeItem(DRAFT);
         window.dispatchEvent(new CustomEvent('doctorqr:load-latest'));window.location.reload();
       } catch(e) { notify(e.message,true); }
@@ -161,7 +161,7 @@
     document.getElementById('profile-sync-use-draft')?.addEventListener('click', async () => {
       const p = draft()?.profile;
       if (!p) return;
-      if (!confirm('¿Has revisado las diferencias? Se publicará tu borrador completo en lugar de la versión del servidor.')) return;
+      if (!confirm((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.eb0ed540be556124","¿Has revisado las diferencias? Se publicará tu borrador completo en lugar de la versión del servidor.",[]))) return;
       await save(p,true);
     });
   });

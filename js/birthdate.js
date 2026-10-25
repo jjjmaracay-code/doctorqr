@@ -11,7 +11,7 @@
   function format(value, locale = 'es') {
     const date = parse(value);
     if (!date) return '';
-    return new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(date);
+    return new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', calendar: 'gregory', timeZone: 'UTC' }).format(date);
   }
   function renderDisplay() {
     if (!root.document) return;
@@ -29,7 +29,7 @@
     const today = new Date();
     const last = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
     if (!date || date.getTime() > last) {
-      root.alert('Selecciona una fecha de nacimiento válida.'); return false;
+      root.alert(root.t && root.t('birthdate.invalid') !== 'birthdate.invalid' ? root.t('birthdate.invalid') : 'Selecciona una fecha de nacimiento válida.'); return false;
     }
     renderDisplay();
     const messages = {
@@ -40,7 +40,8 @@
       de: 'Geburtsdatum bestätigen: {date}. Ist es richtig? Es wird in Ihrer Identität gespeichert.'
     };
     const lang = root.currentLanguage || 'es';
-    return root.confirm((messages[lang] || messages.es).replace('{date}', format(value, lang)));
+    const template = root.t && root.t('birthdate.confirm') !== 'birthdate.confirm' ? root.t('birthdate.confirm') : (messages[lang] || messages.es);
+    return root.confirm(template.replace('{date}', format(value, lang)));
   }
   const api = { parse, format, renderDisplay, confirmBirthdate };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

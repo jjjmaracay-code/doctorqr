@@ -1,0 +1,49 @@
+Iniciar sesión|Hasi saioa|लॉग इन करें|登录|Войти|ログイン|تسجيل الدخول
+ENTRAR|Sartu|लॉग इन करें|登录|Войти|ログイン|دخول
+Contraseña|Pasahitza|पासवर्ड|密码|Пароль|パスワード|كلمة المرور
+Correo electrónico|Posta elektronikoa|ईमेल|电子邮箱|Электронная почта|メールアドレス|البريد الإلكتروني
+Nombre|Izena|नाम|名字|Имя|名|الاسم
+Apellidos|Abizenak|उपनाम|姓氏|Фамилия|姓|اسم العائلة
+Nombre completo|Izen-abizenak|पूरा नाम|姓名|Полное имя|氏名|الاسم الكامل
+Fecha de nacimiento|Jaioteguna|जन्मतिथि|出生日期|Дата рождения|生年月日|تاريخ الميلاد
+Sexo biológico|Sexu biologikoa|जैविक लिंग|生理性别|Биологический пол|生物学的性別|الجنس البيولوجي
+Masculino|Gizonezkoa|पुरुष|男性|Мужской|男性|ذكر
+Femenino|Emakumezkoa|महिला|女性|Женский|女性|أنثى
+Intersexual|Intersexuala|इंटरसेक्स|间性|Интерсекс|インターセックス|ثنائي الجنس
+Prefiero no decir|Nahiago dut ez esan|बताना नहीं चाहते|不愿透露|Предпочитаю не указывать|回答しない|أفضل عدم الإفصاح
+Tipo de documento|Dokumentu mota|दस्तावेज़ का प्रकार|证件类型|Тип документа|身分証明書の種類|نوع الوثيقة
+Número de documento|Dokumentu-zenbakia|दस्तावेज़ संख्या|证件号码|Номер документа|証明書番号|رقم الوثيقة
+PASAPORTE|Pasaportea|पासपोर्ट|护照|Паспорт|パスポート|جواز السفر
+Datos de identidad|Nortasun-datuak|पहचान संबंधी जानकारी|身份信息|Идентификационные данные|本人情報|بيانات الهوية
+Idioma|Hizkuntza|भाषा|语言|Язык|言語|اللغة
+Sí|Bai|हाँ|是|Да|はい|نعم
+No|Ez|नहीं|否|Нет|いいえ|لا
+Ninguna|Bat ere ez|कोई नहीं|无|Нет|なし|لا يوجد
+Ninguno|Bat ere ez|कोई नहीं|无|Нет|なし|لا يوجد
+No aplica|Ez dagokio|लागू नहीं|不适用|Неприменимо|該当なし|لا ينطبق
+No sé|Ez dakit|पता नहीं|不知道|Не знаю|わからない|لا أعرف
+No lo sé|Ez dakit|पता नहीं|不知道|Не знаю|わからない|لا أعرف
+Cancelar|Utzi|रद्द करें|取消|Отмена|キャンセル|إلغاء
+Cerrar|Itxi|बंद करें|关闭|Закрыть|閉じる|إغلاق
+Salir|Irten|बाहर जाएँ|退出|Выйти|終了|خروج
+Continuar|Jarraitu|जारी रखें|继续|Продолжить|続行|متابعة
+Volver|Atzera|वापस जाएँ|返回|Назад|戻る|رجوع
+Guardar|Gorde|सहेजें|保存|Сохранить|保存|حفظ
+Reintentar|Saiatu berriro|फिर प्रयास करें|重试|Повторить|再試行|إعادة المحاولة
+Aceptar|Onartu|स्वीकार करें|接受|Принять|同意|قبول
+Verificando…|Egiaztatzen…|सत्यापन जारी है…|正在验证…|Проверка…|確認中…|جارٍ التحقق…
+ENVIAR CÓDIGO DE VERIFICACIÓN|Bidali egiaztapen-kodea|सत्यापन कोड भेजें|发送验证码|Отправить код подтверждения|確認コードを送信|إرسال رمز التحقق
+Enviando código...|Kodea bidaltzen…|कोड भेजा जा रहा है…|正在发送验证码…|Отправка кода…|コード送信中…|جارٍ إرسال الرمز…
+¿Olvidaste tu contraseña?|Pasahitza ahaztu duzu?|पासवर्ड भूल गए?|忘记密码？|Забыли пароль?|パスワードをお忘れですか？|هل نسيت كلمة المرور؟
+Acceso rápido de emergencia|Larrialdietarako sarbide azkarra|आपातकालीन त्वरित पहुँच|紧急快速访问|Быстрый экстренный доступ|緊急クイックアクセス|وصول سريع للطوارئ
+Credenciales incorrectas.|Sarbide-datu okerrak.|लॉगिन जानकारी गलत है।|登录信息不正确。|Неверные данные для входа.|ログイン情報が正しくありません。|بيانات الدخول غير صحيحة.
+Guardar y actualizar mis QR|Gorde eta eguneratu nire QR kodeak|सहेजें और मेरे QR कोड अपडेट करें|保存并更新我的二维码|Сохранить и обновить мои QR-коды|保存してQRコードを更新|حفظ رموز QR الخاصة بي وتحديثها
+EMBARAZO ACTUAL|Egungo haurdunaldia|वर्तमान गर्भावस्था|当前妊娠|Текущая беременность|現在の妊娠|الحمل الحالي
+SEMANAS DE EMBARAZO|Haurdunaldiko asteak|गर्भावस्था के सप्ताह|妊娠周数|Недели беременности|妊娠週数|أسابيع الحمل
+¿LACTANCIA ACTIVA?|Une honetan edoskitzen?|क्या वर्तमान में स्तनपान करा रही हैं?|目前是否哺乳？|Грудное вскармливание сейчас?|現在授乳中ですか？|هل توجد رضاعة طبيعية حالياً؟
+SEMANAS DE LACTANCIA ACTIVA|Uneko edoskitzearen asteak|वर्तमान स्तनपान की अवधि (सप्ताह)|当前哺乳周数|Недели текущего грудного вскармливания|現在の授乳期間（週）|مدة الرضاعة الحالية بالأسابيع
+Alergias a medicamentos|Sendagaiekiko alergiak|दवाओं से एलर्जी|药物过敏|Аллергии на лекарства|薬剤アレルギー|الحساسية تجاه الأدوية
+Dosis y frecuencia|Dosia eta maiztasuna|खुराक और आवृत्ति|剂量和频次|Доза и частота|用量と頻度|الجرعة والتكرار
+Último ajuste de medicación|Medikazioaren azken aldaketa|दवा में अंतिम बदलाव|最近一次用药调整|Последнее изменение лекарств|直近の処方変更|آخر تعديل للأدوية
+ÚLTIMA TOMA DE MEDICACIÓN CRÍTICA|Funtsezko medikazioaren azken hartualdia|महत्वपूर्ण दवा की अंतिम खुराक|关键药物的末次用药|Последний приём критически важных лекарств|重要薬剤の最終服用|آخر جرعة من الأدوية الحرجة
+Datos de identidad verificados — no editables|Egiaztatutako nortasun-datuak — ezin dira editatu|सत्यापित पहचान जानकारी — संपादन बंद|已验证的身份信息 — 不可编辑|Проверенные данные личности — недоступны для редактирования|確認済みの本人情報 — 編集不可|بيانات هوية مؤكدة — غير قابلة للتعديل

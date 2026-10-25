@@ -129,6 +129,12 @@
     }
   </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=1"/>
+<style>
+html[dir="rtl"] .patient-meta,html[dir="rtl"] .badge{unicode-bidi:plaintext}
+html[dir="rtl"] :is(.blood-badge,.tel-link,.qr-type-badge){direction:ltr;unicode-bidi:isolate;display:inline-block}
+html[dir="rtl"] .lang-switcher{justify-content:flex-start}
+html:lang(ar) :is(.section-label,.tab-btn,.badge){letter-spacing:normal;line-height:1.7}
+</style>
 </head>
 <body data-atabey-ui="medical">
 <div id="app"></div>
@@ -138,6 +144,7 @@
      momento. Hash SRI conservado sin cambios, verificado contra el archivo
      local. -->
 <script src="/vendor/lz-string/lz-string-1.5.0.min.js" integrity="sha384-0d+Gr7vM4Drod8E3hXKgciWJSWbjD/opKLLygI9ktiWbuvlDwQLzU46wJ9s5gsp7"></script>
+<script src="/js/qr-languages.js?v=14"></script>
 <script>
 // ================================================================
 // i18n
@@ -448,6 +455,15 @@ const T = {
 // ================================================================
 // Helpers
 // ================================================================
+Object.entries(window.AtabeyQrLanguages || {}).forEach(([code, dictionary]) => {
+  T[code] = Object.assign({}, T.es, T[code] || {}, dictionary);
+  T[code].results = (n,total) => n + ' / ' + total;
+});
+function qrLanguageControl() {
+  const names={es:'Español',en:'English',fr:'Français',de:'Deutsch',pt:'Português',eu:'Euskara',hi:'हिन्दी',zh:'简体中文',ru:'Русский',ja:'日本語',ar:'العربية'};
+  return '<select aria-label="' + escAttr(t.language || 'Language') + '" onchange="setLang(this.value)" style="max-width:100%;padding:8px;border-radius:8px;background:white;color:#111">' + Object.keys(names).filter(code=>T[code]).map(code=>'<option value="'+code+'"'+(code===lang?' selected':'')+'>'+names[code]+'</option>').join('') + '</select>';
+}
+
 function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
@@ -487,7 +503,7 @@ function section(title, body, color) {
 
 function badges(items, cls) {
   if (!items.length) return '';
-  return `<div class="badge-list">${items.map(i => `<span class="badge ${cls}">${esc(i)}</span>`).join('')}</div>`;
+  return `<div class="badge-list">${items.map(i => `<span class="badge ${cls}" dir="auto">${esc(i)}</span>`).join('')}</div>`;
 }
 
 function row(label, val, crit) {
@@ -497,18 +513,18 @@ function row(label, val, crit) {
 
 function badgeRow(label, items, cls) {
   if (!items.length) return '';
-  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value">${items.map(i => `<span class="badge ${cls}">${esc(i)}</span>`).join('')}</span></div>`;
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value" dir="auto">${items.map(i => `<span class="badge ${cls}" dir="auto">${esc(i)}</span>`).join('')}</span></div>`;
 }
 
 function objRow(label, obj) {
   if (!obj || !Object.keys(obj).length) return '';
   const items = Object.entries(obj).map(([k, v]) => `${k}: ${v}`).join(', ');
-  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value">${esc(items)}</span></div>`;
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value" dir="auto">${esc(items)}</span></div>`;
 }
 
 function telRow(label, tel, cls) {
   if (!tel) return '';
-  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value"><a class="tel-link ${cls||''}" href="tel:${escAttr(tel)}">${esc(tel)}</a></span></div>`;
+  return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value" dir="auto"><a class="tel-link ${cls||''}" href="tel:${escAttr(tel)}">${esc(tel)}</a></span></div>`;
 }
 
 // ================================================================
@@ -739,7 +755,7 @@ function renderContactos(d, t) {
   let ins = '';
   ins += row(t.l_insurer,      d.insurer,       false);
   ins += row(t.l_policy,       d.policy,        false);
-  ins += row('TARJETA SANIT.', d.health_card_num, false);
+  ins += row(t.health_card, d.health_card_num, false);
   ins += row('PAÍS SEG. SOC.', d.ss_country,    false);
   if (ins) html += section(t.s_insurance, ins);
 
@@ -799,15 +815,9 @@ function renderApp() {
     <header class="header" id="hdr">
       <div class="header-top">
         <div class="logo">ATABEY<span style="color:#111111">APP</span></div>
-        <div class="lang-switcher">
-          <button class="lang-btn ${lang==='es'?'active':''}" onclick="setLang('es')">ES</button>
-          <button class="lang-btn ${lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
-          <button class="lang-btn ${lang==='fr'?'active':''}" onclick="setLang('fr')">FR</button>
-          <button class="lang-btn ${lang==='pt'?'active':''}" onclick="setLang('pt')">PT</button>
-          <button class="lang-btn ${lang==='de'?'active':''}" onclick="setLang('de')">DE</button>
-        </div>
+        <div class="lang-switcher">${qrLanguageControl()}</div>
       </div>
-      <div class="patient-name">${esc(name)}</div>
+      <div class="patient-name" dir="auto">${esc(name)}</div>
       <div class="patient-meta">
         ${d.sangre ? `<span class="blood-badge">${esc(d.sangre)}</span>` : ''}
         ${age !== null ? `<span class="age-badge">${age} ${t.years}</span>` : ''}
@@ -847,12 +857,14 @@ function renderApp() {
     <div class="tab-panel"        id="panel-contactos">${renderContactos(d, t)}</div>
 
     <div class="footer">
-      <a class="btn-profile" href="https://doctorqr.app">${t.btn}</a>
+      <a class="btn-profile" href="https://atabeyapp.app">${t.btn}</a>
       <div class="footer-note">${esc(t.footnote)}</div>
     </div>`;
 
   positionSticky();
   initSearch();
+  document.getElementById('scroll-ind-down')?.setAttribute('aria-label',t.down);
+  document.getElementById('scroll-ind-up')?.setAttribute('aria-label',t.up);
 
   (function() {
     const down = document.getElementById('scroll-ind-down');
@@ -896,11 +908,12 @@ function renderError() {
     pt: { title:'PERFIL INDISPONÍVEL', retry:'Tentar novamente', connection:'Não foi possível conectar ao servidor. Verifique a conexão.', unpublished:'Não há perfil publicado para este QR. O titular deve publicar o perfil ou gerar outro QR após recriar a conta.', verification:'O titular deve rever e publicar o perfil. Não serão apresentados dados de outra pessoa.', limited:'Muitas consultas. Aguarde um minuto.', unavailable:'Serviço temporariamente indisponível.' },
     de: { title:'PROFIL NICHT VERFÜGBAR', retry:'Erneut versuchen', connection:'Keine Verbindung zum Server. Prüfen Sie die Internetverbindung.', unpublished:'Für diesen QR ist kein veröffentlichtes Profil verfügbar. Der Inhaber muss es speichern oder nach Neuregistrierung einen neuen QR erstellen.', verification:'Der Inhaber muss die Identität prüfen und das Profil veröffentlichen. Es werden keine Daten anderer Personen angezeigt.', limited:'Zu viele Anfragen. Bitte eine Minute warten.', unavailable:'Der Dienst ist vorübergehend nicht verfügbar.' }
   };
-  const l = labels[lang] || labels.es;
+  const l = Object.assign({}, labels[lang] || labels.es, {title:t.error_title,retry:t.retry,connection:t.connection,unpublished:t.unpublished,verification:t.verification,limited:t.limited,unavailable:t.unavailable});
   const problem = window.cardLoadProblem;
   document.getElementById('app').innerHTML = `
     <div class="error-screen">
       <div class="logo" style="margin-bottom:16px">ATABEY<span style="color:#111111">APP</span></div>
+      <div class="lang-switcher">${qrLanguageControl()}</div>
       <div class="error-icon">⚠</div>
       <div class="error-title">${esc(problem === 'invalid' ? t.err_title : l.title)}</div>
       <div class="error-msg">${esc(l[problem] || t.err_msg)}</div>
@@ -1108,6 +1121,7 @@ function setLang(l) {
   t    = T[l];
   document.documentElement.lang = l;
   document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+  if (!data) { renderError(); return; }
   renderApp();
   if (prevTab !== 'urgente') switchTab(prevTab);
   if (prevQ.length >= 2) {

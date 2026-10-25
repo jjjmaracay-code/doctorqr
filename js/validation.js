@@ -177,7 +177,7 @@
 
       // Hint siempre visible según país
       if (!hintEl) return;
-      hintEl.textContent = rule ? rule.hint : (num ? 'Solo dígitos' : '');
+      hintEl.textContent = rule ? rule.hint : (num ? (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.28868785b6a0f07d","Solo dígitos",[]) : '');
 
       if (!num) {
         warnEl.style.display = 'none';
@@ -329,3 +329,4 @@
         : domSel;
       return alias && domain ? alias + '@' + domain : '';
     }
+

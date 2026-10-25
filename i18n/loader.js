@@ -1,5 +1,5 @@
 // Loader i18n compartido por register.html, login.html, index.html y recovery.html.
-// Fase 2: multiidioma (es/en/fr/pt/de).
+// Once idiomas de interfaz; textos médicos originales preservados.
 //
 // Carga con fetch() ASÍNCRONO a propósito -- un XHR síncrono choca con
 // Service Workers que interceptan toda petición GET con un handler `fetch`
@@ -36,11 +36,23 @@
 // no se toca ni se fusiona con este. El idioma de cuenta (este) y el
 // idioma del QR (card.html) son dos mecanismos independientes.
 (function () {
-  var SUPPORTED_LANGS = ['es', 'en', 'fr', 'pt', 'de'];
+  var SUPPORTED_LANGS = ["es", "en", "fr", "de", "pt", "eu", "hi", "zh", "ru", "ja", "ar"];
   var DICT = {};
   var FALLBACK = {};
   var sequence = 0;
   window.atabeySupportedLanguages = SUPPORTED_LANGS.slice();
+  window.uiMessage = function(key, source, values) {
+    var value=window.t ? window.t(key) : source;
+    if (!value || value === key) value=source;
+    return value.replace(/\{(\d+)\}/g,function(match,index){return values && index in values ? String(values[index]) : match;});
+  };
+
+  window.uiServerMessage = function(message) {
+    var normalize=function(value){return String(value || '').normalize('NFKC').toLowerCase().replace(/[^a-z0-9À-ÿ]+/g,'');};
+    var wanted=normalize(message);
+    var key=Object.keys(FALLBACK).find(function(k){return normalize(FALLBACK[k]) === wanted;});
+    return key && DICT[key] ? DICT[key] : String(message || DICT['ui.server_error'] || '');
+  };
   function flatten(dict) {
     var output = {};
     function visit(obj, prefix) { Object.keys(obj || {}).forEach(function(key) {
@@ -53,7 +65,8 @@
   function updateLanguage(lang) {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.querySelectorAll('[data-app-language]').forEach(function(el) { el.value = lang; });
+    document.querySelectorAll('[data-app-language],#r-language,#r-language-s1').forEach(function(el) { el.value = lang; });
+    if (window.AtabeyDates) window.AtabeyDates.renderDisplay();
   }
 
   function detectLanguage() {
@@ -84,7 +97,7 @@
     root = root || document;
     root.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
-      if (Object.prototype.hasOwnProperty.call(DICT, key)) el.textContent = DICT[key];
+      if (Object.prototype.hasOwnProperty.call(DICT, key)) el.textContent = DICT[key].replace(/\{([A-Za-z0-9_]+)\}/g,function(match,name){var value=el.getAttribute('data-i18n-param-'+name);return value === null ? match : value;});
     });
     root.querySelectorAll('[data-i18n-html]').forEach(function (el) {
       var key = el.getAttribute('data-i18n-html');
@@ -113,7 +126,7 @@
   // todo el documento; el valor persistido en doctorqr_user.language se
   // guarda aparte, al completar el registro (ver register.html).
   function fetchDictionary(lang) {
-    return fetch('/i18n/' + lang + '.json?v=13', { cache: 'no-cache' }).then(function(res) {
+    return fetch('/i18n/' + lang + '.json?v=14', { cache: 'no-cache' }).then(function(res) {
       if (!res.ok) throw new Error('Dictionary unavailable');
       return res.json();
     }).then(flatten);
@@ -147,15 +160,16 @@
     var holder=document.createElement('div');
     holder.className='app-language-control';
     holder.style.cssText='display:flex;justify-content:center;gap:8px;padding:8px;position:relative;z-index:1';
-    var label=document.createElement('label');label.textContent='Language';
+    var label=document.createElement('label');label.textContent=window.t('qr.language');label.setAttribute('data-i18n','qr.language');
     label.htmlFor='app-language-select';
     var select=document.createElement('select');select.id='app-language-select';
     select.setAttribute('data-app-language','');select.setAttribute('aria-label','Language');
-    var names={es:'Español',en:'English',fr:'Français',pt:'Português',de:'Deutsch'};
+    var names={"es": "Español", "en": "English", "fr": "Français", "de": "Deutsch", "pt": "Português", "eu": "Euskara", "hi": "हिन्दी", "zh": "简体中文", "ru": "Русский", "ja": "日本語", "ar": "العربية"};
     SUPPORTED_LANGS.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=names[code]||code;select.appendChild(option);});
     select.value=LANG;select.style.cssText='max-width:100%;padding:8px;border:1px solid #738ba3;border-radius:8px;background:#102337;color:#fff';
     select.addEventListener('change',function(){window.setLanguage(select.value);});
     holder.append(label,select);document.body.prepend(holder);
+    holder.title=window.t('ui.translation_notice');
     return DICT;
   });
 })();
