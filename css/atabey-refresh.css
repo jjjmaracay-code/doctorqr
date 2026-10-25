@@ -421,3 +421,16 @@ body[data-atabey-ui="access"]::before {
 
 
 }
+
+/* Adult medical editor: clear states, keyboard focus and touch targets. */
+.medical-context-note{padding:14px 16px;margin:12px 0;border:1px solid #5ab9ff;border-radius:14px;background:#0a2035;color:#e9f6ff;font-size:14px;line-height:1.6}
+.medical-context-note label{display:flex;gap:10px;align-items:center;cursor:pointer}
+.medical-context-note input{width:22px;height:22px;flex-shrink:0}
+.medical-not-applicable{border-left:3px solid #8dabc1;padding-left:12px;background:#101c28}
+.medical-not-applicable .field-label,.medical-not-applicable .field-hint,.medical-not-applicable .chip{color:#b9cddd!important;opacity:1!important}
+.medical-not-applicable .chip{border-style:dashed}
+[hidden]{display:none!important}
+.chip:focus-visible,.section-header:focus-visible,button:focus-visible{outline:3px solid #64d8ff;outline-offset:4px}
+.chip{min-height:44px;display:inline-flex;align-items:center}
+.section-header{min-height:52px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}

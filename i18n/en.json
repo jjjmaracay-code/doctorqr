@@ -54,7 +54,6 @@
   "login.qwerty.back": "ABC",
   "login.qwerty.done": "Done",
   "login.qwerty.space_aria": "space",
-
   "recovery.header.tagline": "Access recovery",
   "recovery.step_label.step1": "Step 1 — Request code",
   "recovery.step_label.step2": "Step 2 — Verify code",
@@ -118,38 +117,31 @@
   "recovery.qwerty.nums": "123",
   "recovery.qwerty.back": "ABC",
   "recovery.qwerty.space_aria": "space",
-
   "register.header.tagline": "Your emergency medical record",
   "register.step_label.step1": "Step 1 of 5 — Terms of use",
   "register.step_label.step2": "Step 2 of 5 — Identity details",
   "register.step_label.step3": "Step 3 of 5 — Email verification",
   "register.step_label.step4": "Step 4 of 5 — Two-factor authentication",
   "register.step_label.step5": "Registration complete!",
-
   "register.screen1.title": "Terms of use",
   "register.screen1.listen_button": "▶ LISTEN TO TERMS",
-
   "register.terms.title": "ATABEYAPP — TERMS AND CONDITIONS OF USE",
   "register.terms.version": "Version 1.0 — June 2026",
-
   "register.terms.s1_title": "What Atabeyapp is, and what it is not, under any circumstances",
   "register.terms.s1_p1": "Atabeyapp is a digital tool. It helps you keep your medical information ready, to use in an emergency.",
   "register.terms.s1_p2": "Atabeyapp is not a medical device. It doesn't hold any official certification as a healthcare product. This means it has no official clinical validity by itself.",
   "register.terms.s1_p3": "Atabeyapp does not replace a doctor's diagnosis. Nor does it replace any treatment, or any medical prescription. A health professional's judgment always takes priority over the information in this app.",
   "register.terms.s1_p4": "Using Atabeyapp does not create any doctor-patient relationship. Atabeyapp is, solely, a support tool. It is not, in itself, a medical service.",
-
   "register.terms.s2_title": "Your responsibility for the data you enter",
   "register.terms.s2_p1": "You are the sole person responsible for your medical data in Atabeyapp. This includes it being true. It also includes it being complete, and up to date.",
   "register.terms.s2_p2_html": "You commit to doing the following:<br>\n      — Entering only true information, matching what your doctor has told you.<br>\n      — Updating your data whenever something changes. This includes your medical situation, your medication, or your allergies.<br>\n      — Keeping your QR code accessible, at all times. This matters, for emergencies.<br>\n      — Telling your family, and your emergency contacts. They should know the QR code exists. They should also know where to find it.",
   "register.terms.s2_p3": "Atabeyapp warns you about something important. Incorrect, outdated, or false medical data can be more dangerous than no data at all. It can lead a doctor to make the wrong decision. This can have serious consequences. In some cases, it can put your life at risk.",
   "register.terms.s2_p4": "For this reason, Atabeyapp is not responsible for problems caused by incorrect, false, or outdated data that you entered.",
-
   "register.terms.s3_title": "Your identity data, permanently locked",
   "register.terms.s3_p1": "During registration, you enter some identity data. These are your full name, your surname, your date of birth, your identity document number, and your email address.",
   "register.terms.s3_p2": "This data is locked, forever. This happens right after you verify your account, with the code we send to your email. Once locked, it cannot be changed.",
   "register.terms.s3_p3": "This measure exists for security reasons. Its purpose is to protect your identity. It also prevents someone else from impersonating you.",
   "register.terms.s3_p4": "If you made a mistake writing your identity data, there's a solution. You must cancel your account. Afterwards, you can create a new account, with the correct data. Atabeyapp cannot modify already-verified identity data, under any circumstances.",
-
   "register.terms.s4_title": "Your account's security, with six layers of protection",
   "register.terms.s4_p1": "Atabeyapp uses six security layers to protect your account and your data.",
   "register.terms.s4_p2": "The first layer verifies your email address, during registration, with a one-time code.",
@@ -159,7 +151,6 @@
   "register.terms.s4_p6": "The fifth layer is exclusive access, through your personal QR code. There is no other way to access your medical information.",
   "register.terms.s4_p7": "The sixth layer is the audit log. Every access made through your QR is recorded, with date, time, and internet address.",
   "register.terms.s4_p8": "You are responsible for three things: keeping your password safe, without sharing it with anyone; keeping your two-factor method active; and notifying Atabeyapp immediately, if you suspect someone accessed your account without permission.",
-
   "register.terms.s5_title": "Recovering your access, if lost",
   "register.terms.s5_p1": "If you lose access to your account, you can start recovering it from the sign-in screen.",
   "register.terms.s5_p2": "To recover your account, you need four things: access to your registered email address; verifying a code we send to that email, valid for 30 minutes; confirming your identity with your two-factor method; and creating a new password.",
@@ -168,43 +159,35 @@
   "register.terms.s5_p5": "The first option is recovering the account. We send a recovery code to your email address. You have 30 minutes to complete the verification. You need that code, your two-factor method, and a new password. If you don't finish this process within 30 minutes, your account is cancelled automatically. This cancellation cannot be undone. This means you'll lose all your saved medical data. And that you'd have to register again from scratch, as if you were a new user.",
   "register.terms.s5_p6": "The second option is cancelling the account. This deletes all your data, immediately, and forever. Afterwards, you can create a new account, from the start.",
   "register.terms.s5_p7": "Atabeyapp cannot give you access to an account without you completing the entire verification process. This is the case under any circumstances. Its purpose is to protect your medical data.",
-
   "register.terms.s6_title": "Cancelling your account, permanently and irreversibly",
   "register.terms.s6_p1": "You can cancel your account at any time. This is done from your profile settings. This action cannot be undone.",
   "register.terms.s6_p2": "Cancelling your account does three things: it deletes, forever, all your data stored on our servers; it invalidates, immediately, all the QR codes you generated with that account; and it makes it impossible to recover your data, once the cancellation is complete.",
   "register.terms.s6_p3": "To cancel your account, you need to confirm three things: your password; your two-factor method; and typing the word ELIMINAR, in the confirmation field.",
-
   "register.terms.s7_title": "How we store your information, with no surprises",
   "register.terms.s7_p1": "Your identity data is stored on our servers, to manage your account securely.",
   "register.terms.s7_p2": "Your medical data is stored encrypted, with systems recognized as an industry standard. We do this for a single reason: making emergency access possible, from any device. This is Atabeyapp's essential purpose. That a healthcare professional can access your information, right when you need it most.",
   "register.terms.s7_p3": "No one can read your medical data. This includes the Atabeyapp team. Your data is encrypted, with a key that comes from your own account. It can only be read when someone scans your personal QR code.",
   "register.terms.s7_p4": "Every time someone accesses your data with your QR, we log it. We store the date, the time, and the internet address of that access.",
   "register.terms.s7_p5": "If you cancel your account, we also delete this access log, along with the rest of your data. We keep no history after cancellation.",
-
   "register.terms.s8_title": "The use of your QR code, in a real medical emergency",
   "register.terms.s8_p1": "Your Atabeyapp QR code has a clear purpose. It's designed for healthcare staff to use, in a medical emergency.",
   "register.terms.s8_p2": "You expressly authorize healthcare staff to access your medical information, through your QR code, in an emergency situation.",
   "register.terms.s8_p3": "The information in your QR is for guidance only. It is not a binding source for healthcare staff. The doctor, or paramedic, must always check this information against your official medical history, before making a critical medical decision.",
   "register.terms.s8_p4": "Atabeyapp cannot control how healthcare staff use the information in your QR code. For this reason, we are not responsible for that use.",
-
   "register.terms.s9_title": "Minimum age, and guardian-managed accounts",
   "register.terms.s9_p1": "To use Atabeyapp, you need to be at least 21 years old. Atabeyapp sets this age because it seeks a sufficient level of maturity to be responsible for medical data.",
   "register.terms.s9_p2": "If you are 21 or older, but you cannot enter your own data yourself —for example, due to a disability, or a situation of dependency—, your legal guardian can do it on your behalf.",
   "register.terms.s9_p3": "Atabeyapp does not verify documentation for legal guardian status. Whoever declares acting as a guardian, by checking the corresponding confirmation box, takes on full legal responsibility for that declaration towards Atabeyapp. If that declaration were false, responsibility for any resulting consequence lies exclusively with whoever made it. Atabeyapp reserves the right to cancel any account where there are reasonable grounds to suspect a false guardianship declaration.",
-
   "register.terms.s10_title": "Changes to these terms, always with prior notice",
   "register.terms.s10_p1": "Atabeyapp may change these terms at any time. If we make an important change, we'll notify you by email. We'll notify you at least 15 days before the change takes effect.",
   "register.terms.s10_p2": "If you keep using Atabeyapp after that notice, this means you accept the new terms. If you don't accept them, you must cancel your account, before the date the change takes effect.",
-
   "register.terms.s11_title": "Limits of our liability, explained clearly",
   "register.terms.s11_p1": "Atabeyapp, the people who created it, and those who contribute to the project, are not liable for certain damages. This includes direct, indirect, incidental, special, or consequential damages arising from the use, or misuse, of the app.",
   "register.terms.s11_p2": "Some examples of this are: medical decisions based on incorrect information that you entered; loss of access to your account due to losing your credentials; unauthorized use of the QR codes you generated; and service interruption due to technical causes, or force majeure.",
   "register.terms.s11_p3": "No digital system offers absolute security. Atabeyapp does not assume liability for incidents beyond its control, or beyond its reasonable diligence.",
-
   "register.terms.s12_title": "Applicable law, and where disputes are resolved",
   "register.terms.s12_p1": "These terms are governed by applicable Spanish law. If any dispute arises regarding the use of Atabeyapp, both parties submit to the Courts and Tribunals of Madrid. This means we expressly waive any other venue where that dispute could be resolved.",
   "register.terms.s12_p2": "Three main laws apply to Atabeyapp. The European Union's General Data Protection Regulation, known as GDPR. Spanish Organic Law 3, of 2018, on the Protection of Personal Data and the Guarantee of Digital Rights, known as LOPDGDD. And Spanish Law 34, of 2002, on Information Society Services and Electronic Commerce, known as LSSI.",
-
   "register.screen1.reg_type_label": "How are you registering?",
   "register.screen1.reg_type_self": "I'm registering myself",
   "register.screen1.reg_type_tutor": "I'm acting as legal guardian for another person",
@@ -214,7 +197,6 @@
   "register.screen1.chk4_text_html": "I declare, under my <strong>legal responsibility</strong>, that I am acting as legal guardian of the person whose medical data I am about to enter. I take on full responsibility arising from this declaration, including the consequences of it being false.",
   "register.screen1.continue_button": "CONTINUE",
   "register.screen1.has_account_footer_html": "Already have an account?\n      <a href=\"login.html\" style=\"color:rgba(18,165,255,0.5);text-decoration:underline;\">Sign in</a>",
-
   "register.screen2.title": "Identity details",
   "register.screen2.nombre_label": "First name",
   "register.screen2.nombre_placeholder": "Mary",
@@ -282,7 +264,6 @@
   "register.screen2.missing_pwd_mismatch": "Password — confirmation doesn't match",
   "register.screen2.missing_pwd_confirm_len": "Password — confirm with minimum 8 characters",
   "register.screen2.missing_fields_prefix": "⚠ The following fields are missing:<br>• ",
-
   "register.screen3.locked_title": "Verified data — read only",
   "register.screen3.locked_name_label": "Full name",
   "register.screen3.locked_email_label": "Email address",
@@ -298,7 +279,6 @@
   "register.screen3.resend_success": "New code sent",
   "register.screen3.resend_error": "Error resending code",
   "register.screen3.resend_countdown": "Resend in {n}s",
-
   "register.blocked.title": "⚠ ACCOUNT LOCKED",
   "register.blocked.subtitle_html": "You've exceeded the maximum number of attempts.<br>Choose an option:",
   "register.blocked.timer_desc_html": "Time remaining to recover your account.<br>\n      If the counter reaches zero, the account<br>will be cancelled automatically.",
@@ -311,7 +291,6 @@
   "register.blocked.recover_error_generic": "Error sending",
   "register.blocked.timeout_cancel_toast": "Time's up. The account has been cancelled automatically.",
   "register.blocked.confirm_cancel_dialog": "Are you sure? This action is irreversible. All your data will be deleted.",
-
   "register.screen4.title": "Security — Set up your two-factor authentication",
   "register.screen4.mandatory_hint": "Mandatory — without this you won't be able to access Atabeyapp",
   "register.screen4.totp_title": "Google Authenticator",
@@ -323,7 +302,6 @@
   "register.screen4.loading": "Loading…",
   "register.screen4.setup_error_prefix": "Error setting up 2FA: ",
   "register.screen4.wrong_code_generic": "Incorrect code — try again",
-
   "register.screen5.title": "Your Atabeyapp account is ready",
   "register.screen5.subtitle_html": "Your identity data has been verified<br>and remains permanently locked.",
   "register.screen5.summary_title": "Registration summary",
@@ -334,29 +312,24 @@
   "register.screen5.summary_email": "Email",
   "register.screen5.summary_2fa": "Two-factor",
   "register.screen5.go_profile_button": "GO TO MY MEDICAL PROFILE →",
-
   "register.qwerty.clear": "Clear",
   "register.qwerty.nums": "123",
   "register.qwerty.back": "ABC",
   "register.qwerty.space_aria": "space",
-
   "register.common.connection_error": "Error connecting to the server",
   "register.common.expired": "Expired",
-
   "index.menu.open_aria": "Menu",
   "index.menu.install_app": "Install app",
   "index.menu.badge_soon": "Coming soon",
   "index.menu.download_pdf": "Download PDF",
   "index.menu.share_link": "Share link",
   "index.menu.scroll_top": "Back to top",
-
   "index.trial_expired.title": "YOUR TRIAL PERIOD HAS ENDED",
   "index.trial_expired.body": "Your medical record is still saved and secure. Choose a plan to keep syncing your emergency data.",
   "index.trial_expired.sub": "Redirecting to plans in 3 seconds…",
   "index.totp_required.title": "SECURITY SETUP PENDING",
   "index.totp_required.body": "Your medical record is still saved locally. To sync it you need to confirm your authenticator (Google Authenticator).",
   "index.totp_required.sub": "Redirecting to confirm it in 3 seconds…",
-
   "index.plans.trial_label": "Your trial period",
   "index.plans.days_left_label": "days left of free trial",
   "index.plans.paid_intro": "With a paid plan you get",
@@ -381,24 +354,19 @@
   "index.plans.processing_button": "Processing...",
   "index.plans.payment_error_generic": "Error starting the payment. Try again.",
   "index.plans.connection_error": "Connection error. Try again.",
-
   "index.header.tagline": "Your medical record in a QR",
   "index.header.brand_slogan": "It's not a toy. It's not a trinket. It's your medical record, ready for a real emergency. Atabeyapp.",
   "index.header.ver_planes_button": "View plans",
   "index.header.logout_button": "Sign out",
   "index.header.emergency_quick_button": "Quick emergency access",
-
   "index.search.placeholder": "Search the form...",
-
   "index.form.identity_locked_notice": "Verified identity data — not editable",
-
   "index.qr.generate_button": "Save and update my QR codes",
   "index.qr.saved_indicator": "Saved ✓",
   "index.qr.section_title": "YOUR MEDICAL QR CODES",
   "index.qr.section_desc": "Swipe to see all your QRs.\n      Only the ones relevant to your medical profile are generated.",
   "index.qr.reminder_banner": "Changes stay as a draft on this device. Save and update your QR codes to publish them, wait for server confirmation, then scan a QR code to check the information.",
   "index.qr.print_button": "PRINT EMERGENCY QR — CARD FORMAT",
-
   "index.location.section_title": "EMERGENCY — SHARE LOCATION",
   "index.location.section_desc": "Generates a Google Maps link with your current position to send\n      to your emergency contacts. The location is obtained only once\n      and is never stored on any server.",
   "index.location.share_button": "SHARE MY LOCATION NOW",
@@ -416,7 +384,6 @@
   "index.location.whatsapp_text_prefix": "My current location (Atabeyapp): ",
   "index.location.copied_toast": "Link copied",
   "index.location.copy_error_toast": "Couldn't copy",
-
   "index.alerts.section_title": "OFFICIAL ALERTS IN YOUR AREA",
   "index.alerts.section_desc": "Official public-access sources — no registration needed.",
   "index.alerts.usgs_title": "USGS Earthquakes",
@@ -425,9 +392,7 @@
   "index.alerts.meteoalarm_desc": "Official weather alerts · meteoalarm.org",
   "index.alerts.proteccioncivil_title": "Spanish Civil Protection",
   "index.alerts.proteccioncivil_desc": "Alerts and emergencies · proteccioncivil.es",
-
   "index.footer.complaints_link": "COMPLAINTS AND SUGGESTIONS",
-
   "index.delete_account.open_button": "Delete my account",
   "index.delete_account.modal_title": "Delete your account — Irreversible action",
   "index.delete_account.intro": "By confirming, your account and all your data will be permanently and immediately deleted. This includes:",
@@ -446,28 +411,22 @@
   "index.delete_account.deleting_button": "Deleting...",
   "index.delete_account.error_generic": "Error deleting the account.",
   "index.delete_account.error_connection": "Connection error. Try again.",
-
   "index.toast.saved": "Data saved",
   "index.toast.synced_html": "&#9729; Profile synced &#10003;",
   "index.toast.conflict": "⚠️ There's a more recent version saved from another device. Reload before continuing to edit.",
-
   "index.tutor_modal.title": "Legal guardian declaration",
   "index.tutor_modal.body_html": "By continuing, you declare under your responsibility that:<br><br>\n        1. The contact details entered belong to a person who holds\n        legal guardian status through a valid enabling document (court\n        ruling, notarial document, or equivalent administrative record).<br><br>\n        2. This declaration does NOT grant or prove legal guardian status — it is\n        purely informational. ATABEYAPP does not verify the truthfulness of this information\n        nor the existence of the corresponding legal document.<br><br>\n        3. Entering data for a person who does not legally hold that status,\n        or falsely presenting yourself as a legal guardian, may constitute usurpation of\n        civil status (art. 401 CP), document forgery (arts. 390-392 CP) and/or\n        fraud (art. 248 CP).<br><br>\n        4. Responsibility for any inaccuracy lies exclusively with\n        whoever enters this data.",
   "index.tutor_modal.checkbox_text": "I have read and accept this declaration. I confirm the data is true\n        and that the designated person legally holds the status of legal guardian.",
   "index.tutor_modal.cancel_button": "Cancel",
   "index.tutor_modal.confirm_button": "Confirm and continue",
-
   "index.validation_modal.title": "Incomplete sections",
   "index.validation_modal.back_button": "Go back and review",
   "index.validation_modal.continue_button": "Continue anyway",
-
   "index.plan_badge.pro": "Current plan: Pro",
   "index.plan_badge.lifetime": "Current plan: Lifetime",
   "index.plan_badge.free": "Current plan: Free — {n} days left",
-
   "index.scroll.down_aria": "More content below",
   "index.scroll.up_aria": "Back to top",
-
   "index.chipval.aas": "ASA",
   "index.chipval.aine": "NSAIDs",
   "index.chipval.alopurinol": "Allopurinol",
@@ -488,7 +447,6 @@
   "index.chipval.fentanilo": "Fentanyl",
   "index.chipval.gadolinio": "Gadolinium",
   "index.chipval.haloperidol": "Haloperidol",
-
   "index.chipval.heparina": "Heparin",
   "index.chipval.iecas": "ACE inhibitors",
   "index.chipval.ibuprofeno": "Ibuprofen",
@@ -509,7 +467,6 @@
   "index.chipval.rituximab": "Rituximab",
   "index.chipval.sulfamidas": "Sulfonamides",
   "index.chipval.tetraciclinas": "Tetracyclines",
-
   "index.chipval.tiazidas": "Thiazides",
   "index.chipval.tramadol": "Tramadol",
   "index.chipval.vancomicina": "Vancomycin",
@@ -530,7 +487,6 @@
   "index.chipval.marisco": "Shellfish",
   "index.chipval.moluscos": "Molluscs",
   "index.chipval.mostaza": "Mustard",
-
   "index.chipval.pescado": "Fish",
   "index.chipval.sesamo": "Sesame",
   "index.chipval.soja": "Soy",
@@ -551,7 +507,6 @@
   "index.chipval.picadura_hormiga": "Ant sting",
   "index.chipval.anestesia_general": "General anaesthesia",
   "index.chipval.si_llevo_epipen_encima": "Yes — I carry an EpiPen",
-
   "index.chipval.si_lo_tengo_en_casa": "Yes — I have one at home",
   "index.chipval.no": "No",
   "index.chipval.si_llevo_glucagon_encima": "Yes — I carry rescue glucagon",
@@ -572,7 +527,6 @@
   "index.chipval.artritis_reumatoide": "Rheumatoid arthritis",
   "index.chipval.asma": "Asthma",
   "index.chipval.autismo": "Autism",
-
   "index.chipval.cancer_activo": "Active cancer",
   "index.chipval.cancer_en_remision": "Cancer in remission",
   "index.chipval.cardiopatia": "Heart disease",
@@ -593,7 +547,6 @@
   "index.chipval.espondilitis": "Spondylitis",
   "index.chipval.esquizofrenia": "Schizophrenia",
   "index.chipval.fibrilacion_auricular": "Atrial fibrillation",
-
   "index.chipval.fibromialgia": "Fibromyalgia",
   "index.chipval.gastritis_cronica": "Chronic gastritis",
   "index.chipval.glaucoma": "Glaucoma",
@@ -614,7 +567,6 @@
   "index.chipval.psoriasis": "Psoriasis",
   "index.chipval.sindrome_intestino_irritable": "Irritable bowel syndrome",
   "index.chipval.sordera": "Deafness",
-
   "index.chipval.talasemia": "Thalassaemia",
   "index.chipval.tdah": "ADHD",
   "index.chipval.toc": "OCD",
@@ -635,7 +587,6 @@
   "index.chipval.implante_coclear": "Cochlear implant",
   "index.chipval.implante_mama": "Breast implant",
   "index.chipval.neuroestimulador": "Neurostimulator",
-
   "index.chipval.port_a_cath": "Port-a-cath",
   "index.chipval.protesis_cadera": "Hip prosthesis",
   "index.chipval.protesis_dental": "Dental prosthesis",
@@ -656,7 +607,6 @@
   "index.chipval.otro": "Other",
   "index.chipval.litio": "Lithium ⚠️",
   "index.chipval.clozapina": "Clozapine ⚠️",
-
   "index.chipval.risperidona": "Risperidone",
   "index.chipval.quetiapina": "Quetiapine",
   "index.chipval.olanzapina": "Olanzapine",
@@ -668,7 +618,6 @@
   "index.chipval.valproato": "Valproate ⚠️",
   "index.chipval.carbamazepina_psiq": "Carbamazepine ⚠️",
   "index.chipval.depende_del_momento": "Depends on the moment",
-
   "index.critical.section_title": "04 — Critical Data",
   "index.critical.blood_type_label": "Blood type",
   "index.critical.allergy_med_label": "Drug allergies",
@@ -690,7 +639,6 @@
   "index.critical.tuberculosis_hint": "Requires respiratory isolation — critical in emergencies",
   "index.critical.dai_label": "⚠ IMPLANTABLE DEFIBRILLATOR (ICD)?",
   "index.critical.dai_hint": "Contraindicated with electrocautery, MRI and certain equipment — always inform staff",
-
   "index.conditions.section_title": "05 — Diseases and Conditions",
   "index.conditions.diseases_label": "Chronic diseases",
   "index.conditions.conditions_label": "Special conditions",
@@ -712,7 +660,6 @@
   "index.conditions.puede_decidir_label": "CAN YOU MAKE MEDICAL DECISIONS?",
   "index.conditions.tutor_legal_label": "DO YOU HAVE A LEGAL GUARDIAN?",
   "index.conditions.tutor_legal_hint": "Complete the contact details in Section 10 — Emergency contacts → Legal guardian",
-
   "index.menu.reconfigure_2fa": "Reconfigure authenticator",
   "index.totp_setup.title": "Set up Google Authenticator",
   "index.totp_setup.desc": "Scan the QR with Google Authenticator and enter the 6-digit code shown in the app.",
@@ -1060,5 +1007,11 @@
   "index.chipval.asisa": "Asisa",
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
-  "index.chipval.seguridad_social": "Social Security"
+  "index.chipval.seguridad_social": "Social Security",
+  "audit": {
+    "reproductive_note": "These questions do not apply by default to male biological sex. Existing answers are preserved: review them if present.",
+    "reproductive_review": "I need to review these questions in my case",
+    "medication_note": "Select only medicines you currently take. Include dose, route, schedule, non-prescription medicines and supplements. This list does not prescribe or check interactions.",
+    "medication_detail": "For each medicine: name, quantity and unit, route, schedule and last dose if relevant. Copy your prescribed regimen; do not calculate doses here."
+  }
 }

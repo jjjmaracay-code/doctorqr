@@ -178,6 +178,7 @@
     // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
+        if (chip.closest('[inert]')) return;
         hasUnsavedChanges = true;
         const group = chip.closest('[data-group]');
         const isSingle = group && group.dataset.single === 'true';
@@ -188,6 +189,7 @@
         } else {
           chip.classList.toggle('active');
         }
+        if (group && ['sexo-biologico','embarazo'].includes(group.dataset.group)) checkGenderFields(null);
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
         if (group && (group.dataset.group === 'diseases' || group.dataset.group === 'conditions')) updateGlucagonVisibility();
         if (group && group.dataset.group === 'conditions') updateDialisisVisibility();
@@ -313,6 +315,8 @@
     // ===== TOGGLES SÍ/NO QUE LIMPIAN SUB-CAMPOS FANTASMA =====
     function setupSiNoToggle(toggleContainer) {
       const groupName = toggleContainer.dataset.sinoGroup;
+      // Sex changes must never erase an existing medical history.
+      if (groupName === 'sexo-biologico') return;
       // data-sino-target admite varios nombres separados por espacio (ej. un select
       // limpiado tanto por su propio toggle como por uno que lo oculta en cascada)
       const targets = document.querySelectorAll(`[data-sino-target~="${groupName}"]`);
@@ -1131,7 +1135,7 @@
     function checkPregnancy(el) {
       const val = el.dataset.value || el.textContent.trim();
       const block = document.getElementById('pregnancy-weeks-block');
-      block.style.display = val === 'Sí — estoy embarazada' ? 'block' : 'none';
+      queueMicrotask(() => checkGenderFields(null));
     }
 
     function checkAcv(el) {
@@ -1156,20 +1160,25 @@
     }
 
     function checkGenderFields(el) {
-      let isMale;
-      if (el) {
-        const wasActive = el.classList.contains('active');
-        isMale = !wasActive && el.dataset.value === 'Masculino';
-      } else {
-        const active = document.querySelector('[data-group="sexo-biologico"] .chip.active');
-        isMale = !!(active && active.dataset.value === 'Masculino');
-      }
-      ['pregnancy-block','pregnancy-weeks-block','field-lactancia',
-       'field-semanas-gestacion','field-semanas-lactancia','field-cesarea-previa'
-      ].forEach(id => {
-        const f = document.getElementById(id);
-        if (f) f.style.display = isMale ? 'none' : '';
+      if (el) { queueMicrotask(() => checkGenderFields(null)); return; }
+      const active = document.querySelector('[data-group="sexo-biologico"] .chip.active');
+      const male = active?.dataset.value === 'Masculino';
+      const override = document.getElementById('review-reproductive-fields')?.checked;
+      const blocked = male && !override;
+      const note = document.getElementById('reproductive-note');
+      if (note) note.hidden = !male;
+      ['pregnancy-block','field-lactancia','field-semanas-lactancia','field-cesarea-previa'].forEach(id => {
+        const field = document.getElementById(id);
+        if (!field) return;
+        field.toggleAttribute('inert', blocked);
+        field.setAttribute('aria-disabled', String(blocked));
+        field.classList.toggle('medical-not-applicable', blocked);
       });
+      const weeks = document.getElementById('pregnancy-weeks-block');
+      if (weeks) {
+        weeks.style.display = !blocked && getChip('embarazo') === 'Sí — estoy embarazada' ? 'block' : 'none';
+        weeks.toggleAttribute('inert', blocked);
+      }
     }
 
     function checkSaludEmocionalOtro(chipEl) {
