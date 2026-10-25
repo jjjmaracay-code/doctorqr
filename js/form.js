@@ -178,7 +178,7 @@
     // ===== CHIPS =====
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        if (chip.closest('[inert]')) return;
+        if (chip.closest('[inert],.chips-disabled')) return;
         hasUnsavedChanges = true;
         const group = chip.closest('[data-group]');
         const isSingle = group && group.dataset.single === 'true';
