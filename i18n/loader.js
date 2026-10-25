@@ -95,7 +95,7 @@
   // guarda aparte, al completar el registro (ver register.html).
   window.setLanguage = function (lang) {
     if (SUPPORTED_LANGS.indexOf(lang) === -1) lang = 'es';
-    return fetch('/i18n/' + lang + '.json')
+    return fetch('/i18n/' + lang + '.json?v=11', { cache: 'no-cache' })
       .then(function (res) { return res.ok ? res.json() : {}; })
       .catch(function () { return {}; })
       .then(function (dict) {
@@ -106,7 +106,7 @@
       });
   };
 
-  window.i18nReady = fetch('/i18n/' + LANG + '.json')
+  window.i18nReady = fetch('/i18n/' + LANG + '.json?v=11', { cache: 'no-cache' })
     .then(function (res) { return res.ok ? res.json() : null; })
     .catch(function () { return null; })
     .then(function (dict) {
@@ -117,7 +117,7 @@
       if (dict) return dict;
       if (LANG === 'es') return {};
       window.currentLanguage = 'es';
-      return fetch('/i18n/es.json')
+      return fetch('/i18n/es.json?v=11', { cache: 'no-cache' })
         .then(function (res) { return res.ok ? res.json() : {}; })
         .catch(function () { return {}; });
     })

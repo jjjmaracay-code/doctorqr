@@ -5,3 +5,51 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(self), camera=(), microphone=()
+
+/
+  Cache-Control: no-store
+
+/index
+  Cache-Control: no-store
+
+/index.html
+  Cache-Control: no-store
+
+/login
+  Cache-Control: no-store
+
+/login.html
+  Cache-Control: no-store
+
+/register
+  Cache-Control: no-store
+
+/register.html
+  Cache-Control: no-store
+
+/recovery
+  Cache-Control: no-store
+
+/recovery.html
+  Cache-Control: no-store
+
+/card
+  Cache-Control: no-store
+
+/card.html
+  Cache-Control: no-store
+
+/emergencia
+  Cache-Control: no-store
+
+/emergencia.html
+  Cache-Control: no-store
+
+/sw.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/js/*
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/i18n/*
+  Cache-Control: no-cache, max-age=0, must-revalidate

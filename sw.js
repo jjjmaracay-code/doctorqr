@@ -16,7 +16,7 @@
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
 // v6: actualiza el dibujo orgánico del QR, conservando sus datos.
 // v7: incluye la recuperación segura del autenticador.
-const CACHE_NAME = 'doctorqr-v10';
+const CACHE_NAME = 'doctorqr-v11';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -30,12 +30,21 @@ const CACHE_URLS = [
   './icons/icon-512.png',
   './css/styles.css',
   './css/atabey-refresh.css?v=1',
-  './js/totp-recovery.js?v=1',
-  './js/qr-generator.js',
-  './js/medical-owner.js?v=1',
-  './js/birthdate.js?v=1',
-  './js/profile-sync.js?v=1',
-  './js/form.js',
+  './js/totp-recovery.js?v=11',
+  './js/qr-generator.js?v=11',
+  './js/medical-owner.js?v=11',
+  './js/birthdate.js?v=11',
+  './js/profile-sync.js?v=11',
+  './js/form.js?v=11',
+  './js/register-sw.js?v=11',
+  './js/search.js?v=11',
+  './js/validation.js?v=11',
+  './i18n/loader.js?v=11',
+  './i18n/es.json?v=11',
+  './i18n/en.json?v=11',
+  './i18n/fr.json?v=11',
+  './i18n/pt.json?v=11',
+  './i18n/de.json?v=11',
   './vendor/qrcodejs/qrcode.min.js',
   './vendor/lz-string/lz-string-1.4.4.min.js',
   './vendor/lz-string/lz-string-1.5.0.min.js',
@@ -52,6 +61,15 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith('/api/') || url.origin !== self.location.origin) {
     event.respondWith(fetch(event.request));
+    return;
+  }
+
+  const appCode = url.pathname.startsWith('/js/') || url.pathname.startsWith('/i18n/');
+  if (appCode) {
+    event.respondWith(fetch(event.request, { cache: 'no-cache' }).then(response => {
+      if (response.ok) { const copy=response.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)); }
+      return response;
+    }).catch(() => caches.match(event.request)));
     return;
   }
 
@@ -91,7 +109,7 @@ self.addEventListener('fetch', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k.startsWith('doctorqr-') && k !== CACHE_NAME).map(k => caches.delete(k)))
     )
   );
   self.clients.claim();

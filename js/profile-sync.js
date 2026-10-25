@@ -37,7 +37,7 @@
   }
   function checkedMetadata(data) {
     if (data.doctorqr_id !== owner().id() || !validRevision(data.profile_revision)) throw Error('No se pudo confirmar la identidad del perfil. Tu borrador se conserva.');
-    if (data.profile && !owner().matches(data.profile)) throw Error('La identidad del perfil no coincide con tu cuenta.');
+    if ((data.profile && !owner().matches(data.profile)) || (data.review_profile && !owner().matches(data.review_profile))) throw Error('La identidad del perfil no coincide con tu cuenta.');
     return data;
   }
   function notify(text, hasConflict = false) { message = text; conflict = hasConflict; render(); }
@@ -62,6 +62,7 @@
       else {
         // The old server data is quarantined; keep only the user's identity-matched draft for review.
         if (!local && legacy) saveDraft(legacy);
+        else if (!local && data.review_profile) saveDraft(data.review_profile);
         localStorage.removeItem('doctorqr_profile'); localStorage.removeItem('doctorqr_qr_cache');
       }
       setRevision(data.profile_revision);
@@ -73,7 +74,7 @@
         notify('Otro dispositivo publicó una versión distinta. Tu borrador sigue intacto. Compara las versiones antes de publicar.', true);
       } else if (!data.profile) {
         if (working) saveDraft(working.profile);
-        notify(working ? 'Tu borrador está recuperado. Revisa los datos y pulsa Guardar y actualizar mis QR para publicar un perfil verificado.' : 'Completa tu perfil y publícalo. El perfil anterior no se mostrará si su identidad no coincide.');
+        notify(working ? (data.review_reason === 'birthdate_corrected' && !local && !legacy ? 'Se recuperó la versión anterior del servidor para revisión, con tu fecha de nacimiento corregida. Puede no incluir cambios recientes: comprueba todos los datos y pulsa Guardar y actualizar mis QR para publicarla.' : 'Tu borrador está recuperado. Revisa los datos y pulsa Guardar y actualizar mis QR para publicar un perfil verificado.') : 'Completa tu perfil y publícalo. El perfil anterior no se mostrará si su identidad no coincide.');
       } else if (working) notify('Tienes un borrador local pendiente de publicar. La lectura del QR utiliza la última versión confirmada.');
       else notify('Perfil cargado desde el servidor.');
       return working?.profile || data.profile || null;

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-app-release="11">
 <head>
-<script src="/js/birthdate.js?v=1"></script>
-<script src="/js/medical-owner.js?v=1"></script>
-<script src="/js/profile-sync.js?v=1"></script>
+<script src="/js/birthdate.js?v=11"></script>
+<script src="/js/medical-owner.js?v=11"></script>
+<script src="/js/profile-sync.js?v=11"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -23,8 +23,8 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js"></script>
-  <script src="i18n/loader.js"></script>
+  <script src="/js/register-sw.js?v=11"></script>
+  <script src="i18n/loader.js?v=11"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
     .btn-menu-hamburguesa {
@@ -2530,10 +2530,10 @@
     }
     window.i18nReady.finally(prefillarIdentidad);
   </script>
-  <script src="js/validation.js"></script>
-  <script src="js/search.js"></script>
-  <script src="js/form.js"></script>
-  <script src="js/qr-generator.js"></script>
+  <script src="js/validation.js?v=11"></script>
+  <script src="js/search.js?v=11"></script>
+  <script src="js/form.js?v=11"></script>
+  <script src="js/qr-generator.js?v=11"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
   <script>
@@ -2715,7 +2715,7 @@
     hOv.appendChild(hBox); document.body.appendChild(hOv);
 
     /* ── AUTO-INICIO (primera visita) ── */
-    if (!localStorage.getItem('dqr_tour')) openTour();
+    // Medical editing is never blocked by an automatic tour. The help button still opens it.
 
   })();
 
@@ -3153,9 +3153,7 @@
     // Ocultar botón "Ver planes" si ya es pro/lifetime (opcional: mantenerlo visible siempre)
     // Lo dejamos siempre visible para que cualquier usuario pueda revisar/cambiar
 
-    if (u.plan_type === 'trial' || !u.plan_type) {
-      openPlans();
-    }
+    // Plans remain available from their button; do not cover the medical editor on startup.
 
     // Indicador de plan activo
     const badge = document.getElementById('plan-badge');
