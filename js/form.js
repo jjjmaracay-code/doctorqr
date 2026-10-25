@@ -775,6 +775,7 @@
     }
 
     async function generate() {
+      if (!MedicalOwner.current()) { alert('La cuenta cambió. Vuelve a iniciar sesión.'); return; }
       const profilePrevio = buildProfileFromForm();
 
       if (profilePrevio.tutor_legal === 'Sí') {
@@ -803,7 +804,8 @@
       }
 
       const profile = buildProfileFromForm();
-      localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
+      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert('Los datos de identidad no coinciden con tu cuenta. No se guardarán ni generarán QR.'); return; }
+      MedicalOwner.write(profile);
       hasUnsavedChanges = false;
       mostrarIndicadorGuardado();
 
@@ -841,13 +843,15 @@
               return; // 2FA sin confirmar — no guardar en silencio ni generar QR desincronizado
             }
           }
+          if (!r.ok) { alert('No se ha confirmado el guardado. No se generarán QR.'); return; }
+          if (!MedicalOwner.current()) return;
           if (r.ok) {
             const json = await r.json();
             if (json?.success) {
               if (json.updated_at) {
                 const stored = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
                 stored.updated_at = json.updated_at;
-                localStorage.setItem('doctorqr_profile', JSON.stringify(stored));
+                MedicalOwner.write(stored);
               }
               const ts = document.getElementById('toast-sync');
               if (ts) { ts.classList.add('show'); setTimeout(() => ts.classList.remove('show'), 2500); }
@@ -857,12 +861,10 @@
           mostrarRecordatorioQR();
         })
         .catch(() => {
-          generateAllQRs(); // error de red: el save local ocurrió, generar igualmente
-          mostrarRecordatorioQR();
+          alert('No se pudo confirmar el guardado en el servidor. Reintenta con conexión antes de generar QR.');
         });
       } else {
-        generateAllQRs(); // sin autenticación: flujo local directo
-        mostrarRecordatorioQR();
+        alert('Inicia sesión para guardar y generar tus QR.');
       }
     }
 
@@ -896,12 +898,13 @@
     // permite mandar el header Authorization (el mecanismo que realmente
     // autentica hoy, igual que en generate()).
     window.addEventListener('beforeunload', () => {
-      if (!hasUnsavedChanges) return;
+      if (!hasUnsavedChanges || !MedicalOwner.current()) return;
       const _tok = localStorage.getItem('doctorqr_token');
       if (!_tok || _tok.startsWith('biometric_')) return;
 
       const profile = buildProfileFromForm();
-      localStorage.setItem('doctorqr_profile', JSON.stringify(profile));
+      if (!MedicalOwner.current() || !MedicalOwner.matches(profile)) { alert('Los datos de identidad no coinciden con tu cuenta. No se guardarán ni generarán QR.'); return; }
+      MedicalOwner.write(profile);
       localStorage.setItem('doctorqr_pending_sync_notice', '1');
 
       fetch('https://doctorqr-backend-production.up.railway.app/api/profile/save', {
@@ -931,23 +934,28 @@
           });
           if (_res.ok) {
             const _data = await _res.json();
+            if (!MedicalOwner.current() || _data.doctorqr_id !== MedicalOwner.id() || !MedicalOwner.matches(_data.profile)) { MedicalOwner.discardProfile(); alert('El servidor no ha confirmado la identidad del perfil. No se cargará. Debes introducir de nuevo tus datos médicos.'); return; }
             saved = _data.profile;
             if (_data.updated_at) saved.updated_at = _data.updated_at;
-            localStorage.setItem('doctorqr_profile', JSON.stringify(saved));
+            MedicalOwner.write(saved);
             if (_data.plan_type) {
               const _u = JSON.parse(localStorage.getItem('doctorqr_user') || '{}');
               _u.plan_type  = _data.plan_type;
               _u.created_at = _data.created_at;
               localStorage.setItem('doctorqr_user', JSON.stringify(_u));
             }
+          } else {
+            MedicalOwner.discardProfile();
+            if (_res.status !== 404) alert('El perfil no se ha podido verificar. No se mostrarán los datos anteriores. Debes introducir de nuevo tus datos médicos y guardarlos.');
+            return;
           }
         } catch (_) {
-          // sin red o error del servidor — cae a localStorage
+          // Offline access is restricted to a previously verified profile belonging to this session.
         }
       }
 
       if (!saved) {
-        saved = JSON.parse(localStorage.getItem('doctorqr_profile') || 'null');
+        saved = MedicalOwner.current() ? MedicalOwner.read() : null;
       }
 
       const refreshVal = () => {
@@ -1413,3 +1421,4 @@
     actualizarRangosAnio();
     loadSaved();
     initIcons();
+

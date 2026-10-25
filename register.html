@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script src="/js/medical-owner.js?v=1"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2089,17 +2090,7 @@ document.getElementById('btn-verify-totp').addEventListener('click', async () =>
     });
     const data = await response.json();
     if (data.success) {
-      localStorage.setItem('doctorqr_token', data.token);
-      if (data.doctorqr_id) {
-        localStorage.setItem('doctorqr_id', data.doctorqr_id);
-      }
-      localStorage.setItem('doctorqr_user', JSON.stringify({
-        ...data.user,
-        fecha_nacimiento: regData.fecha_nacimiento,
-        doc_type:         regData.doc_type,
-        doc_number:       regData.doc_number,
-        language:         regData.language,
-      }));
+      MedicalOwner.bindSession({ ...data, user: { ...data.user, language: regData.language } });
       localStorage.setItem(AUTH_KEY, JSON.stringify({
         ...regData,
         otp_verified:     true,
@@ -2180,3 +2171,4 @@ function showToast(msg){
 </script>
 </body>
 </html>
+

@@ -215,10 +215,7 @@ function calcAge(dateStr) {
 }
 
 function getFormData() {
-  try {
-    const saved = localStorage.getItem('doctorqr_profile');
-    return saved ? JSON.parse(saved) : {};
-  } catch(e) { return {}; }
+  return window.MedicalOwner?.read() || {};
 }
 
 // Extrae campos simples no vacíos
@@ -378,7 +375,7 @@ const QR_TYPE_CODES = {
 };
 
 function getOrCreateUserID() {
-  return localStorage.getItem('doctorqr_id') || 'UNKNOWN';
+  return window.MedicalOwner?.read() ? MedicalOwner.id() : 'UNKNOWN';
 }
 
 function buildQRUrl(type, formData) {
@@ -806,7 +803,8 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
 const QR_CACHE_KEY = 'doctorqr_qr_cache';
 
 function getQRCache() {
-  try { return JSON.parse(localStorage.getItem(QR_CACHE_KEY) || '{}'); }
+  try { const cache = JSON.parse(localStorage.getItem(QR_CACHE_KEY) || '{}');
+    return window.MedicalOwner?.read() && cache.owner === MedicalOwner.id() ? cache : {}; }
   catch (e) { return {}; }
 }
 
@@ -820,6 +818,8 @@ function getQRCache() {
 function saveQRCacheEntry(typeId, dataUrl, url) {
   try {
     const cache = getQRCache();
+    if (!window.MedicalOwner?.read()) return;
+    cache.owner = MedicalOwner.id();
     cache.images = cache.images || {};
     cache.urls = cache.urls || {};
     cache.images[typeId] = dataUrl;
@@ -1439,3 +1439,4 @@ document.getElementById('btn-print-emergency')
 // Capa 3: al cargar la página, restaura el último QR válido conocido (si
 // existe) mientras se confirma en segundo plano — ver restoreQRCacheAndRefresh.
 restoreQRCacheAndRefresh();
+

@@ -1,0 +1,26 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+const source=fs.readFileSync('js/medical-owner.js','utf8');
+const alice={nombre:'Alice',apellidos:'Fixture',email:'alice@example.invalid',doc_type:'dni',doc_number:'A123',fecha_nacimiento:'1980-01-01'};
+const bob={nombre:'Bob',apellidos:'Fixture',email:'bob@example.invalid',doc_type:'dni',doc_number:'B456',fecha_nacimiento:'1981-02-02'};
+const profile=u=>({...u,sangre:u===alice?'A+':'B-'});
+function setup(seed={}){const values=new Map(Object.entries(seed));const events={};let redirect;const ctx={localStorage:{getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)},document:{documentElement:{style:{}}},window:{addEventListener:(k,v)=>events[k]=v,location:{replace:v=>redirect=v}}};vm.runInNewContext(source,ctx);return{api:ctx.window.MedicalOwner,values,events,ctx,redirect:()=>redirect};}
+const seed=(u=alice,id='ALICE')=>({doctorqr_user:JSON.stringify(u),doctorqr_token:'token-'+id,doctorqr_id:id,doctorqr_profile_owner:id,doctorqr_profile:JSON.stringify(profile(u))});
+test('Upgrade quarantines an unowned legacy medical profile and QR image',()=>{const s=seed();delete s.doctorqr_profile_owner;s.doctorqr_qr_cache='old-image';const x=setup(s);assert.equal(x.api.read(),null);assert.equal(x.values.has('doctorqr_qr_cache'),false)});
+test('Foreign owner cannot supply a medical profile',()=>{const x=setup({...seed(),doctorqr_profile_owner:'BOB'});assert.equal(x.api.read(),null)});
+test('Mismatched patient identity is purged even when local owner ID matches',()=>{const x=setup({...seed(),doctorqr_profile:JSON.stringify(profile(bob))});assert.equal(x.api.read(),null)});
+test('Verified same-account profile remains usable offline',()=>{const x=setup(seed());assert.equal(x.api.read().email,alice.email);assert.equal(x.api.current(),true)});
+test('Login as another patient removes all previous medical and cached QR data',()=>{const x=setup({...seed(),doctorqr_qr_cache:'old-image'});x.api.bindSession({token:'token-BOB',doctorqr_id:'BOB',user:bob});assert.equal(x.api.read(),null);assert.equal(x.values.has('doctorqr_qr_cache'),false);assert.equal(x.values.get('doctorqr_id'),'BOB')});
+test('Same-account reauthentication preserves only identity-matched data',()=>{const x=setup(seed());x.api.bindSession({token:'new-token',doctorqr_id:'ALICE',user:alice});assert.equal(x.api.read().sangre,'A+')});
+test('Missing server identity never binds a session',()=>{const x=setup(seed());assert.throws(()=>x.api.bindSession({token:'bad',user:bob}));assert.equal(x.api.read().email,alice.email)});
+test('Wrong-account form data cannot be persisted',()=>{const x=setup(seed());assert.throws(()=>x.api.write(profile(bob)));assert.equal(x.api.read().email,alice.email)});
+test('Stale tab cannot save after another tab switches the session',()=>{const x=setup(seed());x.values.set('doctorqr_token','different');assert.throws(()=>x.api.write(profile(alice)));x.events.storage({key:'doctorqr_token'});assert.equal(x.ctx.document.documentElement.style.visibility,'hidden');assert.equal(x.redirect(),'login.html')});
+test('A delayed load is rejected after the session changes',()=>{const x=setup(seed());x.values.set('doctorqr_id','BOB');assert.equal(x.api.current(),false);assert.throws(()=>x.api.write(profile(alice)))});
+test('Quarantined profile can be re-entered only by the unchanged session',()=>{const x=setup(seed());x.api.discardProfile();assert.equal(x.api.read(),null);assert.equal(x.api.current(),true);x.api.write(profile(alice));assert.equal(x.api.read().email,alice.email)});
+const card=fs.readFileSync('card.html','utf8');const parse=card.slice(card.indexOf('async function parseData()'),card.indexOf('// ================================================================\n// Render app'));
+async function readCard(response,search='?id=ALICE',fail=false){const ctx={URLSearchParams,BACKEND:'https://fixture.invalid',window:{location:{search}},localStorage:{getItem:()=>JSON.stringify(profile(bob))},fetch:async()=>{if(fail)throw Error('offline');return{ok:response.ok,json:async()=>response.body}}};return vm.runInNewContext(parse+'\nparseData()',ctx)}
+test('Scanning Alice QR offline never substitutes Bob cached on the scanning phone',async()=>{assert.equal(await readCard({},'?id=ALICE',true),null)});
+test('404, 409 and server errors never show cached patients or unsigned URL blood/allergy claims',async()=>{assert.equal(await readCard({ok:false},'?id=ALICE&n=Bob&s=B-'),null)});
+test('Response for another QR is rejected',async()=>{assert.equal(await readCard({ok:true,body:{doctorqr_id:'BOB',profile:profile(bob)}}),null)});
+test('Correct ID-bound server response renders the requested patient',async()=>{assert.equal((await readCard({ok:true,body:{doctorqr_id:'ALICE',profile:profile(alice)}})).email,alice.email)});
+test('Unverified legacy self-contained patient payloads are not rendered',async()=>{assert.equal(await readCard({},'?d=unsigned'),null)});
+test('QR cache must match the current account before use',()=>{const qr=fs.readFileSync('js/qr-generator.js','utf8');assert.ok(qr.includes('cache.owner === MedicalOwner.id()'));assert.ok(qr.includes('cache.owner = MedicalOwner.id()'))});

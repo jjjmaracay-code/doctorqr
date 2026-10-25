@@ -197,7 +197,7 @@ const T = {
     btn: 'ACCEDER AL PERFIL COMPLETO',
     footnote: 'Datos proporcionados por el paciente · doctorqr.app',
     err_title: 'CÓDIGO INVÁLIDO',
-    err_msg: 'No se pudo leer el código QR. El código puede estar dañado o ser inválido.',
+    err_msg: 'No se ha podido verificar el perfil de este QR. Comprueba la conexión o pide al titular que revise y regenere su QR. No se mostrarán datos de otro perfil.',
     expired_title: 'ACCESO CADUCADO',
     expired_msg: 'Pide que te muestren el QR de nuevo.',
     expired_msg_soft: 'Llevas más de 24h viendo esta tarjeta en este dispositivo.',
@@ -768,51 +768,13 @@ async function parseData() {
   try {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-
-    if (id) {
-      const t = params.get('t') || '';
-
-      // 1. Cargar desde la nube por doctorqr_id — acceso público de emergencia
-      try {
-        const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`);
-        if (res.ok) {
-          const { profile } = await res.json();
-          if (profile) {
-            profile._qr_type = t;
-            return profile;
-          }
-        }
-      } catch (_) {}
-
-      // 2. Fallback: localStorage en el mismo dispositivo
-      const saved = localStorage.getItem('doctorqr_profile');
-      if (saved) {
-        const d = JSON.parse(saved);
-        d._qr_type = t;
-        return d;
-      }
-
-      // 3. Fallback final: solo parámetros básicos de la URL
-      const n = decodeURIComponent(params.get('n') || '');
-      const parts = n.trim().split(' ');
-      return {
-        nombre:        parts[0] || '',
-        apellidos:     parts.slice(1).join(' '),
-        sangre:        decodeURIComponent(params.get('s') || ''),
-        allergy_med:   params.get('a') ? [decodeURIComponent(params.get('a'))] : [],
-        ec1_phone_num: decodeURIComponent(params.get('e') || ''),
-        _minimal:      true,
-        _qr_type:      t
-      };
-    }
-
-    // Formato legacy: LZString comprimido
-    const compressed = params.get('d') || window.location.hash.slice(1);
-    if (!compressed) return null;
-    const json = LZString.decompressFromEncodedURIComponent(compressed);
-    if (!json) return null;
-    return JSON.parse(json);
-  } catch(e) { return null; }
+    if (!id) return null;
+    const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const result = await res.json();
+    if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') return null;
+    return { ...result.profile, _qr_type: params.get('t') || '' };
+  } catch (_) { return null; }
 }
 
 // ================================================================
@@ -1152,3 +1114,4 @@ parseData().then(d => {
 
 </body>
 </html>
+

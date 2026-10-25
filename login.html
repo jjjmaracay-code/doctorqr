@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script src="/js/medical-owner.js?v=1"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -941,9 +942,7 @@ function guardarSesionYRedirigir(data) {
     ...(existingLanguage ? { language: existingLanguage } : {})
   };
 
-  localStorage.setItem('doctorqr_token', data.token);
-  localStorage.setItem('doctorqr_id', data.doctorqr_id || '');
-  localStorage.setItem('doctorqr_user', JSON.stringify(userToSave));
+  MedicalOwner.bindSession({ ...data, user: userToSave });
   window.location.href = 'index.html';
 }
 
@@ -1368,3 +1367,4 @@ function iniciarBloqueo(blockExpires) {
 </script>
 </body>
 </html>
+

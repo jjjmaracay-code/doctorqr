@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script src="/js/medical-owner.js?v=1"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -2816,14 +2817,9 @@
         });
       }
     } catch (_) { /* si el servidor no responde, continuamos igualmente */ }
-    // Solo se limpian claves de autenticación de la cuenta (token de sesión
-    // y el objeto de cuenta devuelto por el login). doctorqr_profile y
-    // doctorqr_id YA NO se borran aquí -- decisión de producto: deben
-    // permanecer en el dispositivo hasta que el usuario los elimine de
-    // forma explícita (ver ejecutarEliminarCuenta(), que sigue limpiándolos
-    // tras un borrado real de cuenta confirmado con contraseña). El motivo
-    // es que el Acceso Rápido de Emergencia debe seguir funcionando incluso
-    // si el dueño del dispositivo cerró sesión.
+    // Logout removes patient material from shared devices. Public QR access remains server-backed.
+    MedicalOwner.purge();
+    localStorage.removeItem('doctorqr_id');
     localStorage.removeItem('doctorqr_token');
     localStorage.removeItem('doctorqr_user');
     window.location.href = 'login.html';
@@ -3270,3 +3266,4 @@
 
 </body>
 </html>
+
