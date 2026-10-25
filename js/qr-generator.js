@@ -648,7 +648,13 @@ function generateQRCard(type, formData, container) {
 // Four light modules around the symbol; no logos or changes to its payload.
 function createOrganicQRCode(target, options) {
   const original = document.createElement('div');
-  const qr = new QRCode(original, options);
+  // Build the same matrix without painting the discarded square symbol first.
+  const qr = new QRCode(original, { ...options, text: '' });
+  const drawing = qr._oDrawing;
+  const originalDraw = drawing && drawing.draw;
+  if (typeof originalDraw === 'function') drawing.draw = () => {};
+  try { qr.makeCode(options.text); }
+  finally { if (typeof originalDraw === 'function') drawing.draw = originalDraw; }
   try {
     const matrix = qr._oQRCode;
     const count = matrix.getModuleCount();
@@ -710,7 +716,8 @@ function createOrganicQRCode(target, options) {
     img.style.cssText = 'display:block;max-width:100%;height:auto;image-rendering:pixelated;';
     target.appendChild(img);
   } catch (_) {
-    // Keep the original renderer if a browser cannot draw the soft version.
+    // Restore the original square rendering only when the organic renderer fails.
+    if (typeof originalDraw === 'function') { originalDraw.call(drawing, qr._oQRCode); qr.makeImage(); }
     while (original.firstChild) target.appendChild(original.firstChild);
   }
   return qr;
@@ -749,11 +756,19 @@ function esperarImagenQR(contenedor, maxEsperaMs) {
 // referenciar el objeto QRCode en la firma/valor por defecto reventaría
 // con un ReferenceError si aún no existe. Se resuelve más abajo, ya
 // dentro del .then(), donde QRCode está garantizado.
+// Yield between symbols: resolved library promises must not build every QR in one microtask.
+let qrRenderQueue = Promise.resolve();
+function scheduleQRRender(work) {
+  const task = qrRenderQueue.then(() => new Promise(resolve => setTimeout(resolve, 0))).then(work);
+  qrRenderQueue = task.catch(() => {});
+  return task;
+}
+
 function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
   intento = intento || 0;
   sizePx = sizePx || 200;
   correctLevel = correctLevel || 'M';
-  ensureQRCodeLoaded().then(() => {
+  ensureQRCodeLoaded().then(() => scheduleQRRender(() => {
     if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
     try {
       wrap.innerHTML = '';
@@ -778,7 +793,7 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
       }
       setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1, sizePx, correctLevel), QR_BACKOFF_START_MS);
     }
-  }).catch(() => {
+  })).catch(() => {
     if (!wrap.isConnected) return;
     showQRLoadError(wrap, url, type, sizePx, correctLevel);
   });

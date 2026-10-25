@@ -16,7 +16,7 @@
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
 // v6: actualiza el dibujo orgánico del QR, conservando sus datos.
 // v7: incluye la recuperación segura del autenticador.
-const CACHE_NAME = 'doctorqr-v12.2';
+const CACHE_NAME = 'doctorqr-v12.3';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -31,13 +31,13 @@ const CACHE_URLS = [
   './css/styles.css',
   './css/atabey-refresh.css?v=12',
   './js/totp-recovery.js?v=12',
-  './js/qr-generator.js?v=12',
+  './js/qr-generator.js?v=12.3',
   './js/medical-owner.js?v=12',
   './js/birthdate.js?v=12',
   './js/profile-sync.js?v=12',
   './js/form.js?v=12.2',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=12.2',
+  './js/register-sw.js?v=12.3',
   './js/search.js?v=12',
   './js/validation.js?v=12',
   './i18n/loader.js?v=12',
