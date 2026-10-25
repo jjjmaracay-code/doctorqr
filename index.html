@@ -2435,7 +2435,7 @@
   <script>
     (function(){
       const token = localStorage.getItem('doctorqr_token');
-      if (!token) {
+      if (!token || !MedicalOwner.validOwner()) {
         window.location.href = 'login.html';
         return;
       }
