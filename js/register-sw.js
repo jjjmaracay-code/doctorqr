@@ -14,18 +14,8 @@ if ('serviceWorker' in navigator) {
     const text = document.createElement('span');text.textContent = 'Actualización lista. Aplica la nueva versión para continuar.';
     const button = document.createElement('button');button.type='button';button.textContent='Aplicar actualización';
     button.style.cssText = 'padding:10px 16px;border-radius:8px;background:#8dd6ff;color:#071b29;border:0;font:inherit;cursor:pointer';
-    button.addEventListener('click', () => {
-      try {
-        if (typeof window.buildProfileFromForm === 'function' && window.MedicalOwner?.current()) {
-          const profile = window.buildProfileFromForm();
-          if (window.MedicalOwner.matches(profile)) {
-            if (window.ProfileSync) window.ProfileSync.saveDraft(profile);
-            else localStorage.setItem('doctorqr_medical_draft',JSON.stringify({owner:window.MedicalOwner.id(),profile,base_revision:'',edited_at:Date.now()}));
-          }
-        }
-        window.location.reload();
-      } catch (_) { text.textContent='No se pudo conservar el borrador. Guarda una copia de tus cambios antes de recargar.'; }
-    });
+    // The form's guarded beforeunload handler preserves actual edits. Never snapshot an uninitialized form here.
+    button.addEventListener('click', () => window.location.reload());
     panel.append(text,button);document.body.appendChild(panel);
   });
 }
