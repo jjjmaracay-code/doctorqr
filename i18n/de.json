@@ -1008,10 +1008,8 @@
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
   "index.chipval.seguridad_social": "Sozialversicherung",
-  "audit": {
-    "reproductive_note": "Diese Fragen gelten standardmäßig nicht für das biologische männliche Geschlecht. Vorhandene Antworten bleiben erhalten und müssen geprüft werden.",
-    "reproductive_review": "Ich muss diese Fragen für meinen Fall überprüfen",
-    "medication_note": "Wählen Sie nur aktuell eingenommene Medikamente. Ergänzen Sie Dosis, Anwendung, Zeiten sowie rezeptfreie Mittel und Ergänzungen. Diese Liste verordnet nichts und prüft keine Wechselwirkungen.",
-    "medication_detail": "Je Medikament: Name, Menge und Einheit, Anwendung, Zeiten und gegebenenfalls letzte Einnahme. Übernehmen Sie Ihre Verordnung; berechnen Sie hier keine Dosen."
-  }
+  "audit.reproductive_note": "Diese Fragen gelten standardmäßig nicht für das biologische männliche Geschlecht. Vorhandene Antworten bleiben erhalten und müssen geprüft werden.",
+  "audit.reproductive_review": "Ich muss diese Fragen für meinen Fall überprüfen",
+  "audit.medication_note": "Wählen Sie nur aktuell eingenommene Medikamente. Ergänzen Sie Dosis, Anwendung, Zeiten sowie rezeptfreie Mittel und Ergänzungen. Diese Liste verordnet nichts und prüft keine Wechselwirkungen.",
+  "audit.medication_detail": "Je Medikament: Name, Menge und Einheit, Anwendung, Zeiten und gegebenenfalls letzte Einnahme. Übernehmen Sie Ihre Verordnung; berechnen Sie hier keine Dosen."
 }

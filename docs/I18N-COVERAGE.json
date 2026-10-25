@@ -1,0 +1,269 @@
+{
+  "languages": {
+    "es": {
+      "name": "Español",
+      "keys": 1013,
+      "ready": true,
+      "missingKeyCount": 0,
+      "missingKeyExamples": []
+    },
+    "ca": {
+      "name": "Català",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "eu": {
+      "name": "Euskara",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "gl": {
+      "name": "Galego",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "en": {
+      "name": "English",
+      "keys": 1013,
+      "ready": true,
+      "missingKeyCount": 0,
+      "missingKeyExamples": []
+    },
+    "fr": {
+      "name": "Français",
+      "keys": 1013,
+      "ready": true,
+      "missingKeyCount": 0,
+      "missingKeyExamples": []
+    },
+    "de": {
+      "name": "Deutsch",
+      "keys": 1013,
+      "ready": true,
+      "missingKeyCount": 0,
+      "missingKeyExamples": []
+    },
+    "pt": {
+      "name": "Português",
+      "keys": 1013,
+      "ready": true,
+      "missingKeyCount": 0,
+      "missingKeyExamples": []
+    },
+    "hi": {
+      "name": "हिन्दी",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "zh": {
+      "name": "简体中文",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "ru": {
+      "name": "Русский",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "ja": {
+      "name": "日本語",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    },
+    "ar": {
+      "name": "العربية",
+      "keys": 0,
+      "ready": false,
+      "missingKeyCount": 1013,
+      "missingKeyExamples": [
+        "audit.medication_detail",
+        "audit.medication_note",
+        "audit.reproductive_note",
+        "audit.reproductive_review",
+        "index.alerts.meteoalarm_desc",
+        "index.alerts.meteoalarm_title",
+        "index.alerts.proteccioncivil_desc",
+        "index.alerts.proteccioncivil_title",
+        "index.alerts.section_desc",
+        "index.alerts.section_title",
+        "index.alerts.usgs_desc",
+        "index.alerts.usgs_title",
+        "index.chipval.aas",
+        "index.chipval.acaros",
+        "index.chipval.actividad_leve_caminar"
+      ]
+    }
+  },
+  "pages": {
+    "privacy.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "eliminar-cuenta.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "card.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "paywall.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "recovery.html": {
+      "hasLoader": true,
+      "markedTexts": 45
+    },
+    "register.html": {
+      "hasLoader": true,
+      "markedTexts": 158
+    },
+    "emergencia.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "contacto.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "login.html": {
+      "hasLoader": true,
+      "markedTexts": 35
+    },
+    "install.html": {
+      "hasLoader": false,
+      "markedTexts": 0
+    },
+    "index.html": {
+      "hasLoader": true,
+      "markedTexts": 781
+    }
+  }
+}

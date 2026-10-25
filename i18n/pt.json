@@ -1008,10 +1008,8 @@
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
   "index.chipval.seguridad_social": "Segurança Social",
-  "audit": {
-    "reproductive_note": "Estas perguntas não se aplicam por padrão ao sexo biológico masculino. As respostas anteriores são preservadas: reveja-as se existirem.",
-    "reproductive_review": "Preciso rever estas perguntas no meu caso",
-    "medication_note": "Selecione apenas os medicamentos atuais. Inclua dose, via, horários, medicamentos sem receita e suplementos. Esta lista não prescreve nem verifica interações.",
-    "medication_detail": "Para cada medicamento: nome, quantidade e unidade, via, horário e última toma se relevante. Copie a sua prescrição; não calcule doses aqui."
-  }
+  "audit.reproductive_note": "Estas perguntas não se aplicam por padrão ao sexo biológico masculino. As respostas anteriores são preservadas: reveja-as se existirem.",
+  "audit.reproductive_review": "Preciso rever estas perguntas no meu caso",
+  "audit.medication_note": "Selecione apenas os medicamentos atuais. Inclua dose, via, horários, medicamentos sem receita e suplementos. Esta lista não prescreve nem verifica interações.",
+  "audit.medication_detail": "Para cada medicamento: nome, quantidade e unidade, via, horário e última toma se relevante. Copie a sua prescrição; não calcule doses aqui."
 }

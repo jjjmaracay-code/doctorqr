@@ -1008,10 +1008,8 @@
   "index.chipval.mapfre_salud": "Mapfre Salud",
   "index.chipval.dkv": "DKV",
   "index.chipval.seguridad_social": "Social Security",
-  "audit": {
-    "reproductive_note": "These questions do not apply by default to male biological sex. Existing answers are preserved: review them if present.",
-    "reproductive_review": "I need to review these questions in my case",
-    "medication_note": "Select only medicines you currently take. Include dose, route, schedule, non-prescription medicines and supplements. This list does not prescribe or check interactions.",
-    "medication_detail": "For each medicine: name, quantity and unit, route, schedule and last dose if relevant. Copy your prescribed regimen; do not calculate doses here."
-  }
+  "audit.reproductive_note": "These questions do not apply by default to male biological sex. Existing answers are preserved: review them if present.",
+  "audit.reproductive_review": "I need to review these questions in my case",
+  "audit.medication_note": "Select only medicines you currently take. Include dose, route, schedule, non-prescription medicines and supplements. This list does not prescribe or check interactions.",
+  "audit.medication_detail": "For each medicine: name, quantity and unit, route, schedule and last dose if relevant. Copy your prescribed regimen; do not calculate doses here."
 }

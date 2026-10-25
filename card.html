@@ -758,6 +758,9 @@ let searchCurrent = -1;
 let accesoVigente = true; // resultado de verificarAccesoVigente(); ya no bloquea el render, solo decide si se muestra el aviso
 
 function detectLang() {
+  let preference='';
+  try { preference=localStorage.getItem('doctorqr_qr_language') || ''; } catch (_) {}
+  if (T[preference]) return preference;
   const l = (navigator.language || 'es').slice(0, 2).toLowerCase();
   return T[l] ? l : 'es';
 }
@@ -1101,8 +1104,10 @@ function setLang(l) {
   const prevQ = document.getElementById('sinput')?.value || '';
   const prevTab = activeTab;
   lang = l;
+  try { localStorage.setItem('doctorqr_qr_language', l); } catch (_) {}
   t    = T[l];
   document.documentElement.lang = l;
+  document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
   renderApp();
   if (prevTab !== 'urgente') switchTab(prevTab);
   if (prevQ.length >= 2) {
@@ -1116,6 +1121,8 @@ function setLang(l) {
 // ================================================================
 lang = detectLang();
 t    = T[lang];
+document.documentElement.lang=lang;
+document.documentElement.dir=lang === 'ar' ? 'rtl' : 'ltr';
 parseData().then(d => {
   data = d;
   if (!data) { renderError(); return; }

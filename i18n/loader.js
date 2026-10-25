@@ -38,9 +38,28 @@
 (function () {
   var SUPPORTED_LANGS = ['es', 'en', 'fr', 'pt', 'de'];
   var DICT = {};
+  var FALLBACK = {};
+  var sequence = 0;
+  window.atabeySupportedLanguages = SUPPORTED_LANGS.slice();
+  function flatten(dict) {
+    var output = {};
+    function visit(obj, prefix) { Object.keys(obj || {}).forEach(function(key) {
+      var value = obj[key];
+      if (value && typeof value === 'object' && !Array.isArray(value)) visit(value, prefix + key + '.');
+      else if (typeof value === 'string') output[prefix + key] = value;
+    }); }
+    visit(dict, ''); return output;
+  }
+  function updateLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-app-language]').forEach(function(el) { el.value = lang; });
+  }
 
   function detectLanguage() {
     try {
+      var preference = localStorage.getItem('doctorqr_ui_language');
+      if (SUPPORTED_LANGS.indexOf(preference) !== -1) return preference;
       var user = JSON.parse(localStorage.getItem('doctorqr_user') || 'null');
       if (user && user.language && SUPPORTED_LANGS.indexOf(user.language) !== -1) {
         return user.language;
@@ -58,7 +77,7 @@
   window.currentLanguage = LANG;
 
   window.t = function (key) {
-    return Object.prototype.hasOwnProperty.call(DICT, key) ? DICT[key] : key;
+    return Object.prototype.hasOwnProperty.call(DICT, key) ? DICT[key] : (FALLBACK[key] || key);
   };
 
   function applyI18n(root) {
@@ -93,37 +112,50 @@
   // registro. Recarga el diccionario y vuelve a aplicar data-i18n sobre
   // todo el documento; el valor persistido en doctorqr_user.language se
   // guarda aparte, al completar el registro (ver register.html).
+  function fetchDictionary(lang) {
+    return fetch('/i18n/' + lang + '.json?v=13', { cache: 'no-cache' }).then(function(res) {
+      if (!res.ok) throw new Error('Dictionary unavailable');
+      return res.json();
+    }).then(flatten);
+  }
   window.setLanguage = function (lang) {
-    if (SUPPORTED_LANGS.indexOf(lang) === -1) lang = 'es';
-    return fetch('/i18n/' + lang + '.json?v=12', { cache: 'no-cache' })
-      .then(function (res) { return res.ok ? res.json() : {}; })
-      .catch(function () { return {}; })
-      .then(function (dict) {
-        DICT = dict || {};
-        window.currentLanguage = lang;
-        applyI18n(document);
-        return DICT;
-      });
+    if (SUPPORTED_LANGS.indexOf(lang) === -1) return Promise.resolve(false);
+    var request = ++sequence;
+    return fetchDictionary(lang).then(function(dict) {
+      if (request !== sequence) return false;
+      DICT = Object.assign({}, FALLBACK, dict);
+      LANG = lang; window.currentLanguage = lang;
+      try { localStorage.setItem('doctorqr_ui_language',lang); } catch (_) {}
+      updateLanguage(lang); applyI18n(document);
+      window.dispatchEvent(new CustomEvent('doctorqr:language-changed',{detail:{language:lang}}));
+      return DICT;
+    }).catch(function() {
+      if (request === sequence) updateLanguage(window.currentLanguage);
+      return false; // Keep the existing visible language and preference on network failure.
+    });
   };
 
-  window.i18nReady = fetch('/i18n/' + LANG + '.json?v=12', { cache: 'no-cache' })
-    .then(function (res) { return res.ok ? res.json() : null; })
-    .catch(function () { return null; })
-    .then(function (dict) {
-      // Si el idioma detectado no cargó (red caída, archivo ausente, etc.)
-      // y no era ya español, reintenta con español antes de rendirse --
-      // nunca debe llegarse a una página sin ningún diccionario cargado
-      // si se puede evitar.
-      if (dict) return dict;
-      if (LANG === 'es') return {};
-      window.currentLanguage = 'es';
-      return fetch('/i18n/es.json?v=12', { cache: 'no-cache' })
-        .then(function (res) { return res.ok ? res.json() : {}; })
-        .catch(function () { return {}; });
-    })
-    .then(function (dict) {
-      DICT = dict || {};
-      applyI18n(document);
-      return DICT;
-    });
+  var spanishDictionary = fetchDictionary('es').catch(function(){return {}; });
+  window.i18nReady = Promise.all([
+    spanishDictionary,
+    LANG === 'es' ? spanishDictionary : fetchDictionary(LANG).catch(function(){return null;})
+  ]).then(function(dicts) {
+    FALLBACK = dicts[0];
+    if (!dicts[1]) { LANG = 'es'; window.currentLanguage = LANG; }
+    DICT = Object.assign({}, FALLBACK, dicts[1] || {});
+    updateLanguage(LANG); applyI18n(document);
+    var holder=document.createElement('div');
+    holder.className='app-language-control';
+    holder.style.cssText='display:flex;justify-content:center;gap:8px;padding:8px;position:relative;z-index:1';
+    var label=document.createElement('label');label.textContent='Language';
+    label.htmlFor='app-language-select';
+    var select=document.createElement('select');select.id='app-language-select';
+    select.setAttribute('data-app-language','');select.setAttribute('aria-label','Language');
+    var names={es:'Español',en:'English',fr:'Français',pt:'Português',de:'Deutsch'};
+    SUPPORTED_LANGS.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=names[code]||code;select.appendChild(option);});
+    select.value=LANG;select.style.cssText='max-width:100%;padding:8px;border:1px solid #738ba3;border-radius:8px;background:#102337;color:#fff';
+    select.addEventListener('change',function(){window.setLanguage(select.value);});
+    holder.append(label,select);document.body.prepend(holder);
+    return DICT;
+  });
 })();

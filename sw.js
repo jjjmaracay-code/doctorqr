@@ -16,7 +16,7 @@
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
 // v6: actualiza el dibujo orgánico del QR, conservando sus datos.
 // v7: incluye la recuperación segura del autenticador.
-const CACHE_NAME = 'doctorqr-v12.3';
+const CACHE_NAME = 'doctorqr-v13';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -37,15 +37,15 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=12',
   './js/form.js?v=12.2',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=12.3',
+  './js/register-sw.js?v=13',
   './js/search.js?v=12',
   './js/validation.js?v=12',
-  './i18n/loader.js?v=12',
-  './i18n/es.json?v=12',
-  './i18n/en.json?v=12',
-  './i18n/fr.json?v=12',
-  './i18n/pt.json?v=12',
-  './i18n/de.json?v=12',
+  './i18n/loader.js?v=13',
+  './i18n/es.json?v=13',
+  './i18n/en.json?v=13',
+  './i18n/fr.json?v=13',
+  './i18n/pt.json?v=13',
+  './i18n/de.json?v=13',
   './vendor/qrcodejs/qrcode.min.js',
   './vendor/lz-string/lz-string-1.4.4.min.js',
   './vendor/lz-string/lz-string-1.5.0.min.js',
