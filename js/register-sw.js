@@ -1,8 +1,9 @@
 /* Refreshes application code without clearing patient storage or silently reloading edits. */
 if ('serviceWorker' in navigator) {
+  const workerRelease = document.currentScript ? new URL(document.currentScript.src, location.href).searchParams.get('v') || '11' : '11';
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' });
+      const registration = await navigator.serviceWorker.register('/sw.js?v=' + encodeURIComponent(workerRelease), { scope: '/', updateViaCache: 'none' });
       await registration.update();
     } catch (_) { /* A temporary offline connection must not erase local work. */ }
   });
