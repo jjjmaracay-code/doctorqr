@@ -863,7 +863,7 @@
         validateHealthCard();
       };
 
-      if (!saved) { refreshVal(); return; }
+      if (!saved) { prefillarIdentidad(); refreshVal(); return; }
 
       const set = (id, val) => {
         const el = document.getElementById(id);
@@ -1106,6 +1106,7 @@
       }
       updateAnaphylaxisTrigger(saved.anaphylaxis_trigger, saved.anaphylaxis_trigger_otro);
 
+      prefillarIdentidad();
       checkGenderFields(null);
       refreshVal();
     }

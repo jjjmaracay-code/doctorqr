@@ -23,7 +23,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=12.1"></script>
+  <script src="/js/register-sw.js?v=12.2"></script>
   <script src="i18n/loader.js?v=12"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -783,7 +783,7 @@
       <div class="section-body">
         <div class="field">
           <div class="field-label" data-i18n="index.identification.full_name_label">Nombre completo</div>
-          <input type="text" id="f-name" placeholder="Juan García López"/>
+          <input type="text" id="f-name" placeholder="Juan García López" readonly/>
         </div>
         <div class="field">
           <div class="field-label" data-i18n="index.identification.birthdate_label">Fecha de nacimiento</div>
@@ -808,7 +808,7 @@
           <div class="field-label" data-i18n="index.identification.dni_number_label">NÚMERO DNI</div>
           <input type="text" id="input-dni" maxlength="9"
             placeholder="12345678A"
-            oninput="validateDNI(this)"/>
+            oninput="validateDNI(this)" readonly/>
           <div class="field-hint" data-i18n="index.identification.dni_hint">Formato: 8 dígitos + 1 letra — ejemplo: 06639041E</div>
           <div class="field-warning" id="warn-dni" data-i18n="index.identification.dni_warning" style="display:none">
             ⚠ Formato incorrecto — 8 dígitos seguidos de 1 letra mayúscula
@@ -820,7 +820,7 @@
           <div class="field-label" data-i18n="index.identification.nie_number_label">NÚMERO NIE</div>
           <input type="text" id="input-nie" maxlength="9"
             placeholder="X1234567A"
-            oninput="validateNIE(this)"/>
+            oninput="validateNIE(this)" readonly/>
           <div class="field-hint" data-i18n="index.identification.nie_hint">Formato: X/Y/Z + 7 dígitos + 1 letra — ejemplo: X1234567A</div>
           <div class="field-warning" id="warn-nie" data-i18n="index.identification.nie_warning" style="display:none">
             ⚠ Formato incorrecto — debe empezar por X, Y o Z
@@ -846,7 +846,7 @@
             </select>
             <input type="text" id="input-pasaporte" maxlength="20"
               placeholder="AAA123456"
-              oninput="validatePassport(this)"/>
+              oninput="validatePassport(this)" readonly/>
           </div>
           <div class="field-hint" id="hint-pasaporte">
             Formato España: 3 letras + 6 dígitos — ejemplo: AAA123456
@@ -884,7 +884,7 @@
           <div class="email-field" style="display:flex;align-items:center;gap:6px;">
             <input type="text" id="email-alias"
               placeholder="tunombre"
-              style="flex:1;min-width:0"/>
+              style="flex:1;min-width:0" readonly/>
             <span style="color:#12A5FF;font-size:18px;font-weight:900;
                          text-shadow:0 0 8px #12A5FF;flex-shrink:0">@</span>
             <select id="email-domain" onchange="toggleCustomDomain()"
@@ -915,7 +915,7 @@
           </div>
           <input type="text" id="email-custom-domain"
             placeholder="midominio.com"
-            style="display:none;margin-top:8px;width:100%"/>
+            style="display:none;margin-top:8px;width:100%" readonly/>
           <div class="field-hint" data-i18n="index.identification.email_hint">Ejemplo: tunombre@gmail.com</div>
         </div>
         <div class="field">
@@ -2490,74 +2490,62 @@
     })();
 
     function prefillarIdentidad() {
-      const user    = JSON.parse(localStorage.getItem('doctorqr_user')    || '{}');
-      const profile = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
-
-      const nombreCompleto = [user.nombre, user.apellidos].filter(Boolean).join(' ')
-                           || profile.nombre || '';
-
-      const campos = {
-        'f-name':      nombreCompleto,
-        'f-birthdate': user.fecha_nacimiento || profile.fecha_nacimiento || profile.birthdate || '',
-        'email-alias': (user.email || profile.email || '').split('@')[0]
-      };
-
-      Object.entries(campos).forEach(([id, val]) => {
+      // Account identity is read-only in the medical editor; never adopt identity from a draft.
+      let user = {};
+      try { user = JSON.parse(localStorage.getItem('doctorqr_user') || '{}'); } catch (_) {}
+      const lockText = (id, value) => {
         const el = document.getElementById(id);
-        if (el && val) {
-          el.value = val;
-          el.disabled = true;
-          el.style.opacity = '0.6';
-          el.style.cursor  = 'not-allowed';
-        }
+        if (!el) return;
+        if (value !== undefined) el.value = value || '';
+        el.readOnly = true;
+        el.setAttribute('aria-readonly', 'true');
+        el.dataset.identityLocked = 'true';
+        el.style.opacity = '1';
+        el.style.cursor = 'default';
+        el.style.borderColor = '#738ba3';
+      };
+      lockText('f-name', [user.nombre, user.apellidos].filter(Boolean).join(' '));
+      lockText('f-birthdate', user.fecha_nacimiento);
+      lockText('f-birthdate-readable');
+      const email = String(user.email || '');
+      const at = email.lastIndexOf('@');
+      lockText('email-alias', at >= 0 ? email.slice(0, at) : '');
+      const domain = at >= 0 ? email.slice(at + 1) : '';
+      const select = document.getElementById('email-domain');
+      const custom = document.getElementById('email-custom-domain');
+      const known = select && Array.from(select.options).some(o => o.value === domain);
+      if (select) { select.value = known ? domain : 'custom'; select.disabled = true; select.style.opacity = '1'; }
+      lockText('email-custom-domain', domain);
+      if (custom) custom.style.display = known ? 'none' : 'block';
+      const docType = String(user.doc_type || '').toLowerCase();
+      ['dni','nie','pasaporte'].forEach(type => {
+        lockText('input-' + type, type === docType ? user.doc_number : '');
+        const field = document.getElementById('field-' + type);
+        if (field) field.style.display = type === docType ? 'block' : 'none';
       });
-
-      setTimeout(() => {
-        const u2       = JSON.parse(localStorage.getItem('doctorqr_user')    || '{}');
-        const p2       = JSON.parse(localStorage.getItem('doctorqr_profile') || '{}');
-        const docType   = (u2.doc_type   || p2.doc_type   || '').toLowerCase();
-        const docNumber =  u2.doc_number || p2.doc_number || '';
-        if (docType && docNumber) {
-          const container = document.getElementById('field-' + docType);
-          const chip      = document.querySelector(`[data-group="doc-type"][data-value="${docType}"]`);
-          const input     = document.getElementById('input-' + docType);
-          if (container) container.style.display = 'block';
-          if (chip)      chip.classList.add('active');
-          if (input) {
-            input.value           = docNumber;
-            input.disabled        = true;
-            input.style.opacity   = '0.6';
-            input.style.cursor    = 'not-allowed';
-          }
-        }
-      }, 200);
-
-      AtabeyDates.renderDisplay();
-      const docChips = document.querySelectorAll('[data-group="doc-type"]');
-      docChips.forEach(chip => {
+      document.querySelectorAll('[data-group="doc-type"]').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.value === docType);
+        chip.setAttribute('inert', '');
+        chip.setAttribute('aria-disabled', 'true');
         chip.style.pointerEvents = 'none';
-        chip.style.opacity = '0.6';
+        chip.style.opacity = '1';
       });
-
-      const emailDomain = document.getElementById('email-domain');
-      if (emailDomain && user.email) {
-        const domain = user.email.split('@')[1];
-        emailDomain.value = domain || 'gmail.com';
-        emailDomain.disabled = true;
-        emailDomain.style.opacity = '0.6';
+      AtabeyDates.renderDisplay();
+      let notice = document.getElementById('identity-locked-notice');
+      if (!notice) {
+        notice = document.createElement('p');
+        notice.id = 'identity-locked-notice';
+        notice.className = 'medical-context-note';
+        notice.dataset.i18n = 'index.form.identity_locked_notice';
+        document.querySelector('#sec-3 .section-body')?.prepend(notice);
       }
-
-      const aviso = document.createElement('div');
-      aviso.style.cssText = 'font-size:10px;color:rgba(18,165,255,0.5);letter-spacing:1px;margin-bottom:12px;text-align:center;';
-      aviso.textContent = window.t('index.form.identity_locked_notice');
-      const seccion = document.querySelector('.form-section:nth-child(3)');
-      if (seccion) seccion.prepend(aviso);
+      notice.textContent = window.t('index.form.identity_locked_notice');
     }
     window.i18nReady.finally(prefillarIdentidad);
   </script>
   <script src="js/validation.js?v=12"></script>
   <script src="js/search.js?v=12"></script>
-  <script src="js/form.js?v=12.1"></script>
+  <script src="js/form.js?v=12.2"></script>
   <script src="js/qr-generator.js?v=12"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
