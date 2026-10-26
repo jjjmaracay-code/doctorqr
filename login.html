@@ -346,65 +346,123 @@
       #screen-l1 #btn-emergency-quick {
         position:relative;
         isolation:isolate;
-        min-height:64px;
-        padding:18px 20px;
-        border:2px solid #4adeff;
+        min-height:72px;
+        padding:20px;
+        border:2px solid #ff315a;
         border-radius:18px;
-        background:linear-gradient(135deg,#073454,#0a223a);
-        color:#e0faff;
-        font-size:14px;
+        background:linear-gradient(135deg,#4a0b20,#23040c);
+        color:#fff1f4;
+        font-size:15px;
         font-weight:800;
         line-height:1.6;
         letter-spacing:1.2px;
         white-space:normal;
         text-wrap:balance;
-        text-shadow:0 0 12px #3dcfff80;
-        box-shadow:inset 0 0 18px #12a5ff1f,0 0 18px #12a5ff33;
+        text-shadow:0 0 14px #ff315a99;
+        box-shadow:inset 0 0 22px #ff003326,0 0 26px #ff003380,0 0 56px #ff003340;
         transition:background .2s,border-color .2s,box-shadow .2s;
       }
       #screen-l1 #btn-emergency-quick::before {
         content:'';
         position:absolute;
         inset:-6px;
-        border:1px solid #4adeff80;
+        border:1px solid #ff315acc;
         border-radius:23px;
-        box-shadow:0 0 16px #12a5ff80,0 0 32px #12a5ff40;
-        opacity:.35;
+        box-shadow:0 0 22px #ff0033cc,0 0 48px #ff003380;
+        opacity:.5;
         pointer-events:none;
         animation:emergency-neon-pulse 3s ease-in-out infinite;
       }
       #screen-l1 #btn-emergency-quick:is(:hover,:focus-visible) {
-        background:#0b3b5b;
-        border-color:#a6f1ff;
-        box-shadow:inset 0 0 18px #12a5ff33,0 0 24px #12a5ff66;
+        background:#510d22;
+        border-color:#ff9ab0;
+        box-shadow:inset 0 0 22px #ff003340,0 0 34px #ff0033b3,0 0 64px #ff003360;
       }
       #screen-l1 #btn-emergency-quick:focus-visible {
-        outline:3px solid #e0faff;
+        outline:3px solid #fff1f4;
         outline-offset:8px;
       }
       #screen-l1 #btn-emergency-quick:is(:hover,:focus-visible)::before {
         animation-play-state:paused;
       }
       @keyframes emergency-neon-pulse {
-        0%,100% { opacity:.25; }
-        50% { opacity:.9; }
+        0%,100% { opacity:.4; }
+        50% { opacity:1; }
+      }
+      #emergency-scroll-cue {
+        position:fixed;
+        z-index:40;
+        top:calc(64px + env(safe-area-inset-top,0px));
+        inset-inline-start:50%;
+        transform:translateX(-50%);
+        width:min(360px,calc(100% - 32px));
+        min-height:72px;
+        padding:12px 54px 12px 18px;
+        display:flex;
+        flex-direction:column;
+        gap:4px;
+        border:2px solid #ff315a;
+        border-radius:18px;
+        background:#21060e;
+        color:#fff1f4;
+        box-shadow:0 0 20px #ff003399,0 10px 40px #000c;
+        font-family:inherit;
+        text-align:start;
+        cursor:pointer;
+      }
+      #emergency-scroll-cue[hidden] { display:none; }
+      #emergency-scroll-cue .emergency-scroll-label {
+        font-size:12px;font-weight:800;line-height:1.4;
+      }
+      #emergency-scroll-cue .emergency-scroll-instruction {
+        color:#ff9db2;font-size:13px;font-weight:700;line-height:1.4;
+      }
+      #emergency-scroll-cue svg {
+        position:absolute;right:16px;left:auto;top:calc(50% - 15px);
+        width:30px;height:30px;color:#ff5577;pointer-events:none;
+        filter:drop-shadow(0 0 5px #ff1744);
+        animation:emergency-scroll-nudge 2s ease-in-out infinite;
+      }
+      #emergency-scroll-cue:focus-visible {
+        outline:3px solid #fff1f4;outline-offset:4px;
+      }
+      #emergency-scroll-cue:is(:hover,:focus-visible) svg { animation-play-state:paused; }
+      html[dir="rtl"] #emergency-scroll-cue {
+        inset-inline-start:auto;left:50%;padding:12px 18px 12px 54px;
+      }
+      html[dir="rtl"] #emergency-scroll-cue svg { right:auto;left:16px; }
+      @keyframes emergency-scroll-nudge {
+        0%,100% { transform:translateY(-3px); }
+        50% { transform:translateY(4px); }
       }
     }
     @media (prefers-reduced-motion:reduce) {
       #screen-l1 #btn-emergency-quick::before { animation:none!important;opacity:.6; }
+      #emergency-scroll-cue svg { animation:none!important; }
     }
     @media (forced-colors:active) {
-      #screen-l1 #btn-emergency-quick {
+      #screen-l1 #btn-emergency-quick,#emergency-scroll-cue {
         background:ButtonFace;color:ButtonText;border-color:ButtonText;
         text-shadow:none;box-shadow:none;
       }
       #screen-l1 #btn-emergency-quick::before { display:none; }
+      #emergency-scroll-cue .emergency-scroll-instruction,#emergency-scroll-cue svg { color:ButtonText;filter:none; }
+    }
+    @media print {
+      #emergency-scroll-cue { display:none!important; }
     }
   </style>
   <script defer src="js/totp-recovery.js?v=14"></script>
 <script src="/js/country-metrics.js?v=1" defer></script>
+<script src="/js/emergency-scroll.js?v=1" defer></script>
 </head>
 <body data-atabey-ui="access">
+
+<button type="button" id="emergency-scroll-cue" hidden aria-controls="btn-emergency-quick">
+  <span class="emergency-scroll-label" data-i18n="login.l1.emergency_quick_button">Acceso rápido de emergencia</span>
+  <span class="emergency-scroll-instruction" id="emergency-scroll-instruction">Desliza hacia abajo</span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 5 6 6 6-6M6 13l6 6 6-6"/></svg>
+</button>
 
 <header class="reg-header">
   <div class="reg-logo-wrap">
