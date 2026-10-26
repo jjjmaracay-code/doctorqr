@@ -1,0 +1,32 @@
+/* Desktop medical QR preview. No changes to the clinical form or public reader. */
+[data-web-only]{display:none!important}
+html[data-web-linked="true"] .account-access-card[data-web-only]{display:flex!important}
+.account-access-card.access-preview{--access-tone:#8cebc8;--access-edge:#337d69;--access-fill:#12634e;background:linear-gradient(145deg,#123b34,#0b242b)}
+.web-qr-preview{width:min(1000px,calc(100% - 28px));max-width:calc(100% - 28px);max-height:calc(100dvh - 28px);margin:auto;padding:0 24px 24px;border:1px solid #4a7c87;border-radius:22px;background:#0c1c2b;color:#eff8ff;box-shadow:0 30px 100px #0009;overflow:auto;font:400 15px/1.6 'Inter',system-ui,sans-serif;text-align:start;box-sizing:border-box;overscroll-behavior:contain}
+.web-qr-preview::backdrop{background:#020a14de;backdrop-filter:blur(5px)}
+.web-qr-preview [hidden]{display:none!important}
+.web-qr-preview-header{position:sticky;top:0;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:22px 0 16px;background:#0c1c2bf5;border-bottom:1px solid #2e465c}
+.web-qr-preview-header>div{min-width:0}
+.web-qr-preview h2{font:800 clamp(21px,3vw,28px)/1.3 'Inter',system-ui,sans-serif;color:#98f4d3;margin:0}
+.web-qr-preview-patient{margin:6px 0 0;overflow-wrap:anywhere;color:#d8e8f7}
+.web-qr-preview button,.web-qr-preview-content{min-height:44px;border:1px solid #55778e;border-radius:11px;background:#183247;color:#f1f9ff;font:600 14px/1.45 'Inter',system-ui,sans-serif;padding:11px 16px;cursor:pointer;overflow-wrap:anywhere;text-align:center}
+.web-qr-preview-close{flex:0 1 auto;max-width:48%}
+.web-qr-preview button:hover{background:#24465e}
+.web-qr-preview :is(button,a):focus-visible{outline:3px solid #e3fff3;outline-offset:3px}
+.web-qr-preview-note{color:#b9ccdd;font-size:13px;line-height:1.65;margin:16px 0;overflow-wrap:anywhere}
+.web-qr-preview-status{margin:16px 0;color:#e1edf7;overflow-wrap:anywhere}
+.web-qr-preview-status:empty{display:none}
+.web-qr-preview-layout{display:grid;grid-template-columns:minmax(190px,280px) minmax(0,1fr);gap:26px;margin-top:22px;align-items:start}
+.web-qr-preview-layout h3{margin:0 0 12px;color:#e6f6ff;font:700 15px/1.5 'Inter',system-ui,sans-serif;overflow-wrap:anywhere}
+.web-qr-preview-picker,.web-qr-preview-detail{min-width:0}
+.web-qr-preview-count{color:#a9c6dc;font-size:13px;margin:0 0 10px}
+.web-qr-preview-list{display:grid;gap:10px}
+.web-qr-preview .web-qr-preview-choice{display:flex;align-items:center;gap:12px;padding:10px;text-align:start;background:#102739;border-color:#38566d}
+.web-qr-preview-choice img{display:block;flex:0 0 56px;width:56px;height:56px;border-radius:6px;image-rendering:pixelated}
+.web-qr-preview-choice span{min-width:0;font-size:12px;color:var(--preview-tone);overflow-wrap:anywhere}
+.web-qr-preview .web-qr-preview-choice[aria-pressed="true"]{border-color:var(--preview-tone);background:#1b3a4a;box-shadow:inset 3px 0 var(--preview-tone)}
+.web-qr-preview-detail{text-align:center;padding:20px;border:1px solid #335367;border-radius:18px;background:#071522}
+.web-qr-preview-image{display:block;width:min(100%,380px);height:auto;margin:16px auto 24px;background:#fff;border-radius:10px;image-rendering:pixelated}
+.web-qr-preview-content{display:flex;align-items:center;justify-content:center;min-height:48px;background:#12634e;border-color:#80e6bd;color:#fff;text-decoration:none}
+.web-qr-preview-content:hover{background:#1a795f}
+@media(max-width:720px){.web-qr-preview{padding:0 14px 18px}.web-qr-preview-header{gap:12px;padding-top:16px}.web-qr-preview-close{font-size:12px;padding:10px}.web-qr-preview-layout{grid-template-columns:minmax(0,1fr);gap:20px}.web-qr-preview-detail{grid-row:1;padding:14px}.web-qr-preview-list{grid-template-columns:repeat(auto-fit,minmax(min(100%,185px),1fr))}.web-qr-preview h2{font-size:21px}}

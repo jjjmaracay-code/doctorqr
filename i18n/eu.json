@@ -1616,5 +1616,17 @@
   "access.web_scan": "Lotu nire mugikorretik",
   "access.qr_hint": "QR honek ordenagailua baimentzen du; larrialdietako QR medikoetatik desberdina da.",
   "access.connection": "Web-bertsioak konexioa behar du. Aldaketak gordetzean sinkronizatzen dira.",
-  "access.help": "Laguntza"
+  "access.help": "Laguntza",
+  "qr_preview.open": "Nire QRen aurrebista",
+  "qr_preview.title": "Nire QR medikoak",
+  "qr_preview.intro": "Kontsultatu eta handitu gordetako historiaren QRak.",
+  "qr_preview.saved": "Historiaren azken bertsio gordea erakusten da. Gorde gabeko aldaketak ez dira QR hauetan agertzen.",
+  "qr_preview.close": "Itxi aurrebista",
+  "qr_preview.loading": "Saioa eta gordetako historia egiaztatzen…",
+  "qr_preview.empty": "Oraindik ez dago historiarik gordeta QRak erakusteko. Gorde zure datu medikoak eta ireki berriro ikuspegi hau.",
+  "qr_preview.error": "Ezin izan da gordetako historia egiaztatu. Egiaztatu konexioa eta saiatu berriro.",
+  "qr_preview.retry": "Egiaztatu berriro",
+  "qr_preview.content": "Ireki QR honen informazioa",
+  "qr_preview.content_note": "Informazioa beste fitxa batean irekitzen da ohiko irakurgailu medikoarekin.",
+  "qr_preview.list": "Hautatu QR bat"
 }

@@ -176,6 +176,8 @@
   <link rel="stylesheet" href="css/atabey-refresh.css?v=18"/>
   <link rel="stylesheet" href="/css/access-hub.css?v=21"/>
   <script src="/js/access-hub.js?v=21" defer></script>
+  <link rel="stylesheet" href="/css/web-qr-preview.css?v=22"/>
+  <script src="/js/web-qr-preview.js?v=22" defer></script>
 <script src="/js/country-metrics.js?v=1" defer></script>
 </head>
 <body data-atabey-ui="editor">
@@ -497,6 +499,11 @@
           <h2 class="access-heading">ATABEYAPP Web</h2>
           <p class="access-copy" data-i18n="access.web_copy">Consulta y edita tu historial desde el ordenador.</p>
           <a href="/dispositivos.html" data-primary-only class="web-link-entry access-button" data-i18n="access.link">Vincular ordenador</a>
+        </section>
+        <section class="account-access-card access-preview" data-web-only>
+          <h2 class="access-heading" data-i18n="qr_preview.title">Mis QR médicos</h2>
+          <p class="access-copy" data-i18n="qr_preview.intro">Consulta y amplía los QR de tu historial guardado.</p>
+          <button id="open-web-qr-preview" class="access-button" type="button" aria-haspopup="dialog" aria-expanded="false" data-i18n="qr_preview.open">Vista previa de mis QR</button>
         </section>
       </div>
       <div class="account-plan-row">

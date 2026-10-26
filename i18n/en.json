@@ -1616,5 +1616,17 @@
   "access.web_scan": "Link from my phone",
   "access.qr_hint": "This QR code authorizes the computer; it is different from your emergency medical QR codes.",
   "access.connection": "The web version needs an internet connection. Changes synchronize when you save them.",
-  "access.help": "Help"
+  "access.help": "Help",
+  "qr_preview.open": "Preview my QR codes",
+  "qr_preview.title": "My medical QR codes",
+  "qr_preview.intro": "View and enlarge the QR codes for your saved medical history.",
+  "qr_preview.saved": "This shows the latest saved medical history. Unsaved changes are not included in these QR codes.",
+  "qr_preview.close": "Close preview",
+  "qr_preview.loading": "Checking the session and saved medical history…",
+  "qr_preview.empty": "There is no saved medical history to preview yet. Save your medical details and reopen this view.",
+  "qr_preview.error": "The saved medical history could not be verified. Check your connection and try again.",
+  "qr_preview.retry": "Check again",
+  "qr_preview.content": "Open this QR code’s information",
+  "qr_preview.content_note": "The information opens in another tab in the usual medical reader.",
+  "qr_preview.list": "Select a QR code"
 }

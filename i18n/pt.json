@@ -1616,5 +1616,17 @@
   "access.web_scan": "Vincular pelo meu telemóvel",
   "access.qr_hint": "Este QR autoriza o computador; é diferente dos QR médicos de emergência.",
   "access.connection": "A versão web precisa de ligação à internet. As alterações são sincronizadas ao guardar.",
-  "access.help": "Ajuda"
+  "access.help": "Ajuda",
+  "qr_preview.open": "Pré-visualizar os meus QR",
+  "qr_preview.title": "Os meus QR médicos",
+  "qr_preview.intro": "Consulte e amplie os QR do seu historial guardado.",
+  "qr_preview.saved": "É apresentada a última versão guardada do historial. As alterações não guardadas não aparecem nestes QR.",
+  "qr_preview.close": "Fechar pré-visualização",
+  "qr_preview.loading": "A verificar a sessão e o historial guardado…",
+  "qr_preview.empty": "Ainda não existe um historial guardado para mostrar os QR. Guarde os seus dados médicos e volte a abrir esta vista.",
+  "qr_preview.error": "Não foi possível verificar o historial guardado. Verifique a ligação e tente novamente.",
+  "qr_preview.retry": "Verificar novamente",
+  "qr_preview.content": "Abrir a informação deste QR",
+  "qr_preview.content_note": "A informação abre noutro separador com o leitor médico habitual.",
+  "qr_preview.list": "Selecione um QR"
 }

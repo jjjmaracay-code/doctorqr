@@ -1616,5 +1616,17 @@
   "access.web_scan": "Über mein Handy verknüpfen",
   "access.qr_hint": "Dieser QR-Code autorisiert den Computer und unterscheidet sich von den medizinischen Notfall-QR-Codes.",
   "access.connection": "Die Webversion benötigt eine Internetverbindung. Änderungen werden beim Speichern synchronisiert.",
-  "access.help": "Hilfe"
+  "access.help": "Hilfe",
+  "qr_preview.open": "Meine QR-Codes ansehen",
+  "qr_preview.title": "Meine medizinischen QR-Codes",
+  "qr_preview.intro": "QR-Codes Ihrer gespeicherten Krankengeschichte ansehen und vergrößern.",
+  "qr_preview.saved": "Die zuletzt gespeicherte Krankengeschichte wird angezeigt. Ungespeicherte Änderungen sind in diesen QR-Codes nicht enthalten.",
+  "qr_preview.close": "Vorschau schließen",
+  "qr_preview.loading": "Sitzung und gespeicherte Krankengeschichte werden geprüft…",
+  "qr_preview.empty": "Es ist noch keine Krankengeschichte für die Vorschau gespeichert. Speichern Sie Ihre medizinischen Angaben und öffnen Sie die Vorschau erneut.",
+  "qr_preview.error": "Die gespeicherte Krankengeschichte konnte nicht geprüft werden. Prüfen Sie die Verbindung und versuchen Sie es erneut.",
+  "qr_preview.retry": "Erneut prüfen",
+  "qr_preview.content": "Informationen dieses QR-Codes öffnen",
+  "qr_preview.content_note": "Die Informationen werden in einem weiteren Tab im gewohnten medizinischen Lesemodus geöffnet.",
+  "qr_preview.list": "QR-Code auswählen"
 }

@@ -1616,5 +1616,17 @@
   "access.web_scan": "スマートフォンから連携",
   "access.qr_hint": "このQRコードはパソコンを承認するためのもので、緊急時の医療QRコードとは異なります。",
   "access.connection": "ウェブ版にはインターネット接続が必要です。変更は保存すると同期されます。",
-  "access.help": "ヘルプ"
+  "access.help": "ヘルプ",
+  "qr_preview.open": "自分のQRコードをプレビュー",
+  "qr_preview.title": "自分の医療QRコード",
+  "qr_preview.intro": "保存済みの病歴のQRコードを表示・拡大します。",
+  "qr_preview.saved": "最後に保存された病歴が表示されます。未保存の変更はこれらのQRコードに含まれません。",
+  "qr_preview.close": "プレビューを閉じる",
+  "qr_preview.loading": "セッションと保存済みの病歴を確認しています…",
+  "qr_preview.empty": "プレビューできる病歴がまだ保存されていません。医療情報を保存してから、この画面を開き直してください。",
+  "qr_preview.error": "保存済みの病歴を確認できませんでした。接続を確認して、もう一度お試しください。",
+  "qr_preview.retry": "もう一度確認",
+  "qr_preview.content": "このQRコードの情報を開く",
+  "qr_preview.content_note": "通常の医療リーダーを使い、別のタブで情報を開きます。",
+  "qr_preview.list": "QRコードを選択"
 }

@@ -1616,5 +1616,17 @@
   "access.web_scan": "从我的手机关联",
   "access.qr_hint": "此二维码用于授权电脑，与急救医疗二维码不同。",
   "access.connection": "网页版需要网络连接。更改会在保存时同步。",
-  "access.help": "帮助"
+  "access.help": "帮助",
+  "qr_preview.open": "预览我的二维码",
+  "qr_preview.title": "我的医疗二维码",
+  "qr_preview.intro": "查看并放大已保存病史的二维码。",
+  "qr_preview.saved": "显示的是最近保存的病史版本。尚未保存的更改不会包含在这些二维码中。",
+  "qr_preview.close": "关闭预览",
+  "qr_preview.loading": "正在验证会话和已保存的病史…",
+  "qr_preview.empty": "尚无已保存的病史可供预览。请保存医疗信息，然后重新打开此视图。",
+  "qr_preview.error": "无法验证已保存的病史。请检查网络连接并重试。",
+  "qr_preview.retry": "重新验证",
+  "qr_preview.content": "打开此二维码的信息",
+  "qr_preview.content_note": "信息将在新标签页中使用常用医疗阅读器打开。",
+  "qr_preview.list": "选择二维码"
 }

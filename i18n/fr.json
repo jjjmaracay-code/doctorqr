@@ -1616,5 +1616,17 @@
   "access.web_scan": "Associer depuis mon téléphone",
   "access.qr_hint": "Ce QR autorise l’ordinateur ; il est différent des QR médicaux d’urgence.",
   "access.connection": "La version web nécessite une connexion. Les modifications sont synchronisées à l’enregistrement.",
-  "access.help": "Aide"
+  "access.help": "Aide",
+  "qr_preview.open": "Aperçu de mes QR",
+  "qr_preview.title": "Mes QR médicaux",
+  "qr_preview.intro": "Consultez et agrandissez les QR de votre dossier enregistré.",
+  "qr_preview.saved": "La dernière version enregistrée du dossier est affichée. Les modifications non enregistrées ne figurent pas dans ces QR.",
+  "qr_preview.close": "Fermer l’aperçu",
+  "qr_preview.loading": "Vérification de la session et du dossier enregistré…",
+  "qr_preview.empty": "Aucun dossier enregistré à afficher pour le moment. Enregistrez vos données médicales et rouvrez cet aperçu.",
+  "qr_preview.error": "Impossible de vérifier le dossier enregistré. Vérifiez votre connexion et réessayez.",
+  "qr_preview.retry": "Vérifier à nouveau",
+  "qr_preview.content": "Ouvrir les informations de ce QR",
+  "qr_preview.content_note": "Les informations s’ouvrent dans un autre onglet avec le lecteur médical habituel.",
+  "qr_preview.list": "Sélectionnez un QR"
 }
