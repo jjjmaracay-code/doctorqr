@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <title>Atabeyapp</title>
   <style>
@@ -140,6 +140,37 @@ html[dir="rtl"] .patient-meta,html[dir="rtl"] .badge{unicode-bidi:plaintext}
 html[dir="rtl"] :is(.blood-badge,.tel-link,.qr-type-badge){direction:ltr;unicode-bidi:isolate;display:inline-block}
 html[dir="rtl"] .lang-switcher{justify-content:flex-start}
 html:lang(ar) :is(.section-label,.tab-btn,.badge){letter-spacing:normal;line-height:1.7}
+
+/* Reader controls stay usable when patient identity is long or the viewport is short. */
+[data-atabey-ui="medical"]{--reader-footer-size:110px;padding-bottom:calc(var(--reader-footer-size) + 12px)}
+[data-atabey-ui="medical"] .header{position:relative;top:auto}
+[data-atabey-ui="medical"] .header,[data-atabey-ui="medical"] .tab-panel{overflow-wrap:anywhere}
+[data-atabey-ui="medical"] .search-bar{top:0;z-index:110;display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:6px 8px;padding:8px max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));padding-top:max(8px,env(safe-area-inset-top));background:#fff}
+[data-atabey-ui="medical"] .search-input{grid-column:1/-1;grid-row:1;width:100%;min-height:44px;font-size:16px;letter-spacing:normal;color:#9d0000;padding:10px 12px}
+[data-atabey-ui="medical"] .search-input::placeholder{color:#8b4444;opacity:1}
+[data-atabey-ui="medical"] .search-input:focus-visible{outline:2px solid #a40000;outline-offset:2px}
+[data-atabey-ui="medical"] .search-feedback{grid-column:1/-1;display:flex;align-items:center;gap:8px;min-width:0}
+[data-atabey-ui="medical"] .search-feedback[hidden]{display:none}
+[data-atabey-ui="medical"] .search-counter{flex:1;min-width:0;white-space:normal;text-align:start;overflow-wrap:anywhere;font-size:13px}
+[data-atabey-ui="medical"] .nav-btn{width:44px;height:44px;flex:0 0 44px}
+[data-atabey-ui="medical"] .reader-back{display:none;grid-column:1;grid-row:1;align-items:center;justify-content:center;min-height:44px;width:44px;border:1px solid #b42323;border-radius:8px;background:#fff;color:#a40000;font:700 24px system-ui;cursor:pointer}
+[data-atabey-ui="medical"] .reader-back:focus-visible,[data-atabey-ui="medical"] .reader-expand:focus-visible{outline:3px solid #111;outline-offset:3px}
+[data-atabey-ui="medical"] .data-row>*{min-width:0;max-width:100%}
+[data-atabey-ui="medical"] :is(.data-value,.badge,.contact-name,.contact-rel,.tel-link,.meta-sutil){overflow-wrap:anywhere;max-width:100%}
+[data-atabey-ui="medical"] .badge{white-space:normal}
+[data-atabey-ui="medical"] .section-title{line-height:1.4}
+[data-atabey-ui="medical"] .footer{z-index:115;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+[data-atabey-ui="medical"] .reader-expand{font-size:13px;letter-spacing:1px;line-height:1.45;min-height:48px;white-space:normal}
+[data-atabey-ui="medical"] .footer-note{text-align:center;line-height:1.4;letter-spacing:normal}
+[data-atabey-ui="medical"] .scroll-indicator-down{bottom:calc(var(--reader-footer-size) + 12px)}
+[data-atabey-ui="medical"] .scroll-indicator-up{top:calc(var(--reader-sticky-offset,60px) + 12px)}
+[data-atabey-ui="medical"].qr-reading-mode{--reader-footer-size:0px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+[data-atabey-ui="medical"].qr-reading-mode :is(.header,.tabs,.footer,.scroll-indicator){display:none!important}
+[data-atabey-ui="medical"].qr-reading-mode .reader-back{display:flex}
+[data-atabey-ui="medical"].qr-reading-mode .search-input{grid-column:2}
+[data-atabey-ui="medical"].qr-reading-mode .tab-panel{display:block;padding:12px clamp(8px,3vw,20px) 0}
+html[dir="rtl"] .reader-back{transform:scaleX(-1)}
+@media(max-width:600px){[data-atabey-ui="medical"] .data-row{flex-wrap:wrap;gap:6px}[data-atabey-ui="medical"] .data-label{flex-basis:100%;min-width:0}[data-atabey-ui="medical"] .tab-btn{min-width:0;letter-spacing:.5px;font-size:12px;overflow-wrap:anywhere}}
 </style>
 </head>
 <body data-atabey-ui="medical">
@@ -150,7 +181,7 @@ html:lang(ar) :is(.section-label,.tab-btn,.badge){letter-spacing:normal;line-hei
      momento. Hash SRI conservado sin cambios, verificado contra el archivo
      local. -->
 <script src="/vendor/lz-string/lz-string-1.5.0.min.js" integrity="sha384-0d+Gr7vM4Drod8E3hXKgciWJSWbjD/opKLLygI9ktiWbuvlDwQLzU46wJ9s5gsp7"></script>
-<script src="/js/qr-languages.js?v=19"></script>
+<script src="/js/qr-languages.js?v=20"></script>
 <script src="/js/birthdate.js?v=14"></script>
 <script>
 // ================================================================
@@ -804,6 +835,8 @@ let data         = null;
 let lang         = 'es';
 let t            = T.es;
 let activeTab    = 'urgente';
+let readingMode  = false;
+let readerLayoutObserver = null;
 let searchMatches = [];
 let searchCurrent = -1;
 let accesoVigente = true; // resultado de verificarAccesoVigente(); ya no bloquea el render, solo decide si se muestra el aviso
@@ -872,12 +905,15 @@ function renderApp() {
     </header>
 
     <div class="search-bar" id="sbar">
+      <button class="reader-back" id="reader-back" type="button" aria-label="${escAttr(t.reader_collapse)}" title="${escAttr(t.reader_collapse)}" onclick="setReadingMode(false)">←</button>
       <input class="search-input" id="sinput" type="search" placeholder="${esc(t.ph)}"
              autocomplete="off" autocorrect="off" spellcheck="false">
-      <span class="search-counter" id="sctr"></span>
-      <div class="search-nav">
-        <button class="nav-btn" id="sprev" disabled>↑</button>
-        <button class="nav-btn" id="snext" disabled>↓</button>
+      <div class="search-feedback" id="search-feedback" hidden>
+        <span class="search-counter" id="sctr" aria-live="polite"></span>
+        <div class="search-nav">
+          <button class="nav-btn" id="sprev" type="button" aria-label="${escAttr(t.reader_previous)}" disabled>↑</button>
+          <button class="nav-btn" id="snext" type="button" aria-label="${escAttr(t.reader_next)}" disabled>↓</button>
+        </div>
       </div>
     </div>
 
@@ -890,16 +926,19 @@ function renderApp() {
       <button class="tab-btn"        id="tbtn-contactos" onclick="switchTab('contactos')">${t.tab_c} (${contactCount})</button>
     </div>
 
+    <main id="medical-content">
     <div class="tab-panel active" id="panel-urgente">${renderUrgente(d, t, vCfg && vCfg.u)}</div>
     <div class="tab-panel"        id="panel-historial">${renderHistorial(d, t, vCfg && vCfg.h)}</div>
     <div class="tab-panel"        id="panel-contactos">${renderContactos(d, t)}</div>
+    </main>
 
     <div class="footer">
-      <a class="btn-profile" href="https://atabeyapp.app">${t.btn}</a>
+      <button class="btn-profile reader-expand" id="reader-expand" type="button" aria-controls="medical-content" aria-expanded="${readingMode}" onclick="setReadingMode(true)">${esc(t.reader_expand)}</button>
       <div class="footer-note">${esc(t.footnote)}</div>
     </div>`;
 
-  positionSticky();
+  document.body.classList.toggle('qr-reading-mode',readingMode);
+  observeReaderLayout();
   initSearch();
   document.getElementById('scroll-ind-down')?.setAttribute('aria-label',t.down);
   document.getElementById('scroll-ind-up')?.setAttribute('aria-label',t.up);
@@ -926,17 +965,41 @@ function renderApp() {
   })();
 }
 
+// Presentation only: the same confirmed medical nodes remain in place.
+function setReadingMode(expanded) {
+  if (!data) return;
+  readingMode = !!expanded;
+  document.body.classList.toggle('qr-reading-mode',readingMode);
+  document.getElementById('reader-expand')?.setAttribute('aria-expanded',String(readingMode));
+  positionSticky();
+  window.scrollTo({top:0,behavior:'instant'});
+  document.getElementById(readingMode ? 'reader-back' : 'reader-expand')?.focus({preventScroll:true});
+}
+function observeReaderLayout() {
+  readerLayoutObserver?.disconnect();
+  if (window.ResizeObserver) {
+    readerLayoutObserver = new ResizeObserver(positionSticky);
+    for (const selector of ['#sbar','#tabs','.footer']) {
+      const element=document.querySelector(selector);if(element)readerLayoutObserver.observe(element);
+    }
+  }
+  positionSticky();
+}
 function positionSticky() {
   requestAnimationFrame(() => {
-    const hdr  = document.getElementById('hdr');
-    const sbar = document.getElementById('sbar');
-    const tabs = document.getElementById('tabs');
-    if (!hdr || !sbar || !tabs) return;
-    const hh = hdr.offsetHeight;
-    sbar.style.top = hh + 'px';
-    tabs.style.top = (hh + sbar.offsetHeight) + 'px';
+    const sbar=document.getElementById('sbar'),tabs=document.getElementById('tabs'),footer=document.querySelector('.footer');
+    if (!sbar || !tabs) return;
+    sbar.style.top='0px';
+    tabs.style.top=sbar.offsetHeight+'px';
+    document.body.style.setProperty('--reader-sticky-offset',(sbar.offsetHeight+(readingMode?0:tabs.offsetHeight))+'px');
+    document.body.style.setProperty('--reader-footer-size',(footer?.offsetHeight||0)+'px');
   });
 }
+window.addEventListener('resize',positionSticky);
+window.visualViewport?.addEventListener('resize',positionSticky);
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape' && !event.defaultPrevented && readingMode){event.preventDefault();setReadingMode(false);}
+});
 
 function renderError() {
   const labels = {
@@ -1042,7 +1105,7 @@ function initSearch() {
   inp.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === 'ArrowDown') { e.preventDefault(); navigate(1); }
     if (e.key === 'ArrowUp')  { e.preventDefault(); navigate(-1); }
-    if (e.key === 'Escape')   { inp.value = ''; runSearch(''); inp.blur(); }
+    if (e.key === 'Escape') { e.preventDefault();if(inp.value){inp.value='';runSearch('');}else if(readingMode)setReadingMode(false);else inp.blur(); }
   });
 }
 
@@ -1120,8 +1183,6 @@ function navigate(dir) {
   if (!searchMatches.length) return;
   searchCurrent = (searchCurrent + dir + searchMatches.length) % searchMatches.length;
   highlight();
-  const cur = searchMatches[searchCurrent];
-  if (cur) cur.scrollIntoView({ behavior: 'instant', block: 'nearest' });
   updateCounter();
 }
 
@@ -1134,12 +1195,22 @@ function highlight() {
     const id = panel.id.replace('panel-', '');
     if (id !== activeTab) switchTab(id);
   }
+  requestAnimationFrame(() => {
+    if (!cur.isConnected) return;
+    const bar=document.getElementById('sbar'),tabs=document.getElementById('tabs');
+    const top=Math.max(bar?.getBoundingClientRect().bottom||0,readingMode?0:tabs?.getBoundingClientRect().bottom||0)+12;
+    const bounds=cur.getBoundingClientRect(),visibleHeight=window.visualViewport?.height||window.innerHeight;
+    if(bounds.top<top || bounds.bottom>visibleHeight-12)window.scrollTo({top:Math.max(0,window.scrollY+bounds.top-top),behavior:'instant'});
+  });
 }
 
 function updateCounter() {
   const el  = document.getElementById('sctr');
   const inp = document.getElementById('sinput');
   if (!el) return;
+  const feedback=document.getElementById('search-feedback');
+  if(feedback)feedback.hidden=!(searchMatches.length || (inp && inp.value.length>=2));
+  positionSticky();
   if (!searchMatches.length) {
     el.textContent = inp && inp.value.length >= 2 ? t.no_results : '';
     return;
