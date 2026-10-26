@@ -1,0 +1,51 @@
+/* Account actions and public installation help; medical forms/readers are outside this scope. */
+.account-overview{width:100%;max-width:680px;margin:24px auto 0;display:grid;gap:14px;text-align:start}
+.account-access-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.account-access-card{--access-tone:#78dcff;--access-edge:#36718c;--access-fill:#07547d;display:flex;flex-direction:column;align-items:stretch;gap:10px;min-width:0;padding:18px;border:1px solid var(--access-edge);border-radius:18px;background:linear-gradient(145deg,#15364b,#0b1c2c);box-shadow:inset 0 1px 0 #ffffff0a}
+.account-access-card.access-emergency{--access-tone:#ffb2c2;--access-edge:#a44359;--access-fill:#991c3c;background:linear-gradient(145deg,#361824,#1d1522)}
+.access-heading{margin:0;color:var(--access-tone);font:800 15px/1.4 'Inter',system-ui,sans-serif;letter-spacing:.5px;text-transform:none}
+.access-copy{margin:0 0 4px;color:#d3dfea;font:400 13px/1.6 'Inter',system-ui,sans-serif;overflow-wrap:anywhere}
+.account-overview .access-button{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:auto;padding:12px 14px;border:1px solid var(--access-tone);border-radius:12px;background:var(--access-fill);color:#fff;font:700 14px/1.4 'Inter',system-ui,sans-serif;letter-spacing:normal;text-align:center;text-decoration:none;cursor:pointer;overflow-wrap:anywhere;transition:filter .15s,box-shadow .15s}
+.account-overview .access-button:hover{filter:brightness(1.16);box-shadow:0 0 18px #3aa4dc24}
+.account-overview .access-emergency .access-button:hover{box-shadow:0 0 18px #ff4e712b}
+.account-plan-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid #6b5c3d;border-radius:14px;background:linear-gradient(115deg,#2d271b88,#172333)}
+.account-overview #plan-badge{min-width:0;margin:0;padding:7px 10px;border:1px solid transparent;border-radius:9px;font:700 12px/1.5 'Inter',system-ui,sans-serif;letter-spacing:.7px;text-transform:uppercase;overflow-wrap:anywhere}
+.account-overview #plan-badge[data-i18n="index.plan_badge.free"]{color:#cbd5e2!important}
+.access-plan-button{min-height:44px;padding:10px 16px;border:1px solid #c5a955;border-radius:10px;background:#40331c;color:#ffe4a0;font:700 13px/1.4 'Inter',system-ui,sans-serif;cursor:pointer;overflow-wrap:anywhere}
+.access-plan-button:hover{background:#564424}
+.account-utility-row{display:flex;align-items:stretch;justify-content:space-between;gap:10px;padding-top:2px}
+.account-overview .access-utility{display:flex;align-items:center;justify-content:center;min-width:0;min-height:44px;flex:1;padding:10px 12px;border:1px solid #45556e;border-radius:10px;background:#142031;color:#d2deee;font:600 12px/1.5 'Inter',system-ui,sans-serif;text-align:center;text-decoration:none;cursor:pointer;overflow-wrap:anywhere}
+.account-overview .access-utility:hover{background:#20324b;border-color:#91b3dd}
+.account-overview .access-logout{flex:0 1 auto;color:#f1c9d1;border-color:#64404d;background:#211c2a}
+.account-overview .access-logout:hover{background:#40212f;border-color:#f1a0b2}
+.account-overview :is(a,button):focus-visible{outline:3px solid #e8f6ff;outline-offset:4px}
+[data-atabey-ui="editor"] .brand-slogan{max-width:100%;overflow-wrap:anywhere;padding-inline:0}
+[data-atabey-ui="installation"] main{max-width:680px}
+[data-atabey-ui="installation"] .logo-wrap{margin-bottom:20px}
+[data-atabey-ui="installation"] .logo-rotate svg{width:112px}
+[data-atabey-ui="installation"] .wordmark svg{width:190px}
+[data-atabey-ui="installation"] h1{font-size:clamp(22px,5vw,28px);line-height:1.3;margin-bottom:22px}
+.web-downloads{scroll-margin-top:20px;margin:0 0 28px;padding:24px;border:1px solid #4bacd7;border-radius:22px;background:linear-gradient(145deg,#0c263d,#07141f);color:#e9f6ff;box-shadow:0 12px 40px #0f91d21a;overflow-wrap:anywhere}
+.web-guide-brand{color:#82deff;font:800 13px/1.5 'Inter',system-ui,sans-serif;letter-spacing:1.5px;margin-bottom:8px}
+.web-downloads h2{font-size:clamp(22px,5vw,28px);font-weight:800;line-height:1.3;margin-bottom:12px;color:#f2fbff}
+.web-downloads p{font-size:14px;line-height:1.7;margin:0 0 12px}
+.web-guide-address{display:block;width:fit-content;max-width:100%;padding:8px 12px;margin:0 0 18px;border:1px solid #427a99;border-radius:9px;color:#9fe8ff;font:600 14px/1.5 'Inter',system-ui,sans-serif;text-underline-offset:3px}
+.web-guide-steps{padding-inline-start:22px;display:grid;gap:12px;margin:0 0 22px;font-size:14px;line-height:1.65}
+.web-guide-steps li{padding-inline-start:4px}
+.web-guide-steps li::marker{color:#8ee3ff;font-weight:800}
+.web-guide-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px;margin-bottom:18px}
+.web-guide-button{display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;padding:12px 16px;border:1px solid #82dfff;border-radius:12px;background:#075984;color:#fff;text-align:center;text-decoration:none;font:700 14px/1.5 'Inter',system-ui,sans-serif;cursor:pointer}
+.web-guide-secondary{background:#11293d;color:#c6ebff;border-color:#537f9f}
+.web-guide-button:hover{filter:brightness(1.18)}
+.web-downloads .web-guide-note{color:#b7cadc;font-size:12px;line-height:1.6;margin-bottom:8px}
+[data-atabey-ui="installation"] .install-section-title{font-size:19px;line-height:1.5;text-align:center;margin-bottom:14px}
+[data-atabey-ui="installation"] .tabs{gap:6px}
+[data-atabey-ui="installation"] .tab-btn{min-width:0;min-height:44px;overflow-wrap:anywhere;letter-spacing:.4px}
+[data-atabey-ui="installation"] .app-language-control{width:100%;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+[data-atabey-ui="installation"] .app-language-control select{font-size:16px;min-height:44px}
+@media(max-width:480px){.account-overview{gap:12px}.account-access-card{padding:15px;gap:8px}.account-plan-row{gap:8px;padding:10px}.account-overview #plan-badge{flex:1;padding-inline:4px;font-size:11px;letter-spacing:.2px}.access-plan-button{padding-inline:10px;font-size:12px}.account-overview .access-utility{padding-inline:8px}.web-downloads{padding:18px}.web-guide-address{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.account-overview *{transition:none!important}}
+[data-atabey-ui="editor"] .logo-wrap>svg{max-width:100%;height:auto}
+.account-overview .access-help{flex:0 1 auto;background:#132e3e;color:#c8edff;border-color:#3d7188}
+.account-overview .access-help:disabled{opacity:.6;cursor:wait}
+.account-actions-in-view #help-btn{visibility:hidden;pointer-events:none}

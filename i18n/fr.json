@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "Traduction de l’interface. Les textes médicaux saisis par l’utilisateur restent dans leur langue d’origine.",
   "ui.server_error": "La demande n’a pas pu être traitée. Vérifiez les informations et réessayez.",
   "privacy.countryCounts.title": "Statistiques agrégées des ouvertures par pays",
-  "privacy.countryCounts.body": "Sur les écrans principaux, nous comptons les ouvertures par pays approximatif, estimé par Cloudflare et transmis par le navigateur. Nous conservons uniquement le pays, le total et les dates du premier et du dernier relevé, sans lien avec les comptes ni les données médicales. Ce compteur ne crée ni cookies ni identifiants persistants. Il exclut le panneau administratif et les pages des QR médicaux et respecte Do Not Track et Global Privacy Control. Il ne mesure pas les personnes uniques et ne reconstitue pas les visites antérieures."
+  "privacy.countryCounts.body": "Sur les écrans principaux, nous comptons les ouvertures par pays approximatif, estimé par Cloudflare et transmis par le navigateur. Nous conservons uniquement le pays, le total et les dates du premier et du dernier relevé, sans lien avec les comptes ni les données médicales. Ce compteur ne crée ni cookies ni identifiants persistants. Il exclut le panneau administratif et les pages des QR médicaux et respecte Do Not Track et Global Privacy Control. Il ne mesure pas les personnes uniques et ne reconstitue pas les visites antérieures.",
+  "access.emergency_title": "Urgences",
+  "access.emergency_copy": "Gardez vos QR médicaux à portée de main.",
+  "access.web_copy": "Consultez et modifiez votre historique médical sur ordinateur.",
+  "access.link": "Associer un ordinateur",
+  "access.downloads": "Téléchargements et accès web",
+  "access.web_title": "Votre historique médical, aussi sur ordinateur",
+  "access.step1": "Sur l’ordinateur, ouvrez ATABEYAPP Web pour afficher le QR d’association.",
+  "access.step2": "Sur le téléphone, connectez-vous et appuyez sur « Associer un ordinateur » pour scanner ce QR.",
+  "access.step3": "Vérifiez le numéro sur les deux écrans et confirmez avec votre application d’authentification.",
+  "access.web_open": "Ouvrir ATABEYAPP Web",
+  "access.web_scan": "Associer depuis mon téléphone",
+  "access.qr_hint": "Ce QR autorise l’ordinateur ; il est différent des QR médicaux d’urgence.",
+  "access.connection": "La version web nécessite une connexion. Les modifications sont synchronisées à l’enregistrement.",
+  "access.help": "Aide"
 }

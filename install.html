@@ -210,6 +210,7 @@
   .btn-go:hover { box-shadow:0 0 34px rgba(18,165,255,0.7); }
 </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=18"/>
+  <link rel="stylesheet" href="/css/access-hub.css?v=21"/>
 <script src="/i18n/loader.js?v=14"></script>
 <script src="/js/country-metrics.js?v=1" defer></script>
 </head>
@@ -380,7 +381,25 @@
 </div>
 
 <main>
-  <h1><span data-i18n="extra.5257c695e3c7d7c2">Instala Atabeyapp en tu dispositivo</span></h1>
+  <h1 data-i18n="access.downloads">Descargas y acceso web</h1>
+  <section class="web-downloads" id="atabey-web" aria-labelledby="web-guide-title">
+    <div class="web-guide-brand">ATABEYAPP Web</div>
+    <h2 id="web-guide-title" data-i18n="access.web_title">Tu historial, también en el ordenador</h2>
+    <p data-i18n="access.web_copy">Consulta y edita tu historial desde el ordenador.</p>
+    <a class="web-guide-address" href="/web.html">atabeyapp.app/web.html</a>
+    <ol class="web-guide-steps">
+      <li data-i18n="access.step1">En el ordenador, abre ATABEYAPP Web para mostrar el QR de vinculación.</li>
+      <li data-i18n="access.step2">En el móvil, inicia sesión y pulsa «Vincular ordenador» para escanear ese QR.</li>
+      <li data-i18n="access.step3">Comprueba el número en ambas pantallas y confirma con tu autenticador.</li>
+    </ol>
+    <div class="web-guide-actions">
+      <a class="web-guide-button" href="/web.html" data-i18n="access.web_open">Abrir ATABEYAPP Web</a>
+      <a class="web-guide-button web-guide-secondary" href="/dispositivos.html" data-i18n="access.web_scan">Vincular desde mi móvil</a>
+    </div>
+    <p class="web-guide-note" data-i18n="access.qr_hint">Este QR autoriza el ordenador; es distinto de los QR médicos de emergencia.</p>
+    <p class="web-guide-note" data-i18n="access.connection">La versión web necesita conexión. Los cambios se sincronizan al guardarlos.</p>
+  </section>
+  <h2 class="install-section-title"><span data-i18n="extra.5257c695e3c7d7c2">Instala Atabeyapp en tu dispositivo</span></h2>
 
   <p class="pwa-note">
     <strong><span data-i18n="extra.ac9c0a86e9d69183">Atabeyapp es una PWA.</span></strong> <span data-i18n="extra.3633ecc8c41334cb">No requiere descarga desde ninguna tienda de apps.

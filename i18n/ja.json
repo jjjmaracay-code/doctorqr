@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "画面表示の翻訳です。本人が入力した医療情報は原文のまま保持されます。",
   "ui.server_error": "リクエストを完了できません。入力内容を確認して再試行してください。",
   "privacy.countryCounts.title": "国別のページ表示回数の集計",
-  "privacy.countryCounts.body": "主要画面では、Cloudflare が推定しブラウザーが送信するおおよその国に基づいて、ページを開いた回数を数えます。保存するのは国、合計回数、最初と最後の記録の日付のみで、アカウントや医療データとは関連付けません。このカウンターは Cookie や永続的な識別子を追加しません。管理画面と医療 QR のページは対象外で、Do Not Track と Global Privacy Control を尊重します。利用者の実人数を数えたり、過去の訪問を復元したりするものではありません。"
+  "privacy.countryCounts.body": "主要画面では、Cloudflare が推定しブラウザーが送信するおおよその国に基づいて、ページを開いた回数を数えます。保存するのは国、合計回数、最初と最後の記録の日付のみで、アカウントや医療データとは関連付けません。このカウンターは Cookie や永続的な識別子を追加しません。管理画面と医療 QR のページは対象外で、Do Not Track と Global Privacy Control を尊重します。利用者の実人数を数えたり、過去の訪問を復元したりするものではありません。",
+  "access.emergency_title": "緊急時",
+  "access.emergency_copy": "必要なときに医療QRコードをすぐ確認できます。",
+  "access.web_copy": "パソコンで病歴を確認・編集できます。",
+  "access.link": "パソコンを連携",
+  "access.downloads": "ダウンロードとウェブアクセス",
+  "access.web_title": "病歴をパソコンでも",
+  "access.step1": "パソコンで ATABEYAPP Web を開き、連携用QRコードを表示します。",
+  "access.step2": "スマートフォンでログインし、「パソコンを連携」を押してそのQRコードを読み取ります。",
+  "access.step3": "両方の画面の番号を確認し、認証アプリで承認します。",
+  "access.web_open": "ATABEYAPP Web を開く",
+  "access.web_scan": "スマートフォンから連携",
+  "access.qr_hint": "このQRコードはパソコンを承認するためのもので、緊急時の医療QRコードとは異なります。",
+  "access.connection": "ウェブ版にはインターネット接続が必要です。変更は保存すると同期されます。",
+  "access.help": "ヘルプ"
 }

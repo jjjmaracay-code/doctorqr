@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "Interface translation. Medical text entered by the user remains in its original language.",
   "ui.server_error": "The request could not be completed. Check your details and try again.",
   "privacy.countryCounts.title": "Aggregate page openings by country",
-  "privacy.countryCounts.body": "On the main screens we count page openings by approximate country, estimated by Cloudflare and reported by the browser. We retain only the country, total, and dates of the first and last records, without linking them to accounts or medical data. This counter adds no cookies or persistent identifiers. It excludes the admin panel and medical QR pages and respects Do Not Track and Global Privacy Control. It does not measure unique people or reconstruct earlier visits."
+  "privacy.countryCounts.body": "On the main screens we count page openings by approximate country, estimated by Cloudflare and reported by the browser. We retain only the country, total, and dates of the first and last records, without linking them to accounts or medical data. This counter adds no cookies or persistent identifiers. It excludes the admin panel and medical QR pages and respects Do Not Track and Global Privacy Control. It does not measure unique people or reconstruct earlier visits.",
+  "access.emergency_title": "Emergencies",
+  "access.emergency_copy": "Keep your medical QR codes close when you need them.",
+  "access.web_copy": "View and edit your medical history from a computer.",
+  "access.link": "Link a computer",
+  "access.downloads": "Downloads and web access",
+  "access.web_title": "Your medical history, on your computer too",
+  "access.step1": "On your computer, open ATABEYAPP Web to display the linking QR code.",
+  "access.step2": "On your phone, sign in and tap “Link a computer” to scan that QR code.",
+  "access.step3": "Check the number on both screens and confirm with your authenticator.",
+  "access.web_open": "Open ATABEYAPP Web",
+  "access.web_scan": "Link from my phone",
+  "access.qr_hint": "This QR code authorizes the computer; it is different from your emergency medical QR codes.",
+  "access.connection": "The web version needs an internet connection. Changes synchronize when you save them.",
+  "access.help": "Help"
 }

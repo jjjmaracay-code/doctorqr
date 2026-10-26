@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "Traducción de la interfaz. Los textos médicos escritos por el usuario se conservan en su idioma original.",
   "ui.server_error": "No se pudo completar la solicitud. Comprueba los datos y vuelve a intentarlo.",
   "privacy.countryCounts.title": "Estadística agregada de aperturas por país",
-  "privacy.countryCounts.body": "En las pantallas principales contamos aperturas por país aproximado, estimado por Cloudflare y comunicado por el navegador. Conservamos únicamente país, total y días del primer y último registro, sin asociarlos a cuentas ni a datos médicos. Este contador no añade cookies ni identificadores persistentes. Excluye el panel y las páginas de QR médicos y respeta Do Not Track y Global Privacy Control. No mide personas únicas ni reconstruye visitas anteriores."
+  "privacy.countryCounts.body": "En las pantallas principales contamos aperturas por país aproximado, estimado por Cloudflare y comunicado por el navegador. Conservamos únicamente país, total y días del primer y último registro, sin asociarlos a cuentas ni a datos médicos. Este contador no añade cookies ni identificadores persistentes. Excluye el panel y las páginas de QR médicos y respeta Do Not Track y Global Privacy Control. No mide personas únicas ni reconstruye visitas anteriores.",
+  "access.emergency_title": "Emergencias",
+  "access.emergency_copy": "Tus QR médicos, a mano cuando los necesites.",
+  "access.web_copy": "Consulta y edita tu historial desde el ordenador.",
+  "access.link": "Vincular ordenador",
+  "access.downloads": "Descargas y acceso web",
+  "access.web_title": "Tu historial, también en el ordenador",
+  "access.step1": "En el ordenador, abre ATABEYAPP Web para mostrar el QR de vinculación.",
+  "access.step2": "En el móvil, inicia sesión y pulsa «Vincular ordenador» para escanear ese QR.",
+  "access.step3": "Comprueba el número en ambas pantallas y confirma con tu autenticador.",
+  "access.web_open": "Abrir ATABEYAPP Web",
+  "access.web_scan": "Vincular desde mi móvil",
+  "access.qr_hint": "Este QR autoriza el ordenador; es distinto de los QR médicos de emergencia.",
+  "access.connection": "La versión web necesita conexión. Los cambios se sincronizan al guardarlos.",
+  "access.help": "Ayuda"
 }

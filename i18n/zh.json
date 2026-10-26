@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "界面翻译。用户输入的医疗文本保留原始语言。",
   "ui.server_error": "无法完成请求。请核对信息后重试。",
   "privacy.countryCounts.title": "按国家汇总的页面打开次数",
-  "privacy.countryCounts.body": "我们在主要页面按大致国家统计打开次数，国家由 Cloudflare 估算并由浏览器报告。仅保留国家、总次数及首次和最后一次记录的日期，不与账户或医疗数据关联。此计数器不添加 Cookie 或持久标识符，不统计管理面板和医疗二维码页面，并尊重 Do Not Track 和 Global Privacy Control。它不统计独立人数，也不重建以往的访问记录。"
+  "privacy.countryCounts.body": "我们在主要页面按大致国家统计打开次数，国家由 Cloudflare 估算并由浏览器报告。仅保留国家、总次数及首次和最后一次记录的日期，不与账户或医疗数据关联。此计数器不添加 Cookie 或持久标识符，不统计管理面板和医疗二维码页面，并尊重 Do Not Track 和 Global Privacy Control。它不统计独立人数，也不重建以往的访问记录。",
+  "access.emergency_title": "紧急情况",
+  "access.emergency_copy": "需要时，随时找到您的医疗二维码。",
+  "access.web_copy": "在电脑上查看和编辑您的病史。",
+  "access.link": "关联电脑",
+  "access.downloads": "下载与网页访问",
+  "access.web_title": "在电脑上也能查看您的病史",
+  "access.step1": "在电脑上打开 ATABEYAPP Web，显示关联二维码。",
+  "access.step2": "在手机上登录，点击“关联电脑”扫描该二维码。",
+  "access.step3": "核对两块屏幕上的数字，并使用身份验证器确认。",
+  "access.web_open": "打开 ATABEYAPP Web",
+  "access.web_scan": "从我的手机关联",
+  "access.qr_hint": "此二维码用于授权电脑，与急救医疗二维码不同。",
+  "access.connection": "网页版需要网络连接。更改会在保存时同步。",
+  "access.help": "帮助"
 }

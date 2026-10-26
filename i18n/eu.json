@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "Interfazearen itzulpena. Erabiltzaileak idatzitako testu medikoak jatorrizko hizkuntzan gordetzen dira.",
   "ui.server_error": "Ezin izan da eskaera osatu. Egiaztatu datuak eta saiatu berriro.",
   "privacy.countryCounts.title": "Orrialdeen irekitzeen estatistika agregatua herrialdeka",
-  "privacy.countryCounts.body": "Pantaila nagusietan irekitzeak zenbatzen ditugu gutxi gorabeherako herrialdeka; Cloudflarek estimatzen du herrialdea eta nabigatzaileak jakinarazten du. Herrialdea, guztizkoa eta lehen eta azken erregistroen egunak soilik gordetzen ditugu, kontuekin edo datu medikoekin lotu gabe. Kontagailu honek ez du cookierik edo identifikatzaile iraunkorrik gehitzen. Administrazio-panela eta QR medikoen orrialdeak kanpo uzten ditu, eta Do Not Track eta Global Privacy Control errespetatzen ditu. Ez ditu pertsona bakarrak zenbatzen eta ez ditu aurreko bisitak berreraikitzen."
+  "privacy.countryCounts.body": "Pantaila nagusietan irekitzeak zenbatzen ditugu gutxi gorabeherako herrialdeka; Cloudflarek estimatzen du herrialdea eta nabigatzaileak jakinarazten du. Herrialdea, guztizkoa eta lehen eta azken erregistroen egunak soilik gordetzen ditugu, kontuekin edo datu medikoekin lotu gabe. Kontagailu honek ez du cookierik edo identifikatzaile iraunkorrik gehitzen. Administrazio-panela eta QR medikoen orrialdeak kanpo uzten ditu, eta Do Not Track eta Global Privacy Control errespetatzen ditu. Ez ditu pertsona bakarrak zenbatzen eta ez ditu aurreko bisitak berreraikitzen.",
+  "access.emergency_title": "Larrialdiak",
+  "access.emergency_copy": "Izan zure QR medikoak eskura behar dituzunean.",
+  "access.web_copy": "Kontsultatu eta editatu zure historia medikoa ordenagailuan.",
+  "access.link": "Lotu ordenagailua",
+  "access.downloads": "Deskargak eta web-sarbidea",
+  "access.web_title": "Zure historia, ordenagailuan ere bai",
+  "access.step1": "Ordenagailuan, ireki ATABEYAPP Web lotzeko QR kodea erakusteko.",
+  "access.step2": "Mugikorrean, hasi saioa eta sakatu «Lotu ordenagailua» QR hori eskaneatzeko.",
+  "access.step3": "Egiaztatu bi pantailetako zenbakia eta berretsi zure autentifikatzailearekin.",
+  "access.web_open": "Ireki ATABEYAPP Web",
+  "access.web_scan": "Lotu nire mugikorretik",
+  "access.qr_hint": "QR honek ordenagailua baimentzen du; larrialdietako QR medikoetatik desberdina da.",
+  "access.connection": "Web-bertsioak konexioa behar du. Aldaketak gordetzean sinkronizatzen dira.",
+  "access.help": "Laguntza"
 }

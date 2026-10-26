@@ -1602,5 +1602,19 @@
   "ui.translation_notice": "Übersetzung der Oberfläche. Vom Nutzer eingegebene medizinische Texte bleiben in ihrer Originalsprache.",
   "ui.server_error": "Die Anfrage konnte nicht abgeschlossen werden. Prüfen Sie Ihre Angaben und versuchen Sie es erneut.",
   "privacy.countryCounts.title": "Zusammengefasste Seitenaufrufe nach Land",
-  "privacy.countryCounts.body": "Auf den Hauptseiten zählen wir Seitenaufrufe nach dem ungefähren Land, das Cloudflare schätzt und der Browser übermittelt. Gespeichert werden nur das Land, die Gesamtzahl und die Tage des ersten und letzten Eintrags, ohne Verknüpfung mit Konten oder medizinischen Daten. Dieser Zähler fügt keine Cookies oder dauerhaften Kennungen hinzu. Er schließt den Verwaltungsbereich und medizinische QR-Seiten aus und beachtet Do Not Track und Global Privacy Control. Er zählt keine einzelnen Personen und rekonstruiert keine früheren Besuche."
+  "privacy.countryCounts.body": "Auf den Hauptseiten zählen wir Seitenaufrufe nach dem ungefähren Land, das Cloudflare schätzt und der Browser übermittelt. Gespeichert werden nur das Land, die Gesamtzahl und die Tage des ersten und letzten Eintrags, ohne Verknüpfung mit Konten oder medizinischen Daten. Dieser Zähler fügt keine Cookies oder dauerhaften Kennungen hinzu. Er schließt den Verwaltungsbereich und medizinische QR-Seiten aus und beachtet Do Not Track und Global Privacy Control. Er zählt keine einzelnen Personen und rekonstruiert keine früheren Besuche.",
+  "access.emergency_title": "Notfälle",
+  "access.emergency_copy": "Ihre medizinischen QR-Codes sind bei Bedarf griffbereit.",
+  "access.web_copy": "Krankengeschichte am Computer ansehen und bearbeiten.",
+  "access.link": "Computer verknüpfen",
+  "access.downloads": "Downloads und Webzugang",
+  "access.web_title": "Ihre Krankengeschichte, auch am Computer",
+  "access.step1": "Öffnen Sie ATABEYAPP Web am Computer, um den QR-Code zur Verknüpfung anzuzeigen.",
+  "access.step2": "Melden Sie sich am Handy an und tippen Sie auf „Computer verknüpfen“, um diesen QR-Code zu scannen.",
+  "access.step3": "Prüfen Sie die Nummer auf beiden Bildschirmen und bestätigen Sie mit Ihrer Authentifizierungs-App.",
+  "access.web_open": "ATABEYAPP Web öffnen",
+  "access.web_scan": "Über mein Handy verknüpfen",
+  "access.qr_hint": "Dieser QR-Code autorisiert den Computer und unterscheidet sich von den medizinischen Notfall-QR-Codes.",
+  "access.connection": "Die Webversion benötigt eine Internetverbindung. Änderungen werden beim Speichern synchronisiert.",
+  "access.help": "Hilfe"
 }
