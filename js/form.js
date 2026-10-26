@@ -172,11 +172,13 @@
 
     // ===== GUARDADO DE EMERGENCIA: bandera de cambios sin guardar =====
     let hasUnsavedChanges = false;
+    let loadedProfile = null;
+    let formReady = false;
     document.addEventListener('input',  () => { hasUnsavedChanges = true; });
     document.addEventListener('change', () => { hasUnsavedChanges = true; });
 
     // ===== CHIPS =====
-    document.querySelectorAll('.chip').forEach(chip => {
+    function bindMedicalChip(chip) {
       chip.addEventListener('click', () => {
         if (chip.closest('[inert],.chips-disabled')) return;
         hasUnsavedChanges = true;
@@ -189,6 +191,7 @@
         } else {
           chip.classList.toggle('active');
         }
+        group?.querySelectorAll('.chip').forEach(item => item.setAttribute('aria-pressed',String(item.classList.contains('active'))));
         if (group && ['sexo-biologico','embarazo'].includes(group.dataset.group)) checkGenderFields(null);
         if (group && group.dataset.group === 'lang-spoken') renderLangLevels();
         if (group && (group.dataset.group === 'diseases' || group.dataset.group === 'conditions')) updateGlucagonVisibility();
@@ -248,7 +251,8 @@
         }
         clearChipsSearch(chip);
       });
-    });
+    }
+    document.querySelectorAll('.chip').forEach(bindMedicalChip);
 
     // ===== EXCLUSIÓN MUTUA: GRUPOS CON OPCIÓN "NINGUNA/NINGUNO" =====
     function setupExclusiveGroup(container) {
@@ -596,6 +600,7 @@
     function buildProfileFromForm() {
       const v = id => document.getElementById(id).value;
       return {
+        ...(loadedProfile || {}),
         lang_spoken:           getChips('lang-spoken'),
         lang_levels:           getLangLevels(),
         lang_written:          getChips('lang-written'),
@@ -631,7 +636,7 @@
         email:                 getEmailValue(),
         sexo_biologico:        getChip('sexo-biologico'),
         identidad_genero:      getChip('identidad-genero'),
-        terapia_hormonal_activa:          getChip('terapia-hormonal-activa') || 'No',
+        terapia_hormonal_activa:          getChip('terapia-hormonal-activa'),
         terapia_hormonal_tipos:           getChips('terapia-hormonal-tipos'),
         terapia_hormonal_otra:            v('f-terapia-hormonal-otra'),
         terapia_hormonal_dosis_frecuencia: v('f-terapia-hormonal-dosis'),
@@ -779,6 +784,7 @@
     }
 
     async function generate() {
+      if (!formReady) { alert('Espera a que termine la carga del historial antes de guardar.'); return; }
       if (!MedicalOwner.current()) { alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a51070d5fc6fe224","La cuenta cambió. Vuelve a iniciar sesión.",[])); return; }
       const profilePrevio = buildProfileFromForm();
 
@@ -813,6 +819,7 @@
     }
 
     window.addEventListener('doctorqr:profile-published', event => {
+      loadedProfile = { ...event.detail.profile };
       hasUnsavedChanges = event.detail.pendingDraft;
       if (!event.detail.pendingDraft) mostrarIndicadorGuardado();
       generateAllQRs();
@@ -844,7 +851,7 @@
     // Closing a tab keeps a local draft; it never overwrites another device's server data.
     let draftTimer;
     const preserveDraft = () => {
-      if (hasUnsavedChanges && MedicalOwner.current()) ProfileSync.saveDraft(buildProfileFromForm());
+      if (formReady && hasUnsavedChanges && MedicalOwner.current()) ProfileSync.saveDraft(buildProfileFromForm());
     };
     for (const event of ['input','change']) document.addEventListener(event, () => {
       clearTimeout(draftTimer); draftTimer = setTimeout(preserveDraft,250);
@@ -855,8 +862,11 @@
 
     // ===== LOAD SAVED =====
     async function loadSaved() {
+      formReady = false;
+      document.querySelectorAll('.form-section').forEach(section => section.setAttribute('inert',''));
       let saved = await ProfileSync.load();
       if (!MedicalOwner.current()) return;
+      loadedProfile = saved ? { ...saved } : null;
       hasUnsavedChanges = !!ProfileSync.draft();
 
       const refreshVal = () => {
@@ -864,11 +874,21 @@
         validateHealthCard();
       };
 
-      if (!saved) { prefillarIdentidad(); refreshVal(); return; }
+      const finish = () => {
+        formReady = true;
+        document.querySelectorAll('.form-section').forEach(section => section.removeAttribute('inert'));
+      };
+      if (!saved) { prefillarIdentidad(); refreshVal(); finish(); return; }
 
       const set = (id, val) => {
         const el = document.getElementById(id);
-        if (el && val !== undefined && val !== null && val !== '') el.value = val;
+        if (!el || val === undefined || val === null || val === '') return;
+        if (el.tagName === 'SELECT' && !Array.from(el.options).some(option => option.value === String(val))) {
+          const option = document.createElement('option');
+          option.value = String(val); option.textContent = String(val); option.dataset.restored = 'true';
+          el.appendChild(option);
+        }
+        el.value = val;
       };
 
       set('f-name',                 saved.nombre || saved.name);
@@ -908,16 +928,26 @@
         }
       }
       const restoreChips = (group, values) => {
-        if (!Array.isArray(values)) return;
-        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
-          if (values.includes(chip.dataset.value)) chip.classList.add('active');
-        });
+        if (values === undefined || values === null || values === '') return;
+        values = Array.isArray(values) ? values : [String(values)];
+        const container = document.querySelector(`[data-group="${group}"]`);
+        if (!container) return;
+        for (const value of values) {
+          if (typeof value !== 'string' || !value.trim()) continue;
+          let chip = Array.from(container.querySelectorAll('.chip')).find(chip => chip.dataset.value === value);
+          if (!chip && ['meds','meds-psiquiatria','suplementos'].includes(group)) continue;
+          if (!chip) {
+            chip = document.createElement('div'); chip.className = 'chip';
+            chip.dataset.value = value; chip.dataset.restored = 'true'; chip.textContent = value;
+            chip.tabIndex = 0; chip.setAttribute('role','button');
+            bindMedicalChip(chip); container.appendChild(chip);
+          }
+          chip.classList.add('active'); chip.setAttribute('aria-pressed','true');
+        }
       };
       const restoreChip = (group, value) => {
         if (!value) return;
-        document.querySelectorAll(`[data-group="${group}"] .chip`).forEach(chip => {
-          if (chip.dataset.value === value) chip.classList.add('active');
-        });
+        restoreChips(group, [String(value)]);
       };
 
       restoreChip ('sexo-biologico',        saved.sexo_biologico);
@@ -972,28 +1002,7 @@
       restoreChips('comm-difficulty',       saved.comm_difficulty);
       restoreChips('sign-lang',             saved.sign_lang);
       restoreChip ('can-decide',            saved.can_decide);
-      {
-        const PROFESIONES_CONOCIDAS = ['Sanitario','Agricultor/Ganadero','Minero/Construcción',
-          'Químico/Laboratorio','Militar/Policía','Educación','Oficina/Administración',
-          'Transporte','Hostelería','Jubilado','Estudiante'];
-        let lista = saved.profesion;
-        if (typeof lista === 'string') lista = lista ? [lista] : [];
-        if (!Array.isArray(lista)) lista = [];
-        let otraTexto = null;
-        lista.forEach(val => {
-          if (!val) return;
-          const esConocida = PROFESIONES_CONOCIDAS.includes(val);
-          const valorChip = esConocida ? val : 'Otra';
-          if (!esConocida) otraTexto = val;
-          const chip = document.querySelector(`[data-group="profesion"] .chip[data-value="${valorChip}"]`);
-          if (chip) chip.classList.add('active');
-        });
-        if (otraTexto) {
-          const otraWrap = document.getElementById('profesion-otra-wrap');
-          if (otraWrap) otraWrap.style.display = 'block';
-          set('profesion-otra-text', otraTexto);
-        }
-      }
+      restoreChips('profesion', saved.profesion);
       restoreChips('ayudas-tecnicas',       saved.ayudas_tecnicas);
       restoreChip ('weight',                saved.weight);
       restoreChip ('height',                saved.height);
@@ -1110,6 +1119,7 @@
       prefillarIdentidad();
       checkGenderFields(null);
       refreshVal();
+      finish();
     }
 
     // ===== DOCUMENTO / EMAIL =====
