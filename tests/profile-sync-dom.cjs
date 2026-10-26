@@ -20,3 +20,26 @@ test('Switching account while a save is in flight cannot put its response into t
 test('Foreign-account drafts cannot be read or published',async()=>{const s=server(),c=client(s);c.w.localStorage.setItem('doctorqr_medical_draft',JSON.stringify({owner:'BOB',profile:patient,base_revision:s.rev()}));assert.equal(c.api.draft(),null);assert.equal(c.api.saveDraft({...patient,email:'other@example.invalid'}),false);c.close()});
 
 test('A verified birthdate-only server recovery restores a review draft without silently publishing',async()=>{const s=server();s.code='profile_identity_mismatch';s.review={...patient,medicacion:'server recovery fixture'};const c=client(s);const restored=await c.api.load();assert.equal(restored.medicacion,'server recovery fixture');assert.equal(c.w.MedicalOwner.read(),null);assert.equal(c.published(),0);assert.equal(c.draft().profile.medicacion,'server recovery fixture');assert.equal((await c.api.save(restored)).success,true);assert.equal(c.published(),1);c.close()});
+
+test('The check button reads the server without reloading, publishing or removing the pending draft',async()=>{
+ const s=server(),c=client(s,{draft:{...patient,medicacion:'unpublished local fixture'},meta:s.rev()});
+ await c.api.load();await new Promise(r=>setImmediate(r));const original=c.w.fetch;const requests=[];c.w.fetch=(url,options)=>{requests.push({url,method:options.method});return original(url,options);};
+ const before=c.draft(),revision=c.api.revision;const button=c.w.document.getElementById('profile-sync-refresh');button.click();
+ await new Promise(r=>setImmediate(r));
+ assert.equal(requests.length,1);assert.ok(requests[0].url.endsWith('/me'));assert.equal(requests[0].method,'GET');assert.equal(button.disabled,false);
+ assert.deepEqual(c.draft(),before);assert.equal(c.api.revision,revision);assert.equal(c.published(),0);assert.equal(s.profile.medicacion,'initial fixture');assert.ok(c.w.document.getElementById('profile-sync-message').textContent.includes('Tu borrador sigue pendiente'));c.close();
+});
+test('A manual check with another server version keeps the old baseline and requires comparison',async()=>{
+ const s=server(),c=client(s,{draft:{...patient,medicacion:'my pending draft'},meta:s.rev()});await c.api.load();const old=c.api.revision;s.profile={...patient,medicacion:'newer remote version'};s.bump();
+ assert.equal(await c.api.checkRemote(true),true);assert.equal(c.api.revision,old);assert.equal(c.draft().profile.medicacion,'my pending draft');assert.equal(c.w.document.getElementById('profile-sync-choices').hidden,false);assert.equal((await c.api.save(c.draft().profile)).conflict,true);assert.equal(s.profile.medicacion,'newer remote version');c.close();
+});
+test('A failed manual check keeps the draft and reports the failed check rather than success',async()=>{
+ const s=server(),c=client(s,{draft:{...patient,medicacion:'keep this local work'},meta:s.rev()});await c.api.load();s.fail=true;assert.equal(await c.api.checkRemote(true),false);assert.equal(c.draft().profile.medicacion,'keep this local work');assert.ok(c.w.document.getElementById('profile-sync-message').textContent.includes('no se ha completado'));assert.equal(c.published(),0);c.close();
+});
+test('Checking an unchanged server without local edits reports the latest published version',async()=>{
+ const s=server(),c=client(s);await c.api.load();assert.equal(await c.api.checkRemote(true),true);assert.equal(c.draft(),null);assert.ok(c.w.document.getElementById('profile-sync-message').textContent.includes('última versión publicada'));c.close();
+});
+test('A slow check cannot replace the successful-save status or revision with an older read',async()=>{
+ const s=server(),c=client(s);await c.api.load();let release;const original=c.w.fetch;c.w.fetch=async(url,options)=>{const response=await original(url,options);if(url.endsWith('/me'))await new Promise(r=>release=r);return response;};
+ const check=c.api.checkRemote(true);await new Promise(r=>setImmediate(r));const saved=await c.api.save({...patient,medicacion:'new published fixture'});assert.equal(saved.success,true);release();assert.equal(await check,false);assert.equal(c.api.revision,s.rev());assert.equal(c.w.document.getElementById('profile-sync-choices').hidden,true);assert.ok(c.w.document.getElementById('profile-sync-message').textContent.includes('Guardado en el servidor'));c.close();
+});

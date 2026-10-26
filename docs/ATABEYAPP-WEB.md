@@ -13,7 +13,7 @@
 
 Se reutilizan `/api/profile/me` y `/api/profile/save`: no se crea otro historial ni otra copia autoritativa. El guardado conserva el cifrado y la validación de identidad existentes. Una revisión antigua no puede sobrescribir otra más reciente: hay que revisar el conflicto.
 
-El editor comprueba cambios remotos al volver a primer plano y cada minuto mientras está visible. Avisa sin reemplazar los campos en edición. **Actualizar historial desde el servidor** recarga y conserva el borrador mediante el mecanismo existente; si difiere del servidor, hay que comparar las versiones. No hay publicación automática ni se presentan borradores como datos ya sincronizados.
+El editor comprueba cambios remotos al volver a primer plano y cada minuto mientras está visible. Avisa sin reemplazar los campos en edición. **Comprobar cambios en el servidor** hace una lectura sin recargar, guardar, borrar el borrador ni aceptar otra revisión. Si no hay novedades, explica si sigue pendiente publicar el borrador. Si hay otra versión, ofrece comparar y elegir explícitamente qué conservar. No hay publicación automática ni se presentan borradores como datos ya sincronizados.
 
 ## Acceso y privacidad
 

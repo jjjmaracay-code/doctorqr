@@ -3,7 +3,7 @@
   'use strict';
   const API = 'https://doctorqr-backend-production.up.railway.app/api/profile/';
   const DRAFT = 'doctorqr_medical_draft', META = 'doctorqr_profile_revision';
-  let baseRevision = '', busy = false, pending = null, message = '', conflict = false;
+  let baseRevision = '', busy = false, checking = false, pending = null, message = '', conflict = false;
   const owner = () => window.MedicalOwner;
   const validRevision = v => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);
   const read = key => { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (_) { return null; } };
@@ -47,6 +47,8 @@
     panel.hidden = !message;
     document.getElementById('profile-sync-message').textContent = message;
     document.getElementById('profile-sync-choices').hidden = !conflict;
+    const refresh = document.getElementById('profile-sync-refresh');
+    if (refresh) { refresh.disabled = busy || checking || !baseRevision; refresh.textContent = checking ? 'Comprobando cambios…' : 'Comprobar cambios en el servidor'; refresh.setAttribute('aria-busy', String(checking)); }
   }
   async function load() {
     let local = draft();
@@ -141,29 +143,51 @@
       window.dispatchEvent(new CustomEvent('doctorqr:profile-published', { detail: { profile:data.profile, pendingDraft:!!draft() } }));
       return { success:true };
     } catch (error) { notify(error.message + ' Tu borrador se conserva en este dispositivo.'); return { success:false }; }
-    finally { busy=false; }
+    finally { busy=false; render(); }
+  }
+  // A manual check is read-only. It never reloads, adopts a newer revision or removes a draft.
+  async function checkRemote(manual = false) {
+    if ((!manual && document.hidden) || !baseRevision || busy || checking || !owner()?.current()) return false;
+    if (manual) window.dispatchEvent(new Event('doctorqr:preserve-draft'));
+    const baseline = baseRevision;
+    checking = true; render();
+    try {
+      const {res, data:raw} = await request('me');
+      if (![200,404,409].includes(res.status)) throw Error(raw.error || 'No se pudo comprobar la versión del servidor.');
+      const data = checkedMetadata(raw);
+      // A save may have completed while this read was in flight; its response takes precedence.
+      if (busy || baseline !== baseRevision) return false;
+      if (data.profile_revision !== baseRevision) {
+        const changed = data.profile_revision !== pending?.profile_revision;
+        if (changed || manual) {
+          window.dispatchEvent(new Event('doctorqr:preserve-draft'));
+          pending = data;
+          notify('El servidor tiene otra versión. Tu borrador sigue intacto y no se ha publicado. Pulsa Comparar versiones antes de elegir qué conservar.', true);
+        }
+      } else if (manual) {
+        pending = null;
+        if (!data.profile) notify('El servidor todavía no tiene un historial verificable publicado. Revisa tu borrador y pulsa Guardar y actualizar mis QR para publicarlo.');
+        else if (draft()) notify('Comprobación terminada: no hay cambios nuevos en el servidor. Tu borrador sigue pendiente. Para guardarlo, pulsa Guardar y actualizar mis QR.');
+        else notify('Comprobación terminada: tienes la última versión publicada. No hay cambios nuevos del otro dispositivo.');
+      }
+      return true;
+    } catch (error) {
+      if (manual) notify(error.message + ' La comprobación no se ha completado. Tu borrador se conserva.', conflict);
+      return false;
+    } finally { checking = false; render(); }
   }
   window.ProfileSync = { load, save, saveDraft, draft, render, inspectConflict,
+    checkRemote,
     get revision() { return baseRevision; } };
   document.addEventListener('DOMContentLoaded', () => {
     render();
     const refresh=document.createElement('button');refresh.type='button';refresh.id='profile-sync-refresh';
-    refresh.textContent='Actualizar historial desde el servidor';
+    refresh.textContent='Comprobar cambios en el servidor';
     refresh.style.cssText='padding:12px 16px;margin:8px 0;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:#f2f9ff;font:inherit;cursor:pointer';
-    refresh.addEventListener('click',()=>window.location.reload());
+    refresh.addEventListener('click',()=>checkRemote(true));
     document.getElementById('profile-sync-panel')?.appendChild(refresh);
-    let checking=false;
-    async function checkRemote(){
-      if(document.hidden||!baseRevision||busy||checking||!owner()?.current())return;
-      checking=true;
-      try{const {res,data:raw}=await request('me');if(![200,404,409].includes(res.status))return;const data=checkedMetadata(raw);
-        if(data.profile_revision!==baseRevision&&data.profile_revision!==pending?.profile_revision){
-          window.dispatchEvent(new Event('doctorqr:preserve-draft'));pending=data;
-          notify('Otro dispositivo ha publicado cambios. Tu trabajo local se conserva. Compara las versiones o actualiza el historial antes de seguir.',true);
-        }
-      }catch(_){/* Offline drafts remain local, never marked as published. */}finally{checking=false;}
-    }
-    setInterval(checkRemote,60000);
+    render();
+    setInterval(()=>checkRemote(),60000);
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkRemote();});
     document.querySelectorAll('#profile-sync-choices > button').forEach(button => { button.style.cssText = 'padding:12px 16px;margin:6px;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:#f2f9ff;font:inherit;cursor:pointer'; });
     document.getElementById('profile-sync-compare')?.addEventListener('click', () => inspectConflict().catch(e=>notify(e.message,true)));
