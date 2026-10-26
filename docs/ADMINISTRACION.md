@@ -35,3 +35,9 @@ Toda funcionalidad consume algo de transferencia y CPU. El alojamiento existente
 ## Reversión
 
 Eliminar `ADMIN_EMAILS` bloquea inmediatamente las consultas nuevas aunque el JWT no haya caducado. La reversión de los archivos del admin y su montaje `/api/admin` no requiere migrar o borrar datos médicos. No se han cambiado los contratos de perfil, vinculación, registro, recuperación o QR.
+
+## Identidad visual y verificación de Stripe
+
+La entrada y la cabecera reutilizan el emblema original de `icons/icon-512.png`. La firma `assets/atabey-wordmark.svg` procede del SVG de texto existente en `index.html` (base `932c40a39cad669aa5e916604e746f3838f34d78`), conservando trazados, tipografía y colores. No se edita el logo de la aplicación.
+
+La consulta de Pagos autentica una lectura a Stripe también cuando no existen clientes vinculados en la base de datos: realiza una lista limitada a un movimiento y descarta íntegramente ese contenido. Solo entonces indica conexión verificada. Un error de clave o permiso se muestra como fallo de consulta, nunca como saldo cero. La verificación requiere entrar en el admin y pulsar Consultar Stripe; las variables configuradas no prueban por sí solas una conexión ni la entrega de correos.

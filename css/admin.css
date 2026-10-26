@@ -4,3 +4,16 @@
 @media(max-width:760px){input,select,.period-label select,.filters input,.filters select{font-size:16px}.sidebar nav a{min-height:44px}.sidebar>#logout{min-height:44px}}
 
 @media(max-width:760px){.adoption-panel .panel-heading{display:block}.adoption-panel .panel-heading .hint{margin-top:10px}}
+
+/* Original app emblem and wordmark; no redrawing or recoloring. */
+.brand-logo{display:block;width:44px;height:44px;object-fit:contain;flex-shrink:0;border-radius:10px}
+.brand-copy{display:block;min-width:0}
+.brand-wordmark{display:block;width:140px;max-width:100%;height:auto}
+.brand small{margin-top:3px;letter-spacing:1.15px}
+.brand-access{flex-direction:column;align-items:center;gap:6px;margin-bottom:28px}
+.brand-access .brand-logo{width:122px;height:122px;border-radius:24px}
+.brand-access .brand-wordmark{width:230px}
+.brand-access small{text-align:center;letter-spacing:2px;margin-top:9px}
+@media(max-width:1200px){.sidebar .brand{gap:8px}.sidebar .brand-logo{width:40px;height:40px}.sidebar .brand-copy{flex:1;min-width:0}}
+@media(max-width:760px){.sidebar .brand{width:calc(100% - 104px);max-width:240px;min-height:44px}.sidebar .brand-copy{flex:1}.sidebar .brand-wordmark{width:145px}.sidebar .brand small{font-size:7px;letter-spacing:.8px}.brand-access .brand-logo{width:108px;height:108px}.brand-access .brand-wordmark{width:200px}}
+@media(max-width:380px){.sidebar .brand small{font-size:6px;letter-spacing:.65px}.sidebar .brand-logo{width:36px;height:36px}}

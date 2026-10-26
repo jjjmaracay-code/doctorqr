@@ -1,0 +1,28 @@
+<svg width="320" height="64" viewBox="0 0 320 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wm-text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1E6FFF"/>
+          <stop offset="100%" stop-color="#00F5FF"/>
+        </linearGradient>
+        <filter id="wm-glow-hard" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="3.2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="wm-glow-white-intense" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="7" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="wm-glow-white" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <text x="20" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="900"
+            font-size="42" letter-spacing="0.5" textLength="148" lengthAdjust="spacingAndGlyphs"
+            fill="url(#wm-text-grad)" filter="url(#wm-glow-hard)">Atabey</text>
+      <text x="182" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="900"
+            font-size="42" letter-spacing="0.5" textLength="80" lengthAdjust="spacingAndGlyphs"
+            fill="#ffffff" filter="url(#wm-glow-white-intense)">app</text>
+      <text x="270" y="21" font-family="Arial, Helvetica, sans-serif" font-weight="700"
+            font-size="14" fill="#ffffff" filter="url(#wm-glow-white)">™</text>
+    </svg>
