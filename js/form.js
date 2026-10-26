@@ -866,8 +866,31 @@
       document.querySelectorAll('.form-section').forEach(section => section.setAttribute('inert',''));
       let saved = await ProfileSync.load();
       if (!MedicalOwner.current()) return;
+      restoreMedicalProfile(saved);
+      ProfileSync.connectForm(buildProfileFromForm,restoreMedicalProfile);
+    }
+
+    function restoreMedicalProfile(saved) {
+      formReady = false;
+      if (saved) {
+        saved = { ...saved };
+        for (const key of ['meds','meds_psiquiatria','suplementos']) {
+          if (saved[key] && !Array.isArray(saved[key])) saved[key] = [String(saved[key])];
+        }
+      }
       loadedProfile = saved ? { ...saved } : null;
       hasUnsavedChanges = !!ProfileSync.draft();
+      document.querySelectorAll('.form-section .chip').forEach(chip => { chip.classList.remove('active');chip.setAttribute('aria-pressed','false'); });
+      document.querySelectorAll('.chip[data-restored="true"],option[data-restored="true"]').forEach(element=>element.remove());
+      document.querySelectorAll('.form-section input,.form-section select,.form-section textarea').forEach(element=>{
+        if (element.readOnly || element.dataset.identityLocked === 'true' || element.id === 'email-domain' || element.id === 'review-reproductive-fields') return;
+        if (element.type === 'checkbox' || element.type === 'radio') element.checked = false;
+        else element.value = '';
+      });
+      for (const id of ['meds-extra-wrap','meds-psiq-extra-wrap','suplementos-extra-wrap','lang-levels-container','allergy-severity-container','f-anaphylaxis-trigger']) document.getElementById(id)?.replaceChildren();
+      for (const id of ['terapia-hormonal-detalle','terapia-hormonal-otra-wrap','anaphylaxis-trigger-otro-wrap','material-osteo-detalle-wrap','salud-emocional-cual-wrap','salud-emocional-otro-wrap','tutor-legal-wrap','acv-year-wrap','stents-year-wrap','advance-directive-otro-wrap']) {
+        const element=document.getElementById(id);if(element)element.style.display='none';
+      }
 
       const refreshVal = () => {
         document.querySelectorAll('.phone-field').forEach(pf => validatePhoneField(pf));
@@ -1115,12 +1138,18 @@
         renderAllergySeverity(saved.allergy_severity || {});
       }
       updateAnaphylaxisTrigger(saved.anaphylaxis_trigger, saved.anaphylaxis_trigger_otro);
+      set('f-anaphylaxis-trigger',saved.anaphylaxis_trigger);
+      set('f-anaphylaxis-trigger-otro',saved.anaphylaxis_trigger_otro);
 
       prefillarIdentidad();
       checkGenderFields(null);
       refreshVal();
       finish();
     }
+
+    window.addEventListener('doctorqr:profile-synchronized',()=>{
+      if (typeof generateAllQRs === 'function' && MedicalOwner.read()) generateAllQRs();
+    });
 
     // ===== DOCUMENTO / EMAIL =====
     function getActiveDocType() {
