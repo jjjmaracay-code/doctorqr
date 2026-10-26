@@ -53,3 +53,11 @@ Estas pruebas no acreditan funcionamiento en todos los modelos de teléfono ni c
 El QR de acceso web utiliza trazos tipo cápsula en azul, con el mismo generador visual autocontenido de los QR médicos. Su URL temporal, verificador, secretos, plazos, aprobación TOTP y permisos no cambian. El dibujo conserva los módulos y el margen blanco. La portada no carga el formulario ni los datos médicos para generarlo. Si el módulo visual no está disponible, utiliza el generador clásico existente.
 
 El recorrido de navegador vuelve a comprobar el escaneo desde la aplicación, aprobación, apertura del editor, guardado, conflicto y revocación con el nuevo dibujo.
+
+## Ajustes de tamaño y alineación (versión visual 18)
+
+El selector de idiomas mantiene etiqueta y control alineados, tipografía de 16 px y un alto mínimo de 48 px. Reserva espacio para el menú del editor y mantiene la selección y los once idiomas existentes. En pantallas de hasta 360 px la etiqueta se oculta visualmente, conservando su asociación accesible con el selector.
+
+La tarjeta de vinculación dispone de más anchura en el ordenador. El QR ocupa el ancho disponible y el relleno exterior añadido pasa de 20 a 2 px. El PNG estilizado conserva su zona blanca interna de cuatro módulos; no se recorta ni se cambia la URL. El generador clásico de respaldo recibe el margen de cuatro módulos en su contenedor porque no lo incorpora en su imagen.
+
+Pruebas del recorrido real con cuentas ficticias: selector en siete idiomas/escrituras y ventanas de 320–1360 px, sin solapar el menú; QR visible escaneable a 320, 390 y 1360 px de ventana; vinculación, edición, conflicto y cierre remoto. Se comprueba que el PNG del QR temporal sigue siendo idéntico al dibujo anterior: el cambio de tamaño es de presentación.

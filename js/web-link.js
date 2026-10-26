@@ -34,9 +34,13 @@
    const verifier=random(),poll_secret=random();let challenge;
    try{
     challenge=await request('/challenges',{poll_secret,proof_hash:await digest(verifier)});if(mine!==generation)return;
-    const options={text:challenge.qr_url,width:230,height:230,colorDark:'#1475b8',colorLight:'#ffffff',visualStyle:'pulse',correctLevel:QRCode.CorrectLevel.M};
-    if(window.AtabeyQR?.draw)AtabeyQR.draw($('link-qr'),options);
-    else new QRCode($('link-qr'),{...options,colorDark:'#08121e'});
+    const options={text:challenge.qr_url,width:380,height:380,colorDark:'#1475b8',colorLight:'#ffffff',visualStyle:'pulse',correctLevel:QRCode.CorrectLevel.M};
+    const target=$('link-qr');target.style.removeProperty('padding');
+    const rendered=window.AtabeyQR?.draw?AtabeyQR.draw(target,options):new QRCode(target,{...options,colorDark:'#08121e'});
+    // Styled PNGs include their own quiet zone. The native fallback needs that margin in its container.
+    if(!target.querySelector('img[data-qr-style]')){
+     const count=rendered?._oQRCode?.getModuleCount();target.style.padding=(count?400/(count+8):14)+'%';
+    }
     const image=$('link-qr').querySelector('img');if(image)image.alt='QR temporal para vincular este ordenador';
     $('confirmation').textContent=challenge.confirmation;
    }catch(e){if(mine===generation)status(e.message);$('new-link').disabled=false;return;}
