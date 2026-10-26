@@ -34,7 +34,9 @@
    const verifier=random(),poll_secret=random();let challenge;
    try{
     challenge=await request('/challenges',{poll_secret,proof_hash:await digest(verifier)});if(mine!==generation)return;
-    new QRCode($('link-qr'),{text:challenge.qr_url,width:230,height:230,colorDark:'#08121e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+    const options={text:challenge.qr_url,width:230,height:230,colorDark:'#1475b8',colorLight:'#ffffff',visualStyle:'pulse',correctLevel:QRCode.CorrectLevel.M};
+    if(window.AtabeyQR?.draw)AtabeyQR.draw($('link-qr'),options);
+    else new QRCode($('link-qr'),{...options,colorDark:'#08121e'});
     const image=$('link-qr').querySelector('img');if(image)image.alt='QR temporal para vincular este ordenador';
     $('confirmation').textContent=challenge.confirmation;
    }catch(e){if(mine===generation)status(e.message);$('new-link').disabled=false;return;}

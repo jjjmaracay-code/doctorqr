@@ -47,3 +47,9 @@ No cambia el alcance del acceso público de los QR médicos ni resuelve la limit
 - Navegador: `tests/installed-update-browser.cjs`, migración de cachés, identidad bloqueada, once idiomas, QR médico y borrador sin conexión de la aplicación principal.
 
 Estas pruebas no acreditan funcionamiento en todos los modelos de teléfono ni certificación sanitaria. Hay que comprobar el recorrido real en el móvil del titular tras publicar; no se ha usado su cuenta clínica en las pruebas.
+
+## Diseño del QR de vinculación
+
+El QR de acceso web utiliza trazos tipo cápsula en azul, con el mismo generador visual autocontenido de los QR médicos. Su URL temporal, verificador, secretos, plazos, aprobación TOTP y permisos no cambian. El dibujo conserva los módulos y el margen blanco. La portada no carga el formulario ni los datos médicos para generarlo. Si el módulo visual no está disponible, utiliza el generador clásico existente.
+
+El recorrido de navegador vuelve a comprobar el escaneo desde la aplicación, aprobación, apertura del editor, guardado, conflicto y revocación con el nuevo dibujo.
