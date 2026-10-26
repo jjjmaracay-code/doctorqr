@@ -50,6 +50,8 @@
   nativeFetch(API+'/api/devices/activity',{method:'POST',credentials:'omit',headers:{Authorization:'Bearer '+token}}).then(r=>{if(r.status===401)end();}).catch(()=>{});
  },{passive:true});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)lock('Sesión protegida.');else check();});
+ window.addEventListener('pagehide',()=>lock('Sesión protegida.'));
+ window.addEventListener('pageshow',()=>{if(store.getItem('doctorqr_token')!==token){ended=false;end();}else check();});
  window.addEventListener('offline',()=>lock('Sin conexión. Reconecta para acceder al historial.'));
  window.addEventListener('online',check);
  setInterval(check,30000);
