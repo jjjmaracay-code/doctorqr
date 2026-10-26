@@ -27,3 +27,10 @@
 #map-country-list table{min-width:0;width:100%}
 #map-status{line-height:1.7;overflow-wrap:anywhere}
 @media(max-width:600px){.world-panel .panel-heading{flex-wrap:wrap;gap:12px}.map-select-label{width:100%}.map-select-label select{font-size:16px;width:100%}.map-footer{flex-wrap:wrap}}
+
+/* Registration identity stays readable inside the scrollable private directory. */
+#accounts-table .account-identity{width:clamp(160px,20vw,240px)}
+#accounts-table .account-name,#accounts-table .account-email{display:block;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.55}
+#accounts-table .account-name{color:var(--text);font-weight:600}
+#accounts-table .account-email{margin-top:4px;color:#bfd3df}
+@media(max-width:760px){#accounts-table td,#accounts-table th{padding:12px 8px}#accounts-table .account-identity{width:160px}}
