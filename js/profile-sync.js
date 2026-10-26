@@ -147,6 +147,24 @@
     get revision() { return baseRevision; } };
   document.addEventListener('DOMContentLoaded', () => {
     render();
+    const refresh=document.createElement('button');refresh.type='button';refresh.id='profile-sync-refresh';
+    refresh.textContent='Actualizar historial desde el servidor';
+    refresh.style.cssText='padding:12px 16px;margin:8px 0;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:#f2f9ff;font:inherit;cursor:pointer';
+    refresh.addEventListener('click',()=>window.location.reload());
+    document.getElementById('profile-sync-panel')?.appendChild(refresh);
+    let checking=false;
+    async function checkRemote(){
+      if(document.hidden||!baseRevision||busy||checking||!owner()?.current())return;
+      checking=true;
+      try{const {res,data:raw}=await request('me');if(![200,404,409].includes(res.status))return;const data=checkedMetadata(raw);
+        if(data.profile_revision!==baseRevision&&data.profile_revision!==pending?.profile_revision){
+          window.dispatchEvent(new Event('doctorqr:preserve-draft'));pending=data;
+          notify('Otro dispositivo ha publicado cambios. Tu trabajo local se conserva. Compara las versiones o actualiza el historial antes de seguir.',true);
+        }
+      }catch(_){/* Offline drafts remain local, never marked as published. */}finally{checking=false;}
+    }
+    setInterval(checkRemote,60000);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkRemote();});
     document.querySelectorAll('#profile-sync-choices > button').forEach(button => { button.style.cssText = 'padding:12px 16px;margin:6px;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:#f2f9ff;font:inherit;cursor:pointer'; });
     document.getElementById('profile-sync-compare')?.addEventListener('click', () => inspectConflict().catch(e=>notify(e.message,true)));
     document.getElementById('profile-sync-use-server')?.addEventListener('click', async () => {

@@ -849,6 +849,7 @@
     for (const event of ['input','change']) document.addEventListener(event, () => {
       clearTimeout(draftTimer); draftTimer = setTimeout(preserveDraft,250);
     });
+    window.addEventListener('doctorqr:preserve-draft', preserveDraft);
     window.addEventListener('beforeunload', preserveDraft);
     window.addEventListener('pagehide', preserveDraft);
 

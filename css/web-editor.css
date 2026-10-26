@@ -1,0 +1,7 @@
+/* Only linked-computer sessions get the wider workstation layout. */
+html[data-web-linked] body[data-atabey-ui="editor"]{max-width:1120px}
+.web-session-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 18px;margin:0 0 20px;border:1px solid #3e7997;border-radius:14px;background:#0d2a3c;color:#c4f6ff;font:15px/1.5 system-ui}
+.web-session-banner button{padding:10px 15px;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:white;font:inherit;cursor:pointer;min-height:44px}
+@media(min-width:1000px){html[data-web-linked] .form-tabs-bar{justify-content:center}html[data-web-linked] .form-section .section-body{padding:26px 32px}html[data-web-linked] .logo-wrap{padding-bottom:24px}}
+
+html[data-web-linked] :is(#menu-configurar-2fa,#btn-eliminar-cuenta,#btn-ver-planes,[data-primary-only]){display:none!important}

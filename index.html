@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" data-app-release="14">
+<html lang="es" data-app-release="15">
 <head>
+<script src="/js/web-session.js?v=15"></script>
 <script src="/js/birthdate.js?v=14"></script>
 <script src="/js/medical-owner.js?v=12"></script>
-<script src="/js/profile-sync.js?v=14"></script>
+<script src="/js/profile-sync.js?v=15"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -23,7 +24,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=14"></script>
+  <script src="/js/register-sw.js?v=15"></script>
   <script src="i18n/loader.js?v=14"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -490,6 +491,7 @@
       onmouseout="this.style.borderColor='rgba(255,215,0,0.35)';this.style.background='none'" data-i18n="index.header.ver_planes_button">
       Ver planes
     </button>
+    <a href="/dispositivos.html" data-primary-only class="web-link-entry" style="display:inline-block;margin:10px;padding:12px 20px;border:1px solid #56d5ff;border-radius:14px;color:#56d5ff;text-decoration:none;font-weight:700">Vincular ordenador</a>
     <button id="btn-logout" onclick="cerrarSesion()"
       style="margin-top:8px;background:none;border:1px solid rgba(255,68,68,0.25);color:rgba(255,68,68,0.6);
              font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;
@@ -2545,7 +2547,7 @@
   </script>
   <script src="js/validation.js?v=14"></script>
   <script src="js/search.js?v=12"></script>
-  <script src="js/form.js?v=14"></script>
+  <script src="js/form.js?v=15"></script>
   <script src="js/qr-generator.js?v=14"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
@@ -2806,6 +2808,7 @@
   }
 
   async function cerrarSesion() {
+    if (window.WebSession) return WebSession.logout();
     const token = localStorage.getItem('doctorqr_token');
     try {
       if (token) {

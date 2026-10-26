@@ -4,7 +4,7 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(self), camera=(), microphone=()
+  Permissions-Policy: geolocation=(self), camera=(self), microphone=()
 
 /
   Cache-Control: no-store
@@ -53,3 +53,26 @@
 
 /i18n/*
   Cache-Control: no-cache, max-age=0, must-revalidate
+
+/web.html
+  Cache-Control: no-store
+
+/dispositivos.html
+  Cache-Control: no-store
+
+/vincular.html
+  Cache-Control: no-store
+  Referrer-Policy: no-referrer
+
+/css/web-link.css
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/web
+  Cache-Control: no-store
+
+/dispositivos
+  Cache-Control: no-store
+
+/vincular
+  Cache-Control: no-store
+  Referrer-Policy: no-referrer
