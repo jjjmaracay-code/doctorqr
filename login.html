@@ -341,6 +341,66 @@
   .domain-btn:active { background:rgba(18,165,255,0.15); }
 </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=18"/>
+  <style id="emergency-quick-neon">
+    @media screen {
+      #screen-l1 #btn-emergency-quick {
+        position:relative;
+        isolation:isolate;
+        min-height:64px;
+        padding:18px 20px;
+        border:2px solid #4adeff;
+        border-radius:18px;
+        background:linear-gradient(135deg,#073454,#0a223a);
+        color:#e0faff;
+        font-size:14px;
+        font-weight:800;
+        line-height:1.6;
+        letter-spacing:1.2px;
+        white-space:normal;
+        text-wrap:balance;
+        text-shadow:0 0 12px #3dcfff80;
+        box-shadow:inset 0 0 18px #12a5ff1f,0 0 18px #12a5ff33;
+        transition:background .2s,border-color .2s,box-shadow .2s;
+      }
+      #screen-l1 #btn-emergency-quick::before {
+        content:'';
+        position:absolute;
+        inset:-6px;
+        border:1px solid #4adeff80;
+        border-radius:23px;
+        box-shadow:0 0 16px #12a5ff80,0 0 32px #12a5ff40;
+        opacity:.35;
+        pointer-events:none;
+        animation:emergency-neon-pulse 3s ease-in-out infinite;
+      }
+      #screen-l1 #btn-emergency-quick:is(:hover,:focus-visible) {
+        background:#0b3b5b;
+        border-color:#a6f1ff;
+        box-shadow:inset 0 0 18px #12a5ff33,0 0 24px #12a5ff66;
+      }
+      #screen-l1 #btn-emergency-quick:focus-visible {
+        outline:3px solid #e0faff;
+        outline-offset:8px;
+      }
+      #screen-l1 #btn-emergency-quick:is(:hover,:focus-visible)::before {
+        animation-play-state:paused;
+      }
+      @keyframes emergency-neon-pulse {
+        0%,100% { opacity:.25; }
+        50% { opacity:.9; }
+      }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      #screen-l1 #btn-emergency-quick::before { animation:none!important;opacity:.6; }
+    }
+    @media (forced-colors:active) {
+      #screen-l1 #btn-emergency-quick {
+        background:ButtonFace;color:ButtonText;border-color:ButtonText;
+        text-shadow:none;box-shadow:none;
+      }
+      #screen-l1 #btn-emergency-quick::before { display:none; }
+    }
+  </style>
   <script defer src="js/totp-recovery.js?v=14"></script>
 <script src="/js/country-metrics.js?v=1" defer></script>
 </head>
