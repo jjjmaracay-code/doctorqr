@@ -571,6 +571,7 @@ function buildQRCardShell(type, formData, container) {
   const d = formData;
 
   const card = document.createElement('div');
+  card.className='atabey-qr-card';card.dataset.qrStyle=getQRVisualStyle(type.id);
   card.style.cssText = `
     flex-shrink:0;width:260px;
     --qr-neon:${type.color};
@@ -609,6 +610,7 @@ function buildQRCardShell(type, formData, container) {
     display:flex;align-items:center;justify-content:center;
   `;
   wrap.id = type.id + '-wrap';
+  wrap.className='atabey-qr-surface';
 
   const age = d.fecha_nacimiento ?
     calcAge(d.fecha_nacimiento) + ' años' : '';
@@ -644,11 +646,16 @@ function generateQRCard(type, formData, container) {
   renderQRWhenReady(wrap, url, type);
 }
 
-// Presentation only: uses qrcodejs' original matrix and error correction.
-// Four light modules around the symbol; no logos or changes to its payload.
+// Visual selection is independent of clinical QR types, conditions and encoded URLs.
+function getQRVisualStyle(typeId) {
+  return ({'qr-emergency':'flow','qr-u1':'flow','qr-u2':'pulse','qr-u3':'dots',
+    'qr-e1':'pulse','qr-e2':'flow','qr-e4':'dots','qr-e5':'flow'})[typeId] || 'flow';
+}
+
+// Presentation only. The encoded matrix, correction level and four-module quiet zone stay intact.
+// This function is self-contained because the print document embeds its source.
 function createOrganicQRCode(target, options) {
   const original = document.createElement('div');
-  // Build the same matrix without painting the discarded square symbol first.
   const qr = new QRCode(original, { ...options, text: '' });
   const drawing = qr._oDrawing;
   const originalDraw = drawing && drawing.draw;
@@ -656,10 +663,10 @@ function createOrganicQRCode(target, options) {
   try { qr.makeCode(options.text); }
   finally { if (typeof originalDraw === 'function') drawing.draw = originalDraw; }
   try {
-    const matrix = qr._oQRCode;
-    const count = matrix.getModuleCount();
-    // Dense symbols keep square geometry to protect small-size reading.
-    const softness = count > 57 ? 0 : 1;
+    const matrix = qr._oQRCode, count = matrix.getModuleCount();
+    const requested = ['flow','pulse','dots'].includes(options.visualStyle) ? options.visualStyle : 'flow';
+    // At low displayed resolution, use the conservative geometry of the original renderer.
+    const style = count > 57 || options.width / (count + 8) < 2.8 ? 'classic' : requested;
     const cell = Math.max(8, Math.ceil(options.width / (count + 8)));
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = (count + 8) * cell;
@@ -673,52 +680,72 @@ function createOrganicQRCode(target, options) {
     };
     while (contrast() < 5) rgb = rgb.map(v => Math.floor(v * .9));
     const ink = 'rgb(' + rgb.join(',') + ')';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';ctx.fillRect(0, 0, canvas.width, canvas.height);
     function rounded(x, y, w, h, radius) {
-      ctx.beginPath();
-      ctx.moveTo(x + radius, y);
+      ctx.beginPath();ctx.moveTo(x + radius, y);
       ctx.arcTo(x + w, y, x + w, y + h, radius);
       ctx.arcTo(x + w, y + h, x, y + h, radius);
-      ctx.arcTo(x, y + h, x, y, radius);
-      ctx.arcTo(x, y, x + w, y, radius);
-      ctx.closePath();
-      ctx.fill();
+      ctx.arcTo(x, y + h, x, y, radius);ctx.arcTo(x, y, x + w, y, radius);
+      ctx.closePath();ctx.fill();
     }
-    const dark = (r, c) => r >= 0 && c >= 0 && r < count && c < count && matrix.isDark(r, c);
-    const finder = (r, c) => (r < 7 && (c < 7 || c >= count - 7)) || (r >= count - 7 && c < 7);
-    ctx.fillStyle = ink;
-    for (let r = 0; r < count; r++) for (let c = 0; c < count; c++) {
-      if (!dark(r, c) || finder(r, c)) continue;
-      const x = (c + 4) * cell, y = (r + 4) * cell;
-      // Preserve timing patterns. Joined modules form soft continuous paths.
-      const radius = (r === 6 || c === 6) ? 0 : cell * .36 * softness;
-      rounded(x, y, cell, cell, radius);
-      if (dark(r - 1, c)) ctx.fillRect(x, y, cell, cell / 2);
-      if (dark(r + 1, c)) ctx.fillRect(x, y + cell / 2, cell, cell / 2);
-      if (dark(r, c - 1)) ctx.fillRect(x, y, cell / 2, cell);
-      if (dark(r, c + 1)) ctx.fillRect(x + cell / 2, y, cell / 2, cell);
+    const dark = (r,c) => r>=0 && c>=0 && r<count && c<count && matrix.isDark(r,c);
+    const finder = (r,c) => (r<7 && (c<7 || c>=count-7)) || (r>=count-7 && c<7);
+    // Function patterns (timing, format, version and every alignment target) retain square modules.
+    const reserved = new Uint8Array(count * count);
+    function protect(row,col,height,width) {
+      for(let r=Math.max(0,row);r<Math.min(count,row+height);r++)
+        for(let c=Math.max(0,col);c<Math.min(count,col+width);c++)reserved[r*count+c]=1;
     }
-    for (const [r, c] of [[0, 0], [0, count - 7], [count - 7, 0]]) {
-      const x = (c + 4) * cell, y = (r + 4) * cell;
-      ctx.fillStyle = ink;
-      rounded(x, y, 7 * cell, 7 * cell, cell * 1.1 * softness);
-      ctx.fillStyle = '#ffffff';
-      rounded(x + cell, y + cell, 5 * cell, 5 * cell, cell * .7 * softness);
-      ctx.fillStyle = ink;
-      rounded(x + 2 * cell, y + 2 * cell, 3 * cell, 3 * cell, cell * .65 * softness);
+    protect(0,0,9,9);protect(0,count-8,9,8);protect(count-8,0,8,9);
+    protect(6,0,1,count);protect(0,6,count,1);
+    const version=(count-17)/4;
+    if(version>=7){protect(0,count-11,6,3);protect(count-11,0,3,6);}
+    if(version>=2){
+      const n=Math.floor(version/7)+2;
+      const step=version===32?26:Math.floor((version*4+n*2+1)/(n*2-2))*2;
+      const positions=[6];for(let pos=count-7;positions.length<n;pos-=step)positions.splice(1,0,pos);
+      for(let i=0;i<n;i++)for(let j=0;j<n;j++){
+        if((i===0&&j===0)||(i===0&&j===n-1)||(i===n-1&&j===0))continue;
+        protect(positions[i]-2,positions[j]-2,5,5);
+      }
     }
-    const img = document.createElement('img');
-    img.src = canvas.toDataURL('image/png');
-    img.alt = 'Código QR';
-    img.width = options.width;
-    img.height = options.height;
-    img.style.cssText = 'display:block;max-width:100%;height:auto;image-rendering:pixelated;';
+    const structural=(r,c)=>r<0||c<0||r>=count||c>=count||!!reserved[r*count+c];
+    ctx.fillStyle=ink;
+    for(let r=0;r<count;r++)for(let c=0;c<count;c++){
+      if(!dark(r,c)||finder(r,c))continue;
+      const x=(c+4)*cell,y=(r+4)*cell;
+      if(style==='classic'||structural(r,c)){ctx.fillRect(x,y,cell,cell);continue;}
+      if(style==='dots'){
+        ctx.beginPath();ctx.arc(x+cell/2,y+cell/2,cell*.49,0,Math.PI*2);ctx.fill();
+      }else if(style==='pulse'){
+        // Capsules follow only existing horizontal dark runs. Every original module centre is retained.
+        let end=c;while(end+1<count&&dark(r,end+1)&&!finder(r,end+1)&&!structural(r,end+1))end++;
+        const inset=cell*.025;
+        rounded(x+inset,y+inset,(end-c+1)*cell-inset*2,cell-inset*2,cell*.475);c=end;
+      }else{
+        // Smooth connected paths. Joins never extend beyond the original dark cells.
+        rounded(x,y,cell,cell,cell*.48);
+        if(dark(r-1,c))ctx.fillRect(x,y,cell,cell/2);
+        if(dark(r+1,c))ctx.fillRect(x,y+cell/2,cell,cell/2);
+        if(dark(r,c-1))ctx.fillRect(x,y,cell/2,cell);
+        if(dark(r,c+1))ctx.fillRect(x+cell/2,y,cell/2,cell);
+      }
+    }
+    for(const [r,c] of [[0,0],[0,count-7],[count-7,0]]){
+      const x=(c+4)*cell,y=(r+4)*cell;
+      ctx.fillStyle=ink;rounded(x,y,7*cell,7*cell,style==='classic'?0:cell*1.5);
+      ctx.fillStyle='#ffffff';rounded(x+cell,y+cell,5*cell,5*cell,style==='classic'?0:cell*1.15);
+      ctx.fillStyle=ink;
+      rounded(x+2*cell,y+2*cell,3*cell,3*cell,style==='classic'?0:cell*(style==='dots'?1.1:.9));
+    }
+    const img=document.createElement('img');img.src=canvas.toDataURL('image/png');
+    img.alt='Código QR';img.width=options.width;img.height=options.height;
+    img.dataset.qrStyle=style;
+    img.style.cssText='display:block;max-width:100%;height:auto;image-rendering:pixelated;';
     target.appendChild(img);
-  } catch (_) {
-    // Restore the original square rendering only when the organic renderer fails.
-    if (typeof originalDraw === 'function') { originalDraw.call(drawing, qr._oQRCode); qr.makeImage(); }
-    while (original.firstChild) target.appendChild(original.firstChild);
+  }catch(_){
+    if(typeof originalDraw==='function'){originalDraw.call(drawing,qr._oQRCode);qr.makeImage();}
+    while(original.firstChild)target.appendChild(original.firstChild);
   }
   return qr;
 }
@@ -776,6 +803,7 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
         text: url,
         width: sizePx,
         height: sizePx,
+        visualStyle: getQRVisualStyle(type.id),
         colorDark: type.color,
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel[correctLevel]
@@ -946,6 +974,7 @@ function refreshQRCardSilently(wrap, url, type, sizePx, correctLevel) {
         text: url,
         width: sizePx,
         height: sizePx,
+        visualStyle: getQRVisualStyle(type.id),
         colorDark: type.color,
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel[correctLevel]
@@ -1411,8 +1440,8 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
 <script>
   ${createOrganicQRCode.toString()}
   var pUrl=\`${patientUrl}\`,bUrl='https://atabeyapp.app',M=QRCode.CorrectLevel.M;
-  createOrganicQRCode(document.getElementById('qcf'),{text:pUrl,width:178,height:178,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
-  createOrganicQRCode(document.getElementById('qcb'),{text:bUrl,width:88,height:88,colorDark:'#12A5FF',colorLight:'#ffffff',correctLevel:M});
+  createOrganicQRCode(document.getElementById('qcf'),{text:pUrl,visualStyle:'flow',width:178,height:178,colorDark:'${theme.color}',colorLight:'#ffffff',correctLevel:M});
+  createOrganicQRCode(document.getElementById('qcb'),{text:bUrl,visualStyle:'flow',width:88,height:88,colorDark:'#12A5FF',colorLight:'#ffffff',correctLevel:M});
   setTimeout(function(){window.print()},1500);
 <\/script>
 </body></html>`);

@@ -443,3 +443,9 @@ html[dir="rtl"] :is(textarea,input[type="text"]){unicode-bidi:plaintext}
 .app-language-control select{font-family:system-ui,sans-serif}
 
 html[dir="rtl"] svg,html[dir="rtl"] svg text{direction:ltr;unicode-bidi:isolate}
+
+/* Accent frames stay outside the complete white QR image and its quiet zone. */
+.atabey-qr-card{position:relative}
+.atabey-qr-surface::before{content:"";position:absolute;inset:-11px;border:1px solid var(--qr-neon);border-radius:25px;pointer-events:none;opacity:.65}
+.atabey-qr-card[data-qr-style="pulse"] .atabey-qr-surface::before{border-style:dashed;border-radius:25px}
+.atabey-qr-card[data-qr-style="dots"] .atabey-qr-surface::before{border-style:dotted;border-width:2px;border-radius:29px}
