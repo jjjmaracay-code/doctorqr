@@ -11,7 +11,7 @@
   const planName=p=>({trial:'Prueba',pro:'Pro',lifetime:'Vitalicio',unknown:'Sin clasificar'}[p]||'Otro');
   const eventNames={login_success:'Inicio de sesión',profile_public_access:'Lectura pública de perfil QR',login_password_failed:'Contraseña incorrecta',otp_verify_failed:'Verificación de correo fallida','2fa_verify_failed':'Autenticador incorrecto',recovery_code_failed:'Código de recuperación incorrecto',recovery_2fa_failed:'Segundo factor de recuperación incorrecto',account_locked:'Bloqueo por intentos',totp_configuration_unreadable:'Configuración TOTP no legible',totp_recovery_requested:'Recuperación de autenticador solicitada',totp_recovery_completed:'Autenticador recuperado',password_changed:'Contraseña cambiada',web_link_approved:'Vinculación web aprobada','2fa_enabled':'Doble factor configurado',review_bypass_used:'Acceso de revisión utilizado',account_deleted:'Cuenta eliminada',admin_login_success:'Acceso administrativo',admin_logout:'Cierre del panel'};
   const headings={resumen:['VISIÓN GENERAL','Todo bajo una misma mirada.','La actividad de ATABEYAPP, con datos y contexto.','Resumen'],cuentas:['COMUNIDAD','Conoce el estado de cada cuenta.','Seguimiento operativo sin exponer identidades ni historiales.','Cuentas'],actividad:['ACTIVIDAD Y QR','De la aplicación al punto de atención.','Accesos registrados y conexión entre tus dispositivos.','Actividad y QR'],pagos:['PAGOS','Cada cifra, contrastada con Stripe.','Importes verificables, separados por moneda y entorno.','Pagos'],seguridad:['SEGURIDAD','Una mirada atenta a los accesos.','Autenticación, recuperaciones y eventos registrados.','Seguridad'],infraestructura:['INFRAESTRUCTURA','El estado del servicio, a la vista.','Observaciones actuales de la API y sus conexiones.','Infraestructura'],fuentes:['FUENTES Y ALCANCE','Entender el dato también es control.','Definiciones, disponibilidad y límites de cada indicador.','Fuentes y alcance']};
-  let session=null,snapshot=null,currentView='resumen',lastAction=Date.now(),busy=false,sequence=0,accountPage=1,accountTotal=0,accountsSequence=0,paymentLoaded=false,paymentSequence=0,mapZoom=1;
+  let session=null,snapshot=null,currentView='resumen',lastAction=Date.now(),busy=false,sequence=0,accountPage=1,accountTotal=0,accountsSequence=0,paymentLoaded=false,paymentSequence=0,mapZoom=1,geography=null,geographySequence=0,geographyError=false,countryShapes=null,hostingPlace=null;
   function el(tag,text,cls){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;}
   function svg(tag,attrs={}){const e=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));return e;}
   function pill(text,kind=''){return el('span',text,'pill '+kind);}
@@ -19,10 +19,11 @@
   function connection(text,ok){$('connection-state').textContent=text;$('connection-state').className='pill'+(ok?'':' warn');}
   function mask(){ $('workspace').hidden=true;$('access').hidden=false;$('login-form').hidden=!!session; }
   function clearSession(message='La sesión se ha cerrado. Vuelve a identificarte.'){
-    sequence++;accountsSequence++;paymentSequence++;session=null;snapshot=null;paymentLoaded=false;
+    sequence++;accountsSequence++;paymentSequence++;geographySequence++;geography=null;geographyError=false;hostingPlace=null;session=null;snapshot=null;paymentLoaded=false;
+    $('server-marker').setAttribute('hidden','');$('map-country-total').textContent='Identifícate para consultar los países.';$('map-country-period').textContent='';$('map-status').textContent='';
     try{sessionStorage.removeItem(KEY);}catch(_){}
     mask();$('login-form').hidden=false;$('admin-password').value='';$('admin-code').value='';$('login-status').textContent=message;
-    for(const id of ['kpis','growth-chart','growth-data','plans-chart','adoption','health-summary','account-kpis','accounts-table','activity-kpis','qr-chart','activity-data','activity-heatmap','devices-summary','payment-results','security-kpis','security-chart','security-table','security-notes','infra-kpis','integrations','definitions'])$(id).replaceChildren();
+    for(const id of ['kpis','growth-chart','growth-data','plans-chart','adoption','health-summary','account-kpis','accounts-table','activity-kpis','qr-chart','activity-data','activity-heatmap','devices-summary','payment-results','security-kpis','security-chart','security-table','security-notes','infra-kpis','integrations','definitions','country-shapes','map-country-list'])$(id).replaceChildren();
   }
   async function request(path,{body,timeout=18000,publicRequest=false}={}){
     const token=session?.token;
@@ -66,9 +67,49 @@
   }
   function renderMap(s){
     const places={sfo:{label:'San Francisco · Estados Unidos',lon:-122.42,lat:37.77},'us-west2':{label:'Oeste de Estados Unidos',lon:-122.42,lat:37.77},'us-west2-metal':{label:'Oeste de Estados Unidos',lon:-122.42,lat:37.77},iad:{label:'Ashburn · Estados Unidos',lon:-77.49,lat:39.04},ams:{label:'Ámsterdam · Países Bajos',lon:4.90,lat:52.37}};
-    const place=places[s.integrations.hosting.region];$('server-marker').toggleAttribute('hidden',!place);
+    const place=places[s.integrations.hosting.region];hostingPlace=place;
     if(place){$('server-marker').setAttribute('transform',`translate(${(place.lon+180)/360*1000} ${(85-place.lat)/155*440})`);$('hosting-label').textContent=place.label;}
     else $('hosting-label').textContent='Región sin ubicación verificada';
+    drawGeography();
+  }
+  const countryNames=new Intl.DisplayNames(['es'],{type:'region'});
+  const countryName=code=>code==='ZZ'?'País sin determinar':countryNames.of(code)||code;
+  function drawGeography(){
+    const server=$('map-mode').value==='server';
+    $('map-heading').textContent=server?'Ubicación del servidor':'Accesos web por país';
+    $('map-title').textContent=server?'Infraestructura de ATABEYAPP':'Aperturas web por país aproximado';
+    $('map-desc').textContent=server?'El marcador representa la región configurada del servidor, no la ubicación de los usuarios.':'Más brillo indica más aperturas acumuladas desde el primer registro. No representa personas, cuentas ni residencia.';
+    $('server-marker').toggleAttribute('hidden',!server||!hostingPlace);
+    $('map-hosting').hidden=!server;$('map-country-summary').hidden=server;
+    $('country-shapes').toggleAttribute('hidden',server);$('map-country-list').hidden=server;
+    if(server){$('map-status').textContent='Región configurada del despliegue. Selecciona Accesos por país para ver la actividad web.';return;}
+    $('country-shapes').replaceChildren();$('map-country-list').replaceChildren();
+    if(!geography?.available){$('map-country-total').textContent=geographyError?'Países sin actualizar':'Países aún no disponibles';$('map-country-period').textContent='Los indicadores de cuentas y QR tienen fuentes independientes.';$('map-status').textContent=geographyError?'No se pudo consultar la fuente geográfica. Pulsa Actualizar todo para reintentar.':'La recogida de países todavía no está disponible en el servidor.';return;}
+    const rows=geography.countries,known=rows.filter(r=>r.country!=='ZZ'),maximum=Math.max(1,...known.map(r=>r.hits));
+    $('map-country-total').textContent=n(geography.total)+' aperturas · '+n(known.length)+' países o territorios';
+    $('map-country-period').textContent=geography.first_seen?'Desde '+date(geography.first_seen)+' (día UTC). Acumulado independiente del periodo superior.':'Esperando nuevas aperturas desde la activación; no hay datos anteriores de países.';
+    if(countryShapes){for(const row of known){const d=countryShapes.get(row.country);if(!d)continue;const path=svg('path',{d,'data-country':row.country,fill:colors[0],'fill-opacity':.3+.7*Math.sqrt(row.hits/maximum),'fill-rule':'evenodd'}),title=svg('title');title.textContent=countryName(row.country)+': '+n(row.hits)+' aperturas';path.append(title);$('country-shapes').append(path);}}
+    if(rows.length)$('map-country-list').append(table(['País aproximado','Aperturas'],rows.map(r=>[countryName(r.country),n(r.hits)])));
+    const status=[];
+    if(geographyError)status.push('SIN ACTUALIZAR: se conserva la última consulta correcta.');
+    if(!geography.collecting)status.push('Recogida pausada.');
+    if(!countryShapes)status.push('No se pudo cargar el dibujo de los países; consulta la tabla.');
+    if(geography.generated_at)status.push('Consulta: '+date(Date.parse(geography.generated_at),true)+'.');
+    status.push('Más brillo = más aperturas. Estimación del navegador, no personas únicas ni residencia. VPN y bloqueadores pueden alterar o excluir accesos.');
+    $('map-status').textContent=status.join(' ');
+  }
+  async function loadGeography(){
+    if(!session)return;const seq=++geographySequence;
+    const results=await Promise.allSettled([request('/geography'),countryShapes?Promise.resolve(null):fetch('/assets/admin-countries.json',{credentials:'omit',cache:'no-cache',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(10000)}).then(r=>{if(!r.ok)throw new Error('map');return r.json();})]);
+    if(seq!==geographySequence||!session)return;
+    const [data,geometry]=results;
+    if(geometry.status==='fulfilled'&&geometry.value&&Array.isArray(geometry.value.features))countryShapes=new Map(geometry.value.features.filter(r=>/^[A-Z]{2}$/.test(r.country)&&typeof r.d==='string').map(r=>[r.country,r.d]));
+    if(data.status==='fulfilled'){
+      const g=data.value;
+      if(g.available&&(!Array.isArray(g.countries)||g.countries.length>676||g.countries.some(r=>!/^[A-Z]{2}$/.test(r.country)||!Number.isFinite(r.hits)||r.hits<1))){geographyError=true;}
+      else{geography=g;geographyError=false;}
+    }else{geographyError=true;if(data.reason.status===0){clearSession('Se perdió la conexión. Identifícate de nuevo para consultar el panel.');return;}}
+    drawGeography();
   }
   function render(s){
     const c=s.census,t=s.totals,totpGap=c.verified-c.totp;
@@ -110,7 +151,7 @@
   }
   async function refresh(){
     if(!session || document.hidden)return;const seq=++sequence;busy=true;$('refresh').disabled=true;$('period').disabled=true;$('refresh').textContent='Actualizando…';$('refresh').setAttribute('aria-busy','true');connection('Consultando',false);
-    try{const s=await request('/snapshot?days='+$('period').value);if(seq!==sequence)return;if(!s.census||!Array.isArray(s.daily))throw new Error('La fuente devolvió datos no reconocidos.');snapshot=s;render(s);connection('Datos verificados',true);setNotice('');if(!document.hidden){$('access').hidden=true;$('workspace').hidden=false;}if(currentView==='cuentas')await loadAccounts(accountPage);if(paymentLoaded)await loadPayments();}
+    try{const s=await request('/snapshot?days='+$('period').value);if(seq!==sequence)return;if(!s.census||!Array.isArray(s.daily))throw new Error('La fuente devolvió datos no reconocidos.');snapshot=s;render(s);connection('Datos verificados',true);setNotice('');if(!document.hidden){$('access').hidden=true;$('workspace').hidden=false;}await Promise.all([loadGeography(),...(currentView==='cuentas'?[loadAccounts(accountPage)]:[]),...(paymentLoaded?[loadPayments()]:[])]);}
     catch(e){if(seq===sequence){if(e.status===0)clearSession('No hay conexión con el servidor. Vuelve a identificarte cuando se restablezca.');else if(snapshot){connection('Sin actualizar',false);setNotice('No se pudo actualizar. Permanecen los datos de la última consulta correcta. '+e.message);}else clearSession(e.message);}}
     finally{if(seq===sequence)busy=false;$('refresh').disabled=false;$('period').disabled=false;$('refresh').textContent='Actualizar todo';$('refresh').removeAttribute('aria-busy');}
   }
@@ -124,6 +165,7 @@
   $('account-filters').addEventListener('submit',e=>{e.preventDefault();loadAccounts(1);});$('account-clear').addEventListener('click',()=>{$('account-filters').reset();loadAccounts(1);});$('accounts-prev').addEventListener('click',()=>{if(accountPage>1)loadAccounts(accountPage-1);});$('accounts-next').addEventListener('click',()=>{if(accountPage*20<accountTotal)loadAccounts(accountPage+1);});
   $('export').addEventListener('click',()=>{if(!snapshot)return;const headers=['dia_UTC','nuevas_cuentas','inicios_sesion','lecturas_publicas_QR','fallos_y_bloqueos','eventos_recuperacion'],rows=[headers.join(';'),...snapshot.daily.map(d=>[d.day,d.registrations,d.logins,d.qr_reads,d.failures,d.recoveries].join(';'))],blob=new Blob(['\uFEFF'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=el('a');a.href=url;a.download='ATABEYAPP-indicadores-'+snapshot.period.days+'d-'+snapshot.generated_at.slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
   function zoom(value){mapZoom=Math.max(1,Math.min(2.5,value));$('map-layer').setAttribute('transform',`translate(${500*(1-mapZoom)} ${220*(1-mapZoom)}) scale(${mapZoom})`);$('map-reset').textContent=mapZoom.toFixed(1).replace('.0','')+'×';$('map-minus').disabled=mapZoom===1;$('map-plus').disabled=mapZoom===2.5;}
+  $('map-mode').addEventListener('change',()=>{drawGeography();zoom(1);});
   $('map-minus').addEventListener('click',()=>zoom(mapZoom-.5));$('map-plus').addEventListener('click',()=>zoom(mapZoom+.5));$('map-reset').addEventListener('click',()=>zoom(1));zoom(1);
   window.addEventListener('hashchange',navigate);navigate();
   for(const event of ['pointerdown','keydown','input'])document.addEventListener(event,e=>{if(e.isTrusted)lastAction=Date.now();},{passive:true});

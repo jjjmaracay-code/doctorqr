@@ -20,6 +20,7 @@ const CACHE_NAME = 'doctorqr-v18';
 const CACHE_URLS = [
   '/',
   './index.html',
+  './js/country-metrics.js?v=1',
   './login.html',
   './register.html',
   './recovery.html',
@@ -83,7 +84,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(event.request, { cache: 'no-store' }));
     return;
   }
-  if (url.pathname.startsWith('/api/') || url.origin !== self.location.origin) {
+  if (url.pathname === '/cdn-cgi/trace' || url.pathname.startsWith('/api/') || url.origin !== self.location.origin) {
     event.respondWith(fetch(event.request));
     return;
   }

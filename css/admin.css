@@ -17,3 +17,13 @@
 @media(max-width:1200px){.sidebar .brand{gap:8px}.sidebar .brand-logo{width:40px;height:40px}.sidebar .brand-copy{flex:1;min-width:0}}
 @media(max-width:760px){.sidebar .brand{width:calc(100% - 104px);max-width:240px;min-height:44px}.sidebar .brand-copy{flex:1}.sidebar .brand-wordmark{width:145px}.sidebar .brand small{font-size:7px;letter-spacing:.8px}.brand-access .brand-logo{width:108px;height:108px}.brand-access .brand-wordmark{width:200px}}
 @media(max-width:380px){.sidebar .brand small{font-size:6px;letter-spacing:.65px}.sidebar .brand-logo{width:36px;height:36px}}
+
+/* Geographic activity: self-hosted country shapes and readable native controls. */
+.map-select-label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--muted);min-width:0}
+.map-select-label select{min-height:44px;max-width:100%;background:#102532;color:#d6f7ff;border:1px solid #345260;border-radius:10px;padding:8px 12px;font:inherit;font-size:13px}
+#country-shapes path{stroke:#b3f5ff;stroke-width:.65;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+#map-country-summary{font-size:13px;min-width:0}
+#map-country-list{max-height:225px;overflow:auto;margin-top:12px}
+#map-country-list table{min-width:0;width:100%}
+#map-status{line-height:1.7;overflow-wrap:anywhere}
+@media(max-width:600px){.world-panel .panel-heading{flex-wrap:wrap;gap:12px}.map-select-label{width:100%}.map-select-label select{font-size:16px;width:100%}.map-footer{flex-wrap:wrap}}

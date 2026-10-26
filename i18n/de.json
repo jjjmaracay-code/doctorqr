@@ -1600,5 +1600,7 @@
   "birthdate.invalid": "Wählen Sie ein gültiges Geburtsdatum.",
   "birthdate.confirm": "Bestätigen Sie Ihr Geburtsdatum: {date}. Ist es korrekt? Es wird als Teil Ihrer Identität gespeichert.",
   "ui.translation_notice": "Übersetzung der Oberfläche. Vom Nutzer eingegebene medizinische Texte bleiben in ihrer Originalsprache.",
-  "ui.server_error": "Die Anfrage konnte nicht abgeschlossen werden. Prüfen Sie Ihre Angaben und versuchen Sie es erneut."
+  "ui.server_error": "Die Anfrage konnte nicht abgeschlossen werden. Prüfen Sie Ihre Angaben und versuchen Sie es erneut.",
+  "privacy.countryCounts.title": "Zusammengefasste Seitenaufrufe nach Land",
+  "privacy.countryCounts.body": "Auf den Hauptseiten zählen wir Seitenaufrufe nach dem ungefähren Land, das Cloudflare schätzt und der Browser übermittelt. Gespeichert werden nur das Land, die Gesamtzahl und die Tage des ersten und letzten Eintrags, ohne Verknüpfung mit Konten oder medizinischen Daten. Dieser Zähler fügt keine Cookies oder dauerhaften Kennungen hinzu. Er schließt den Verwaltungsbereich und medizinische QR-Seiten aus und beachtet Do Not Track und Global Privacy Control. Er zählt keine einzelnen Personen und rekonstruiert keine früheren Besuche."
 }

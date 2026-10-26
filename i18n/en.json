@@ -1600,5 +1600,7 @@
   "birthdate.invalid": "Select a valid date of birth.",
   "birthdate.confirm": "Confirm your date of birth: {date}. Is it correct? It will be saved as part of your identity.",
   "ui.translation_notice": "Interface translation. Medical text entered by the user remains in its original language.",
-  "ui.server_error": "The request could not be completed. Check your details and try again."
+  "ui.server_error": "The request could not be completed. Check your details and try again.",
+  "privacy.countryCounts.title": "Aggregate page openings by country",
+  "privacy.countryCounts.body": "On the main screens we count page openings by approximate country, estimated by Cloudflare and reported by the browser. We retain only the country, total, and dates of the first and last records, without linking them to accounts or medical data. This counter adds no cookies or persistent identifiers. It excludes the admin panel and medical QR pages and respects Do Not Track and Global Privacy Control. It does not measure unique people or reconstruct earlier visits."
 }

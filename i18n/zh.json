@@ -1600,5 +1600,7 @@
   "birthdate.invalid": "请选择有效的出生日期。",
   "birthdate.confirm": "请确认您的出生日期：{date}。是否正确？此日期将保存为您的身份信息。",
   "ui.translation_notice": "界面翻译。用户输入的医疗文本保留原始语言。",
-  "ui.server_error": "无法完成请求。请核对信息后重试。"
+  "ui.server_error": "无法完成请求。请核对信息后重试。",
+  "privacy.countryCounts.title": "按国家汇总的页面打开次数",
+  "privacy.countryCounts.body": "我们在主要页面按大致国家统计打开次数，国家由 Cloudflare 估算并由浏览器报告。仅保留国家、总次数及首次和最后一次记录的日期，不与账户或医疗数据关联。此计数器不添加 Cookie 或持久标识符，不统计管理面板和医疗二维码页面，并尊重 Do Not Track 和 Global Privacy Control。它不统计独立人数，也不重建以往的访问记录。"
 }

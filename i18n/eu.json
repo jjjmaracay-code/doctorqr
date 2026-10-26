@@ -1600,5 +1600,7 @@
   "birthdate.invalid": "Hautatu jaiotegun baliodun bat.",
   "birthdate.confirm": "Berretsi zure jaioteguna: {date}. Zuzena da? Zure nortasun-datuetan gordeko da.",
   "ui.translation_notice": "Interfazearen itzulpena. Erabiltzaileak idatzitako testu medikoak jatorrizko hizkuntzan gordetzen dira.",
-  "ui.server_error": "Ezin izan da eskaera osatu. Egiaztatu datuak eta saiatu berriro."
+  "ui.server_error": "Ezin izan da eskaera osatu. Egiaztatu datuak eta saiatu berriro.",
+  "privacy.countryCounts.title": "Orrialdeen irekitzeen estatistika agregatua herrialdeka",
+  "privacy.countryCounts.body": "Pantaila nagusietan irekitzeak zenbatzen ditugu gutxi gorabeherako herrialdeka; Cloudflarek estimatzen du herrialdea eta nabigatzaileak jakinarazten du. Herrialdea, guztizkoa eta lehen eta azken erregistroen egunak soilik gordetzen ditugu, kontuekin edo datu medikoekin lotu gabe. Kontagailu honek ez du cookierik edo identifikatzaile iraunkorrik gehitzen. Administrazio-panela eta QR medikoen orrialdeak kanpo uzten ditu, eta Do Not Track eta Global Privacy Control errespetatzen ditu. Ez ditu pertsona bakarrak zenbatzen eta ez ditu aurreko bisitak berreraikitzen."
 }

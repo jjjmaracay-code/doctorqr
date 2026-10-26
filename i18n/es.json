@@ -1600,5 +1600,7 @@
   "birthdate.invalid": "Selecciona una fecha de nacimiento válida.",
   "birthdate.confirm": "Confirma tu fecha de nacimiento: {date}. ¿Es correcta? Se guardará en tu identidad.",
   "ui.translation_notice": "Traducción de la interfaz. Los textos médicos escritos por el usuario se conservan en su idioma original.",
-  "ui.server_error": "No se pudo completar la solicitud. Comprueba los datos y vuelve a intentarlo."
+  "ui.server_error": "No se pudo completar la solicitud. Comprueba los datos y vuelve a intentarlo.",
+  "privacy.countryCounts.title": "Estadística agregada de aperturas por país",
+  "privacy.countryCounts.body": "En las pantallas principales contamos aperturas por país aproximado, estimado por Cloudflare y comunicado por el navegador. Conservamos únicamente país, total y días del primer y último registro, sin asociarlos a cuentas ni a datos médicos. Este contador no añade cookies ni identificadores persistentes. Excluye el panel y las páginas de QR médicos y respeta Do Not Track y Global Privacy Control. No mide personas únicas ni reconstruye visitas anteriores."
 }
