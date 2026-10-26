@@ -1,5 +1,5 @@
 // ============================================
-// CAMPOS UNIVERSALES — presentes en los 9 QR sin excepción
+// CAMPOS UNIVERSALES — presentes en los 8 QR adultos sin excepción
 // ============================================
 const BASE_FIELDS = [
   'nombre','apellidos','fecha_nacimiento','sangre','sexo_biologico',
@@ -10,7 +10,7 @@ const BASE_FIELDS = [
 ];
 
 // ============================================
-// DEFINICIÓN CLÍNICA DE LOS 9 QR
+// DEFINICIÓN DE LAS 8 VISTAS QR ADULTAS
 // ============================================
 const QR_TYPES = [
   {
@@ -55,9 +55,7 @@ const QR_TYPES = [
     color: '#ff6945',
     darkColor: '#cc1100',
     condition: (d) =>
-      d.pacemaker === 'SÍ' ||
-      d.dai === 'SÍ — llevo DAI' ||
-      (d.muerte_subita_familiar || '').startsWith('SÍ') ||
+      affirmative(d, ['pacemaker','dai','acv_previo','stents','anticoagulado','muerte_subita_familiar']) ||
       hasAny(d, [
         'Marcapasos','Desfibrilador',
         'Stent coronario','Válvula cardíaca',
@@ -80,12 +78,13 @@ const QR_TYPES = [
     subtitle: 'Anafilaxia · EpiPen · Látex',
     color: '#ffe066',
     darkColor: '#956f00',
-    condition: (d) => hasAny(d, [
+    condition: (d) => affirmative(d, ['anafilaxia_previa','latex_guantes','epipen']) ||
+      Object.values(d.allergy_severity || {}).some(value => ['grave','anafilactica'].includes(qrSignal(value))) || hasAny(d, [
       'SÍ — anafilaxia confirmada',
       'SÍ — ALERGIA AL LÁTEX',
-      'Sí — llevo EpiPen encima',
+      'Sí — llevo EpiPen encima']) || hasAny(d, [
       'Anestesia general','Lidocaína',
-      'Propofol']),
+      'Propofol'], ['allergy_anesthesia']),
     extra: [
       'allergy_food','allergy_env',
       'diseases','conditions',
@@ -101,9 +100,8 @@ const QR_TYPES = [
     color: '#4d9dff',
     darkColor: '#0044cc',
     condition: (d) =>
-      d.pacemaker === 'SÍ' ||
-      d.stents === 'Sí' ||
-      (d.hipertermia_maligna_familiar || '').startsWith('SÍ') ||
+      affirmative(d, ['pacemaker','stents','hipertermia_maligna_familiar','material_osteosintesis','dificultad_intubacion','complicaciones_anestesia','puerto_cateter']) ||
+      hasRecordedEntries(d.surgeries) ||
       hasAny(d, [
         'Marcapasos','Prótesis',
         'Stent coronario','Válvula','Implante','Port-a-cath',
@@ -132,7 +130,7 @@ const QR_TYPES = [
     subtitle: 'Cáncer · Quimio · Inmunoterapia',
     color: '#bd79ff',
     darkColor: '#6600cc',
-    condition: (d) => hasAny(d, [
+    condition: (d) => affirmative(d,['tratamiento_oncologico']) || hasAny(d, [
       'Cáncer activo','Cáncer en remisión',
       'Port-a-cath','Inmunosupresores',
       'Rituximab','Metotrexato']),
@@ -154,9 +152,7 @@ const QR_TYPES = [
     color: '#ff62c5',
     darkColor: '#cc0088',
     condition: (d) => {
-      const sex = (d.sexo_biologico || '').toLowerCase();
-      if (sex === 'masculino') return false;
-      return hasAny(d, ['Sí — estoy embarazada', 'Sí — lactancia materna activa']);
+      return affirmative(d,['embarazo','lactancia']) || hasAny(d,['Embarazo','Sí — lactancia materna activa'],['conditions']);
     },
     extra: [
       'embarazo','embarazo_semanas',
@@ -176,7 +172,8 @@ const QR_TYPES = [
     subtitle: 'Psiquiatría · Tutor · Crisis',
     color: '#00ffcc',
     darkColor: '#008564',
-    condition: (d) => hasAny(d, [
+    condition: (d) => affirmative(d,['salud_emocional_dx']) || hasRecordedEntries(d.salud_emocional_diagnostico) ||
+      hasRecordedEntries(d.meds_psiquiatria) || hasAny(d, [
       'Esquizofrenia','Trastorno bipolar',
       'Depresión mayor','IMAO',
       'Litio','Ansiedad crónica','TOC',
@@ -199,19 +196,35 @@ const QR_TYPES = [
 // FUNCIONES AUXILIARES
 // ============================================
 
-function hasAny(data, keywords) {
-  const str = JSON.stringify(data).toLowerCase();
-  return keywords.some(k =>
-    str.includes(k.toLowerCase()));
+function qrEscapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+
+function qrSignal(value) {
+  return String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+}
+function signalEntries(value) {
+  const values = Array.isArray(value) ? value : value && typeof value === 'object' ? Object.values(value) : [value];
+  return values.flatMap(item => item && typeof item === 'object' ? signalEntries(item) : [qrSignal(item)])
+    .filter(value => value && value !== 'false' && !/^(?:no|ningun[oa]?s?|desconocid[oa])(?:\b|$)/.test(value));
+}
+function hasRecordedEntries(value) { return signalEntries(value).length > 0; }
+function affirmative(data,fields) {
+  return fields.some(field => data[field] === true || /^(?:si|yes)(?:\b|$)/.test(qrSignal(data[field])));
+}
+function hasAny(data, keywords, fields = ['diseases','conditions','meds','meds_psiquiatria','medicacion_alto_riesgo','salud_emocional_diagnostico']) {
+  const values = fields.flatMap(field => signalEntries(data[field]));
+  return keywords.some(keyword => values.some(value => value.includes(qrSignal(keyword))));
 }
 
 function calcAge(dateStr) {
-  if (!dateStr) return 99;
-  const birth = new Date(dateStr);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr || '')) return null;
+  const birth = new Date(dateStr+'T00:00:00.000Z');
+  if (!Number.isFinite(birth.getTime()) || birth.toISOString().slice(0,10) !== dateStr) return null;
   const today = new Date();
-  return Math.floor(
-    (today - birth) /
-    (365.25 * 24 * 3600 * 1000));
+  let age = today.getFullYear()-birth.getUTCFullYear();
+  if (today.getMonth()<birth.getUTCMonth() || (today.getMonth()===birth.getUTCMonth() && today.getDate()<birth.getUTCDate())) age--;
+  return age>=0 ? age : null;
 }
 
 function getFormData() {
@@ -398,7 +411,7 @@ function buildQRUrl(type, formData) {
 }
 
 // URL reducida (solo id+t), exclusiva del QR impreso de printEmergencyQR() —
-// n/s/a/e son un fallback de tercer nivel en card.html, no necesario aquí
+// El lector consulta el perfil confirmado en el servidor; no usa n/s/a/e como historia clínica.
 function buildEmergencyQRUrl() {
   const id = getOrCreateUserID();
   const t  = QR_TYPE_CODES[QR_TYPES[0].id] || QR_TYPES[0].id;
@@ -612,8 +625,8 @@ function buildQRCardShell(type, formData, container) {
   wrap.id = type.id + '-wrap';
   wrap.className='atabey-qr-surface';
 
-  const age = d.fecha_nacimiento ?
-    calcAge(d.fecha_nacimiento) + ' años' : '';
+  const years = calcAge(d.fecha_nacimiento);
+  const age = years === null ? '' : years + ' años';
 
   const info = document.createElement('div');
   info.style.cssText = `
@@ -624,9 +637,9 @@ function buildQRCardShell(type, formData, container) {
   `;
   info.innerHTML = `
     <strong style="color:${type.color};word-break:break-word;white-space:normal;font-size:clamp(10px,2.5vw,14px);display:block;">
-      ${d.nombre || ''} ${d.apellidos || ''}
+      ${qrEscapeHtml(d.nombre)} ${qrEscapeHtml(d.apellidos)}
     </strong><br>
-    ${d.sangre ? '🩸 ' + d.sangre : ''}
+    ${d.sangre ? '🩸 ' + qrEscapeHtml(d.sangre) : ''}
     ${age ? ' · ' + age : ''}
   `;
 
@@ -1169,7 +1182,7 @@ function renderEmergencyQuickView() {
 // FUNCIÓN PRINCIPAL
 // ============================================
 
-function generateAllQRs() {
+function generateAllQRs(scrollToQR = true) {
   const formData = getFormData();
 
   if (!formData.nombre && !formData.apellidos) {
@@ -1227,7 +1240,7 @@ function generateAllQRs() {
   });
 
   document.getElementById('qr-section').style.display = 'block';
-  document.getElementById('qr-section').scrollIntoView({ behavior: 'smooth' });
+  if (scrollToQR) document.getElementById('qr-section').scrollIntoView({ behavior: 'smooth' });
 }
 
 // ============================================
@@ -1382,8 +1395,8 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
     <div id="qcf"></div>
     <div class="front-col">
       <div class="front-footer">atabeyapp.app</div>
-      <div class="front-name">${nombre || '&mdash;'}</div>
-      ${sangre ? '<div class="front-blood">&#129656; ' + sangre + '</div>' : ''}
+      <div class="front-name">${nombre ? qrEscapeHtml(nombre) : '&mdash;'}</div>
+      ${sangre ? '<div class="front-blood">&#129656; ' + qrEscapeHtml(sangre) + '</div>' : ''}
       <div class="phone-112">
         <span class="phone-112-num">112</span>
         <span class="phone-112-label">Emergencias</span>
@@ -1414,9 +1427,9 @@ body{background:#fff;font-family:'Courier New',Courier,monospace}
   <div class="grommet">&#9675;</div>
   <div class="brace-accent"></div>
   <div class="brace-info">
-    <div class="brace-name">${nombre || '&mdash;'}</div>
+    <div class="brace-name">${nombre ? qrEscapeHtml(nombre) : '&mdash;'}</div>
     <div class="brace-badges">
-      <span class="brace-meta">${sangre ? '&#129656; ' + sangre : ''}</span>
+      <span class="brace-meta">${sangre ? '&#129656; ' + qrEscapeHtml(sangre) : ''}</span>
       <span class="brace-112">&#10010; 112</span>
     </div>
     <div class="brace-site">atabeyapp.app</div>

@@ -86,3 +86,10 @@ test('Birthdate-only recovery remains private until the owner explicitly saves',
 test('Automatic refresh waits while a user edits a field',async()=>{
  const s=server(),c=client(s);await c.load();c.w.document.getElementById('editing-field').focus();const count=s.requests.length;s.profile.med_doses='new remote QA';s.version++;assert.equal(await c.api.checkRemote(),false);assert.equal(s.requests.length,count);c.w.document.getElementById('editing-field').blur();await new Promise(r=>setTimeout(r,20));assert.equal(c.view().med_doses,'new remote QA');c.close();
 });
+
+test('Repeated automatic focus checks are coalesced to one read per minute and never publish',async()=>{
+ const s=server(),c=client(s);await c.load();const before=s.requests.length;
+ for(let i=0;i<12;i++)await c.api.checkRemote();
+ assert.equal(s.requests.length,before+1);assert.equal(s.writes,0);
+ assert.equal(await c.api.checkRemote(true),true);assert.equal(s.requests.length,before+2);c.close();
+});

@@ -16,7 +16,7 @@
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
 // v6: actualiza el dibujo orgánico del QR, conservando sus datos.
 // v7: incluye la recuperación segura del autenticador.
-const CACHE_NAME = 'doctorqr-v18';
+const CACHE_NAME = 'doctorqr-v19';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -32,13 +32,13 @@ const CACHE_URLS = [
   './css/styles.css',
   './css/atabey-refresh.css?v=18',
   './js/totp-recovery.js?v=14',
-  './js/qr-generator.js?v=16',
-  './js/medical-owner.js?v=12',
+  './js/qr-generator.js?v=19',
+  './js/medical-owner.js?v=19',
   './js/birthdate.js?v=14',
-  './js/profile-sync.js?v=15',
-  './js/form.js?v=15',
+  './js/profile-sync.js?v=19',
+  './js/form.js?v=19',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=18',
+  './js/register-sw.js?v=19',
   './js/web-session.js?v=15',
   './js/web-link.js?v=15',
   './js/web-link.js?v=18',
@@ -64,7 +64,7 @@ const CACHE_URLS = [
   './i18n/ru.json?v=14',
   './i18n/ja.json?v=14',
   './i18n/ar.json?v=14',
-  './js/qr-languages.js?v=14',
+  './js/qr-languages.js?v=19',
   './vendor/qrcodejs/qrcode.min.js',
   './vendor/lz-string/lz-string-1.4.4.min.js',
   './vendor/lz-string/lz-string-1.5.0.min.js',

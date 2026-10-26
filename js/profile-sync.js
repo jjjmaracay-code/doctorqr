@@ -5,7 +5,7 @@
   const DRAFT='doctorqr_medical_changes',LEGACY_DRAFT='doctorqr_medical_draft',META='doctorqr_profile_revision';
   const identityKeys=new Set(['nombre','apellidos','name','email','doc_type','doc_number','dni','fecha_nacimiento','birthdate','updated_at','ts','qr','id','doctorqr_id','created_at','plan_type','twofa_method','token','password','password_hash','totp_secret','snapshot_token','base_revision']);
   let baseRevision='',snapshotToken='',serverProfile=null,pendingChanges={},working=null;
-  let busy=false,checking=false,message='',formReader=null,formWriter=null,formBaseline=null,queued=false,readSequence=0;
+  let busy=false,checking=false,message='',formReader=null,formWriter=null,formBaseline=null,queued=false,readSequence=0,lastCheckedAt=0;
   const owner=()=>window.MedicalOwner;
   const hex=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
   const read=key=>{try{return JSON.parse(localStorage.getItem(key)||'null');}catch(_){return null;}};
@@ -110,7 +110,8 @@
     }catch(error){notify(error.message+' Los cambios de este dispositivo se conservan para volver a intentarlo.');return{success:false};}finally{busy=false;render();}
   }
   async function checkRemote(manual=false){
-    if(document.hidden||busy||checking||!owner()?.current()||(!manual&&editing()))return false;
+    if(document.hidden||busy||checking||!owner()?.current()||(!manual&&(editing()||Date.now()-lastCheckedAt<60000)))return false;
+    lastCheckedAt=Date.now();
     if(formReader)collect(formReader());const initial=baseRevision,sequence=++readSequence;checking=true;render();
     try{
       const {res,data:raw}=await request('me');if(![200,404,409].includes(res.status))throw Error(raw.error||'No se pudo sincronizar el historial.');const data=checked(raw);

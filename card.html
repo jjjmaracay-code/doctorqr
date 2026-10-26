@@ -150,7 +150,8 @@ html:lang(ar) :is(.section-label,.tab-btn,.badge){letter-spacing:normal;line-hei
      momento. Hash SRI conservado sin cambios, verificado contra el archivo
      local. -->
 <script src="/vendor/lz-string/lz-string-1.5.0.min.js" integrity="sha384-0d+Gr7vM4Drod8E3hXKgciWJSWbjD/opKLLygI9ktiWbuvlDwQLzU46wJ9s5gsp7"></script>
-<script src="/js/qr-languages.js?v=14"></script>
+<script src="/js/qr-languages.js?v=19"></script>
+<script src="/js/birthdate.js?v=14"></script>
 <script>
 // ================================================================
 // i18n
@@ -470,8 +471,14 @@ function qrLanguageControl() {
   return '<select class="qr-language-select" aria-label="' + escAttr(t.language || 'Language') + '" onchange="setLang(this.value)">' + Object.keys(names).filter(code=>T[code]).map(code=>'<option value="'+code+'"'+(code===lang?' selected':'')+'>'+names[code]+'</option>').join('') + '</select>';
 }
 
+function clinicalText(value) {
+  if (value === undefined || value === null) return '';
+  if (Array.isArray(value)) return value.map(clinicalText).filter(Boolean).join(', ');
+  if (typeof value === 'object') return Object.entries(value).map(([key,item]) => key + ': ' + clinicalText(item)).join('; ');
+  return String(value);
+}
 function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return clinicalText(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function escAttr(s) {
@@ -481,14 +488,17 @@ function escAttr(s) {
 function arr(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.filter(Boolean);
-  return String(v).split(/[,;]\s*/).map(s => s.trim()).filter(Boolean);
+  return [v];
 }
 
 function calcAge(ds) {
   if (!ds) return null;
-  const d = new Date(ds);
-  if (isNaN(d)) return null;
-  return Math.floor((Date.now() - d) / (365.25 * 24 * 3600 * 1000));
+  const d = window.AtabeyDates?.parse(ds);
+  if (!d) return null;
+  const now = new Date();
+  let age = now.getFullYear() - d.getUTCFullYear();
+  if (now.getMonth() < d.getUTCMonth() || (now.getMonth() === d.getUTCMonth() && now.getDate() < d.getUTCDate())) age--;
+  return age >= 0 ? age : null;
 }
 
 function isCrit(v) {
@@ -513,7 +523,7 @@ function badges(items, cls) {
 }
 
 function row(label, val, crit) {
-  if (!val) return '';
+  if (val === undefined || val === null || clinicalText(val).trim() === '') return '';
   return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value${crit ? ' crit' : ''}">${esc(val)}</span></div>`;
 }
 
@@ -523,8 +533,9 @@ function badgeRow(label, items, cls) {
 }
 
 function objRow(label, obj) {
+  if (obj !== null && obj !== undefined && (typeof obj !== 'object' || Array.isArray(obj))) return row(label,obj);
   if (!obj || !Object.keys(obj).length) return '';
-  const items = Object.entries(obj).map(([k, v]) => `${k}: ${v}`).join(', ');
+  const items = Object.entries(obj).map(([k, v]) => `${k}: ${clinicalText(v)}`).join(', ');
   return `<div class="data-row"><span class="data-label">${label}</span><span class="data-value" dir="auto">${esc(items)}</span></div>`;
 }
 
@@ -537,22 +548,26 @@ function telRow(label, tel, cls) {
 // Tab renderers
 // ================================================================
 
-// Secciones visibles por tipo de QR. 'restrictions' siempre se muestra (no va aquí).
+// Specialty changes the order, never removes other parts of the published history.
 const VISIBLE_SECTIONS = {
-  emergency: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                       h: ['vaccines','extra'] },
-  critical:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
-  cardio:    { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','family'] },
-  allergy:   { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
-  surgery:   { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','family','extra'] },
-  oncology:  { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
-  obstetric: { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','surgeries','extra'] },
-  mental:    { u: ['allergy','medication','supplements','conditions','devices','risk_factors'],                        h: ['diseases','habits'] },
+  emergency: { u: ['allergy','medication','contacts','conditions','devices','risk_factors','supplements','restrictions'],                       h: ['diseases','surgeries','family','vaccines','habits','extra'] },
+  critical:  { u: ['allergy','medication','contacts','conditions','devices','risk_factors','supplements','restrictions'],                        h: ['diseases','surgeries','vaccines','family','habits','extra'] },
+  cardio:    { u: ['allergy', 'medication', 'devices', 'conditions', 'contacts', 'risk_factors', 'supplements', 'restrictions'],                        h: ['diseases','family'] },
+  allergy:   { u: ['allergy','medication','contacts','conditions','devices','risk_factors','supplements','restrictions'],                        h: ['diseases','habits'] },
+  surgery:   { u: ['allergy', 'medication', 'devices', 'contacts', 'conditions', 'risk_factors', 'supplements', 'restrictions'],                        h: ['diseases','surgeries','family','extra'] },
+  oncology:  { u: ['allergy','medication','contacts','conditions','devices','risk_factors','supplements','restrictions'],                        h: ['diseases','surgeries','vaccines','habits','extra'] },
+  obstetric: { u: ['allergy', 'medication', 'risk_factors', 'contacts', 'conditions', 'devices', 'supplements', 'restrictions'],                        h: ['diseases','surgeries','extra'] },
+  mental:    { u: ['allergy', 'medication', 'conditions', 'contacts', 'risk_factors', 'devices', 'supplements', 'restrictions'],                        h: ['diseases','habits'] },
 };
 
+function orderedMedicalSections(parts, priority) {
+  return [...new Set([...(priority || []),...Object.keys(parts)])].map(key=>parts[key] || '').join('');
+}
+function unspecified(t) { return '<p class="empty-field">'+esc(t.nodata)+'</p>'; }
 function renderUrgente(d, t, vis) {
-  let html = '';
+  const parts = {contacts:renderEmergencyContacts(d,t)};
 
-  if (!vis || vis.includes('allergy')) {
+  {
     let al = '';
     al += badgeRow(t.l_drug,  arr(d.allergy_med),        'badge b-red');
     al += badgeRow(t.l_anest, arr(d.allergy_anesthesia),  'badge b-red');
@@ -564,11 +579,11 @@ function renderUrgente(d, t, vis) {
     al += row(t.l_glucagon, d.glucagon,         false);
     al += objRow(t.l_allergy_severity, d.allergy_severity);
     al += row(t.l_anaph,  d.anafilaxia_previa,  isCrit(d.anafilaxia_previa));
-    al += row(t.l_anaph_trigger, d.anaphylaxis_trigger, true);
-    if (al) html += section(t.s_allergy, al, 'red');
+    al += row(t.l_anaph_trigger, [d.anaphylaxis_trigger,d.anaphylaxis_trigger_otro].filter(Boolean).join(' — '), true);
+    parts.allergy = section(t.s_allergy, al || unspecified(t), 'red');
   }
 
-  if (!vis || vis.includes('medication')) {
+  {
     let med = '';
     med += badgeRow(t.l_meds,     arr(d.meds),                    'badge b-amber');
     med += badgeRow(t.l_highrisk, arr(d.medicacion_alto_riesgo),  'badge b-red');
@@ -577,8 +592,8 @@ function renderUrgente(d, t, vis) {
     med += row(t.l_med_adjust, d.med_last_adjust,        false);
     med += row(t.l_anticoa,    d.anticoagulado,    isCrit(d.anticoagulado));
     med += badgeRow(t.l_psiq, arr(d.meds_psiquiatria), 'badge b-amber');
-    med += row(t.l_hormonal, d.terapia_hormonal_activa || 'No', false);
-    if (d.terapia_hormonal_activa === 'Sí') {
+    med += row(t.l_hormonal, d.terapia_hormonal_activa, false);
+    if (d.terapia_hormonal_activa === 'Sí' || arr(d.terapia_hormonal_tipos).length || d.terapia_hormonal_otra || d.terapia_hormonal_dosis_frecuencia || d.terapia_hormonal_duracion_valor) {
       const _tipos = arr(d.terapia_hormonal_tipos);
       if (d.terapia_hormonal_otra) _tipos.push(d.terapia_hormonal_otra);
       med += badgeRow(t.l_hormonal_tipos, _tipos, 'badge b-amber');
@@ -586,16 +601,16 @@ function renderUrgente(d, t, vis) {
       const _dur = [d.terapia_hormonal_duracion_valor, d.terapia_hormonal_duracion_unidad].filter(Boolean).join(' ');
       if (_dur) med += row(t.l_hormonal_duracion, _dur, false);
     }
-    if (med) html += section(t.s_med, med, 'amber');
+    parts.medication = section(t.s_med, med || unspecified(t), 'amber');
   }
 
-  if (!vis || vis.includes('supplements')) {
+  {
     let sup = '';
     sup += badgeRow(t.l_sup, arr(d.suplementos), 'badge b-gray');
-    if (sup) html += section(t.s_sup, sup, 'gray');
+    if (sup) parts.supplements = section(t.s_sup, sup, 'gray');
   }
 
-  if (!vis || vis.includes('conditions')) {
+  {
     let cond = '';
     const conds  = arr(d.conditions);
     const diseas = arr(d.diseases);
@@ -614,116 +629,123 @@ function renderUrgente(d, t, vis) {
     cond += row(t.l_hepatitis,    d.hepatitis,                   isCrit(d.hepatitis));
     cond += row(t.l_tuberculosis, d.tuberculosis,                isCrit(d.tuberculosis));
     cond += row(t.l_oncol,        d.tratamiento_oncologico,      isCrit(d.tratamiento_oncologico));
-    cond += row(t.l_salud_emoc,   d.salud_emocional_dx,          false);
+    cond += row(t.l_salud_emoc,d.salud_emocional_dx,false);
+    cond += row(t.l_salud_emoc + ' — ' + t.l_details,d.salud_emocional_cual,false);
     cond += badgeRow(t.l_diag_psiq, arr(d.salud_emocional_diagnostico), 'badge b-gray');
     cond += row(t.l_decide_salud, d.puede_decidir_salud,         false);
     cond += row(t.l_tutor,        d.tutor_legal,                 false);
-    if (cond) html += section(t.s_cond, cond);
+    parts.conditions = section(t.s_cond, cond || unspecified(t));
   }
 
-  if (!vis || vis.includes('devices')) {
+  {
     let dev = '';
     dev += row(t.l_dai,   d.dai,          isCrit(d.dai));
     const stentsVal = d.stents ? (d.stents + (d.stents_year ? ` (${d.stents_year})` : '')) : '';
     dev += row(t.l_stents, stentsVal,     isCrit(d.stents));
     dev += row(t.l_port,  d.puerto_cateter, false);
     dev += row(t.l_pace,      d.pacemaker,                 isCrit(d.pacemaker));
-    dev += row(t.l_implant,   d.material_osteosintesis,    false);
+    dev += row(t.l_implant,d.material_osteosintesis,false);
+    dev += row(t.l_implant + ' — ' + t.l_details,[d.implant_detail,d.material_osteo_detalle].filter(Boolean).join(' — '),false);
     dev += row(t.l_intub,     d.dificultad_intubacion,     isCrit(d.dificultad_intubacion));
     dev += row(t.l_anestcomp, d.complicaciones_anestesia,  isCrit(d.complicaciones_anestesia));
     dev += badgeRow(t.l_ayudas, arr(d.ayudas_tecnicas),     'badge b-gray');
-    if (dev) html += section(t.s_devices, dev);
+    if (dev) parts.devices = section(t.s_devices, dev);
   }
 
-  if (!vis || vis.includes('risk_factors')) {
+  {
     let rf = '';
     rf += row(t.l_pregnancy, d.embarazo,          isCrit(d.embarazo));
     rf += row(t.l_weeks,     d.embarazo_semanas,  false);
     rf += row(t.l_drugs,     d.drogas,            isCrit(d.drogas));
     rf += row(t.l_alcohol,   d.alcohol,           isCrit(d.alcohol));
-    if (rf) html += section(t.s_risk, rf, 'red');
+    if (rf) parts.risk_factors = section(t.s_risk, rf, 'red');
   }
 
   // Restricciones: siempre visible (lang_spoken + religion son datos always-show)
   {
     let res = '';
-    res += badgeRow(t.l_lang,        arr(d.lang_spoken),   'badge b-gray');
+    res += badgeRow(t.l_lang,        arr(d.lang_spoken || d.lang),   'badge b-gray');
     res += badgeRow(t.l_lang_written, arr(d.lang_written), 'badge b-gray');
     res += badgeRow(t.l_comm_diff,   arr(d.comm_difficulty), 'badge b-gray');
     res += badgeRow(t.l_sign_lang,   arr(d.sign_lang),     'badge b-gray');
-    res += row(t.l_religion, d.religion_restrictions, false);
+    res += objRow(t.l_lang,d.lang_levels);
+    res += row(t.l_religion_name,d.religion,false);
+    res += row(t.l_religion,d.religion_restrictions,false);
     res += row(t.l_donor,    d.organ_donor,           false);
-    if (res) html += section(t.s_restrict, res);
+    if (res) parts.restrictions = section(t.s_restrict, res);
   }
 
-  return html || `<div class="empty">${t.nodata}</div>`;
+  return orderedMedicalSections(parts,vis);
 }
 
 function renderHistorial(d, t, vis) {
-  let html = '';
+  const parts = {};
 
-  if (!vis || vis.includes('diseases')) {
+  {
     const all = [...new Set([...arr(d.diseases), ...arr(d.conditions)])];
-    if (all.length) html += section(t.s_diseases, badges(all, 'badge b-gray'));
+    if (all.length) parts.diseases = section(t.s_diseases,badges(all,'badge b-gray'));
   }
 
-  if (!vis || vis.includes('surgeries')) {
+  {
     let surg = '';
     const surgs = arr(d.surgeries);
     if (surgs.length) surg += badges(surgs, 'badge b-gray');
-    surg += row(t.l_lastsurg, d.last_surgery_date, false);
-    if (surg) html += section(t.s_surg, surg);
+    surg += row(t.l_lastsurg,d.last_surgery_date,false);
+    surg += row(t.l_lastsurg + ' — ' + t.l_year,d.surgery_year,false);
+    if (surg) parts.surgeries = section(t.s_surg,surg);
   }
 
-  if (!vis || vis.includes('vaccines')) {
+  {
     let vacc = '';
     const vaccs = arr(d.vaccines);
     if (vaccs.length) vacc += badges(vaccs, 'badge b-green');
-    vacc += row(t.l_vacc_complete, d.vaccine_complete,  false);
-    if (vacc) html += section(t.s_vacc, vacc);
+    vacc += row(t.l_vacc_complete,d.vaccine_complete,false);
+    vacc += row(t.l_tetanus,d.tetanus_year,false);
+    if (vacc) parts.vaccines = section(t.s_vacc,vacc);
   }
 
-  if (!vis || vis.includes('family')) {
+  {
     let fam = '';
     fam += badgeRow(t.l_famdis, arr(d.enfermedades_familiares), 'badge b-gray');
     fam += row(t.l_sudeath,   d.muerte_subita_familiar,       isCrit(d.muerte_subita_familiar));
     fam += row(t.l_hiperterm, d.hipertermia_maligna_familiar, isCrit(d.hipertermia_maligna_familiar));
-    if (fam) html += section(t.s_family, fam);
+    if (fam) parts.family = section(t.s_family,fam);
   }
 
-  if (!vis || vis.includes('habits')) {
+  {
     let hab = '';
     hab += row(t.l_tobacco, d.tabaco,  false);
     hab += row(t.l_alcohol, d.alcohol, false);
     hab += row(t.l_drugs,     d.drogas,           false);
     hab += row(t.l_act_fisica, d.actividad_fisica, false);
-    if (hab) html += section(t.s_habits, hab);
+    if (hab) parts.habits = section(t.s_habits,hab);
   }
 
-  if (!vis || vis.includes('extra')) {
+  {
     let extra = '';
+    extra += row(t.l_birthdate,window.AtabeyDates?.format(d.fecha_nacimiento,lang),false);
+    extra += row(t.l_biosex,d.sexo_biologico,false);
     extra += row(t.l_pregnancy, d.embarazo,          false);
     extra += row(t.l_weeks,     d.embarazo_semanas,  false);
-    extra += row(t.l_breast,    d.lactancia,         false);
+    extra += row(t.l_breast,d.lactancia,false);
+    extra += row(t.l_breast + ' — ' + t.l_weeks,[d.semanas_lactancia_aplica,d.semanas_lactancia].filter(Boolean).join(' — '),false);
     extra += row(t.l_identidad_genero, d.identidad_genero,       false);
     extra += row(t.l_cesarea,         d.cesarea_previa,          false);
     extra += row(t.l_weight,          d.weight,                  false);
     extra += row(t.l_height,    d.height,  false);
     extra += row(t.l_prof,      Array.isArray(d.profesion) ? d.profesion.join(', ') : d.profesion,         false);
-    const travel = [d.country_visit_1, d.country_visit_2, d.country_visit_3].filter(Boolean).join(', ');
+    const travel = [1,2,3].map(n=>[d['country_visit_'+n],d['year_visit_'+n]].filter(Boolean).join(' — ')).filter(Boolean).join('; ');
     extra += row(t.l_travel, travel, false);
-    if (extra) html += `<div class="section">${extra}</div>`;
+    if (extra) parts.extra = `<div class="section">${extra}</div>`;
   }
 
-  return html || `<div class="empty">${t.nodata}</div>`;
+  return orderedMedicalSections(parts,vis) || `<div class="empty">${esc(t.nodata)}</div>`;
 }
 
-function renderContactos(d, t) {
-  let html = '';
-
+function renderEmergencyContacts(d,t) {
   // Contactos emergencia
   let contacts = '';
-  const buildTel = (prefix, num) => [prefix, num].filter(Boolean).join('');
+  const buildTel = (prefix,num) => num ? [prefix,num].filter(Boolean).join('') : '';
   if (d.ec1_name || d.ec1_phone_num) {
     const tel1 = buildTel(d.ec1_phone_prefix, d.ec1_phone_num);
     contacts += `<div class="contact-card">
@@ -740,16 +762,22 @@ function renderContactos(d, t) {
       ${tel2 ? `<a class="tel-link" href="tel:${escAttr(tel2)}">${esc(tel2)}</a>` : ''}
     </div>`;
   }
-  if (d.guardian_name || d.guardian_phone_num) {
+  if (d.guardian_name || d.guardian_phone_num || d.guardian_doc) {
     const telG = buildTel(d.guardian_phone_prefix, d.guardian_phone_num);
     contacts += `<div class="contact-card">
       <div class="contact-name">${esc(d.guardian_name || '—')}</div>
       <div class="contact-rel">${t.l_tutor}</div>
+      ${d.guardian_doc ? '<div class="contact-rel">'+esc(t.l_document)+': '+esc(d.guardian_doc)+'</div>' : ''}
       ${telG ? `<a class="tel-link" href="tel:${escAttr(telG)}">${esc(telG)}</a>` : ''}
     </div>`;
   }
-  if (contacts) html += section(t.s_contacts, contacts);
+  return section(t.s_contacts,contacts || '<p class="empty-field">'+esc(t.no_contacts)+'</p>');
 
+}
+
+function renderContactos(d,t) {
+  let html = renderEmergencyContacts(d,t);
+  const buildTel = (prefix,num) => num ? [prefix,num].filter(Boolean).join('') : '';
   // Medico
   let doc = '';
   doc += row(t.l_docname,   d.doctor_name,      false);
@@ -761,8 +789,9 @@ function renderContactos(d, t) {
   let ins = '';
   ins += row(t.l_insurer,      d.insurer,       false);
   ins += row(t.l_policy,       d.policy,        false);
-  ins += row(t.health_card, d.health_card_num, false);
-  ins += row('PAÍS SEG. SOC.', d.ss_country,    false);
+  ins += row(t.health_card,d.health_card_num,false);
+  ins += row(t.health_card + ' — ' + t.l_country,d.health_card_country,false);
+  ins += row(t.social_security + ' — ' + t.l_country,d.ss_country,false);
   if (ins) html += section(t.s_insurance, ins);
 
   return html || `<div class="empty">${t.nodata}</div>`;
@@ -804,7 +833,8 @@ async function parseData() {
     const result = await res.json();
     if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') { window.cardLoadProblem = 'verification'; return null; }
     window.cardLoadProblem = '';
-    return { ...result.profile, _qr_type: params.get('t') || '' };
+    if (Array.isArray(result.profile)) { window.cardLoadProblem = 'verification'; return null; }
+    return { ...result.profile, _qr_type: params.get('t') || '', _published_at:result.updated_at || null };
   } catch (_) { return null; }
 }
 
@@ -816,6 +846,7 @@ function renderApp() {
   const age  = calcAge(d.fecha_nacimiento);
   const name = [d.nombre, d.apellidos].filter(Boolean).join(' ') || '—';
   const vCfg = VISIBLE_SECTIONS[(d._qr_type || '').toLowerCase()];
+  const contactCount = [1,2].filter(n=>d['ec'+n+'_name'] || d['ec'+n+'_phone_num']).length + (d.guardian_name || d.guardian_phone_num || d.guardian_doc ? 1 : 0);
 
   document.getElementById('app').innerHTML = `
     <header class="header" id="hdr">
@@ -834,9 +865,10 @@ function renderApp() {
         if (d.profesion) bits.push(esc(Array.isArray(d.profesion) ? d.profesion.join(', ') : d.profesion));
         if (d.email) bits.push(`<a class="tel-link tel-link-inline" href="mailto:${escAttr(d.email)}">${esc(d.email)}</a>`);
         if (d.doc_type && d.doc_number) bits.push(`${esc(d.doc_type.toUpperCase())}: ${esc(d.doc_number)}`);
+        if (d.passport_country) bits.push(esc(d.passport_country));
         return bits.length ? `<div class="meta-sutil">${bits.join(' &middot; ')}</div>` : '';
       })()}
-      ${d.ts ? `<div class="ts-note">${t.generated} ${esc(d.ts)}</div>` : ''}
+      ${d._published_at && Number.isFinite(Date.parse(d._published_at)) ? `<div class="ts-note">${esc(t.l_updated)} ${esc(new Intl.DateTimeFormat(lang,{dateStyle:'medium',timeStyle:'short'}).format(new Date(d._published_at)))}</div>` : ''}
     </header>
 
     <div class="search-bar" id="sbar">
@@ -855,7 +887,7 @@ function renderApp() {
     <div class="tabs" id="tabs">
       <button class="tab-btn active" id="tbtn-urgente"   onclick="switchTab('urgente')">${t.tab_u}</button>
       <button class="tab-btn"        id="tbtn-historial" onclick="switchTab('historial')">${t.tab_h}</button>
-      <button class="tab-btn"        id="tbtn-contactos" onclick="switchTab('contactos')">${t.tab_c}</button>
+      <button class="tab-btn"        id="tbtn-contactos" onclick="switchTab('contactos')">${t.tab_c} (${contactCount})</button>
     </div>
 
     <div class="tab-panel active" id="panel-urgente">${renderUrgente(d, t, vCfg && vCfg.u)}</div>

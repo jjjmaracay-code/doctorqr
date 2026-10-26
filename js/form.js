@@ -24,13 +24,13 @@
         label.className = 'lang-level-label';
         label.textContent = lang;
         const sel = document.createElement('select');
-        LANG_LEVELS.forEach(lvl => {
+        const level = Object.prototype.hasOwnProperty.call(current,lang) ? current[lang] : (savedLevels?.[lang] || '');
+        [...new Set(['',...LANG_LEVELS,level])].forEach(lvl => {
           const opt = document.createElement('option');
-          opt.value = lvl; opt.textContent = lvl;
+          opt.value = lvl; opt.textContent = lvl || '—';
           sel.appendChild(opt);
         });
-        if (current[lang]) sel.value = current[lang];
-        else if (savedLevels && savedLevels[lang]) sel.value = savedLevels[lang];
+        sel.value = level;
         row.appendChild(label);
         row.appendChild(sel);
         container.appendChild(row);
@@ -64,13 +64,13 @@
         label.className = 'allergy-severity-label';
         label.textContent = allergen;
         const sel = document.createElement('select');
-        ALLERGY_SEVERITY.forEach(sev => {
+        const value = Object.prototype.hasOwnProperty.call(current,allergen) ? current[allergen] : (savedSeverity?.[allergen] || '');
+        [...new Set(['',...ALLERGY_SEVERITY,value])].forEach(sev => {
           const opt = document.createElement('option');
-          opt.value = sev; opt.textContent = sev;
+          opt.value = sev; opt.textContent = sev || '—';
           sel.appendChild(opt);
         });
-        if (current[allergen]) sel.value = current[allergen];
-        else if (savedSeverity && savedSeverity[allergen]) sel.value = savedSeverity[allergen];
+        sel.value = value;
         row.appendChild(label);
         row.appendChild(sel);
         container.appendChild(row);
@@ -80,7 +80,8 @@
     function getAllergySeverity() {
       const severity = {};
       document.querySelectorAll('#allergy-severity-container .allergy-severity-row').forEach(row => {
-        severity[row.dataset.allergen] = row.querySelector('select').value;
+        const value = row.querySelector('select').value;
+        if (value) severity[row.dataset.allergen] = value;
       });
       return severity;
     }
@@ -259,7 +260,6 @@
       if (!container) return;
       const groupName  = container.dataset.group;
       const noneChips  = container.querySelectorAll('.chip[data-exclusive-none]');
-      const otherChips = container.querySelectorAll('.chip:not([data-exclusive-none])');
       // campo(s) de texto libre asociados a este grupo (fuera del propio
       // contenedor .chips — ningún grupo tiene inputs anidados dentro),
       // enlazados por nombre de grupo igual que data-sino-target
@@ -293,25 +293,19 @@
         });
       }
 
-      noneChips.forEach(noneChip => {
-        noneChip.addEventListener('click', () => {
-          if (noneChip.classList.contains('active')) {
-            otherChips.forEach(c => c.classList.remove('active'));
-            afterExclusion();
+      // Delegation includes historical chips restored after initialization.
+      container.addEventListener('click', event => {
+        const chip = event.target.closest('.chip');
+        if (!chip || !container.contains(chip) || chip.closest('[inert],.chips-disabled')) return;
+        if (chip.classList.contains('active')) {
+          if (chip.hasAttribute('data-exclusive-none')) {
+            container.querySelectorAll('.chip:not([data-exclusive-none])').forEach(other => { other.classList.remove('active');other.setAttribute('aria-pressed','false'); });
+          } else {
+            noneChips.forEach(other => { other.classList.remove('active');other.setAttribute('aria-pressed','false'); });
           }
-          syncTargets();
-        });
-      });
-
-      otherChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          if (chip.closest('.chips-disabled')) return;
-          if (chip.classList.contains('active')) {
-            noneChips.forEach(noneChip => noneChip.classList.remove('active'));
-            afterExclusion();
-          }
-          syncTargets();
-        });
+          afterExclusion();
+        }
+        syncTargets();
       });
     }
     document.querySelectorAll('[data-exclusive-group]').forEach(setupExclusiveGroup);
@@ -523,7 +517,8 @@
     function getLangLevels() {
       const levels = {};
       document.querySelectorAll('#lang-levels-container .lang-level-row').forEach(row => {
-        levels[row.dataset.lang] = row.querySelector('select').value;
+        const value = row.querySelector('select').value;
+        if (value) levels[row.dataset.lang] = value;
       });
       return levels;
     }
@@ -868,6 +863,9 @@
       if (!MedicalOwner.current()) return;
       restoreMedicalProfile(saved);
       ProfileSync.connectForm(buildProfileFromForm,restoreMedicalProfile);
+      const refreshQRs = () => { if (MedicalOwner.read() && typeof generateAllQRs === 'function') generateAllQRs(false); };
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',refreshQRs,{once:true});
+      else refreshQRs();
     }
 
     function restoreMedicalProfile(saved) {
@@ -880,10 +878,12 @@
       }
       loadedProfile = saved ? { ...saved } : null;
       hasUnsavedChanges = !!ProfileSync.draft();
+      document.querySelectorAll('.form-section .chips-disabled').forEach(group=>group.classList.remove('chips-disabled'));
       document.querySelectorAll('.form-section .chip').forEach(chip => { chip.classList.remove('active');chip.setAttribute('aria-pressed','false'); });
       document.querySelectorAll('.chip[data-restored="true"],option[data-restored="true"]').forEach(element=>element.remove());
       document.querySelectorAll('.form-section input,.form-section select,.form-section textarea').forEach(element=>{
         if (element.readOnly || element.dataset.identityLocked === 'true' || element.id === 'email-domain' || element.id === 'review-reproductive-fields') return;
+        element.disabled = false;
         if (element.type === 'checkbox' || element.type === 'radio') element.checked = false;
         else element.value = '';
       });
@@ -1148,7 +1148,7 @@
     }
 
     window.addEventListener('doctorqr:profile-synchronized',()=>{
-      if (typeof generateAllQRs === 'function' && MedicalOwner.read()) generateAllQRs();
+      if (typeof generateAllQRs === 'function' && MedicalOwner.read()) generateAllQRs(false);
     });
 
     // ===== DOCUMENTO / EMAIL =====
