@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow,noarchive"/>
+  <meta name="referrer" content="no-referrer"/>
+  <meta name="theme-color" content="#071017"/>
+  <title>ATABEYAPP · Administración</title>
+  <link rel="icon" href="/icons/icon-192.png"/>
+  <link rel="stylesheet" href="/css/admin.css?v=1"/>
+  <script src="/js/admin.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div id="access" class="access">
+  <main class="access-card">
+    <a class="brand" href="https://atabeyapp.app"><span class="brand-mark" aria-hidden="true">+</span><span>ATABEY<span class="brand-light">APP</span><small>ADMINISTRACIÓN</small></span></a>
+    <div class="access-art" aria-hidden="true"><span></span><span></span><span></span><i>+</i></div>
+    <p class="eyebrow">Tu centro de operaciones</p>
+    <h1>Una visión clara.<br/>El control en tus manos.</h1>
+    <p class="muted">Cuentas, actividad y estado del servicio en un espacio privado.</p>
+    <form id="login-form">
+      <label for="admin-email">Correo del administrador</label>
+      <input id="admin-email" name="email" type="email" autocomplete="username" required maxlength="254"/>
+      <label for="admin-password">Contraseña de ATABEYAPP</label>
+      <input id="admin-password" name="password" type="password" autocomplete="current-password" required maxlength="256"/>
+      <label for="admin-code">Código del autenticador</label>
+      <input id="admin-code" name="code" class="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required placeholder="000000" aria-describedby="code-help"/>
+      <p id="code-help" class="hint">Los seis números actuales de tu aplicación de autenticación.</p>
+      <button class="button primary full" type="submit" id="login-submit">Entrar al panel <span aria-hidden="true">↗</span></button>
+    </form>
+    <p id="login-status" role="status" aria-live="polite" class="status-text"></p>
+    <p class="access-foot">Acceso restringido · Doble factor · Sesiones de 15 minutos</p>
+    <noscript>Activa JavaScript para acceder al panel.</noscript>
+  </main>
+</div>
+<div id="workspace" class="workspace" hidden>
+  <aside class="sidebar">
+    <a class="brand" href="#resumen"><span class="brand-mark" aria-hidden="true">+</span><span>ATABEY<span class="brand-light">APP</span><small>CENTRO DE OPERACIONES</small></span></a>
+    <p class="nav-label">ADMINISTRACIÓN</p>
+    <nav aria-label="Secciones del panel">
+      <a href="#resumen" data-view="resumen" aria-current="page"><span aria-hidden="true">◈</span> Resumen <b class="nav-dot"></b></a>
+      <a href="#cuentas" data-view="cuentas"><span aria-hidden="true">▣</span> Cuentas</a>
+      <a href="#actividad" data-view="actividad"><span aria-hidden="true">⌁</span> Actividad y QR</a>
+      <a href="#pagos" data-view="pagos"><span aria-hidden="true">▤</span> Pagos</a>
+      <a href="#seguridad" data-view="seguridad"><span aria-hidden="true">◇</span> Seguridad</a>
+      <a href="#infraestructura" data-view="infraestructura"><span aria-hidden="true">◎</span> Infraestructura</a>
+      <a href="#fuentes" data-view="fuentes"><span aria-hidden="true">≡</span> Fuentes y alcance</a>
+    </nav>
+    <div class="sidebar-foot"><span class="live-dot"></span> Panel privado<p>Indicadores operativos.<br/>Sin contenido de historiales.</p><a href="https://atabeyapp.app/web" target="_blank" rel="noopener noreferrer">Abrir ATABEYAPP Web ↗</a></div>
+    <button id="logout" class="button ghost full" type="button">Cerrar sesión</button>
+  </aside>
+  <div class="page">
+    <header class="topbar"><p>ATABEYAPP <span>/</span> <strong id="breadcrumb">Resumen</strong></p><div class="topbar-meta"><span id="connection-state" class="pill">Comprobando</span><span class="session-label">Sesión <b id="session-countdown">15:00</b></span></div></header>
+    <main id="main" tabindex="-1">
+      <div class="page-heading"><div><p class="eyebrow" id="section-eyebrow">VISIÓN GENERAL</p><h1 id="section-title">Todo bajo una misma mirada.</h1><p id="section-subtitle" class="muted">La actividad de ATABEYAPP, con datos y contexto.</p></div><div class="heading-actions"><label class="period-label" for="period">Periodo<select id="period"><option value="7">Últimos 7 días</option><option value="30" selected>Últimos 30 días</option><option value="90">Últimos 90 días</option><option value="365">Últimos 365 días</option></select></label><button id="refresh" type="button" class="button primary">Actualizar todo</button><button id="export" type="button" class="button ghost">Exportar CSV</button></div></div>
+      <div class="data-strip"><p><span class="live-dot"></span><span id="updated-at">Esperando la primera consulta</span></p><label class="switch"><input type="checkbox" id="auto-refresh"/> Actualizar cada 5 min</label></div>
+      <div id="notice" role="status" aria-live="polite" class="notice" hidden></div>
+      <section class="view" id="view-resumen" aria-label="Resumen">
+        <div id="kpis" class="kpi-grid"></div>
+        <div class="overview-grid">
+          <article class="panel trend-panel"><div class="panel-heading"><div><p class="eyebrow">CRECIMIENTO Y USO</p><h2>Una comunidad en movimiento</h2></div><span class="source-tag">Cuentas y accesos</span></div><div id="growth-chart" class="chart"></div><div class="legend"><span><i class="cyan-bg"></i> Nuevas cuentas</span><span><i class="violet-bg"></i> Inicios de sesión</span></div><details class="data-details"><summary>Ver datos del gráfico</summary><div id="growth-data" class="table-wrap"></div></details></article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">DISTRIBUCIÓN ACTUAL</p><h2>Planes de la comunidad</h2></div></div><div id="plans-chart" class="donut-wrap"></div><p class="hint">Permisos de plan actuales. Los cobros se verifican en Pagos.</p></article>
+          <article class="panel world-panel"><div class="panel-heading"><div><p class="eyebrow">PRESENCIA TÉCNICA</p><h2>Mapa de infraestructura</h2></div><span class="source-tag">Sin datos de pacientes</span></div><div class="map-wrap"><svg id="world-map" viewBox="0 0 1000 440" role="img" aria-labelledby="map-title map-desc"><title id="map-title">Alojamiento de ATABEYAPP</title><desc id="map-desc">Mapa mundial. El marcador representa la región configurada del servidor, no la ubicación de los usuarios.</desc><g id="map-layer"><image href="/assets/admin-world.svg" width="1000" height="440"/><g id="server-marker" hidden><circle class="map-halo" r="25"/><circle class="map-ring" r="12"/><circle class="map-center" r="5"/></g></g></svg><div class="map-controls" aria-label="Zoom del mapa"><button id="map-minus" type="button" aria-label="Alejar mapa">−</button><button id="map-reset" type="button">1×</button><button id="map-plus" type="button" aria-label="Acercar mapa">+</button></div></div><div class="map-footer"><p><span class="live-dot"></span><strong id="hosting-label">Región pendiente de verificar</strong><small>Infraestructura · Railway</small></p><div><span class="pill neutral">Países de usuarios: sin recoger</span><p class="hint">La aplicación no registra la ubicación de sus usuarios.</p></div></div><p class="attribution">Cartografía: Natural Earth, dominio público · Mapa local sin servicios de pago.</p></article>
+          <article class="panel health-panel"><div class="panel-heading"><div><p class="eyebrow">PULSO DEL SERVICIO</p><h2>Estado observado</h2></div><span class="pill" id="health-state">—</span></div><div id="health-summary"></div><a href="#infraestructura" class="text-link">Ver detalle técnico ↗</a></article>
+        </div>
+        <article class="panel adoption-panel"><div class="panel-heading"><div><p class="eyebrow">ADOPCIÓN</p><h2>De la cuenta al uso</h2></div><p class="hint">Estado actual de las cuentas · No es un embudo histórico</p></div><div id="adoption" class="adoption-grid"></div></article>
+      </section>
+      <section class="view" id="view-cuentas" aria-label="Cuentas" hidden>
+        <div id="account-kpis" class="kpi-grid"></div>
+        <article class="panel"><div class="panel-heading"><div><p class="eyebrow">DIRECTORIO OPERATIVO</p><h2>Cuentas registradas</h2></div><span class="source-tag">Identificadores internos</span></div><p class="muted">Consulta el estado de cada cuenta por su identificador. El panel no muestra nombres, documentos, correos ni información clínica.</p><form id="account-filters" class="filters"><label for="account-search">Identificador<input id="account-search" placeholder="ACC-123" maxlength="13" pattern="(ACC-)?[1-9][0-9]{0,8}"/></label><label for="account-plan">Plan<select id="account-plan"><option value="all">Todos los planes</option><option value="trial">Prueba</option><option value="pro">Pro</option><option value="lifetime">Vitalicio</option></select></label><button class="button ghost" type="submit">Filtrar cuentas</button><button id="account-clear" class="button ghost" type="button">Limpiar</button></form><div id="accounts-status" role="status" class="status-text"></div><div id="accounts-table" class="table-wrap"></div><div class="pagination"><button id="accounts-prev" class="button ghost" type="button">Anterior</button><span id="accounts-page"></span><button id="accounts-next" class="button ghost" type="button">Siguiente</button></div></article>
+      </section>
+      <section class="view" id="view-actividad" aria-label="Actividad y QR" hidden><div id="activity-kpis" class="kpi-grid"></div><article class="panel"><div class="panel-heading"><div><p class="eyebrow">ACCESO PÚBLICO</p><h2>Lecturas registradas de perfiles QR</h2></div><span class="source-tag">Eventos existentes</span></div><div id="qr-chart" class="chart"></div><p class="hint">Cuenta peticiones al perfil público, incluidas recargas. No mide personas, escaneos únicos ni todas las visitas a la web.</p><details class="data-details"><summary>Ver serie diaria</summary><div id="activity-data" class="table-wrap"></div></details></article><div class="two-columns"><article class="panel"><p class="eyebrow">RITMO RECIENTE</p><h2>Actividad por día</h2><div id="activity-heatmap" class="heatmap"></div><p class="hint">Últimos 35 días dentro del periodo elegido. Más intensidad indica más accesos registrados.</p></article><article class="panel"><p class="eyebrow">CONEXIÓN BIMODAL</p><h2>Ordenadores vinculados</h2><div id="devices-summary"></div><p class="hint">Sesiones web no revocadas, con sesión principal vigente y actividad en los últimos 30 minutos. Puede haber una demora hasta la caducidad de la sesión tras cambiar la seguridad de una cuenta.</p></article></div></section>
+      <section class="view" id="view-pagos" aria-label="Pagos" hidden><article class="panel payment-intro"><div><p class="eyebrow">VERIFICACIÓN FINANCIERA</p><h2>Los cobros, desde su fuente</h2><p class="muted">Consulta de lectura a Stripe usando la conexión que ya existe en el servidor.</p></div><button id="payments-load" type="button" class="button primary">Consultar Stripe</button></article><div id="payment-status" role="status" class="notice neutral-notice">Los planes de las cuentas no se convierten en ingresos estimados. Pulsa Consultar Stripe para verificar los movimientos vinculados.</div><div id="payment-results"></div><article class="panel"><p class="eyebrow">ALCANCE DE LOS IMPORTES</p><h2>Una lectura con contexto</h2><p>Se revisan hasta 500 movimientos del periodo y se incluyen solo los asociados al cliente Stripe actual de una cuenta existente de ATABEYAPP. Los pagos de clientes anteriores o cuentas eliminadas pueden quedar fuera.</p><p>Las capturas y los reembolsos se agrupan por moneda, sin mezclar divisas. Los reembolsos corresponden al estado actual de los cobros creados en el periodo; no son un flujo de caja por fecha de devolución. Las cifras no descuentan comisiones, impuestos ni disputas.</p><p class="hint">Las consultas no crean pagos, reembolsos ni suscripciones. El panel identifica claramente el modo de prueba o el modo real. La disponibilidad legal o comercial para cobrar no se deduce de una clave configurada.</p><a class="text-link" href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer">Abrir el panel oficial de Stripe ↗</a></article></section>
+      <section class="view" id="view-seguridad" aria-label="Seguridad" hidden><div id="security-kpis" class="kpi-grid"></div><article class="panel"><div class="panel-heading"><div><p class="eyebrow">SUPERVISIÓN</p><h2>Eventos de seguridad y acceso</h2></div><span class="source-tag">Agrupados por tipo</span></div><div id="security-chart" class="chart"></div><div id="security-table" class="table-wrap"></div></article><div id="security-notes" class="two-columns"></div></section>
+      <section class="view" id="view-infraestructura" aria-label="Infraestructura" hidden><div id="infra-kpis" class="kpi-grid"></div><div class="two-columns"><article class="panel"><p class="eyebrow">CONEXIONES EXISTENTES</p><h2>Servicios y configuración</h2><div id="integrations"></div></article><article class="panel"><p class="eyebrow">RECURSOS</p><h2>Operación contenida</h2><ul class="plain-list"><li>El panel usa Cloudflare Pages y la API de Railway actuales.</li><li>Sin bases de datos, mapas de pago ni servicios de analítica nuevos.</li><li>Consultas bajo demanda con caché en memoria: 60 s para indicadores y 5 min para Stripe.</li><li>Actualización automática opcional, solo con la pestaña visible.</li><li>Sin duplicar historiales, guardar informes ni crear una tabla de seguimiento.</li></ul><p class="hint">El tráfico y las consultas consumen recursos del alojamiento existente, sujetos a su tarifa. No se promete una factura fija ni consumo cero. Los archivos del panel forman parte del código de la web.</p><a class="text-link" href="https://railway.com/project/5adaa34f-bceb-4a8b-abfc-d9e13b94d26b?environmentId=0c005bb7-96b6-47b8-a782-5382a521c893" target="_blank" rel="noopener noreferrer">Abrir Railway ↗</a></article></div></section>
+      <section class="view" id="view-fuentes" aria-label="Fuentes y alcance" hidden><article class="panel"><p class="eyebrow">DATOS CON TRAZABILIDAD</p><h2>Qué mide cada indicador</h2><div id="definitions" class="definition-list"></div></article><div class="two-columns"><article class="panel"><h2>Privacidad y acceso</h2><p>Acceso reservado al administrador configurado, con contraseña y código TOTP real. El panel no acepta el código especial de revisión de la aplicación.</p><p>Las sesiones duran como máximo 15 minutos y se cierran tras 10 minutos de inactividad. El token del panel es independiente del de la aplicación y no permite abrir ni modificar historiales.</p><p>No se descifra contenido clínico. El CSV contiene únicamente cifras agregadas. La pérdida de conexión bloquea la vista hasta volver a identificarse.</p></article><article class="panel"><h2>Lo que aún no se recoge</h2><p>No hay registro de países de usuarios, instalaciones únicas, visitas anónimas completas o métricas históricas del servidor. Se muestran como no disponibles, sin convertir su ausencia en cero.</p><p>El panel es una herramienta de supervisión operativa; no acredita validez clínica, cumplimiento normativo, entrega de correos o disponibilidad histórica del servicio.</p><p id="source-coverage" class="hint"></p></article></div></section>
+      <footer class="page-footer"><span>ATABEYAPP · Administración</span><span>Datos agregados · Periodos en UTC · <span id="footer-range">—</span></span></footer>
+    </main>
+  </div>
+</div>
+</body>
+</html>

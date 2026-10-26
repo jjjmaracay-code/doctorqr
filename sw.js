@@ -78,6 +78,11 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
+  // Admin has its own short session and is never an offline medical application view.
+  if (/^\/admin(?:\/|\.html|$)/.test(url.pathname) || url.pathname === '/js/admin.js' || url.pathname === '/css/admin.css') {
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+    return;
+  }
   if (url.pathname.startsWith('/api/') || url.origin !== self.location.origin) {
     event.respondWith(fetch(event.request));
     return;
