@@ -14,7 +14,7 @@ El botón «Imprimir QR emergencia — formato tarjeta» genera anverso y revers
 
 ## Junio: arcoíris LGTBIQ+
 
-Junio, ya destinado a «Diversidad e inclusión», pasa a una franja y un contorno multicolores. La paleta utilizada en el diseño es rojo `#E40303`, naranja `#FF8C00`, amarillo `#FFED00`, verde `#008026`, azul `#004DFF` y violeta `#750787`. La palabra EMERGENCIAS descansa sobre una zona blanca para conservar contraste. El pictograma médico permanece rojo y los QR conservan sus colores de lectura.
+Junio, ya destinado a «Diversidad e inclusión», pasa a una franja y un contorno multicolores. La paleta utilizada en el diseño es rojo `#E40303`, naranja `#FF8C00`, amarillo `#FFED00`, verde `#008026`, azul `#004DFF` y violeta `#750787`. La palabra EMERGENCY descansa sobre una zona blanca para conservar contraste. El pictograma médico permanece rojo y los QR conservan sus colores de lectura.
 
 La referencia del arcoíris de seis franjas puede consultarse en [National Archives](https://prologue.blogs.archives.gov/2022/06/03/facial-hair-friday-gilbert-baker-and-the-rainbow-flag/) y [MoMA](https://www.moma.org/momaorg/shared/pdfs/docs/learn/mondays/Gilbert-Baker-Design-a-flag.pdf). Estos son colores elegidos para la representación gráfica, no una afirmación de códigos oficiales únicos. Los otros once meses conservan sus colores y temas configurados; algunos colores se repiten. La colección no es un calendario oficial de efemérides.
 
@@ -24,7 +24,7 @@ Las dos imágenes QR siguen midiendo **49 × 49 mm**, incluido el margen blanco 
 
 El QR médico conserva `buildEmergencyQRUrl()`: `https://atabeyapp.app/card.html?id=IDENTIFICADOR&t=emergency`. El lector sigue consultando el perfil confirmado y verificando la identidad. El azul conserva `https://atabeyapp.app`. El margen blanco de cuatro módulos se mantiene según [DENSO WAVE](https://www.qrcode.com/en/howto/code.html/index.html).
 
-No se cambian el formulario, el lector clínico, los ocho QR, el cifrado del backend, las credenciales, los planes ni los pagos. La generación y exportación continúan vinculadas a la cuenta y a la instantánea confirmada. Un cambio de cuenta o perfil retira la vista anterior y cancela una descarga pendiente. No hay escrituras de perfil ni servicios de imagen externos. La actualización instalada usa `doctorqr-v29`.
+No se cambian el formulario, el lector clínico, los ocho QR, el cifrado del backend, las credenciales, los planes ni los pagos. La generación y exportación continúan vinculadas a la cuenta y a la instantánea confirmada. Un cambio de cuenta o perfil retira la vista anterior y cancela una descarga pendiente. No hay escrituras de perfil ni servicios de imagen externos. La actualización instalada usa `doctorqr-v30`.
 
 ## PNG y colección de muestras
 
