@@ -52,5 +52,5 @@
  window.addEventListener('online',connection);window.addEventListener('offline',connection);
  const id=location.hash.slice(1);if(/^[A-Z]{2}$/.test(id)&&model.get(id)&&id!=='EU')selected=id;translate();
  // Reuse the installed app cache; only public assets are cached, never an account response.
- if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js?v=31',{scope:'/',updateViaCache:'none'}).catch(()=>{}),{once:true});
+ if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js?v=32',{scope:'/',updateViaCache:'none'}).catch(()=>{}),{once:true});
 })();

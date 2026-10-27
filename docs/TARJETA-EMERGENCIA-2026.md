@@ -24,7 +24,7 @@ Las dos imágenes QR siguen midiendo **49 × 49 mm**, incluido el margen blanco 
 
 El QR médico conserva `buildEmergencyQRUrl()`: `https://atabeyapp.app/card.html?id=IDENTIFICADOR&t=emergency`. El lector sigue consultando el perfil confirmado y verificando la identidad. El azul conserva `https://atabeyapp.app`. El margen blanco de cuatro módulos se mantiene según [DENSO WAVE](https://www.qrcode.com/en/howto/code.html/index.html).
 
-El formulario añade el teléfono personal opcional con país y prefijo; el lector lo presenta en los datos personales. El objeto `personal_phone` se guarda y sincroniza completo, conservando los controles de identidad. No se cambian los destinos de los ocho QR, el cifrado del backend, las credenciales, los planes ni los pagos. La generación y exportación continúan vinculadas a la cuenta y a la instantánea confirmada. Un cambio de cuenta o perfil retira la vista anterior y cancela una descarga pendiente. No hay escrituras de perfil ni servicios de imagen externos. La actualización instalada usa `doctorqr-v31`.
+El formulario añade el teléfono personal opcional con país y prefijo; el lector lo presenta en los datos personales. El objeto `personal_phone` se guarda y sincroniza completo, conservando los controles de identidad. No se cambian los destinos de los ocho QR, el cifrado del backend, las credenciales, los planes ni los pagos. La generación y exportación continúan vinculadas a la cuenta y a la instantánea confirmada. Un cambio de cuenta o perfil retira la vista anterior y cancela una descarga pendiente. No hay escrituras de perfil ni servicios de imagen externos. La actualización instalada usa `doctorqr-v32`.
 
 ## PNG y colección de muestras
 
@@ -57,3 +57,5 @@ Las llamadas son enlaces locales `tel:` activados por el visitante. No hay marca
 Los prefijos proceden de los metadatos de Google libphonenumber (consulta 2026-10-27), sin incorporar su biblioteca al navegador: https://github.com/google/libphonenumber/blob/master/resources/PhoneNumberMetadata.xml. SHA-256 del XML consultado: `b6491939ddaeb9d585a34fe0f0ebd096e83c5ac9a1c5d6dddf38ba4b162b28ca`. Las cifras de emergencia son datos de GOV.UK reutilizados bajo Open Government Licence v3.0; 112 en la UE se apoya también en la fuente de la Unión Europea.
 
 Una suite histórica (`design-invariants.cjs`) sigue apuntando a una revisión antigua que no contiene las rutas de esta copia y compara el diseño inicial de forma literal. No forma parte de las 91 pruebas pertinentes citadas arriba. El fallo también se produce en archivos intactos de esta entrega; no se modifica ni se presenta como una comprobación superada.
+
+Las rutas `/sos` y `/sos/` se reescriben hacia la ruta limpia `/emergencias`, sin una regla que la reescriba a su propio `.html`. Esto evita el bucle con la normalización automática de HTML de Cloudflare Pages. La caché v32 incluye ambas rutas y utiliza la misma revisión de worker en la aplicación y el directorio.
