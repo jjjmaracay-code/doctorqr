@@ -1052,8 +1052,21 @@ function showToast(msg, isError = false) {
 
 function goTo(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
-  window.scrollTo(0, 0);
+  const screen = document.getElementById(screenId);
+  screen.classList.add('active');
+  if (screenId === 'screen-l2') {
+    // Presentation only: reveal the existing keypad and verify button after layout settles.
+    // Never focus an input or open the phone keyboard, and ignore a screen already left.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!screen.classList.contains('active') || document.hidden) return;
+      const card = screen.querySelector('.form-card');
+      if (!card) return;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      card.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+    }));
+  } else {
+    window.scrollTo(0, 0);
+  }
 }
 
 // Guarda la sesión y redirige a index.html -- compartido entre el éxito
