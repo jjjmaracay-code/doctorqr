@@ -1,14 +1,15 @@
 # Tarjeta de emergencia — rediseño de octubre de 2026
 
-El botón «Imprimir QR emergencia — formato tarjeta» mantiene su ubicación y genera ambas caras con el logo original de ATABEYAPP. No modifica ni guarda el historial.
+El botón «Imprimir QR emergencia — formato tarjeta» mantiene su ubicación y genera ambas caras conservando el nombre ATABEYAPP y el nombre del paciente, con un pictograma médico rojo en lugar del logo. No modifica ni guarda el historial.
 
 ## Diseño y medidas
 
-- Cuerpo de cada cara: **85,6 × 54 mm**, esquinas redondeadas y fondo blanco.
+- Cuerpo de cada cara: **85,6 × 54 mm**, esquinas redondeadas, fondo blanco y borde de **0,65 mm** en el mismo color conmemorativo de la pestaña.
 - Pestaña superior centrada: **56 mm de ancho y 6 mm de saliente**, con «EMERGENCIAS» y una señal gráfica de pulso. El texto cambia entre negro y blanco para conservar contraste con los doce colores mensuales ya existentes. La ilustración solapa 0,4 mm con el borde superior del cuerpo; el alto total es 60 mm.
 - **Ambas imágenes QR miden 49 × 49 mm**, incluyendo su margen blanco de lectura. El médico usa trazos horizontales redondeados y puntos, en tinta oscura. El de la aplicación usa formas conectadas y un degradado azul oscuro a azul. Los patrones de sincronización y alineación se conservan.
-- Anverso: nombre completo, grupo sanguíneo declarado y primer teléfono de emergencia cuando están registrados, indicación de emergencias de la UE y la alerta de anafilaxia con el mismo criterio previo. No se inventan datos ausentes.
-- Reverso: marca, acceso a la aplicación, mes/año y la temática mensual existente. El color conmemorativo queda en la pestaña. No se añaden teléfonos o sitios de terceros.
+- Anverso: nombre completo, grupo sanguíneo declarado y primer teléfono de emergencia con su nombre de contacto cuando están registrados, indicación de emergencias de la UE y la alerta de anafilaxia con el mismo criterio previo. El contacto está separado en un bloque con acento rojo y teléfono más visible; los nombres largos del contacto se abrevian visualmente con puntos suspensivos, conservándose íntegros en el historial; el grupo sanguíneo y el 112 ocupan una fila diferenciada. No se inventan datos ausentes.
+- Reverso: marca, acceso a la aplicación, mes/año y la temática mensual existente. El color conmemorativo se aplica a la pestaña y al borde de ambas caras, y al contorno de la pulsera opcional. No se añaden teléfonos o sitios de terceros.
+- Pictograma propio de emergencia: estrella de seis brazos con corazón y pulso, siempre **rojo `#d71936`** en ambas caras y en la pulsera. Su color es independiente del mes. Se conservan los nombres en texto; se retiran las imágenes del logo de estos documentos.
 - Vista previa adaptable al móvil, controles de impresión/cierre y pulsera opcional conservada. Textos en los once idiomas de la aplicación, con dirección RTL para árabe.
 - Las dos caras y la pulsera caben en una hoja A4. **Imprimir al 100 %, tamaño real**, sin «ajustar a página». Recortar el contorno incluyendo la pestaña, unir ambas caras por detrás y plastificar después de verificar los QR.
 
@@ -20,14 +21,14 @@ El QR médico sigue usando exactamente `buildEmergencyQRUrl()`: `https://atabeya
 
 La nueva capa `js/emergency-card.js` recibe una instantánea validada por `MedicalOwner`. Antes y después de cada preparación asíncrona se comprueban la cuenta y la instantánea. Una sesión o perfil cambiado retira los datos y los QR de la vista de impresión. El documento escapa los textos del paciente, no incluye scripts y usa imágenes PNG embebidas: no consulta servicios ni almacenamiento del paciente.
 
-No se modifica el formulario, el lector clínico, las reglas de los ocho QR, los datos enviados a sus destinos, el backend, el cifrado, las credenciales, los planes ni los pagos. No se borran datos. La actualización instalada usa `doctorqr-v25` e incluye la nueva capa entre los recursos disponibles sin red.
+No se modifica el formulario, el lector clínico, las reglas de los ocho QR, los datos enviados a sus destinos, el backend, el cifrado, las credenciales, los planes ni los pagos. No se borran datos. La actualización instalada usa `doctorqr-v26` e incluye la nueva capa entre los recursos disponibles sin red.
 
 ## Verificación
 
 Pruebas con identidades y respuestas ficticias exclusivamente:
 
 - 65 pruebas de aislamiento de cuentas, sincronización, lector y contrato QR.
-- Navegador con ocho vistas QR y caché vinculada al propietario; botón real de impresión, controles de pulsera, logo original exacto, nombre largo y escape de HTML; ninguna escritura de almacenamiento ni solicitud de red externa.
+- Navegador con ocho vistas QR y caché vinculada al propietario; botón real de impresión, controles de pulsera, símbolos rojos en los doce meses, bordes coordinados con la pestaña, nombre del contacto, nombre largo y escape de HTML; ninguna escritura de almacenamiento ni solicitud de red externa.
 - Lectura de los dos QR desde sus PNG originales y desde capturas de la vista previa a 320, 390, 768 y 1180 px.
 - PDF de una sola página A4; comprobación de medidas y lectura de los dos QR desde la imagen del PDF a **300 ppp**, al tamaño real.
 - Doce colores mensuales y contraste del texto de la pestaña; once idiomas, RTL y ausencia de solapamientos con los QR.
