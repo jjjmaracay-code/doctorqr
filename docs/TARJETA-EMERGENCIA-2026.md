@@ -59,3 +59,5 @@ Los prefijos proceden de los metadatos de Google libphonenumber (consulta 2026-1
 Una suite histórica (`design-invariants.cjs`) sigue apuntando a una revisión antigua que no contiene las rutas de esta copia y compara el diseño inicial de forma literal. No forma parte de las 91 pruebas pertinentes citadas arriba. El fallo también se produce en archivos intactos de esta entrega; no se modifica ni se presenta como una comprobación superada.
 
 Las rutas `/sos` y `/sos/` se reescriben hacia la ruta limpia `/emergencias`, sin una regla que la reescriba a su propio `.html`. Esto evita el bucle con la normalización automática de HTML de Cloudflare Pages. La caché v32 incluye ambas rutas y utiliza la misma revisión de worker en la aplicación y el directorio.
+
+El botón de la aplicación abre primero la vista previa; la impresión comienza al pulsar Imprimir / Guardar PDF en esa vista, para poder revisar el país de referencia. La generación automática de impresión solo se permite si un llamador la solicita explícitamente.

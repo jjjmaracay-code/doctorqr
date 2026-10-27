@@ -169,7 +169,7 @@
         finally{exporting=false;if(!finished&&!win.closed&&config.current()){downloads.forEach(b=>b.disabled=false);doc.getElementById('card-country').disabled=false;}}
       });
       win.document.documentElement.dataset.cardReady='true';
-      if(config.autoPrint!==false)win.setTimeout(()=>{if(!finished&&!win.closed&&config.current())win.print();},150);
+      if(config.autoPrint===true)win.setTimeout(()=>{if(!finished&&!win.closed&&config.current())win.print();},150);
       return win;
     } catch(error) {
       if(!win.closed&&!finished){win.document.title='ATABEYAPP';win.document.body.replaceChildren();const p=win.document.createElement('p');p.textContent=w[16];win.document.body.append(p);win.document.body.dataset.cardError='true';}clear();throw error;
