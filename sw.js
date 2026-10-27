@@ -16,7 +16,8 @@
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
 // v6: actualiza el dibujo orgánico del QR, conservando sus datos.
 // v7: incluye la recuperación segura del autenticador.
-const CACHE_NAME = 'doctorqr-v35';
+// v36: incluye el módulo de fondos de pantalla con QR (los vídeos se guardan al usarse).
+const CACHE_NAME = 'doctorqr-v36';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -47,6 +48,9 @@ const CACHE_URLS = [
   './js/web-qr-preview.js?v=22',
   './js/totp-recovery.js?v=14',
   './js/qr-generator.js?v=31',
+  './js/qr-wallpaper.js?v=1',
+  './css/qr-wallpaper.css?v=1',
+  './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
   './js/emergency-accessories.js?v=33',
   './js/emergency-card.js?v=33',
