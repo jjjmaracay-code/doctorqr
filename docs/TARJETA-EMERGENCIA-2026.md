@@ -12,6 +12,9 @@ El botón «Imprimir QR emergencia — formato tarjeta» mantiene su ubicación 
 - Pictograma propio de emergencia: estrella de seis brazos con corazón y pulso, siempre **rojo `#d71936`** en ambas caras y en la pulsera. Su color es independiente del mes. Se conservan los nombres en texto; se retiran las imágenes del logo de estos documentos.
 - Marcas de corte exteriores en las cuatro esquinas de cada cara: ocho pequeños segmentos por cara, separados 1 mm del borde final. No invaden el color ni los márgenes blancos de los QR. Las esquinas se redondean siguiendo el contorno coloreado.
 - Línea de control impresa de **50 mm**, con marcas de escala, para comprobar con una regla que la impresión respeta el tamaño real. Las instrucciones de corte y escala están en los once idiomas de la aplicación.
+- Rótulos interiores diferenciados: **HISTORIAL MÉDICO** en el anverso y **APLICACIÓN** en el reverso, conservando ATABEYAPP en texto.
+- Botón independiente de descarga PNG por cara. Generación local a **1600 x 1121 píxeles**: solo tarjeta, sin controles ni marcas de corte. El SVG y los PNG QR se dibujan en el dispositivo; no se envían a servicios ni se guardan en el servidor. La exportación exige el mismo perfil antes y después de cada paso asíncrono. Cambiar de sesión o perfil cancela el archivo pendiente.
+- El nombre del archivo identifica cara y mes, sin incorporar nombre, correo ni identificador del paciente. Para tamaño físico se conserva el PDF al 100 %. Los PNG utilizan las tipografías disponibles en el dispositivo.
 - Vista previa adaptable al móvil, controles de impresión/cierre y pulsera opcional conservada. Textos en los once idiomas de la aplicación, con dirección RTL para árabe.
 - Las dos caras y la pulsera caben en una hoja A4. **Imprimir al 100 %, tamaño real**, sin «ajustar a página». Recortar el contorno incluyendo la pestaña, unir ambas caras por detrás y plastificar después de verificar los QR.
 
@@ -23,7 +26,7 @@ El QR médico sigue usando exactamente `buildEmergencyQRUrl()`: `https://atabeya
 
 La nueva capa `js/emergency-card.js` recibe una instantánea validada por `MedicalOwner`. Antes y después de cada preparación asíncrona se comprueban la cuenta y la instantánea. Una sesión o perfil cambiado retira los datos y los QR de la vista de impresión. El documento escapa los textos del paciente, no incluye scripts y usa imágenes PNG embebidas: no consulta servicios ni almacenamiento del paciente.
 
-No se modifica el formulario, el lector clínico, las reglas de los ocho QR, los datos enviados a sus destinos, el backend, el cifrado, las credenciales, los planes ni los pagos. No se borran datos. La actualización instalada usa `doctorqr-v27` e incluye la nueva capa entre los recursos disponibles sin red.
+No se modifica el formulario, el lector clínico, las reglas de los ocho QR, los datos enviados a sus destinos, el backend, el cifrado, las credenciales, los planes ni los pagos. No se borran datos. La actualización instalada usa `doctorqr-v28` e incluye la nueva capa entre los recursos disponibles sin red.
 
 ## Verificación
 
@@ -34,8 +37,11 @@ Pruebas con identidades y respuestas ficticias exclusivamente:
 - Lectura de los dos QR desde sus PNG originales y desde capturas de la vista previa a 320, 390, 768 y 1180 px.
 - PDF de una sola página A4; dieciséis marcas de corte verificadas en la imagen impresa, sin recortes de página; ancho completo de cabecera, separación de su símbolo/texto, regla de 50 mm y comprobación de medidas y lectura de los dos QR desde la imagen del PDF a **300 ppp**, al tamaño real.
 - Doce colores mensuales y contraste del texto de la pestaña; once idiomas, RTL y ausencia de solapamientos con los QR.
-- Cambio de perfil con vista abierta y cambio de cuenta mientras se prepara: nunca se imprime el perfil anterior.
+- Cambio de perfil con vista abierta y cambio de cuenta mientras se prepara: nunca se imprime el perfil anterior. Descarga PNG interrumpida mientras se decodifica la imagen: no se descarga el perfil anterior.
+- Descargas PNG reales: anverso y reverso, lectura del QR desde la imagen completa, vista móvil, nombres largos, escape de HTML, textos en español, árabe, ruso e hindi y ausencia de escrituras de almacenamiento.
+- Colección de muestras: PDF de 12 páginas, lámina general y ZIP con 24 PNG. Los 24 QR se han leído también desde la imagen del PDF a 300 ppp.
+- Generador de muestras: 12 meses x 2 caras = 24 PNG, verificando el color y el destino de cada código, bajo la misma restricción de imágenes de la aplicación. Las muestras usan un identificador ficticio sin validez médica. Los temas y colores proceden de la configuración existente; algunos colores se repiten. No representan un calendario oficial de efemérides.
 - Validación clínica de la revisión anterior, conservada sin cambios en esta revisión de impresión: formulario real con 124 respuestas, API cifrada y PostgreSQL de pruebas: ocho QR, contactos y datos clínicos completos; sincronización entre dispositivos y respuesta retrasada durante un cambio de cuenta.
-- Actualización desde una instalación antigua, conservación del borrador sin red y generación de las dos imágenes de impresión sin conexión.
+- Actualización desde una instalación antigua, conservación del borrador sin red y generación de las dos imágenes de impresión y descarga de la tarjeta PNG sin conexión.
 
 La captura `tarjeta-emergencia-demo.png` usa un identificador ficticio que no corresponde a un paciente. Es una muestra visual, no una tarjeta médica válida. Las pruebas digitales no sustituyen una comprobación con el papel, impresora, laminado y cámaras que se usarán finalmente; conservar el tamaño real y verificar ambos QR impresos.
