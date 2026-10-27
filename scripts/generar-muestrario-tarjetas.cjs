@@ -20,10 +20,10 @@ const id='MUESTRA-SIN-VALIDEZ-MEDICA',target='https://atabeyapp.app/card.html?id
   const theme=await p.evaluate(month=>AtabeyEmergencyCard.theme(new Date(2026,month,15)),month),files={};
   for(const [side,label,expected]of [['front','anverso',target],['back','reverso','https://atabeyapp.app']]){
    const file=String(month+1).padStart(2,'0')+'_'+names[month]+'_'+label+'.png',event=q.waitForEvent('download');await q.locator('[data-card-side="'+side+'"]').click();const download=await event;await download.saveAs(path.join(out,file));const png=PNG.sync.read(fs.readFileSync(path.join(out,file)));assert.equal(png.width,1600);assert.equal(png.height,1121);assert.equal(jsQR(new Uint8ClampedArray(png.data),png.width,png.height,{inversionAttempts:'dontInvert'})?.data,expected);
-   const pixel=(50*png.width+1450)*4;assert.deepEqual([...png.data.subarray(pixel,pixel+3)],theme.color.slice(1).match(/../g).map(x=>parseInt(x,16)),'Monthly header color');files[label]=file;
+   if(theme.pride){for(let i=0;i<6;i++){const y=Math.round((i+.5)/60*png.height),pixel=(y*png.width+1450)*4;assert.deepEqual([...png.data.subarray(pixel,pixel+3)],theme.colors[i].slice(1).match(/../g).map(x=>parseInt(x,16)),'Pride header stripes');}}else{const pixel=(50*png.width+1450)*4;assert.deepEqual([...png.data.subarray(pixel,pixel+3)],theme.color.slice(1).match(/../g).map(x=>parseInt(x,16)),'Monthly header color');}files[label]=file;
   }
-  result.push({month:month+1,name:names[month],color:theme.color,cause:theme.cause,...files});await q.close();console.log('OK '+names[month]);
+  result.push({month:month+1,name:names[month],color:theme.color,pride:theme.pride,colors:theme.colors,cause:theme.cause,...files});await q.close();console.log('OK '+names[month]);
  }
- assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify({fictional:true,year:2026,width_mm:85.6,height_mm:60,body_height_mm:54,qr_mm:49,source_palette:'https://github.com/jjjmaracay-code/doctorqr/blob/3304a76b575a947308db1f1e2bb8a16835bbdbaf/js/emergency-card.js',months:result},null,2));
+ assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify({fictional:true,year:2026,width_mm:85.6,height_mm:60,body_height_mm:54,qr_mm:49,source_revision:process.env.ATABEY_SOURCE_REF||'main',source_palette:'https://github.com/jjjmaracay-code/doctorqr/blob/'+encodeURIComponent(process.env.ATABEY_SOURCE_REF||'main')+'/js/emergency-card.js',months:result},null,2));
  console.log('PASS: 24 actual PNG downloads, all QR destinations and all monthly header colors verified under the application CSP');
  }catch(e){console.error(e);process.exitCode=1;}finally{await browser?.close();}})();
