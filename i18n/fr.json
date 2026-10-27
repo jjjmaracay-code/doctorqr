@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "Vérifier à nouveau",
   "qr_preview.content": "Ouvrir les informations de ce QR",
   "qr_preview.content_note": "Les informations s’ouvrent dans un autre onglet avec le lecteur médical habituel.",
-  "qr_preview.list": "Sélectionnez un QR"
+  "qr_preview.list": "Sélectionnez un QR",
+  "trial_notice.title": "Essai gratuit : encore {days} jours",
+  "trial_notice.today": "Dernières 24 heures de votre essai gratuit",
+  "trial_notice.copy": "Vous disposez de 30 jours gratuits. Ensuite, activez un forfait pour consulter, modifier et partager votre dossier.",
+  "trial_notice.ends": "Se termine le {date}.",
+  "trial_notice.countdown": "{days} j · {hours} h · {minutes} min",
+  "trial_notice.action": "Voir les forfaits et activer l’accès",
+  "trial_notice.checking_title": "Vérification de l’accès",
+  "trial_notice.checking_copy": "Nous vérifions la validité de votre accès.",
+  "trial_notice.expired_title": "Votre essai de 30 jours est terminé",
+  "trial_notice.expired_copy": "L’accès au dossier et à ses QR est suspendu jusqu’à l’activation d’un forfait. Vos données et votre brouillon n’ont pas été supprimés.",
+  "trial_notice.unverified_title": "Connectez-vous pour vérifier l’accès",
+  "trial_notice.unverified_copy": "Impossible de vérifier la validité de l’accès. Connectez-vous au réseau et réessayez.",
+  "trial_notice.retry": "Vérifier à nouveau",
+  "trial_notice.signin": "Se connecter",
+  "privacy.trialHistory": "Pour empêcher le redémarrage des 30 jours, nous conservons la date initiale de l’essai et une empreinte de l’adresse e-mail protégée par une clé, même après la fermeture du compte. Ce registre ne contient ni adresse e-mail lisible ni données médicales et ne permet pas de restaurer un dossier supprimé. Contactez-nous pour toute question sur ce traitement.",
+  "trial_notice.web_manage": "Gérez le forfait depuis l’application principale sur votre téléphone. Puis sélectionnez Vérifier à nouveau sur cet ordinateur.",
+  "trial_notice.web_exit": "Fermer la session web"
 }

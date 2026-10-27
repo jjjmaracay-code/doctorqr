@@ -172,6 +172,7 @@ html:lang(ar) :is(.section-label,.tab-btn,.badge){letter-spacing:normal;line-hei
 html[dir="rtl"] .reader-back{transform:scaleX(-1)}
 @media(max-width:600px){[data-atabey-ui="medical"] .data-row{flex-wrap:wrap;gap:6px}[data-atabey-ui="medical"] .data-label{flex-basis:100%;min-width:0}[data-atabey-ui="medical"] .tab-btn{min-width:0;letter-spacing:.5px;font-size:12px;overflow-wrap:anywhere}}
 </style>
+<link rel="stylesheet" href="/css/button-depth.css?v=23"/>
 </head>
 <body data-atabey-ui="medical">
 <div id="app"></div>
@@ -181,7 +182,7 @@ html[dir="rtl"] .reader-back{transform:scaleX(-1)}
      momento. Hash SRI conservado sin cambios, verificado contra el archivo
      local. -->
 <script src="/vendor/lz-string/lz-string-1.5.0.min.js" integrity="sha384-0d+Gr7vM4Drod8E3hXKgciWJSWbjD/opKLLygI9ktiWbuvlDwQLzU46wJ9s5gsp7"></script>
-<script src="/js/qr-languages.js?v=20"></script>
+<script src="/js/qr-languages.js?v=23"></script>
 <script src="/js/birthdate.js?v=14"></script>
 <script>
 // ================================================================
@@ -840,6 +841,19 @@ let readerLayoutObserver = null;
 let searchMatches = [];
 let searchCurrent = -1;
 let accesoVigente = true; // resultado de verificarAccesoVigente(); ya no bloquea el render, solo decide si se muestra el aviso
+let trialReaderClock = null;
+let trialReaderTimer = null;
+function checkReaderTrial() {
+  clearTimeout(trialReaderTimer);
+  if (!trialReaderClock) return;
+  const elapsed = Math.max(Date.now()-trialReaderClock.wall,performance.now()-trialReaderClock.mono);
+  const remaining = trialReaderClock.seconds*1000-elapsed;
+  if (remaining <= 0) {
+    trialReaderClock=null;data=null;searchMatches=[];searchCurrent=-1;readingMode=false;
+    document.body.classList.remove('qr-reading-mode');window.cardLoadProblem='trial_expired';renderError();
+  } else trialReaderTimer=setTimeout(checkReaderTrial,Math.min(60000,remaining));
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkReaderTrial();});
 
 function detectLang() {
   let preference='';
@@ -858,15 +872,23 @@ async function parseData() {
     const id = params.get('id');
     if (!id) return null;
     window.cardLoadProblem = 'connection';
+    const requestedAt=Date.now(),requestedMono=performance.now();
     const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
     if (!res.ok) {
-      window.cardLoadProblem = res.status === 404 ? 'unpublished' : res.status === 409 ? 'verification' : res.status === 429 ? 'limited' : 'unavailable';
+      window.cardLoadProblem = res.status === 402 ? 'trial_expired' : res.status === 404 ? 'unpublished' : res.status === 409 ? 'verification' : res.status === 429 ? 'limited' : 'unavailable';
       return null;
     }
     const result = await res.json();
     if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') { window.cardLoadProblem = 'verification'; return null; }
     window.cardLoadProblem = '';
     if (Array.isArray(result.profile)) { window.cardLoadProblem = 'verification'; return null; }
+    if (result.access_status?.status === 'trial_active' && Number.isFinite(result.access_status.remaining_seconds)) {
+      const elapsed=Math.max(Date.now()-requestedAt,performance.now()-requestedMono);
+      const remaining=result.access_status.remaining_seconds*1000-elapsed;
+      if(remaining<=0){window.cardLoadProblem='trial_expired';return null;}
+      trialReaderClock={seconds:result.access_status.remaining_seconds,wall:requestedAt,mono:requestedMono};
+      trialReaderTimer=setTimeout(checkReaderTrial,Math.min(60000,remaining));
+    }
     return { ...result.profile, _qr_type: params.get('t') || '', _published_at:result.updated_at || null };
   } catch (_) { return null; }
 }
@@ -1011,6 +1033,7 @@ function renderError() {
   };
   const l = Object.assign({}, labels[lang] || labels.es, {title:t.error_title,retry:t.retry,connection:t.connection,unpublished:t.unpublished,verification:t.verification,limited:t.limited,unavailable:t.unavailable});
   const problem = window.cardLoadProblem;
+  l.trial_expired = t.trial_expired || 'La prueba gratuita ha terminado. El titular debe activar un plan para volver a compartir su historial. Los datos no se han eliminado.';
   document.getElementById('app').innerHTML = `
     <div class="error-screen">
       <div class="logo" style="margin-bottom:16px">ATABEY<span style="color:#111111">APP</span></div>

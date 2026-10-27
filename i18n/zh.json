@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "重新验证",
   "qr_preview.content": "打开此二维码的信息",
   "qr_preview.content_note": "信息将在新标签页中使用常用医疗阅读器打开。",
-  "qr_preview.list": "选择二维码"
+  "qr_preview.list": "选择二维码",
+  "trial_notice.title": "免费试用：剩余 {days} 天",
+  "trial_notice.today": "免费试用的最后24小时",
+  "trial_notice.copy": "您可免费试用30天。之后需要激活套餐，才能查看、编辑和分享病史。",
+  "trial_notice.ends": "结束时间：{date}。",
+  "trial_notice.countdown": "{days} 天 · {hours} 小时 · {minutes} 分钟",
+  "trial_notice.action": "查看套餐并激活访问权限",
+  "trial_notice.checking_title": "正在验证访问权限",
+  "trial_notice.checking_copy": "正在验证您账户的访问权限是否有效。",
+  "trial_notice.expired_title": "您的30天试用已结束",
+  "trial_notice.expired_copy": "在激活套餐之前，病史及其二维码的访问权限已暂停。您的数据和草稿未被删除。",
+  "trial_notice.unverified_title": "请连接网络以验证访问权限",
+  "trial_notice.unverified_copy": "无法验证账户访问权限。请连接网络并重试。",
+  "trial_notice.retry": "重新验证",
+  "trial_notice.signin": "登录",
+  "privacy.trialHistory": "为防止30天试用被重新开始，我们会保留原始试用开始日期及受密钥保护的邮箱哈希值，账户关闭后也会保留。此记录不包含可读的邮箱地址或医疗数据，无法恢复已删除的病史。如对这项处理有疑问，请联系隐私负责人。",
+  "trial_notice.web_manage": "请在手机主应用中管理套餐，然后在此电脑上选择重新验证。",
+  "trial_notice.web_exit": "关闭网页版会话"
 }

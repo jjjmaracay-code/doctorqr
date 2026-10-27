@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "Check again",
   "qr_preview.content": "Open this QR code’s information",
   "qr_preview.content_note": "The information opens in another tab in the usual medical reader.",
-  "qr_preview.list": "Select a QR code"
+  "qr_preview.list": "Select a QR code",
+  "trial_notice.title": "Free trial: {days} days remaining",
+  "trial_notice.today": "Final 24 hours of your free trial",
+  "trial_notice.copy": "You have a 30-day free trial. After that, activate a plan to view, edit and share your medical history.",
+  "trial_notice.ends": "Ends on {date}.",
+  "trial_notice.countdown": "{days} d · {hours} h · {minutes} min",
+  "trial_notice.action": "View plans and activate access",
+  "trial_notice.checking_title": "Checking access",
+  "trial_notice.checking_copy": "We are checking whether your account has active access.",
+  "trial_notice.expired_title": "Your 30-day trial has ended",
+  "trial_notice.expired_copy": "Access to your history and QR codes is suspended until you activate a plan. Your data and draft have not been deleted.",
+  "trial_notice.unverified_title": "Connect to check your access",
+  "trial_notice.unverified_copy": "Account access could not be verified. Connect and check again.",
+  "trial_notice.retry": "Check again",
+  "trial_notice.signin": "Sign in",
+  "privacy.trialHistory": "To prevent the 30-day trial from restarting, we retain its original start date and a keyed hash of the email address, including after account closure. This record contains neither the readable email address nor medical data and cannot restore deleted medical history. Contact the privacy address with questions about this processing.",
+  "trial_notice.web_manage": "Manage the plan from the main app on your phone. Then select Check again on this computer.",
+  "trial_notice.web_exit": "Close web session"
 }

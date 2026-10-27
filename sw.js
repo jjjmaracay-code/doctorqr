@@ -16,7 +16,7 @@
 // v5: precarga la capa visual para conservarla al abrir la app sin red.
 // v6: actualiza el dibujo orgánico del QR, conservando sus datos.
 // v7: incluye la recuperación segura del autenticador.
-const CACHE_NAME = 'doctorqr-v22';
+const CACHE_NAME = 'doctorqr-v23';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -32,6 +32,9 @@ const CACHE_URLS = [
   './css/styles.css',
   './css/atabey-refresh.css?v=18',
   './css/access-hub.css?v=21',
+  './css/button-depth.css?v=23',
+  './css/trial-access.css?v=23',
+  './js/trial-access.js?v=23',
   './js/access-hub.js?v=21',
   './css/web-qr-preview.css?v=22',
   './js/web-qr-preview.js?v=22',
@@ -68,7 +71,7 @@ const CACHE_URLS = [
   './i18n/ru.json?v=14',
   './i18n/ja.json?v=14',
   './i18n/ar.json?v=14',
-  './js/qr-languages.js?v=20',
+  './js/qr-languages.js?v=23',
   './vendor/qrcodejs/qrcode.min.js',
   './vendor/lz-string/lz-string-1.4.4.min.js',
   './vendor/lz-string/lz-string-1.5.0.min.js',

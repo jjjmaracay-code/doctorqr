@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "Erneut prüfen",
   "qr_preview.content": "Informationen dieses QR-Codes öffnen",
   "qr_preview.content_note": "Die Informationen werden in einem weiteren Tab im gewohnten medizinischen Lesemodus geöffnet.",
-  "qr_preview.list": "QR-Code auswählen"
+  "qr_preview.list": "QR-Code auswählen",
+  "trial_notice.title": "Kostenlose Testphase: noch {days} Tage",
+  "trial_notice.today": "Letzte 24 Stunden Ihrer kostenlosen Testphase",
+  "trial_notice.copy": "Sie können die Anwendung 30 Tage kostenlos testen. Danach benötigen Sie einen Tarif, um Ihre Krankengeschichte anzusehen, zu bearbeiten und zu teilen.",
+  "trial_notice.ends": "Endet am {date}.",
+  "trial_notice.countdown": "{days} T · {hours} Std · {minutes} Min",
+  "trial_notice.action": "Tarife ansehen und Zugang aktivieren",
+  "trial_notice.checking_title": "Zugang wird geprüft",
+  "trial_notice.checking_copy": "Wir prüfen, ob Ihr Zugang gültig ist.",
+  "trial_notice.expired_title": "Ihre 30-tägige Testphase ist abgelaufen",
+  "trial_notice.expired_copy": "Der Zugang zu Ihrer Krankengeschichte und den QR-Codes ist bis zur Aktivierung eines Tarifs gesperrt. Ihre Daten und Ihr Entwurf wurden nicht gelöscht.",
+  "trial_notice.unverified_title": "Verbinden, um den Zugang zu prüfen",
+  "trial_notice.unverified_copy": "Der Zugang konnte nicht bestätigt werden. Stellen Sie eine Verbindung her und versuchen Sie es erneut.",
+  "trial_notice.retry": "Erneut prüfen",
+  "trial_notice.signin": "Anmelden",
+  "privacy.trialHistory": "Damit die 30-tägige Testphase nicht erneut beginnt, speichern wir ihr ursprüngliches Startdatum und einen mit einem Schlüssel geschützten Hash der E-Mail-Adresse, auch nach der Kontoschließung. Dieser Datensatz enthält weder die lesbare E-Mail-Adresse noch medizinische Daten und kann gelöschte Krankengeschichten nicht wiederherstellen. Fragen zu dieser Verarbeitung können Sie an den Datenschutzkontakt richten.",
+  "trial_notice.web_manage": "Verwalten Sie den Tarif in der Haupt-App auf Ihrem Mobiltelefon. Wählen Sie anschließend auf diesem Computer Erneut prüfen.",
+  "trial_notice.web_exit": "Web-Sitzung beenden"
 }

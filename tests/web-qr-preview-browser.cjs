@@ -23,7 +23,7 @@ async function visibleChoices(page,count) {
   catch(error) { console.error('Preview diagnostic:',await page.evaluate(()=>({status:document.querySelector('.web-qr-preview-status')?.textContent,open:document.querySelector('#web-qr-preview')?.open,hidden:document.documentElement.style.visibility,sync:document.querySelector('#profile-sync-message')?.textContent})),errors,calls.slice(-10)); throw error; }
 }
 (async()=>{try {
-  for(const file of ['js/qr-generator.js','js/profile-sync.js','js/medical-owner.js','js/web-session.js','js/web-link.js','js/form.js','card.html','_headers']) {
+  for(const file of ['js/qr-generator.js','js/profile-sync.js','js/medical-owner.js','js/web-session.js','js/web-link.js','js/form.js','_headers']) {
     assert.equal(fs.readFileSync(file,'utf8'),execFileSync('git',['show',base+':'+file],{encoding:'utf8'}),file+' changed');
   }
   assert.deepEqual(inline(fs.readFileSync('index.html','utf8')),inline(execFileSync('git',['show',base+':index.html'],{encoding:'utf8'})));
@@ -38,7 +38,7 @@ async function visibleChoices(page,count) {
     const send = (status,data)=>{res.statusCode=status;res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data))};
     if(url.pathname.startsWith('/api/')) {
       calls.push({path:url.pathname,method:req.method});
-      if(url.pathname==='/api/profile/me') { const status=profileStatus,data=metadata();if(profileDelay)await new Promise(r=>setTimeout(r,profileDelay));return send(status,data); }
+      if(url.pathname==='/api/access/status')return send(200,{doctorqr_id:'ALICE',access:true,status:'paid',plan_type:'lifetime',server_now:Math.floor(Date.now()/1000)});if(url.pathname==='/api/profile/me') { const status=profileStatus,data=metadata();if(profileDelay)await new Promise(r=>setTimeout(r,profileDelay));return send(status,data); }
       if(url.pathname==='/api/profile/load') return send(published?200:404,{doctorqr_id:responseId,profile:published});
       if(url.pathname==='/api/devices/current') return send(currentStatus,{linked:true});
       if(url.pathname==='/api/devices/activity') return send(200,{success:true});

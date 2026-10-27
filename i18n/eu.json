@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "Egiaztatu berriro",
   "qr_preview.content": "Ireki QR honen informazioa",
   "qr_preview.content_note": "Informazioa beste fitxa batean irekitzen da ohiko irakurgailu medikoarekin.",
-  "qr_preview.list": "Hautatu QR bat"
+  "qr_preview.list": "Hautatu QR bat",
+  "trial_notice.title": "Doako proba: {days} egun geratzen dira",
+  "trial_notice.today": "Zure doako probaren azken 24 orduak",
+  "trial_notice.copy": "30 eguneko doako proba duzu. Ondoren, aktibatu plan bat historia kontsultatu, editatu eta partekatzeko.",
+  "trial_notice.ends": "Amaiera: {date}.",
+  "trial_notice.countdown": "{days} e · {hours} o · {minutes} min",
+  "trial_notice.action": "Ikusi planak eta aktibatu sarbidea",
+  "trial_notice.checking_title": "Sarbidea egiaztatzen",
+  "trial_notice.checking_copy": "Zure kontuaren sarbidea indarrean dagoen egiaztatzen ari gara.",
+  "trial_notice.expired_title": "Zure 30 eguneko proba amaitu da",
+  "trial_notice.expired_copy": "Historiarako eta QRetarako sarbidea etenda dago plan bat aktibatu arte. Zure datuak eta zirriborroa ez dira ezabatu.",
+  "trial_notice.unverified_title": "Konektatu sarbidea egiaztatzeko",
+  "trial_notice.unverified_copy": "Ezin izan da sarbidea egiaztatu. Konektatu eta egiaztatu berriro.",
+  "trial_notice.retry": "Egiaztatu berriro",
+  "trial_notice.signin": "Hasi saioa",
+  "privacy.trialHistory": "30 eguneko proba berrabiaraztea saihesteko, jatorrizko hasiera-data eta gako batez babestutako posta elektronikoaren aztarna gordetzen ditugu, baita kontua itxi ondoren ere. Erregistro horrek ez du irakur daitekeen helbiderik edo datu medikorik, eta ezin du ezabatutako historia berreskuratu. Tratamendu honi buruz galdetzeko, erabili pribatutasun-kontaktua.",
+  "trial_notice.web_manage": "Kudeatu plana mugikorreko aplikazio nagusian. Ondoren, sakatu Egiaztatu berriro ordenagailu honetan.",
+  "trial_notice.web_exit": "Itxi web-saioa"
 }

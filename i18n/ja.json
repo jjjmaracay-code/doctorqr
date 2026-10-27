@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "もう一度確認",
   "qr_preview.content": "このQRコードの情報を開く",
   "qr_preview.content_note": "通常の医療リーダーを使い、別のタブで情報を開きます。",
-  "qr_preview.list": "QRコードを選択"
+  "qr_preview.list": "QRコードを選択",
+  "trial_notice.title": "無料体験：残り{days}日",
+  "trial_notice.today": "無料体験の残り24時間以内です",
+  "trial_notice.copy": "30日間無料で利用できます。その後、病歴の閲覧・編集・共有にはプランの有効化が必要です。",
+  "trial_notice.ends": "終了日時：{date}。",
+  "trial_notice.countdown": "{days}日 · {hours}時間 · {minutes}分",
+  "trial_notice.action": "プランを確認して利用を有効化",
+  "trial_notice.checking_title": "利用状況を確認中",
+  "trial_notice.checking_copy": "アカウントの利用権限が有効か確認しています。",
+  "trial_notice.expired_title": "30日間の無料体験が終了しました",
+  "trial_notice.expired_copy": "プランを有効化するまで、病歴とQRコードへのアクセスは停止されています。データと下書きは削除されていません。",
+  "trial_notice.unverified_title": "接続して利用状況を確認",
+  "trial_notice.unverified_copy": "アカウントの利用状況を確認できませんでした。ネットワークに接続して再度確認してください。",
+  "trial_notice.retry": "もう一度確認",
+  "trial_notice.signin": "ログイン",
+  "privacy.trialHistory": "30日間の無料体験が再開されることを防ぐため、アカウントを閉鎖した後も、最初の開始日と鍵で保護されたメールアドレスのハッシュ値を保持します。この記録には読める形のメールアドレスや医療情報は含まれず、削除済みの病歴を復元することはできません。この処理についてはプライバシー窓口にお問い合わせください。",
+  "trial_notice.web_manage": "スマートフォンのメインアプリでプランを管理してください。その後、このパソコンでもう一度確認を選択します。",
+  "trial_notice.web_exit": "ウェブセッションを終了"
 }

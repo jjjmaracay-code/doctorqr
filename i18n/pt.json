@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "Verificar novamente",
   "qr_preview.content": "Abrir a informação deste QR",
   "qr_preview.content_note": "A informação abre noutro separador com o leitor médico habitual.",
-  "qr_preview.list": "Selecione um QR"
+  "qr_preview.list": "Selecione um QR",
+  "trial_notice.title": "Teste gratuito: restam {days} dias",
+  "trial_notice.today": "Últimas 24 horas do seu teste gratuito",
+  "trial_notice.copy": "Dispõe de 30 dias gratuitos. Depois, ative um plano para consultar, editar e partilhar o historial.",
+  "trial_notice.ends": "Termina em {date}.",
+  "trial_notice.countdown": "{days} d · {hours} h · {minutes} min",
+  "trial_notice.action": "Ver planos e ativar o acesso",
+  "trial_notice.checking_title": "A verificar o acesso",
+  "trial_notice.checking_copy": "Estamos a verificar a validade do acesso à sua conta.",
+  "trial_notice.expired_title": "O seu teste de 30 dias terminou",
+  "trial_notice.expired_copy": "O acesso ao historial e aos QR está suspenso até ativar um plano. Os seus dados e o rascunho não foram eliminados.",
+  "trial_notice.unverified_title": "Ligue-se para verificar o acesso",
+  "trial_notice.unverified_copy": "Não foi possível verificar a validade do acesso. Ligue-se à rede e volte a verificar.",
+  "trial_notice.retry": "Verificar novamente",
+  "trial_notice.signin": "Iniciar sessão",
+  "privacy.trialHistory": "Para impedir o reinício dos 30 dias, conservamos a data original do teste e uma impressão do email protegida por uma chave, mesmo após encerrar a conta. Este registo não contém o email legível nem dados médicos e não permite recuperar o historial eliminado. Pode esclarecer este tratamento através do contacto de privacidade.",
+  "trial_notice.web_manage": "Gira o plano na aplicação principal do seu telemóvel. Depois selecione Verificar novamente neste computador.",
+  "trial_notice.web_exit": "Fechar sessão web"
 }

@@ -1628,5 +1628,22 @@
   "qr_preview.retry": "Volver a comprobar",
   "qr_preview.content": "Abrir la información de este QR",
   "qr_preview.content_note": "La información se abre en otra pestaña con el lector médico habitual.",
-  "qr_preview.list": "Selecciona un QR"
+  "qr_preview.list": "Selecciona un QR",
+  "trial_notice.title": "Prueba gratuita: quedan {days} días",
+  "trial_notice.today": "Últimas 24 horas de tu prueba gratuita",
+  "trial_notice.copy": "Dispones de 30 días gratuitos. Después necesitarás activar un plan para consultar, editar y compartir el historial.",
+  "trial_notice.ends": "Finaliza el {date}.",
+  "trial_notice.countdown": "{days} d · {hours} h · {minutes} min",
+  "trial_notice.action": "Ver planes y activar acceso",
+  "trial_notice.checking_title": "Comprobando el acceso",
+  "trial_notice.checking_copy": "Estamos verificando la vigencia de tu cuenta.",
+  "trial_notice.expired_title": "Tu prueba de 30 días ha terminado",
+  "trial_notice.expired_copy": "El acceso al historial y a sus QR está suspendido hasta activar un plan. Tus datos y tu borrador no se han eliminado.",
+  "trial_notice.unverified_title": "Conecta para comprobar tu acceso",
+  "trial_notice.unverified_copy": "No se ha podido verificar la vigencia de la cuenta. Conéctate y vuelve a comprobarla.",
+  "trial_notice.retry": "Volver a comprobar",
+  "trial_notice.signin": "Iniciar sesión",
+  "privacy.trialHistory": "Para impedir que se reinicien los 30 días, conservamos la fecha original de la prueba y una huella del correo protegida con una clave, también después de cerrar la cuenta. Este registro no contiene el correo en texto legible ni datos médicos y no permite recuperar el historial eliminado. Puedes consultar este tratamiento escribiendo al contacto de privacidad.",
+  "trial_notice.web_manage": "Gestiona el plan desde la aplicación principal de tu móvil. Después pulsa Volver a comprobar en este ordenador.",
+  "trial_notice.web_exit": "Cerrar sesión web"
 }
