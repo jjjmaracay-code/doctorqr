@@ -870,7 +870,7 @@ async function parseData() {
   try {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    if (!id) return null;
+    if (!id || params.getAll('id').length !== 1) return null;
     window.cardLoadProblem = 'connection';
     const requestedAt=Date.now(),requestedMono=performance.now();
     const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
@@ -880,6 +880,10 @@ async function parseData() {
     }
     const result = await res.json();
     if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') { window.cardLoadProblem = 'verification'; return null; }
+    const current = new URLSearchParams(window.location.search);
+    if (current.getAll('id').length !== 1 || current.get('id') !== id ||
+        (result.profile._profile_owner !== undefined && result.profile._profile_owner !== id) ||
+        (result.profile.doctorqr_id !== undefined && result.profile.doctorqr_id !== id)) { window.cardLoadProblem = 'verification'; return null; }
     window.cardLoadProblem = '';
     if (Array.isArray(result.profile)) { window.cardLoadProblem = 'verification'; return null; }
     if (result.access_status?.status === 'trial_active' && Number.isFinite(result.access_status.remaining_seconds)) {

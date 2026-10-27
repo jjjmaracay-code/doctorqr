@@ -228,7 +228,7 @@ function calcAge(dateStr) {
 }
 
 function getFormData() {
-  return window.MedicalOwner?.read() || {};
+  return window.MedicalOwner?.current() ? (MedicalOwner.read() || {}) : {};
 }
 
 // Extrae campos simples no vacíos
@@ -388,7 +388,7 @@ const QR_TYPE_CODES = {
 };
 
 function getOrCreateUserID() {
-  return window.MedicalOwner?.read() ? MedicalOwner.id() : 'UNKNOWN';
+  return window.MedicalOwner?.current() && MedicalOwner.read() ? MedicalOwner.id() : 'UNKNOWN';
 }
 
 function buildQRUrl(type, formData) {
@@ -547,6 +547,7 @@ function buildQRLoadingIndicator(type) {
 // fallando tras QR_CONSTRUCTOR_MAX_RETRIES intentos. Nunca se llega aquí
 // silenciosamente: siempre hay un botón para que el usuario reintente.
 function showQRLoadError(wrap, url, type, sizePx, correctLevel) {
+  if (!isOwnedQRUrl(url)) return;
   wrap.innerHTML = '';
   const box = document.createElement('div');
   box.style.cssText = `
@@ -809,7 +810,7 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
   sizePx = sizePx || 200;
   correctLevel = correctLevel || 'M';
   ensureQRCodeLoaded().then(() => scheduleQRRender(() => {
-    if (!wrap.isConnected) return; // la tarjeta ya no está en pantalla (se regeneró/navegó)
+    if (!wrap.isConnected || !isOwnedQRUrl(url)) return;
     try {
       wrap.innerHTML = '';
       createOrganicQRCode(wrap, {
@@ -822,7 +823,7 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
         correctLevel: QRCode.CorrectLevel[correctLevel]
       });
       esperarImagenQR(wrap).then(img => {
-        if (!wrap.isConnected) return;
+        if (!wrap.isConnected || !isOwnedQRUrl(url)) return;
         if (img && img.src) saveQRCacheEntry(type.id, img.src, url);
         const banner = wrap.parentElement && wrap.parentElement.querySelector('.qr-stale-banner');
         if (banner) banner.remove();
@@ -835,7 +836,7 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
       setTimeout(() => renderQRWhenReady(wrap, url, type, intento + 1, sizePx, correctLevel), QR_BACKOFF_START_MS);
     }
   })).catch(() => {
-    if (!wrap.isConnected) return;
+    if (!wrap.isConnected || !isOwnedQRUrl(url)) return;
     showQRLoadError(wrap, url, type, sizePx, correctLevel);
   });
 }
@@ -858,9 +859,24 @@ function renderQRWhenReady(wrap, url, type, intento, sizePx, correctLevel) {
 // sin una regeneración real confirmada.
 const QR_CACHE_KEY = 'doctorqr_qr_cache';
 
+function isOwnedQRUrl(value) {
+  if (!window.MedicalOwner?.current() || !MedicalOwner.read() || typeof value !== 'string') return false;
+  try {
+    const url = new URL(value);
+    return url.origin === 'https://atabeyapp.app' && url.pathname === '/card.html' &&
+      url.searchParams.getAll('id').length === 1 && url.searchParams.get('id') === MedicalOwner.id();
+  } catch (_) { return false; }
+}
+
 function getQRCache() {
   try { const cache = JSON.parse(localStorage.getItem(QR_CACHE_KEY) || '{}');
-    return window.MedicalOwner?.read() && cache.owner === MedicalOwner.id() ? cache : {}; }
+    if (!window.MedicalOwner?.current() || !MedicalOwner.read() || cache.owner !== MedicalOwner.id()) return {};
+    const images = {}, urls = {};
+    for (const type of QR_TYPES) if (typeof cache.images?.[type.id] === 'string' &&
+        cache.images[type.id].startsWith('data:image/png;base64,') && isOwnedQRUrl(cache.urls?.[type.id])) {
+      images[type.id] = cache.images[type.id]; urls[type.id] = cache.urls[type.id];
+    }
+    return { owner:cache.owner, savedAt:cache.savedAt, images, urls }; }
   catch (e) { return {}; }
 }
 
@@ -873,6 +889,7 @@ function getQRCache() {
 // ver isQRCacheFresh().
 function saveQRCacheEntry(typeId, dataUrl, url) {
   try {
+    if (!isOwnedQRUrl(url) || !QR_TYPES.some(type => type.id === typeId)) return;
     const cache = getQRCache();
     if (!window.MedicalOwner?.read()) return;
     cache.owner = MedicalOwner.id();
@@ -939,7 +956,7 @@ function restoreQRCacheAndRefresh() {
     const url = buildQRUrl(type, formData);
     urls[type.id] = url;
 
-    if (cache.images[type.id]) {
+    if (isQRCacheFresh(cache, type.id, url)) {
       const img = document.createElement('img');
       img.src = cache.images[type.id];
       img.width = 200;
@@ -980,7 +997,7 @@ function refreshQRCardSilently(wrap, url, type, sizePx, correctLevel) {
   sizePx = sizePx || 200;
   correctLevel = correctLevel || 'M';
   ensureQRCodeLoaded().then(() => {
-    if (!wrap.isConnected) return;
+    if (!wrap.isConnected || !isOwnedQRUrl(url)) return;
     try {
       const tmp = document.createElement('div');
       createOrganicQRCode(tmp, {
@@ -994,7 +1011,7 @@ function refreshQRCardSilently(wrap, url, type, sizePx, correctLevel) {
       });
       esperarImagenQR(tmp).then(img => {
         if (!img || !img.src) return; // no llegó a tiempo: se deja intacto lo que ya había en pantalla
-        if (!wrap.isConnected) return; // pudo haberse regenerado de verdad mientras tanto
+        if (!wrap.isConnected || !isOwnedQRUrl(url)) return;
         wrap.innerHTML = '';
         wrap.appendChild(img);
         const banner = wrap.parentElement && wrap.parentElement.querySelector('.qr-stale-banner');

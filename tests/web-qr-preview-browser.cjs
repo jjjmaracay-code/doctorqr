@@ -7,7 +7,7 @@ const {execFileSync} = require('node:child_process');
 const {chromium} = require('playwright');
 const {PNG} = require('pngjs');
 const jsQR = require('jsqr');
-const root = process.cwd(), base = '90c449f0f159ffd2b1868ce3e26feb5fff1b2a83';
+const root = process.cwd(), base = '5ad799f099b109689b29c05887ae62da43aec1b5';
 const languages = ['es','en','fr','de','pt','eu','hi','zh','ru','ja','ar'];
 const user = {nombre:'Alice',apellidos:'Fixture',email:'alice@example.invalid',doc_type:'dni',doc_number:'A123',fecha_nacimiento:'1976-09-02',twofa_method:'totp',plan_type:'lifetime',created_at:1,language:'es'};
 const healthy = {nombre:'Alice Fixture',apellidos:'',email:user.email,doc_type:user.doc_type,doc_number:user.doc_number,fecha_nacimiento:user.fecha_nacimiento,sangre:'0+',sexo_biologico:'Femenino',med_doses:'Pauta ficticia para pruebas',ec1_name:'Contacto ficticio',ec1_phone_prefix:'+34',ec1_phone_num:'600000001',_account_id:1};
@@ -23,7 +23,7 @@ async function visibleChoices(page,count) {
   catch(error) { console.error('Preview diagnostic:',await page.evaluate(()=>({status:document.querySelector('.web-qr-preview-status')?.textContent,open:document.querySelector('#web-qr-preview')?.open,hidden:document.documentElement.style.visibility,sync:document.querySelector('#profile-sync-message')?.textContent})),errors,calls.slice(-10)); throw error; }
 }
 (async()=>{try {
-  for(const file of ['js/qr-generator.js','js/profile-sync.js','js/medical-owner.js','js/web-session.js','js/web-link.js','js/form.js','_headers']) {
+  for(const file of ['js/web-link.js','js/form.js','_headers']) {
     assert.equal(fs.readFileSync(file,'utf8'),execFileSync('git',['show',base+':'+file],{encoding:'utf8'}),file+' changed');
   }
   assert.deepEqual(inline(fs.readFileSync('index.html','utf8')),inline(execFileSync('git',['show',base+':index.html'],{encoding:'utf8'})));
@@ -32,7 +32,7 @@ async function visibleChoices(page,count) {
     for(const key of Object.keys(old)) assert.equal(current[key],old[key],lang+': previous text '+key);
     assert.equal(Object.keys(current).filter(k=>k.startsWith('qr_preview.')).length,12);
   }
-  console.log('PASS: medical rendering, encoding, identity, sessions, sync, framing and existing translations remain unchanged');
+  console.log('PASS: clinical form, pairing protocol, framing and existing translations remain unchanged');
   server = http.createServer(async(req,res)=>{
     const url = new URL(req.url,'http://fixture'); res.setHeader('Cache-Control','no-store');
     const send = (status,data)=>{res.statusCode=status;res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data))};

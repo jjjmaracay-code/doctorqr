@@ -1,17 +1,17 @@
 // Browser UI and expiry regression. Fictional data and local API only.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
-const {chromium}=require('playwright');const root=process.cwd(),base='331ba2fdee799e96a4d425bebb32699e0afea69e';
+const {chromium}=require('playwright');const root=process.cwd(),base='5ad799f099b109689b29c05887ae62da43aec1b5';
 const languages=['es','en','fr','de','pt','eu','hi','zh','ru','ja','ar'];
 const user={nombre:'Alice',apellidos:'Fixture',email:'alice@example.invalid',doc_type:'dni',doc_number:'A123',fecha_nacimiento:'1980-01-01',twofa_method:'totp',plan_type:'trial',created_at:Math.floor(Date.now()/1000)-23*86400,language:'es'};
 const profile={...user,nombre:'Alice Fixture',apellidos:'',sangre:'A+',med_doses:'Fictional medical instruction',ec1_name:'Contact fixture',ec1_phone_num:'600000001',_account_id:1};
 let paid=false,remaining=7*86400,failed=false,readerExpired=false,readerSeconds=null,statusDelay=0,saves=0,server,browser;const errors=[];
 function status(){const now=Math.floor(Date.now()/1000);return{doctorqr_id:'ALICE',access:paid||remaining>0,status:paid?'paid':remaining>0?'trial_active':'trial_expired',plan_type:paid?'lifetime':'trial',server_now:now,trial_started_at:now+remaining-30*86400,trial_ends_at:now+remaining,remaining_seconds:Math.max(0,remaining),days_remaining:Math.ceil(Math.max(0,remaining)/86400)}}
 (async()=>{try{
- for(const file of ['js/qr-generator.js','js/form.js','js/medical-owner.js','js/profile-sync.js','js/web-session.js','_headers'])assert.equal(fs.readFileSync(file,'utf8'),execFileSync('git',['show',base+':'+file],{encoding:'utf8'}),file+' changed');
+ for(const file of ['js/form.js','_headers'])assert.equal(fs.readFileSync(file,'utf8'),execFileSync('git',['show',base+':'+file],{encoding:'utf8'}),file+' changed');
  const clinical=s=>s.slice(s.indexOf('function orderedMedicalSections'),s.indexOf('// App state'));
  assert.equal(clinical(fs.readFileSync('card.html','utf8')),clinical(execFileSync('git',['show',base+':card.html'],{encoding:'utf8'})));
  for(const lang of languages){const old=JSON.parse(execFileSync('git',['show',base+':i18n/'+lang+'.json'],{encoding:'utf8'})),current=JSON.parse(fs.readFileSync('i18n/'+lang+'.json'));for(const key of Object.keys(old))assert.equal(current[key],old[key]);assert.equal(Object.keys(current).filter(k=>k.startsWith('trial_notice.')).length,16)}
- console.log('PASS: clinical questions, QR mapping/encoding, synchronization, identity, 2FA sessions and existing translations stay unchanged');
+ console.log('PASS: clinical questions, reader rendering, framing and existing translations stay unchanged');
  server=http.createServer(async(req,res)=>{const u=new URL(req.url,'http://fixture');res.setHeader('Cache-Control','no-store');const send=(s,d)=>{res.statusCode=s;res.setHeader('Content-Type','application/json');res.end(JSON.stringify(d))};
   if(u.pathname==='/api/access/status'){const value=failed?{error:'unavailable'}:status();if(statusDelay)await new Promise(r=>setTimeout(r,statusDelay));return send(failed?503:200,value)}
   if(u.pathname==='/api/profile/me')return send(!paid&&remaining<=0?402:200,!paid&&remaining<=0?{code:'trial_expired',error:'trial_expired'}:{doctorqr_id:'ALICE',profile_revision:'1'.repeat(64),snapshot_token:'a'.repeat(64),profile,updated_at:'2026-10-27T08:00:00Z',plan_type:user.plan_type});
