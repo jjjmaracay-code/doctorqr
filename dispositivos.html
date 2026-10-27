@@ -1,2 +1,65 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Vincular ordenador · ATABEYAPP</title><link rel="stylesheet" href="/css/web-link.css?v=15"><script src="/js/web-session.js?v=24"></script><script src="/js/web-link.js?v=15" defer></script><link rel="stylesheet" href="/css/button-depth.css?v=23"/>
-</head><body data-link-page="devices"><main><a class="brand" href="/index.html">ATABEYAPP</a><h1>Ordenadores vinculados</h1><section class="panel"><p>En el ordenador abre <strong>atabeyapp.app/web.html</strong>. Después escanea su QR desde aquí.</p><p class="account" id="link-account"></p><div class="actions"><button id="scan-start" type="button">Escanear QR del ordenador</button><a class="button secondary" href="/index.html">Volver a mi historial</a></div><section id="scanner" hidden><p>Apunta al QR de vinculación. La cámara se usa en este dispositivo; las imágenes no se suben.</p><video id="scan-video" playsinline muted></video><div class="actions"><button id="scan-stop" type="button" class="secondary">Cerrar cámara</button><label class="button secondary">Leer foto de un QR<input id="scan-image" type="file" accept="image/*" hidden></label></div></section><div id="link-status" class="status" role="status" aria-live="polite"></div><h2>Accesos activos</h2><div id="device-list"></div><button id="refresh-devices" type="button" class="secondary">Actualizar lista</button></section></main><script src="/vendor/jsqr/jsQR.js" defer></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Vincular ordenador · ATABEYAPP</title>
+  <link rel="stylesheet" href="/css/web-link.css?v=34">
+  <script src="/js/web-session.js?v=24"></script>
+  <script src="/js/web-link.js?v=34" defer></script>
+  <link rel="stylesheet" href="/css/button-depth.css?v=23">
+</head>
+<body data-link-page="devices">
+  <main>
+    <a class="brand" href="/index.html">ATABEYAPP</a>
+    <h1>Ordenadores vinculados</h1>
+    <section class="panel">
+      <p>En el ordenador abre <strong>atabeyapp.app/web.html</strong>. Después escanea su QR desde aquí.</p>
+      <p class="account" id="link-account"></p>
+      <div class="actions">
+        <button id="scan-start" type="button">Escanear QR del ordenador</button>
+        <a class="button secondary" href="/index.html">Volver a mi historial</a>
+      </div>
+      <div id="link-status" class="status" role="status" aria-live="polite"></div>
+      <h2>Accesos activos</h2>
+      <div id="device-list"></div>
+      <button id="refresh-devices" type="button" class="secondary">Actualizar lista</button>
+    </section>
+  </main>
+  <dialog id="scanner" class="scanner-dialog" aria-labelledby="scanner-title" aria-describedby="scanner-help" hidden>
+    <header class="scanner-header">
+      <div class="scanner-heading">
+        <span class="scanner-kicker">ATABEYAPP WEB</span>
+        <h2 id="scanner-title">Escanear QR del ordenador</h2>
+        <p id="scanner-help">Encuadra el QR que aparece en tu ordenador.</p>
+      </div>
+      <button id="scan-stop" class="scanner-close" type="button" autofocus aria-label="Cerrar cámara">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        <span>Cerrar</span>
+      </button>
+    </header>
+    <div class="scanner-stage" id="scan-stage">
+      <video id="scan-video" playsinline muted autoplay aria-label="Vista de la cámara para leer el QR" hidden></video>
+      <div id="scan-placeholder" class="scanner-placeholder" aria-hidden="true">
+        <svg viewBox="0 0 72 72"><rect x="10" y="19" width="52" height="39" rx="10"/><path d="m24 19 5-7h14l5 7"/><circle cx="36" cy="38" r="12"/><path d="M18 27h3"/></svg>
+        <span id="scan-placeholder-text">Abriendo cámara…</span>
+      </div>
+      <div id="scan-guide" class="scanner-guide" aria-hidden="true">
+        <i class="scanner-corner top-left"></i><i class="scanner-corner top-right"></i>
+        <i class="scanner-corner bottom-left"></i><i class="scanner-corner bottom-right"></i>
+      </div>
+    </div>
+    <footer class="scanner-footer">
+      <p id="scan-status" class="scanner-status" role="status" aria-live="polite">Abriendo cámara…</p>
+      <div class="scanner-actions">
+        <button id="scan-retry" type="button" hidden>Reintentar cámara</button>
+        <button id="scan-image-button" type="button" class="secondary">Leer foto de un QR</button>
+        <input id="scan-image" type="file" accept="image/*" hidden>
+      </div>
+      <p class="scanner-privacy">La imagen se analiza en este móvil; no se sube.</p>
+    </footer>
+  </dialog>
+  <script src="/vendor/jsqr/jsQR.js" defer></script>
+</body>
+</html>
