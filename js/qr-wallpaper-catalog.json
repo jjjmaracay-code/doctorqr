@@ -1,0 +1,462 @@
+{
+ "version": 1,
+ "nota": "Para añadir un fondo: subir <id>.mp4, <id>.jpg y <id>-mini.jpg a /assets/fondos/ y añadir aquí una entrada. El nombre en español es obligatorio; los demás idiomas son opcionales.",
+ "fondos": [
+  {
+   "id": "abstracto-verde",
+   "video": "/assets/fondos/abstracto-verde.mp4",
+   "poster": "/assets/fondos/abstracto-verde.jpg",
+   "mini": "/assets/fondos/abstracto-verde-mini.jpg",
+   "name": {
+    "es": "Abstracto verde",
+    "en": "Green abstract",
+    "fr": "Abstrait vert",
+    "pt": "Abstrato verde",
+    "de": "Grün abstrakt",
+    "eu": "Abstraktu berdea",
+    "hi": "हरा अमूर्त",
+    "zh": "绿色抽象",
+    "ru": "Зелёная абстракция",
+    "ja": "グリーンアブストラクト",
+    "ar": "تجريد أخضر"
+   }
+  },
+  {
+   "id": "amor-caribe",
+   "video": "/assets/fondos/amor-caribe.mp4",
+   "poster": "/assets/fondos/amor-caribe.jpg",
+   "mini": "/assets/fondos/amor-caribe-mini.jpg",
+   "name": {
+    "es": "Amor Caribe",
+    "en": "Caribbean love",
+    "fr": "Amour des Caraïbes",
+    "pt": "Amor Caribe",
+    "de": "Karibische Liebe",
+    "eu": "Karibeko maitasuna",
+    "hi": "कैरिबियन प्रेम",
+    "zh": "加勒比之恋",
+    "ru": "Карибская любовь",
+    "ja": "カリブの愛",
+    "ar": "حب الكاريبي"
+   }
+  },
+  {
+   "id": "atardecer",
+   "video": "/assets/fondos/atardecer.mp4",
+   "poster": "/assets/fondos/atardecer.jpg",
+   "mini": "/assets/fondos/atardecer-mini.jpg",
+   "name": {
+    "es": "Atardecer",
+    "en": "Sunset",
+    "fr": "Coucher de soleil",
+    "pt": "Pôr do sol",
+    "de": "Sonnenuntergang",
+    "eu": "Ilunabarra",
+    "hi": "सूर्यास्त",
+    "zh": "日落",
+    "ru": "Закат",
+    "ja": "夕焼け",
+    "ar": "غروب"
+   }
+  },
+  {
+   "id": "atardecer-mediterraneo",
+   "video": "/assets/fondos/atardecer-mediterraneo.mp4",
+   "poster": "/assets/fondos/atardecer-mediterraneo.jpg",
+   "mini": "/assets/fondos/atardecer-mediterraneo-mini.jpg",
+   "name": {
+    "es": "Atardecer mediterráneo",
+    "en": "Mediterranean sunset",
+    "fr": "Coucher de soleil méditerranéen",
+    "pt": "Pôr do sol mediterrânico",
+    "de": "Mittelmeer-Sonnenuntergang",
+    "eu": "Mediterraneoko ilunabarra",
+    "hi": "भूमध्यसागरीय सूर्यास्त",
+    "zh": "地中海日落",
+    "ru": "Средиземноморский закат",
+    "ja": "地中海の夕日",
+    "ar": "غروب متوسطي"
+   }
+  },
+  {
+   "id": "atardecer-montanas",
+   "video": "/assets/fondos/atardecer-montanas.mp4",
+   "poster": "/assets/fondos/atardecer-montanas.jpg",
+   "mini": "/assets/fondos/atardecer-montanas-mini.jpg",
+   "name": {
+    "es": "Atardecer en las montañas",
+    "en": "Mountain sunset",
+    "fr": "Coucher de soleil en montagne",
+    "pt": "Pôr do sol nas montanhas",
+    "de": "Sonnenuntergang in den Bergen",
+    "eu": "Ilunabarra mendietan",
+    "hi": "पहाड़ों पर सूर्यास्त",
+    "zh": "山间日落",
+    "ru": "Закат в горах",
+    "ja": "山の夕暮れ",
+    "ar": "غروب في الجبال"
+   }
+  },
+  {
+   "id": "cascada",
+   "video": "/assets/fondos/cascada.mp4",
+   "poster": "/assets/fondos/cascada.jpg",
+   "mini": "/assets/fondos/cascada-mini.jpg",
+   "name": {
+    "es": "Cascada",
+    "en": "Waterfall",
+    "fr": "Cascade",
+    "pt": "Cascata",
+    "de": "Wasserfall",
+    "eu": "Ur-jauzia",
+    "hi": "झरना",
+    "zh": "瀑布",
+    "ru": "Водопад",
+    "ja": "滝",
+    "ar": "شلال"
+   }
+  },
+  {
+   "id": "cielo-verde",
+   "video": "/assets/fondos/cielo-verde.mp4",
+   "poster": "/assets/fondos/cielo-verde.jpg",
+   "mini": "/assets/fondos/cielo-verde-mini.jpg",
+   "name": {
+    "es": "Cielo verde",
+    "en": "Green sky",
+    "fr": "Ciel vert",
+    "pt": "Céu verde",
+    "de": "Grüner Himmel",
+    "eu": "Zeru berdea",
+    "hi": "हरा आकाश",
+    "zh": "绿色天空",
+    "ru": "Зелёное небо",
+    "ja": "緑の空",
+    "ar": "سماء خضراء"
+   }
+  },
+  {
+   "id": "costa-desde-dron",
+   "video": "/assets/fondos/costa-desde-dron.mp4",
+   "poster": "/assets/fondos/costa-desde-dron.jpg",
+   "mini": "/assets/fondos/costa-desde-dron-mini.jpg",
+   "name": {
+    "es": "Costa desde dron",
+    "en": "Coast from a drone",
+    "fr": "Côte vue du drone",
+    "pt": "Costa vista de drone",
+    "de": "Küste von oben",
+    "eu": "Kostaldea dronetik",
+    "hi": "ड्रोन से तट",
+    "zh": "航拍海岸",
+    "ru": "Побережье с дрона",
+    "ja": "ドローンから見た海岸",
+    "ar": "الساحل من طائرة مسيّرة"
+   }
+  },
+  {
+   "id": "fluido-metalizado",
+   "video": "/assets/fondos/fluido-metalizado.mp4",
+   "poster": "/assets/fondos/fluido-metalizado.jpg",
+   "mini": "/assets/fondos/fluido-metalizado-mini.jpg",
+   "name": {
+    "es": "Fluido metalizado",
+    "en": "Metallic fluid",
+    "fr": "Fluide métallisé",
+    "pt": "Fluido metalizado",
+    "de": "Metallisches Fluid",
+    "eu": "Fluido metalizatua",
+    "hi": "धात्विक तरल",
+    "zh": "金属流体",
+    "ru": "Металлическая жидкость",
+    "ja": "メタリック流体",
+    "ar": "سائل معدني"
+   }
+  },
+  {
+   "id": "fluido-rosa",
+   "video": "/assets/fondos/fluido-rosa.mp4",
+   "poster": "/assets/fondos/fluido-rosa.jpg",
+   "mini": "/assets/fondos/fluido-rosa-mini.jpg",
+   "name": {
+    "es": "Fluido rosa",
+    "en": "Pink fluid",
+    "fr": "Fluide rose",
+    "pt": "Fluido rosa",
+    "de": "Rosa Fluid",
+    "eu": "Fluido arrosa",
+    "hi": "गुलाबी तरल",
+    "zh": "粉色流体",
+    "ru": "Розовая жидкость",
+    "ja": "ピンクの流体",
+    "ar": "سائل وردي"
+   }
+  },
+  {
+   "id": "fluidos-metalizados",
+   "video": "/assets/fondos/fluidos-metalizados.mp4",
+   "poster": "/assets/fondos/fluidos-metalizados.jpg",
+   "mini": "/assets/fondos/fluidos-metalizados-mini.jpg",
+   "name": {
+    "es": "Fluidos metalizados",
+    "en": "Metallic fluids",
+    "fr": "Fluides métallisés",
+    "pt": "Fluidos metalizados",
+    "de": "Metallische Fluide",
+    "eu": "Fluido metalizatuak",
+    "hi": "धात्विक तरल धाराएँ",
+    "zh": "金属流体组合",
+    "ru": "Металлические потоки",
+    "ja": "メタリックな流れ",
+    "ar": "سوائل معدنية"
+   }
+  },
+  {
+   "id": "fractal-arcoiris",
+   "video": "/assets/fondos/fractal-arcoiris.mp4",
+   "poster": "/assets/fondos/fractal-arcoiris.jpg",
+   "mini": "/assets/fondos/fractal-arcoiris-mini.jpg",
+   "name": {
+    "es": "Fractal arcoíris",
+    "en": "Rainbow fractal",
+    "fr": "Fractale arc-en-ciel",
+    "pt": "Fractal arco-íris",
+    "de": "Regenbogen-Fraktal",
+    "eu": "Ostadar fraktala",
+    "hi": "इंद्रधनुषी फ्रैक्टल",
+    "zh": "彩虹分形",
+    "ru": "Радужный фрактал",
+    "ja": "虹色フラクタル",
+    "ar": "كسيريات قوس قزح"
+   }
+  },
+  {
+   "id": "fractal-verde",
+   "video": "/assets/fondos/fractal-verde.mp4",
+   "poster": "/assets/fondos/fractal-verde.jpg",
+   "mini": "/assets/fondos/fractal-verde-mini.jpg",
+   "name": {
+    "es": "Fractal verde",
+    "en": "Green fractal",
+    "fr": "Fractale verte",
+    "pt": "Fractal verde",
+    "de": "Grünes Fraktal",
+    "eu": "Fraktal berdea",
+    "hi": "हरा फ्रैक्टल",
+    "zh": "绿色分形",
+    "ru": "Зелёный фрактал",
+    "ja": "緑のフラクタル",
+    "ar": "كسيريات خضراء"
+   }
+  },
+  {
+   "id": "fractal-electrico",
+   "video": "/assets/fondos/fractal-electrico.mp4",
+   "poster": "/assets/fondos/fractal-electrico.jpg",
+   "mini": "/assets/fondos/fractal-electrico-mini.jpg",
+   "name": {
+    "es": "Fractal eléctrico",
+    "en": "Electric fractal",
+    "fr": "Fractale électrique",
+    "pt": "Fractal elétrico",
+    "de": "Elektrisches Fraktal",
+    "eu": "Fraktal elektrikoa",
+    "hi": "विद्युत फ्रैक्टल",
+    "zh": "电光分形",
+    "ru": "Электрический фрактал",
+    "ja": "エレクトリックフラクタル",
+    "ar": "كسيريات كهربائية"
+   }
+  },
+  {
+   "id": "lineas-abstractas",
+   "video": "/assets/fondos/lineas-abstractas.mp4",
+   "poster": "/assets/fondos/lineas-abstractas.jpg",
+   "mini": "/assets/fondos/lineas-abstractas-mini.jpg",
+   "name": {
+    "es": "Líneas abstractas",
+    "en": "Abstract lines",
+    "fr": "Lignes abstraites",
+    "pt": "Linhas abstratas",
+    "de": "Abstrakte Linien",
+    "eu": "Lerro abstraktuak",
+    "hi": "अमूर्त रेखाएँ",
+    "zh": "抽象线条",
+    "ru": "Абстрактные линии",
+    "ja": "抽象的なライン",
+    "ar": "خطوط تجريدية"
+   }
+  },
+  {
+   "id": "luciernagas-desenfocadas",
+   "video": "/assets/fondos/luciernagas-desenfocadas.mp4",
+   "poster": "/assets/fondos/luciernagas-desenfocadas.jpg",
+   "mini": "/assets/fondos/luciernagas-desenfocadas-mini.jpg",
+   "name": {
+    "es": "Luciérnagas desenfocadas",
+    "en": "Blurred fireflies",
+    "fr": "Lucioles floues",
+    "pt": "Pirilampos desfocados",
+    "de": "Unscharfe Glühwürmchen",
+    "eu": "Ipurtargi lausoak",
+    "hi": "धुंधले जुगनू",
+    "zh": "朦胧萤火",
+    "ru": "Размытые светлячки",
+    "ja": "ぼやけた蛍",
+    "ar": "يراعات ضبابية"
+   }
+  },
+  {
+   "id": "mandala-de-luces",
+   "video": "/assets/fondos/mandala-de-luces.mp4",
+   "poster": "/assets/fondos/mandala-de-luces.jpg",
+   "mini": "/assets/fondos/mandala-de-luces-mini.jpg",
+   "name": {
+    "es": "Mandala de luces",
+    "en": "Mandala of lights",
+    "fr": "Mandala de lumières",
+    "pt": "Mandala de luzes",
+    "de": "Lichtermandala",
+    "eu": "Argi-mandala",
+    "hi": "रोशनी का मंडल",
+    "zh": "光之曼陀罗",
+    "ru": "Мандала огней",
+    "ja": "光のマンダラ",
+    "ar": "ماندالا الأضواء"
+   }
+  },
+  {
+   "id": "mar-y-atardecer",
+   "video": "/assets/fondos/mar-y-atardecer.mp4",
+   "poster": "/assets/fondos/mar-y-atardecer.jpg",
+   "mini": "/assets/fondos/mar-y-atardecer-mini.jpg",
+   "name": {
+    "es": "Mar y atardecer",
+    "en": "Sea and sunset",
+    "fr": "Mer et coucher de soleil",
+    "pt": "Mar e pôr do sol",
+    "de": "Meer und Sonnenuntergang",
+    "eu": "Itsasoa eta ilunabarra",
+    "hi": "समुद्र और सूर्यास्त",
+    "zh": "大海与日落",
+    "ru": "Море и закат",
+    "ja": "海と夕日",
+    "ar": "البحر والغروب"
+   }
+  },
+  {
+   "id": "mar-y-rocas",
+   "video": "/assets/fondos/mar-y-rocas.mp4",
+   "poster": "/assets/fondos/mar-y-rocas.jpg",
+   "mini": "/assets/fondos/mar-y-rocas-mini.jpg",
+   "name": {
+    "es": "Mar y rocas",
+    "en": "Sea and rocks",
+    "fr": "Mer et rochers",
+    "pt": "Mar e rochas",
+    "de": "Meer und Felsen",
+    "eu": "Itsasoa eta harkaitzak",
+    "hi": "समुद्र और चट्टानें",
+    "zh": "大海与岩石",
+    "ru": "Море и скалы",
+    "ja": "海と岩",
+    "ar": "البحر والصخور"
+   }
+  },
+  {
+   "id": "mosaico-de-cuadros",
+   "video": "/assets/fondos/mosaico-de-cuadros.mp4",
+   "poster": "/assets/fondos/mosaico-de-cuadros.jpg",
+   "mini": "/assets/fondos/mosaico-de-cuadros-mini.jpg",
+   "name": {
+    "es": "Mosaico de cuadros",
+    "en": "Square mosaic",
+    "fr": "Mosaïque de carrés",
+    "pt": "Mosaico de quadrados",
+    "de": "Quadratmosaik",
+    "eu": "Karratu-mosaikoa",
+    "hi": "वर्गों की पच्चीकारी",
+    "zh": "方块马赛克",
+    "ru": "Мозаика из квадратов",
+    "ja": "四角のモザイク",
+    "ar": "فسيفساء مربعات"
+   }
+  },
+  {
+   "id": "mosaico-de-luces",
+   "video": "/assets/fondos/mosaico-de-luces.mp4",
+   "poster": "/assets/fondos/mosaico-de-luces.jpg",
+   "mini": "/assets/fondos/mosaico-de-luces-mini.jpg",
+   "name": {
+    "es": "Mosaico de luces",
+    "en": "Mosaic of lights",
+    "fr": "Mosaïque de lumières",
+    "pt": "Mosaico de luzes",
+    "de": "Lichtmosaik",
+    "eu": "Argi-mosaikoa",
+    "hi": "रोशनी की पच्चीकारी",
+    "zh": "光点马赛克",
+    "ru": "Мозаика огней",
+    "ja": "光のモザイク",
+    "ar": "فسيفساء الأضواء"
+   }
+  },
+  {
+   "id": "navidad-nocturna",
+   "video": "/assets/fondos/navidad-nocturna.mp4",
+   "poster": "/assets/fondos/navidad-nocturna.jpg",
+   "mini": "/assets/fondos/navidad-nocturna-mini.jpg",
+   "name": {
+    "es": "Navidad nocturna",
+    "en": "Christmas night",
+    "fr": "Nuit de Noël",
+    "pt": "Noite de Natal",
+    "de": "Weihnachtsnacht",
+    "eu": "Gabon gaua",
+    "hi": "क्रिसमस की रात",
+    "zh": "圣诞夜",
+    "ru": "Рождественская ночь",
+    "ja": "クリスマスの夜",
+    "ar": "ليلة الميلاد"
+   }
+  },
+  {
+   "id": "plaza-manhattan",
+   "video": "/assets/fondos/plaza-manhattan.mp4",
+   "poster": "/assets/fondos/plaza-manhattan.jpg",
+   "mini": "/assets/fondos/plaza-manhattan-mini.jpg",
+   "name": {
+    "es": "Plaza Manhattan",
+    "en": "Manhattan plaza",
+    "fr": "Place de Manhattan",
+    "pt": "Praça de Manhattan",
+    "de": "Platz in Manhattan",
+    "eu": "Manhattango plaza",
+    "hi": "मैनहट्टन चौक",
+    "zh": "曼哈顿广场",
+    "ru": "Площадь Манхэттена",
+    "ja": "マンハッタンの広場",
+    "ar": "ساحة مانهاتن"
+   }
+  },
+  {
+   "id": "pradera-inglesa",
+   "video": "/assets/fondos/pradera-inglesa.mp4",
+   "poster": "/assets/fondos/pradera-inglesa.jpg",
+   "mini": "/assets/fondos/pradera-inglesa-mini.jpg",
+   "name": {
+    "es": "Pradera inglesa",
+    "en": "English meadow",
+    "fr": "Prairie anglaise",
+    "pt": "Prado inglês",
+    "de": "Englische Wiese",
+    "eu": "Ingeles larrea",
+    "hi": "अंग्रेज़ी घास का मैदान",
+    "zh": "英式草地",
+    "ru": "Английский луг",
+    "ja": "イングリッシュメドウ",
+    "ar": "مرج إنجليزي"
+   }
+  }
+ ]
+}
