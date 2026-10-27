@@ -60,6 +60,9 @@
   function unlock() {
     delete document.documentElement.dataset.accessGate;if(gate)gate.hidden=true;
     document.querySelectorAll('[data-trial-inert]').forEach(el=>{el.inert=false;delete el.dataset.trialInert;});
+    // The existing chip helper observes class changes, not an ancestor's temporary inert state.
+    // Restore accessibility from the guards that remain, preserving clinical/identity restrictions.
+    document.querySelectorAll('.chip[aria-disabled]').forEach(el=>el.setAttribute('aria-disabled',String(!!el.closest('[inert],.chips-disabled'))));
   }
   function render() {
     if(!document.body)return;
