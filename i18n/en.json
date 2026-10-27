@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "Sign in",
   "privacy.trialHistory": "To prevent the 30-day trial from restarting, we retain its original start date and a keyed hash of the email address, including after account closure. This record contains neither the readable email address nor medical data and cannot restore deleted medical history. Contact the privacy address with questions about this processing.",
   "trial_notice.web_manage": "Manage the plan from the main app on your phone. Then select Check again on this computer.",
-  "trial_notice.web_exit": "Close web session"
+  "trial_notice.web_exit": "Close web session",
+  "index.identification.personal_phone_label": "Personal phone (optional)",
+  "index.identification.phone_country_label": "Country and calling code",
+  "index.identification.phone_hint": "Your calling code helps suggest the emergency number printed on your card. Check the country before printing.",
+  "index.identification.phone_warning": "Select a country and enter your national number without the international calling code.",
+  "index.identification.phone_placeholder": "Number without calling code"
 }

@@ -24,7 +24,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=30"></script>
+  <script src="/js/register-sw.js?v=31"></script>
   <script src="i18n/loader.js?v=14"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -793,6 +793,15 @@
           <div class="field-label" data-i18n="index.identification.birthdate_label">Fecha de nacimiento</div>
           <input type="hidden" id="f-birthdate"/>
           <input type="text" id="f-birthdate-readable" readonly aria-label="Fecha de nacimiento" data-i18n-aria="extra.363aece88d7e04fa"/>
+        </div>
+        <div class="field" id="personal-phone-field">
+          <label class="field-label" for="f-personal-phone-num" data-i18n="index.identification.personal_phone_label">Teléfono personal (opcional)</label>
+          <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:8px">
+            <select id="f-personal-phone-country" autocomplete="tel-country-code" style="min-width:0" aria-label="País y prefijo" data-i18n-aria="index.identification.phone_country_label"><option value="" data-i18n="index.identification.phone_country_label">País y prefijo</option></select>
+            <input id="f-personal-phone-num" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="24" style="min-width:0" placeholder="Número sin prefijo" data-i18n-placeholder="index.identification.phone_placeholder" aria-describedby="personal-phone-hint personal-phone-warning"/>
+          </div>
+          <p class="field-hint" id="personal-phone-hint" data-i18n="index.identification.phone_hint">El prefijo sirve como referencia para el número de emergencias de tu tarjeta. Comprueba el país antes de imprimir.</p>
+          <p class="field-warning" id="personal-phone-warning" hidden data-i18n="index.identification.phone_warning">Selecciona el país e introduce tu número nacional sin el prefijo internacional.</p>
         </div>
         <!-- TIPO DOCUMENTO -->
         <div class="form-group">
@@ -2550,10 +2559,12 @@
   </script>
   <script src="js/validation.js?v=14"></script>
   <script src="js/search.js?v=12"></script>
-  <script src="js/form.js?v=19"></script>
-  <script src="js/card-png.js?v=30"></script>
-  <script src="js/emergency-card.js?v=30"></script>
-  <script src="js/qr-generator.js?v=25"></script>
+  <script src="js/emergency-numbers.js?v=31"></script>
+  <script src="js/personal-phone.js?v=31"></script>
+  <script src="js/form.js?v=31"></script>
+  <script src="js/card-png.js?v=31"></script>
+  <script src="js/emergency-card.js?v=31"></script>
+  <script src="js/qr-generator.js?v=31"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
   <script>

@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "Iniciar sesión",
   "privacy.trialHistory": "Para impedir que se reinicien los 30 días, conservamos la fecha original de la prueba y una huella del correo protegida con una clave, también después de cerrar la cuenta. Este registro no contiene el correo en texto legible ni datos médicos y no permite recuperar el historial eliminado. Puedes consultar este tratamiento escribiendo al contacto de privacidad.",
   "trial_notice.web_manage": "Gestiona el plan desde la aplicación principal de tu móvil. Después pulsa Volver a comprobar en este ordenador.",
-  "trial_notice.web_exit": "Cerrar sesión web"
+  "trial_notice.web_exit": "Cerrar sesión web",
+  "index.identification.personal_phone_label": "Teléfono personal (opcional)",
+  "index.identification.phone_country_label": "País y prefijo",
+  "index.identification.phone_hint": "El prefijo sirve como referencia para el número de emergencias de tu tarjeta. Comprueba el país antes de imprimir.",
+  "index.identification.phone_warning": "Selecciona el país e introduce tu número nacional sin el prefijo internacional.",
+  "index.identification.phone_placeholder": "Número sin prefijo"
 }

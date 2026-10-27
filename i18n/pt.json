@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "Iniciar sessão",
   "privacy.trialHistory": "Para impedir o reinício dos 30 dias, conservamos a data original do teste e uma impressão do email protegida por uma chave, mesmo após encerrar a conta. Este registo não contém o email legível nem dados médicos e não permite recuperar o historial eliminado. Pode esclarecer este tratamento através do contacto de privacidade.",
   "trial_notice.web_manage": "Gira o plano na aplicação principal do seu telemóvel. Depois selecione Verificar novamente neste computador.",
-  "trial_notice.web_exit": "Fechar sessão web"
+  "trial_notice.web_exit": "Fechar sessão web",
+  "index.identification.personal_phone_label": "Telefone pessoal (opcional)",
+  "index.identification.phone_country_label": "País e indicativo",
+  "index.identification.phone_hint": "O indicativo ajuda a sugerir o número de emergência do cartão. Confirme o país antes de imprimir.",
+  "index.identification.phone_warning": "Selecione o país e introduza o número nacional sem o indicativo internacional.",
+  "index.identification.phone_placeholder": "Número sem indicativo"
 }

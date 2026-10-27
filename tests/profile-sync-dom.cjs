@@ -44,6 +44,11 @@ test('Two devices edit different fields and both updates survive automatically',
 test('The last save of the same field wins without a compare-or-choose dialog',async()=>{
  const s=server(),a=client(s),b=client(s);await a.load();await b.load();a.edit({med_doses:'first QA'});b.edit({med_doses:'last QA'});await a.save();assert.equal((await b.save()).success,true);assert.equal(s.profile.med_doses,'last QA');a.close();b.close();
 });
+test('A personal phone changes as one value: country, calling code and number never merge between devices',async()=>{
+ const s=server(),a=client(s),b=client(s);s.profile.personal_phone={country:'ES',prefix:'+34',number:'600000000'};await a.load();await b.load();
+ const first={country:'CA',prefix:'+1',number:'4165550100'},last={country:'GB',prefix:'+44',number:'7700900000'};a.edit({personal_phone:first});b.edit({personal_phone:last});await a.save();await b.save();assert.deepEqual(s.profile.personal_phone,last);
+ assert.deepEqual(s.requests.filter(r=>r.method==='POST').map(r=>Object.keys(r.body.changes)),[['personal_phone'],['personal_phone']]);assert.deepEqual(clone(b.w.MedicalOwner.read().personal_phone),last);a.close();b.close();
+});
 test('Saving an unchanged stale form adopts the latest data without sending stale fields',async()=>{
  const s=server(),a=client(s),b=client(s);await a.load();await b.load();a.edit({med_doses:'newest QA'});await a.save();const version=s.version;
  const result=await b.save();assert.equal(result.changed,false);assert.equal(s.version,version);assert.deepEqual(s.requests.at(-1).body.changes,{});assert.equal(b.view().med_doses,'newest QA');a.close();b.close();

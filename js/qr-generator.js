@@ -3,6 +3,7 @@
 // ============================================
 const BASE_FIELDS = [
   'nombre','apellidos','fecha_nacimiento','sangre','sexo_biologico',
+  'personal_phone',
   'ec1_name','ec1_phone_prefix','ec1_phone_num','ec1_rel',
   'ec2_name','ec2_phone_prefix','ec2_phone_num','ec2_rel',
   'doctor_name','doctor_phone_prefix','doctor_phone_num',

@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "登录",
   "privacy.trialHistory": "为防止30天试用被重新开始，我们会保留原始试用开始日期及受密钥保护的邮箱哈希值，账户关闭后也会保留。此记录不包含可读的邮箱地址或医疗数据，无法恢复已删除的病史。如对这项处理有疑问，请联系隐私负责人。",
   "trial_notice.web_manage": "请在手机主应用中管理套餐，然后在此电脑上选择重新验证。",
-  "trial_notice.web_exit": "关闭网页版会话"
+  "trial_notice.web_exit": "关闭网页版会话",
+  "index.identification.personal_phone_label": "个人电话（可选）",
+  "index.identification.phone_country_label": "国家及区号",
+  "index.identification.phone_hint": "电话区号用于建议卡片上的急救号码。打印前请确认国家。",
+  "index.identification.phone_warning": "请选择国家并输入不含国际区号的本地电话号码。",
+  "index.identification.phone_placeholder": "不含国际区号的号码"
 }

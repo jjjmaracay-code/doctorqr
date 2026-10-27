@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "Hasi saioa",
   "privacy.trialHistory": "30 eguneko proba berrabiaraztea saihesteko, jatorrizko hasiera-data eta gako batez babestutako posta elektronikoaren aztarna gordetzen ditugu, baita kontua itxi ondoren ere. Erregistro horrek ez du irakur daitekeen helbiderik edo datu medikorik, eta ezin du ezabatutako historia berreskuratu. Tratamendu honi buruz galdetzeko, erabili pribatutasun-kontaktua.",
   "trial_notice.web_manage": "Kudeatu plana mugikorreko aplikazio nagusian. Ondoren, sakatu Egiaztatu berriro ordenagailu honetan.",
-  "trial_notice.web_exit": "Itxi web-saioa"
+  "trial_notice.web_exit": "Itxi web-saioa",
+  "index.identification.personal_phone_label": "Telefono pertsonala (aukerakoa)",
+  "index.identification.phone_country_label": "Herrialdea eta aurrizkia",
+  "index.identification.phone_hint": "Aurrizkiak txarteleko larrialdi-zenbakia iradokitzen laguntzen du. Egiaztatu herrialdea inprimatu aurretik.",
+  "index.identification.phone_warning": "Hautatu herrialdea eta idatzi telefono-zenbakia nazioarteko aurrizkirik gabe.",
+  "index.identification.phone_placeholder": "Zenbakia aurrizkirik gabe"
 }

@@ -756,6 +756,7 @@ function renderHistorial(d, t, vis) {
   {
     let extra = '';
     extra += row(t.l_birthdate,window.AtabeyDates?.format(d.fecha_nacimiento,lang),false);
+    extra += row(({es:'Teléfono personal',en:'Personal phone',fr:'Téléphone personnel',de:'Persönliche Telefonnummer',pt:'Telefone pessoal',eu:'Telefono pertsonala',hi:'व्यक्तिगत फ़ोन',zh:'个人电话',ru:'Личный телефон',ja:'個人の電話番号',ar:'الهاتف الشخصي'})[lang]||'Personal phone',[d.personal_phone?.prefix,d.personal_phone?.number].filter(Boolean).join(' '),false);
     extra += row(t.l_biosex,d.sexo_biologico,false);
     extra += row(t.l_pregnancy, d.embarazo,          false);
     extra += row(t.l_weeks,     d.embarazo_semanas,  false);

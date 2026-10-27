@@ -628,6 +628,7 @@
         doc_type:              getActiveDocType(),
         doc_number:            getDocNumber(),
         passport_country:      v('passport-country'),
+        ...(window.AtabeyPersonalPhone ? AtabeyPersonalPhone.read() : {}),
         email:                 getEmailValue(),
         sexo_biologico:        getChip('sexo-biologico'),
         identidad_genero:      getChip('identidad-genero'),
@@ -781,6 +782,7 @@
     async function generate() {
       if (!formReady) { alert('Espera a que termine la carga del historial antes de guardar.'); return; }
       if (!MedicalOwner.current()) { alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a51070d5fc6fe224","La cuenta cambió. Vuelve a iniciar sesión.",[])); return; }
+      if (window.AtabeyPersonalPhone && !AtabeyPersonalPhone.validate()) { document.getElementById('sec-3').classList.add('open'); document.getElementById('f-personal-phone-num').reportValidity(); return; }
       const profilePrevio = buildProfileFromForm();
 
       if (profilePrevio.tutor_legal === 'Sí') {
@@ -893,6 +895,7 @@
       }
 
       const refreshVal = () => {
+        window.AtabeyPersonalPhone?.restore(saved);
         document.querySelectorAll('.phone-field').forEach(pf => validatePhoneField(pf));
         validateHealthCard();
       };

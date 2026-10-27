@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Teléfonos de emergencias por país. Directorio público de ATABEYAPP, sin acceso a historiales médicos.">
+  <title>Emergencias por país · ATABEYAPP</title>
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/css/emergency-directory.css?v=31">
+  <script src="/js/emergency-numbers.js?v=31" defer></script>
+  <script src="/js/emergency-directory.js?v=31" defer></script>
+</head>
+<body>
+  <header class="directory-header"><a class="wordmark" href="/">ATABEY<span>APP</span></a><span class="public-badge" id="public-label">Directorio público</span></header>
+  <main>
+    <section class="hero"><span class="emergency-mark" aria-hidden="true">✱</span><div><p class="eyebrow">EMERGENCY / SOS</p><h1 id="title">Emergencias por país</h1><p id="intro">Selecciona el país donde ocurre la emergencia.</p></div></section>
+    <section class="search-panel" aria-label="Buscar país">
+      <div class="search-field"><label for="country-search" id="search-label">Buscar país o territorio</label><input type="search" id="country-search" autocomplete="off" spellcheck="false" placeholder="España, United States, 日本…"></div>
+      <div class="language-field"><label for="directory-language" id="language-label">Idioma</label><select id="directory-language"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="pt">Português</option><option value="eu">Euskara</option><option value="hi">हिन्दी</option><option value="zh">中文</option><option value="ru">Русский</option><option value="ja">日本語</option><option value="ar">العربية</option></select></div>
+      <p class="search-note" id="country-note">El número depende del país donde estás, no del prefijo de tu teléfono.</p>
+    </section>
+    <p class="connection" id="connection" role="status"></p>
+    <div class="directory-layout">
+      <section class="country-list-panel" aria-labelledby="list-title"><div class="list-heading"><h2 id="list-title">Países y territorios</h2><span id="result-count" role="status" aria-live="polite"></span></div><div id="country-list" class="country-list"></div></section>
+      <section class="country-detail" id="country-detail" aria-labelledby="country-title" tabindex="-1"><p class="eyebrow">LOCAL EMERGENCY</p><h2 id="country-title">Selecciona un país</h2><p id="country-description">Consulta el teléfono local antes de llamar.</p><div id="source-notes" class="source-notes"></div><div id="service-numbers" class="service-numbers"></div><div id="source-details" class="source-details"></div></section>
+    </div>
+    <aside class="directory-guidance"><strong id="guidance-title">Una ayuda para encontrar el número local</strong><p id="guidance-text">Escanear este QR no llama a emergencias. Pulsa el servicio que necesitas y confirma la llamada en tu teléfono.</p><p id="privacy-text">Este directorio no solicita tu identidad ni consulta información médica.</p></aside>
+  </main>
+  <footer><span>ATABEYAPP · EMERGENCY</span><a href="https://www.gov.uk/foreign-travel-advice" rel="noopener noreferrer" target="_blank">FCDO / GOV.UK</a><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="noopener noreferrer" target="_blank">Open Government Licence v3.0</a></footer>
+  <noscript><p class="noscript">Activa JavaScript para buscar los números. Puedes consultar la fuente oficial en <a href="https://www.gov.uk/foreign-travel-advice">GOV.UK</a>. En toda la Unión Europea puedes marcar 112; en Estados Unidos, 911.</p></noscript>
+</body>
+</html>

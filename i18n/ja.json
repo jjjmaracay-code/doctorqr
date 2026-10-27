@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "ログイン",
   "privacy.trialHistory": "30日間の無料体験が再開されることを防ぐため、アカウントを閉鎖した後も、最初の開始日と鍵で保護されたメールアドレスのハッシュ値を保持します。この記録には読める形のメールアドレスや医療情報は含まれず、削除済みの病歴を復元することはできません。この処理についてはプライバシー窓口にお問い合わせください。",
   "trial_notice.web_manage": "スマートフォンのメインアプリでプランを管理してください。その後、このパソコンでもう一度確認を選択します。",
-  "trial_notice.web_exit": "ウェブセッションを終了"
+  "trial_notice.web_exit": "ウェブセッションを終了",
+  "index.identification.personal_phone_label": "個人の電話番号（任意）",
+  "index.identification.phone_country_label": "国と国番号",
+  "index.identification.phone_hint": "国番号を参考にカードの緊急通報番号を提案します。印刷前に国を確認してください。",
+  "index.identification.phone_warning": "国を選び、国番号を除いた国内の電話番号を入力してください。",
+  "index.identification.phone_placeholder": "国番号を除いた電話番号"
 }

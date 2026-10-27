@@ -1645,5 +1645,10 @@
   "trial_notice.signin": "Anmelden",
   "privacy.trialHistory": "Damit die 30-tägige Testphase nicht erneut beginnt, speichern wir ihr ursprüngliches Startdatum und einen mit einem Schlüssel geschützten Hash der E-Mail-Adresse, auch nach der Kontoschließung. Dieser Datensatz enthält weder die lesbare E-Mail-Adresse noch medizinische Daten und kann gelöschte Krankengeschichten nicht wiederherstellen. Fragen zu dieser Verarbeitung können Sie an den Datenschutzkontakt richten.",
   "trial_notice.web_manage": "Verwalten Sie den Tarif in der Haupt-App auf Ihrem Mobiltelefon. Wählen Sie anschließend auf diesem Computer Erneut prüfen.",
-  "trial_notice.web_exit": "Web-Sitzung beenden"
+  "trial_notice.web_exit": "Web-Sitzung beenden",
+  "index.identification.personal_phone_label": "Persönliche Telefonnummer (optional)",
+  "index.identification.phone_country_label": "Land und Vorwahl",
+  "index.identification.phone_hint": "Die Vorwahl dient als Hinweis für die Notrufnummer auf Ihrer Karte. Prüfen Sie das Land vor dem Drucken.",
+  "index.identification.phone_warning": "Wählen Sie das Land und geben Sie die nationale Nummer ohne internationale Vorwahl ein.",
+  "index.identification.phone_placeholder": "Nummer ohne Ländervorwahl"
 }

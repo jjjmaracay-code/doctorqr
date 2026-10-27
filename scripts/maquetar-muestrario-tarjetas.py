@@ -86,12 +86,12 @@ for m in months:
  p.setFillColor(HexColor('#edf2f8'));p.roundRect(15.4*mm,61*mm,179.2*mm,50*mm,3*mm,fill=1,stroke=0)
  p.setFillColor(HexColor(navy));p.setFont('DejaVu-Bold',10);p.drawString(21*mm,101*mm,'Recortar una pieza, doblar y dejar las caras impresas por fuera')
  p.setFont('DejaVu',8.2)
- lines=['1. Corta solo el contorno exterior. NO cortes la línea central.', '2. Dobla el reverso detrás del anverso, con las caras impresas hacia fuera.', '3. Si quieres fijarlas, pega las caras blancas entre sí. Comprueba ambos QR.', 'Pieza abierta: 171,2 x 60 mm. Doblada: 85,6 x 60 mm. Cada QR: 49 x 49 mm.']
+ lines=['1. Corta solo el contorno exterior. NO cortes la línea central.', '2. Dobla el reverso detrás del anverso, con las caras impresas hacia fuera.', '3. Si quieres fijarlas, pega las caras blancas entre sí. Comprueba los tres QR.', 'Pieza abierta: 171,2 x 60 mm. Doblada: 85,6 x 60 mm. QR principales: 49 x 49 mm. QR rojo: 16 x 16 mm.']
  for i,line in enumerate(lines):p.drawString(21*mm,(92-i*6)*mm,line)
  for k,color in enumerate(colors):p.setFillColor(HexColor(color));p.rect((15.4+k*12/len(colors))*mm,43*mm,12/len(colors)*mm,8*mm,fill=1,stroke=0)
  p.setFillColor(HexColor(muted));p.setFont('DejaVu',8);p.drawString(31*mm,46*mm,'Colores de la bandera arcoíris LGTBIQ+' if m.get('pride') else 'Color de la edición: '+m['color'].upper())
  p.setFont('DejaVu',7.2);p.drawString(15.4*mm,34*mm,'Temáticas configuradas en ATABEYAPP. No es un calendario oficial de efemérides.')
- p.drawString(15.4*mm,28*mm,'El pictograma médico permanece rojo. El QR azul abre la aplicación; el oscuro, el historial.')
+ p.drawString(15.4*mm,28*mm,'QR: oscuro, historial; azul, aplicación; rojo, emergencias por país. Pictograma siempre rojo.')
  p.setFillColor(HexColor(blue));p.drawString(15.4*mm,21*mm,'Consultar la configuración de origen en GitHub');p.linkURL(data['source_palette'],(15.4*mm,19.5*mm,125*mm,24*mm),relative=0,thickness=0)
  p.setFillColor(HexColor(muted));p.drawRightString(194.6*mm,21*mm,f"{m['month']:02d} / 12");p.bookmarkPage(m['name']);p.addOutlineEntry(m['name'].capitalize(),m['name']);p.showPage()
 p.save()
@@ -100,7 +100,7 @@ readme='''ATABEYAPP - 12 PLANTILLAS PLEGABLES / 24 CARAS
 Cada PNG incluye anverso y reverso unidos: son 12 archivos de una sola pieza, uno por mes.
 CORTA SOLO EL CONTORNO EXTERIOR. La línea central indica DOBLAR, NO CORTAR.
 Dobla el reverso por detrás del anverso, con las caras impresas hacia fuera. Puedes pegar las caras blancas entre sí.
-Comprueba ambos QR antes de plastificar. Para imprimir con medidas exactas, usa el PDF al 100 % y comprueba la línea de 50 mm.
+Comprueba los tres QR antes de plastificar. Para imprimir con medidas exactas, usa el PDF al 100 % y comprueba la línea de 50 mm.
 
 DATOS FICTICIOS: estas muestras no son tarjetas médicas válidas. Para tu tarjeta real, genera el PDF desde tu cuenta.
 Junio lleva el arcoíris LGTBIQ+. Los demás meses conservan la selección de la aplicación; no es un calendario oficial.
