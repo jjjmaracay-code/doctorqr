@@ -20,7 +20,7 @@ Son objetivos de diseño y artes de impresión. La plantilla y la fotografía no
 
 La preparación solicita `/api/profile/emergency-link` con la sesión, el ID y la revisión publicada de la cuenta actual. Se verifica la respuesta antes de guardar una única referencia local ligada al propietario y a esa revisión. La caché se purga con los demás datos de esa cuenta.
 
-El lector de `/e/<referencia>` consulta al mismo backend y conserva sus verificaciones de identidad, cifrado y acceso. No lee el historial del usuario que está escaneando. Rechaza identificadores contradictorios, referencias cambiadas durante la carga y respuestas con otra referencia. Los enlaces largos y QR ya impresos siguen funcionando.
+El lector de `/e/<referencia>` consulta al mismo backend y conserva sus verificaciones de identidad, cifrado y acceso. La reescritura de Cloudflare apunta a `/card`, sin extensión, para conservar la ruta corta al servir el HTML. No lee el historial del usuario que está escaneando. Rechaza identificadores contradictorios, referencias cambiadas durante la carga y respuestas con otra referencia. Los enlaces largos y QR ya impresos siguen funcionando.
 
 Si no puede prepararse o recuperarse un QR compacto previamente verificado, se desactiva la exportación compacta. No se reduce silenciosamente un QR denso a 22 mm. La tarjeta grande y la etiqueta con QR cuadrado grande siguen disponibles. Un QR compacto preparado para la revisión actual se puede volver a componer sin conexión; consultar el historial remoto sigue necesitando conexión.
 
