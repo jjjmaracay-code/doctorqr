@@ -19,7 +19,8 @@
 // v36: incluye el módulo de fondos de pantalla con QR (los vídeos se guardan al usarse).
 // v37: wallpaper studio and end-of-form tools, including offline styles.
 // v38: local iPhone video preparation, fixed medical QR and depth animation.
-const CACHE_NAME = 'doctorqr-v38';
+// v39: deliberate form editing; controls start disabled in HTML.
+const CACHE_NAME = 'doctorqr-v39';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -56,6 +57,8 @@ const CACHE_URLS = [
   './css/qr-wallpaper-iphone.css?v=38',
   './vendor/mp4-muxer/mp4-muxer-5.2.2.js',
   './css/medical-tools.css?v=37',
+  './js/form-edit-lock.js?v=39',
+  './css/form-edit-lock.css?v=39',
   './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
   './js/emergency-accessories.js?v=33',
@@ -65,7 +68,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=38',
+  './js/register-sw.js?v=39',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

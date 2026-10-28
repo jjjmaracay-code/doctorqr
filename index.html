@@ -24,7 +24,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=38"></script>
+  <script src="/js/register-sw.js?v=39"></script>
   <script src="i18n/loader.js?v=14"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -185,8 +185,25 @@
 <link rel="stylesheet" href="/css/qr-wallpaper-iphone.css?v=38"/>
 <link rel="stylesheet" href="/css/medical-tools.css?v=37"/>
 <script src="/js/trial-access.js?v=23"></script>
+<link rel="stylesheet" href="/css/form-edit-lock.css?v=39"/>
+<script src="/js/form-edit-lock.js?v=39" defer></script>
+<script id="form-edit-lock-guard">
+// The read-only state also protects custom controls if the floating control fails to load.
+(function(){
+  function protect(event){
+    if(!(event.target instanceof Element))return;
+    const root=event.target.closest('fieldset[data-form-edit-root][disabled]');
+    if(!root)return;
+    const surface=root.closest('[data-form-edit-surface]');
+    if(surface&&event.target.closest(surface.dataset.formEditPass||'[data-form-edit-pass]'))return;
+    event.preventDefault();event.stopImmediatePropagation();
+  }
+  for(const name of ['click','beforeinput','submit'])window.addEventListener(name,protect,true);
+  window.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' ')protect(event);},true);
+})();
+</script>
 </head>
-<body data-medical-surface data-atabey-ui="editor">
+<body data-medical-surface data-atabey-ui="editor" data-form-edit-surface="medical" data-form-edit-product="atabey" data-form-edit-pass=".section-header">
 
   <button class="btn-menu-hamburguesa" id="btn-open-menu" aria-label="Menú" data-i18n-aria="index.menu.open_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   <div class="menu-dropdown" id="menu-dropdown">
@@ -557,7 +574,8 @@
   <div class="form-tabs-labels" id="form-tabs-labels"></div>
 
   <!-- FORMULARIO -->
-  <div id="form">
+  <aside class="fel-banner" data-form-edit-fallback>Solo lectura. Usa el candado azul para editar. Si no aparece, recarga la aplicación.</aside>
+  <fieldset id="form" data-form-edit-root disabled>
 
     <!-- SECCIÓN 01 — IDIOMAS Y COMUNICACIÓN -->
     <div class="form-section" id="sec-1">
@@ -2107,9 +2125,9 @@
       </div>
     </div>
 
-  </div>
+  </fieldset>
 
-  <button class="btn-generate" onclick="generate()" data-i18n="index.qr.generate_button">Guardar y actualizar mis QR</button>
+  <fieldset class="fel-action-root" data-form-edit-root disabled><button class="btn-generate" onclick="generate()" data-i18n="index.qr.generate_button">Guardar y actualizar mis QR</button></fieldset>
 <section id="profile-sync-panel" role="status" aria-live="polite" hidden style="max-width:960px;margin:16px auto;padding:18px;border:1px solid #66baff;border-radius:16px;background:#122539;color:#e6f4ff">
   <p id="profile-sync-message"></p>
   <div id="profile-sync-choices" hidden>

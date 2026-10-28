@@ -175,13 +175,14 @@
     let hasUnsavedChanges = false;
     let loadedProfile = null;
     let formReady = false;
-    document.addEventListener('input',  () => { hasUnsavedChanges = true; });
-    document.addEventListener('change', () => { hasUnsavedChanges = true; });
+    const isMedicalEdit = event => event.target instanceof Element && !!event.target.closest('#form') && !document.getElementById('form').disabled && !event.target.matches('.chips-search');
+    document.addEventListener('input',  event => { if (isMedicalEdit(event)) hasUnsavedChanges = true; });
+    document.addEventListener('change', event => { if (isMedicalEdit(event)) hasUnsavedChanges = true; });
 
     // ===== CHIPS =====
     function bindMedicalChip(chip) {
       chip.addEventListener('click', () => {
-        if (chip.closest('[inert],.chips-disabled')) return;
+        if (chip.closest('[inert],.chips-disabled,fieldset[data-form-edit-root][disabled]')) return;
         hasUnsavedChanges = true;
         const group = chip.closest('[data-group]');
         const isSingle = group && group.dataset.single === 'true';
@@ -850,7 +851,8 @@
     const preserveDraft = () => {
       if (formReady && hasUnsavedChanges && MedicalOwner.current()) ProfileSync.saveDraft(buildProfileFromForm());
     };
-    for (const event of ['input','change']) document.addEventListener(event, () => {
+    for (const event of ['input','change']) document.addEventListener(event, eventObject => {
+      if (!isMedicalEdit(eventObject)) return;
       clearTimeout(draftTimer); draftTimer = setTimeout(preserveDraft,250);
     });
     window.addEventListener('doctorqr:preserve-draft', preserveDraft);
