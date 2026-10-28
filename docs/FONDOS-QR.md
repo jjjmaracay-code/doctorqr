@@ -25,7 +25,7 @@ Archivos nuevos: `js/qr-wallpaper.js`, `css/qr-wallpaper.css`, `js/qr-wallpaper-
 
 Cambios en archivos existentes:
 - `index.html`: una hoja de estilos y un script, añadidos tras los existentes.
-- `sw.js`: caché `doctorqr-v36` con el módulo, su hoja y el catálogo. Los vídeos no se precargan. Sin conexión, el fondo cae al póster.
+- `sw.js`: caché actual `doctorqr-v37` con el módulo, su hoja y el catálogo. Los vídeos no se precargan. Sin conexión, el fondo cae al póster.
 - `_headers`: `media-src 'self' blob:` en la CSP general, necesario para previsualizar el vídeo propio del usuario sin subirlo.
 
 **No se modifican** `js/qr-generator.js`, `card.html`, `buildEmergencyQRUrl()`, `VISIBLE_SECTIONS`, `handleEmergencyQuickAccess()`, el formulario, la sesión, la autenticación, el backend ni la base de datos. El módulo solo llama a funciones existentes en modo lectura.
@@ -60,3 +60,18 @@ Son pruebas de navegador automatizadas. No sustituyen comprobar en un iPhone y u
 ```sh
 node tests/qr-wallpaper-browser.cjs
 ```
+
+
+## Refresco visual — 28 de octubre de 2026
+
+- Editor en dos columnas en ordenador: vista previa fija al lado de los ajustes. En móvil pasa a una columna, con vista previa compacta y acceso al modo de pantalla completa.
+- Ajustes organizados en tres grupos: fondo, QR y exportación. Se conservan los 24 fondos, los archivos propios y todas las opciones existentes.
+- Botones con relieve, desplazamiento de 4 px y halo al pulsarlos. Los controles desactivados no muestran ese efecto. Se respeta la preferencia de movimiento reducido.
+- Miniaturas con selección visible y flechas para recorrer la galería; deslizadores con su valor actual. Al reabrir, los controles reflejan los ajustes que conserva el editor.
+- Nuevos rótulos en los once idiomas existentes. Foco de teclado contenido en el editor y restaurado al cerrar; el contenido de detrás queda inactivo mientras está abierto.
+- Final de la planilla separado en tres paneles: QR y creación de tarjetas/fondos, ubicación y alertas oficiales. Colores rojo/azul, verde agua y violeta. Hoja de estilos independiente `css/medical-tools.css?v=37`, incluida sin conexión.
+- Corregido el ancho mínimo del buscador para que los botones de navegación quepan a 320 px.
+
+La composición de los archivos, la matriz y las URL de los QR, la validación de lectura, los codificadores PNG/MP4, los campos médicos y los manejadores de guardado, ubicación y cuenta son idénticos a la versión anterior. No hay cambios de backend, datos, secretos, planes ni dependencias.
+
+Validación con cuentas ficticias y servidor local: exportación PNG y MP4 H.264 con lectura del QR; pantalla completa; aviso de desactualización; móvil y ordenador; galería y ajustes; relieve y halo al pulsar; teclado y árabe RTL; ubicación simulada; actualización de una instalación antigua; guardado y lectura desde otro perfil; los once idiomas y uso sin conexión. Las pruebas de navegador no sustituyen comprobar la instalación del fondo en móviles reales.

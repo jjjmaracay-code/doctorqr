@@ -44,6 +44,43 @@
     return text.replace(/\{(\d+)\}/g, (m, n) => (values && n in values ? String(values[n]) : m));
   }
 
+  // Presentation labels; the medical QR and export text keep their original translations.
+  const DESIGN_KEYS = ['intro','preview','background','appearance','export','previous','next','preview_hint','custom_color'];
+  const DESIGN_WORDS = {
+    es: ['Tu QR, a tu estilo. Elige un fondo, ajusta el diseño y crea tu archivo.','Vista previa','Elige tu fondo','Personaliza tu QR','Guarda y úsalo','Fondos anteriores','Fondos siguientes','El reloj y las notificaciones dependen de tu móvil.','Elegir otro color'],
+    en: ['Your QR, your style. Choose a background, adjust the design and create your file.','Preview','Choose your background','Personalise your QR','Save and use','Previous backgrounds','Next backgrounds','The clock and notifications depend on your phone.','Choose another colour'],
+    fr: ['Votre QR, votre style. Choisissez un fond, ajustez le design et créez votre fichier.','Aperçu','Choisissez votre fond','Personnalisez votre QR','Enregistrez et utilisez','Fonds précédents','Fonds suivants','L’horloge et les notifications dépendent de votre téléphone.','Choisir une autre couleur'],
+    pt: ['O seu QR, o seu estilo. Escolha um fundo, ajuste o design e crie o ficheiro.','Pré-visualização','Escolha o seu fundo','Personalize o seu QR','Guarde e utilize','Fundos anteriores','Fundos seguintes','O relógio e as notificações dependem do seu telemóvel.','Escolher outra cor'],
+    de: ['Ihr QR, Ihr Stil. Hintergrund wählen, Design anpassen und Datei erstellen.','Vorschau','Hintergrund wählen','QR gestalten','Speichern und verwenden','Vorherige Hintergründe','Nächste Hintergründe','Uhr und Benachrichtigungen hängen von Ihrem Handy ab.','Andere Farbe wählen'],
+    eu: ['Zure QRa, zure estiloa. Aukeratu atzealdea, doitu diseinua eta sortu fitxategia.','Aurrebista','Aukeratu atzealdea','Pertsonalizatu QRa','Gorde eta erabili','Aurreko atzealdeak','Hurrengo atzealdeak','Erlojua eta jakinarazpenak zure mugikorraren araberakoak dira.','Aukeratu beste kolore bat'],
+    hi: ['आपका QR, आपकी शैली। पृष्ठभूमि चुनें, डिज़ाइन बदलें और फ़ाइल बनाएँ।','पूर्वावलोकन','पृष्ठभूमि चुनें','अपना QR सजाएँ','सहेजें और उपयोग करें','पिछली पृष्ठभूमियाँ','अगली पृष्ठभूमियाँ','घड़ी और सूचनाएँ आपके फ़ोन पर निर्भर करती हैं।','दूसरा रंग चुनें'],
+    zh: ['您的二维码，您的风格。选择背景、调整设计并生成文件。','预览','选择背景','个性化二维码','保存并使用','上一组背景','下一组背景','时钟和通知的显示取决于您的手机。','选择其他颜色'],
+    ru: ['Ваш QR, ваш стиль. Выберите фон, настройте дизайн и создайте файл.','Предпросмотр','Выберите фон','Настройте QR','Сохраните и используйте','Предыдущие фоны','Следующие фоны','Часы и уведомления зависят от вашего телефона.','Выбрать другой цвет'],
+    ja: ['あなたの QR を、あなたらしく。背景とデザインを選んでファイルを作成。','プレビュー','背景を選ぶ','QR をカスタマイズ','保存して使う','前の背景','次の背景','時計や通知の表示は端末によって異なります。','別の色を選ぶ'],
+    ar: ['رمزك بأسلوبك. اختر خلفية وعدّل التصميم وأنشئ ملفك.','معاينة','اختر خلفيتك','خصّص رمز QR','احفظ واستخدم','الخلفيات السابقة','الخلفيات التالية','تعتمد الساعة والإشعارات على هاتفك.','اختر لونًا آخر']
+  };
+  function designText(key) { return (DESIGN_WORDS[lang()] || DESIGN_WORDS.es)[DESIGN_KEYS.indexOf(key)]; }
+  function icon(name) {
+    const paths = {
+      close: '<path d="m6 6 12 12M18 6 6 18"/>',
+      expand: '<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/>',
+      image: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/>',
+      video: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m10 8 6 4-6 4Z"/>',
+      upload: '<path d="M12 16V3m-5 5 5-5 5 5M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/>',
+      left: '<path d="m15 6-6 6 6 6"/>', right: '<path d="m9 6 6 6-6 6"/>',
+      qr: '<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3v3h-6v-3m-3-6h9M12 3v6M3 12h6"/>'
+    };
+    const span = el('span', { class: 'qrw-icon', 'aria-hidden': 'true' });
+    // Only constant SVG paths from the map above, never patient data or uploaded content.
+    span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + paths[name] + '</svg>';
+    return span;
+  }
+  function decorateAction(button, name) {
+    const text = button.textContent;
+    button.replaceChildren(icon(name), ...(text ? [el('span', { text })] : []));
+    return button;
+  }
+
   // ---------- Utilidades ----------
   const scripts = {};
   function loadScript(src, integrity) {
@@ -694,8 +731,24 @@
   // ---------- Interfaz ----------
   function range(id, label, min, max, step, value, onInput) {
     const input = el('input', { type: 'range', id, min, max, step, value: String(value) });
-    input.addEventListener('input', () => onInput(parseFloat(input.value)));
-    return el('label', { class: 'qrw-field' }, [el('span', { text: label }), input]);
+    const output = el('output', { for: id });
+    const update = () => {
+      const n = parseFloat(input.value);
+      input.style.setProperty('--range-fill', ((n - min) / (max - min) * 100) + '%');
+      output.textContent = id === 'qrw-zoom' ? n.toFixed(2) + '×' : Math.round(n * 100) + '%';
+    };
+    input.addEventListener('input', () => { update(); onInput(parseFloat(input.value)); });
+    update();
+    return el('label', { class: 'qrw-field qrw-range' }, [el('span', { class: 'qrw-range-heading' }, [el('span', { text: label }), output]), input]);
+  }
+  function designSection(number, title, children, tone) {
+    return el('section', { class: 'qrw-section qrw-section-' + tone, 'aria-labelledby': 'qrw-step-' + number }, [
+      el('div', { class: 'qrw-section-heading' }, [el('span', { class: 'qrw-step', text: number, 'aria-hidden': 'true' }), el('h2', { id: 'qrw-step-' + number, text: title })]),
+      ...children
+    ]);
+  }
+  function selectField(id, label, select) {
+    return el('div', { class: 'qrw-field' }, [el('label', { class: 'qrw-label', for: id, text: label }), select]);
   }
   async function open() {
     if (root) return;
@@ -704,8 +757,10 @@
     state.type = types[0];
     state.opts.text = tr('text_default');
     root = el('div', { id: 'qrw-overlay', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'qrw-title' });
-    const header = el('div', { class: 'qrw-header' }, [el('div', { id: 'qrw-title', class: 'qrw-title', text: tr('title') })]);
-    const closeBtn = el('button', { type: 'button', class: 'qrw-close', text: tr('close') });
+    const header = el('div', { class: 'qrw-header' }, [
+      el('div', { class: 'qrw-brand' }, [icon('qr'), el('div', {}, [el('span', { class: 'qrw-eyebrow', text: 'ATABEYAPP' }), el('h1', { id: 'qrw-title', class: 'qrw-title', text: tr('title') })])])
+    ]);
+    const closeBtn = decorateAction(el('button', { type: 'button', class: 'qrw-close', text: tr('close') }), 'close');
     header.appendChild(closeBtn);
 
     const H = outputHeight();
@@ -731,9 +786,15 @@
       btn.addEventListener('click', () => selectBackground(f));
       gallery.appendChild(btn);
     });
-    const file = el('input', { type: 'file', accept: 'image/*,video/*', id: 'qrw-file', class: 'qrw-file' });
+    const file = el('input', { type: 'file', accept: 'image/*,video/*', id: 'qrw-file', class: 'qrw-file', tabindex: '-1' });
     file.addEventListener('change', () => selectCustom(file.files && file.files[0]));
-    const customLabel = el('label', { for: 'qrw-file', class: 'qrw-secondary', text: tr('custom') });
+    const customLabel = decorateAction(el('button', { type: 'button', class: 'qrw-secondary qrw-upload', text: tr('custom') }), 'upload');
+    customLabel.addEventListener('click', () => file.click());
+    const galleryPrevious = decorateAction(el('button', { type: 'button', class: 'qrw-gallery-arrow', 'aria-label': designText('previous') }), 'left');
+    const galleryNext = decorateAction(el('button', { type: 'button', class: 'qrw-gallery-arrow', 'aria-label': designText('next') }), 'right');
+    const galleryScroll = direction => gallery.scrollBy({ left: direction * (document.documentElement.dir === 'rtl' ? -1 : 1) * gallery.clientWidth * .8, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    galleryPrevious.addEventListener('click', () => galleryScroll(-1));
+    galleryNext.addEventListener('click', () => galleryScroll(1));
 
     const swatches = el('div', { class: 'qrw-swatches', role: 'group', 'aria-label': tr('base_label') });
     SWATCHES.forEach(c => {
@@ -742,7 +803,7 @@
       s.addEventListener('click', () => { state.opts.base = c; swatches.querySelectorAll('.qrw-swatch').forEach(x => x.setAttribute('aria-pressed', String(x === s))); });
       swatches.appendChild(s);
     });
-    const color = el('input', { type: 'color', value: state.opts.base, 'aria-label': tr('base_label') });
+    const color = el('input', { type: 'color', value: state.opts.base, 'aria-label': designText('custom_color'), title: designText('custom_color') });
     color.addEventListener('input', () => { if (/^#[0-9a-f]{6}$/i.test(color.value)) { state.opts.base = color.value; swatches.querySelectorAll('.qrw-swatch').forEach(x => x.setAttribute('aria-pressed', 'false')); } });
     swatches.appendChild(color);
 
@@ -751,6 +812,7 @@
     const styleSelect = el('select', { id: 'qrw-qrstyle' });
     styleSelect.appendChild(el('option', { value: 'liquid', text: tr('qr_liquid') }));
     styleSelect.appendChild(el('option', { value: 'classic', text: tr('qr_classic') }));
+    styleSelect.value = state.opts.qrStyle;
     styleSelect.addEventListener('change', async () => {
       state.opts.qrStyle = styleSelect.value === 'classic' ? 'classic' : 'liquid';
       try { await buildQRImage(); setStatus(''); } catch (_) { setStatus(tr('error_qr'), 'error'); }
@@ -758,15 +820,17 @@
     const colorSelect = el('select', { id: 'qrw-qrcolor' });
     Object.keys(PALETTES).forEach(k => colorSelect.appendChild(el('option', { value: k, text: tr('pal_' + k) })));
     colorSelect.appendChild(el('option', { value: 'original', text: tr('qr_original') }));
+    colorSelect.value = state.opts.palette;
     colorSelect.addEventListener('change', () => { state.opts.palette = PALETTES[colorSelect.value] ? colorSelect.value : 'original'; });
     const nameCheck = el('input', { type: 'checkbox', id: 'qrw-name' });
+    nameCheck.checked = state.showName;
     nameCheck.addEventListener('change', () => { state.showName = nameCheck.checked; });
 
     statusEl = el('div', { class: 'qrw-status', role: 'status', 'aria-live': 'polite' });
     resultBox = el('div', { class: 'qrw-result' });
-    const fullBtn = el('button', { type: 'button', class: 'qrw-primary', text: tr('fullscreen') });
-    const pngBtn = el('button', { type: 'button', class: 'qrw-secondary', text: tr('png') });
-    const mp4Btn = el('button', { type: 'button', class: 'qrw-secondary', id: 'qrw-mp4', text: tr('mp4') });
+    const fullBtn = decorateAction(el('button', { type: 'button', class: 'qrw-primary qrw-preview-action', text: tr('fullscreen') }), 'expand');
+    const pngBtn = decorateAction(el('button', { type: 'button', class: 'qrw-primary qrw-export-png', text: tr('png') }), 'image');
+    const mp4Btn = decorateAction(el('button', { type: 'button', class: 'qrw-secondary qrw-export-mp4', id: 'qrw-mp4', text: tr('mp4') }), 'video');
     fullBtn.addEventListener('click', openFullscreen);
     pngBtn.addEventListener('click', exportPNG);
     mp4Btn.addEventListener('click', exportMP4);
@@ -777,37 +841,62 @@
     ]);
 
     const controls = el('div', { class: 'qrw-controls' }, [
-      el('label', { class: 'qrw-field', for: 'qrw-type' }, [el('span', { text: tr('qr_label') })]), typeSelect,
-      el('div', { class: 'qrw-label', text: tr('bg_label') }), gallery,
-      customLabel, file, el('p', { class: 'qrw-hint', text: tr('custom_hint') }),
-      range('qrw-zoom', tr('zoom'), 1, 2.5, 0.01, 1, v => { state.opts.zoom = v; }),
-      range('qrw-panx', tr('posx'), -1, 1, 0.01, 0, v => { state.opts.panX = v; }),
-      range('qrw-pany', tr('posy'), -1, 1, 0.01, 0, v => { state.opts.panY = v; }),
-      el('div', { class: 'qrw-label', text: tr('base_label') }), swatches,
-      range('qrw-opacity', tr('opacity'), 0.1, 0.9, 0.01, state.opts.opacity, v => { state.opts.opacity = v; }),
-      el('label', { class: 'qrw-field', for: 'qrw-qrstyle' }, [el('span', { text: tr('qr_style') })]), styleSelect,
-      el('label', { class: 'qrw-field', for: 'qrw-qrcolor' }, [el('span', { text: tr('qr_color') })]), colorSelect,
-      range('qrw-plate', tr('qr_plate'), 0, 0.35, 0.01, 1 - state.opts.qrPlate, v => { state.opts.qrPlate = 1 - v; }),
-      range('qrw-qry', tr('qr_pos'), 0.36, 0.6, 0.005, state.opts.qrY, v => { state.opts.qrY = v; }),
-      el('label', { class: 'qrw-field', for: 'qrw-text' }, [el('span', { text: tr('text_label') })]), textInput,
-      el('label', { class: 'qrw-check', for: 'qrw-name' }, [nameCheck, el('span', { text: tr('show_name') })]),
-      el('p', { class: 'qrw-hint', text: tr('name_warning') }),
-      el('p', { class: 'qrw-hint', text: tr('privacy_note') }),
-      fullBtn, pngBtn, mp4Btn, statusEl, resultBox, how
+      el('p', { class: 'qrw-intro', text: designText('intro') }),
+      designSection('01', designText('background'), [
+        el('div', { class: 'qrw-gallery-heading' }, [el('span', { class: 'qrw-label', text: tr('bg_label') }), el('div', { class: 'qrw-gallery-nav' }, [el('span', { class: 'qrw-count', text: String(catalog.length) }), galleryPrevious, galleryNext])]),
+        gallery, customLabel, file, el('p', { class: 'qrw-hint', text: tr('custom_hint') }),
+        el('div', { class: 'qrw-adjustments' }, [
+          range('qrw-zoom', tr('zoom'), 1, 2.5, 0.01, state.opts.zoom, v => { state.opts.zoom = v; }),
+          range('qrw-panx', tr('posx'), -1, 1, 0.01, state.opts.panX, v => { state.opts.panX = v; }),
+          range('qrw-pany', tr('posy'), -1, 1, 0.01, state.opts.panY, v => { state.opts.panY = v; })
+        ])
+      ], 'blue'),
+      designSection('02', designText('appearance'), [
+        selectField('qrw-type', tr('qr_label'), typeSelect),
+        el('div', { class: 'qrw-selects' }, [selectField('qrw-qrstyle', tr('qr_style'), styleSelect), selectField('qrw-qrcolor', tr('qr_color'), colorSelect)]),
+        el('div', { class: 'qrw-field' }, [el('span', { class: 'qrw-label', text: tr('base_label') }), swatches]),
+        el('div', { class: 'qrw-adjustments' }, [
+          range('qrw-opacity', tr('opacity'), 0.1, 0.9, 0.01, state.opts.opacity, v => { state.opts.opacity = v; }),
+          range('qrw-plate', tr('qr_plate'), 0, 0.35, 0.01, 1 - state.opts.qrPlate, v => { state.opts.qrPlate = 1 - v; }),
+          range('qrw-qry', tr('qr_pos'), 0.36, 0.6, 0.005, state.opts.qrY, v => { state.opts.qrY = v; })
+        ]),
+        el('div', { class: 'qrw-field' }, [el('label', { class: 'qrw-label', for: 'qrw-text', text: tr('text_label') }), textInput]),
+        el('div', { class: 'qrw-identity' }, [el('label', { class: 'qrw-check', for: 'qrw-name' }, [nameCheck, el('span', { text: tr('show_name') })]), el('p', { class: 'qrw-hint', text: tr('name_warning') })])
+      ], 'violet'),
+      designSection('03', designText('export'), [
+        el('p', { class: 'qrw-privacy', text: tr('privacy_note') }),
+        el('div', { class: 'qrw-export-actions' }, [pngBtn, mp4Btn]), statusEl, resultBox, how
+      ], 'mint')
     ]);
-    const body = el('div', { class: 'qrw-body' }, [el('div', { class: 'qrw-stage' }, [video, preview]), controls]);
+    const stage = el('div', { class: 'qrw-stage' }, [video, preview]);
+    const previewPanel = el('aside', { class: 'qrw-preview-panel', 'aria-label': designText('preview') }, [
+      el('div', { class: 'qrw-preview-heading' }, [el('span', { text: designText('preview') }), el('span', { class: 'qrw-resolution', text: OUT_W + ' × ' + H })]),
+      stage, fullBtn, el('p', { class: 'qrw-preview-note', text: designText('preview_hint') })
+    ]);
+    const body = el('div', { class: 'qrw-body' }, [el('div', { class: 'qrw-workspace' }, [previewPanel, controls])]);
     root.appendChild(header); root.appendChild(body); root.appendChild(image);
+    const previousFocus = document.activeElement;
     document.body.appendChild(root);
+    const background = [...document.body.children].filter(node => node !== root && node.tagName !== 'SCRIPT').map(node => [node, node.inert]);
+    background.forEach(([node]) => { node.inert = true; });
     document.documentElement.classList.add('qrw-open');
     const close = () => {
       if (state.busy) { setStatus(tr('busy')); return; }
       cancelAnimationFrame(state.raf); video.pause(); video.removeAttribute('src'); revokeAll();
       document.documentElement.classList.remove('qrw-open');
       root.remove(); root = null;
-      const opener = document.getElementById('btn-qr-wallpaper'); if (opener) opener.focus();
+      background.forEach(([node, inert]) => { node.inert = inert; });
+      const opener = previousFocus && previousFocus.isConnected ? previousFocus : document.getElementById('btn-qr-wallpaper'); if (opener) opener.focus({ preventScroll: true });
     };
     closeBtn.addEventListener('click', close);
-    root.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('qrw-full')) close(); });
+    root.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !document.getElementById('qrw-full')) close();
+      if (e.key !== 'Tab' || !root) return;
+      const items = [...root.querySelectorAll('button:not(:disabled),a[href],input:not([tabindex="-1"]),select,summary')].filter(node => node.getClientRects().length);
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
     closeBtn.focus();
     try { await buildQRImage(); } catch (_) { setStatus(tr('error_qr'), 'error'); }
     if (catalog.length) selectBackground(catalog[0]);

@@ -24,7 +24,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=35"></script>
+  <script src="/js/register-sw.js?v=37"></script>
   <script src="i18n/loader.js?v=14"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -181,7 +181,8 @@
 <script src="/js/country-metrics.js?v=1" defer></script>
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
 <link rel="stylesheet" href="/css/trial-access.css?v=23"/>
-<link rel="stylesheet" href="/css/qr-wallpaper.css?v=1"/>
+<link rel="stylesheet" href="/css/qr-wallpaper.css?v=37"/>
+<link rel="stylesheet" href="/css/medical-tools.css?v=37"/>
 <script src="/js/trial-access.js?v=23"></script>
 </head>
 <body data-medical-surface data-atabey-ui="editor">
@@ -2120,8 +2121,8 @@
 
   <div id="save-indicator" class="save-indicator" data-i18n="index.qr.saved_indicator">Guardado ✓</div>
 
-  <div id="qr-section" style="display:none;padding:0 16px 32px">
-    <div style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;margin:32px 0 8px;text-shadow:0 0 8px #12A5FF" data-i18n="index.qr.section_title">
+  <div id="qr-section" class="medical-output" style="display:none;padding:0 16px 32px">
+    <div class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;margin:32px 0 8px;text-shadow:0 0 8px #12A5FF" data-i18n="index.qr.section_title">
       TUS CÓDIGOS QR MÉDICOS
     </div>
     <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:20px;letter-spacing:0.5px" data-i18n="index.qr.section_desc">
@@ -2141,6 +2142,7 @@
     <div id="qr-reminder-banner" class="qr-reminder-banner" data-i18n="index.qr.reminder_banner">
       Los cambios se conservan como borrador en este dispositivo. Pulsa "Guardar y actualizar mis QR" para publicarlos y espera la confirmación del servidor. Después escanea un QR para comprobar la información.
     </div>
+    <div class="medical-create-actions">
     <button id="btn-print-emergency" style="
       width:100%;padding:16px;
       background:transparent;
@@ -2154,16 +2156,18 @@
       margin-bottom:12px" data-i18n="index.qr.print_button">
       IMPRIMIR QR EMERGENCIA — FORMATO TARJETA
     </button>
+    </div>
   </div>
 
   <!-- ===== UBICACIÓN DE EMERGENCIA ===== -->
-  <div style="padding:0 16px;margin-top:24px;">
+  <div class="medical-utilities">
+    <section class="medical-utility medical-location" aria-labelledby="medical-location-title">
 
-    <div style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
+    <div id="medical-location-title" class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
                 margin-bottom:8px;text-shadow:0 0 8px #12A5FF;" data-i18n="index.location.section_title">
       EMERGENCIA — COMPARTIR UBICACIÓN
     </div>
-    <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:14px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.location.section_desc">
+    <div class="medical-tools-description" style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:14px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.location.section_desc">
       Genera un enlace de Google Maps con tu posición actual para enviarlo
       a tus contactos de emergencia. La ubicación se obtiene una sola vez
       y no queda guardada en ningún servidor.
@@ -2197,7 +2201,7 @@
         text-decoration:none;letter-spacing:0.5px;
         word-break:break-all;margin-bottom:10px;">
       </a>
-      <div style="display:flex;gap:8px;">
+      <div class="medical-location-actions" style="display:flex;gap:8px;">
         <button onclick="sendLocationWhatsApp()" style="
           flex:1;padding:12px;background:transparent;
           border:1px solid rgba(18,165,255,0.35);border-radius:10px;
@@ -2232,16 +2236,18 @@
       font-size:10px;color:rgba(255,68,68,0.8);
       letter-spacing:1px;margin-bottom:8px;line-height:1.6;">
     </div>
+    </section>
 
     <!-- Alertas oficiales -->
-    <div style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
+    <section class="medical-utility medical-alerts" aria-labelledby="medical-alerts-title">
+    <div id="medical-alerts-title" class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
                 margin:24px 0 8px;text-shadow:0 0 8px #12A5FF;" data-i18n="index.alerts.section_title">
       ALERTAS OFICIALES EN TU ZONA
     </div>
-    <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.alerts.section_desc">
+    <div class="medical-tools-description" style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.alerts.section_desc">
       Fuentes oficiales de acceso público — sin registro.
     </div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;">
+    <div class="medical-alert-links" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;">
       <a href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener" style="
         display:flex;align-items:center;gap:12px;
         padding:14px 16px;
@@ -2285,6 +2291,7 @@
         </div>
       </a>
     </div>
+    </section>
 
   </div>
   <!-- ===== FIN UBICACIÓN DE EMERGENCIA ===== -->
@@ -2567,7 +2574,7 @@
   <script src="js/emergency-accessories.js?v=33"></script>
   <script src="js/emergency-card.js?v=33"></script>
   <script src="js/qr-generator.js?v=31"></script>
-  <script src="js/qr-wallpaper.js?v=1"></script>
+  <script src="js/qr-wallpaper.js?v=37"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
   <script>
