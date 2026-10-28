@@ -1274,9 +1274,12 @@ function printEmergencyQR() {
   const snapshot = JSON.stringify(profile);
   const risk = Array.isArray(profile.allergy_insect) && profile.allergy_insect.some(value => value !== 'Ninguna conocida') &&
     (profile.epipen === 'Sí — llevo EpiPen encima' || profile.epipen === 'Sí — lo tengo en casa') && profile.anafilaxia_previa === 'SÍ — anafilaxia confirmada';
-  return AtabeyEmergencyCard.open({profile,patientUrl,risk,language:document.documentElement.lang||'es',
-    ready:ensureQRCodeLoaded,draw:createOrganicQRCode,
-    current:()=>MedicalOwner.current() && MedicalOwner.id()===id && JSON.stringify(MedicalOwner.read())===snapshot
+  const current=()=>MedicalOwner.current() && MedicalOwner.id()===id && JSON.stringify(MedicalOwner.read())===snapshot;
+  let printedIdentity=null;try{const u=JSON.parse(localStorage.getItem('doctorqr_user')||'null');if(MedicalOwner.matches(profile,u))printedIdentity={nombre:u.nombre,apellidos:u.apellidos};}catch(_){}
+  const revision=window.ProfileSync?.revision||(()=>{try{const meta=JSON.parse(localStorage.getItem('doctorqr_profile_revision')||'null');return meta?.owner===id?meta.revision:'';}catch(_){return '';}})();
+  return AtabeyEmergencyCard.open({profile,patientUrl,risk,printedIdentity,language:document.documentElement.lang||'es',
+    ready:ensureQRCodeLoaded,draw:createOrganicQRCode,current,
+    prepareCompact:()=>AtabeyCompactEmergencyQR.prepare({id,revision,current})
   }).catch(()=>null);
 }
 

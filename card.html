@@ -128,7 +128,7 @@
       50% { transform: scale(1.1); }
     }
   </style>
-  <link rel="stylesheet" href="css/atabey-refresh.css?v=18"/>
+  <link rel="stylesheet" href="/css/atabey-refresh.css?v=18"/>
 <style>
 /* Large native language control: readable text and a generous touch target. */
 [data-atabey-ui="medical"] .header-top{flex-wrap:wrap;gap:12px}
@@ -866,25 +866,36 @@ function detectLang() {
 
 const BACKEND = 'https://doctorqr-backend-production.up.railway.app';
 
+function emergencyReference() {
+  const params=new URLSearchParams(window.location.search),path=window.location.pathname;
+  const short=/^\/e\/([A-Za-z0-9_-]{16})$/.exec(path);
+  if(path.startsWith('/e/')) {
+    if(!short||params.has('id')||params.has('link'))return null;
+    return {kind:'link',value:short[1],type:'emergency',stamp:path+'\n'+window.location.search};
+  }
+  if(params.has('link')) {
+    const token=params.get('link');if(params.has('id')||params.getAll('link').length!==1||!/^[A-Za-z0-9_-]{16}$/.test(token))return null;
+    return {kind:'link',value:token,type:'emergency',stamp:path+'\n'+window.location.search};
+  }
+  const id=params.get('id');if(!id||params.getAll('id').length!==1)return null;
+  return {kind:'id',value:id,type:params.get('t')||'',stamp:path+'\n'+window.location.search};
+}
 async function parseData() {
   window.cardLoadProblem = 'invalid';
   try {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    if (!id || params.getAll('id').length !== 1) return null;
+    const reference=emergencyReference();if(!reference)return null;
     window.cardLoadProblem = 'connection';
     const requestedAt=Date.now(),requestedMono=performance.now();
-    const res = await fetch(`${BACKEND}/api/profile/load?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
+    const res = await fetch(`${BACKEND}/api/profile/load?${reference.kind}=${encodeURIComponent(reference.value)}`, { cache: 'no-store' });
     if (!res.ok) {
       window.cardLoadProblem = res.status === 402 ? 'trial_expired' : res.status === 404 ? 'unpublished' : res.status === 409 ? 'verification' : res.status === 429 ? 'limited' : 'unavailable';
       return null;
     }
-    const result = await res.json();
-    if (result.doctorqr_id !== id || !result.profile || typeof result.profile !== 'object') { window.cardLoadProblem = 'verification'; return null; }
-    const current = new URLSearchParams(window.location.search);
-    if (current.getAll('id').length !== 1 || current.get('id') !== id ||
-        (result.profile._profile_owner !== undefined && result.profile._profile_owner !== id) ||
-        (result.profile.doctorqr_id !== undefined && result.profile.doctorqr_id !== id)) { window.cardLoadProblem = 'verification'; return null; }
+    const result = await res.json(),id=result.doctorqr_id,current=emergencyReference();
+    if(!current||current.stamp!==reference.stamp||typeof id!=='string'||!id||!result.profile||typeof result.profile!=='object'||
+       (reference.kind==='id'?id!==reference.value:result.emergency_token!==reference.value)||
+       (result.profile._profile_owner!==undefined&&result.profile._profile_owner!==id)||
+       (result.profile.doctorqr_id!==undefined&&result.profile.doctorqr_id!==id)) {window.cardLoadProblem='verification';return null;}
     window.cardLoadProblem = '';
     if (Array.isArray(result.profile)) { window.cardLoadProblem = 'verification'; return null; }
     if (result.access_status?.status === 'trial_active' && Number.isFinite(result.access_status.remaining_seconds)) {
@@ -894,7 +905,7 @@ async function parseData() {
       trialReaderClock={seconds:result.access_status.remaining_seconds,wall:requestedAt,mono:requestedMono};
       trialReaderTimer=setTimeout(checkReaderTrial,Math.min(60000,remaining));
     }
-    return { ...result.profile, _qr_type: params.get('t') || '', _published_at:result.updated_at || null };
+    return { ...result.profile, _qr_type: reference.type, _published_at:result.updated_at || null };
   } catch (_) { return null; }
 }
 
@@ -1076,10 +1087,10 @@ function renderError() {
 // duplicado por tipo — aplica igual a los 9 sin excepción.
 function verificarAccesoVigente() {
   const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  if (!id) return true; // formato legacy sin id — fuera del alcance de este control
-
-  const t = params.get('t') || '';
+  const reference=emergencyReference();
+  if(!reference)return true;
+  const id=reference.kind==='link'?'link:'+reference.value:reference.value;
+  const t=reference.type;
   const key = `card_first_view_${id}_${t}`;
   const ahora = Date.now();
   const primeraVista = localStorage.getItem(key);

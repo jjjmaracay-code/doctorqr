@@ -21,7 +21,8 @@
 // v38: local iPhone video preparation, fixed medical QR and depth animation.
 // v39: deliberate form editing; controls start disabled in HTML.
 // v40: translucent floating lock without reducing the form width.
-const CACHE_NAME = 'doctorqr-v40';
+// v41: compact, owner-bound medical accessory QR and 30 x 40 mm watch plate.
+const CACHE_NAME = 'doctorqr-v41';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -51,7 +52,7 @@ const CACHE_URLS = [
   './css/web-qr-preview.css?v=22',
   './js/web-qr-preview.js?v=22',
   './js/totp-recovery.js?v=14',
-  './js/qr-generator.js?v=31',
+  './js/qr-generator.js?v=41',
   './js/qr-wallpaper.js?v=38',
   './css/qr-wallpaper.css?v=37',
   './js/qr-wallpaper-iphone.js?v=38',
@@ -62,14 +63,15 @@ const CACHE_URLS = [
   './css/form-edit-lock.css?v=40',
   './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
-  './js/emergency-accessories.js?v=33',
-  './js/emergency-card.js?v=33',
-  './js/medical-owner.js?v=24',
+  './js/compact-emergency-qr.js?v=41',
+  './js/emergency-accessories.js?v=41',
+  './js/emergency-card.js?v=41',
+  './js/medical-owner.js?v=41',
   './js/birthdate.js?v=14',
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=40',
+  './js/register-sw.js?v=41',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

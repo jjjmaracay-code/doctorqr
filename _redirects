@@ -1,3 +1,4 @@
 /sos /emergencias 200
 /sos/ /emergencias 200
+/e/:token /card.html 200
 /* /index.html 200

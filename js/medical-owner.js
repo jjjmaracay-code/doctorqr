@@ -3,7 +3,7 @@
   'use strict';
   const storage = localStorage;
   const keys = ['doctorqr_profile', 'doctorqr_profile_owner', 'doctorqr_qr_cache',
-    'doctorqr_medical_draft', 'doctorqr_medical_changes', 'doctorqr_profile_revision', 'doctorqr_tutor_consent_huella', 'doctorqr_tutor_consent_fecha', 'doctorqr_pending_sync_notice'];
+    'doctorqr_medical_draft', 'doctorqr_medical_changes', 'doctorqr_profile_revision', 'doctorqr_tutor_consent_huella', 'doctorqr_tutor_consent_fecha', 'doctorqr_pending_sync_notice', 'doctorqr_emergency_link'];
   const norm = v => String(v || '').normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
   function purge() { keys.forEach(k => storage.removeItem(k)); }
   function conceal() {
