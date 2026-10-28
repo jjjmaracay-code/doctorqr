@@ -27,12 +27,13 @@
 // v44: close both commemorative card borders; keep fold marks outside the artwork.
 // v45: frame the actual login password keyboard and show the full form when it fits.
 // v46: reveal emergency access with the keyboard and allow both orientations.
-const CACHE_NAME = 'doctorqr-v46';
+// v47: visible neon feedback on touch, pointer and keyboard presses.
+const CACHE_NAME = 'doctorqr-v47';
 const CACHE_URLS = [
   '/',
   './index.html',
-  './css/keyboard-comfort.css?v=3',
-  './js/keyboard-comfort.js?v=3',
+  './css/keyboard-comfort.css?v=4',
+  './js/keyboard-comfort.js?v=4',
   './js/country-metrics.js?v=1',
   './login.html',
   './register.html',
@@ -78,7 +79,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=46',
+  './js/register-sw.js?v=47',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

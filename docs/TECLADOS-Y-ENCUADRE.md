@@ -23,3 +23,9 @@ La prueba adicional usa este teclado real, pulsaciones táctiles y los once idio
 Se sustituye el bloqueo vertical del manifiesto por `orientation: any`. El teclado responde tanto al cambio de tamaño del viewport visible como al evento de Screen Orientation cuando está disponible, con respaldo del evento `orientationchange`. El redimensionado vuelve a encuadrar el teclado activo después del giro, sin cambiar el foco, valores, autenticación ni datos guardados. Se respeta el bloqueo de giro del sistema operativo; la prueba con viewport simulado no certifica el sensor ni la instalación física en cada móvil.
 
 En acceso con contraseña, el extremo inferior de encuadre pasa a ser el botón rojo de emergencia. Se reserva el espacio de los controles inferiores y se muestra también la contraseña o el formulario completo cuando cabe. En móviles horizontales de poca altura, registro y acceso de emergencia comparten una fila inferior para mantener el teclado completo junto al botón. El desplazamiento únicamente revela el control: nunca lo pulsa ni abre información médica.
+
+## Señal visible de pulsación
+
+Las teclas integradas muestran un fondo azul luminoso, borde claro y resplandor al tocarlas. El estado visual se mantiene 180 ms después de soltar para que los toques breves se distingan. Se incluyen letras, números y controles, así como los teclados numéricos de acceso, registro, recuperación y configuración del autenticador. El realce continúa en la misma posición cuando cambiar mayúsculas o símbolos vuelve a dibujar el teclado.
+
+Los escuchadores visuales son pasivos: no cancelan eventos, invocan manejadores, leen caracteres, guardan valores ni generan pulsaciones. Se conserva la acción original y se limpia el efecto al cancelar, salir de la página o perder el foco de la ventana. Con movimiento reducido se mantiene el color y el brillo sin desplazar la tecla.

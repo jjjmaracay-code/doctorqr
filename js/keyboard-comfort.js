@@ -2,7 +2,42 @@
    Never reads entered values, changes focus, synthesizes keys or submits a form. */
 (function(){
   'use strict';
+  function installPressFeedback(){
+    const timers=new Map();let active=null;
+    const keyFor=node=>{const key=node instanceof Element?node.closest('[data-keyboard] button'):null;return key?.isConnected&&!key.disabled&&!key.closest('[inert]')&&key.getClientRects().length?key:null;};
+    function light(key){clearTimeout(timers.get(key));timers.set(key,0);key.classList.add('atabey-key-pressed');}
+    function fade(key){if(!key)return;clearTimeout(timers.get(key));timers.set(key,setTimeout(()=>{key.classList.remove('atabey-key-pressed');timers.delete(key);},180));}
+    function begin(key){
+      if(!key)return;
+      if(active?.down&&active.key===key)return;
+      if(active)fade(active.key);
+      const board=key.closest('[data-keyboard]'),row=key.closest('.qwerty-row');
+      const rowIndex=row?[...board.querySelectorAll('.qwerty-row')].indexOf(row):-1,index=[...(row||board).querySelectorAll('button')].indexOf(key);
+      const press={key,down:true};active=press;light(key);
+      // Mode/shift keys can replace their own DOM. Keep feedback on the same position.
+      requestAnimationFrame(()=>{
+        if(active!==press||press.key.isConnected||!board.isConnected)return;
+        const replacement=(rowIndex<0?board:board.querySelectorAll('.qwerty-row')[rowIndex])?.querySelectorAll('button')[index];
+        if(!keyFor(replacement))return;
+        clearTimeout(timers.get(press.key));timers.delete(press.key);press.key.classList.remove('atabey-key-pressed');
+        press.key=replacement;light(replacement);if(!press.down)fade(replacement);
+      });
+    }
+    function end(){if(active){active.down=false;fade(active.key);}}
+    function clear(){for(const[key,timer]of timers){clearTimeout(timer);key.classList.remove('atabey-key-pressed');}timers.clear();active=null;}
+    function glide(x,y){if(active?.down&&active.key.closest('[data-keyboard="qwerty"]')){const key=keyFor(document.elementFromPoint(x,y));if(key&&key.closest('[data-keyboard]')===active.key.closest('[data-keyboard]'))begin(key);}}
+    // Visual listeners never cancel an event, synthesize a key or call an action handler.
+    document.addEventListener('pointerdown',e=>{if(e.button===0)begin(keyFor(e.target));},{capture:true,passive:true});
+    document.addEventListener('pointermove',e=>{if(e.pointerType==='touch')glide(e.clientX,e.clientY);},{capture:true,passive:true});
+    document.addEventListener('touchstart',e=>begin(keyFor(e.target)),{capture:true,passive:true});
+    document.addEventListener('touchmove',e=>{const touch=e.changedTouches[0];if(touch)glide(touch.clientX,touch.clientY);},{capture:true,passive:true});
+    for(const name of ['pointerup','pointercancel','touchend','touchcancel'])document.addEventListener(name,end,{capture:true,passive:true});
+    document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter')begin(keyFor(e.target));},{capture:true,passive:true});
+    document.addEventListener('keyup',e=>{if(e.key===' '||e.key==='Enter')end();},{capture:true,passive:true});
+    window.addEventListener('blur',clear);window.addEventListener('pagehide',clear);document.addEventListener('visibilitychange',()=>{if(document.hidden)clear();});
+  }
   function start(){
+    installPressFeedback();
     const selector='[data-keyboard]',seen=new WeakMap();let last=null,frame=0,held=false,pending=null,resizeTimer=0,manualBrowsing=false;
     const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
     function visible(el){
