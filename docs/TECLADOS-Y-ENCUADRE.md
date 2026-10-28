@@ -9,3 +9,11 @@ El desplazamiento es el mínimo necesario para mostrar el teclado y, cuando cabe
 En los pasos con datos personales por delante del teclado, el ajuste inicial espera una interacción para no saltarse esos datos. La ventana de impresión y los QR no se modifican. No cambian autenticación, planes, cobros, límites de dispositivos, cifrado o sincronización. Los dos recursos nuevos se incluyen en la caché instalada de la aplicación.
 
 La prueba de navegador usa las páginas de acceso reales con datos ficticios y respuestas locales. Comprueba tamaños de móvil y escritorio, horizontal, teclas y borrado, orden de registro, modos de movimiento, idiomas y ausencia de peticiones de escritura. Los ensayos de escritorio no sustituyen la revisión en los móviles físicos de los testers.
+
+## Ajuste de acceso con contraseña
+
+El teclado QWERTY real de `login.html` se incluye ahora en el mismo controlador: antes carecía de las marcas y mantenía teclas de 48 px sin encuadre automático. La altura llega a 70 px en pantallas altas y se adapta en pantallas pequeñas u horizontales, manteniendo al menos 44 px. El cálculo descuenta también el relleno y los bordes del panel.
+
+Al seleccionar la contraseña se muestra todo el teclado; si cabe, también se encuadra la tarjeta completa de acceso, incluidos correo y botón de entrar. En menor altura se priorizan teclado y contraseña, manteniendo el desplazamiento manual disponible. El campo de contraseña con `inputmode="none"` conserva el ajuste tras girar la pantalla; los campos con teclado del sistema mantienen la exclusión previa. El módulo no cambia el foco ni los manejadores de acceso.
+
+La prueba adicional usa este teclado real, pulsaciones táctiles y los once idiomas, además de comprobar el encuadre junto al formulario, el giro con la contraseña enfocada y la ausencia de envíos automáticos. La caché instalada incorpora los dos recursos en su versión 2.

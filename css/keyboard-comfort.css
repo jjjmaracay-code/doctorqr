@@ -6,7 +6,7 @@
 [data-keyboard="qwerty"] .qwerty-row{gap:5px;margin-bottom:5px}
 [data-keyboard="qwerty"] .qwerty-row:last-child{margin-bottom:0}
 [data-keyboard="qwerty"] .qwerty-key{height:var(--keyboard-key-height,66px);min-height:44px;font-size:20px;touch-action:manipulation}
-[data-keyboard="qwerty"] .qwerty-action{font-size:clamp(11px,3.3vw,16px)}
+[data-keyboard="qwerty"] :is(.qwerty-action,.qwerty-done){font-size:clamp(11px,3.3vw,16px)}
 [data-keyboard="qwerty"] .qwerty-space{font-size:0}
 @media(max-width:380px){[data-keyboard="qwerty"] .qwerty-row{gap:3px}[data-keyboard="qwerty"] .qwerty-key{font-size:18px}[data-keyboard="qwerty"] .qwerty-action{font-size:11px}}
 
@@ -18,5 +18,6 @@
 [data-atabey-ui="access"] :is(.reg-header,.rec-header)>svg{max-width:100%;height:auto}
 
 [data-atabey-ui="access"] :is(.form-card,.rec-card){width:100%;min-width:0;max-width:100%}
+[data-atabey-ui="access"] #pwd-keyboard{max-width:100%}
 
 [data-keyboard="num"]>button[id*="clr"]{font-size:clamp(15px,4.8vw,20px)}

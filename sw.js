@@ -25,12 +25,13 @@
 // v42: single-piece watch tabs, adjustable openings and enlarged liquid QR.
 // v43: larger app keyboards and minimal, viewport-aware alignment.
 // v44: close both commemorative card borders; keep fold marks outside the artwork.
-const CACHE_NAME = 'doctorqr-v44';
+// v45: frame the actual login password keyboard and show the full form when it fits.
+const CACHE_NAME = 'doctorqr-v45';
 const CACHE_URLS = [
   '/',
   './index.html',
-  './css/keyboard-comfort.css?v=1',
-  './js/keyboard-comfort.js?v=1',
+  './css/keyboard-comfort.css?v=2',
+  './js/keyboard-comfort.js?v=2',
   './js/country-metrics.js?v=1',
   './login.html',
   './register.html',
@@ -76,7 +77,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=44',
+  './js/register-sw.js?v=45',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',
