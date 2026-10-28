@@ -40,11 +40,12 @@
   function rim(t,side) {
     const id='pride-rim-'+side;
     const defs=t.pride?`<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">${PRIDE_COLORS.map((color,i)=>`<stop offset="${i/6}" stop-color="${color}"/><stop offset="${(i+1)/6}" stop-color="${color}"/>`).join('')}</linearGradient></defs>`:'';
-    const path=side==='front'?'M85.6 .325H.325V50.82Q.325 53.675 3.18 53.675H85.6':'M0 .325H85.275V50.82Q85.275 53.675 82.42 53.675H0';
+    // Close each visible face at the spine; this is printed ink, never a cut guide.
+    const path=side==='front'?'M85.275 .325H.325V50.82Q.325 53.675 3.18 53.675H85.275Z':'M.325 .325H85.275V50.82Q85.275 53.675 82.42 53.675H.325Z';
     return `<svg class="card-rim" viewBox="0 0 85.6 54" aria-hidden="true">${defs}<path d="${path}" fill="none" stroke="${t.pride?'url(#'+id+')':t.color}" stroke-width=".65"/></svg>`;
   }
   // Eight crop segments around one connected piece. No internal cut marks.
-  const joinedGuides='<svg class="joined-cut-marks" viewBox="0 0 179.2 68" aria-hidden="true"><path d="M1 4H3M176.2 4H178.2M1 64H3M176.2 64H178.2M4 1V3M175.2 1V3M4 65V67M175.2 65V67" fill="none" stroke="#596777" stroke-width=".18"/></svg><svg class="fold-line" viewBox="0 0 171.2 64" aria-hidden="true"><path d="M85.6 0V63" fill="none" stroke="#283a52" stroke-width=".15" stroke-dasharray="1.2 .8"/></svg>';
+  const joinedGuides='<svg class="joined-cut-marks" viewBox="0 0 179.2 68" aria-hidden="true"><path d="M1 4H3M176.2 4H178.2M1 64H3M176.2 64H178.2M4 1V3M175.2 1V3M4 65V67M175.2 65V67" fill="none" stroke="#596777" stroke-width=".18"/></svg><svg class="fold-line" viewBox="0 0 171.2 64" aria-hidden="true" data-fold-guide="outside"><path d="M84.6 62.2L85.6 61.2L86.6 62.2M85.6 61.2V63.2" fill="none" stroke="#283a52" stroke-width=".15"/></svg>';
   const foldLabels = {"es": ["DOBLAR - NO CORTAR", "Recorta solo el contorno exterior. El centro es una guía de doblado."], "en": ["FOLD - DO NOT CUT", "Cut only the outer outline. The centre is a fold guide."], "fr": ["PLIER - NE PAS COUPER", "Découpez uniquement le contour extérieur. Le centre indique le pli."], "de": ["FALTEN - NICHT SCHNEIDEN", "Nur den äußeren Umriss schneiden. Die Mitte ist eine Faltlinie."], "pt": ["DOBRAR - NÃO CORTAR", "Recorte apenas o contorno exterior. O centro indica a dobra."], "eu": ["TOLESTU - EZ MOZTU", "Moztu kanpoko ertza soilik. Erdikoa tolesteko gida da."], "hi": ["मोड़ें - काटें नहीं", "केवल बाहरी किनारा काटें। बीच की रेखा मोड़ने के लिए है।"], "zh": ["折叠 - 不要裁切", "仅裁剪外轮廓。中线为折叠线。"], "ru": ["СГИБ - НЕ РЕЗАТЬ", "Режьте только внешний контур. Середина обозначает сгиб."], "ja": ["折り線 - 切らない", "切るのは外側の輪郭だけです。中央は折り線です。"], "ar": ["اطوِ - لا تقص", "قصّ المحيط الخارجي فقط. الخط الأوسط دليل للطّي."]};
   const printHints = {
     es:['Corta por las guías exteriores y redondea las esquinas siguiendo el borde.','Control de escala: esta línea debe medir 50 mm.'],

@@ -24,7 +24,8 @@
 // v41: compact, owner-bound medical accessory QR and 30 x 40 mm watch plate.
 // v42: single-piece watch tabs, adjustable openings and enlarged liquid QR.
 // v43: larger app keyboards and minimal, viewport-aware alignment.
-const CACHE_NAME = 'doctorqr-v43';
+// v44: close both commemorative card borders; keep fold marks outside the artwork.
+const CACHE_NAME = 'doctorqr-v44';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -69,13 +70,13 @@ const CACHE_URLS = [
   './js/card-png.js?v=31',
   './js/compact-emergency-qr.js?v=42',
   './js/emergency-accessories.js?v=42',
-  './js/emergency-card.js?v=41',
+  './js/emergency-card.js?v=44',
   './js/medical-owner.js?v=41',
   './js/birthdate.js?v=14',
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=43',
+  './js/register-sw.js?v=44',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

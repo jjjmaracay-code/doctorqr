@@ -7,7 +7,7 @@ El botón «Imprimir QR emergencia — formato tarjeta» genera anverso y revers
 - Pieza abierta: **171,2 × 60 mm**. Anverso a la izquierda y reverso a la derecha, en contacto, sin separación ni giro del texto.
 - Al doblar: **85,6 × 60 mm** por cara. Se conservan el cuerpo de 85,6 × 54 mm y la franja superior de 6 mm a todo el ancho.
 - Solo hay **ocho segmentos de corte exteriores**, en las cuatro esquinas del conjunto. No hay marcas de corte en la unión de las caras.
-- El centro es una línea discontinua de doblado, identificada como **DOBLAR - NO CORTAR**. Las esquinas que pertenecen al doblez son rectas para que la pieza sea continua; las exteriores se redondean siguiendo el contorno.
+- El centro se señala con una flecha fuera de la tarjeta y el texto **DOBLAR - NO CORTAR**. Las esquinas que pertenecen al doblez son rectas para que la pieza sea continua; las exteriores se redondean siguiendo el contorno.
 - Se recorta únicamente el contorno exterior. Después se dobla el reverso detrás del anverso, dejando ambas caras impresas hacia fuera. Las caras blancas pueden pegarse entre sí. Se comprueban los tres QR antes de plastificar.
 - Se mantiene la línea de control de **50 mm** y el PDF de una hoja A4 al **100 %, tamaño real**, sin ajustar a página.
 - En móvil se conservan las vistas grandes de cada cara. El PDF reúne ambas caras para recortar la pieza plegable. Las instrucciones y la etiqueta del doblez están en los once idiomas existentes.
@@ -64,3 +64,8 @@ El botón de la aplicación abre primero la vista previa; la impresión comienza
 
 
 La antigua tira opcional se ha sustituido por tres complementos con QR propio: pulsera, pasador de reloj y etiqueta de mochila. Se imprimen por separado para conservar las dimensiones de la tarjeta. Véase [Complementos de emergencia](COMPLEMENTOS-EMERGENCIA-2026.md).
+
+
+## Borde cerrado en el pliegue — 28 de octubre de 2026
+
+Cada cara conserva un borde conmemorativo cerrado, incluido el lado que se dobla. La tinta del borde no indica un corte: anverso y reverso siguen juntos en una sola pieza. La flecha de doblado y «DOBLAR - NO CORTAR» quedan fuera del área útil, bajo la tarjeta; no se imprime una línea discontinua sobre las caras. Se mantienen las ocho marcas de corte exteriores, las medidas y los QR de 49 mm y 16 mm. El ajuste se aplica tanto al PDF como a los PNG de cada cara y conserva la edición multicolor de junio.
