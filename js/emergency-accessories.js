@@ -20,21 +20,167 @@
   };
   function ui(language) { return Object.assign({language},Object.fromEntries(keys.map((key, i) => [key, (texts[language] || texts.es)[i]]))); }
 
-  const extraKeys=['shortName','scan','contactLabel','critical','criticalHelp','loading','unavailable','retry','plate','mount','physical','samePhone','rear','criticalLong','watchTitle','qrFixed','burgundy','compactReady'];
+  const extraKeys=["shortName","scan","contactLabel","critical","criticalHelp","loading","unavailable","retry","physical","samePhone","criticalLong","qrFixed","burgundy"];
   const extraCopy={
-    es:['Nombre y primer apellido','Escanear: información médica','Contacto de emergencia','Imprimir una línea médica voluntaria','Visible sin escanear. Escribe solo lo que quieras hacer público; no cambia tu historial. Máximo 24 caracteres.','Preparando el QR compacto…','Conéctate, sincroniza tu historial y vuelve a generar la tarjeta para preparar el QR compacto. La tarjeta grande sigue disponible.','Preparar QR compacto','Placa PVC · 30 × 40 × 1,5 mm · R4','Soporte posterior TPU: dos pasadores cerrados, huecos 24 × 4 mm. Correa de referencia: 20 mm. No perfores la cara frontal.','Objetivos de diseño. Ajuste, resistencia, comodidad y lectura después del montaje requieren pruebas físicas.','El contacto coincide con tu teléfono personal: selecciona otro contacto guardado.','Reverso · esquema TPU','Acorta la línea médica: no se recortará información para imprimir.','Placa para reloj · 30 × 40 mm','QR fijo: 22 × 22 mm, margen incluido','Granate','QR compacto verificado · cuadrados · M · margen de 4 módulos'],
-    en:['First name and first surname','Scan: medical information','Emergency contact','Print a voluntary medical line','Visible without scanning. Enter only what you want to make public; your medical record is unchanged. Maximum 24 characters.','Preparing compact QR…','Connect, sync your medical record and generate the card again to prepare its compact QR. The large card is still available.','Prepare compact QR','PVC plate · 30 × 40 × 1.5 mm · R4','Rear TPU carrier: two closed loops, 24 × 4 mm openings. Reference strap: 20 mm. Do not pierce the front.','Design targets. Fit, strength, comfort and scanning after assembly require physical testing.','This contact matches your personal phone: choose another saved contact.','Back · TPU concept','Shorten the medical line: information will not be cropped for printing.','Watch plate · 30 × 40 mm','Fixed QR: 22 × 22 mm including margin','Burgundy','Verified compact QR · square modules · M · 4-module margin'],
-    fr:['Prénom et premier nom','Scanner : informations médicales','Contact d’urgence','Imprimer une ligne médicale facultative','Visible sans scanner. Saisissez uniquement ce que vous souhaitez rendre public ; le dossier reste inchangé. 24 caractères maximum.','Préparation du QR compact…','Connectez-vous, synchronisez le dossier et générez à nouveau la carte pour préparer le QR compact. La grande carte reste disponible.','Préparer le QR compact','Plaque PVC · 30 × 40 × 1,5 mm · R4','Support arrière TPU : deux passants fermés, ouvertures de 24 × 4 mm. Bracelet de référence : 20 mm. Ne percez pas le recto.','Objectifs de conception. Ajustement, résistance, confort et lecture après montage nécessitent des essais physiques.','Ce contact correspond à votre téléphone personnel : choisissez un autre contact enregistré.','Verso · schéma TPU','Raccourcissez la ligne médicale : aucune information ne sera tronquée.','Plaque de montre · 30 × 40 mm','QR fixe : 22 × 22 mm, marge comprise','Bordeaux','QR compact vérifié · carrés · M · marge de 4 modules'],
-    de:['Vorname und erster Nachname','Scannen: medizinische Angaben','Notfallkontakt','Freiwillige medizinische Zeile drucken','Ohne Scan sichtbar. Nur bewusst öffentliche Angaben eintragen; die Krankenakte bleibt unverändert. Höchstens 24 Zeichen.','Kompakten QR vorbereiten…','Verbinden, die Krankenakte synchronisieren und die Karte neu erstellen, um den kompakten QR vorzubereiten. Die große Karte bleibt verfügbar.','Kompakten QR vorbereiten','PVC-Platte · 30 × 40 × 1,5 mm · R4','TPU-Rückhalter: zwei geschlossene Schlaufen, Öffnungen 24 × 4 mm. Referenzarmband: 20 mm. Vorderseite nicht durchbohren.','Konstruktionsziele. Passform, Festigkeit, Komfort und Lesbarkeit nach Montage müssen praktisch geprüft werden.','Kontakt und persönliche Telefonnummer stimmen überein: anderen gespeicherten Kontakt wählen.','Rückseite · TPU-Skizze','Medizinische Zeile kürzen: Angaben werden nicht abgeschnitten.','Uhrenplatte · 30 × 40 mm','Fester QR: 22 × 22 mm einschließlich Rand','Bordeaux','Kompakter QR geprüft · Quadrate · M · Rand aus 4 Modulen'],
-    pt:['Nome e primeiro apelido','Digitalizar: informação médica','Contacto de emergência','Imprimir uma linha médica voluntária','Visível sem digitalizar. Escreva só o que quer tornar público; não altera o historial. Máximo de 24 caracteres.','A preparar o QR compacto…','Ligue-se, sincronize o historial e gere novamente o cartão para preparar o QR compacto. O cartão grande continua disponível.','Preparar QR compacto','Placa PVC · 30 × 40 × 1,5 mm · R4','Suporte traseiro TPU: dois passadores fechados, aberturas de 24 × 4 mm. Bracelete de referência: 20 mm. Não perfure a frente.','Objetivos de desenho. Ajuste, resistência, conforto e leitura após montagem exigem testes físicos.','O contacto coincide com o seu telefone pessoal: escolha outro contacto guardado.','Verso · esquema TPU','Encurte a linha médica: não será cortada informação para imprimir.','Placa de relógio · 30 × 40 mm','QR fixo: 22 × 22 mm, incluindo margem','Bordô','QR compacto verificado · quadrados · M · margem de 4 módulos'],
-    eu:['Izena eta lehen abizena','Eskaneatu: informazio medikoa','Larrialdietako kontaktua','Inprimatu aukerako lerro mediko bat','Eskaneatu gabe ikusgai. Idatzi publiko egin nahi duzuna soilik; historia ez da aldatzen. Gehienez 24 karaktere.','QR trinkoa prestatzen…','Konektatu, sinkronizatu historia eta sortu berriro txartela QR trinkoa prestatzeko. Txartel handia erabilgarri dago.','Prestatu QR trinkoa','PVC plaka · 30 × 40 × 1,5 mm · R4','Atzeko TPU euskarria: bi pasadore itxi, 24 × 4 mm-ko irekidurak. Erreferentziazko uhala: 20 mm. Ez zulatu aurrealdea.','Diseinu-helburuak. Egokitzea, erresistentzia, erosotasuna eta muntatu ondoko irakurketa fisikoki probatu behar dira.','Kontaktua zure telefono pertsonalarekin bat dator: aukeratu gordetako beste kontaktu bat.','Atzealdea · TPU eskema','Laburtu lerro medikoa: informazioa ez da moztuko inprimatzeko.','Erlojurako plaka · 30 × 40 mm','QR finkoa: 22 × 22 mm, marjina barne','Granatea','QR trinkoa egiaztatuta · karratuak · M · 4 moduluko marjina'],
-    hi:['पहला नाम और पहला उपनाम','स्कैन करें: चिकित्सा जानकारी','आपातकालीन संपर्क','वैकल्पिक चिकित्सा पंक्ति छापें','स्कैन किए बिना दिखेगी। केवल सार्वजनिक करने योग्य बात लिखें; रिकॉर्ड नहीं बदलेगा। अधिकतम 24 अक्षर।','छोटा QR तैयार हो रहा है…','जुड़ें, रिकॉर्ड सिंक करें और छोटे QR के लिए कार्ड फिर बनाएँ। बड़ा कार्ड उपलब्ध है।','छोटा QR तैयार करें','PVC प्लेट · 30 × 40 × 1.5 मिमी · R4','पीछे TPU धारक: दो बंद लूप, छेद 24 × 4 मिमी। संदर्भ पट्टी 20 मिमी। सामने छेद न करें।','डिज़ाइन लक्ष्य। फिट, मजबूती, आराम और लगाने के बाद स्कैन का भौतिक परीक्षण आवश्यक है।','संपर्क आपका निजी फोन है: कोई अन्य सहेजा संपर्क चुनें।','पीछे · TPU रूपरेखा','चिकित्सा पंक्ति छोटी करें: प्रिंट में जानकारी काटी नहीं जाएगी।','घड़ी की प्लेट · 30 × 40 मिमी','स्थिर QR: 22 × 22 मिमी, मार्जिन सहित','मरून','छोटा QR सत्यापित · चौकोर · M · 4-मॉड्यूल मार्जिन'],
-    zh:['名字和第一个姓氏','扫描：医疗信息','紧急联系人','自愿打印一行医疗提示','无需扫描即可看到。仅填写愿意公开的信息，不会修改病史。最多24个字符。','正在准备紧凑二维码…','请联网、同步病史并重新生成卡片以准备紧凑二维码。大卡片仍可使用。','准备紧凑二维码','PVC牌 · 30 × 40 × 1.5毫米 · R4','背部TPU支架：两个闭环，开口24 × 4毫米。参考表带20毫米。请勿在正面打孔。','设计目标。贴合度、强度、舒适度及组装后的扫描均需实物测试。','该联系人号码与您的个人电话相同：请选择其他已保存联系人。','背面 · TPU示意','请缩短医疗提示，不会裁掉信息后打印。','手表牌 · 30 × 40毫米','固定二维码：22 × 22毫米，含留白','酒红色','紧凑二维码已验证 · 方块 · M · 四模块留白'],
-    ru:['Имя и первая фамилия','Сканировать: мединформация','Экстренный контакт','Печатать добровольную медицинскую строку','Видна без сканирования. Впишите только публичные сведения; история болезни не меняется. До 24 символов.','Подготовка компактного QR…','Подключитесь, синхронизируйте историю и создайте карту заново для компактного QR. Большая карта остаётся доступной.','Подготовить компактный QR','Пластина PVC · 30 × 40 × 1,5 мм · R4','Задний держатель TPU: две замкнутые петли, отверстия 24 × 4 мм. Ремешок для примера: 20 мм. Не сверлите лицевую сторону.','Целевые параметры. Посадку, прочность, удобство и сканирование после сборки нужно проверить физически.','Контакт совпадает с вашим телефоном: выберите другой сохранённый контакт.','Оборот · схема TPU','Сократите медицинскую строку: информация не будет обрезана.','Пластина для часов · 30 × 40 мм','Фиксированный QR: 22 × 22 мм с полями','Бордовый','QR проверен · квадраты · M · поля в 4 модуля'],
-    ja:['名と最初の姓','スキャン：医療情報','緊急連絡先','任意の医療メモを1行印刷','スキャンせずに見えます。公開したい内容のみ入力してください。病歴は変更されません。最大24文字。','小型QRを準備中…','接続して病歴を同期し、カードを再生成して小型QRを準備してください。大型カードは利用できます。','小型QRを準備','PVCプレート · 30 × 40 × 1.5 mm · R4','背面TPUホルダー：閉じたループ2本、内寸24 × 4 mm。基準ストラップ20 mm。前面に穴を開けないでください。','設計上の目標です。装着感、強度、快適性、装着後の読み取りには実物試験が必要です。','連絡先が本人の電話と同じです。別の保存済み連絡先を選んでください。','裏面 · TPU概念図','医療メモを短くしてください。情報を切り捨てて印刷しません。','時計用プレート · 30 × 40 mm','固定QR：22 × 22 mm、余白込み','バーガンディ','小型QR確認済み · 正方形 · M · 4モジュール余白'],
-    ar:['الاسم الأول واسم العائلة الأول','امسح: معلومات طبية','جهة اتصال للطوارئ','طباعة سطر طبي اختياري','ظاهر دون مسح. اكتب فقط ما تريد نشره؛ لا يتغير السجل. الحد 24 حرفاً.','جارٍ إعداد الرمز المدمج…','اتصل وزامن السجل وأعد إنشاء البطاقة لإعداد الرمز المدمج. تبقى البطاقة الكبيرة متاحة.','إعداد الرمز المدمج','لوحة PVC · 30 × 40 × 1.5 مم · R4','حامل TPU خلفي: حلقتان مغلقتان بفتحات 24 × 4 مم. السوار المرجعي 20 مم. لا تثقب الواجهة.','أهداف تصميم. يلزم اختبار الملاءمة والقوة والراحة والمسح بعد التركيب عملياً.','جهة الاتصال تطابق هاتفك الشخصي: اختر جهة أخرى محفوظة.','الخلف · تصور TPU','قصّر السطر الطبي؛ لن تُحذف معلومات للطباعة.','لوحة ساعة · 30 × 40 مم','رمز ثابت 22 × 22 مم مع الهامش','خمري','الرمز المدمج متحقق · مربعات · M · هامش 4 وحدات']
+    es:["Nombre y primer apellido","Escanear: información médica","Contacto de emergencia","Imprimir una línea médica voluntaria","Visible sin escanear. Escribe solo lo que quieras hacer público; no cambia tu historial. Máximo 24 caracteres.","Preparando el QR compacto…","Conéctate, sincroniza tu historial y vuelve a generar la tarjeta para preparar el QR compacto. La tarjeta grande sigue disponible.","Preparar QR compacto","Objetivos de diseño. Ajuste, resistencia, comodidad y lectura después del montaje requieren pruebas físicas.","El contacto coincide con tu teléfono personal: selecciona otro contacto guardado.","Acorta la línea médica: no se recortará información para imprimir.","QR fijo: 22 × 22 mm, margen incluido","Granate"],
+    en:["First name and first surname","Scan: medical information","Emergency contact","Print a voluntary medical line","Visible without scanning. Enter only what you want to make public; your medical record is unchanged. Maximum 24 characters.","Preparing compact QR…","Connect, sync your medical record and generate the card again to prepare its compact QR. The large card is still available.","Prepare compact QR","Design targets. Fit, strength, comfort and scanning after assembly require physical testing.","This contact matches your personal phone: choose another saved contact.","Shorten the medical line: information will not be cropped for printing.","Fixed QR: 22 × 22 mm including margin","Burgundy"],
+    fr:["Prénom et premier nom","Scanner : informations médicales","Contact d’urgence","Imprimer une ligne médicale facultative","Visible sans scanner. Saisissez uniquement ce que vous souhaitez rendre public ; le dossier reste inchangé. 24 caractères maximum.","Préparation du QR compact…","Connectez-vous, synchronisez le dossier et générez à nouveau la carte pour préparer le QR compact. La grande carte reste disponible.","Préparer le QR compact","Objectifs de conception. Ajustement, résistance, confort et lecture après montage nécessitent des essais physiques.","Ce contact correspond à votre téléphone personnel : choisissez un autre contact enregistré.","Raccourcissez la ligne médicale : aucune information ne sera tronquée.","QR fixe : 22 × 22 mm, marge comprise","Bordeaux"],
+    de:["Vorname und erster Nachname","Scannen: medizinische Angaben","Notfallkontakt","Freiwillige medizinische Zeile drucken","Ohne Scan sichtbar. Nur bewusst öffentliche Angaben eintragen; die Krankenakte bleibt unverändert. Höchstens 24 Zeichen.","Kompakten QR vorbereiten…","Verbinden, die Krankenakte synchronisieren und die Karte neu erstellen, um den kompakten QR vorzubereiten. Die große Karte bleibt verfügbar.","Kompakten QR vorbereiten","Konstruktionsziele. Passform, Festigkeit, Komfort und Lesbarkeit nach Montage müssen praktisch geprüft werden.","Kontakt und persönliche Telefonnummer stimmen überein: anderen gespeicherten Kontakt wählen.","Medizinische Zeile kürzen: Angaben werden nicht abgeschnitten.","Fester QR: 22 × 22 mm einschließlich Rand","Bordeaux"],
+    pt:["Nome e primeiro apelido","Digitalizar: informação médica","Contacto de emergência","Imprimir uma linha médica voluntária","Visível sem digitalizar. Escreva só o que quer tornar público; não altera o historial. Máximo de 24 caracteres.","A preparar o QR compacto…","Ligue-se, sincronize o historial e gere novamente o cartão para preparar o QR compacto. O cartão grande continua disponível.","Preparar QR compacto","Objetivos de desenho. Ajuste, resistência, conforto e leitura após montagem exigem testes físicos.","O contacto coincide com o seu telefone pessoal: escolha outro contacto guardado.","Encurte a linha médica: não será cortada informação para imprimir.","QR fixo: 22 × 22 mm, incluindo margem","Bordô"],
+    eu:["Izena eta lehen abizena","Eskaneatu: informazio medikoa","Larrialdietako kontaktua","Inprimatu aukerako lerro mediko bat","Eskaneatu gabe ikusgai. Idatzi publiko egin nahi duzuna soilik; historia ez da aldatzen. Gehienez 24 karaktere.","QR trinkoa prestatzen…","Konektatu, sinkronizatu historia eta sortu berriro txartela QR trinkoa prestatzeko. Txartel handia erabilgarri dago.","Prestatu QR trinkoa","Diseinu-helburuak. Egokitzea, erresistentzia, erosotasuna eta muntatu ondoko irakurketa fisikoki probatu behar dira.","Kontaktua zure telefono pertsonalarekin bat dator: aukeratu gordetako beste kontaktu bat.","Laburtu lerro medikoa: informazioa ez da moztuko inprimatzeko.","QR finkoa: 22 × 22 mm, marjina barne","Granatea"],
+    hi:["पहला नाम और पहला उपनाम","स्कैन करें: चिकित्सा जानकारी","आपातकालीन संपर्क","वैकल्पिक चिकित्सा पंक्ति छापें","स्कैन किए बिना दिखेगी। केवल सार्वजनिक करने योग्य बात लिखें; रिकॉर्ड नहीं बदलेगा। अधिकतम 24 अक्षर।","छोटा QR तैयार हो रहा है…","जुड़ें, रिकॉर्ड सिंक करें और छोटे QR के लिए कार्ड फिर बनाएँ। बड़ा कार्ड उपलब्ध है।","छोटा QR तैयार करें","डिज़ाइन लक्ष्य। फिट, मजबूती, आराम और लगाने के बाद स्कैन का भौतिक परीक्षण आवश्यक है।","संपर्क आपका निजी फोन है: कोई अन्य सहेजा संपर्क चुनें।","चिकित्सा पंक्ति छोटी करें: प्रिंट में जानकारी काटी नहीं जाएगी।","स्थिर QR: 22 × 22 मिमी, मार्जिन सहित","मरून"],
+    zh:["名字和第一个姓氏","扫描：医疗信息","紧急联系人","自愿打印一行医疗提示","无需扫描即可看到。仅填写愿意公开的信息，不会修改病史。最多24个字符。","正在准备紧凑二维码…","请联网、同步病史并重新生成卡片以准备紧凑二维码。大卡片仍可使用。","准备紧凑二维码","设计目标。贴合度、强度、舒适度及组装后的扫描均需实物测试。","该联系人号码与您的个人电话相同：请选择其他已保存联系人。","请缩短医疗提示，不会裁掉信息后打印。","固定二维码：22 × 22毫米，含留白","酒红色"],
+    ru:["Имя и первая фамилия","Сканировать: мединформация","Экстренный контакт","Печатать добровольную медицинскую строку","Видна без сканирования. Впишите только публичные сведения; история болезни не меняется. До 24 символов.","Подготовка компактного QR…","Подключитесь, синхронизируйте историю и создайте карту заново для компактного QR. Большая карта остаётся доступной.","Подготовить компактный QR","Целевые параметры. Посадку, прочность, удобство и сканирование после сборки нужно проверить физически.","Контакт совпадает с вашим телефоном: выберите другой сохранённый контакт.","Сократите медицинскую строку: информация не будет обрезана.","Фиксированный QR: 22 × 22 мм с полями","Бордовый"],
+    ja:["名と最初の姓","スキャン：医療情報","緊急連絡先","任意の医療メモを1行印刷","スキャンせずに見えます。公開したい内容のみ入力してください。病歴は変更されません。最大24文字。","小型QRを準備中…","接続して病歴を同期し、カードを再生成して小型QRを準備してください。大型カードは利用できます。","小型QRを準備","設計上の目標です。装着感、強度、快適性、装着後の読み取りには実物試験が必要です。","連絡先が本人の電話と同じです。別の保存済み連絡先を選んでください。","医療メモを短くしてください。情報を切り捨てて印刷しません。","固定QR：22 × 22 mm、余白込み","バーガンディ"],
+    ar:["الاسم الأول واسم العائلة الأول","امسح: معلومات طبية","جهة اتصال للطوارئ","طباعة سطر طبي اختياري","ظاهر دون مسح. اكتب فقط ما تريد نشره؛ لا يتغير السجل. الحد 24 حرفاً.","جارٍ إعداد الرمز المدمج…","اتصل وزامن السجل وأعد إنشاء البطاقة لإعداد الرمز المدمج. تبقى البطاقة الكبيرة متاحة.","إعداد الرمز المدمج","أهداف تصميم. يلزم اختبار الملاءمة والقوة والراحة والمسح بعد التركيب عملياً.","جهة الاتصال تطابق هاتفك الشخصي: اختر جهة أخرى محفوظة.","قصّر السطر الطبي؛ لن تُحذف معلومات للطباعة.","رمز ثابت 22 × 22 مم مع الهامش","خمري"]
   };
-  function more(language){return Object.fromEntries(extraKeys.map((key,i)=>[key,(extraCopy[language]||extraCopy.es)[i]]));}
+  const strapKeys=["watchTitle", "plate", "mount", "strapHelp", "opening", "watchQR", "qrStyle", "liquid", "square", "compactReady", "onePiece"];
+  const strapCopy={
+  "es": [
+    "Reloj · una pieza con dos pestañas",
+    "Una sola pieza recortable y plastificada. Las pestañas superior e inferior forman parte del mismo patrón; no necesita soporte posterior.",
+    "Ajusta el ancho y la altura de las ranuras a tu correa antes de imprimir. Pásala por la pestaña superior, por detrás del QR y por la inferior.",
+    "Correas de 12 a 32 mm. Mide su grosor y comprueba el espacio junto al reloj. Las correas cerradas deben poder abrirse para enhebrarlas.",
+    "Altura libre de las ranuras (mm)",
+    "QR de reloj",
+    "Estilo del QR",
+    "Líquido negro",
+    "Cuadrado negro",
+    "QR compacto verificado · M · margen blanco de 4 módulos",
+    "Una pieza · pestañas integradas"
+  ],
+  "en": [
+    "Watch · one piece with two tabs",
+    "One cut-out, laminated piece. The upper and lower tabs belong to the same pattern; no rear carrier is needed.",
+    "Set the opening width and height for your strap before printing. Thread it through the upper tab, behind the QR and through the lower tab.",
+    "Straps 12–32 mm wide. Measure thickness and check clearance beside the watch. A closed strap must open for threading.",
+    "Clear opening height (mm)",
+    "Watch QR",
+    "QR style",
+    "Black liquid",
+    "Black square",
+    "Compact QR verified · M · 4-module white margin",
+    "One piece · integral tabs"
+  ],
+  "fr": [
+    "Montre · une pièce à deux languettes",
+    "Une seule pièce à découper et plastifier. Les languettes supérieure et inférieure sont intégrées ; aucun support arrière n’est nécessaire.",
+    "Réglez largeur et hauteur des fentes avant impression. Passez le bracelet en haut, derrière le QR puis en bas.",
+    "Bracelets de 12 à 32 mm. Mesurez l’épaisseur et vérifiez l’espace près de la montre. Un bracelet fermé doit pouvoir s’ouvrir pour être enfilé.",
+    "Hauteur libre des fentes (mm)",
+    "QR de montre",
+    "Style du QR",
+    "Liquide noir",
+    "Carrés noirs",
+    "QR compact vérifié · M · marge blanche de 4 modules",
+    "Une pièce · languettes intégrées"
+  ],
+  "de": [
+    "Uhr · ein Teil mit zwei Laschen",
+    "Ein Teil zum Ausschneiden und Laminieren. Obere und untere Lasche gehören zur selben Vorlage; kein Rückhalter nötig.",
+    "Breite und Höhe der Öffnungen vor dem Druck anpassen. Armband oben einfädeln, hinter dem QR entlangführen und unten herausziehen.",
+    "Armbänder von 12–32 mm Breite. Dicke und Platz neben der Uhr prüfen. Geschlossene Armbänder müssen zum Einfädeln geöffnet werden können.",
+    "Freie Öffnungshöhe (mm)",
+    "Uhren-QR",
+    "QR-Stil",
+    "Schwarz fließend",
+    "Schwarze Quadrate",
+    "Kompakter QR geprüft · M · weißer Rand aus 4 Modulen",
+    "Ein Teil · integrierte Laschen"
+  ],
+  "pt": [
+    "Relógio · uma peça com duas abas",
+    "Uma só peça para recortar e plastificar. As abas superior e inferior pertencem ao mesmo molde; não precisa de suporte traseiro.",
+    "Ajuste a largura e altura das ranhuras antes de imprimir. Passe a bracelete por cima, atrás do QR e pela aba inferior.",
+    "Braceletes de 12 a 32 mm. Meça a espessura e confira o espaço junto ao relógio. Uma bracelete fechada deve poder abrir para ser enfiada.",
+    "Altura livre das ranhuras (mm)",
+    "QR de relógio",
+    "Estilo do QR",
+    "Líquido preto",
+    "Quadrados pretos",
+    "QR compacto verificado · M · margem branca de 4 módulos",
+    "Uma peça · abas integradas"
+  ],
+  "eu": [
+    "Erlojua · pieza bakarra bi mihirekin",
+    "Ebaki eta plastifikatzeko pieza bakarra. Goiko eta beheko mihiak patroi berekoak dira; ez da atzeko euskarririk behar.",
+    "Inprimatu aurretik, egokitu zirrikituen zabalera eta altuera uhalera. Sartu goitik, QRaren atzetik eta atera behetik.",
+    "12–32 mm-ko uhalak. Neurtu lodiera eta egiaztatu erloju ondoko lekua. Uhal itxia ireki ahal izan behar da sartzeko.",
+    "Zirrikituen altuera librea (mm)",
+    "Erlojuko QRa",
+    "QRaren estiloa",
+    "Likido beltza",
+    "Karratu beltzak",
+    "QR trinkoa egiaztatuta · M · 4 moduluko marjina zuria",
+    "Pieza bakarra · mihi integratuak"
+  ],
+  "hi": [
+    "घड़ी · दो टैब वाला एक टुकड़ा",
+    "काटने और लैमिनेट करने के लिए एक ही टुकड़ा। ऊपर और नीचे के टैब इसी नमूने का हिस्सा हैं; पीछे अलग धारक नहीं चाहिए।",
+    "प्रिंट से पहले छेद की चौड़ाई और ऊँचाई पट्टी के अनुसार सेट करें। पट्टी ऊपर से डालें, QR के पीछे ले जाएँ और नीचे से निकालें।",
+    "12–32 मिमी चौड़ी पट्टियाँ। मोटाई और घड़ी के पास जगह जाँचें। पिरोने के लिए बंद पट्टी खुलनी चाहिए।",
+    "छेद की खुली ऊँचाई (मिमी)",
+    "घड़ी का QR",
+    "QR शैली",
+    "काला तरल",
+    "काले चौकोर",
+    "छोटा QR सत्यापित · M · 4-मॉड्यूल सफेद मार्जिन",
+    "एक टुकड़ा · जुड़े टैब"
+  ],
+  "zh": [
+    "手表 · 双翼一体式",
+    "整片裁剪并覆膜。上下翼片属于同一模板，无需另加背部支架。",
+    "打印前按表带设置开口宽度和高度。表带从上翼穿入，经二维码背面，再从下翼穿出。",
+    "适用于模板设置范围内的12–32毫米宽表带。请测量厚度及手表旁的空间。封闭表带须能打开才能穿入。",
+    "开口净高度（毫米）",
+    "手表二维码",
+    "二维码样式",
+    "黑色流体",
+    "黑色方块",
+    "紧凑二维码已验证 · M · 四模块白色留白",
+    "一体式 · 上下翼片"
+  ],
+  "ru": [
+    "Часы · цельная деталь с двумя выступами",
+    "Одна деталь для вырезания и ламинирования. Верхний и нижний выступы входят в шаблон; задний держатель не нужен.",
+    "До печати задайте ширину и высоту прорезей. Проденьте ремешок сверху, за QR и через нижний выступ.",
+    "Ширина ремешка 12–32 мм. Измерьте толщину и место возле часов. Закрытый ремешок должен открываться для продевания.",
+    "Свободная высота прорезей (мм)",
+    "QR для часов",
+    "Стиль QR",
+    "Чёрный жидкий",
+    "Чёрные квадраты",
+    "QR проверен · M · белые поля в 4 модуля",
+    "Одна деталь · цельные выступы"
+  ],
+  "ja": [
+    "時計 · 上下タブ一体型",
+    "切り抜いてラミネートする一枚の型紙です。上下のタブは一体で、別の背面ホルダーは不要です。",
+    "印刷前にストラップに合わせて開口の幅と高さを設定します。上から通し、QRの裏側を経て下から出します。",
+    "幅12〜32 mmの設定範囲です。厚みと時計の横の空間を確認してください。閉じたストラップは通すために開けられる必要があります。",
+    "開口の内側高さ（mm）",
+    "時計用QR",
+    "QRスタイル",
+    "黒いリキッド",
+    "黒い正方形",
+    "小型QR確認済み · M · 4モジュールの白い余白",
+    "一枚 · 上下タブ一体型"
+  ],
+  "ar": [
+    "ساعة · قطعة واحدة بلسانين",
+    "قطعة واحدة للقص والتغليف. اللسانان العلوي والسفلي جزء من القالب؛ لا يلزم حامل خلفي منفصل.",
+    "اضبط عرض الفتحات وارتفاعها قبل الطباعة. مرّر السوار من الأعلى وخلف الرمز ثم عبر اللسان السفلي.",
+    "عرض السوار من 12 إلى 32 مم. قس السُمك وتحقق من المساحة بجوار الساعة. يجب أن يفتح السوار المغلق لتمريره.",
+    "ارتفاع الفتحات الداخلي (مم)",
+    "رمز الساعة",
+    "نمط الرمز",
+    "أسود سائل",
+    "مربعات سوداء",
+    "رمز مدمج متحقق · M · هامش أبيض 4 وحدات",
+    "قطعة واحدة · لسانان مدمجان"
+  ]
+};
+  function more(language){return Object.assign(Object.fromEntries(extraKeys.map((key,i)=>[key,(extraCopy[language]||extraCopy.es)[i]])),Object.fromEntries(strapKeys.map((key,i)=>[key,(strapCopy[language]||strapCopy.es)[i]])));}
   const palette = Object.freeze({burgundy:'#B0485F',blue:'#006dff',turquoise:'#00c8bb',violet:'#713cff',pink:'#ef008c',orange:'#ff7800',red:'#ef234a',lime:'#b9ed00',cyan:'#00b9f3'});
   const colorNames = {
     es:['Azul eléctrico','Turquesa','Violeta','Fucsia','Naranja','Rojo','Lima','Cian'],en:['Electric blue','Turquoise','Violet','Fuchsia','Orange','Red','Lime','Cyan'],fr:['Bleu électrique','Turquoise','Violet','Fuchsia','Orange','Rouge','Citron vert','Cyan'],de:['Elektroblau','Türkis','Violett','Fuchsia','Orange','Rot','Limette','Cyan'],pt:['Azul elétrico','Turquesa','Violeta','Fúcsia','Laranja','Vermelho','Lima','Ciano'],eu:['Urdin elektrikoa','Turkesa','Bioleta','Fuksia','Laranja','Gorria','Lima','Zian'],hi:['इलेक्ट्रिक नीला','फ़िरोज़ी','बैंगनी','फ्यूशिया','नारंगी','लाल','लाइम','सायन'],zh:['电光蓝','绿松石色','紫罗兰','洋红','橙色','红色','青柠色','青色'],ru:['Ярко-синий','Бирюзовый','Фиолетовый','Фуксия','Оранжевый','Красный','Лайм','Голубой'],ja:['エレクトリックブルー','ターコイズ','バイオレット','フクシア','オレンジ','レッド','ライム','シアン'],ar:['أزرق كهربائي','فيروزي','بنفسجي','فوشي','برتقالي','أحمر','ليموني','سماوي']
@@ -57,8 +203,21 @@
     const match = /^month-(\d|1[01])$/.exec(choice);
     return match ? ctx.themeFor(new Date(2026,Number(match[1]),15)) : ctx.theme;
   }
+  function roundedPolygon(points,radius){
+    const list=points.filter((p,i)=>!i||p[0]!==points[i-1][0]||p[1]!==points[i-1][1]);
+    const corners=list.map((p,i)=>{const a=list[(i+list.length-1)%list.length],b=list[(i+1)%list.length],la=Math.hypot(a[0]-p[0],a[1]-p[1]),lb=Math.hypot(b[0]-p[0],b[1]-p[1]),r=Math.min(radius,la/2,lb/2);return {p,a:[p[0]+(a[0]-p[0])*r/la,p[1]+(a[1]-p[1])*r/la],b:[p[0]+(b[0]-p[0])*r/lb,p[1]+(b[1]-p[1])*r/lb]};});
+    return corners.map((c,i)=>`${i?'L':'M'}${c.a.join(' ')}Q${c.p.join(' ')} ${c.b.join(' ')}`).join('')+'Z';
+  }
   function geometry(state) {
-    if(state.format==='watch')return {width:30,height:40,qr:22,qx:4,qy:5.6};
+    if(state.format==='watch'){
+      const qr=state.watchQR===34?34:30,slotW=bounded(state.watchWidth,12,32,20)+4,slotH=bounded(state.watchOpening,2,8,4),tabW=slotW+10,tabH=slotH+10;
+      const faceW=Math.max(qr+8,tabW),faceH=qr+21,width=faceW+6,height=faceH+2*tabH+6,plateX=3,plateY=tabH+3,tabX=(width-tabW)/2;
+      // A single paper silhouette with two integral tabs. Remove each paper window
+      // BEFORE laminating; the smaller final slot sits 3 mm inside that sealed window.
+      const outline=(x,w,tx,tw,top,fy,fh,bottom,r)=>roundedPolygon([[tx,top],[tx+tw,top],[tx+tw,fy],[x+w,fy],[x+w,fy+fh],[tx+tw,fy+fh],[tx+tw,bottom],[tx,bottom],[tx,fy+fh],[x,fy+fh],[x,fy],[tx,fy]],r);
+      return {width,height,qr,qx:plateX+(faceW-qr)/2,qy:plateY+6.2,plateX,plateY,faceW,faceH,tabW,tabH,tabX,slotW,slotH,slotY:[8,plateY+faceH+5],
+        paper:outline(3,faceW,tabX,tabW,3,plateY,faceH,height-3,2),outer:outline(0,faceW+6,tabX-3,tabW+6,0,plateY-3,faceH+6,height,3)};
+    }
     const q=state.format==='tag'?(state.qr===49?49:40):22;
     if(state.format==='tag'){
       const w=q+20,h=q+40;
@@ -76,18 +235,23 @@
   }
   function contactFor(ctx,state){return state.contact?ctx.contacts.find(c=>c.key===state.contactKey):null;}
   function front(ctx,state,x,y,t){
-    const m=more(ctx.language),c=contactFor(ctx,state),name=printedName(ctx.profile,state.identity),ink=t.pride?'#13243c':(()=>{const rgb=t.color.replace('#','').match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4),l=rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;return 1.05/(l+.05)>=4.5?'#fff':'#000';})();
-    const text=(dy,value,size,weight='700')=>svgText(15,dy,value,size,`text-anchor="middle" font-weight="${weight}" class="accessory-fitted" data-max-width="26" data-base-size="${size}" style="fill:${ink}"`);
-    return `<g class="accessory-front" transform="translate(${x} ${y})" data-width-mm="30" data-height-mm="40"><rect class="front-outline" width="30" height="40" rx="4" fill="${t.pride?'url(#acc-pride)':t.color}"/><rect x="2" y="1.4" width="26" height="3.4" rx=".7" fill="#fff"/>${fittedText(15,3.9,'EMERGENCIA',24,2.05)}${ctx.compact?`<image class="accessory-qr" x="4" y="5.6" width="22" height="22" href="${ctx.compact.image}" style="image-rendering:pixelated"/>`:`<rect x="4" y="5.6" width="22" height="22" fill="#fff"/>`}${t.pride?'<rect x="1.4" y="27.9" width="27.2" height="11.1" rx=".8" fill="#fff"/>':''}${text(29,m.scan,1.1,'500')}${text(31.3,name,1.65)}${c?text(33.6,m.contactLabel,1.1,'500')+text(35.9,c.phone,1.6):''}${state.critical&&state.criticalText?text(38.2,state.criticalText,1.3):''}</g>`;
+    const watch=state.format==='watch',g=watch?geometry(state):{faceW:30,faceH:40,qr:22},w=g.faceW,h=g.faceH,q=g.qr,qy=watch?6.2:5.6,m=more(ctx.language),c=contactFor(ctx,state),name=printedName(ctx.profile,state.identity);
+    const ink=t.pride?'#13243c':(()=>{const rgb=t.color.replace('#','').match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4),l=rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;return 1.05/(l+.05)>=4.5?'#fff':'#000';})();
+    const text=(dy,value,size,weight='700')=>svgText(w/2,dy,value,size,`text-anchor="middle" font-weight="${weight}" class="accessory-fitted" data-max-width="${w-4}" data-base-size="${size}" style="fill:${ink}"`);
+    const image=watch&&state.qrStyle==='liquid'?ctx.liquid?.image:ctx.compact?.image,below=qy+q;
+    return `<g class="accessory-front" transform="translate(${x} ${y})" data-width-mm="${w}" data-height-mm="${h}"><rect class="front-outline" width="${w}" height="${h}" rx="4" fill="${t.pride?'url(#acc-pride)':t.color}"${watch?' style="stroke:none"':''}/><rect x="2" y="1.4" width="${w-4}" height="${watch?3.8:3.4}" rx=".7" fill="#fff"/>${fittedText(w/2,watch?4.15:3.9,'EMERGENCY',w-6,watch?2.65:2.05)}${image?`<image class="accessory-qr" x="${(w-q)/2}" y="${qy}" width="${q}" height="${q}" href="${image}" data-qr-style="${watch?state.qrStyle:'square'}" style="image-rendering:${watch&&state.qrStyle==='liquid'?'auto':'pixelated'}"/>`:`<rect x="${(w-q)/2}" y="${qy}" width="${q}" height="${q}" fill="#fff"/>`}${t.pride?`<rect x="1.4" y="${below+.3}" width="${w-2.8}" height="${h-below-1.3}" rx=".8" fill="#fff"/>`:''}${text(below+(watch?1.9:1.4),m.scan,watch?1.4:1.1,'500')}${text(below+(watch?4.7:3.7),name,watch?2.05:1.65)}${c?text(below+(watch?7.1:6),m.contactLabel,watch?1.35:1.1,'500')+text(below+(watch?9.9:8.3),c.phone,watch?2.05:1.6):''}${state.critical&&state.criticalText?text(below+(watch?12.5:10.6),state.criticalText,watch?1.5:1.3):''}</g>`;
   }
   function artwork(ctx,state){
-    const g=geometry(state),t=monthTheme(ctx,state.color),u=ctx.ui,m=more(ctx.language),watch=state.format==='watch',offset=3,totalW=watch?78:g.width+6,totalH=watch?92:g.height+(state.format==='band'?23:40),mid=g.height/2;
+    const g=geometry(state),t=monthTheme(ctx,state.color),u=ctx.ui,m=more(ctx.language),watch=state.format==='watch',offset=3,totalW=watch?Math.max(62,g.width+6):g.width+6,totalH=g.height+(watch?37:state.format==='band'?23:40),mid=g.height/2;
     const paint=t.pride?'url(#acc-pride)':t.color,pride=t.pride?`<linearGradient id="acc-pride" x1="0" y1="0" x2="0" y2="1">${t.colors.map((c,i)=>`<stop offset="${i/t.colors.length}" stop-color="${c}"/><stop offset="${(i+1)/t.colors.length}" stop-color="${c}"/>`).join('')}</linearGradient>`:'';
     let content='',legend='';
     if(watch){
-      content=front(ctx,state,3,8,t)+`<g class="rear-concept" transform="translate(43 8)" data-opening-width-mm="24" data-opening-height-mm="4" data-bridge-min-mm="5"><rect width="30" height="40" rx="4" fill="#e1e9f2" stroke="#526b82" stroke-width=".2"/><rect x="5" y="-3" width="20" height="46" rx="2" fill="#3d4c60" opacity=".25"/>${[7,29].map(y=>`<rect x="1" y="${y-5}" width="28" height="14" rx="2" fill="#64768c"/><rect class="rear-opening" x="3" y="${y}" width="24" height="4" rx=".4" fill="#fff" stroke="#344d68" stroke-width=".2"/>`).join('')}</g>`;
-      legend=fittedText(18,4,'30 × 40 mm',30,2.1)+fittedText(58,4,m.rear,34,2.1)+fittedText(18,52,'PVC · 1,5 mm · R4',34,1.9)+fittedText(58,52,'24 × 4 mm · TPU',34,1.9)+`<path d="M2 7V5H4M32 5H34V7M2 49V51H4M32 51H34V49" fill="none" stroke="#536d86" stroke-width=".2" stroke-dasharray=".5 .4"/>`;
-      legend+=`<path d="M3 64H53M3 62.5v3M53 62.5v3" stroke="#304862" stroke-width=".2"/>${fittedText(3,70,u.scale,70,2.5,'start')}${svgText(3,77,u.prototype,2.5)}`;
+      const dx=(totalW-g.width)/2,slotX=(g.width-g.slotW)/2;
+      const windows=g.slotY.map(y=>`<rect class="paper-window" x="${slotX-3}" y="${y-3}" width="${g.slotW+6}" height="${g.slotH+6}" rx="1"/>`).join('');
+      const slots=g.slotY.map((y,i)=>`<rect class="slot-cut strap-opening" x="${slotX}" y="${y}" width="${g.slotW}" height="${g.slotH}" rx=".5" data-seal-mm="3"/>${svgText(g.width/2,y-3.4,i+1,1.2,'text-anchor="middle" font-weight="800" style="fill:#13243c"')}`).join('');
+      content=`<g class="one-piece-watch" transform="translate(${dx} 3)" data-seal-mm="3"><path class="plastic-outline" d="${g.outer}"/><path class="paper-outline" d="${g.paper}" fill="${paint}"/>${front(ctx,state,g.plateX,g.plateY,t)}${windows}${slots}</g>`;
+      const y=g.height+10;
+      legend=`${fittedText(totalW/2,y,m.onePiece,totalW-6,2.2)}${fittedText(totalW/2,y+5,`${g.slotW} × ${g.slotH} mm · QR ${g.qr} mm`,totalW-6,2.1)}<path d="M${totalW/2-25} ${y+12}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>${fittedText(totalW/2,y+18,u.scale,totalW-6,2.3)}${fittedText(totalW/2,y+24,u.prototype,totalW-6,2.1)}`;
     }else{
       let windows='',slots='',detail='';const qrImage=state.format==='tag'?ctx.patientImage:ctx.compact?.image;
       if(state.format==='band'){
@@ -97,7 +261,7 @@
       }else{
         windows=`<circle class="paper-window" cx="${g.width/2}" cy="10" r="5"/>`;slots=`<circle class="slot-cut" cx="${g.width/2}" cy="10" r="2"/>`;
         const c=contactFor(ctx,state),center=g.width/2,below=g.qy+g.qr;
-        detail=`<rect x="7" y="16" width="${g.width-14}" height="5" rx="1" fill="#fff"/>${fittedText(center,19.6,'EMERGENCIA',g.width-18,3.2)}<rect x="5" y="${below+1}" width="${g.width-10}" height="15" rx="1" fill="#fff"/>${fittedText(center,below+3.5,m.scan,g.width-13,1.8)}${fittedText(center,below+6.8,printedName(ctx.profile,state.identity),g.width-13,2.7)}${c?fittedText(center,below+9.6,m.contactLabel,g.width-13,1.8)+fittedText(center,below+12.7,c.phone,g.width-13,2.4):''}${state.critical&&state.criticalText?fittedText(center,below+15.1,state.criticalText,g.width-13,1.7):''}`;
+        detail=`<rect x="7" y="16" width="${g.width-14}" height="5" rx="1" fill="#fff"/>${fittedText(center,19.6,'EMERGENCY',g.width-18,3.2)}<rect x="5" y="${below+1}" width="${g.width-10}" height="15" rx="1" fill="#fff"/>${fittedText(center,below+3.5,m.scan,g.width-13,1.8)}${fittedText(center,below+6.8,printedName(ctx.profile,state.identity),g.width-13,2.7)}${c?fittedText(center,below+9.6,m.contactLabel,g.width-13,1.8)+fittedText(center,below+12.7,c.phone,g.width-13,2.4):''}${state.critical&&state.criticalText?fittedText(center,below+15.1,state.criticalText,g.width-13,1.7):''}`;
         if(qrImage)detail+=`<image class="accessory-qr" x="${g.qx}" y="${g.qy}" width="${g.qr}" height="${g.qr}" href="${qrImage}" style="image-rendering:pixelated"/>`;
       }
       content=`<g transform="translate(${offset} ${offset})"><path class="plastic-outline" d="${g.outer}"/><path class="paper-outline" d="${g.paper}" fill="${paint}"/>${windows}${slots}${detail}</g>`;
@@ -106,7 +270,7 @@
     }
     return `<svg xmlns="${NS}" class="accessory-svg" direction="ltr" width="${totalW}mm" height="${totalH}mm" viewBox="0 0 ${totalW} ${totalH}" role="img" aria-label="${esc(u[state.format])}" data-format="${state.format}" data-qr-mm="${g.qr}" data-pattern-width="${g.width}" data-pattern-height="${g.height}" data-compact-ready="${!!ctx.compact}"><defs>${pride}</defs><style>.paper-outline,.front-outline{stroke:#172b45;stroke-width:.17;stroke-linejoin:round}.paper-window{fill:#fff;stroke:#172b45;stroke-width:.17}.slot-cut{fill:none;stroke:#c41132;stroke-width:.22;stroke-dasharray:.6 .45}.plastic-outline{fill:#fff;stroke:#576980;stroke-width:.22;stroke-dasharray:1.1 .8;stroke-linejoin:round}text{font-family:Arial,Helvetica,sans-serif}</style><rect width="100%" height="100%" fill="#fff"/>${content}<g class="accessory-legend">${legend}</g></svg>`;
   }
-  function initial(ctx){return {format:'watch',color:'burgundy',wrist:180,watchWidth:20,qr:40,identity:'short',contact:!!ctx.contacts.length,contactKey:ctx.contacts[0]?.key||'',critical:false,criticalText:''};}
+  function initial(ctx){return {format:'watch',color:'burgundy',wrist:180,watchWidth:20,watchOpening:4,watchQR:30,qrStyle:'liquid',qr:40,identity:'short',contact:!!ctx.contacts.length,contactKey:ctx.contacts[0]?.key||'',critical:false,criticalText:''};}
   function groupedPhone(prefix,number){const p=String(prefix||'').replace(/[^+\d]/g,''),n=String(number||'').replace(/\D/g,'');if(!/^\+\d{1,4}$/.test(p)||!/^\d{5,15}$/.test(n)||p.length+n.length>16)return '';return p+' '+(n.length===9?n.match(/.{3}/g).join(' '):n.replace(/(\d{3})(?=\d)/g,'$1 ').trim());}
   function context(config){
     const language=texts[config.language]?config.language:'es',profile=config.profile;
@@ -115,16 +279,16 @@
     const registered=config.printedIdentity,identity=registered&&norm([registered.nombre,registered.apellidos].filter(Boolean).join(' '))===norm([profile.nombre,profile.apellidos].filter(Boolean).join(' '))?registered:profile;
     const own=String((profile.personal_phone?.prefix||'')+(profile.personal_phone?.number||'')).replace(/\D/g,'');let samePhone=false;
     const contacts=[1,2,3].map(i=>{const phone=groupedPhone(profile['ec'+i+'_phone_prefix'],profile['ec'+i+'_phone_num']);if(phone&&own&&phone.replace(/\D/g,'')===own){samePhone=true;return null;}return phone?{key:'ec'+i,name:String(profile['ec'+i+'_name']||''),phone}:null;}).filter(Boolean);
-    return {profile:Object.freeze({nombre:String(identity.nombre||''),apellidos:String(identity.apellidos||'')}),patientImage:validImage(config.patientImage)?config.patientImage:null,compact:null,contacts,samePhone,theme:config.theme,themeFor:config.themeFor,language,ui:ui(language),number:config.number,region:config.region};
+    return {profile:Object.freeze({nombre:String(identity.nombre||''),apellidos:String(identity.apellidos||'')}),patientImage:validImage(config.patientImage)?config.patientImage:null,compact:null,liquid:null,contacts,samePhone,theme:config.theme,themeFor:config.themeFor,language,ui:ui(language),number:config.number,region:config.region};
   }
   const guideNotes={es:'Conserva esta plantilla como referencia: las guías exteriores y de las ranuras se retiran al recortar el papel.',en:'Keep this template as a reference: the outer and slot guides are removed when you cut the paper.',fr:'Conservez ce patron comme référence : les guides extérieurs et des fentes sont retirés en découpant le papier.',de:'Vorlage als Referenz aufbewahren: Außen- und Schlitzmarkierungen werden beim Ausschneiden des Papiers entfernt.',pt:'Guarde este molde como referência: as guias exteriores e das ranhuras são retiradas ao recortar o papel.',eu:'Gorde txantiloi hau erreferentzia gisa: kanpoko eta zirrikituen gidak papera moztean kentzen dira.',hi:'यह नमूना संदर्भ के लिए रखें: कागज़ काटने पर बाहरी और खाँचों की गाइड हट जाती हैं।',zh:'请保留模板作为参考：裁剪纸张时，外轮廓和槽口指示线会被移除。',ru:'Сохраните шаблон для сверки: внешние линии и отметки прорезей удаляются при вырезании бумаги.',ja:'型紙を参考用に残してください。紙を切り抜くと外周と切り込みのガイドは取り除かれます。',ar:'احتفظ بهذا القالب كمرجع: تُزال أدلة المحيط والشقوق عند قص الورق.'};
-  function stepHTML(u,format){const m=more(u.language);if(format==='watch')return `<div class="accessory-steps"><p>${esc(m.plate)}</p><p>${esc(m.mount)}</p></div>`;return `<div class="accessory-steps"><p>${esc(u.paperStep)}</p><p>${esc(u.plasticStep)}</p><p>${esc(u[format+'Step'])}</p><p><small>${esc(guideNotes[u.language||'es'])}</small></p></div>`;}
+  function stepHTML(u,format){const m=more(u.language);if(format==='watch')return `<div class="accessory-steps"><p><strong>${esc(m.plate)}</strong></p><p>${esc(u.paperStep)}</p><p>${esc(u.plasticStep)}</p><p>${esc(u.watchStep)}</p><p><small>${esc(m.mount)} ${esc(m.strapHelp)} ${esc(guideNotes[u.language||'es'])}</small></p></div>`;return `<div class="accessory-steps"><p>${esc(u.paperStep)}</p><p>${esc(u.plasticStep)}</p><p>${esc(u[format+'Step'])}</p><p><small>${esc(guideNotes[u.language||'es'])}</small></p></div>`;}
   function closureDemo(u) {
     return `<svg class="accessory-closure-demo" viewBox="0 0 180 31" role="img" aria-label="${esc(u.bandStep)}"><rect x="1" y="1" width="178" height="29" rx="5" fill="#edf5ff"/><path d="M10 9h10v5h12v4H20v5H10Z" fill="#0872e7"/><text x="15" y="18" text-anchor="middle" font-family="Arial" font-size="3.5" fill="white">A</text><path d="M40 16h15m-4-3 4 3-4 3" stroke="#24618b" stroke-width="1" fill="none"/><rect x="63" y="7" width="46" height="18" rx="4" fill="#00c8bb"/><path d="M77 11v10M95 11v10" stroke="#c41132" stroke-width=".8"/><text x="77" y="6" text-anchor="middle" font-family="Arial" font-size="3.5">1</text><text x="95" y="6" text-anchor="middle" font-family="Arial" font-size="3.5">2</text><path d="M117 16h15m-4-3 4 3-4 3" stroke="#24618b" stroke-width="1" fill="none"/><path d="M144 12h22v9h-22Z" fill="#0872e7"/><path d="M151 9v15M159 9v15" stroke="white" stroke-width="1"/><text x="155" y="28" text-anchor="middle" font-family="Arial" font-size="3">A → 1 → 2</text></svg>`;
   }
   function html(config){
     const ctx=context(config),u=ctx.ui,m=more(ctx.language),state=initial(ctx),months=Array.from({length:12},(_,i)=>`<option value="month-${i}">${esc(new Intl.DateTimeFormat(ctx.language,{month:'long'}).format(new Date(2026,i,15)))}</option>`).join('');
-    return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div><p class="accessory-spec" id="accessory-spec">${esc(m.qrFixed)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
+    return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div><p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
   }
   function fit(doc) {
     for(const el of doc.querySelectorAll('.accessory-fitted')) {
@@ -155,14 +319,14 @@
     function update(){
       if(!current())return;revision++;invalidateChildren();
       const identity=doc.getElementById('accessory-identity');if(doc.getElementById('accessory-format').value!=='tag'&&identity.value==='full')identity.value='short';
-      state={format:doc.getElementById('accessory-format').value,color:doc.getElementById('accessory-color').value,wrist:bounded(doc.getElementById('accessory-wrist').value,140,230,180),watchWidth:20,qr:Number(doc.getElementById('accessory-qr').value),identity:identity.value,contact:doc.getElementById('accessory-contact').checked,contactKey:doc.getElementById('accessory-contact-choice').value,critical:doc.getElementById('accessory-critical').checked,criticalText:doc.getElementById('accessory-critical-text').value.trim()};
-      doc.getElementById('accessory-wrist').value=state.wrist;doc.getElementById('accessory-wrist-field').hidden=state.format!=='band';doc.getElementById('accessory-qr-field').hidden=state.format!=='tag';doc.getElementById('accessory-full-name').hidden=state.format!=='tag';doc.getElementById('accessory-critical-field').hidden=!state.critical;doc.getElementById('accessory-prepare').hidden=!!ctx.compact;
-      doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=state.format==='tag'?u.large:m.qrFixed;
+      state={format:doc.getElementById('accessory-format').value,color:doc.getElementById('accessory-color').value,wrist:bounded(doc.getElementById('accessory-wrist').value,140,230,180),watchWidth:bounded(doc.getElementById('accessory-watch-width').value,12,32,20),watchOpening:bounded(doc.getElementById('accessory-watch-opening').value,2,8,4),watchQR:Number(doc.getElementById('accessory-watch-qr').value),qrStyle:doc.getElementById('accessory-qr-style').value,qr:Number(doc.getElementById('accessory-qr').value),identity:identity.value,contact:doc.getElementById('accessory-contact').checked,contactKey:doc.getElementById('accessory-contact-choice').value,critical:doc.getElementById('accessory-critical').checked,criticalText:doc.getElementById('accessory-critical-text').value.trim()};
+      doc.getElementById('accessory-watch-width').value=state.watchWidth;doc.getElementById('accessory-watch-opening').value=state.watchOpening;for(const id of ['width','opening','watch-qr','style'])doc.getElementById('accessory-'+id+'-field').hidden=state.format!=='watch';doc.getElementById('accessory-wrist').value=state.wrist;doc.getElementById('accessory-wrist-field').hidden=state.format!=='band';doc.getElementById('accessory-qr-field').hidden=state.format!=='tag';doc.getElementById('accessory-full-name').hidden=state.format!=='tag';doc.getElementById('accessory-critical-field').hidden=!state.critical;doc.getElementById('accessory-prepare').hidden=!!ctx.compact;
+      doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?u.large:m.qrFixed;
       doc.getElementById('accessory-status').textContent=state.critical&&Array.from(state.criticalText).length>24?m.criticalLong:ctx.compact?m.compactReady:preparing?m.loading:m.unavailable;fit(doc);freeze(busy);
     }
     async function prepare(){
       if(!current()||preparing||busy||ctx.compact)return;preparing=true;freeze(false);doc.getElementById('accessory-status').textContent=m.loading;
-      try{if(typeof config.prepareCompact!=='function')throw Error('compact_unavailable');const result=await config.prepareCompact();if(!current())return;if(!result||result.version>3||result.correction!=='M'||result.quietZone!==4||!/^data:image\/png;base64,/.test(result.image))throw Error('compact_unverified');ctx.compact=result;}
+      try{if(typeof config.prepareCompact!=='function')throw Error('compact_unavailable');const result=await config.prepareCompact();if(!current())return;if(!result||result.version>3||result.correction!=='M'||result.quietZone!==4||!/^data:image\/png;base64,/.test(result.image))throw Error('compact_unverified');ctx.compact=result;try{ctx.liquid=window.AtabeyCompactEmergencyQR.render(result.url,3,'liquid');}catch(_){ctx.liquid=null;doc.getElementById('accessory-qr-style').value='square';}}
       catch(_){if(current())doc.getElementById('accessory-status').textContent=m.unavailable;}
       finally{preparing=false;if(current()){if(state.format==='tag'){freeze(busy);doc.getElementById('accessory-prepare').hidden=!!ctx.compact;if(!busy)doc.getElementById('accessory-status').textContent=ctx.compact?m.compactReady:m.unavailable;}else update();}}
     }

@@ -2,6 +2,8 @@
 
 Fecha: 27 de octubre de 2026.
 
+Documento histórico de la primera entrega. Las medidas, estilos y sujeción actuales están descritos en [ACCESORIOS-EMERGENCIA.md](ACCESORIOS-EMERGENCIA.md); esa revisión sustituye los detalles originales indicados aquí.
+
 La vista de impresión sustituye la tira sin QR por un selector de tres complementos. Cada uno tiene su propio botón para abrir una hoja A4 apaisada, revisar la plantilla e imprimir o guardar PDF. La impresión superior de la tarjeta sigue siendo una sola hoja A4 vertical, con sus dos caras unidas. Los QR principales conservan sus 49 x 49 mm y el QR rojo del directorio conserva sus 16 x 16 mm.
 
 ## Formatos y opciones
