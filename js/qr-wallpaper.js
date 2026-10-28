@@ -60,12 +60,16 @@
     ar: ['رمزك بأسلوبك. اختر خلفية وعدّل التصميم وأنشئ ملفك.','معاينة','اختر خلفيتك','خصّص رمز QR','احفظ واستخدم','الخلفيات السابقة','الخلفيات التالية','تعتمد الساعة والإشعارات على هاتفك.','اختر لونًا آخر']
   };
   function designText(key) { return (DESIGN_WORDS[lang()] || DESIGN_WORDS.es)[DESIGN_KEYS.indexOf(key)]; }
+  const IPHONE_LABELS = {
+    es:'Preparar para iPhone · Live Photo',en:'Prepare for iPhone · Live Photo',fr:'Préparer pour iPhone · Live Photo',pt:'Preparar para iPhone · Live Photo',de:'Für iPhone vorbereiten · Live Photo',eu:'Prestatu iPhonerako · Live Photo',hi:'iPhone के लिए तैयार करें · Live Photo',zh:'为 iPhone 准备 · 实况照片',ru:'Подготовить для iPhone · Live Photo',ja:'iPhone 用に準備 · Live Photo',ar:'تجهيز للـ iPhone · Live Photo'
+  };
   function icon(name) {
     const paths = {
       close: '<path d="m6 6 12 12M18 6 6 18"/>',
       expand: '<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/>',
       image: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/>',
       video: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m10 8 6 4-6 4Z"/>',
+      phone: '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4m-3 14h2"/>',
       upload: '<path d="M12 16V3m-5 5 5-5 5 5M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/>',
       left: '<path d="m15 6-6 6 6 6"/>', right: '<path d="m9 6 6 6-6 6"/>',
       qr: '<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3v3h-6v-3m-3-6h9M12 3v6M3 12h6"/>'
@@ -728,6 +732,40 @@
     exit.focus();
   }
 
+  // ---------- Preparación iPhone, aislada de los exportadores originales ----------
+  async function prepareIPhone() {
+    if (state.busy) { setStatus(tr('busy')); return; }
+    if (!root || !ownerReady()) return;
+    const parent = root, owner = MedicalOwner.id(), token = localStorage.getItem('doctorqr_token');
+    const current = () => parent.isConnected && root === parent && ownerReady() && MedicalOwner.id() === owner && localStorage.getItem('doctorqr_token') === token;
+    try {
+      await loadScript('/js/qr-wallpaper-iphone.js?v=38');
+      if (!current()) return;
+      if (!state.qrImg) await buildQRImage();
+      if (!current()) return;
+      const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
+      const stamp = value => JSON.stringify(canonical(value));
+      const type = state.type, url = urlForType(type), profile = stamp(MedicalOwner.read()), form = stamp(getFormData());
+      if (!url || !state.qrImg) throw new Error('qr_url');
+      const mask = document.createElement('canvas'); mask.width = state.qrImg.naturalWidth || state.qrImg.width; mask.height = state.qrImg.naturalHeight || state.qrImg.height;
+      mask.getContext('2d').drawImage(state.qrImg, 0, 0);
+      const options = Object.assign({}, effectiveOpts());
+      const photo = state.custom && state.custom.kind === 'image';
+      const source = currentSource();
+      const unchanged = () => current() && state.type === type && stamp(MedicalOwner.read()) === profile && stamp(getFormData()) === form && urlForType(type) === url;
+      await window.AtabeyIPhoneWallpaper.open({
+        height: outputHeight(), mask, options, url, current, unchanged,
+        photoSrc: photo ? image.src : ((!navigator.onLine || video.error || !(video.currentSrc || video.getAttribute('src'))) && source.tagName === 'IMG' ? source.src : ''),
+        videoSrc: photo ? '' : video.currentSrc || video.getAttribute('src'),
+        compose, verify: verifyQR, remember,
+        loadMuxer: () => loadScript(MUXER_URL, MUXER_SRI),
+        busy: value => { state.busy = value; },
+        suspend: () => { cancelAnimationFrame(state.raf); video.pause(); },
+        resume: () => { if (current()) { if (!photo) video.play().catch(() => {}); previewLoop(); } }
+      });
+    } catch (_) { if (current()) setStatus(tr('fail_export'), 'error'); }
+  }
+
   // ---------- Interfaz ----------
   function range(id, label, min, max, step, value, onInput) {
     const input = el('input', { type: 'range', id, min, max, step, value: String(value) });
@@ -831,9 +869,11 @@
     const fullBtn = decorateAction(el('button', { type: 'button', class: 'qrw-primary qrw-preview-action', text: tr('fullscreen') }), 'expand');
     const pngBtn = decorateAction(el('button', { type: 'button', class: 'qrw-primary qrw-export-png', text: tr('png') }), 'image');
     const mp4Btn = decorateAction(el('button', { type: 'button', class: 'qrw-secondary qrw-export-mp4', id: 'qrw-mp4', text: tr('mp4') }), 'video');
+    const iphoneBtn = decorateAction(el('button', { type: 'button', class: 'qrw-secondary qrw-export-iphone', id: 'qrw-iphone', text: IPHONE_LABELS[lang()] }), 'phone');
     fullBtn.addEventListener('click', openFullscreen);
     pngBtn.addEventListener('click', exportPNG);
     mp4Btn.addEventListener('click', exportMP4);
+    iphoneBtn.addEventListener('click', prepareIPhone);
 
     const how = el('details', { class: 'qrw-how' }, [
       el('summary', { text: tr('how_title') }),
@@ -865,7 +905,7 @@
       ], 'violet'),
       designSection('03', designText('export'), [
         el('p', { class: 'qrw-privacy', text: tr('privacy_note') }),
-        el('div', { class: 'qrw-export-actions' }, [pngBtn, mp4Btn]), statusEl, resultBox, how
+        el('div', { class: 'qrw-export-actions' }, [pngBtn, mp4Btn, iphoneBtn]), statusEl, resultBox, how
       ], 'mint')
     ]);
     const stage = el('div', { class: 'qrw-stage' }, [video, preview]);

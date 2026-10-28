@@ -18,7 +18,8 @@
 // v7: incluye la recuperación segura del autenticador.
 // v36: incluye el módulo de fondos de pantalla con QR (los vídeos se guardan al usarse).
 // v37: wallpaper studio and end-of-form tools, including offline styles.
-const CACHE_NAME = 'doctorqr-v37';
+// v38: local iPhone video preparation, fixed medical QR and depth animation.
+const CACHE_NAME = 'doctorqr-v38';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -49,8 +50,11 @@ const CACHE_URLS = [
   './js/web-qr-preview.js?v=22',
   './js/totp-recovery.js?v=14',
   './js/qr-generator.js?v=31',
-  './js/qr-wallpaper.js?v=37',
+  './js/qr-wallpaper.js?v=38',
   './css/qr-wallpaper.css?v=37',
+  './js/qr-wallpaper-iphone.js?v=38',
+  './css/qr-wallpaper-iphone.css?v=38',
+  './vendor/mp4-muxer/mp4-muxer-5.2.2.js',
   './css/medical-tools.css?v=37',
   './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
@@ -61,7 +65,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=37',
+  './js/register-sw.js?v=38',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

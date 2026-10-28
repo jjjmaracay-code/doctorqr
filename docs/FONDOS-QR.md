@@ -25,13 +25,13 @@ Archivos nuevos: `js/qr-wallpaper.js`, `css/qr-wallpaper.css`, `js/qr-wallpaper-
 
 Cambios en archivos existentes:
 - `index.html`: una hoja de estilos y un script, añadidos tras los existentes.
-- `sw.js`: caché actual `doctorqr-v37` con el módulo, su hoja y el catálogo. Los vídeos no se precargan. Sin conexión, el fondo cae al póster.
+- `sw.js`: caché actual `doctorqr-v38` con el módulo, su hoja y el catálogo. Los vídeos no se precargan. Sin conexión, el fondo cae al póster.
 - `_headers`: `media-src 'self' blob:` en la CSP general, necesario para previsualizar el vídeo propio del usuario sin subirlo.
 
 **No se modifican** `js/qr-generator.js`, `card.html`, `buildEmergencyQRUrl()`, `VISIBLE_SECTIONS`, `handleEmergencyQuickAccess()`, el formulario, la sesión, la autenticación, el backend ni la base de datos. El módulo solo llama a funciones existentes en modo lectura.
 
 ## Límites de las plataformas
-- **iPhone:** una web no puede crear un fondo animado. El PNG sirve directamente como fondo. El MP4 se puede convertir en Live Photo con una app gratuita, e iOS solo la anima unos segundos al encender la pantalla.
+- **iPhone:** el creador web prepara imágenes y vídeos, sin instalarlos como fondo ni importar una Live Photo nativa a Fotos. El PNG puede usarse como fondo estático. El nuevo modo iPhone entrega un MP4 breve para convertirlo después en Live Photo desde el iPhone. La aceptación como fondo y su animación se deben comprobar en el dispositivo.
 - **Samsung:** admite vídeos cortos como fondo de bloqueo. Sin verificar en todos los modelos.
 - **Otros Android:** PNG, o el MP4 con una app de fondos de vídeo.
 - **Exportación MP4:** usa WebCodecs (H.264) + mp4-muxer. Si el navegador no tiene WebCodecs, graba el lienzo con MediaRecorder. Si solo puede hacerlo en WebM, se avisa de que quizá no sirva como fondo.
@@ -75,3 +75,37 @@ node tests/qr-wallpaper-browser.cjs
 La composición de los archivos, la matriz y las URL de los QR, la validación de lectura, los codificadores PNG/MP4, los campos médicos y los manejadores de guardado, ubicación y cuenta son idénticos a la versión anterior. No hay cambios de backend, datos, secretos, planes ni dependencias.
 
 Validación con cuentas ficticias y servidor local: exportación PNG y MP4 H.264 con lectura del QR; pantalla completa; aviso de desactualización; móvil y ordenador; galería y ajustes; relieve y halo al pulsar; teclado y árabe RTL; ubicación simulada; actualización de una instalación antigua; guardado y lectura desde otro perfil; los once idiomas y uso sin conexión. Las pruebas de navegador no sustituyen comprobar la instalación del fondo en móviles reales.
+
+
+## Preparar para iPhone · Live Photo — 28 de octubre de 2026
+
+Botón adicional en el paso «Guarda y úsalo». Abre una preparación independiente con tres niveles de profundidad, vista previa con pausa y guía de instalación. Conserva los exportadores PNG/MP4 originales.
+
+### Archivo que entrega
+
+- MP4 H.264 sin audio, 1080 px de ancho, altura según la proporción del dispositivo (1920–2400), dos segundos. Se generan 120 fotogramas a 60 FPS con WebCodecs y un objetivo de 10 Mbit/s. Si el navegador no admite el codificador necesario, se informa y no se genera un archivo de menor fluidez presentado como equivalente. Los exportadores generales anteriores conservan sus propias alternativas.
+- Imagen PNG del fotograma central, con el mismo QR, para usarla de fondo estático.
+- El nombre `atabeyapp-iphone-para-live-photo.mp4` y la interfaz indican expresamente que es un **vídeo para convertir a Live Photo**, no una Live Photo ya importada.
+- El usuario guarda el vídeo, lo convierte en Live Photo mediante un conversor en su iPhone y elige el resultado en Ajustes → Fondo de pantalla → Añadir nuevo fondo → Fotos → Live Photo. Se enlaza la guía oficial de Apple.
+
+### Animación y lectura
+
+- Paralaje de fondo, luces suaves, partículas proyectadas en perspectiva tridimensional y líneas en distintas capas. El relieve forma parte del vídeo; no genera un mapa de profundidad de la foto ni activa la función «Escena espacial» de Apple.
+- El QR mantiene posición, tamaño, matriz y color constantes en este modo. No gira, no se deforma y conserva su zona de silencio sobre blanco completamente opaco. El cristal semitransparente continúa en el marco exterior.
+- También transforma una foto local en una animación de profundidad. Si hay un póster disponible y el vídeo no está accesible sin conexión, se puede usar ese póster.
+- Se comprueba la URL exacta del QR antes de entregar el archivo. El modo iPhone nunca entrega WebM con una extensión MP4. Si no hay un codificador WebCodecs H.264 compatible con este modo, lo explica y no presenta un archivo como compatible.
+- La vista previa respeta movimiento reducido y permite reproducirla voluntariamente. La generación de un vídeo requiere pulsar su botón explícitamente.
+
+### Aislamiento
+
+Se toma una copia del QR y de sus opciones. El propietario, la sesión, el perfil guardado y los datos del formulario se comprueban antes y durante la operación. Si cambian, o se cierra la preparación, se cancela el trabajo, se eliminan sus resultados y se revocan sus URL de descarga. Una respuesta tardía no se entrega en una sesión posterior. La comparación de perfiles normaliza el orden de las claves sin omitir campos.
+
+Todo se compone en el dispositivo. No se crean endpoints, servicios, cuentas, almacenamiento de medios ni dependencias nuevas. El modo usa el codificador y el empaquetador MP4 ya disponibles en el proyecto. El módulo, la hoja de estilo y el empaquetador se incluyen en la caché v38 para uso sin conexión.
+
+### Fuentes y comprobación
+
+- Apple: [Live Photo como fondo de bloqueo](https://support.apple.com/es-es/120734).
+- Apple: [Escena espacial y fotos aptas](https://support.apple.com/es-es/102638).
+- Referencia de preparación breve: [instrucciones del desarrollador de intoLive](https://intolive.zendesk.com/hc/es/articles/24491144353561-C%C3%B3mo-crear-Live-Photos-para-fondos-de-pantalla-animados), que describe su conversión para iOS 17 y 18. No establece una garantía para otras versiones de iOS ni una exigencia universal de Apple.
+
+`tests/qr-wallpaper-iphone-browser.cjs` prueba el archivo H.264 real con ffprobe/ffmpeg y la URL del QR en fotogramas decodificados y PNG a varias escalas. Incluye fotos locales sin conexión, cancelación, invalidación de sesión/perfil, once idiomas, RTL, movimiento reducido, falta de códecs y ausencia de peticiones de escritura o externas, bajo la CSP del sitio. La prueba de aceptación final de una Live Photo como fondo en un iPhone real sigue pendiente; no se ha realizado desde el navegador automatizado.

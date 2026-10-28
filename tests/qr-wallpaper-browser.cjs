@@ -29,7 +29,7 @@ function serve() {
 // Página de prueba: el botón de imprimir y la sección de QR existen como en index.html.
 // Se cargan qr-generator.js REAL (sin cambios) y el módulo nuevo; solo el perfil es ficticio.
 const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="/css/qr-wallpaper.css?v=37"></head><body style="background:#000;color:#fff;margin:0">
+<link rel="stylesheet" href="/css/qr-wallpaper.css?v=37"><link rel="stylesheet" href="/css/qr-wallpaper-iphone.css?v=38"></head><body style="background:#000;color:#fff;margin:0">
 <div id="qr-section" style="display:none;padding:0 16px"><div id="qr-carousel"></div><div id="qr-dots"></div>
 <button id="btn-print-emergency">IMPRIMIR</button></div>
 <script>
@@ -39,7 +39,7 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
 <script src="/vendor/qrcodejs/qrcode.min.js"></script>
 <script src="/js/qr-generator.js?v=31"></script>
 <script>window.getFormData = () => window.__profile;</script>
-<script src="/js/qr-wallpaper.js?v=37"></script></body></html>`;
+<script src="/js/qr-wallpaper.js?v=38"></script></body></html>`;
 
 (async () => {
   const server = await serve(), base = `http://127.0.0.1:${server.address().port}`;
