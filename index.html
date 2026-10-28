@@ -24,7 +24,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=42"></script>
+  <script src="/js/register-sw.js?v=43"></script>
   <script src="i18n/loader.js?v=14"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -202,6 +202,8 @@
   window.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' ')protect(event);},true);
 })();
 </script>
+<link rel="stylesheet" href="/css/keyboard-comfort.css?v=1">
+<script defer src="/js/keyboard-comfort.js?v=1"></script>
 </head>
 <body data-medical-surface data-atabey-ui="editor" data-form-edit-surface="medical" data-form-edit-product="atabey" data-form-edit-pass=".section-header">
 
@@ -2442,7 +2444,7 @@
         <div class="totp-setup-code-char" id="totp-setup-c5">·</div>
       </div>
 
-      <div class="totp-setup-keypad">
+      <div class="totp-setup-keypad" data-keyboard="num" data-keyboard-display=".totp-setup-code-display" data-keyboard-action="#btn-totp-setup-confirmar" data-keyboard-auto="show">
         <button class="totp-setup-key" data-totp-setup="1">1</button>
         <button class="totp-setup-key" data-totp-setup="2">2</button>
         <button class="totp-setup-key" data-totp-setup="3">3</button>

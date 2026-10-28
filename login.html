@@ -458,6 +458,8 @@
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
 <link rel="stylesheet" href="/css/trial-access.css?v=23"/>
 <script src="/js/trial-access.js?v=23"></script>
+<link rel="stylesheet" href="/css/keyboard-comfort.css?v=1">
+<script defer src="/js/keyboard-comfort.js?v=1"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -713,7 +715,7 @@
         Reenviar código
       </button>
 
-      <div class="pin-keypad">
+      <div class="pin-keypad" data-keyboard="num" data-keyboard-display="#screen-l2 .code-display" data-keyboard-action="#btn-verify-l2" data-keyboard-auto="show">
         <button class="key-btn" data-l2="1">1</button>
         <button class="key-btn" data-l2="2">2</button>
         <button class="key-btn" data-l2="3">3</button>
@@ -787,7 +789,7 @@
           <div class="code-char" id="gate-c5">·</div>
         </div>
 
-        <div class="pin-keypad">
+        <div class="pin-keypad" data-keyboard="num" data-keyboard-display="#screen-gate .code-display" data-keyboard-action="#btn-gate-confirmar" data-keyboard-auto="show">
           <button class="key-btn" data-gate="1">1</button>
           <button class="key-btn" data-gate="2">2</button>
           <button class="key-btn" data-gate="3">3</button>
@@ -1054,19 +1056,7 @@ function goTo(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const screen = document.getElementById(screenId);
   screen.classList.add('active');
-  if (screenId === 'screen-l2') {
-    // Presentation only: reveal the existing keypad and verify button after layout settles.
-    // Never focus an input or open the phone keyboard, and ignore a screen already left.
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (!screen.classList.contains('active') || document.hidden) return;
-      const card = screen.querySelector('.form-card');
-      if (!card) return;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      card.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
-    }));
-  } else {
-    window.scrollTo(0, 0);
-  }
+  window.scrollTo(0, 0); // The presentation helper aligns the active keyboard after layout.
 }
 
 // Guarda la sesión y redirige a index.html -- compartido entre el éxito

@@ -349,6 +349,8 @@
 </style>
   <link rel="stylesheet" href="css/atabey-refresh.css?v=18"/>
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
+<link rel="stylesheet" href="/css/keyboard-comfort.css?v=1">
+<script defer src="/js/keyboard-comfort.js?v=1"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -572,7 +574,7 @@
     <div class="code-timer"><span data-i18n="recovery.screen2.timer_prefix">El código expira en</span> <span id="rec-timer">30:00</span></div>
     <button class="resend-btn" id="btn-resend-rec" disabled data-i18n="recovery.screen2.resend_button">Reenviar código</button>
 
-    <div class="pin-keypad">
+    <div class="pin-keypad" data-keyboard="num" data-keyboard-display="#screen-2 .code-display" data-keyboard-action="#btn-verify-rec" data-keyboard-auto="show">
       <button class="key-btn" data-rec="1">1</button>
       <button class="key-btn" data-rec="2">2</button>
       <button class="key-btn" data-rec="3">3</button>
@@ -617,7 +619,7 @@
     </div>
     <div class="pwd-hint-static" data-i18n="recovery.common.pwd_static_hint">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
-    <div id="qwerty-kbd-new"></div>
+    <div id="qwerty-kbd-new" data-keyboard="qwerty" data-keyboard-display="#np-dots" data-keyboard-action="" data-keyboard-auto="show"></div>
 
     <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(18,165,255,0.5);margin:20px 0 8px;" data-i18n="recovery.screen3.confirm_password_label">CONFIRMAR CONTRASEÑA</div>
     <div class="pwd-dots empty" id="cp-dots">· · · · · · · ·</div>
@@ -630,7 +632,7 @@
     </div>
     <div class="pwd-hint-static" data-i18n="recovery.common.pwd_static_hint">Contraseña mínima de 8 caracteres, incluye mínimo una letra mayúscula, un número y un símbolo.</div>
 
-    <div id="qwerty-kbd-confirm"></div>
+    <div id="qwerty-kbd-confirm" data-keyboard="qwerty" data-keyboard-display="#cp-dots" data-keyboard-action="#btn-reset" data-keyboard-auto="interact"></div>
 
     <!-- 2FA DINÁMICO -->
     <div class="tfa-section" id="tfa-section">
@@ -649,7 +651,7 @@
           <div class="code-char green" id="tf4">·</div>
           <div class="code-char green" id="tf5">·</div>
         </div>
-        <div class="pin-keypad">
+        <div class="pin-keypad" data-keyboard="num" data-keyboard-display="#tfa-totp-wrap .code-display" data-keyboard-action="#btn-reset" data-keyboard-auto="interact">
           <button class="key-btn green-key" data-target="tfa" data-val="1">1</button>
           <button class="key-btn green-key" data-target="tfa" data-val="2">2</button>
           <button class="key-btn green-key" data-target="tfa" data-val="3">3</button>
@@ -679,7 +681,7 @@
           <div class="code-char green" id="te5">·</div>
         </div>
         <div class="code-timer"><span data-i18n="recovery.screen3.tfa_email_timer_prefix">Expira en</span> <span id="tfa-email-timer">10:00</span></div>
-        <div class="pin-keypad">
+        <div class="pin-keypad" data-keyboard="num" data-keyboard-display="#tfa-email-wrap .code-display" data-keyboard-action="#btn-reset" data-keyboard-auto="interact">
           <button class="key-btn green-key" data-target="tfaemail" data-val="1">1</button>
           <button class="key-btn green-key" data-target="tfaemail" data-val="2">2</button>
           <button class="key-btn green-key" data-target="tfaemail" data-val="3">3</button>

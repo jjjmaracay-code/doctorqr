@@ -1,0 +1,22 @@
+/* Larger built-in keys; existing colour, press feedback and handlers are preserved. */
+[data-keyboard]{scroll-margin-block:12px;flex-shrink:0}
+[data-keyboard="num"]{gap:8px}
+[data-keyboard="num"]>button{height:var(--keyboard-key-height,78px);min-height:44px;min-width:0;overflow-wrap:anywhere;aspect-ratio:auto;font-size:24px;border-radius:12px;transition:background-color .12s,color .12s,transform .1s,box-shadow .12s,border-color .12s;touch-action:manipulation}
+[data-keyboard="num"]>button.del{font-size:22px}
+[data-keyboard="qwerty"] .qwerty-row{gap:5px;margin-bottom:5px}
+[data-keyboard="qwerty"] .qwerty-row:last-child{margin-bottom:0}
+[data-keyboard="qwerty"] .qwerty-key{height:var(--keyboard-key-height,66px);min-height:44px;font-size:20px;touch-action:manipulation}
+[data-keyboard="qwerty"] .qwerty-action{font-size:clamp(11px,3.3vw,16px)}
+[data-keyboard="qwerty"] .qwerty-space{font-size:0}
+@media(max-width:380px){[data-keyboard="qwerty"] .qwerty-row{gap:3px}[data-keyboard="qwerty"] .qwerty-key{font-size:18px}[data-keyboard="qwerty"] .qwerty-action{font-size:11px}}
+
+[data-atabey-ui="access"] :is(.reg-form,.rec-form,.rec-content){max-width:560px;padding-inline:clamp(12px,3vw,24px)}
+[data-atabey-ui="access"] :is(.form-card,.rec-card){padding-inline:clamp(12px,4vw,24px)}
+[data-atabey-ui="access"] .code-display .code-char{flex:1 1 0;min-width:0;max-width:48px;height:52px;font-size:24px}
+.totp-setup-card{max-width:440px}
+
+[data-atabey-ui="access"] :is(.reg-header,.rec-header)>svg{max-width:100%;height:auto}
+
+[data-atabey-ui="access"] :is(.form-card,.rec-card){width:100%;min-width:0;max-width:100%}
+
+[data-keyboard="num"]>button[id*="clr"]{font-size:clamp(15px,4.8vw,20px)}

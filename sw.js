@@ -23,10 +23,13 @@
 // v40: translucent floating lock without reducing the form width.
 // v41: compact, owner-bound medical accessory QR and 30 x 40 mm watch plate.
 // v42: single-piece watch tabs, adjustable openings and enlarged liquid QR.
-const CACHE_NAME = 'doctorqr-v42';
+// v43: larger app keyboards and minimal, viewport-aware alignment.
+const CACHE_NAME = 'doctorqr-v43';
 const CACHE_URLS = [
   '/',
   './index.html',
+  './css/keyboard-comfort.css?v=1',
+  './js/keyboard-comfort.js?v=1',
   './js/country-metrics.js?v=1',
   './login.html',
   './register.html',
@@ -72,7 +75,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=42',
+  './js/register-sw.js?v=43',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',
