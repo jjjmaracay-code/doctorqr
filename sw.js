@@ -20,7 +20,8 @@
 // v37: wallpaper studio and end-of-form tools, including offline styles.
 // v38: local iPhone video preparation, fixed medical QR and depth animation.
 // v39: deliberate form editing; controls start disabled in HTML.
-const CACHE_NAME = 'doctorqr-v39';
+// v40: translucent floating lock without reducing the form width.
+const CACHE_NAME = 'doctorqr-v40';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -58,7 +59,7 @@ const CACHE_URLS = [
   './vendor/mp4-muxer/mp4-muxer-5.2.2.js',
   './css/medical-tools.css?v=37',
   './js/form-edit-lock.js?v=39',
-  './css/form-edit-lock.css?v=39',
+  './css/form-edit-lock.css?v=40',
   './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
   './js/emergency-accessories.js?v=33',
@@ -68,7 +69,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=39',
+  './js/register-sw.js?v=40',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

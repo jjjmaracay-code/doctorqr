@@ -2,6 +2,8 @@
 
 La planilla médica se abre en lectura. La pestaña azul del borde permanece visible al desplazarse y muestra «Bloqueada» o «Editando».
 
+La pestaña es semitransparente y se superpone al borde sin reservar espacio lateral ni reducir el ancho de la planilla. El candado y su estado conservan contraste y el área de pulsación.
+
 1. Pulsar el candado abre un diálogo; no habilita los campos directamente.
 2. «Activar edición» permite modificar y guardar mediante el flujo existente.
 3. Pulsar de nuevo el candado conserva las entradas y vuelve a proteger los campos. No publica ni guarda por sí mismo. Los borradores pendientes mantienen su funcionamiento anterior.
