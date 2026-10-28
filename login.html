@@ -458,8 +458,8 @@
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
 <link rel="stylesheet" href="/css/trial-access.css?v=23"/>
 <script src="/js/trial-access.js?v=23"></script>
-<link rel="stylesheet" href="/css/keyboard-comfort.css?v=2">
-<script defer src="/js/keyboard-comfort.js?v=2"></script>
+<link rel="stylesheet" href="/css/keyboard-comfort.css?v=3">
+<script defer src="/js/keyboard-comfort.js?v=3"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -676,7 +676,7 @@
     </div>
 
     <!-- Teclado QWERTY contraseña -->
-    <div class="pwd-keyboard" id="pwd-keyboard" data-keyboard="qwerty" data-keyboard-display="#login-password" data-keyboard-action="#btn-login" data-keyboard-context="#screen-l1 > .form-card" data-keyboard-auto="interact">
+    <div class="pwd-keyboard" id="pwd-keyboard" data-keyboard="qwerty" data-keyboard-display="#login-password" data-keyboard-action="#btn-login" data-keyboard-context="#screen-l1 > .form-card" data-keyboard-end="#btn-emergency-quick" data-keyboard-auto="interact">
       <div id="qwerty-login"></div>
     </div>
 
@@ -685,7 +685,7 @@
       <a href="register.html">Regístrate</a>
     </div>
 
-    <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);text-align:center">
+    <div class="login-emergency-tools" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);text-align:center">
       <button type="button" class="btn-secondary" id="btn-emergency-quick" onclick="handleEmergencyQuickAccess()" data-i18n="login.l1.emergency_quick_button">Acceso rápido de emergencia</button>
       <div class="field-hint error" id="emergency-quick-msg" style="display:none;margin-top:-4px;margin-bottom:8px"></div>
     </div>

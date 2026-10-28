@@ -17,3 +17,9 @@ El teclado QWERTY real de `login.html` se incluye ahora en el mismo controlador:
 Al seleccionar la contraseña se muestra todo el teclado; si cabe, también se encuadra la tarjeta completa de acceso, incluidos correo y botón de entrar. En menor altura se priorizan teclado y contraseña, manteniendo el desplazamiento manual disponible. El campo de contraseña con `inputmode="none"` conserva el ajuste tras girar la pantalla; los campos con teclado del sistema mantienen la exclusión previa. El módulo no cambia el foco ni los manejadores de acceso.
 
 La prueba adicional usa este teclado real, pulsaciones táctiles y los once idiomas, además de comprobar el encuadre junto al formulario, el giro con la contraseña enfocada y la ausencia de envíos automáticos. La caché instalada incorpora los dos recursos en su versión 2.
+
+## Giro del dispositivo y orientación de la aplicación
+
+Se sustituye el bloqueo vertical del manifiesto por `orientation: any`. El teclado responde tanto al cambio de tamaño del viewport visible como al evento de Screen Orientation cuando está disponible, con respaldo del evento `orientationchange`. El redimensionado vuelve a encuadrar el teclado activo después del giro, sin cambiar el foco, valores, autenticación ni datos guardados. Se respeta el bloqueo de giro del sistema operativo; la prueba con viewport simulado no certifica el sensor ni la instalación física en cada móvil.
+
+En acceso con contraseña, el extremo inferior de encuadre pasa a ser el botón rojo de emergencia. Se reserva el espacio de los controles inferiores y se muestra también la contraseña o el formulario completo cuando cabe. En móviles horizontales de poca altura, registro y acceso de emergencia comparten una fila inferior para mantener el teclado completo junto al botón. El desplazamiento únicamente revela el control: nunca lo pulsa ni abre información médica.

@@ -26,12 +26,13 @@
 // v43: larger app keyboards and minimal, viewport-aware alignment.
 // v44: close both commemorative card borders; keep fold marks outside the artwork.
 // v45: frame the actual login password keyboard and show the full form when it fits.
-const CACHE_NAME = 'doctorqr-v45';
+// v46: reveal emergency access with the keyboard and allow both orientations.
+const CACHE_NAME = 'doctorqr-v46';
 const CACHE_URLS = [
   '/',
   './index.html',
-  './css/keyboard-comfort.css?v=2',
-  './js/keyboard-comfort.js?v=2',
+  './css/keyboard-comfort.css?v=3',
+  './js/keyboard-comfort.js?v=3',
   './js/country-metrics.js?v=1',
   './login.html',
   './register.html',
@@ -77,7 +78,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=24',
   './js/form.js?v=31',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=45',
+  './js/register-sw.js?v=46',
   './js/web-session.js?v=24',
   './js/web-link.js?v=34',
   './js/qr-visual.js?v=17',

@@ -14,24 +14,26 @@ const root=process.cwd(),medical=fs.existsSync(path.join(root,'js/medical-owner.
  async function show(id){await p.evaluate(id=>{document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);},id);}
  async function check(selector,size){await p.waitForFunction(s=>!!document.querySelector(s)?.style.getPropertyValue('--keyboard-key-height'),selector);await p.waitForTimeout(180);const box=await p.locator(selector).boundingBox();assert.ok(box&&box.y>=8&&box.y+box.height<=size.height-7,JSON.stringify({medical,selector,size,box}));const metrics=await p.locator(selector+' button').first().evaluate(e=>({height:e.getBoundingClientRect().height,font:parseFloat(getComputedStyle(e).fontSize)}));assert.ok(metrics.height>=44&&metrics.font>=18);assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'no horizontal overflow '+JSON.stringify({size,overflow:await p.evaluate(()=>[...document.querySelectorAll('body *')].filter(e=>{const r=e.getBoundingClientRect();return r.width&&r.right>innerWidth+2}).slice(0,7).map(e=>({tag:e.tagName,id:e.id,c:e.className,r:e.getBoundingClientRect().toJSON()})))}));return metrics;}
  const sizes=[{width:320,height:568},{width:390,height:844},{width:430,height:932},{width:844,height:390},{width:1024,height:768}];
+ assert.equal(JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8')).orientation,'any','Installed app permits both portrait and landscape');
  if(medical){
   await open('login.html');
   await p.waitForFunction(()=>document.querySelectorAll('#qwerty-login button').length>20);
   await p.evaluate(()=>setLanguage('es'));
-  for(const size of sizes){
+  for(const size of [...sizes,{width:568,height:320}]){
    await p.setViewportSize(size);await show('screen-l1');
    await p.locator('#login-email').focus();await p.locator('#login-password').focus();
    const metrics=await check('#pwd-keyboard',size);
    if(size.height>=768)assert.ok(metrics.height>=66,'Login password keys are taller than the former 48px keys');
-   const frame=await p.evaluate(()=>{const k=document.getElementById('pwd-keyboard').getBoundingClientRect(),card=document.querySelector('#screen-l1 > .form-card').getBoundingClientRect(),password=document.getElementById('login-password').getBoundingClientRect(),action=document.getElementById('btn-login').getBoundingClientRect();return{k:k.toJSON(),card:card.toJSON(),password:password.toJSON(),action:action.toJSON()};});
-   if(frame.k.bottom-frame.card.top<=size.height-24){assert.ok(frame.card.top>=8&&frame.k.bottom<=size.height-7,'Show the full login form and keyboard together when they fit');}
-   else if(frame.k.bottom-frame.password.top<=size.height-24){assert.ok(frame.password.top>=8&&frame.action.top>=8,'Keep password and login action visible with the full keyboard when they fit');}
+   const frame=await p.evaluate(()=>{const k=document.getElementById('pwd-keyboard').getBoundingClientRect(),card=document.querySelector('#screen-l1 > .form-card').getBoundingClientRect(),password=document.getElementById('login-password').getBoundingClientRect(),action=document.getElementById('btn-login').getBoundingClientRect(),end=document.getElementById('btn-emergency-quick').getBoundingClientRect();return{k:k.toJSON(),card:card.toJSON(),password:password.toJSON(),action:action.toJSON(),end:end.toJSON()};});
+   assert.ok(frame.end.top>=8&&frame.end.bottom<=size.height-7,'Mini-scroll reaches the complete emergency button: '+JSON.stringify({size,frame}));
+   if(frame.end.bottom-frame.card.top<=size.height-24){assert.ok(frame.card.top>=8,'Show the full login form, keyboard and emergency button together when they fit');}
+   else if(frame.end.bottom-frame.password.top<=size.height-24){assert.ok(frame.password.top>=8&&frame.action.top>=8,'Keep password and login action visible with the full keyboard and emergency button when they fit');}
    assert.equal(await p.evaluate(()=>document.activeElement.id),'login-password','Alignment preserves the selected field');
   }
   await p.setViewportSize({width:390,height:844});await p.locator('#login-email').focus();await p.locator('#login-password').focus();await check('#pwd-keyboard',{width:390,height:844});
   await p.setViewportSize({width:844,height:390});await check('#pwd-keyboard',{width:844,height:390});assert.equal(await p.evaluate(()=>document.activeElement.id),'login-password');
   await p.setViewportSize({width:390,height:844});await check('#pwd-keyboard',{width:390,height:844});assert.equal(await p.evaluate(()=>document.activeElement.id),'login-password');
-  await p.screenshot({path:'/tmp/atabey-login-keyboard-mobile.png'});
+  await p.screenshot({path:'/tmp/atabey-login-emergency-scroll-mobile.png'});
   await p.locator('#login-password').fill('');
   await p.locator('#qwerty-login button').filter({hasText:/^q$/}).tap();assert.equal(await p.locator('#login-password').inputValue(),'q');
   await p.locator('#qwerty-login button').filter({hasText:/^123$/}).tap();await check('#pwd-keyboard',{width:390,height:844});
@@ -41,7 +43,7 @@ const root=process.cwd(),medical=fs.existsSync(path.join(root,'js/medical-owner.
   await p.locator('#qwerty-login .qwerty-done').tap();assert.equal(await p.locator('#pwd-keyboard').isVisible(),false);assert.equal(writes.length,0,'Password keyboard does not log in or verify by itself');
   await p.locator('#login-email').focus();await p.locator('#login-password').focus();await check('#pwd-keyboard',{width:390,height:844});
   await p.evaluate(()=>{document.dispatchEvent(new WheelEvent('wheel',{deltaY:-500,bubbles:true}));window.scrollTo(0,0);});await p.waitForTimeout(250);assert.equal(await p.evaluate(()=>scrollY),0,'Manual scrolling is respected while password field stays focused');
-  for(const lang of ['es','en','fr','de','pt','eu','hi','zh','ru','ja','ar']){await p.evaluate(lang=>setLanguage(lang),lang);await p.locator('#login-email').focus();await p.locator('#login-password').focus();await check('#pwd-keyboard',{width:390,height:844});}
+  for(const lang of ['es','en','fr','de','pt','eu','hi','zh','ru','ja','ar']){await p.evaluate(lang=>setLanguage(lang),lang);await p.locator('#login-email').focus();await p.locator('#login-password').focus();await check('#pwd-keyboard',{width:390,height:844});const end=await p.locator('#btn-emergency-quick').boundingBox();assert.ok(end.y>=8&&end.y+end.height<=837,'Emergency button remains fully visible in '+lang);}
   await p.evaluate(()=>setLanguage('es'));await p.emulateMedia({reducedMotion:'no-preference'});await p.locator('#login-email').focus();await p.locator('#login-password').focus();await p.waitForTimeout(600);await check('#pwd-keyboard',{width:390,height:844});await p.emulateMedia({reducedMotion:'reduce'});
   console.log('PASS: actual login password keyboard is enlarged and fully framed on five sizes, with its form when it fits; touch typing, numbers, delete, clear, done, focused rotation, eleven languages and manual scrolling preserve existing behavior.');
  }
