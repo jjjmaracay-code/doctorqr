@@ -30,7 +30,8 @@
 // v47: visible neon feedback on touch, pointer and keyboard presses.
 // v48: personal medical-information wording; emergency bag tag on both sides.
 // v49: wallet appearance controls and desktop/touch 3D section navigation.
-const CACHE_NAME = 'doctorqr-v49';
+// v50: named emergency contacts in white accessory panels.
+const CACHE_NAME = 'doctorqr-v50';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -76,14 +77,14 @@ const CACHE_URLS = [
   './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
   './js/compact-emergency-qr.js?v=42',
-  './js/emergency-accessories.js?v=48',
+  './js/emergency-accessories.js?v=50',
   './js/emergency-card.js?v=49',
   './js/medical-owner.js?v=41',
   './js/birthdate.js?v=14',
   './js/profile-sync.js?v=48',
   './js/form.js?v=48',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=49',
+  './js/register-sw.js?v=50',
   './js/web-session.js?v=48',
   './js/web-link.js?v=48',
   './js/qr-visual.js?v=17',

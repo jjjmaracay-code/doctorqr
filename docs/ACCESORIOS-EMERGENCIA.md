@@ -4,7 +4,7 @@
 
 Revisión del 28 de octubre de 2026. Esta plantilla sustituye el concepto anterior de placa PVC con soporte trasero TPU. Es un patrón de papel para recortar y plastificar, con pestaña superior e inferior integradas. No se fabrica ni añade un soporte posterior.
 
-- QR de reloj de **30 × 30 mm**, con opción **34 × 34 mm**, incluyendo el margen blanco. Frente nominal de 38 × 51 mm o 42 × 55 mm; aumenta su ancho si lo exige una correa más ancha. Las pestañas y el sellado exterior ocupan espacio adicional y no forman parte de esas medidas del frente.
+- QR de reloj de **30 × 30 mm**, con opción **34 × 34 mm**, incluyendo el margen blanco. El frente parte de 38 o 42 mm de ancho; aumenta su ancho si lo exige una correa más ancha. Desde v50, su altura se ajusta al nombre del contacto y a la línea médica voluntaria. Las pestañas y el sellado exterior ocupan espacio adicional y no forman parte de esas medidas del frente.
 - Ancho de correa configurable entre **12 y 32 mm**. La abertura añade 4 mm al ancho seleccionado; una correa configurada en 20 mm genera dos pasos de **24 × 4 mm** con la altura inicial.
 - Altura libre configurable entre **2 y 8 mm**. Es una dimensión de la abertura, no una certificación de que un material o cierre determinado vaya a pasar.
 - Se recorta cada ventana del papel antes de plastificar. La ranura final queda 3 mm hacia dentro de la ventana: se abre solo el plástico sellado, sin dejar el canto del papel expuesto. Los contornos separan el corte del papel y el del plástico. Las dos pestañas pertenecen al mismo contorno.
@@ -21,6 +21,8 @@ Son prototipos de impresión. Los ensayos de archivo no validan retención, como
 
 Solo se utilizan contactos de emergencia guardados. Se excluye uno que coincida con el teléfono personal; se puede elegir otro. No se sustituye por el teléfono del usuario ni por el 112. El número se agrupa sin cambiar sus dígitos.
 
+Desde v50, reloj, pulsera y ambas caras del colgante presentan un recuadro blanco con la etiqueta de contacto, el nombre guardado del contacto seleccionado y su teléfono. Los nombres largos se distribuyen en varias líneas; se amplía el espacio inferior del patrón cuando hace falta, conservando los tamaños de los QR. Si no hay nombre guardado, no se inventa ni se utiliza el del titular. Desmarcar la impresión del contacto retira el recuadro completo del archivo.
+
 El nombre abreviado utiliza los campos de registro verificados cuando los datos médicos los contienen combinados. Puede mostrarse solo iniciales o ningún nombre. Ocultar el texto impreso no anonimiza el QR.
 
 La línea médica voluntaria admite hasta 24 caracteres y está desactivada por defecto. No se extraen alergias o diagnósticos automáticamente, y esta opción nunca modifica los datos médicos.
@@ -31,7 +33,7 @@ Se conservan el granate inicial, los demás colores sólidos y las ediciones con
 
 Revisión del 29 de octubre de 2026. El colgante imprime dos caras unidas en una sola pieza. Ambas usan exactamente la misma imagen y el mismo destino del QR de emergencia de la cuenta actual. No se refleja ni invierte ninguna matriz. La segunda cara permite intentar otra lectura si una superficie se daña; no se asignan probabilidades de deterioro ni se certifica la resistencia del material.
 
-- QR de **40 × 40 mm** o **49 × 49 mm en cada cara**, sin reducirlo para incorporar la segunda cara. Tamaño nominal terminado: **60 × 83 mm** o **69 × 92 mm**, respectivamente, incluido el margen exterior de plastificado.
+- QR de **40 × 40 mm** o **49 × 49 mm en cada cara**, sin reducirlo para incorporar la segunda cara. La anchura terminada es de **60 o 69 mm**, respectivamente. Desde v50, la altura se ajusta al nombre del contacto y a la línea voluntaria; la plantilla muestra las dimensiones finales, incluido el borde plástico.
 - Se recorta el contorno exterior de papel como una sola pieza. Las marcas de doblado quedan fuera de las caras: **doblar por el centro, no cortar por el medio**.
 - Antes de plastificar, se doblan las caras dejando las superficies impresas hacia fuera y se alinean las ventanas de papel. El patrón conserva un margen objetivo de sellado de 3 mm. Se abre el orificio solo después de plastificar, dentro de la ventana sellada y sin alcanzar el papel.
 - Ambas caras conservan el color sólido o conmemorativo elegido, nombre según la opción de privacidad, contacto de emergencia seleccionado y línea médica voluntaria. Estas opciones afectan al texto impreso; no ocultan los datos accesibles mediante el QR.
@@ -47,7 +49,7 @@ El enlace de 40 bytes sigue usando el dominio existente: `https://atabeyapp.app/
 
 Si no puede prepararse o recuperarse un QR compacto previamente verificado, se desactiva la exportación compacta. No se reduce silenciosamente un QR denso. La tarjeta grande y la etiqueta siguen disponibles. Un QR compacto preparado para la revisión actual se puede volver a componer sin conexión; consultar los datos médicos remotos sigue necesitando conexión.
 
-La revisión de montaje no cambia la autenticación, sincronización, cobros ni datos médicos. No incorpora servicios, almacenamiento remoto o dependencias. PNG a 300 ppp y PDF se generan en el dispositivo. La publicación del 29 de octubre avanza la PWA a `doctorqr-v48` e incluye el cambio de terminología descrito en `TERMINOLOGIA-Y-COLGANTE.md`; en el servidor solo se actualizan mensajes y la cabecera de las plantillas de correo.
+La revisión de montaje no cambia la autenticación, sincronización, cobros ni datos médicos. No incorpora servicios, almacenamiento remoto o dependencias. PNG a 300 ppp y PDF se generan en el dispositivo. La publicación v48 incluye el cambio de terminología descrito en `TERMINOLOGIA-Y-COLGANTE.md`; en el servidor solo se actualizaron mensajes y la cabecera de las plantillas de correo. La v50 añade los recuadros de contacto descritos en `CONTACTO-EN-COMPLEMENTOS.md`, con cambios exclusivamente en el cliente.
 
 ## Verificación
 

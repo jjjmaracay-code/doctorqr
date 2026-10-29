@@ -222,10 +222,10 @@
     ar:['الأمام · رمز الطوارئ','الخلف · الرمز نفسه','اطوِ · لا تقطع','المقاس النهائي مع الحافة البلاستيكية','1. قص قطعة واحدة وفق محيط الورق. لا تقطع المنتصف.','2. اطوِ من المنتصف، وحاذِ الدوائر، والصق الجانبين الأبيضين معًا. يبقى الجانبان المطبوعان إلى الخارج.','3. غلّف بالبلاستيك بعد الطي. اترك حافة بلاستيكية محكمة لا تقل عن 3 مم حول الورق، ودوّر الزوايا دون تقليلها.','4. بعد التغليف، اثقب الدائرة الحمراء فقط داخل النافذة الشفافة. افحص الرمزين واستخدم حلقة تعليق مناسبة للحقيبة.']
   };
   const tagWords=language=>tagCopy[language]||tagCopy.es;
-  function geometry(state) {
+  function geometry(state,ctx) {
     if(state.format==='watch'){
       const qr=state.watchQR===34?34:30,slotW=bounded(state.watchWidth,12,32,20)+4,slotH=bounded(state.watchOpening,2,8,4),tabW=slotW+10,tabH=slotH+10;
-      const faceW=Math.max(qr+8,tabW),faceH=qr+21,width=faceW+6,height=faceH+2*tabH+6,plateX=3,plateY=tabH+3,tabX=(width-tabW)/2;
+      const faceW=Math.max(qr+8,tabW),faceH=frontLayout(ctx,state,faceW,qr).height,width=faceW+6,height=faceH+2*tabH+6,plateX=3,plateY=tabH+3,tabX=(width-tabW)/2;
       // A single paper silhouette with two integral tabs. Remove each paper window
       // BEFORE laminating; the smaller final slot sits 3 mm inside that sealed window.
       const outline=(x,w,tx,tw,top,fy,fh,bottom,r)=>roundedPolygon([[tx,top],[tx+tw,top],[tx+tw,fy],[x+w,fy],[x+w,fy+fh],[tx+tw,fy+fh],[tx+tw,bottom],[tx,bottom],[tx,fy+fh],[x,fy+fh],[x,fy],[tx,fy]],r);
@@ -234,29 +234,60 @@
     }
     const q=state.format==='tag'?(state.qr===49?49:40):22;
     if(state.format==='tag'){
-      const w=q+20,h=q+43;
+      const w=q+20,contact=contactLayout(ctx,state,w-10),bottom=23+q+9+(contact?.height||0),critical=state.critical&&state.criticalText?4:0,h=Math.max(q+43,Math.ceil((bottom+critical+4)*10)/10);
       return {width:w,height:h,qr:q,qx:10,qy:23,paper:`M9 3H${w-9}Q${w-3} 3 ${w-3} 9V${h-9}Q${w-3} ${h-3} ${w-9} ${h-3}H9Q3 ${h-3} 3 ${h-9}V9Q3 3 9 3Z`,outer:`M9 0H${w-9}Q${w} 0 ${w} 9V${h-9}Q${w} ${h} ${w-9} ${h}H9Q0 ${h} 0 ${h-9}V9Q0 0 9 0Z`};
     }
-    const center=78,h=46,mid=h/2,left=center-18,right=center+18,wrist=bounded(state.wrist,140,230,180),end=wrist+46,slot=wrist+27;
-    return {width:end,height:h,qr:22,qx:center-11,qy:8.6,mid,left,right,slot,plateX:center-15,plateY:3,
+    const center=78,faceH=frontLayout(ctx,state,30,22).height,h=faceH+6,mid=h/2,left=center-18,right=center+18,wrist=bounded(state.wrist,140,230,180),end=wrist+46,slot=wrist+27;
+    return {width:end,height:h,faceW:30,faceH,qr:22,qx:center-11,qy:8.6,mid,left,right,slot,plateX:center-15,plateY:3,
       outer:`M4 ${mid-11}H10Q13 ${mid-11} 13 ${mid-8}V${mid-4}H21V${mid-9}Q21 ${mid-14} 26 ${mid-14}H${left}V7Q${left} 0 ${left+7} 0H${right-7}Q${right} 0 ${right} 7V${mid-14}H${end-8}Q${end} ${mid-14} ${end} ${mid-6}V${mid+6}Q${end} ${mid+14} ${end-8} ${mid+14}H${right}V${h-7}Q${right} ${h} ${right-7} ${h}H${left+7}Q${left} ${h} ${left} ${h-7}V${mid+14}H26Q21 ${mid+14} 21 ${mid+9}V${mid+4}H13V${mid+8}Q13 ${mid+11} 10 ${mid+11}H4Q0 ${mid+11} 0 ${mid+7}V${mid-7}Q0 ${mid-11} 4 ${mid-11}Z`,
       paper:`M4 ${mid-8}H10V${mid-1}H24V${mid-9}Q24 ${mid-11} 27 ${mid-11}H${left+3}V7Q${left+3} 3 ${left+7} 3H${right-7}Q${right-3} 3 ${right-3} 7V${mid-11}H${end-8}Q${end-3} ${mid-11} ${end-3} ${mid-6}V${mid+6}Q${end-3} ${mid+11} ${end-8} ${mid+11}H${right-3}V${h-7}Q${right-3} ${h-3} ${right-7} ${h-3}H${left+7}Q${left+3} ${h-3} ${left+3} ${h-7}V${mid+11}H27Q24 ${mid+11} 24 ${mid+9}V${mid+1}H10V${mid+8}H4Q3 ${mid+8} 3 ${mid+7}V${mid-7}Q3 ${mid-8} 4 ${mid-8}Z`};
   }
   function svgText(x,y,value,size=2.8,options='') { return `<text x="${x}" y="${y}" font-family="Arial,Helvetica,sans-serif" font-size="${size}" fill="#13243c" ${options}>${esc(value)}</text>`; }
-  function fittedText(x,y,value,maxWidth,size=2.8,anchor='middle') {
+  function fittedText(x,y,value,maxWidth,size=2.8,anchor='middle',className='',direction='') {
     // Font size is fitted using actual SVG metrics after insertion, never by shortening identity.
-    return svgText(x,y,value,size,`text-anchor="${anchor}" font-weight="750" class="accessory-fitted" data-max-width="${maxWidth}" data-base-size="${size}"`);
+    return svgText(x,y,value,size,`text-anchor="${anchor}"${direction?' direction="'+esc(direction)+'" unicode-bidi="embed"':''} font-weight="750" class="accessory-fitted${className?' '+esc(className):''}" data-max-width="${maxWidth}" data-base-size="${size}"`);
   }
   function contactFor(ctx,state){return state.contact?ctx.contacts.find(c=>c.key===state.contactKey):null;}
+  let nameMeasure=null;
+  function contactNameLines(name,width,size){
+    const value=String(name||'').trim().replace(/\s+/gu,' ');if(!value)return [];
+    if(!nameMeasure){nameMeasure=document.createElement('canvas').getContext('2d');if(nameMeasure)nameMeasure.font='750 100px Arial,Helvetica,sans-serif';}
+    const length=text=>nameMeasure?nameMeasure.measureText(text).width*size/100:Array.from(text).length*size;
+    const lines=[];let line='';
+    for(const word of value.split(' ')){
+      const candidate=line?line+' '+word:word;
+      if(length(candidate)<=width){line=candidate;continue;}
+      if(line){lines.push(line);line='';}
+      const parts=typeof Intl.Segmenter==='function'?Array.from(new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(word),item=>item.segment):Array.from(word);
+      for(const part of parts){if(line&&length(line+part)>width){lines.push(line);line='';}line+=part;}
+    }
+    if(line)lines.push(line);return lines;
+  }
+  function contactLayout(ctx,state,width){
+    const contact=contactFor(ctx,state);if(!contact)return null;
+    const band=state.format==='band',tag=state.format==='tag',label=band?1.3:tag?1.8:1.5,name=band?1.7:tag?2.35:2.05,phone=band?1.95:tag?2.7:2.4,padding=band?1:1.4;
+    const lines=contactNameLines(contact.name,width-2*padding,name),lineGap=name*1.35,labelY=padding+label;
+    const nameY=labelY+lineGap,phoneY=(lines.length?nameY+(lines.length-1)*lineGap:labelY)+phone+1;
+    return {contact,width,label,name,phone,lines,lineGap,labelY,nameY,phoneY,height:Math.ceil((phoneY+padding)*10)/10,padding};
+  }
+  function contactPanel(ctx,layout,x,y){
+    if(!layout)return '';const center=x+layout.width/2,max=layout.width-2*layout.padding;
+    return `<g class="accessory-contact-panel" aria-label="${esc(more(ctx.language).contactLabel)}" data-contact-key="${esc(layout.contact.key)}"><rect class="accessory-contact-background" x="${x}" y="${y}" width="${layout.width}" height="${layout.height}" rx="1" fill="#fff"/>${fittedText(center,y+layout.labelY,more(ctx.language).contactLabel,max,layout.label,'middle','accessory-contact-label')}${layout.lines.map((line,i)=>fittedText(center,y+layout.nameY+i*layout.lineGap,line,max,layout.name,'middle','accessory-contact-name')).join('')}${fittedText(center,y+layout.phoneY,layout.contact.phone,max,layout.phone,'middle','accessory-contact-phone','ltr')}</g>`;
+  }
+  function frontLayout(ctx,state,width,qr){
+    const watch=state.format==='watch',below=(watch?6.2:5.6)+qr,contact=contactLayout(ctx,state,width-4),contactY=below+(watch?6:4.9),bottom=contact?contactY+contact.height:below+(watch?5.5:4.5);
+    const criticalY=bottom+(watch?2.5:2.1),height=Math.max(watch?qr+21:40,Math.ceil((state.critical&&state.criticalText?criticalY+1.3:bottom+1.2)*10)/10);
+    return {below,contact,contactY,criticalY,height};
+  }
   function front(ctx,state,x,y,t){
-    const watch=state.format==='watch',g=watch?geometry(state):{faceW:30,faceH:40,qr:22},w=g.faceW,h=g.faceH,q=g.qr,qy=watch?6.2:5.6,m=more(ctx.language),c=contactFor(ctx,state),name=printedName(ctx.profile,state.identity);
+    const watch=state.format==='watch',g=geometry(state,ctx),w=g.faceW,h=g.faceH,q=g.qr,qy=watch?6.2:5.6,m=more(ctx.language),layout=frontLayout(ctx,state,w,q),name=printedName(ctx.profile,state.identity);
     const ink=t.pride?'#13243c':(()=>{const rgb=t.color.replace('#','').match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4),l=rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;return 1.05/(l+.05)>=4.5?'#fff':'#000';})();
     const text=(dy,value,size,weight='700')=>svgText(w/2,dy,value,size,`text-anchor="middle" font-weight="${weight}" class="accessory-fitted" data-max-width="${w-4}" data-base-size="${size}" style="fill:${ink}"`);
     const image=watch&&state.qrStyle==='liquid'?ctx.liquid?.image:ctx.compact?.image,below=qy+q;
-    return `<g class="accessory-front" transform="translate(${x} ${y})" data-width-mm="${w}" data-height-mm="${h}"><rect class="front-outline" width="${w}" height="${h}" rx="4" fill="${t.pride?'url(#acc-pride)':t.color}"${watch?' style="stroke:none"':''}/><rect x="2" y="1.4" width="${w-4}" height="${watch?3.8:3.4}" rx=".7" fill="#fff"/>${fittedText(w/2,watch?4.15:3.9,'EMERGENCY',w-6,watch?2.65:2.05)}${image?`<image class="accessory-qr" x="${(w-q)/2}" y="${qy}" width="${q}" height="${q}" href="${image}" data-qr-style="${watch?state.qrStyle:'square'}" style="image-rendering:${watch&&state.qrStyle==='liquid'?'auto':'pixelated'}"/>`:`<rect x="${(w-q)/2}" y="${qy}" width="${q}" height="${q}" fill="#fff"/>`}${t.pride?`<rect x="1.4" y="${below+.3}" width="${w-2.8}" height="${h-below-1.3}" rx=".8" fill="#fff"/>`:''}${text(below+(watch?1.9:1.4),m.scan,watch?1.4:1.1,'500')}${text(below+(watch?4.7:3.7),name,watch?2.05:1.65)}${c?text(below+(watch?7.1:6),m.contactLabel,watch?1.35:1.1,'500')+text(below+(watch?9.9:8.3),c.phone,watch?2.05:1.6):''}${state.critical&&state.criticalText?text(below+(watch?12.5:10.6),state.criticalText,watch?1.5:1.3):''}</g>`;
+    return `<g class="accessory-front" transform="translate(${x} ${y})" data-width-mm="${w}" data-height-mm="${h}"><rect class="front-outline" width="${w}" height="${h}" rx="4" fill="${t.pride?'url(#acc-pride)':t.color}"${watch?' style="stroke:none"':''}/><rect x="2" y="1.4" width="${w-4}" height="${watch?3.8:3.4}" rx=".7" fill="#fff"/>${fittedText(w/2,watch?4.15:3.9,'EMERGENCY',w-6,watch?2.65:2.05)}${image?`<image class="accessory-qr" x="${(w-q)/2}" y="${qy}" width="${q}" height="${q}" href="${image}" data-qr-style="${watch?state.qrStyle:'square'}" style="image-rendering:${watch&&state.qrStyle==='liquid'?'auto':'pixelated'}"/>`:`<rect x="${(w-q)/2}" y="${qy}" width="${q}" height="${q}" fill="#fff"/>`}${t.pride?`<rect x="1.4" y="${below+.3}" width="${w-2.8}" height="${h-below-1.3}" rx=".8" fill="#fff"/>`:''}${text(below+(watch?1.9:1.4),m.scan,watch?1.4:1.1,'500')}${text(below+(watch?4.7:3.7),name,watch?2.05:1.65)}${contactPanel(ctx,layout.contact,2,layout.contactY)}${state.critical&&state.criticalText?text(layout.criticalY,state.criticalText,watch?1.5:1.3):''}</g>`;
   }
   function artwork(ctx,state){
-    const g=geometry(state),t=monthTheme(ctx,state.color),u=ctx.ui,m=more(ctx.language),watch=state.format==='watch',offset=3,totalW=watch?Math.max(62,g.width+6):state.format==='tag'?2*(g.width-6)+12:g.width+6,totalH=g.height+(watch?37:state.format==='band'?23:40),mid=g.height/2;
+    const g=geometry(state,ctx),t=monthTheme(ctx,state.color),u=ctx.ui,m=more(ctx.language),watch=state.format==='watch',offset=3,totalW=watch?Math.max(62,g.width+6):state.format==='tag'?2*(g.width-6)+12:g.width+6,totalH=g.height+(watch?37:state.format==='band'?23:40),mid=g.height/2;
     const paint=t.pride?'url(#acc-pride)':t.color,pride=t.pride?`<linearGradient id="acc-pride" x1="0" y1="0" x2="0" y2="1">${t.colors.map((c,i)=>`<stop offset="${i/t.colors.length}" stop-color="${c}"/><stop offset="${(i+1)/t.colors.length}" stop-color="${c}"/>`).join('')}</linearGradient>`:'';
     let content='',legend='';
     if(watch){
@@ -274,8 +305,8 @@
         detail=front(ctx,state,g.plateX,g.plateY,t)+svgText(6.5,mid+1,'A',3,'text-anchor="middle" font-weight="900" style="fill:#fff"');
       }else{
         windows=`<circle class="paper-window" cx="${g.width/2}" cy="10" r="5"/>`;slots=`<circle class="slot-cut" cx="${g.width/2}" cy="10" r="2"/>`;
-        const c=contactFor(ctx,state),center=g.width/2,below=g.qy+g.qr;
-        detail=`<rect x="7" y="16" width="${g.width-14}" height="5" rx="1" fill="#fff"/>${fittedText(center,19.6,'EMERGENCY',g.width-18,3.2)}<rect x="5" y="${below+1}" width="${g.width-10}" height="15" rx="1" fill="#fff"/>${fittedText(center,below+3.5,m.scan,g.width-13,1.8)}${fittedText(center,below+6.8,printedName(ctx.profile,state.identity),g.width-13,2.7)}${c?fittedText(center,below+9.6,m.contactLabel,g.width-13,1.8)+fittedText(center,below+12.7,c.phone,g.width-13,2.4):''}${state.critical&&state.criticalText?fittedText(center,below+15.1,state.criticalText,g.width-13,1.7):''}`;
+        const center=g.width/2,below=g.qy+g.qr,contact=contactLayout(ctx,state,g.width-10),contactY=below+9,criticalY=(contact?contactY+contact.height:below+8)+2.5;
+        detail=`<rect x="7" y="16" width="${g.width-14}" height="5" rx="1" fill="#fff"/>${fittedText(center,19.6,'EMERGENCY',g.width-18,3.2)}<rect x="5" y="${below+1}" width="${g.width-10}" height="7.6" rx="1" fill="#fff"/>${fittedText(center,below+3.5,m.scan,g.width-13,1.8)}${fittedText(center,below+6.8,printedName(ctx.profile,state.identity),g.width-13,2.7)}${contactPanel(ctx,contact,5,contactY)}${state.critical&&state.criticalText?`<rect x="5" y="${criticalY-2}" width="${g.width-10}" height="3" rx=".6" fill="#fff"/>`+fittedText(center,criticalY,state.criticalText,g.width-13,1.7):''}`;
         if(qrImage)detail+=`<image class="accessory-qr" x="${g.qx}" y="${g.qy}" width="${g.qr}" height="${g.qr}" href="${qrImage}" style="image-rendering:pixelated"/>`;
       }
       if(state.format==='tag'){
@@ -343,7 +374,7 @@
       const identity=doc.getElementById('accessory-identity');if(doc.getElementById('accessory-format').value!=='tag'&&identity.value==='full')identity.value='short';
       state={format:doc.getElementById('accessory-format').value,color:doc.getElementById('accessory-color').value,wrist:bounded(doc.getElementById('accessory-wrist').value,140,230,180),watchWidth:bounded(doc.getElementById('accessory-watch-width').value,12,32,20),watchOpening:bounded(doc.getElementById('accessory-watch-opening').value,2,8,4),watchQR:Number(doc.getElementById('accessory-watch-qr').value),qrStyle:doc.getElementById('accessory-qr-style').value,qr:Number(doc.getElementById('accessory-qr').value),identity:identity.value,contact:doc.getElementById('accessory-contact').checked,contactKey:doc.getElementById('accessory-contact-choice').value,critical:doc.getElementById('accessory-critical').checked,criticalText:doc.getElementById('accessory-critical-text').value.trim()};
       doc.getElementById('accessory-watch-width').value=state.watchWidth;doc.getElementById('accessory-watch-opening').value=state.watchOpening;for(const id of ['width','opening','watch-qr','style'])doc.getElementById('accessory-'+id+'-field').hidden=state.format!=='watch';doc.getElementById('accessory-wrist').value=state.wrist;doc.getElementById('accessory-wrist-field').hidden=state.format!=='band';doc.getElementById('accessory-qr-field').hidden=state.format!=='tag';doc.getElementById('accessory-full-name').hidden=state.format!=='tag';doc.getElementById('accessory-critical-field').hidden=!state.critical;doc.getElementById('accessory-prepare').hidden=!!ctx.compact;
-      doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?`${tagWords(ctx.language)[3]}: ${geometry(state).width} × ${geometry(state).height} mm · 2 × QR ${state.qr} mm`:m.qrFixed;
+      doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?`${tagWords(ctx.language)[3]}: ${geometry(state,ctx).width} × ${geometry(state,ctx).height} mm · 2 × QR ${state.qr} mm`:m.qrFixed;
       doc.getElementById('accessory-status').textContent=state.critical&&Array.from(state.criticalText).length>24?m.criticalLong:ctx.compact?m.compactReady:preparing?m.loading:m.unavailable;fit(doc);freeze(busy);
     }
     async function prepare(){
