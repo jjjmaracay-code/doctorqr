@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow">
   <title>Vincular ordenador · ATABEYAPP</title>
-  <link rel="stylesheet" href="/css/web-link.css?v=34">
+  <link rel="stylesheet" href="/css/web-link.css?v=53">
   <script src="/js/web-session.js?v=48"></script>
-  <script src="/js/web-link.js?v=48" defer></script>
+  <script src="/js/web-link.js?v=53" defer></script>
   <link rel="stylesheet" href="/css/button-depth.css?v=23">
 </head>
 <body data-link-page="devices">
@@ -22,8 +22,10 @@
         <a class="button secondary" href="/index.html">Volver a mis datos médicos</a>
       </div>
       <div id="link-status" class="status" role="status" aria-live="polite"></div>
-      <h2>Accesos activos</h2>
-      <div id="device-list"></div>
+      <div class="devices-heading"><h2 id="devices-title">Accesos activos</h2><span id="device-count" class="device-count" aria-live="polite"></span></div>
+      <p class="device-list-help">Se muestran los accesos vigentes de tu cuenta. Cada sesión dura como máximo 8 horas y se cierra tras 15 minutos sin usarla.</p>
+      <p id="device-list-state" class="device-list-state" role="status">Consultando ordenadores vinculados…</p>
+      <div id="device-list" aria-labelledby="devices-title" aria-busy="true"></div>
       <button id="refresh-devices" type="button" class="secondary">Actualizar lista</button>
     </section>
   </main>

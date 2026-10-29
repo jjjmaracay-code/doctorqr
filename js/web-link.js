@@ -73,11 +73,59 @@
   $('new-link').onclick=start;window.addEventListener('pagehide',()=>{generation++;clearTimeout(timer)});start();
  }
  async function devices(){
-  if(!primary())return;
+  const list=$('device-list'),listState=$('device-list-state'),count=$('device-count'),refreshButton=$('refresh-devices');
+  if(!primary()){
+   list.setAttribute('aria-busy','false');listState.textContent='Inicia sesión en la aplicación principal para consultar tus ordenadores.';
+   $('scan-start').disabled=true;refreshButton.disabled=true;return;
+  }
+  let refreshTask=null,refreshAgain=false,listTimer=null,listInvalid=false,listSignature='';
+  const stamp=value=>{const date=new Date(Number(value));return Number.isFinite(date.getTime())?date.toLocaleString():'No disponible';};
+  function invalidateList(){
+   if(samePrimary())return false;
+   listInvalid=true;clearInterval(listTimer);listTimer=null;list.replaceChildren();list.setAttribute('aria-busy','false');
+   count.textContent='';listState.textContent='La cuenta cambió. Vuelve a abrir esta pantalla desde la cuenta correcta.';
+   $('link-account').textContent='';$('scan-start').disabled=true;refreshButton.disabled=true;stop();return true;
+  }
   async function refresh(){
-   try{const {devices}=await request('/',null,true);const list=$('device-list');list.replaceChildren();if(!devices.length){list.textContent='No hay ordenadores vinculados activos.';return;}
-    for(const device of devices){const box=document.createElement('article');box.className='device';const title=document.createElement('strong'),detail=document.createElement('p'),button=document.createElement('button');title.textContent=device.browser_label;detail.textContent='Vinculado: '+new Date(Number(device.created_at)).toLocaleString()+' · Última actividad: '+new Date(Number(device.last_seen)).toLocaleString();button.textContent='Cerrar acceso de este ordenador';button.className='secondary';button.onclick=async()=>{if(!confirm('¿Cerrar el acceso de '+device.browser_label+'? Sus cambios sin publicar no llegarán al servidor.'))return;button.disabled=true;try{await request('/revoke',{id:device.id},true);await refresh();status('Acceso cerrado.');}catch(e){status(e.message);button.disabled=false;}};box.append(title,detail,button);list.append(box);}
-   }catch(e){status(e.message);}
+   if(listInvalid||invalidateList())return;
+   if(refreshTask){refreshAgain=true;return refreshTask;}
+   refreshButton.disabled=true;list.setAttribute('aria-busy','true');
+   refreshTask=(async()=>{try{
+    const {devices}=await request('/',null,true);if(invalidateList())return;
+    if(!Array.isArray(devices))throw Error('No se pudo comprobar la lista de ordenadores. Vuelve a intentarlo.');
+    const signature=JSON.stringify(devices);
+    if(signature!==listSignature){
+     list.replaceChildren();listSignature=signature;
+     if(!devices.length)list.textContent='No hay accesos vigentes. Si acabas de autorizar un ordenador, espera a que se abra la web: la lista se actualizará automáticamente.';
+     for(const device of devices){
+      const box=document.createElement('article');box.className='device';
+      const title=document.createElement('strong'),badge=document.createElement('span'),detail=document.createElement('p'),expiry=document.createElement('p'),button=document.createElement('button');
+      title.textContent=device.browser_label;badge.className='device-state';badge.textContent='Acceso autorizado';
+      detail.textContent='Vinculado: '+stamp(device.created_at)+' · Última actividad: '+stamp(device.last_seen);
+      expiry.className='device-expiry';expiry.textContent='Válido hasta: '+stamp(device.expires);
+      button.type='button';button.textContent='Cerrar acceso de este ordenador';button.className='secondary';
+      button.onclick=async()=>{
+       if(invalidateList()||!confirm('¿Cerrar el acceso de '+device.browser_label+'? Sus cambios sin publicar no llegarán al servidor.'))return;
+       button.disabled=true;
+       try{await request('/revoke',{id:device.id},true);if(invalidateList())return;await refresh();if(!listInvalid)status('Acceso cerrado.');}
+       catch(e){if(!invalidateList()){status(e.message);button.disabled=false;}}
+      };
+      box.append(title,badge,detail,expiry,button);list.append(box);
+     }
+    }
+    const label=devices.length===1?'1 acceso vigente':devices.length+' accesos vigentes';
+    if(count.textContent!==label)count.textContent=label;
+    listState.textContent='Lista comprobada a las '+new Date().toLocaleTimeString()+'.';
+   }catch(e){
+    if(!invalidateList()){
+     listSignature='';list.replaceChildren();count.textContent='Sin comprobar';
+     list.textContent='No se pudo consultar la lista. Comprueba la conexión y pulsa «Actualizar lista».';listState.textContent=e.message;
+    }
+   }finally{
+    list.setAttribute('aria-busy','false');if(!listInvalid)refreshButton.disabled=false;
+   }})();
+   await refreshTask;refreshTask=null;
+   if(refreshAgain&&!listInvalid){refreshAgain=false;return refresh();}
   }
   // Scanner presentation and camera lifetime only; approval/proof routes are unchanged.
   let stream,frame=0,lastFrame=0,scanning=false,scanGeneration=0,accountTimer=null,backgroundWasInert=false;
@@ -173,7 +221,20 @@
    }catch(_){if(scanCurrent(mine))scannerState('error','No se pudo leer el QR de esa imagen. Prueba otra foto más nítida.','Prueba otra imagen o abre la cámara');}
    finally{bitmap?.close();event.target.value='';}
   };
-  $('refresh-devices').onclick=refresh;refresh();
+  function resumeList(){
+   if(document.hidden||listInvalid)return;
+   if(!listTimer)listTimer=setInterval(()=>{if(!document.hidden)refresh();},20000);
+   refresh();
+  }
+  function pauseList(){clearInterval(listTimer);listTimer=null;}
+  refreshButton.onclick=refresh;
+  window.addEventListener('pageshow',resumeList);
+  window.addEventListener('pagehide',pauseList);
+  window.addEventListener('focus',()=>{if(!document.hidden)refresh();});
+  window.addEventListener('online',resumeList);
+  window.addEventListener('storage',()=>{invalidateList();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseList();else resumeList();});
+  resumeList();
  }
  async function approve(){
   const fragment=location.hash.slice(1);history.replaceState(null,'',location.pathname); // Never retain the approval secret in browser history/referrers.
@@ -184,7 +245,7 @@
   try{const data=await request('/inspect',{id,qr_secret},true);if(data.account?.doctorqr_id!==primaryIdentity.id||data.account?.email?.toLowerCase()!==JSON.parse(primaryIdentity.user).email.toLowerCase())throw Error('La identidad de la sesión no coincide. Vuelve a iniciar sesión en la aplicación.');expires=Number(data.expires);$('browser-label').textContent=data.browser_label;$('confirmation').textContent=data.confirmation;$('approve-button').disabled=false;status('Comprueba el ordenador antes de autorizar.');}catch(e){status(e.message);return;}
   $('approve-form').onsubmit=async event=>{event.preventDefault();if(Date.now()>=expires){status('El QR ha caducado. Genera otro en el ordenador.');return;}
    $('approve-button').disabled=true;
-   try{await request('/approve',{id,qr_secret,code:$('totp-input').value,confirmation:$('confirmation-input').value},true);$('totp-input').value='';$('approve-form').hidden=true;status('Ordenador autorizado. La sesión se abrirá allí en unos segundos. Puedes cerrar su acceso desde «Ordenadores vinculados».');}catch(e){$('totp-input').value='';status(e.code==='totp_already_used'?'Ese código ya se utilizó para una vinculación. Espera al siguiente código del autenticador.':e.code==='link_confirmation_invalid'?'Comprueba el número del ordenador y el código del autenticador.':e.message);$('approve-button').disabled=false;}
+   try{await request('/approve',{id,qr_secret,code:$('totp-input').value,confirmation:$('confirmation-input').value},true);$('totp-input').value='';$('approve-form').hidden=true;status('Ordenador autorizado. La sesión se abrirá allí en unos segundos. Puedes cerrar su acceso desde «Ordenadores vinculados».');const view=document.createElement('a');view.href='/dispositivos.html';view.className='button secondary';view.textContent='Ver ordenadores vinculados';$('link-status').after(view);}catch(e){$('totp-input').value='';status(e.code==='totp_already_used'?'Ese código ya se utilizó para una vinculación. Espera al siguiente código del autenticador.':e.code==='link_confirmation_invalid'?'Comprueba el número del ordenador y el código del autenticador.':e.message);$('approve-button').disabled=false;}
   };
  }
  if(page==='web')web();else if(page==='devices')devices();else if(page==='approve')approve();
