@@ -31,7 +31,8 @@
 // v48: personal medical-information wording; emergency bag tag on both sides.
 // v49: wallet appearance controls and desktop/touch 3D section navigation.
 // v50: named emergency contacts in white accessory panels.
-const CACHE_NAME = 'doctorqr-v50';
+// v51: prepared emergency QR access survives ordinary mobile logout.
+const CACHE_NAME = 'doctorqr-v51';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -58,12 +59,13 @@ const CACHE_URLS = [
   './css/access-hub.css?v=21',
   './css/button-depth.css?v=23',
   './css/trial-access.css?v=23',
-  './js/trial-access.js?v=48',
+  './js/trial-access.js?v=51',
   './js/access-hub.js?v=21',
   './css/web-qr-preview.css?v=22',
   './js/web-qr-preview.js?v=48',
   './js/totp-recovery.js?v=14',
-  './js/qr-generator.js?v=41',
+  './js/emergency-access.js?v=51',
+  './js/qr-generator.js?v=51',
   './js/qr-wallpaper.js?v=38',
   './css/qr-wallpaper.css?v=37',
   './js/qr-wallpaper-iphone.js?v=38',
@@ -79,12 +81,12 @@ const CACHE_URLS = [
   './js/compact-emergency-qr.js?v=42',
   './js/emergency-accessories.js?v=50',
   './js/emergency-card.js?v=49',
-  './js/medical-owner.js?v=41',
+  './js/medical-owner.js?v=51',
   './js/birthdate.js?v=14',
   './js/profile-sync.js?v=48',
   './js/form.js?v=48',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=50',
+  './js/register-sw.js?v=51',
   './js/web-session.js?v=48',
   './js/web-link.js?v=48',
   './js/qr-visual.js?v=17',

@@ -1038,12 +1038,51 @@ function refreshQRCardSilently(wrap, url, type, sizePx, correctLevel) {
 // "IMPRIMIR QR EMERGENCIA — FORMATO TARJETA" dentro de la app, que es una
 // función distinta: imprimir una tarjeta física, no navegar los 8 QR).
 function handleEmergencyQuickAccess() {
+  const snapshot = prepareEmergencyQuickAccess() || window.EmergencyAccess?.read();
+  if (snapshot) {
+    const message = document.getElementById('emergency-quick-msg');
+    if (message) message.style.display = 'none';
+    renderEmergencyQuickView(snapshot);
+    return;
+  }
   const formData = getFormData();
   if (!formData.nombre && !formData.apellidos) {
     mostrarSinPerfilParaEmergencia();
     return;
   }
   renderEmergencyQuickView();
+}
+
+function prepareEmergencyQuickAccess() {
+  const profile = getFormData();
+  if (!profile.nombre && !profile.apellidos) return null;
+  const types = QR_TYPES.filter(type => type.always || (type.condition && type.condition(profile))).map(type => type.id);
+  return window.EmergencyAccess?.save(types) || null;
+}
+
+// A signed-out view uses only canonical, account-bound public QR references.
+// Never adopt a medical profile/cache belonging to whoever scans the QR.
+function renderPreparedEmergencyQR(slot, type, snapshot) {
+  const current = () => slot.isConnected && window.EmergencyAccess?.current(snapshot);
+  const url = window.EmergencyAccess?.url(snapshot, type.id);
+  if (!url || !current()) return;
+  slot.replaceChildren(buildQRLoadingIndicator(type));
+  ensureQRCodeLoaded().then(() => scheduleQRRender(() => {
+    if (!current()) return;
+    slot.replaceChildren();
+    createOrganicQRCode(slot, {text:url, width:400, height:400,
+      visualStyle:getQRVisualStyle(type.id), colorDark:type.color,
+      colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.H});
+  })).catch(() => {
+    if (!current()) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = typeof uiMessage === 'function'
+      ? uiMessage('extra.a9254c5f812829af', 'Reintentar') : 'Reintentar';
+    button.style.cssText = 'padding:16px;font:inherit;color:white;background:#123451;border:2px solid #12a5ff;border-radius:16px';
+    button.onclick = () => renderPreparedEmergencyQR(slot, type, snapshot);
+    slot.replaceChildren(button);
+  });
 }
 
 // Cada una de las 3 páginas tiene un HTML ligeramente distinto para el
@@ -1092,13 +1131,13 @@ function closeEmergencyQuickView() {
   if (!yaEnLogin) window.location.href = 'login.html';
 }
 
-function renderEmergencyQuickView() {
+function renderEmergencyQuickView(snapshot = null) {
   const container = getEmergencyQuickViewContainer();
   if (!container) return; // la página no incluye el contenedor -- no debería ocurrir en las 3 páginas soportadas
 
   const formData = getFormData();
-  const active = QR_TYPES.filter(t => t.always || (t.condition && t.condition(formData)));
-  const nombreCompleto = ((formData.nombre || '') + ' ' + (formData.apellidos || '')).trim() || 'Perfil sin nombre';
+  const active = QR_TYPES.filter(t => snapshot ? snapshot.types.includes(t.id) : t.always || (t.condition && t.condition(formData)));
+  const nombreCompleto = snapshot?.name || ((formData.nombre || '') + ' ' + (formData.apellidos || '')).trim() || 'Perfil sin nombre';
 
   container.innerHTML = `
     <div class="eqv-header">
@@ -1114,7 +1153,7 @@ function renderEmergencyQuickView() {
   const cache = getQRCache();
 
   active.forEach(type => {
-    const url = buildQRUrl(type, formData);
+    const url = snapshot ? EmergencyAccess.url(snapshot, type.id) : buildQRUrl(type, formData);
 
     const card = document.createElement('div');
     card.className = 'eqv-card';
@@ -1173,7 +1212,9 @@ function renderEmergencyQuickView() {
     // existe), se regenera en el momento desde el perfil actual (100%
     // local gracias a las Capas 1-2) -- nunca se muestra una imagen que
     // no se pueda confirmar que corresponde al perfil de HOY.
-    if (isQRCacheFresh(cache, type.id, url)) {
+    if (snapshot) {
+      renderPreparedEmergencyQR(slot, type, snapshot);
+    } else if (isQRCacheFresh(cache, type.id, url)) {
       const img = document.createElement('img');
       img.src = cache.images[type.id];
       slot.appendChild(img);
@@ -1212,6 +1253,8 @@ function generateAllQRs(scrollToQR = true) {
     alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.0313fc5d5778a014","Tu sesión no tiene un ID de perfil válido.\nCierra sesión, vuelve a iniciarla y recarga la página.",[]));
     return;
   }
+
+  prepareEmergencyQuickAccess();
 
   const carousel = document.getElementById('qr-carousel');
   const dotsWrap = document.getElementById('qr-dots');

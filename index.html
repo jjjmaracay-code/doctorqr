@@ -3,7 +3,7 @@
 <head>
 <script src="/js/web-session.js?v=48"></script>
 <script src="/js/birthdate.js?v=14"></script>
-<script src="/js/medical-owner.js?v=41"></script>
+<script src="/js/medical-owner.js?v=51"></script>
 <script src="/js/profile-sync.js?v=48"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -24,7 +24,7 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=50"></script>
+  <script src="/js/register-sw.js?v=51"></script>
   <script src="i18n/loader.js?v=49"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
@@ -186,7 +186,7 @@
 <link rel="stylesheet" href="/css/medical-tools.css?v=37"/>
 <link rel="stylesheet" href="/css/section-navigation.css?v=49"/>
 <script defer src="/js/section-navigation.js?v=49"></script>
-<script src="/js/trial-access.js?v=48"></script>
+<script src="/js/trial-access.js?v=51"></script>
 <link rel="stylesheet" href="/css/form-edit-lock.css?v=40"/>
 <script src="/js/form-edit-lock.js?v=39" defer></script>
 <script id="form-edit-lock-guard">
@@ -2601,7 +2601,8 @@
   <script src="js/compact-emergency-qr.js?v=42"></script>
   <script src="js/emergency-accessories.js?v=50"></script>
   <script src="js/emergency-card.js?v=49"></script>
-  <script src="js/qr-generator.js?v=41"></script>
+  <script src="/js/emergency-access.js?v=51"></script>
+  <script src="js/qr-generator.js?v=51"></script>
   <script src="js/qr-wallpaper.js?v=38"></script>
 
   <!-- TOUR ONBOARDING + BOTÓN AYUDA -->
@@ -2818,6 +2819,7 @@
   }
 
   async function ejecutarEliminarCuenta() {
+    if (!MedicalOwner.current()) { window.location.href = 'login.html'; return; }
     const pwd     = document.getElementById('del-pwd').value;
     const errorEl = document.getElementById('del-error');
     const btn     = document.getElementById('btn-del-confirmar');
@@ -2828,6 +2830,7 @@
 
     try {
       const token = localStorage.getItem('doctorqr_token');
+      const requestedOwner = MedicalOwner.id();
       const res  = await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/account', {
         method:  'DELETE',
         credentials: 'include',
@@ -2839,7 +2842,12 @@
       });
       const data = await res.json();
 
+      if (token !== localStorage.getItem('doctorqr_token') || requestedOwner !== MedicalOwner.id()) {
+        window.location.href = 'login.html';
+        return;
+      }
       if (res.ok) {
+        MedicalOwner.purge();
         localStorage.removeItem('doctorqr_token');
         localStorage.removeItem('doctorqr_user');
         localStorage.removeItem('doctorqr_profile');
@@ -2863,18 +2871,27 @@
 
   async function cerrarSesion() {
     if (window.WebSession) return WebSession.logout();
+    if (!MedicalOwner.current()) { window.location.href = 'login.html'; return; }
+    // Prepare only read-only QR references before removing private session data.
+    prepareEmergencyQuickAccess();
     const token = localStorage.getItem('doctorqr_token');
+    const owner = localStorage.getItem('doctorqr_id');
     try {
       if (token) {
         await fetch('https://doctorqr-backend-production.up.railway.app/api/auth/logout', {
           method: 'POST',
           credentials: 'include',
+          signal: AbortSignal.timeout(5000),
           headers: { Authorization: 'Bearer ' + token }
         });
       }
     } catch (_) { /* si el servidor no responde, continuamos igualmente */ }
-    // Logout removes patient material from shared devices. Public QR access remains server-backed.
-    MedicalOwner.purge();
+    // A delayed logout must not erase a newer account opened in another tab.
+    if (token !== localStorage.getItem('doctorqr_token') || owner !== localStorage.getItem('doctorqr_id')) {
+      window.location.href = 'login.html';
+      return;
+    }
+    MedicalOwner.purge({keepEmergency:true});
     localStorage.removeItem('doctorqr_id');
     localStorage.removeItem('doctorqr_token');
     localStorage.removeItem('doctorqr_user');

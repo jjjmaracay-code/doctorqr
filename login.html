@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script src="/js/medical-owner.js?v=24"></script>
+<script src="/js/medical-owner.js?v=51"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -344,6 +344,7 @@
   <style id="emergency-quick-neon">
     @media screen {
       #screen-l1 #btn-emergency-quick {
+        text-decoration:none;
         position:relative;
         isolation:isolate;
         min-height:72px;
@@ -457,7 +458,7 @@
 <script src="/js/emergency-scroll.js?v=2" defer></script>
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
 <link rel="stylesheet" href="/css/trial-access.css?v=23"/>
-<script src="/js/trial-access.js?v=48"></script>
+<script src="/js/trial-access.js?v=51"></script>
 <link rel="stylesheet" href="/css/keyboard-comfort.css?v=4">
 <script defer src="/js/keyboard-comfort.js?v=4"></script>
 </head>
@@ -686,7 +687,7 @@
     </div>
 
     <div class="login-emergency-tools" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);text-align:center">
-      <button type="button" class="btn-secondary" id="btn-emergency-quick" onclick="handleEmergencyQuickAccess()" data-i18n="login.l1.emergency_quick_button">Acceso rápido de emergencia</button>
+      <a href="emergencia.html" class="btn-secondary" id="btn-emergency-quick" onclick="if (typeof handleEmergencyQuickAccess === 'function') { event.preventDefault(); handleEmergencyQuickAccess(); }" data-i18n="login.l1.emergency_quick_button">Acceso rápido de emergencia</a>
       <div class="field-hint error" id="emergency-quick-msg" style="display:none;margin-top:-4px;margin-bottom:8px"></div>
     </div>
   </div>
@@ -851,7 +852,9 @@
   <script src="js/card-png.js?v=31"></script>
   <script src="js/emergency-accessories.js?v=48"></script>
   <script src="js/emergency-card.js?v=49"></script>
-<script src="js/qr-generator.js?v=31"></script>
+<script src="/vendor/qrcodejs/qrcode.min.js"></script>
+<script src="/js/emergency-access.js?v=51"></script>
+<script src="js/qr-generator.js?v=51"></script>
 <script>
 const API = 'https://doctorqr-backend-production.up.railway.app';
 

@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),{execFileSync}=require('node:child_process');
-const baseline=execFileSync('git',['show','52c773c51f308d576778610bca9a124022c5ef42:js/qr-generator.js'],{encoding:'utf8'});
+const baseline=execFileSync('git',['show','3ba253fa0e3983ea88651a09b06e1c6e7e5ece9d:js/qr-generator.js'],{encoding:'utf8'});
 const current=fs.readFileSync('js/qr-generator.js','utf8');
 function context(source){const storage=new Map();const ctx=vm.createContext({document:{getElementById:()=>null,createElement:()=>({style:{}}),head:{appendChild(){}}},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},window:{},console,setTimeout,clearTimeout});ctx.window.MedicalOwner=ctx.MedicalOwner={current:()=>true,read:()=>JSON.parse(storage.get('doctorqr_profile')||'null'),id:()=>storage.get('doctorqr_id')||''};vm.runInContext(source,ctx);return ctx;}
 const before=context(baseline),after=context(current);

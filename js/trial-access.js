@@ -4,6 +4,9 @@
   const API = 'https://doctorqr-backend-production.up.railway.app';
   const CACHE = 'doctorqr_access_state';
   const editor = /\/(?:index(?:\.html)?)?$/.test(location.pathname), emergencyPage = /\/emergencia(?:\.html)?$/.test(location.pathname);
+  // Opening prepared public QR references must not wait for login, a plan
+  // request or the network. The medical reader still enforces server access.
+  if (!editor) return;
   if (editor || emergencyPage) document.documentElement.dataset.accessGate = 'checking';
   const source = {
     title:'Prueba gratuita: quedan {days} días',today:'Últimas 24 horas de tu prueba gratuita',
