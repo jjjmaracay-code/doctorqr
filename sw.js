@@ -34,7 +34,8 @@
 // v51: prepared emergency QR access survives ordinary mobile logout.
 // v52: larger responsive keyboards and satin keycap depth.
 // v53: raised linking screens and a live, account-bound device list.
-const CACHE_NAME = 'doctorqr-v53';
+// v54: bounded 2FA verification and a continuous handoff to the editor.
+const CACHE_NAME = 'doctorqr-v54';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -88,7 +89,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=48',
   './js/form.js?v=48',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=53',
+  './js/register-sw.js?v=54',
   './js/web-session.js?v=48',
   './js/web-link.js?v=53',
   './js/qr-visual.js?v=17',

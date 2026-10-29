@@ -461,8 +461,36 @@
 <script src="/js/trial-access.js?v=51"></script>
 <link rel="stylesheet" href="/css/keyboard-comfort.css?v=5">
 <script defer src="/js/keyboard-comfort.js?v=5"></script>
+<style>
+  /* Show request/navigation state without revealing the account-concealed page. */
+  #login-progress {
+    position:fixed;inset:0;margin:0;padding:24px;width:100%;max-width:none;
+    height:100vh;height:100dvh;max-height:none;border:0;background:#081725;
+    color:#eef8ff;visibility:visible;font:600 18px/1.6 system-ui,sans-serif;
+  }
+  #login-progress[open] { display:grid;place-items:center; }
+  #login-progress::backdrop { background:#081725; }
+  .login-progress-card {
+    width:min(100%,360px);padding:32px 24px;text-align:center;border:1px solid #7acbff66;
+    border-radius:24px;background:linear-gradient(150deg,#223d55,#102438);
+    box-shadow:inset 0 1px 0 #d6f1ff55,0 5px 0 #030d19,0 16px 36px #0005;
+  }
+  .login-progress-ring {
+    display:block;width:44px;height:44px;margin:0 auto 20px;border:3px solid #a1dbff29;
+    border-top-color:#a1dbff;border-radius:50%;animation:login-progress-turn 1s linear infinite;
+  }
+  @keyframes login-progress-turn { to { transform:rotate(360deg); } }
+  @media(prefers-reduced-motion:reduce) { .login-progress-ring { animation:none; } }
+</style>
 </head>
 <body data-atabey-ui="access">
+
+<dialog id="login-progress" aria-labelledby="login-progress-text" tabindex="-1">
+  <div class="login-progress-card">
+    <span class="login-progress-ring" aria-hidden="true"></span>
+    <p id="login-progress-text" role="status" aria-live="polite"></p>
+  </div>
+</dialog>
 
 <button type="button" id="emergency-scroll-cue" hidden aria-controls="btn-emergency-quick">
   <span class="emergency-scroll-label" data-i18n="login.l1.emergency_quick_button">Acceso rápido de emergencia</span>
@@ -1044,6 +1072,54 @@ let l2ResendCd        = 60;
 let l2ResendIntvl     = null;
 let l2TimerSecs       = 600;
 let l2TimerIntvl      = null;
+let loginVerification = null;
+let loginOpening = false;
+
+const loginSessionStamp = () => JSON.stringify(['doctorqr_id','doctorqr_token','doctorqr_user'].map(key => localStorage.getItem(key)));
+function showLoginProgress(phase) {
+  const dialog = document.getElementById('login-progress');
+  dialog.dataset.phase = phase;
+  document.getElementById('login-progress-text').textContent = t(phase === 'verifying' ? 'login.l1.verifying_button' : 'extra.205443ee88568e8c');
+  if (!dialog.open) dialog.showModal();
+}
+function beginLoginVerification() {
+  if (loginVerification || loginOpening) return null;
+  const attempt = { controller:new AbortController(), stamp:loginSessionStamp(), abandoned:false };
+  attempt.timer = setTimeout(() => attempt.controller.abort(), 15000);
+  loginVerification = attempt;
+  showLoginProgress('verifying');
+  return attempt;
+}
+function assertLoginVerification(attempt) {
+  if (attempt.abandoned || loginVerification !== attempt) throw Error('Login request abandoned');
+  if (attempt.stamp !== loginSessionStamp()) {
+    const error = Error(t('extra.a51070d5fc6fe224'));
+    error.code = 'login_context_changed';throw error;
+  }
+}
+function finishLoginVerification(attempt) {
+  clearTimeout(attempt.timer);
+  if (loginVerification !== attempt || loginOpening) return;
+  loginVerification = null;
+  document.getElementById('login-progress').close();
+}
+function loginVerificationError(attempt, error) {
+  if (attempt.abandoned) return;
+  if (error.code === 'login_context_changed') {
+    l2Buffer = '';gateBuffer = '';updateL2Display();updateGateDisplay();
+    document.getElementById('login-password').value = '';goTo('screen-l1');
+  }
+  showToast(error.code === 'login_context_changed' ? error.message : t('login.common.connection_error'), true);
+}
+document.getElementById('login-progress').addEventListener('cancel', event => event.preventDefault());
+window.addEventListener('pagehide', () => {
+  if (loginVerification && !loginOpening) {
+    loginVerification.abandoned = true;loginVerification.controller.abort();
+  }
+});
+window.addEventListener('pageshow', event => {
+  if (event.persisted && (loginOpening || loginVerification)) window.location.replace('login.html');
+});
 
 // ===== UTILIDADES =====
 
@@ -1065,7 +1141,8 @@ function goTo(screenId) {
 // Guarda la sesión y redirige a index.html -- compartido entre el éxito
 // de L2 (TOTP ya confirmado / email) y el éxito del gate (TOTP recién
 // confirmado). Antes cada pantalla duplicaba esta lógica por separado.
-function guardarSesionYRedirigir(data) {
+function guardarSesionYRedirigir(data, attempt) {
+  assertLoginVerification(attempt);
   let existingLanguage = null;
   try { existingLanguage = JSON.parse(localStorage.getItem('doctorqr_user') || '{}').language || null; } catch(_) {}
 
@@ -1075,6 +1152,9 @@ function guardarSesionYRedirigir(data) {
   };
 
   MedicalOwner.bindSession({ ...data, user: userToSave });
+  loginOpening = true;
+  l2Buffer = '';gateBuffer = '';updateL2Display();updateGateDisplay();
+  showLoginProgress('loading');
   window.location.href = 'index.html';
 }
 
@@ -1274,6 +1354,8 @@ function updateL2Display() {
 // Verificar código
 document.getElementById('btn-verify-l2').addEventListener('click', async () => {
   if (l2Buffer.length !== 6) return;
+  const attempt = beginLoginVerification();
+  if (!attempt) return;
   const btn = document.getElementById('btn-verify-l2');
   btn.disabled = true;
 
@@ -1289,6 +1371,7 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
     const res  = await fetch(`${API}/api/auth/verify-2fa`, {
       method:  'POST',
       credentials: 'include',
+      signal: attempt.controller.signal,
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email: loginEmail, code: l2Buffer, method: verifyMethod })
     });
@@ -1303,11 +1386,12 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
     }
 
     const data = await res.json();
+    assertLoginVerification(attempt);
 
-    if (data.success) {
+    if (res.ok && data.success) {
       clearInterval(l2TimerIntvl);
       clearInterval(l2ResendIntvl);
-      guardarSesionYRedirigir(data);
+      guardarSesionYRedirigir(data, attempt);
     } else {
       for (let i = 0; i < 6; i++) {
         const el = document.getElementById('l2-c' + i);
@@ -1322,8 +1406,10 @@ document.getElementById('btn-verify-l2').addEventListener('click', async () => {
       btn.disabled = true;
     }
   } catch (e) {
-    showToast(t('login.common.connection_error'), true);
+    loginVerificationError(attempt, e);
     btn.disabled = l2Buffer.length !== 6;
+  } finally {
+    finishLoginVerification(attempt);
   }
 });
 
@@ -1421,6 +1507,8 @@ function updateGateDisplay() {
 // Confirmar código TOTP del gate
 document.getElementById('btn-gate-confirmar').addEventListener('click', async () => {
   if (gateBuffer.length !== 6) return;
+  const attempt = beginLoginVerification();
+  if (!attempt) return;
   const btn = document.getElementById('btn-gate-confirmar');
   btn.disabled = true;
 
@@ -1428,6 +1516,7 @@ document.getElementById('btn-gate-confirmar').addEventListener('click', async ()
     const res = await fetch(`${API}/api/auth/verify-2fa`, {
       method: 'POST',
       credentials: 'include',
+      signal: attempt.controller.signal,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: loginEmail, code: gateBuffer, method: 'totp' })
     });
@@ -1439,9 +1528,10 @@ document.getElementById('btn-gate-confirmar').addEventListener('click', async ()
     }
 
     const data = await res.json();
+    assertLoginVerification(attempt);
 
-    if (data.success) {
-      guardarSesionYRedirigir(data);
+    if (res.ok && data.success) {
+      guardarSesionYRedirigir(data, attempt);
     } else {
       for (let i = 0; i < 6; i++) {
         const el = document.getElementById('gate-c' + i);
@@ -1453,8 +1543,10 @@ document.getElementById('btn-gate-confirmar').addEventListener('click', async ()
       btn.disabled = true;
     }
   } catch (e) {
-    showToast(t('login.common.connection_error'), true);
+    loginVerificationError(attempt, e);
     btn.disabled = gateBuffer.length !== 6;
+  } finally {
+    finishLoginVerification(attempt);
   }
 });
 

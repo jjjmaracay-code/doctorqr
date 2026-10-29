@@ -80,7 +80,7 @@ const server = http.createServer(async(req,res) => {
     console.log('PASS: actual logout removes private profile/drafts/credentials, retains only read-only references; QR images decode after repeated taps, reload, offline and direct shortcut, without API gating.');
 
     await p.goto(origin+'/login.html');
-    await p.evaluate(data=>guardarSesionYRedirigir(data),{token:'fixture-BOB',doctorqr_id:'BOB',user:users.BOB});
+    await p.evaluate(data=>guardarSesionYRedirigir(data,beginLoginVerification()),{token:'fixture-BOB',doctorqr_id:'BOB',user:users.BOB});
     await p.waitForURL('**/index.html');await p.waitForFunction(()=>EmergencyAccess.read()?.owner==='BOB');
     assert.equal(await p.evaluate(()=>MedicalOwner.read().email),'bob@example.invalid');
     await p.evaluate(()=>cerrarSesion());await p.waitForURL('**/login.html');
@@ -97,7 +97,7 @@ const server = http.createServer(async(req,res) => {
     await p.evaluate(()=>{document.documentElement.style.visibility='hidden';window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));});
     await p.waitForFunction(()=>document.documentElement.style.visibility!=='hidden');
     await p.locator('#btn-emergency-quick').click();await decoded(p,'BOB',2);await p.locator('.eqv-close').click();
-    await p.evaluate(data=>guardarSesionYRedirigir(data),{token:'fixture-BOB',doctorqr_id:'BOB',user:users.BOB});
+    await p.evaluate(data=>guardarSesionYRedirigir(data,beginLoginVerification()),{token:'fixture-BOB',doctorqr_id:'BOB',user:users.BOB});
     await p.waitForURL('**/index.html');await p.waitForFunction(()=>MedicalOwner.read()?.email==='bob@example.invalid');
     await p.evaluate(()=>{document.getElementById('del-pwd').value='fictional password';return ejecutarEliminarCuenta();});await p.waitForURL('**/login.html');
     assert.equal(await p.evaluate(k=>localStorage.getItem(k),key),null);
