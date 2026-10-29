@@ -182,7 +182,7 @@ html[dir="rtl"] .reader-back{transform:scaleX(-1)}
      momento. Hash SRI conservado sin cambios, verificado contra el archivo
      local. -->
 <script src="/vendor/lz-string/lz-string-1.5.0.min.js" integrity="sha384-0d+Gr7vM4Drod8E3hXKgciWJSWbjD/opKLLygI9ktiWbuvlDwQLzU46wJ9s5gsp7"></script>
-<script src="/js/qr-languages.js?v=23"></script>
+<script src="/js/qr-languages.js?v=48"></script>
 <script src="/js/birthdate.js?v=14"></script>
 <script>
 // ================================================================
@@ -190,10 +190,10 @@ html[dir="rtl"] .reader-back{transform:scaleX(-1)}
 // ================================================================
 const T = {
   es: {
-    ph: 'Buscar en historial...',
+    ph: "Buscar en tus datos médicos...",
     results: (n, tot) => `${n} de ${tot}`,
     no_results: 'Sin resultados',
-    tab_u: 'URGENTE', tab_h: 'HISTORIAL', tab_c: 'CONTACTOS',
+    tab_u: 'URGENTE', tab_h: "DATOS MÉDICOS", tab_c: 'CONTACTOS',
     years: 'años', generated: 'GEN.',
     s_allergy: '⚠ Alergias graves',
     s_med: '💊 Medicación activa',
@@ -205,7 +205,7 @@ const T = {
     s_diseases: '📋 Enfermedades y condiciones',
     s_surg: '🔪 Cirugías',
     s_vacc: '💉 Vacunas',
-    s_family: '🧬 Historial familiar',
+    s_family: "🧬 Antecedentes familiares",
     s_habits: '🚶 Hábitos',
     s_contacts: '📞 Contactos de emergencia',
     s_doctor: '👨‍⚕️ Médico habitual',
@@ -250,10 +250,10 @@ const T = {
     nodata: '— No especificado —',
   },
   en: {
-    ph: 'Search medical history...',
+    ph: "Search your medical information...",
     results: (n, tot) => `${n} of ${tot}`,
     no_results: 'No results',
-    tab_u: 'URGENT', tab_h: 'HISTORY', tab_c: 'CONTACTS',
+    tab_u: 'URGENT', tab_h: "MEDICAL DATA", tab_c: 'CONTACTS',
     years: 'years', generated: 'GEN.',
     s_allergy: '⚠ Severe Allergies',
     s_med: '💊 Active Medication',
@@ -265,7 +265,7 @@ const T = {
     s_diseases: '📋 Diseases & Conditions',
     s_surg: '🔪 Surgeries',
     s_vacc: '💉 Vaccines',
-    s_family: '🧬 Family History',
+    s_family: "🧬 Family History",
     s_habits: '🚶 Habits',
     s_contacts: '📞 Emergency Contacts',
     s_doctor: '👨‍⚕️ Primary Physician',
@@ -310,10 +310,10 @@ const T = {
     nodata: '— Not specified —',
   },
   fr: {
-    ph: 'Rechercher dans le dossier...',
+    ph: "Rechercher dans vos informations médicales…",
     results: (n, tot) => `${n} sur ${tot}`,
     no_results: 'Aucun résultat',
-    tab_u: 'URGENT', tab_h: 'HISTORIQUE', tab_c: 'CONTACTS',
+    tab_u: 'URGENT', tab_h: "INFOS MÉDICALES", tab_c: 'CONTACTS',
     years: 'ans', generated: 'GÉN.',
     s_allergy: '⚠ Allergies graves',
     s_med: '💊 Médicaments actifs',
@@ -325,7 +325,7 @@ const T = {
     s_diseases: '📋 Maladies et conditions',
     s_surg: '🔪 Chirurgies',
     s_vacc: '💉 Vaccins',
-    s_family: '🧬 Antécédents familiaux',
+    s_family: "🧬 Antécédents familiaux",
     s_habits: '🚶 Habitudes',
     s_contacts: '📞 Contacts d\'urgence',
     s_doctor: '👨‍⚕️ Médecin traitant',
@@ -370,10 +370,10 @@ const T = {
     nodata: '— Non spécifié —',
   },
   pt: {
-    ph: 'Pesquisar no histórico...',
+    ph: "Pesquisar nos seus dados médicos…",
     results: (n, tot) => `${n} de ${tot}`,
     no_results: 'Sem resultados',
-    tab_u: 'URGENTE', tab_h: 'HISTÓRICO', tab_c: 'CONTACTOS',
+    tab_u: 'URGENTE', tab_h: "DADOS MÉDICOS", tab_c: 'CONTACTOS',
     years: 'anos', generated: 'GER.',
     s_allergy: '⚠ Alergias graves',
     s_med: '💊 Medicação ativa',
@@ -385,7 +385,7 @@ const T = {
     s_diseases: '📋 Doenças e condições',
     s_surg: '🔪 Cirurgias',
     s_vacc: '💉 Vacinas',
-    s_family: '🧬 Histórico familiar',
+    s_family: "🧬 Histórico familiar",
     s_habits: '🚶 Hábitos',
     s_contacts: '📞 Contactos de emergência',
     s_doctor: '👨‍⚕️ Médico habitual',
@@ -430,10 +430,10 @@ const T = {
     nodata: '— Não especificado —',
   },
   de: {
-    ph: 'Krankengeschichte durchsuchen...',
+    ph: "Deine medizinischen Angaben durchsuchen…",
     results: (n, tot) => `${n} von ${tot}`,
     no_results: 'Keine Ergebnisse',
-    tab_u: 'NOTFALL', tab_h: 'VERLAUF', tab_c: 'KONTAKTE',
+    tab_u: 'NOTFALL', tab_h: "MED. ANGABEN", tab_c: 'KONTAKTE',
     years: 'Jahre', generated: 'ERST.',
     s_allergy: '⚠ Schwere Allergien',
     s_med: '💊 Aktuelle Medikation',
@@ -445,7 +445,7 @@ const T = {
     s_diseases: '📋 Krankheiten & Erkrankungen',
     s_surg: '🔪 Operationen',
     s_vacc: '💉 Impfungen',
-    s_family: '🧬 Familienanamnese',
+    s_family: "🧬 Familienanamnese",
     s_habits: '🚶 Gewohnheiten',
     s_contacts: '📞 Notfallkontakte',
     s_doctor: '👨‍⚕️ Hausarzt',
@@ -955,7 +955,7 @@ function renderApp() {
       </div>
     </div>
 
-    ${d._minimal ? `<div class="minimal-banner">&#9888; Historial no disponible &mdash; datos b&aacute;sicos del QR</div>` : ''}
+    ${d._minimal ? `<div class="minimal-banner">&#9888; Información médica no disponible &mdash; datos b&aacute;sicos del QR</div>` : ''}
     ${!accesoVigente ? `<div class="minimal-banner">${esc(t.expired_msg_soft)}</div>` : ''}
 
     <div class="tabs" id="tabs">
@@ -1049,7 +1049,7 @@ function renderError() {
   };
   const l = Object.assign({}, labels[lang] || labels.es, {title:t.error_title,retry:t.retry,connection:t.connection,unpublished:t.unpublished,verification:t.verification,limited:t.limited,unavailable:t.unavailable});
   const problem = window.cardLoadProblem;
-  l.trial_expired = t.trial_expired || 'La prueba gratuita ha terminado. El titular debe activar un plan para volver a compartir su historial. Los datos no se han eliminado.';
+  l.trial_expired = t.trial_expired || 'La prueba gratuita ha terminado. El titular debe activar un plan para volver a compartir sus datos médicos. Los datos no se han eliminado.';
   document.getElementById('app').innerHTML = `
     <div class="error-screen">
       <div class="logo" style="margin-bottom:16px">ATABEY<span style="color:#111111">APP</span></div>

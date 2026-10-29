@@ -7,10 +7,10 @@
   if (editor || emergencyPage) document.documentElement.dataset.accessGate = 'checking';
   const source = {
     title:'Prueba gratuita: quedan {days} días',today:'Últimas 24 horas de tu prueba gratuita',
-    copy:'Dispones de 30 días gratuitos. Después necesitarás activar un plan para consultar, editar y compartir el historial.',
+    copy:'Dispones de 30 días gratuitos. Después necesitarás activar un plan para consultar, editar y compartir tus datos médicos.',
     ends:'Finaliza el {date}.',countdown:'{days} d · {hours} h · {minutes} min',action:'Ver planes y activar acceso',
     checking_title:'Comprobando el acceso',checking_copy:'Estamos verificando la vigencia de tu cuenta.',
-    expired_title:'Tu prueba de 30 días ha terminado',expired_copy:'El acceso al historial y a sus QR está suspendido hasta activar un plan. Tus datos y tu borrador no se han eliminado.',
+    expired_title:'Tu prueba de 30 días ha terminado',expired_copy:'El acceso a tus datos médicos y a sus QR está suspendido hasta activar un plan. Tus datos y tu borrador no se han eliminado.',
     unverified_title:'Conecta para comprobar tu acceso',unverified_copy:'No se ha podido verificar la vigencia de la cuenta. Conéctate y vuelve a comprobarla.',
     retry:'Volver a comprobar',signin:'Iniciar sesión',web_manage:'Gestiona el plan desde la aplicación principal de tu móvil. Después pulsa Volver a comprobar en este ordenador.',web_exit:'Cerrar sesión web'
   };

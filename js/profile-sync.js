@@ -63,7 +63,7 @@
   function checked(data){
     if(!owner()?.current())throw Error('La sesión cambió. La respuesta anterior se ha descartado.');
     const reject=message=>{identityRejected=true;owner().clearPublished();throw Object.assign(Error(message),{identityRejected:true});};
-    if(!data||data.doctorqr_id!==owner().id()||!hex(data.profile_revision)||!hex(data.snapshot_token))reject('No se pudo verificar la versión del historial. Actualiza la aplicación y vuelve a intentarlo.');
+    if(!data||data.doctorqr_id!==owner().id()||!hex(data.profile_revision)||!hex(data.snapshot_token))reject('No se pudo verificar la versión de tus datos médicos. Actualiza la aplicación y vuelve a intentarlo.');
     if((data.profile&&!owner().matches(data.profile))||(data.review_profile&&!owner().matches(data.review_profile)))reject('La identidad del perfil no coincide con tu cuenta.');identityRejected=false;return data;
   }
   async function request(path,payload){
@@ -97,8 +97,8 @@
     try{
       const {res,data:raw}=await request('me');if(!owner()?.current())return null;if(sequence!==readSequence)return clone(working);
       if(![200,404,409].includes(res.status)){
-        if([401,403,402].includes(res.status)){notify(raw.error||'Vuelve a identificarte para verificar el historial.');return null;}
-        throw Error(raw.error||'No se pudo cargar el historial.');
+        if([401,403,402].includes(res.status)){notify(raw.error||'Vuelve a identificarte para verificar tus datos médicos.');return null;}
+        throw Error(raw.error||'No se pudieron cargar tus datos médicos.');
       }
       let data;try{data=checked(raw);}catch(error){owner().clearPublished();throw Object.assign(error,{identityRejected:true});}
       if(!data.profile&&!working)working=clone(data.review_profile||(owned(legacy)?legacy.profile:res.status===404?cachedProfile:null));adopt(data);
@@ -127,7 +127,7 @@
     lastCheckedAt=Date.now();
     if(formReader)collect(formReader());const initial=baseRevision,sequence=++readSequence;checking=true;render();
     try{
-      const {res,data:raw}=await request('me');if(![200,404,409].includes(res.status))throw Error(raw.error||'No se pudo sincronizar el historial.');const data=checked(raw);
+      const {res,data:raw}=await request('me');if(![200,404,409].includes(res.status))throw Error(raw.error||'No se pudo sincronizar tus datos médicos.');const data=checked(raw);
       if(busy||initial!==baseRevision||sequence!==readSequence)return false;const changed=data.profile_revision!==baseRevision;adopt(data);applyForm();
       notify(changed?text()[0]:Object.keys(pendingChanges).length?ui('extra.3a85c7c6e26f3266','Tienes un borrador local pendiente de publicar. La lectura del QR utiliza la última versión confirmada.'):text()[1]);
       if(changed&&data.profile)window.dispatchEvent(new CustomEvent('doctorqr:profile-synchronized',{detail:{profile:data.profile,pendingDraft:!!draft()}}));return true;

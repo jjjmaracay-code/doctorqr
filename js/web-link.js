@@ -24,7 +24,7 @@
    const a=document.createElement('a');a.href='/login.html';a.className='button';a.textContent='Iniciar sesión en la aplicación';$('link-status').after(a);return false;
   }
   primaryIdentity={token:localStorage.getItem('doctorqr_token'),id:localStorage.getItem('doctorqr_id'),user:localStorage.getItem('doctorqr_user')};
-  $('link-account').textContent='Autorizarás el historial de: '+u.email;return true;
+  $('link-account').textContent='Autorizarás los datos médicos de: '+u.email;return true;
  }
  function validLink(value){try{const u=new URL(value);if(u.origin!=='https://atabeyapp.app'||u.pathname!=='/vincular.html'||u.search)return null;return /^[a-f0-9-]{36}\.[a-f0-9]{64}$/.test(u.hash.slice(1))?u:null;}catch(_){return null;}}
  async function web(){

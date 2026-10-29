@@ -537,7 +537,7 @@
       { id: 'sec-7',           nombre: '07 — Cirugías y hospitalizaciones' },
       { id: 'sec-8',           nombre: '08 — Vacunas' },
       { id: 'sec-habitos',     nombre: 'Hábitos y estilo de vida' },
-      { id: 'sec-familiar',    nombre: 'Historial familiar' },
+      { id: 'sec-familiar',    nombre: 'Antecedentes familiares' },
       { id: 'sec-9',           nombre: '09 — Religión y restricciones' },
       { id: 'sec-10',          nombre: '10 — Contactos de emergencia' },
       { id: 'sec-11',          nombre: '11 — Médico y seguro' },
@@ -781,7 +781,7 @@
     }
 
     async function generate() {
-      if (!formReady) { alert('Espera a que termine la carga del historial antes de guardar.'); return; }
+      if (!formReady) { alert('Espera a que termine la carga de tus datos médicos antes de guardar.'); return; }
       if (!MedicalOwner.current()) { alert((typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.a51070d5fc6fe224","La cuenta cambió. Vuelve a iniciar sesión.",[])); return; }
       if (window.AtabeyPersonalPhone && !AtabeyPersonalPhone.validate()) { document.getElementById('sec-3').classList.add('open'); document.getElementById('f-personal-phone-num').reportValidity(); return; }
       const profilePrevio = buildProfileFromForm();
@@ -1316,7 +1316,7 @@
         { match: 'Cirugías',           icon: 'hospital', cls: 'section-icon sect-norm' },
         { match: 'Vacunas',            icon: 'syringe',  cls: 'section-icon sect-norm' },
         { match: 'Hábitos',            icon: 'run',      cls: 'section-icon sect-norm' },
-        { match: 'Historial familiar', icon: 'family',   cls: 'section-icon sect-norm' },
+        { match: 'Antecedentes familiares', icon: 'family',   cls: 'section-icon sect-norm' },
         { match: 'Religión',           icon: 'hands',    cls: 'section-icon sect-norm' },
         { match: 'Contactos',          icon: 'phone',    cls: 'section-icon sect-norm' },
         { match: 'Médico',             icon: 'hospital', cls: 'section-icon sect-norm' },

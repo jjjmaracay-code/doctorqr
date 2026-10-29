@@ -1,7 +1,7 @@
 // Presentation-only QR reader regression. All patients and answers are fictional.
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
 const {chromium}=require('playwright');
-const root=process.cwd(),base='0d80b09f92e4df54811fccc473a261ec92064149';
+const root=process.cwd(),base=process.env.ATABEY_READER_BASE||'a8ce5b3725bd7706b6c5ebd75d2563408ebd15a0';
 const patient={nombre:'Paciente Ficticio de Prueba con un Nombre Muy Largo',apellidos:'',email:'fictional@example.invalid',doc_type:'dni',doc_number:'FICTICIO',fecha_nacimiento:'1976-09-02',sangre:'0+',profesion:['Profesión ficticia larga '.repeat(12)],allergy_med:['Alergia ficticia'],allergy_severity:{'Alergia ficticia':'Grave'},meds:['Medicina ficticia'],med_doses:'Pauta ficticia '.repeat(20),conditions:['Condición ficticia'],surgeries:['Cirugía histórica ficticia'],vaccines:['Vacuna ficticia'],enfermedades_familiares:['Antecedente ficticio'],ec1_name:'Contacto Ficticio',ec1_phone_prefix:'+34',ec1_phone_num:'600000001',insurer:['Seguro ficticio'],policy:'POLIZA-FICTICIA',doctor_name:'Médico Ficticio',salud_emocional_cual:'CadenaLargaDePrueba'.repeat(35)};
 const urls=['emergency','critical','cardio','allergy','surgery','oncology','obstetric','mental'];
 const languages=['es','en','fr','de','pt','eu','hi','zh','ru','ja','ar'];

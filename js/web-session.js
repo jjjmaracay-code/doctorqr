@@ -31,7 +31,7 @@
    if(r.status===401||r.status===403){end();return false;}
    if(!r.ok)throw Error();const d=await r.json();if(ended||!current()){end();return false;}if(!d.linked){end();return false;}
    overlay?.remove();overlay=null;document.documentElement.style.visibility='';return true;
-  }catch(_){if(!current()){end();return false;}lock('Conexión interrumpida. El historial queda bloqueado hasta verificar de nuevo la sesión. Los cambios pendientes de esta pestaña se conservan.');return false;}
+  }catch(_){if(!current()){end();return false;}lock('Conexión interrumpida. La información médica queda bloqueada hasta verificar de nuevo la sesión. Los cambios pendientes de esta pestaña se conservan.');return false;}
  }
  async function logout(){try{await nativeFetch(API+'/api/devices/logout',{method:'POST',credentials:'omit',headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(5000)});}catch(_){}end();}
  // Existing profile requests retain their identity/revision checks. No backend cookies from another account.
@@ -57,7 +57,7 @@
  document.addEventListener('visibilitychange',()=>{if(document.hidden)lock('Sesión protegida.');else check();});
  window.addEventListener('pagehide',()=>lock('Sesión protegida.'));
  window.addEventListener('pageshow',()=>{if(store.getItem('doctorqr_token')!==token){ended=false;end();}else check();});
- window.addEventListener('offline',()=>lock('Sin conexión. Reconecta para acceder al historial.'));
+ window.addEventListener('offline',()=>lock('Sin conexión. Reconecta para acceder a tus datos médicos.'));
  window.addEventListener('online',check);
  setInterval(check,30000);
 })();

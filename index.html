@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="es" data-app-release="19">
 <head>
-<script src="/js/web-session.js?v=24"></script>
+<script src="/js/web-session.js?v=48"></script>
 <script src="/js/birthdate.js?v=14"></script>
 <script src="/js/medical-owner.js?v=41"></script>
-<script src="/js/profile-sync.js?v=24"></script>
+<script src="/js/profile-sync.js?v=48"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-title" content="Atabeyapp"/>
-  <title data-i18n="extra.c83bbb41f830c590">Atabeyapp · Tu historial médico en un QR</title>
-  <meta name="description" content="No es un juguete. No es un adorno. Es tu historial médico, listo para una emergencia real. Atabeyapp. Crea tu código QR médico, gratis 30 días.">
+  <title data-i18n="extra.c83bbb41f830c590">Atabeyapp · Tu información médica en un QR</title>
+  <meta name="description" content="No es un juguete. No es un adorno. Es tu información médica, lista para una emergencia real. Atabeyapp. Crea tu código QR médico, gratis 30 días.">
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/styles.css"/>
@@ -24,8 +24,8 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=47"></script>
-  <script src="i18n/loader.js?v=14"></script>
+  <script src="/js/register-sw.js?v=48"></script>
+  <script src="i18n/loader.js?v=48"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
     .btn-menu-hamburguesa {
@@ -177,14 +177,14 @@
   <link rel="stylesheet" href="/css/access-hub.css?v=21"/>
   <script src="/js/access-hub.js?v=21" defer></script>
   <link rel="stylesheet" href="/css/web-qr-preview.css?v=22"/>
-  <script src="/js/web-qr-preview.js?v=22" defer></script>
+  <script src="/js/web-qr-preview.js?v=48" defer></script>
 <script src="/js/country-metrics.js?v=1" defer></script>
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
 <link rel="stylesheet" href="/css/trial-access.css?v=23"/>
 <link rel="stylesheet" href="/css/qr-wallpaper.css?v=37"/>
 <link rel="stylesheet" href="/css/qr-wallpaper-iphone.css?v=38"/>
 <link rel="stylesheet" href="/css/medical-tools.css?v=37"/>
-<script src="/js/trial-access.js?v=23"></script>
+<script src="/js/trial-access.js?v=48"></script>
 <link rel="stylesheet" href="/css/form-edit-lock.css?v=40"/>
 <script src="/js/form-edit-lock.js?v=39" defer></script>
 <script id="form-edit-lock-guard">
@@ -230,7 +230,7 @@
   <div id="trial-expired-banner" class="trial-expired-banner">
     <div class="teb-icon">⏱</div>
     <div class="teb-title" data-i18n="index.trial_expired.title">TU PERIODO DE PRUEBA HA TERMINADO</div>
-    <div class="teb-body" data-i18n="index.trial_expired.body">Tu historial médico sigue guardado y seguro. Elige un plan para seguir sincronizando tus datos de emergencia.</div>
+    <div class="teb-body" data-i18n="index.trial_expired.body">Tu información médica sigue guardada y segura. Elige un plan para seguir sincronizando tus datos de emergencia.</div>
     <div class="teb-sub" data-i18n="index.trial_expired.sub">Redirigiendo a los planes en 3 segundos…</div>
   </div>
 
@@ -241,7 +241,7 @@
   <div id="totp-required-banner" class="trial-expired-banner">
     <div class="teb-icon">🔒</div>
     <div class="teb-title" data-i18n="index.totp_required.title">CONFIGURACIÓN DE SEGURIDAD PENDIENTE</div>
-    <div class="teb-body" data-i18n="index.totp_required.body">Tu historial médico sigue guardado localmente. Para sincronizarlo necesitas confirmar tu autenticador (Google Authenticator).</div>
+    <div class="teb-body" data-i18n="index.totp_required.body">Tu información médica sigue guardada localmente. Para sincronizarla necesitas confirmar tu autenticador (Google Authenticator).</div>
     <div class="teb-sub" data-i18n="index.totp_required.sub">Redirigiendo para confirmarlo en 3 segundos…</div>
   </div>
 
@@ -510,8 +510,8 @@
       <text x="270" y="21" font-family="Arial, Helvetica, sans-serif" font-weight="700"
             font-size="14" fill="#ffffff" filter="url(#wm-glow-white)">™</text>
     </svg>
-    <div class="tagline" data-i18n="index.header.tagline">Tu historial médico en un QR</div>
-    <div class="brand-slogan" data-i18n="index.header.brand_slogan">No es un juguete. No es un adorno. Es tu historial médico, listo para una emergencia real. Atabeyapp.</div>
+    <div class="tagline" data-i18n="index.header.tagline">Tu información médica en un QR</div>
+    <div class="brand-slogan" data-i18n="index.header.brand_slogan">No es un juguete. No es un adorno. Es tu información médica, lista para una emergencia real. Atabeyapp.</div>
     <div class="account-overview">
       <div class="account-access-grid">
         <section class="account-access-card access-emergency">
@@ -522,12 +522,12 @@
         </section>
         <section class="account-access-card access-web" data-primary-only>
           <h2 class="access-heading">ATABEYAPP Web</h2>
-          <p class="access-copy" data-i18n="access.web_copy">Consulta y edita tu historial desde el ordenador.</p>
+          <p class="access-copy" data-i18n="access.web_copy">Consulta y edita tus datos médicos desde el ordenador.</p>
           <a href="/dispositivos.html" data-primary-only class="web-link-entry access-button" data-i18n="access.link">Vincular ordenador</a>
         </section>
         <section class="account-access-card access-preview" data-web-only>
           <h2 class="access-heading" data-i18n="qr_preview.title">Mis QR médicos</h2>
-          <p class="access-copy" data-i18n="qr_preview.intro">Consulta y amplía los QR de tu historial guardado.</p>
+          <p class="access-copy" data-i18n="qr_preview.intro">Consulta y amplía los QR de tus datos médicos guardados.</p>
           <button id="open-web-qr-preview" class="access-button" type="button" aria-haspopup="dialog" aria-expanded="false" data-i18n="qr_preview.open">Vista previa de mis QR</button>
         </section>
       </div>
@@ -1908,7 +1908,7 @@
     <!-- SECCIÓN — HISTORIAL FAMILIAR -->
     <div class="form-section" id="sec-familiar">
       <div class="section-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleSection('sec-familiar')">
-        <span class="section-title" data-i18n="index.family_history.section_title">— Historial familiar</span>
+        <span class="section-title" data-i18n="index.family_history.section_title">— Antecedentes familiares</span>
         <span class="section-chevron">›</span>
       </div>
       <div class="section-body">
@@ -2358,11 +2358,11 @@
                     line-height:1.8;margin-bottom:20px;">
           <p style="margin-bottom:10px;" data-i18n="index.delete_account.intro">Al confirmar, tu cuenta y todos tus datos se eliminarán de forma permanente e inmediata. Esto incluye:</p>
           <ul style="padding-left:16px;margin-bottom:10px;">
-            <li style="margin-bottom:6px;" data-i18n="index.delete_account.item_profile">Tu perfil médico completo (alergias, historial, contactos de emergencia, todo lo que rellenaste).</li>
+            <li style="margin-bottom:6px;" data-i18n="index.delete_account.item_profile">Tu perfil médico completo (alergias, datos de salud, contactos de emergencia, todo lo que rellenaste).</li>
             <li style="margin-bottom:6px;" data-i18n="index.delete_account.item_qr">Los 9 códigos QR generados — dejarán de funcionar de inmediato. Cualquier QR impreso, en tu pulsera, o guardado en tu teléfono ya no mostrará información.</li>
-            <li style="margin-bottom:6px;" data-i18n="index.delete_account.item_history">Tu historial de cuenta y configuración.</li>
+            <li style="margin-bottom:6px;" data-i18n="index.delete_account.item_history">Tu registro de cuenta y configuración.</li>
           </ul>
-          <p style="margin-bottom:10px;" data-i18n="privacy.trialHistory">Para impedir que se reinicien los 30 días, conservamos la fecha original de la prueba y una huella del correo protegida con una clave, también después de cerrar la cuenta. Este registro no contiene el correo en texto legible ni datos médicos y no permite recuperar el historial eliminado. Puedes consultar este tratamiento escribiendo al contacto de privacidad.</p>
+          <p style="margin-bottom:10px;" data-i18n="privacy.trialHistory">Para impedir que se reinicien los 30 días, conservamos la fecha original de la prueba y una huella del correo protegida con una clave, también después de cerrar la cuenta. Este registro no contiene el correo en texto legible ni datos médicos y no permite recuperar tu información médica eliminada. Puedes consultar este tratamiento escribiendo al contacto de privacidad.</p>
           <p style="margin-bottom:10px;" data-i18n="index.delete_account.subscription_note">Si tienes una suscripción de pago activa (Pro), se cancelará automáticamente al eliminar tu cuenta. No se realizarán más cobros, pero no se reembolsará el periodo ya pagado.</p>
           <p style="margin-bottom:10px;" data-i18n="index.delete_account.no_recovery_note">No existe forma de recuperar estos datos después de confirmar. No hay copia de seguridad ni periodo de gracia — la eliminación es inmediata y definitiva.</p>
           <p style="margin-bottom:10px;" data-i18n="index.delete_account.gdpr_note">Esta solicitud se procesa conforme a tu derecho de supresión ("derecho al olvido") bajo el Reglamento General de Protección de Datos (RGPD) y la LOPDGDD.</p>
@@ -2590,11 +2590,11 @@
   <script src="js/search.js?v=12"></script>
   <script src="js/emergency-numbers.js?v=31"></script>
   <script src="js/personal-phone.js?v=31"></script>
-  <script src="js/form.js?v=31"></script>
+  <script src="js/form.js?v=48"></script>
   <script src="js/card-png.js?v=31"></script>
   <script src="js/compact-emergency-qr.js?v=42"></script>
-  <script src="js/emergency-accessories.js?v=42"></script>
-  <script src="js/emergency-card.js?v=44"></script>
+  <script src="js/emergency-accessories.js?v=48"></script>
+  <script src="js/emergency-card.js?v=48"></script>
   <script src="js/qr-generator.js?v=41"></script>
   <script src="js/qr-wallpaper.js?v=38"></script>
 
@@ -2613,7 +2613,7 @@
       { icon:'🏥', kicker:'Tu voz en emergencia',
         body:'Esta planilla es <em>tu voz cuando no puedes hablar.</em> En una emergencia, el médico tendrá segundos para tomar decisiones críticas. Lo que rellenes aquí puede ser la diferencia entre estar bien o estar peor.' },
       { icon:'🔒', kicker:'Tu privacidad, garantizada',
-        body:'Tu historial médico se guarda cifrado con AES-256 en nuestros servidores — el mismo nivel de cifrado que usa la banca online. Así, cualquier sanitario puede acceder a tus datos al escanear tu QR, en cualquier momento, sin depender de que tengas tu móvil contigo o esté desbloqueado. Lo único más que guardamos es tu cuenta de acceso — email y contraseña cifrada. Nada de tu historial se comparte ni se vende a terceros.' },
+        body:'Tu información médica se guarda cifrada con AES-256 en nuestros servidores — el mismo nivel de cifrado que usa la banca online. Así, cualquier sanitario puede acceder a tus datos al escanear tu QR, en cualquier momento, sin depender de que tengas tu móvil contigo o esté desbloqueado. Lo único más que guardamos es tu cuenta de acceso — email y contraseña cifrada. Nada de tu información médica se comparte ni se vende a terceros.' },
       { icon:'✅', kicker:'Solo lo que sabes con certeza',
         body:'Rellena solo lo que sabes con certeza. Si no conoces un dato, marca "No sé" o "Ninguna conocida". <b>Una información incorrecta puede ser igual de peligrosa que ninguna información.</b>' },
       { icon:'💊', kicker:'¿No recuerdas algún dato?',
@@ -2637,7 +2637,7 @@
       'sec-habitos': 'Sé honesto. El tabaco, alcohol y otras sustancias afectan directamente los tratamientos y las dosis.',
       'sec-familiar':'Enfermedades hereditarias como diabetes, cardiopatías o cáncer pueden ser relevantes en urgencias.',
       'sec-9':       'Si tienes restricciones sobre tratamientos o transfusiones, indícalo. Se respetará siempre que sea posible.',
-      'sec-10':      'Añade al menos dos contactos. Incluye a alguien que conozca tu historial y pueda tomar decisiones por ti.',
+      'sec-10':      'Añade al menos dos contactos. Incluye a alguien que conozca tus datos médicos y pueda tomar decisiones por ti.',
       'sec-11':      'Tu médico de cabecera y tu seguro. En urgencias graves, el hospital necesita saber con quién coordinarse.'
     };
 
@@ -2645,7 +2645,7 @@
       'sec-1':'01 — Idiomas','sec-2':'02 — Datos físicos','sec-3':'03 — Identificación',
       'sec-4':'04 — Datos críticos','sec-5':'05 — Enfermedades','sec-6':'06 — Medicación',
       'sec-7':'07 — Cirugías','sec-8':'08 — Vacunas','sec-habitos':'Hábitos',
-      'sec-familiar':'Historial familiar','sec-9':'09 — Religión',
+      'sec-familiar':'Antecedentes familiares','sec-9':'09 — Religión',
       'sec-10':'10 — Contactos','sec-11':'11 — Médico y seguro'
     };
 

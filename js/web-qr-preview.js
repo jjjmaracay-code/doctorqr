@@ -5,9 +5,9 @@
     const trigger = document.getElementById('open-web-qr-preview');
     if (!trigger || !window.WebSession || document.documentElement.dataset.webLinked !== 'true') return;
     const fallback = {
-      title: 'Mis QR médicos', close: 'Cerrar vista previa', saved: 'Se muestra la última versión guardada del historial. Los cambios sin guardar no aparecen en estos QR.',
-      loading: 'Comprobando la sesión y el historial guardado…', empty: 'Todavía no hay un historial guardado para mostrar sus QR. Guarda tus datos médicos y vuelve a abrir esta vista.',
-      error: 'No se pudo comprobar el historial guardado. Revisa la conexión y vuelve a intentarlo.', retry: 'Volver a comprobar',
+      title: 'Mis QR médicos', close: 'Cerrar vista previa', saved: 'Se muestra la última versión guardada de tus datos médicos. Los cambios sin guardar no aparecen en estos QR.',
+      loading: 'Comprobando la sesión y tus datos médicos guardados…', empty: 'Todavía no hay datos médicos guardados para mostrar sus QR. Guarda tus datos médicos y vuelve a abrir esta vista.',
+      error: 'No se pudieron comprobar tus datos médicos guardados. Revisa la conexión y vuelve a intentarlo.', retry: 'Volver a comprobar',
       content: 'Abrir la información de este QR', content_note: 'La información se abre en otra pestaña con el lector médico habitual.', list: 'Selecciona un QR'
     };
     const text = key => typeof window.uiMessage === 'function' ? window.uiMessage('qr_preview.' + key, fallback[key]) : fallback[key];

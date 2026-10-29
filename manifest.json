@@ -1,7 +1,7 @@
 {
   "name": "Atabeyapp",
   "short_name": "Atabeyapp",
-  "description": "Tu historial médico en un QR. Listo para una emergencia real.",
+  "description": "Tu información médica en un QR. Lista para una emergencia real.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

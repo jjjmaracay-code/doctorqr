@@ -53,7 +53,7 @@ for i,m in enumerate(months):
  d.text((x+tilew-165,y+31),'LGTBIQ+' if m.get('pride') else m['color'].upper(),font=font(23),fill=muted)
  cardw=805;cardh=round(cardw*60/85.6)
  for j,key in enumerate(['anverso','reverso']):
-  xx=x+30+j*cardw;label='ANVERSO - HISTORIAL MÉDICO' if not j else 'REVERSO - APLICACIÓN';d.text((xx,y+113),label,font=font(20,True),fill=muted)
+  xx=x+30+j*cardw;label='ANVERSO - TUS DATOS MÉDICOS' if not j else 'REVERSO - APLICACIÓN';d.text((xx,y+113),label,font=font(20,True),fill=muted)
   image=Image.open(root/'png'/m[key]).convert('RGBA').resize((cardw,cardh),Image.Resampling.LANCZOS);plate.paste(image,(xx,y+149),image)
  dashed(d,x+835,y+149,y+149+cardh,navy,width=2,dash=9,gap=6);d.text((x+835,y+719),'DOBLAR - NO CORTAR',font=font(19,True),fill=muted,anchor='mt')
 d.text((100,H-115),'12 meses x 2 caras = 24 caras en 12 piezas. Junio lleva el arcoíris LGTBIQ+.',font=font(27),fill=muted)
@@ -72,7 +72,7 @@ for m in months:
  p.setFillColor(HexColor(muted));p.setFont('DejaVu',8);p.drawString(15.4*mm,229*mm,'MUESTRA - Datos ficticios. No válida para una emergencia.')
  y=156*mm;cw,ch=85.6*mm,60*mm;start=19.4*mm
  for j,key in enumerate(['anverso','reverso']):
-  x=start+j*cw;p.setFillColor(HexColor(muted));p.setFont('DejaVu-Bold',7.5);p.drawCentredString(x+cw/2,y+ch+6*mm,'ANVERSO - HISTORIAL MÉDICO' if not j else 'REVERSO - APLICACIÓN')
+  x=start+j*cw;p.setFillColor(HexColor(muted));p.setFont('DejaVu-Bold',7.5);p.drawCentredString(x+cw/2,y+ch+6*mm,'ANVERSO - TUS DATOS MÉDICOS' if not j else 'REVERSO - APLICACIÓN')
   p.drawImage(ImageReader(str(root/'png'/m[key])),x,y,width=cw,height=ch,mask='auto')
  p.setStrokeColor(HexColor(muted));p.setLineWidth(.18*mm)
  for yy in [y,y+ch]:p.line(start-3*mm,yy,start-mm,yy);p.line(start+2*cw+mm,yy,start+2*cw+3*mm,yy)
