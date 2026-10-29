@@ -32,12 +32,13 @@
 // v49: wallet appearance controls and desktop/touch 3D section navigation.
 // v50: named emergency contacts in white accessory panels.
 // v51: prepared emergency QR access survives ordinary mobile logout.
-const CACHE_NAME = 'doctorqr-v51';
+// v52: larger responsive keyboards and satin keycap depth.
+const CACHE_NAME = 'doctorqr-v52';
 const CACHE_URLS = [
   '/',
   './index.html',
-  './css/keyboard-comfort.css?v=4',
-  './js/keyboard-comfort.js?v=4',
+  './css/keyboard-comfort.css?v=5',
+  './js/keyboard-comfort.js?v=5',
   './js/country-metrics.js?v=1',
   './login.html',
   './register.html',
@@ -86,7 +87,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=48',
   './js/form.js?v=48',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=51',
+  './js/register-sw.js?v=52',
   './js/web-session.js?v=48',
   './js/web-link.js?v=48',
   './js/qr-visual.js?v=17',

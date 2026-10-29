@@ -58,9 +58,11 @@
       const end=lookup(el,'keyboardEnd'),endBox=end?.getBoundingClientRect();
       const after=endBox?.height?Math.max(0,endBox.bottom-r.bottom):0;
       const before=d&&d.height>0?Math.max(0,r.top-d.top):0,gap=el.dataset.keyboard==='num'?8:5;
-      const ideal=el.dataset.keyboard==='num'?Math.min(92,Math.max(52,height*.12)):Math.min(70,Math.max(48,height*.092));
+      const compact=innerWidth>innerHeight&&height<500;
+      const minimum=compact?44:el.dataset.keyboard==='num'?56:52;
+      const ideal=el.dataset.keyboard==='num'?Math.min(104,Math.max(58,height*.135)):Math.min(78,Math.max(52,height*.105));
       const style=getComputedStyle(el),padding=['paddingTop','paddingBottom','borderTopWidth','borderBottomWidth'].reduce((sum,key)=>sum+(parseFloat(style[key])||0),0);
-      const fit=Math.floor((height-Math.min(before,height*.35)-after-(rows-1)*gap-padding-8)/rows),value=Math.max(44,Math.min(ideal,fit));
+      const fit=Math.floor((height-Math.min(before,height*.35)-after-(rows-1)*gap-padding-8)/rows),value=Math.max(minimum,Math.min(ideal,fit));
       const css=value.toFixed(2)+'px';if(el.style.getPropertyValue('--keyboard-key-height')!==css)el.style.setProperty('--keyboard-key-height',css);
     }
     function bounds(el,space){
