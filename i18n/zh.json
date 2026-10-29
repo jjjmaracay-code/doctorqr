@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "国家及区号",
   "index.identification.phone_hint": "电话区号用于建议卡片上的急救号码。打印前请确认国家。",
   "index.identification.phone_warning": "请选择国家并输入不含国际区号的本地电话号码。",
-  "index.identification.phone_placeholder": "不含国际区号的号码"
+  "index.identification.phone_placeholder": "不含国际区号的号码",
+  "section_navigation.label": "表单部分",
+  "section_navigation.previous": "前面的部分",
+  "section_navigation.next": "后面的部分",
+  "section_navigation.home": "首页"
 }

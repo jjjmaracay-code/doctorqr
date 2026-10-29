@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "देश और कॉलिंग कोड",
   "index.identification.phone_hint": "आपका कॉलिंग कोड कार्ड पर आपातकालीन नंबर सुझाने में मदद करता है। प्रिंट करने से पहले देश जाँचें।",
   "index.identification.phone_warning": "देश चुनें और अंतरराष्ट्रीय कोड के बिना राष्ट्रीय फ़ोन नंबर दर्ज करें।",
-  "index.identification.phone_placeholder": "देश कोड के बिना नंबर"
+  "index.identification.phone_placeholder": "देश कोड के बिना नंबर",
+  "section_navigation.label": "फ़ॉर्म के अनुभाग",
+  "section_navigation.previous": "पिछले अनुभाग",
+  "section_navigation.next": "अगले अनुभाग",
+  "section_navigation.home": "होम"
 }

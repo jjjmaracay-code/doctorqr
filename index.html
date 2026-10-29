@@ -24,8 +24,8 @@
        byte a byte del original, verificada contra este mismo hash. -->
   <script src="/vendor/qrcodejs/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"></script>
   <script src="/vendor/lz-string/lz-string-1.4.4.min.js" integrity="sha384-+pWnyi8LtZx+cgXfD2arWgUX7pHIaEL215cEPPk9WrsegNlgvDL9DNjaqsceQq6o"></script>
-  <script src="/js/register-sw.js?v=48"></script>
-  <script src="i18n/loader.js?v=48"></script>
+  <script src="/js/register-sw.js?v=49"></script>
+  <script src="i18n/loader.js?v=49"></script>
   <style>
     /* ===== MENÚ HAMBURGUESA (Pantalla principal) ===== */
     .btn-menu-hamburguesa {
@@ -184,6 +184,8 @@
 <link rel="stylesheet" href="/css/qr-wallpaper.css?v=37"/>
 <link rel="stylesheet" href="/css/qr-wallpaper-iphone.css?v=38"/>
 <link rel="stylesheet" href="/css/medical-tools.css?v=37"/>
+<link rel="stylesheet" href="/css/section-navigation.css?v=49"/>
+<script defer src="/js/section-navigation.js?v=49"></script>
 <script src="/js/trial-access.js?v=48"></script>
 <link rel="stylesheet" href="/css/form-edit-lock.css?v=40"/>
 <script src="/js/form-edit-lock.js?v=39" defer></script>
@@ -559,20 +561,24 @@
   </div>
 
   <!-- ===== BARRA DE TABS — NAVEGACIÓN RÁPIDA ENTRE SECCIONES DEL FORMULARIO ===== -->
+  <nav class="form-tabs-shell" id="form-tabs-shell" aria-label="Secciones del formulario" data-i18n-aria="section_navigation.label">
+    <button type="button" class="form-tabs-step" data-section-step="-1" aria-label="Secciones anteriores" data-i18n-aria="section_navigation.previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
   <div class="form-tabs-bar" id="form-tabs-bar">
-    <button class="form-tab-btn form-tab-btn-wide" id="btn-tab-inicio">⌂</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-1"><span data-i18n="extra.b5390e8eed31f151">1 · Idiomas</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-2"><span data-i18n="extra.db94303c0b964268">2 · Físico</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-3">3 · ID</button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-4"><span data-i18n="extra.1202aebed66231cf">4 · Crítico</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-5"><span data-i18n="extra.4fef76349427a819">5 · Enferm.</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-6"><span data-i18n="extra.6036340eac9afb6f">6 · Meds</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-7"><span data-i18n="extra.78d696456cf3d554">7 · Cirugía</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-8"><span data-i18n="extra.9caebbdf9994083e">8 · Vacunas</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-9"><span data-i18n="extra.c97906d9215d77aa">9 · Religión</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-10"><span data-i18n="extra.45ac253b2666ab8e">10 · Contacto</span></button>
-    <button class="form-tab-btn form-tab-btn-wide" data-target="sec-11"><span data-i18n="extra.64cfdc761d81ccf2">11 · Médico</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" aria-label="Inicio" data-i18n-aria="section_navigation.home" id="btn-tab-inicio">⌂</button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-1"><span data-i18n="extra.b5390e8eed31f151">1 · Idiomas</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-2"><span data-i18n="extra.db94303c0b964268">2 · Físico</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-3">3 · ID</button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-4"><span data-i18n="extra.1202aebed66231cf">4 · Crítico</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-5"><span data-i18n="extra.4fef76349427a819">5 · Enferm.</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-6"><span data-i18n="extra.6036340eac9afb6f">6 · Meds</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-7"><span data-i18n="extra.78d696456cf3d554">7 · Cirugía</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-8"><span data-i18n="extra.9caebbdf9994083e">8 · Vacunas</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-9"><span data-i18n="extra.c97906d9215d77aa">9 · Religión</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-10"><span data-i18n="extra.45ac253b2666ab8e">10 · Contacto</span></button>
+    <button type="button" class="form-tab-btn form-tab-btn-wide" data-target="sec-11"><span data-i18n="extra.64cfdc761d81ccf2">11 · Médico</span></button>
   </div>
+    <button type="button" class="form-tabs-step" data-section-step="1" aria-label="Secciones siguientes" data-i18n-aria="section_navigation.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+  </nav>
   <div class="form-tabs-labels" id="form-tabs-labels"></div>
 
   <!-- FORMULARIO -->
@@ -2594,7 +2600,7 @@
   <script src="js/card-png.js?v=31"></script>
   <script src="js/compact-emergency-qr.js?v=42"></script>
   <script src="js/emergency-accessories.js?v=48"></script>
-  <script src="js/emergency-card.js?v=48"></script>
+  <script src="js/emergency-card.js?v=49"></script>
   <script src="js/qr-generator.js?v=41"></script>
   <script src="js/qr-wallpaper.js?v=38"></script>
 

@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "البلد ورمز الاتصال",
   "index.identification.phone_hint": "يساعد رمز الاتصال في اقتراح رقم الطوارئ على البطاقة. تحقق من البلد قبل الطباعة.",
   "index.identification.phone_warning": "اختر البلد وأدخل الرقم المحلي دون رمز الاتصال الدولي.",
-  "index.identification.phone_placeholder": "الرقم دون رمز البلد"
+  "index.identification.phone_placeholder": "الرقم دون رمز البلد",
+  "section_navigation.label": "أقسام النموذج",
+  "section_navigation.previous": "الأقسام السابقة",
+  "section_navigation.next": "الأقسام التالية",
+  "section_navigation.home": "الرئيسية"
 }

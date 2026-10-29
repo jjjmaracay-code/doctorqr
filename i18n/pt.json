@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "País e indicativo",
   "index.identification.phone_hint": "O indicativo ajuda a sugerir o número de emergência do cartão. Confirme o país antes de imprimir.",
   "index.identification.phone_warning": "Selecione o país e introduza o número nacional sem o indicativo internacional.",
-  "index.identification.phone_placeholder": "Número sem indicativo"
+  "index.identification.phone_placeholder": "Número sem indicativo",
+  "section_navigation.label": "Secções do formulário",
+  "section_navigation.previous": "Secções anteriores",
+  "section_navigation.next": "Secções seguintes",
+  "section_navigation.home": "Início"
 }

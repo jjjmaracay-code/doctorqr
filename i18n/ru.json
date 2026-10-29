@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "Страна и телефонный код",
   "index.identification.phone_hint": "Код помогает предложить номер экстренной помощи на карточке. Перед печатью проверьте страну.",
   "index.identification.phone_warning": "Выберите страну и введите национальный номер без международного кода.",
-  "index.identification.phone_placeholder": "Номер без кода страны"
+  "index.identification.phone_placeholder": "Номер без кода страны",
+  "section_navigation.label": "Разделы анкеты",
+  "section_navigation.previous": "Предыдущие разделы",
+  "section_navigation.next": "Следующие разделы",
+  "section_navigation.home": "Главная"
 }

@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "Pays et indicatif",
   "index.identification.phone_hint": "Votre indicatif aide à proposer le numéro d’urgence de la carte. Vérifiez le pays avant d’imprimer.",
   "index.identification.phone_warning": "Sélectionnez le pays et saisissez le numéro national sans indicatif international.",
-  "index.identification.phone_placeholder": "Numéro sans indicatif"
+  "index.identification.phone_placeholder": "Numéro sans indicatif",
+  "section_navigation.label": "Sections du formulaire",
+  "section_navigation.previous": "Sections précédentes",
+  "section_navigation.next": "Sections suivantes",
+  "section_navigation.home": "Accueil"
 }

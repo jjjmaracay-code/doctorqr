@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "Country and calling code",
   "index.identification.phone_hint": "Your calling code helps suggest the emergency number printed on your card. Check the country before printing.",
   "index.identification.phone_warning": "Select a country and enter your national number without the international calling code.",
-  "index.identification.phone_placeholder": "Number without calling code"
+  "index.identification.phone_placeholder": "Number without calling code",
+  "section_navigation.label": "Form sections",
+  "section_navigation.previous": "Previous sections",
+  "section_navigation.next": "Next sections",
+  "section_navigation.home": "Home"
 }

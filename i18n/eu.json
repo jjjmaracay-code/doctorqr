@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "Herrialdea eta aurrizkia",
   "index.identification.phone_hint": "Aurrizkiak txarteleko larrialdi-zenbakia iradokitzen laguntzen du. Egiaztatu herrialdea inprimatu aurretik.",
   "index.identification.phone_warning": "Hautatu herrialdea eta idatzi telefono-zenbakia nazioarteko aurrizkirik gabe.",
-  "index.identification.phone_placeholder": "Zenbakia aurrizkirik gabe"
+  "index.identification.phone_placeholder": "Zenbakia aurrizkirik gabe",
+  "section_navigation.label": "Inprimakiaren atalak",
+  "section_navigation.previous": "Aurreko atalak",
+  "section_navigation.next": "Hurrengo atalak",
+  "section_navigation.home": "Hasiera"
 }

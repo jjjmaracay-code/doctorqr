@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "Land und Vorwahl",
   "index.identification.phone_hint": "Die Vorwahl dient als Hinweis für die Notrufnummer auf Ihrer Karte. Prüfen Sie das Land vor dem Drucken.",
   "index.identification.phone_warning": "Wählen Sie das Land und geben Sie die nationale Nummer ohne internationale Vorwahl ein.",
-  "index.identification.phone_placeholder": "Nummer ohne Ländervorwahl"
+  "index.identification.phone_placeholder": "Nummer ohne Ländervorwahl",
+  "section_navigation.label": "Formularabschnitte",
+  "section_navigation.previous": "Vorherige Abschnitte",
+  "section_navigation.next": "Nächste Abschnitte",
+  "section_navigation.home": "Start"
 }

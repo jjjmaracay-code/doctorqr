@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "国と国番号",
   "index.identification.phone_hint": "国番号を参考にカードの緊急通報番号を提案します。印刷前に国を確認してください。",
   "index.identification.phone_warning": "国を選び、国番号を除いた国内の電話番号を入力してください。",
-  "index.identification.phone_placeholder": "国番号を除いた電話番号"
+  "index.identification.phone_placeholder": "国番号を除いた電話番号",
+  "section_navigation.label": "フォームのセクション",
+  "section_navigation.previous": "前のセクション",
+  "section_navigation.next": "次のセクション",
+  "section_navigation.home": "ホーム"
 }

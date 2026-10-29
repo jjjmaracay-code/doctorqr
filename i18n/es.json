@@ -1650,5 +1650,9 @@
   "index.identification.phone_country_label": "País y prefijo",
   "index.identification.phone_hint": "El prefijo sirve como referencia para el número de emergencias de tu tarjeta. Comprueba el país antes de imprimir.",
   "index.identification.phone_warning": "Selecciona el país e introduce tu número nacional sin el prefijo internacional.",
-  "index.identification.phone_placeholder": "Número sin prefijo"
+  "index.identification.phone_placeholder": "Número sin prefijo",
+  "section_navigation.label": "Secciones del formulario",
+  "section_navigation.previous": "Secciones anteriores",
+  "section_navigation.next": "Secciones siguientes",
+  "section_navigation.home": "Inicio"
 }

@@ -126,7 +126,7 @@
   // todo el documento; el valor persistido en doctorqr_user.language se
   // guarda aparte, al completar el registro (ver register.html).
   function fetchDictionary(lang) {
-    return fetch('/i18n/' + lang + '.json?v=48', { cache: 'no-cache' }).then(function(res) {
+    return fetch('/i18n/' + lang + '.json?v=49', { cache: 'no-cache' }).then(function(res) {
       if (!res.ok) throw new Error('Dictionary unavailable');
       return res.json();
     }).then(flatten);
