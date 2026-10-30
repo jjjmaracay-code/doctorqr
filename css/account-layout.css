@@ -1,0 +1,23 @@
+/* Account hub only. Keep medical fields, QR readers and printed accessories outside this scope. */
+@media screen {
+ .account-overview{gap:22px;margin-block-start:28px}
+ .account-access-grid{gap:20px}
+ .account-overview .account-access-card{padding:20px;gap:14px;border-color:var(--access-edge);box-shadow:inset 0 1px 0 #ffffff38,inset 0 -2px 0 #0004,0 5px 0 #030b16,0 12px 24px #0003}
+ .account-overview .access-heading{font-size:16px;letter-spacing:.2px;line-height:1.45}
+ .account-overview .access-copy{font-size:13px;line-height:1.65;margin:0;color:#d8e7f2}
+ .account-overview .access-button{min-height:52px;padding:13px 16px;border-radius:14px;line-height:1.5}
+ .account-management{display:grid;gap:16px;min-width:0;padding:20px;border:1px solid #46647e;border-radius:20px;background:linear-gradient(150deg,#1a2d42,#0d1b2b);box-shadow:inset 0 1px 0 #ffffff35,inset 0 -2px 0 #0004,0 5px 0 #030b16,0 12px 24px #0003}
+ .account-management-heading{margin:0;color:#d7ecff;font:750 15px/1.4 Inter,system-ui,sans-serif;letter-spacing:.2px;text-transform:none}
+ .account-management .account-plan-row{margin:0;padding:12px;gap:12px;border-color:#8b784d;background:linear-gradient(145deg,#40372570,#172638);box-shadow:inset 0 1px 0 #fff2,inset 0 -2px 5px #0004,0 2px 0 #050e1a}
+ .account-management #plan-badge{border:0;border-radius:8px;font-size:12px;letter-spacing:.3px;line-height:1.6;padding:6px 2px}
+ .account-management .access-plan-button{min-height:48px;line-height:1.5;padding:11px 16px;border-radius:12px}
+ .account-management .account-utility-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:0 0 5px}
+ .account-management .access-downloads{grid-column:1/-1}
+ .account-management .access-utility{min-height:50px;padding:12px;line-height:1.5;font-size:13px;border-radius:13px;letter-spacing:normal}
+ .account-overview #account-access-tools{margin:0}
+ .account-overview .account-tools-body{padding:18px}
+ @media(min-width:600px){.account-management .account-utility-row{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr)}.account-management .access-downloads{grid-column:auto}}
+ @media(max-width:480px){.account-overview{gap:20px}.account-overview .account-access-card,.account-management{padding:16px}.account-overview .access-heading{font-size:15px}.account-overview .account-tools-body{padding:16px}.account-management .account-plan-row{padding:10px;gap:10px}.account-management #plan-badge{font-size:11px}.account-management .access-plan-button{padding-inline:12px}.account-management .access-utility{font-size:12px}}
+ @media(max-width:350px){.account-management .account-plan-row{display:grid;grid-template-columns:minmax(0,1fr)}.account-management .access-plan-button{width:100%}}
+ @media(forced-colors:active){.account-access-card,.account-management,.account-plan-row{border:1px solid CanvasText}}
+}

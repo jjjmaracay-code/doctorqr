@@ -1,7 +1,7 @@
 // Account navigation and installation guide. Fictional local sessions only; no live API calls.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
 const {chromium}=require('playwright');
-const root=process.cwd(),base='760019a538bf165c7096f52602038ce872da2531';
+const root=process.cwd(),base='23f13779a21d818a847f71e6812d8f02682bb81b';
 const user={nombre:'Alice',apellidos:'Fixture',email:'alice@example.invalid',doc_type:'dni',doc_number:'A123',fecha_nacimiento:'1976-09-02',twofa_method:'totp',plan_type:'lifetime',created_at:1,language:'es'};
 const profile={nombre:'Alice Fixture',apellidos:'',email:user.email,doc_type:user.doc_type,doc_number:user.doc_number,fecha_nacimiento:user.fecha_nacimiento,sangre:'0+',allergy_med:['Ninguna conocida'],med_doses:'Pauta ficticia para navegación',ec1_name:'Contacto ficticio',ec1_phone_num:'600000001',_account_id:1};
 let browser,server;const apiCalls=[];
