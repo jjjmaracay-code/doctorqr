@@ -1654,5 +1654,8 @@
   "section_navigation.label": "Secciones del formulario",
   "section_navigation.previous": "Secciones anteriores",
   "section_navigation.next": "Secciones siguientes",
-  "section_navigation.home": "Inicio"
+  "section_navigation.home": "Inicio",
+  "privacy.optionalAccess": "Acceso opcional con huella o rostro: guardamos claves públicas, identificadores opacos y fechas de uso para verificar el acceso. Tu dispositivo gestiona la biometría; no recibimos tu huella, rostro ni clave privada. Puedes seguir utilizando tu contraseña y la recuperación de acceso.",
+  "privacy.recoveryCopies": "Deshacer cambios: conservamos hasta tres copias anteriores cifradas, vinculadas exclusivamente a tu cuenta, con un límite conjunto de 128 KiB. Son recuperables durante siete días. Las copias vencidas se eliminan periódicamente y las copias de tu cuenta se borran al eliminarla.",
+  "privacy.walletPass": "Si eliges añadir un pase a Apple Wallet cuando esté disponible, Apple recibirá el pase y su enlace QR de emergencia. El pase no contiene una copia de tu información médica; quien tenga el enlace podrá consultar la información que hayas publicado, con los mismos controles que tu tarjeta."
 }

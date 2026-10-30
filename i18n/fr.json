@@ -1654,5 +1654,8 @@
   "section_navigation.label": "Sections du formulaire",
   "section_navigation.previous": "Sections précédentes",
   "section_navigation.next": "Sections suivantes",
-  "section_navigation.home": "Accueil"
+  "section_navigation.home": "Accueil",
+  "privacy.optionalAccess": "Accès facultatif par empreinte ou visage : nous conservons des clés publiques, des identifiants opaques et les dates d’utilisation pour vérifier l’accès. Votre appareil gère la biométrie ; nous ne recevons ni empreinte, ni visage, ni clé privée. Le mot de passe et la récupération restent disponibles.",
+  "privacy.recoveryCopies": "Annuler les modifications : nous conservons jusqu’à trois copies antérieures chiffrées, liées exclusivement à votre compte, pour un total maximal de 128 KiB. Elles sont récupérables pendant sept jours. Les copies expirées sont supprimées périodiquement et vos copies sont supprimées avec votre compte.",
+  "privacy.walletPass": "Si vous ajoutez un pass à Apple Wallet lorsque cette option est disponible, Apple reçoit le pass et son lien QR d’urgence. Le pass ne contient pas de copie de vos informations médicales ; toute personne possédant le lien peut consulter les informations publiées, avec les mêmes contrôles que votre carte."
 }

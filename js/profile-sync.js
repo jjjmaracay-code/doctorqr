@@ -5,7 +5,7 @@
   const DRAFT='doctorqr_medical_changes',LEGACY_DRAFT='doctorqr_medical_draft',META='doctorqr_profile_revision';
   const identityKeys=new Set(['nombre','apellidos','name','email','doc_type','doc_number','dni','fecha_nacimiento','birthdate','updated_at','ts','qr','id','doctorqr_id','created_at','plan_type','twofa_method','token','password','password_hash','totp_secret','snapshot_token','base_revision']);
   let baseRevision='',snapshotToken='',serverProfile=null,pendingChanges={},working=null;
-  let busy=false,checking=false,message='',formReader=null,formWriter=null,formBaseline=null,queued=false,readSequence=0,lastCheckedAt=0,identityRejected=false;
+  let busy=false,checking=false,message='',formReader=null,formWriter=null,formBaseline=null,queued=false,readSequence=0,lastCheckedAt=0,identityRejected=false,canRestore=false;
   const requests=new Set();
   const owner=()=>window.MedicalOwner;
   const hex=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
@@ -39,6 +39,7 @@
     const panel=document.getElementById('profile-sync-panel');if(!panel)return;
     panel.hidden=!message;document.getElementById('profile-sync-message').textContent=message;
     const choices=document.getElementById('profile-sync-choices');if(choices)choices.hidden=true;
+    const undo=document.getElementById('profile-sync-undo');if(undo){undo.hidden=!canRestore;if(undo.closest('fieldset'))undo.closest('fieldset').hidden=!canRestore;undo.disabled=busy||checking;}
     const refresh=document.getElementById('profile-sync-refresh');if(refresh){refresh.disabled=busy||checking;refresh.textContent=checking?text()[3]:text()[2];refresh.setAttribute('aria-busy',String(checking));}
   }
   function notify(value){message=value;render();}
@@ -77,7 +78,7 @@
       if([401,403].includes(res.status)){identityRejected=true;owner().clearPublished();}return{res,data};
     }finally{clearTimeout(timeout);requests.delete(controller);}
   }
-  function setMetadata(data){baseRevision=data.profile_revision;snapshotToken=data.snapshot_token;try{localStorage.setItem(META,JSON.stringify({owner:owner().id(),revision:baseRevision,snapshot_token:snapshotToken}));}catch(_){} }
+  function setMetadata(data){canRestore=data.can_restore===true;baseRevision=data.profile_revision;snapshotToken=data.snapshot_token;try{localStorage.setItem(META,JSON.stringify({owner:owner().id(),revision:baseRevision,snapshot_token:snapshotToken}));}catch(_){} }
   const editing=()=>{const el=document.activeElement;return !!el&&(el.matches('input,select,textarea')||el.isContentEditable);};
   function applyForm(){
     if(identityRejected||!formWriter||!owner()?.current())return;if(editing()){queued=true;return;}
@@ -122,6 +123,22 @@
       if(data.profile)window.dispatchEvent(new CustomEvent('doctorqr:profile-published',{detail:{profile:data.profile,pendingDraft:!!draft(),changed:data.changed!==false}}));return{success:true,changed:data.changed!==false};
     }catch(error){notify(error.message+' Los cambios de este dispositivo se conservan para volver a intentarlo.');return{success:false};}finally{busy=false;render();}
   }
+  async function restorePrevious(){
+    const A=window.AccountTools;if(!A||busy||checking||!owner()?.current()||window.FormEditLock?.isLocked('medical'))return false;
+    const current=baseRevision,id=owner().id();busy=true;++readSequence;render();
+    try{
+      const initial=await request('recovery');if(!initial.res.ok)throw Error(A.t('failure'));
+      const copy=checked(initial.data);if(!copy.restore_id)throw Error(A.t('empty'));
+      if(copy.profile_revision!==current)throw Error(A.t('changed'));
+      if(!await A.prompt('restoreConfirm'))return false;
+      if(!owner()?.current()||owner().id()!==id||baseRevision!==current||window.FormEditLock?.isLocked('medical'))throw Error(A.t('changed'));
+      const {res,data:raw}=await request('restore',{doctorqr_id:id,base_revision:current,snapshot_token:snapshotToken,restore_id:copy.restore_id});
+      if(!res.ok||!raw.success)throw Error(A.t('changed'));
+      const data=checked(raw);pendingChanges={};adopt(data);applyForm();notify(A.t('restored'));
+      window.dispatchEvent(new CustomEvent('doctorqr:profile-published',{detail:{profile:data.profile,pendingDraft:false,changed:true}}));
+      window.FormEditLock?.lockAll();return true;
+    }catch(error){notify(error.message);return false;}finally{busy=false;render();}
+  }
   async function checkRemote(manual=false){
     if(document.hidden||busy||checking||!owner()?.current()||(!manual&&(editing()||Date.now()-lastCheckedAt<60000)))return false;
     lastCheckedAt=Date.now();
@@ -135,12 +152,14 @@
   }
   window.addEventListener('doctorqr:account-invalidated',()=>{
     ++readSequence;for(const request of requests)request.abort();requests.clear();
-    baseRevision='';snapshotToken='';serverProfile=null;working=null;pendingChanges={};formBaseline=null;queued=false;
+    baseRevision='';snapshotToken='';serverProfile=null;working=null;pendingChanges={};formBaseline=null;queued=false;canRestore=false;render();
   });
-  window.ProfileSync={load,save,saveDraft,draft,render,connectForm,checkRemote,inspectConflict:()=>checkRemote(true),get revision(){return baseRevision;}};
+  window.ProfileSync={load,save,restorePrevious,saveDraft,draft,render,connectForm,checkRemote,inspectConflict:()=>checkRemote(true),get revision(){return baseRevision;}};
   document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('profile-sync-choices')?.replaceChildren();const refresh=document.createElement('button');refresh.type='button';refresh.id='profile-sync-refresh';
-    refresh.style.cssText='padding:12px 16px;margin:8px 0;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:#f2f9ff;font:inherit;cursor:pointer';refresh.addEventListener('click',()=>checkRemote(true));document.getElementById('profile-sync-panel')?.appendChild(refresh);render();setInterval(()=>checkRemote(),60000);
+    refresh.style.cssText='padding:12px 16px;margin:8px 0;border:1px solid #77c7ff;border-radius:10px;background:#183e5e;color:#f2f9ff;font:inherit;cursor:pointer';refresh.addEventListener('click',()=>checkRemote(true));document.getElementById('profile-sync-panel')?.appendChild(refresh);
+    const root=document.createElement('fieldset');root.className='fel-action-root account-tools';root.setAttribute('data-form-edit-root','');root.disabled=true;
+    const undo=document.createElement('button');undo.type='button';undo.id='profile-sync-undo';undo.hidden=true;undo.dataset.toolsText='undo';undo.textContent=window.AccountToolsText?.('undo')||'Deshacer último cambio';undo.onclick=restorePrevious;root.append(undo);document.getElementById('profile-sync-panel')?.append(root);render();setInterval(()=>checkRemote(),60000);
   });
   window.addEventListener('focus',()=>checkRemote());window.addEventListener('online',()=>checkRemote());
   window.addEventListener('storage',event=>{if(event.key===META||event.key==='doctorqr_profile')checkRemote();});window.addEventListener('doctorqr:language-changed',render);

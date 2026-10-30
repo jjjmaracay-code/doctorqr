@@ -1654,5 +1654,8 @@
   "section_navigation.label": "Formularabschnitte",
   "section_navigation.previous": "Vorherige Abschnitte",
   "section_navigation.next": "Nächste Abschnitte",
-  "section_navigation.home": "Start"
+  "section_navigation.home": "Start",
+  "privacy.optionalAccess": "Optionaler Zugang per Fingerabdruck oder Gesicht: Wir speichern öffentliche Schlüssel, undurchsichtige Kennungen und Nutzungszeitpunkte zur Zugangsprüfung. Ihr Gerät verwaltet die Biometrie; wir erhalten weder Fingerabdruck noch Gesicht oder privaten Schlüssel. Passwort und Kontowiederherstellung bleiben verfügbar.",
+  "privacy.recoveryCopies": "Änderungen rückgängig machen: Bis zu drei frühere verschlüsselte Kopien sind ausschließlich an Ihr Konto gebunden, insgesamt höchstens 128 KiB. Sie sind sieben Tage lang wiederherstellbar. Abgelaufene Kopien werden regelmäßig gelöscht; bei Kontolöschung werden Ihre Kopien gelöscht.",
+  "privacy.walletPass": "Wenn Sie einen Pass zu Apple Wallet hinzufügen, sobald dies verfügbar ist, erhält Apple den Pass mit seinem Notfall-QR-Link. Der Pass enthält keine Kopie Ihrer medizinischen Informationen. Wer den Link besitzt, kann Ihre veröffentlichten Informationen unter denselben Zugriffskontrollen wie bei Ihrer Karte abrufen."
 }

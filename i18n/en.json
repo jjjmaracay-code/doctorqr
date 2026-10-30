@@ -1654,5 +1654,8 @@
   "section_navigation.label": "Form sections",
   "section_navigation.previous": "Previous sections",
   "section_navigation.next": "Next sections",
-  "section_navigation.home": "Home"
+  "section_navigation.home": "Home",
+  "privacy.optionalAccess": "Optional fingerprint or face access: we store public keys, opaque identifiers and usage dates to verify access. Your device manages biometrics; we do not receive your fingerprint, face or private key. Password access and account recovery remain available.",
+  "privacy.recoveryCopies": "Undo changes: we keep up to three earlier encrypted copies, bound exclusively to your account, with a combined limit of 128 KiB. Copies are recoverable for seven days. Expired copies are deleted periodically, and your copies are deleted when you delete your account.",
+  "privacy.walletPass": "If you choose to add a pass to Apple Wallet when available, Apple receives the pass and its emergency QR link. The pass contains no copy of your medical information; anyone with the link can read the information you published, under the same controls as your card."
 }

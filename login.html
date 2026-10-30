@@ -482,6 +482,11 @@
   @keyframes login-progress-turn { to { transform:rotate(360deg); } }
   @media(prefers-reduced-motion:reduce) { .login-progress-ring { animation:none; } }
 </style>
+<link rel="stylesheet" href="/css/account-tools.css?v=56">
+<script defer src="/vendor/simplewebauthn/browser.umd.min.js?v=14"></script>
+<script defer src="/js/account-tools-i18n.js?v=56"></script>
+<script defer src="/js/account-tools.js?v=56"></script>
+<script defer src="/js/account-access.js?v=56"></script>
 </head>
 <body data-atabey-ui="access">
 
@@ -698,6 +703,7 @@
       </div>
 
       <button class="btn-primary" id="btn-login" data-i18n="login.l1.submit_button">ENTRAR</button>
+      <div class="account-tools account-tools-login"><button id="passkey-login" type="button" hidden data-tools-text="login"></button><p id="passkey-login-status" role="status" aria-live="polite"></p></div>
 
       <div class="nav-link">
         <a href="recovery.html" data-i18n="login.l1.forgot_password_link">¿Olvidaste tu contraseña?</a>
@@ -1161,6 +1167,7 @@ function guardarSesionYRedirigir(data, attempt) {
 // ===== PANTALLA L1 — LOGIN =====
 
 document.getElementById('btn-login').addEventListener('click', async () => {
+  if(window.passkeyLoginBusy)return;
   const email       = document.getElementById('login-email').value.trim();
   const password    = document.getElementById('login-password').value;
   const errorEl     = document.getElementById('login-error');

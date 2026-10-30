@@ -1654,5 +1654,8 @@
   "section_navigation.label": "表单部分",
   "section_navigation.previous": "前面的部分",
   "section_navigation.next": "后面的部分",
-  "section_navigation.home": "首页"
+  "section_navigation.home": "首页",
+  "privacy.optionalAccess": "可选的指纹或面容登录：我们保存公钥、不透明标识符和使用日期以验证访问。生物识别由您的设备管理；我们不会收到您的指纹、面容或私钥。密码登录和账户恢复仍可使用。",
+  "privacy.recoveryCopies": "撤销更改：我们最多保留三份仅与您账户关联的先前加密副本，总计不超过 128 KiB。副本可在七天内恢复。过期副本会定期删除；删除账户时，其副本也会被删除。",
+  "privacy.walletPass": "在功能可用时，如果您选择将卡片添加到 Apple Wallet，Apple 将收到卡片及其紧急二维码链接。卡片不包含医疗信息副本；持有链接的人可以查看您发布的信息，访问控制与您的卡片相同。"
 }

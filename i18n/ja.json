@@ -1654,5 +1654,8 @@
   "section_navigation.label": "フォームのセクション",
   "section_navigation.previous": "前のセクション",
   "section_navigation.next": "次のセクション",
-  "section_navigation.home": "ホーム"
+  "section_navigation.home": "ホーム",
+  "privacy.optionalAccess": "指紋または顔によるログインは任意です。アクセス確認のため、公開鍵、不透明な識別子、利用日時を保存します。生体認証は端末が管理し、指紋、顔、秘密鍵を当社が受け取ることはありません。パスワードとアカウント復旧も引き続き利用できます。",
+  "privacy.recoveryCopies": "変更を元に戻すため、アカウントだけに紐づく過去の暗号化コピーを最大3件、合計128 KiBまで保存します。7日間復元できます。期限切れのコピーは定期的に削除し、アカウント削除時にはそのコピーも削除します。",
+  "privacy.walletPass": "利用可能になった際に Apple Wallet へパスを追加すると、Apple はパスと緊急用QRリンクを受け取ります。パスに医療情報のコピーは含まれません。リンクを持つ人は、カードと同じアクセス管理の下で公開済み情報を閲覧できます。"
 }

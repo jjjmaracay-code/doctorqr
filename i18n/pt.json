@@ -1654,5 +1654,8 @@
   "section_navigation.label": "Secções do formulário",
   "section_navigation.previous": "Secções anteriores",
   "section_navigation.next": "Secções seguintes",
-  "section_navigation.home": "Início"
+  "section_navigation.home": "Início",
+  "privacy.optionalAccess": "Acesso opcional por impressão digital ou rosto: guardamos chaves públicas, identificadores opacos e datas de utilização para verificar o acesso. O dispositivo gere a biometria; não recebemos a impressão digital, o rosto nem a chave privada. A palavra-passe e a recuperação continuam disponíveis.",
+  "privacy.recoveryCopies": "Desfazer alterações: conservamos até três cópias anteriores cifradas, ligadas exclusivamente à sua conta, com um limite conjunto de 128 KiB. Podem ser recuperadas durante sete dias. As cópias expiradas são eliminadas periodicamente e as suas cópias são eliminadas ao apagar a conta.",
+  "privacy.walletPass": "Se adicionar um passe à Apple Wallet quando disponível, a Apple recebe o passe e a ligação QR de emergência. O passe não contém uma cópia dos dados médicos; quem possuir a ligação pode consultar a informação publicada, com os mesmos controlos do cartão."
 }
