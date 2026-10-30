@@ -148,18 +148,18 @@
 
   // ---------- Composición (única para vista previa, pantalla completa, PNG y MP4) ----------
   // Placa centrada de "cristal de agua": fondo difuminado + tinte + brillo + ondas de luz suaves.
-  // Dentro: marca ATABEYAPP, texto, y el QR del usuario sobre placa BLANCA OPACA.
+  // The wallpaper leaves the upper clock area and lower system controls clear.
+  // Branding belongs to the editor; the exported foreground prioritises the medical QR.
   function layout(W, H, o) {
     const B = Math.min(W, H * 9 / 16); // pantallas apaisadas: el QR no supera el alto disponible
-    const pad = B * 0.045, pw = B * 0.78, qrBox = B * 0.62;
-    const brandH = B * 0.085, brandGap = B * 0.012;
-    const font = B * 0.036, textH = o.text ? font * 1.35 : 0, gap = B * 0.03;
+    const pad = B * 0.035, pw = B * 0.82, qrBox = B * 0.68;
+    const font = B * 0.036, textH = o.text ? font * 1.35 : 0, gap = B * 0.025;
     const nameFont = B * 0.036, nameH = o.name ? nameFont * 1.35 + B * 0.02 : 0;
-    const ph = pad + brandH + brandGap + textH + gap + qrBox + nameH + pad;
-    const top = H * 0.2, bottom = H * 0.9 - ph;
+    const ph = pad + textH + gap + qrBox + nameH + pad;
+    const top = H * 0.28, bottom = H * 0.8 - ph;
     const py = Math.max(top, Math.min(bottom, H * o.qrY - ph / 2));
-    const qrY = py + pad + brandH + brandGap + textH + gap;
-    return { pad, pw, ph, px: (W - pw) / 2, py, qrBox, qrX: (W - qrBox) / 2, qrY, brandH, brandGap, font, textH, nameFont, nameH, radius: B * 0.075, B };
+    const qrY = py + pad + textH + gap;
+    return { pad, pw, ph, px: (W - pw) / 2, py, qrBox, qrX: (W - qrBox) / 2, qrY, font, textH, nameFont, nameH, radius: B * 0.075, B };
   }
   function roundRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
@@ -211,26 +211,6 @@
     }
   }
   const DARK_EDGE = '#0a1f6b';
-  function drawBrand(ctx, cx, cy, size) {
-    ctx.save();
-    ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
-    ctx.font = `900 ${Math.round(size)}px Arial, Helvetica, sans-serif`;
-    const a = ctx.measureText('Atabey').width, p = ctx.measureText('app').width, total = a + p;
-    const x0 = cx - total / 2;
-    const grad = ctx.createLinearGradient(x0, 0, x0 + a, 0);
-    grad.addColorStop(0, '#1E6FFF'); grad.addColorStop(1, '#00F5FF');
-    ctx.shadowColor = 'rgba(0,200,255,0.85)'; ctx.shadowBlur = size * 0.35;
-    ctx.fillStyle = grad; ctx.fillText('Atabey', x0, cy);
-    ctx.shadowColor = 'rgba(255,255,255,0.9)'; ctx.shadowBlur = size * 0.4;
-    ctx.fillStyle = '#ffffff'; ctx.fillText('app', x0 + a, cy);
-    // Contorno muy fino azul oscuro sobre las letras.
-    ctx.shadowBlur = 0; ctx.shadowColor = 'transparent';
-    ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(1, size * 0.028); ctx.strokeStyle = DARK_EDGE;
-    ctx.strokeText('Atabey', x0, cy); ctx.strokeText('app', x0 + a, cy);
-    ctx.shadowBlur = size * 0.15; ctx.font = `700 ${Math.round(size * 0.32)}px Arial, Helvetica, sans-serif`;
-    ctx.fillText('™', x0 + total + size * 0.04, cy - size * 0.32);
-    ctx.restore();
-  }
   // Degradados en movimiento: el color de cada módulo SIEMPRE tiene contraste >= 5:1 sobre blanco
   // (se comprueba al cargar; una gama que no lo cumpla se descarta). El brillo neón lo pone el halo,
   // nunca un color claro dentro del módulo. Una vuelta por bucle de vídeo: enlaza sin salto.
@@ -295,7 +275,6 @@
     ctx.lineWidth = Math.max(2, L.B * 0.005); ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.stroke();
     roundRect(ctx, L.px - L.B * 0.004, L.py - L.B * 0.004, L.pw + L.B * 0.008, L.ph + L.B * 0.008, L.radius + L.B * 0.004);
     ctx.lineWidth = Math.max(1, L.B * 0.003); ctx.strokeStyle = o.accent; ctx.stroke();
-    drawBrand(ctx, W / 2, L.py + L.pad + L.brandH / 2, L.brandH * 0.78);
     const ink = isLight(o.base) && o.opacity > 0.5 ? '#0b1220' : '#ffffff';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     if (o.text) {
@@ -303,7 +282,7 @@
       ctx.shadowColor = ink === '#ffffff' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)'; ctx.shadowBlur = L.B * 0.01;
       ctx.fillStyle = ink;
       fitFont(ctx, o.text, 800, Math.round(L.font), L.pw - L.pad * 2);
-      ctx.fillText(o.text, W / 2, L.py + L.pad + L.brandH + L.brandGap + L.textH / 2);
+      ctx.fillText(o.text, W / 2, L.py + L.pad + L.textH / 2);
       ctx.restore();
     }
     // Placa blanca opaca bajo el QR: el fondo nunca se ve a través de los módulos.
@@ -354,7 +333,7 @@
   // ---------- Estado ----------
   const state = {
     catalog: [], type: null, url: '', qrImg: null, bgId: null, custom: null,
-    opts: { zoom: 1, panX: 0, panY: 0, base: SWATCHES[0], opacity: 0.22, qrY: 0.45, qrPlate: 0.72, palette: 'azul', qrStyle: 'liquid', text: '', name: '', accent: '#ff556e' },
+    opts: { zoom: 1, panX: 0, panY: 0, base: SWATCHES[0], opacity: 0.22, qrY: 0.54, qrPlate: 0.72, palette: 'azul', qrStyle: 'liquid', text: '', name: '', accent: '#ff556e' },
     showName: false, busy: false, raf: 0, objectUrls: []
   };
   let root, video, image, preview, statusEl, resultBox;

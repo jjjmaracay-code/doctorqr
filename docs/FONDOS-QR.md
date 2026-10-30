@@ -6,7 +6,7 @@ En «Tus códigos QR médicos», debajo de «Imprimir QR emergencia — formato 
 - **QR que se muestra:** cualquiera de los QR activos del perfil. Por defecto, el de emergencia.
 - **Fondo animado:** galería de 24 vídeos en bucle (`js/qr-wallpaper-catalog.json`), o **foto o vídeo propio**. El archivo propio se procesa solo en el dispositivo y nunca se sube.
 - **Encuadre:** zoom y posición horizontal/vertical del fondo.
-- **Base del QR — cristal de agua:** placa centrada con el fondo difuminado detrás, tinte de color (agua por defecto, 6 muestras + selector libre), brillo superior y ondas de luz que se mueven en bucle con el vídeo. Lleva arriba la marca **Atabeyapp**. Se puede ajustar la opacidad y la altura (por defecto al 45 % de la altura, justo debajo del reloj).
+- **Base del QR — cristal de agua:** placa centrada con el fondo difuminado detrás, tinte de color (agua por defecto, 6 muestras + selector libre), brillo superior y ondas de luz que se mueven en bucle con el vídeo. La composición exportada prescinde de la marca, reserva espacio superior para el reloj y mantiene ajustable la posición vertical. El centro del bloque pasa por defecto al 54 % de la altura; el QR es más grande. Consulta [el ajuste del reloj y sus comprobaciones](FONDOS-QR-RELOJ.md).
 - **Texto sobre el QR** (máximo 40 caracteres) y opción, desactivada por defecto, de mostrar el nombre.
 - **Modo QR a pantalla completa:** fondo animado + QR fijo, con la pantalla encendida (Wake Lock) mientras está abierto.
 - **Crear imagen (PNG)** y **Crear vídeo animado (MP4)** a 1080 px de ancho y la proporción de la pantalla del móvil (1920–2400 px de alto), con instrucciones para iPhone, Samsung y otros Android.
@@ -25,7 +25,7 @@ Archivos nuevos: `js/qr-wallpaper.js`, `css/qr-wallpaper.css`, `js/qr-wallpaper-
 
 Cambios en archivos existentes:
 - `index.html`: una hoja de estilos y un script, añadidos tras los existentes.
-- `sw.js`: caché actual `doctorqr-v38` con el módulo, su hoja y el catálogo. Los vídeos no se precargan. Sin conexión, el fondo cae al póster.
+- `sw.js`: caché actual `doctorqr-v55` con el módulo, su hoja y el catálogo. Los vídeos no se precargan. Sin conexión, el fondo cae al póster.
 - `_headers`: `media-src 'self' blob:` en la CSP general, necesario para previsualizar el vídeo propio del usuario sin subirlo.
 
 **No se modifican** `js/qr-generator.js`, `card.html`, `buildEmergencyQRUrl()`, `VISIBLE_SECTIONS`, `handleEmergencyQuickAccess()`, el formulario, la sesión, la autenticación, el backend ni la base de datos. El módulo solo llama a funciones existentes en modo lectura.

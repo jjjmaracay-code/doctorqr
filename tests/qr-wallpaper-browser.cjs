@@ -39,7 +39,7 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
 <script src="/vendor/qrcodejs/qrcode.min.js"></script>
 <script src="/js/qr-generator.js?v=31"></script>
 <script>window.getFormData = () => window.__profile;</script>
-<script src="/js/qr-wallpaper.js?v=38"></script></body></html>`;
+<script src="/js/qr-wallpaper.js?v=55"></script></body></html>`;
 
 (async () => {
   const server = await serve(), base = `http://127.0.0.1:${server.address().port}`;
@@ -77,6 +77,32 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
     // 3. PNG: se crea, se verifica dentro de la app y lo vuelve a leer un decodificador aparte.
     const expected = await page.evaluate(() => buildEmergencyQRUrl());
     assert.equal(expected, 'https://atabeyapp.app/card.html?id=TEST-0000-FICTICIO&t=emergency');
+    // Compare the actual exported foreground with its previous layout, including the tester's screen ratio.
+    const beforeLayout=require('./fixtures/wallpaper-layout-before-clock.cjs');
+    const cases=[];
+    for(const [w,h]of [[1080,1920],[1080,2160],[1080,2338],[1080,2400],[945,2048],[360,780],[844,390]]){
+      for(const named of [false,true])cases.push({w,h,named,before:beforeLayout(w,h,{qrY:.45,text:'EMERGENCIA MÉDICA · ESCANEA',name:named?'Persona Ficticia':''})});
+    }
+    const placement=await page.evaluate(cases=>cases.map(({w,h,named,before})=>{
+      const o={...AtabeyQRWallpaper._opts(),text:'EMERGENCIA MÉDICA · ESCANEA',name:named?'Persona Ficticia':''};
+      const current=AtabeyQRWallpaper._layout(w,h,o);
+      for(const position of [.36,.54,.6]){
+        const L=AtabeyQRWallpaper._layout(w,h,{...o,qrY:position});
+        if(L.py<h*.28-.01||L.py+L.ph>h*.8+.01)throw Error('Foreground leaves reserved band');
+        if(L.qrBox<before.qrBox||L.qrX<0||L.qrX+L.qrBox>w)throw Error('QR was reduced or clipped');
+      }
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      const ctx=c.getContext('2d'),native=ctx.fillText.bind(ctx),texts=[];
+      ctx.fillText=(text,...args)=>{texts.push(text);native(text,...args);};
+      AtabeyQRWallpaper._compose(ctx,w,h,document.querySelector('.qrw-under'),AtabeyQRWallpaper._qr(),o);
+      return{w,h,named,larger:current.qrBox/before.qrBox,lower:current.qrY>before.qrY,texts};
+    }),cases);
+    for(const result of placement){
+      assert.ok(result.larger>=1&&result.lower,JSON.stringify(result));
+      assert.ok(result.texts.includes('EMERGENCIA MÉDICA · ESCANEA'));
+      assert.ok(!result.texts.some(t=>/Atabey|^app$|™/.test(t)),'Brand is absent from the exported foreground');
+    }
+    report.espacio_reloj={casos:placement.length,aumento_ancho_qr:placement[0].larger,marca_impresa:false};
     await page.click('text=' + 'Crear imagen (PNG)');
     await page.waitForSelector('.qrw-status[data-kind=ok]', { timeout: 20000 });
     const png = await page.evaluate(async () => {

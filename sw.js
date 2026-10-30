@@ -35,7 +35,8 @@
 // v52: larger responsive keyboards and satin keycap depth.
 // v53: raised linking screens and a live, account-bound device list.
 // v54: bounded 2FA verification and a continuous handoff to the editor.
-const CACHE_NAME = 'doctorqr-v54';
+// v55: lower, unbranded wallpaper foreground with a larger medical QR.
+const CACHE_NAME = 'doctorqr-v55';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -69,7 +70,7 @@ const CACHE_URLS = [
   './js/totp-recovery.js?v=14',
   './js/emergency-access.js?v=51',
   './js/qr-generator.js?v=51',
-  './js/qr-wallpaper.js?v=38',
+  './js/qr-wallpaper.js?v=55',
   './css/qr-wallpaper.css?v=37',
   './js/qr-wallpaper-iphone.js?v=38',
   './css/qr-wallpaper-iphone.css?v=38',
@@ -89,7 +90,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=48',
   './js/form.js?v=48',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=54',
+  './js/register-sw.js?v=55',
   './js/web-session.js?v=48',
   './js/web-link.js?v=53',
   './js/qr-visual.js?v=17',
