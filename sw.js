@@ -38,17 +38,17 @@
 // v55: lower, unbranded wallpaper foreground with a larger medical QR.
 // v56: optional passkeys, account-bound recovery and gated Wallet preparation.
 // v57: ordered account panels, tactile controls and a dedicated read-only notice row.
-const CACHE_NAME = 'doctorqr-v57';
+const CACHE_NAME = 'doctorqr-v58';
 const CACHE_URLS = [
   '/',
   './index.html',
   './vendor/simplewebauthn/browser.umd.min.js?v=14',
-  './js/account-tools-i18n.js?v=57',
+  './js/account-tools-i18n.js?v=58',
   './js/account-tools.js?v=56',
   './js/account-access.js?v=56',
   './js/account-wallet.js?v=57',
-  './css/account-tools.css?v=57',
-  './css/account-layout.css?v=57',
+  './css/account-tools.css?v=58',
+  './css/account-layout.css?v=58',
   './css/keyboard-comfort.css?v=5',
   './js/keyboard-comfort.js?v=5',
   './js/country-metrics.js?v=1',
@@ -99,7 +99,7 @@ const CACHE_URLS = [
   './js/profile-sync.js?v=56',
   './js/form.js?v=48',
   './js/form-accessibility.js?v=12.1',
-  './js/register-sw.js?v=57',
+  './js/register-sw.js?v=58',
   './js/web-session.js?v=48',
   './js/web-link.js?v=53',
   './js/qr-visual.js?v=17',

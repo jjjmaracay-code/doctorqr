@@ -16,6 +16,17 @@
  .account-management .access-utility{min-height:50px;padding:12px;line-height:1.5;font-size:13px;border-radius:13px;letter-spacing:normal}
  .account-overview #account-access-tools{margin:0}
  .account-overview .account-tools-body{padding:18px}
+ /* Clearer action edges; signing out keeps its own burgundy tone. */
+ .account-overview :is(.access-button,.access-plan-button,.access-utility){border-width:2px;box-shadow:inset 0 2px 0 #ffffff70,inset 0 -3px 0 #0005,0 6px 0 #030b16,0 11px 20px #0006!important}
+ .account-overview .access-button{min-height:56px;font-weight:800}
+ .account-management .access-utility{min-height:56px;font-weight:750}
+ .account-management .access-downloads{border-color:#9bbad9;color:#f2f8ff}
+ .account-management .access-help{border-color:#79c6e6;color:#e5f8ff}
+ .account-overview #btn-logout{border:2px solid #ffa8bb;background:linear-gradient(180deg,#b5506d,#7c2644 52%,#52172f);color:#fff4f7;font-weight:800;font-size:14px;text-shadow:0 1px 2px #370a22;box-shadow:inset 0 2px 0 #ffe0eaa1,inset 0 -3px 0 #380c22,0 6px 0 #090611,0 0 0 3px #ff8aaa16,0 10px 23px #10000a66!important}
+ .account-overview :is(.access-button,.access-plan-button,.access-utility):not(:disabled):active{box-shadow:inset 0 2px 8px #0004,inset 0 0 16px #a6e5ff30,0 2px 0 #030b16,0 0 20px #64cfff50!important}
+ .account-overview #btn-logout:not(:disabled):active{background:linear-gradient(180deg,#cb5c7b,#90284a);box-shadow:inset 0 2px 7px #420c24,0 2px 0 #090611,0 0 22px #ff769a80!important}
+ @media(hover:hover){.account-overview #btn-logout:hover{border-color:#ffe0e9;filter:brightness(1.12)}}
+ @media(prefers-reduced-motion:reduce){.account-overview :is(.access-button,.access-plan-button,.access-utility){transform:none!important}}
  @media(min-width:600px){.account-management .account-utility-row{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr)}.account-management .access-downloads{grid-column:auto}}
  @media(max-width:480px){.account-overview{gap:20px}.account-overview .account-access-card,.account-management{padding:16px}.account-overview .access-heading{font-size:15px}.account-overview .account-tools-body{padding:16px}.account-management .account-plan-row{padding:10px;gap:10px}.account-management #plan-badge{font-size:11px}.account-management .access-plan-button{padding-inline:12px}.account-management .access-utility{font-size:12px}}
  @media(max-width:350px){.account-management .account-plan-row{display:grid;grid-template-columns:minmax(0,1fr)}.account-management .access-plan-button{width:100%}}
