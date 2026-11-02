@@ -1657,5 +1657,14 @@
   "section_navigation.home": "Home",
   "privacy.optionalAccess": "Optional fingerprint or face access: we store public keys, opaque identifiers and usage dates to verify access. Your device manages biometrics; we do not receive your fingerprint, face or private key. Password access and account recovery remain available.",
   "privacy.recoveryCopies": "Undo changes: we keep up to three earlier encrypted copies, bound exclusively to your account, with a combined limit of 128 KiB. Copies are recoverable for seven days. Expired copies are deleted periodically, and your copies are deleted when you delete your account.",
-  "privacy.walletPass": "If you choose to add a pass to Apple Wallet when available, Apple receives the pass and its emergency QR link. The pass contains no copy of your medical information; anyone with the link can read the information you published, under the same controls as your card."
+  "privacy.walletPass": "If you choose to add a pass to Apple Wallet when available, Apple receives the pass and its emergency QR link. The pass contains no copy of your medical information; anyone with the link can read the information you published, under the same controls as your card.",
+  "install_banner.title_android": "Install on Android",
+  "install_banner.title_ios": "Install on iPhone / iPad",
+  "install_banner.cta": "Install Atabeyapp",
+  "install_banner.fallback_android": "Open the browser menu ⋮ and choose \"Install app\" or \"Add to Home Screen.\"",
+  "install_banner.ios_step1": "Make sure you are in Safari (not inside another app).",
+  "install_banner.ios_step2": "Tap the Share button. If you do not see it, tap ••• and then Share.",
+  "install_banner.ios_step3": "Choose \"Add to Home Screen.\"",
+  "install_banner.ios_step4": "Tap \"Add.\"",
+  "install_banner.close": "Close"
 }

@@ -38,10 +38,13 @@
 // v55: lower, unbranded wallpaper foreground with a larger medical QR.
 // v56: optional passkeys, account-bound recovery and gated Wallet preparation.
 // v57: ordered account panels, tactile controls and a dedicated read-only notice row.
-const CACHE_NAME = 'doctorqr-v58';
+// v59: install banner on register.html only, 7-day dismissal, no lookbehind.
+const CACHE_NAME = 'doctorqr-v59';
 const CACHE_URLS = [
   '/',
   './index.html',
+  './css/install-banner.css?v=1',
+  './js/install-banner.js?v=1',
   './vendor/simplewebauthn/browser.umd.min.js?v=14',
   './js/account-tools-i18n.js?v=58',
   './js/account-tools.js?v=56',

@@ -1657,5 +1657,14 @@
   "section_navigation.home": "ホーム",
   "privacy.optionalAccess": "指紋または顔によるログインは任意です。アクセス確認のため、公開鍵、不透明な識別子、利用日時を保存します。生体認証は端末が管理し、指紋、顔、秘密鍵を当社が受け取ることはありません。パスワードとアカウント復旧も引き続き利用できます。",
   "privacy.recoveryCopies": "変更を元に戻すため、アカウントだけに紐づく過去の暗号化コピーを最大3件、合計128 KiBまで保存します。7日間復元できます。期限切れのコピーは定期的に削除し、アカウント削除時にはそのコピーも削除します。",
-  "privacy.walletPass": "利用可能になった際に Apple Wallet へパスを追加すると、Apple はパスと緊急用QRリンクを受け取ります。パスに医療情報のコピーは含まれません。リンクを持つ人は、カードと同じアクセス管理の下で公開済み情報を閲覧できます。"
+  "privacy.walletPass": "利用可能になった際に Apple Wallet へパスを追加すると、Apple はパスと緊急用QRリンクを受け取ります。パスに医療情報のコピーは含まれません。リンクを持つ人は、カードと同じアクセス管理の下で公開済み情報を閲覧できます。",
+  "install_banner.title_android": "Androidにインストール",
+  "install_banner.title_ios": "iPhone / iPadにインストール",
+  "install_banner.cta": "Atabeyappをインストール",
+  "install_banner.fallback_android": "ブラウザのメニュー ⋮ を開き、「アプリをインストール」または「ホーム画面に追加」を選択してください。",
+  "install_banner.ios_step1": "Safariを使用していることを確認してください（他のアプリ内ではなく）。",
+  "install_banner.ios_step2": "共有ボタンをタップしてください。表示されない場合は ••• をタップしてから共有をタップしてください。",
+  "install_banner.ios_step3": "「ホーム画面に追加」を選択してください。",
+  "install_banner.ios_step4": "「追加」をタップしてください。",
+  "install_banner.close": "閉じる"
 }

@@ -1657,5 +1657,14 @@
   "section_navigation.home": "Hasiera",
   "privacy.optionalAccess": "Hatz-markaz edo aurpegiaz sartzea aukerakoa da: gako publikoak, identifikatzaile opakuak eta erabilera-datak gordetzen ditugu sarbidea egiaztatzeko. Zure gailuak kudeatzen du biometria; ez dugu hatz-markarik, aurpegirik edo gako pribaturik jasotzen. Pasahitza eta kontua berreskuratzeko aukera erabilgarri daude.",
   "privacy.recoveryCopies": "Aldaketak desegin: zure kontuari soilik lotutako aurreko hiru kopia zifratu gordetzen ditugu gehienez, guztira 128 KiB arte. Zazpi egunez berreskura daitezke. Iraungitako kopiak aldizka ezabatzen dira, eta kontua ezabatzean zure kopiak ere ezabatzen dira.",
-  "privacy.walletPass": "Erabilgarri dagoenean Apple Wallet-era pase bat gehitzen baduzu, Applek pasea eta larrialdietako QR esteka jasotzen ditu. Paseak ez du zure informazio medikoaren kopiarik. Esteka duen edonork argitaratutako informazioa ikus dezake, txartelaren sarbide-kontrol berberekin."
+  "privacy.walletPass": "Erabilgarri dagoenean Apple Wallet-era pase bat gehitzen baduzu, Applek pasea eta larrialdietako QR esteka jasotzen ditu. Paseak ez du zure informazio medikoaren kopiarik. Esteka duen edonork argitaratutako informazioa ikus dezake, txartelaren sarbide-kontrol berberekin.",
+  "install_banner.title_android": "Instalatu Androiden",
+  "install_banner.title_ios": "Instalatu iPhone / iPad-ean",
+  "install_banner.cta": "Instalatu Atabeyapp",
+  "install_banner.fallback_android": "Ireki nabigatzailearen ⋮ menua eta hautatu «Instalatu app-a» edo «Gehitu hasierako pantailan».",
+  "install_banner.ios_step1": "Ziurtatu Safari erabiltzen duzula (ez beste app batean).",
+  "install_banner.ios_step2": "Sakatu Partekatu botoia. Ez baduzu ikusten, sakatu ••• eta, ondoren, Partekatu.",
+  "install_banner.ios_step3": "Hautatu «Gehitu hasierako pantailan».",
+  "install_banner.ios_step4": "Sakatu «Gehitu».",
+  "install_banner.close": "Itxi"
 }

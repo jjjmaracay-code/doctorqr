@@ -563,6 +563,8 @@
   <link rel="stylesheet" href="css/atabey-refresh.css?v=18"/>
 <script src="/js/country-metrics.js?v=1" defer></script>
 <link rel="stylesheet" href="/css/button-depth.css?v=23"/>
+<link rel="stylesheet" href="/css/install-banner.css?v=1"/>
+<script defer src="/js/install-banner.js?v=1"></script>
 <link rel="stylesheet" href="/css/keyboard-comfort.css?v=5">
 <script defer src="/js/keyboard-comfort.js?v=5"></script>
 </head>
@@ -2184,6 +2186,23 @@ function showToast(msg){
 }
 
 </script>
+
+<div id="install-banner" hidden>
+  <button type="button" id="install-banner-close" class="install-banner-close" aria-label="Cerrar" data-i18n-aria="install_banner.close">&times;</button>
+  <div class="install-banner-body">
+    <p class="install-banner-title" id="install-banner-title" data-i18n="install_banner.title_android">Instalar en Android</p>
+    <div class="install-banner-android" id="install-banner-android">
+      <button type="button" class="btn-primary install-banner-cta" id="install-banner-cta" data-i18n="install_banner.cta">Instalar Atabeyapp</button>
+      <p class="install-banner-fallback" id="install-banner-fallback" hidden data-i18n="install_banner.fallback_android">Abre el menú ⋮ del navegador y elige «Instalar app» o «Añadir a pantalla de inicio».</p>
+    </div>
+    <ol class="install-banner-ios" id="install-banner-ios" hidden>
+      <li data-i18n="install_banner.ios_step1">Asegúrate de estar en Safari (no dentro de otra app).</li>
+      <li data-i18n="install_banner.ios_step2">Toca el botón Compartir. Si no lo ves, toca ••• y después Compartir.</li>
+      <li data-i18n="install_banner.ios_step3">Elige «Añadir a pantalla de inicio».</li>
+      <li data-i18n="install_banner.ios_step4">Toca «Añadir».</li>
+    </ol>
+  </div>
+</div>
 </body>
 </html>
 

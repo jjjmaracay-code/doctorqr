@@ -1657,5 +1657,14 @@
   "section_navigation.home": "首页",
   "privacy.optionalAccess": "可选的指纹或面容登录：我们保存公钥、不透明标识符和使用日期以验证访问。生物识别由您的设备管理；我们不会收到您的指纹、面容或私钥。密码登录和账户恢复仍可使用。",
   "privacy.recoveryCopies": "撤销更改：我们最多保留三份仅与您账户关联的先前加密副本，总计不超过 128 KiB。副本可在七天内恢复。过期副本会定期删除；删除账户时，其副本也会被删除。",
-  "privacy.walletPass": "在功能可用时，如果您选择将卡片添加到 Apple Wallet，Apple 将收到卡片及其紧急二维码链接。卡片不包含医疗信息副本；持有链接的人可以查看您发布的信息，访问控制与您的卡片相同。"
+  "privacy.walletPass": "在功能可用时，如果您选择将卡片添加到 Apple Wallet，Apple 将收到卡片及其紧急二维码链接。卡片不包含医疗信息副本；持有链接的人可以查看您发布的信息，访问控制与您的卡片相同。",
+  "install_banner.title_android": "在 Android 上安装",
+  "install_banner.title_ios": "在 iPhone / iPad 上安装",
+  "install_banner.cta": "安装 Atabeyapp",
+  "install_banner.fallback_android": "打开浏览器菜单 ⋮，选择\"安装应用\"或\"添加到主屏幕\"。",
+  "install_banner.ios_step1": "请确认你正在使用 Safari（不是在其他应用内打开）。",
+  "install_banner.ios_step2": "点击分享按钮。如果看不到，请先点击 ••• 再点击分享。",
+  "install_banner.ios_step3": "选择\"添加到主屏幕\"。",
+  "install_banner.ios_step4": "点击\"添加\"。",
+  "install_banner.close": "关闭"
 }

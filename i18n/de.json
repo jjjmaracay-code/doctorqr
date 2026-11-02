@@ -1657,5 +1657,14 @@
   "section_navigation.home": "Start",
   "privacy.optionalAccess": "Optionaler Zugang per Fingerabdruck oder Gesicht: Wir speichern öffentliche Schlüssel, undurchsichtige Kennungen und Nutzungszeitpunkte zur Zugangsprüfung. Ihr Gerät verwaltet die Biometrie; wir erhalten weder Fingerabdruck noch Gesicht oder privaten Schlüssel. Passwort und Kontowiederherstellung bleiben verfügbar.",
   "privacy.recoveryCopies": "Änderungen rückgängig machen: Bis zu drei frühere verschlüsselte Kopien sind ausschließlich an Ihr Konto gebunden, insgesamt höchstens 128 KiB. Sie sind sieben Tage lang wiederherstellbar. Abgelaufene Kopien werden regelmäßig gelöscht; bei Kontolöschung werden Ihre Kopien gelöscht.",
-  "privacy.walletPass": "Wenn Sie einen Pass zu Apple Wallet hinzufügen, sobald dies verfügbar ist, erhält Apple den Pass mit seinem Notfall-QR-Link. Der Pass enthält keine Kopie Ihrer medizinischen Informationen. Wer den Link besitzt, kann Ihre veröffentlichten Informationen unter denselben Zugriffskontrollen wie bei Ihrer Karte abrufen."
+  "privacy.walletPass": "Wenn Sie einen Pass zu Apple Wallet hinzufügen, sobald dies verfügbar ist, erhält Apple den Pass mit seinem Notfall-QR-Link. Der Pass enthält keine Kopie Ihrer medizinischen Informationen. Wer den Link besitzt, kann Ihre veröffentlichten Informationen unter denselben Zugriffskontrollen wie bei Ihrer Karte abrufen.",
+  "install_banner.title_android": "Auf Android installieren",
+  "install_banner.title_ios": "Auf iPhone / iPad installieren",
+  "install_banner.cta": "Atabeyapp installieren",
+  "install_banner.fallback_android": "Öffne das Browsermenü ⋮ und wähle „App installieren\" oder „Zum Startbildschirm hinzufügen\".",
+  "install_banner.ios_step1": "Stelle sicher, dass du Safari verwendest (nicht innerhalb einer anderen App).",
+  "install_banner.ios_step2": "Tippe auf die Schaltfläche Teilen. Falls du sie nicht siehst, tippe auf ••• und dann auf Teilen.",
+  "install_banner.ios_step3": "Wähle „Zum Startbildschirm hinzufügen\".",
+  "install_banner.ios_step4": "Tippe auf „Hinzufügen\".",
+  "install_banner.close": "Schließen"
 }

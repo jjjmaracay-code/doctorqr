@@ -1657,5 +1657,14 @@
   "section_navigation.home": "Início",
   "privacy.optionalAccess": "Acesso opcional por impressão digital ou rosto: guardamos chaves públicas, identificadores opacos e datas de utilização para verificar o acesso. O dispositivo gere a biometria; não recebemos a impressão digital, o rosto nem a chave privada. A palavra-passe e a recuperação continuam disponíveis.",
   "privacy.recoveryCopies": "Desfazer alterações: conservamos até três cópias anteriores cifradas, ligadas exclusivamente à sua conta, com um limite conjunto de 128 KiB. Podem ser recuperadas durante sete dias. As cópias expiradas são eliminadas periodicamente e as suas cópias são eliminadas ao apagar a conta.",
-  "privacy.walletPass": "Se adicionar um passe à Apple Wallet quando disponível, a Apple recebe o passe e a ligação QR de emergência. O passe não contém uma cópia dos dados médicos; quem possuir a ligação pode consultar a informação publicada, com os mesmos controlos do cartão."
+  "privacy.walletPass": "Se adicionar um passe à Apple Wallet quando disponível, a Apple recebe o passe e a ligação QR de emergência. O passe não contém uma cópia dos dados médicos; quem possuir a ligação pode consultar a informação publicada, com os mesmos controlos do cartão.",
+  "install_banner.title_android": "Instalar no Android",
+  "install_banner.title_ios": "Instalar no iPhone / iPad",
+  "install_banner.cta": "Instalar o Atabeyapp",
+  "install_banner.fallback_android": "Abra o menu ⋮ do navegador e escolha «Instalar app» ou «Adicionar à tela de início».",
+  "install_banner.ios_step1": "Certifique-se de estar no Safari (não dentro de outro aplicativo).",
+  "install_banner.ios_step2": "Toque no botão Compartilhar. Se não o vir, toque em ••• e depois em Compartilhar.",
+  "install_banner.ios_step3": "Escolha «Adicionar à tela de início».",
+  "install_banner.ios_step4": "Toque em «Adicionar».",
+  "install_banner.close": "Fechar"
 }

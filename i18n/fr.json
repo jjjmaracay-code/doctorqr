@@ -1657,5 +1657,14 @@
   "section_navigation.home": "Accueil",
   "privacy.optionalAccess": "Accès facultatif par empreinte ou visage : nous conservons des clés publiques, des identifiants opaques et les dates d’utilisation pour vérifier l’accès. Votre appareil gère la biométrie ; nous ne recevons ni empreinte, ni visage, ni clé privée. Le mot de passe et la récupération restent disponibles.",
   "privacy.recoveryCopies": "Annuler les modifications : nous conservons jusqu’à trois copies antérieures chiffrées, liées exclusivement à votre compte, pour un total maximal de 128 KiB. Elles sont récupérables pendant sept jours. Les copies expirées sont supprimées périodiquement et vos copies sont supprimées avec votre compte.",
-  "privacy.walletPass": "Si vous ajoutez un pass à Apple Wallet lorsque cette option est disponible, Apple reçoit le pass et son lien QR d’urgence. Le pass ne contient pas de copie de vos informations médicales ; toute personne possédant le lien peut consulter les informations publiées, avec les mêmes contrôles que votre carte."
+  "privacy.walletPass": "Si vous ajoutez un pass à Apple Wallet lorsque cette option est disponible, Apple reçoit le pass et son lien QR d’urgence. Le pass ne contient pas de copie de vos informations médicales ; toute personne possédant le lien peut consulter les informations publiées, avec les mêmes contrôles que votre carte.",
+  "install_banner.title_android": "Installer sur Android",
+  "install_banner.title_ios": "Installer sur iPhone / iPad",
+  "install_banner.cta": "Installer Atabeyapp",
+  "install_banner.fallback_android": "Ouvrez le menu ⋮ du navigateur et choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil ».",
+  "install_banner.ios_step1": "Assurez-vous d’être dans Safari (pas dans une autre application).",
+  "install_banner.ios_step2": "Appuyez sur le bouton Partager. Si vous ne le voyez pas, appuyez sur ••• puis sur Partager.",
+  "install_banner.ios_step3": "Choisissez « Ajouter à l’écran d’accueil ».",
+  "install_banner.ios_step4": "Appuyez sur « Ajouter ».",
+  "install_banner.close": "Fermer"
 }
