@@ -39,7 +39,8 @@
 // v56: optional passkeys, account-bound recovery and gated Wallet preparation.
 // v57: ordered account panels, tactile controls and a dedicated read-only notice row.
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
-const CACHE_NAME = 'doctorqr-v59';
+// v60: skip the unverified-access notice on index.html when there is no session at all.
+const CACHE_NAME = 'doctorqr-v60';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -75,6 +76,7 @@ const CACHE_URLS = [
   './css/access-hub.css?v=21',
   './css/button-depth.css?v=23',
   './css/trial-access.css?v=23',
+  './js/trial-access.js?v=52',
   './js/trial-access.js?v=51',
   './js/access-hub.js?v=21',
   './css/web-qr-preview.css?v=22',

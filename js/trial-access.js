@@ -70,7 +70,7 @@
   function render() {
     if(!document.body)return;
     nodes();clearTimeout(timer);
-    if(!own()) {if(editor||emergencyPage)lock('unverified');return;}
+    if(!own()) {let skipLock=false;if(editor){try{skipLock=!localStorage.getItem('doctorqr_token');}catch(_){skipLock=false;}}if(!skipLock&&(editor||emergencyPage))lock('unverified');return;}
     if(!state){if(editor||emergencyPage)lock('checking');return;}
     const remaining=seconds();
     if(!state.access||remaining<=0){lock(state.status==='trial_expired'||state.status==='trial_active'?'expired':'unverified');return;}
