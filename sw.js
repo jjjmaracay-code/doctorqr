@@ -40,7 +40,8 @@
 // v57: ordered account panels, tactile controls and a dedicated read-only notice row.
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
-const CACHE_NAME = 'doctorqr-v60';
+// v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
+const CACHE_NAME = 'doctorqr-v61';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -71,6 +72,7 @@ const CACHE_URLS = [
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/icon-180.png',
   './css/styles.css',
   './css/atabey-refresh.css?v=18',
   './css/access-hub.css?v=21',
@@ -83,6 +85,7 @@ const CACHE_URLS = [
   './js/web-qr-preview.js?v=48',
   './js/totp-recovery.js?v=14',
   './js/emergency-access.js?v=51',
+  './js/emergency-scroll.js?v=2',
   './js/qr-generator.js?v=51',
   './js/qr-wallpaper.js?v=55',
   './css/qr-wallpaper.css?v=37',
@@ -98,6 +101,7 @@ const CACHE_URLS = [
   './js/card-png.js?v=31',
   './js/compact-emergency-qr.js?v=42',
   './js/emergency-accessories.js?v=50',
+  './js/emergency-accessories.js?v=48',
   './js/emergency-card.js?v=49',
   './js/medical-owner.js?v=51',
   './js/birthdate.js?v=14',
