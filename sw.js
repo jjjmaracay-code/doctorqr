@@ -42,14 +42,15 @@
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
 // v62: independent offline QR studio, local readers and owner-bound consent flow.
-const CACHE_NAME = 'doctorqr-v62';
+// v63: verify exported PNG scan regions and require consent when changing data source.
+const CACHE_NAME = 'doctorqr-v63';
 const CACHE_URLS = [
   '/',
   './index.html',
   './offline-qr.html',
   './css/offline-qr-studio.css?v=1',
   './js/offline-emergency-qr.js?v=2',
-  './js/offline-qr-studio.js?v=1',
+  './js/offline-qr-studio.js?v=2',
   './vendor/zxing/index.min.js',
   './css/install-banner.css?v=1',
   './js/install-banner.js?v=1',

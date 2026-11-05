@@ -79,6 +79,15 @@ test('production entry: consent, own data, export, invalidation and v61 -> curre
   await p.locator('#offline-generate').click();await p.waitForFunction(()=>!document.getElementById('offline-svg').disabled);
   assert.ok((await p.locator('#offline-printed').textContent()).includes('HIV+'));
   await p.locator('#offline-consent').uncheck();assert.equal(await p.locator('#offline-front svg').count(),0);assert.equal(await p.locator('#offline-svg').isDisabled(),true);
+  // Real regression: this 98-character QR is readable in the intended capture,
+  // although ZXing's finder can reject the sharp, full 1080px artwork.
+  await p.locator('#offline-source').selectOption('moderate');await p.locator('#offline-support').selectOption('WATCH34');
+  assert.equal(await p.locator('#offline-consent').isChecked(),false);assert.equal(await p.locator('#offline-sensitive').isChecked(),false);
+  await p.locator('#offline-consent').check();await p.locator('#offline-generate').click();await p.waitForFunction(()=>!document.getElementById('offline-png').disabled);
+  const demoPayload=await p.locator('#offline-payload').textContent();assert.equal(demoPayload.length,98);
+  const demoDownload=p.waitForEvent('download');await p.locator('#offline-png').click();const demo=await demoDownload;
+  const demoImage=require('pngjs').PNG.sync.read(fs.readFileSync(await demo.path()));
+  assert.equal(require('jsqr')(new Uint8ClampedArray(demoImage.data),demoImage.width,demoImage.height).data,demoPayload);
   await p.locator('#offline-source').selectOption('moderate');await p.locator('#offline-support').selectOption('BRACELET');
   await p.locator('#offline-consent').check();await p.locator('#offline-generate').click();
   await p.waitForFunction(()=>!document.getElementById('offline-output').hidden&&!document.getElementById('offline-generate').disabled);
@@ -87,6 +96,7 @@ test('production entry: consent, own data, export, invalidation and v61 -> curre
   assert.deepEqual(failed,[]);assert.deepEqual(errors,[]);assert.deepEqual(apiRequests,[]);
   await c.setOffline(false);available=true;
   await p.locator('#offline-source').selectOption('own');await p.locator('#offline-support').selectOption('KEYCHAIN');
+  assert.equal(await p.locator('#offline-consent').isChecked(),false);await p.locator('#offline-consent').check();
   await p.locator('#offline-generate').click();await p.waitForFunction(()=>!document.getElementById('offline-png').disabled);
   const other=await c.newPage();await other.goto(origin+'/bootstrap.html');await other.evaluate(()=>localStorage.setItem('doctorqr_id','BOB'));
   await p.waitForURL('**/login.html');assert.equal(await p.locator('#offline-front svg').count(),0);

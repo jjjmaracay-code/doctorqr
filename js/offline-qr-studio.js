@@ -67,7 +67,9 @@
         status(blockReason(result.details.readability.reason),true);return;
       }
       const front=api.renderOfflineTemplate(result,$('front'),1080);
-      ready={revision:token,source,support,sensitive,fingerprint:snapshot,result,svg:front.svg};
+      const qrElement=$('front').querySelector('svg svg');
+      const qrBounds=Object.fromEntries(['x','y','width','height'].map(key=>[key,Number(qrElement.getAttribute(key))]));
+      ready={revision:token,source,support,sensitive,fingerprint:snapshot,result,svg:front.svg,widthMm:front.widthMm,heightMm:front.heightMm,qrBounds};
       if(!isCurrent(ready)){changed();return;}
       $('dimensions').textContent='Frente: '+front.widthMm+' × '+front.heightMm+' mm. QR: '+api.LAYOUTS[support].qr+' mm. Vista ampliada.';
       $('png').disabled=$('svg').disabled=false;
@@ -92,7 +94,18 @@
       if(!isCurrent(item))return;
       const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=Math.round(1080*image.height/image.width);
       const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);
-      const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);
+      // Check the QR in the ACTUAL exported image at its intended capture size.
+      // Finder detection is resolution-sensitive: the sharp 1080px artwork is
+      // not the calibrated capture model. Validate the exported QR region itself.
+      const b=item.qrBounds,fx=canvas.width/item.widthMm,fy=canvas.height/item.heightMm;
+      const x=Math.floor(b.x*fx),y=Math.floor(b.y*fy),w=Math.ceil((b.x+b.width)*fx)-x,h=Math.ceil((b.y+b.height)*fy)-y;
+      const side=Math.round(api.LAYOUTS[item.support].qr*8),reduced=document.createElement('canvas');
+      reduced.width=reduced.height=side;const rc=reduced.getContext('2d');
+      rc.imageSmoothingEnabled=true;rc.imageSmoothingQuality='high';rc.drawImage(canvas,x,y,w,h,0,0,side,side);
+      const capture=document.createElement('canvas');capture.width=capture.height=side;
+      const cc=capture.getContext('2d');cc.fillStyle='#fff';cc.fillRect(0,0,side,side);cc.filter='blur(2.4px)';
+      if(cc.filter!=='blur(2.4px)')throw Error('blur_unavailable');cc.drawImage(reduced,0,0);
+      const pixels=cc.getImageData(0,0,side,side);
       if(readers.zxing(pixels)!==item.result.qrText||readers.jsqr(pixels)!==item.result.qrText)throw Error('png_unreadable');
       const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
       if(!blob)throw Error('png_unavailable');save(blob,'png',item);
@@ -102,7 +115,8 @@
   }
   $('generate').addEventListener('click',generate);$('png').addEventListener('click',png);
   $('svg').addEventListener('click',()=>{if(isCurrent(ready))save(new Blob([ready.svg],{type:'image/svg+xml'}),'svg',ready);else changed();});
-  for(const id of ['source','support','consent','sensitive'])$(id).addEventListener('change',changed);
+  $('source').addEventListener('change',()=>{$('consent').checked=false;$('sensitive').checked=false;changed();});
+  for(const id of ['support','consent','sensitive'])$(id).addEventListener('change',changed);
   window.addEventListener('doctorqr:account-invalidated',invalidate);
   window.addEventListener('storage',e=>{if($('source').value==='own'&&(e.key==='doctorqr_profile'||e.key===null))changed();});
   window.addEventListener('pageshow',()=>{if(ready&&!isCurrent(ready))changed();});
