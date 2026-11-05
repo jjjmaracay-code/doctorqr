@@ -41,10 +41,16 @@
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
-const CACHE_NAME = 'doctorqr-v61';
+// v62: independent offline QR studio, local readers and owner-bound consent flow.
+const CACHE_NAME = 'doctorqr-v62';
 const CACHE_URLS = [
   '/',
   './index.html',
+  './offline-qr.html',
+  './css/offline-qr-studio.css?v=1',
+  './js/offline-emergency-qr.js?v=2',
+  './js/offline-qr-studio.js?v=1',
+  './vendor/zxing/index.min.js',
   './css/install-banner.css?v=1',
   './js/install-banner.js?v=1',
   './vendor/simplewebauthn/browser.umd.min.js?v=14',
@@ -179,7 +185,20 @@ self.addEventListener('fetch', event => {
           }
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(async () => {
+          const cached = await caches.match(event.request);
+          // Pages serves HTML at clean URLs. A first offline visit must also
+          // work when only the .html asset was precached (including redirects).
+          if (url.pathname === '/offline-qr' || url.pathname === '/offline-qr.html') {
+            const page = cached || await caches.match(new URL('./offline-qr.html', self.registration.scope));
+            if (page) {
+              const headers = new Headers(page.headers);
+              headers.delete('content-encoding'); headers.delete('content-length');
+              return new Response(await page.arrayBuffer(), {status:page.status, headers});
+            }
+          }
+          return cached;
+        })
     );
     return;
   }
