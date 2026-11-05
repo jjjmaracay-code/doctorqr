@@ -44,7 +44,7 @@
 // v62: independent offline QR studio, local readers and owner-bound consent flow.
 // v63: verify exported PNG scan regions and require consent when changing data source.
 // v64: preserve module edges when exporting small text QR formats to PNG.
-const CACHE_NAME = 'doctorqr-v65';
+const CACHE_NAME = 'doctorqr-v66';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -108,6 +108,7 @@ const CACHE_URLS = [
   './js/qr-wallpaper-catalog.json',
   './js/card-png.js?v=31',
   './js/compact-emergency-qr.js?v=42',
+  './js/emergency-accessories.js?v=51',
   './js/emergency-accessories.js?v=50',
   './js/emergency-accessories.js?v=48',
   './js/emergency-card.js?v=49',

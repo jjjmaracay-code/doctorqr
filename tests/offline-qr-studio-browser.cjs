@@ -9,7 +9,8 @@ test('studio assets have exact precache URLs, including both local readers',()=>
  const html=fs.readFileSync('offline-qr.html','utf8'),sw=fs.readFileSync('sw.js','utf8');
  const refs=[...html.matchAll(/(?:src|href)="([^"#]+)"/g)].map(m=>m[1]).filter(s=>/\.(js|css)(\?|$)/.test(s));
  for(const ref of ['offline-qr.html',...refs])assert.ok(sw.includes("'./"+ref+"'"),'missing exact precache URL: '+ref);
- assert.ok(fs.readFileSync('index.html','utf8').includes('id="open-offline-qr-studio"'));
+ assert.ok(!fs.readFileSync('index.html','utf8').includes('id="open-offline-qr-studio"'));
+ assert.ok(fs.readFileSync('js/emergency-accessories.js','utf8').includes('id="open-offline-qr-studio"'));
  assert.ok(!html.includes('qr-generator.js'));assert.ok(!html.includes('qr-wallpaper.js'));
  assert.ok(!/\(\?<([=!])/.test(fs.readFileSync('js/offline-qr-studio.js','utf8')));
 });

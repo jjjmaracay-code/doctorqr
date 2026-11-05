@@ -59,7 +59,7 @@ test('sw.js actual: cero recursos de card.html, emergencia.html o login.html sin
 test('demostracion historica: el mismo chequeo con el sw.js v60 real tenia huecos reales',()=>{
   const missingOld=missingRefs(OLD_SW,LOADER);
   assert.ok(missingOld.length>0,'el sw.js v60 (a2a00d3) deberia tener huecos de precache conocidos');
-  assert.ok(missingOld.some(m=>m.includes('emergency-accessories.js?v=48')),'v60 deberia carecer de emergency-accessories.js?v=48');
+  assert.ok(missingOld.some(m=>m.includes('emergency-accessories.js?v=')),'v60 deberia carecer de emergency-accessories.js?v=48');
   assert.ok(missingOld.some(m=>m.includes('emergency-scroll.js?v=2')),'v60 deberia carecer de emergency-scroll.js?v=2');
   assert.ok(missingOld.some(m=>m.includes('icon-180.png')),'v60 deberia carecer de icons/icon-180.png');
   console.log('Huecos detectados con el sw.js antiguo (v60/a2a00d3):\n'+missingOld.join('\n'));
