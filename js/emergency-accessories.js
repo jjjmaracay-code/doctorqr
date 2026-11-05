@@ -298,7 +298,7 @@
       const y=g.height+10;
       legend=`${fittedText(totalW/2,y,m.onePiece,totalW-6,2.2)}${fittedText(totalW/2,y+5,`${g.slotW} × ${g.slotH} mm · QR ${g.qr} mm`,totalW-6,2.1)}<path d="M${totalW/2-25} ${y+12}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>${fittedText(totalW/2,y+18,u.scale,totalW-6,2.3)}${fittedText(totalW/2,y+24,u.prototype,totalW-6,2.1)}`;
     }else{
-      let windows='',slots='',detail='';const qrImage=state.format==='tag'?ctx.patientImage:ctx.compact?.image;
+      let windows='',slots='',detail='';const qrImage=state.format==='tag'?(ctx.offlineImage&&ctx.tagOnlineImage||ctx.patientImage):ctx.compact?.image;
       if(state.format==='band'){
         windows=`<rect class="paper-window" x="${g.slot-9}" y="${mid-8}" width="24" height="16" rx="2"/>`;
         slots=[-5,0,5,11].map((dx,i)=>`<rect class="slot-cut" x="${g.slot+dx-.4}" y="${mid-5}" width=".8" height="10" rx=".4"/>${svgText(g.slot+dx,mid-9,i===3?'2':'1',2.1,'text-anchor="middle" font-weight="800"')}`).join('');
@@ -311,8 +311,10 @@
       }
       if(state.format==='tag'){
         const words=tagWords(ctx.language),pw=g.width-6,ph=g.height-6,seam=6+pw;
+        const backDetail=ctx.offlineImage?detail.replace('href="'+qrImage+'"','href="'+ctx.offlineImage+'"')
+          .replace(esc(m.scan),'SIN INTERNET · USE APP LECTORA'):detail;
         // One paper piece, folded before laminating: never mirror the QR matrix.
-        content=`<g class="tag-joined" data-finished-width-mm="${g.width}" data-finished-height-mm="${g.height}" data-seal-mm="3"><rect class="paper-outline tag-paper" x="6" y="6" width="${2*pw}" height="${ph}" rx="4" fill="${paint}"/>${['front','back'].map((side,i)=>`<g class="tag-face" data-side="${side}" transform="translate(${3+i*pw} 3)">${windows}${slots}${detail}</g>`).join('')}<path class="tag-fold-guide" data-guide="outside" d="M${seam} .8V4M${seam} ${g.height+1.5}V${g.height+4}" fill="none" stroke="#304862" stroke-width=".25" stroke-dasharray=".7 .5"/>${fittedText(6+pw/2,3.5,words[0],pw-4,2.2)}${fittedText(6+1.5*pw,3.5,words[1],pw-4,2.2)}</g>`;
+        content=`<g class="tag-joined" data-finished-width-mm="${g.width}" data-finished-height-mm="${g.height}" data-seal-mm="3"><rect class="paper-outline tag-paper" x="6" y="6" width="${2*pw}" height="${ph}" rx="4" fill="${paint}"/>${['front','back'].map((side,i)=>`<g class="tag-face" data-side="${side}" transform="translate(${3+i*pw} 3)">${windows}${slots}${side==='back'?backDetail:detail}</g>`).join('')}<path class="tag-fold-guide" data-guide="outside" d="M${seam} .8V4M${seam} ${g.height+1.5}V${g.height+4}" fill="none" stroke="#304862" stroke-width=".25" stroke-dasharray=".7 .5"/>${fittedText(6+pw/2,3.5,words[0],pw-4,2.2)}${fittedText(6+1.5*pw,3.5,(ctx.offlineImage?'Reverso · QR sin Internet':words[1]),pw-4,2.2)}</g>`;
         const y=g.height+9;
         legend=`${fittedText(totalW/2,y,words[2],totalW-12,2.5)}${fittedText(totalW/2,y+6,`${words[3]}: ${g.width} × ${g.height} mm`,totalW-12,2.2)}<path d="M${totalW/2-25} ${y+13}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>${fittedText(totalW/2,y+19,u.scale,totalW-12,2.3)}${fittedText(totalW/2,y+26,u.prototype,totalW-12,2.1)}`;
       }else{
