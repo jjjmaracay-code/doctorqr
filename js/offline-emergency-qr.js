@@ -705,7 +705,7 @@
       '+57':  { len:[10] },
       '+58':  { len:[10] },
     };
-  const SOURCE_FIELDS = ["lang_spoken", "lang_levels", "lang_written", "comm_difficulty", "sign_lang", "can_decide", "profesion", "ayudas_tecnicas", "weight", "height", "embarazo", "embarazo_semanas", "lactancia", "organ_donor", "advance_directive", "advance_directive_instrucciones", "advance_directive_otro", "advance_directive_ubicacion", "nombre", "apellidos", "fecha_nacimiento", "doc_type", "doc_number", "passport_country", "email", "sexo_biologico", "identidad_genero", "terapia_hormonal_activa", "terapia_hormonal_tipos", "terapia_hormonal_otra", "terapia_hormonal_dosis_frecuencia", "terapia_hormonal_duracion_valor", "terapia_hormonal_duracion_unidad", "lang", "sangre", "allergy_med", "allergy_food", "allergy_env", "allergy_insect", "allergy_severity", "allergy_anesthesia", "epipen", "glucagon", "latex_guantes", "anafilaxia_previa", "anaphylaxis_trigger", "anaphylaxis_trigger_otro", "diseases", "conditions", "dialisis_activa", "lateralidad_fistula", "anticoagulado", "meds", "med_doses", "med_last_adjust", "ultima_toma_medicacion", "medicacion_alto_riesgo", "surgeries", "surgery_year", "last_surgery_date", "material_osteosintesis", "dificultad_intubacion", "complicaciones_anestesia", "hipertermia_maligna_familiar", "implant_detail", "pacemaker", "vaccines", "tetanus_year", "vaccine_complete", "tabaco", "alcohol", "drogas", "actividad_fisica", "enfermedades_familiares", "muerte_subita_familiar", "religion", "religion_restrictions", "ec1_name", "ec1_rel", "ec1_phone_prefix", "ec1_phone_num", "ec2_name", "ec2_rel", "ec2_phone_prefix", "ec2_phone_num", "guardian_name", "guardian_phone_prefix", "guardian_phone_num", "guardian_doc", "doctor_name", "doctor_phone_prefix", "doctor_phone_num", "insurer", "policy", "health_card_country", "health_card_num", "ss_country", "country_visit_1", "year_visit_1", "country_visit_2", "year_visit_2", "country_visit_3", "year_visit_3", "semanas_gestacion", "semanas_lactancia", "vih", "hepatitis", "tuberculosis", "dai", "acv_previo", "acv_year", "stents", "stents_year", "tratamiento_oncologico", "puerto_cateter", "salud_emocional_dx", "salud_emocional_diagnostico", "salud_emocional_cual", "meds_psiquiatria", "puede_decidir_salud", "tutor_legal", "semanas_gestacion_aplica", "semanas_lactancia_aplica", "cesarea_previa", "material_osteo_detalle", "suplementos", "updated_at"];
+  const SOURCE_FIELDS = ["lang_spoken", "lang_levels", "lang_written", "comm_difficulty", "sign_lang", "can_decide", "profesion", "ayudas_tecnicas", "weight", "height", "embarazo", "embarazo_semanas", "lactancia", "organ_donor", "advance_directive", "advance_directive_instrucciones", "advance_directive_otro", "advance_directive_ubicacion", "nombre", "apellidos", "fecha_nacimiento", "doc_type", "doc_number", "passport_country", "email", "sexo_biologico", "identidad_genero", "terapia_hormonal_activa", "terapia_hormonal_tipos", "terapia_hormonal_otra", "terapia_hormonal_dosis_frecuencia", "terapia_hormonal_duracion_valor", "terapia_hormonal_duracion_unidad", "lang", "sangre", "allergy_med", "allergy_food", "allergy_env", "allergy_insect", "allergy_severity", "allergy_anesthesia", "epipen", "glucagon", "latex_guantes", "anafilaxia_previa", "anaphylaxis_trigger", "anaphylaxis_trigger_otro", "diseases", "conditions", "dialisis_activa", "lateralidad_fistula", "anticoagulado", "meds", "med_doses", "med_last_adjust", "ultima_toma_medicacion", "medicacion_alto_riesgo", "surgeries", "surgery_year", "last_surgery_date", "material_osteosintesis", "dificultad_intubacion", "complicaciones_anestesia", "hipertermia_maligna_familiar", "implant_detail", "pacemaker", "vaccines", "tetanus_year", "vaccine_complete", "tabaco", "alcohol", "drogas", "actividad_fisica", "enfermedades_familiares", "muerte_subita_familiar", "religion", "religion_restrictions", "ec1_name", "ec1_rel", "ec1_phone_prefix", "ec1_phone_num", "ec2_name", "ec2_rel", "ec2_phone_prefix", "ec2_phone_num", "ec3_name", "ec3_rel", "ec3_phone_prefix", "ec3_phone_num", "guardian_name", "guardian_phone_prefix", "guardian_phone_num", "guardian_doc", "doctor_name", "doctor_phone_prefix", "doctor_phone_num", "insurer", "policy", "health_card_country", "health_card_num", "ss_country", "country_visit_1", "year_visit_1", "country_visit_2", "year_visit_2", "country_visit_3", "year_visit_3", "semanas_gestacion", "semanas_lactancia", "vih", "hepatitis", "tuberculosis", "dai", "acv_previo", "acv_year", "stents", "stents_year", "tratamiento_oncologico", "puerto_cateter", "salud_emocional_dx", "salud_emocional_diagnostico", "salud_emocional_cual", "meds_psiquiatria", "puede_decidir_salud", "tutor_legal", "semanas_gestacion_aplica", "semanas_lactancia_aplica", "cesarea_previa", "material_osteo_detalle", "suplementos", "updated_at"];
   const SEVERITIES = {LEVE:2, MODERADA:1, GRAVE:0, ANAFILACTICA:0};
   const CRITICAL_DX = new Set(['Diabetes T1','Epilepsia','Hemofilia','Anemia células falciformes','Trasplante cardíaco','Trasplante hepático','Trasplante renal']);
   const MODERATE_DX = new Set(['Cataratas','Dermatitis atópica','Fibromialgia','Gastritis crónica','Glaucoma','Gota','Migraña','Osteoporosis','Psoriasis','Síndrome intestino irritable','Vértigo crónico']);
@@ -750,7 +750,7 @@
   function contact(profile) {
     const own=profile.personal_phone;
     const ownPhone=own?phone(own.prefix,own.number):'';
-    for(const id of ['ec1','ec2']){
+    for(const id of ['ec1','ec2','ec3']){
       const number=phone(profile[id+'_phone_prefix'],profile[id+'_phone_num']);
       if(!number||number===ownPhone)continue;
       const name=normal(profile[id+'_name']);
@@ -884,8 +884,15 @@
     for(const word of words){if(word.length>columns)return null;if(!line)line=word;else if(line.length+1+word.length<=columns)line+=' '+word;else{lines.push(line);line=word;}}
     if(line)lines.push(line);return lines;
   }
-  function headerLayout(name,support) {
-    const spec=LAYOUTS[support],columns=Math.floor((spec.width-16)/1.22);
+  function supportSpec(support,override) {
+    const base=LAYOUTS[support];if(!base)fail('unknown_support');
+    if(!override)return base;
+    const spec={width:override.width,height:override.height,qr:override.qr};
+    if(!Object.values(spec).every(Number.isFinite)||spec.qr<22||spec.qr>60||spec.width<spec.qr+4||spec.width>100||spec.height<spec.qr+9||spec.height>200)fail('invalid_layout');
+    return spec;
+  }
+  function headerLayout(name,support,spec=LAYOUTS[support]) {
+    const columns=Math.floor((spec.width-16)/1.22);
     let printedName=name,lines=wrap(printedName,columns),stacked=false;
     if(!lines && support==='WATCH30'){
       const words=name.split(' ');if(words.length>2){words[words.length-1]=words[words.length-1][0];printedName=words.join(' ');lines=wrap(printedName,columns);}
@@ -933,12 +940,12 @@
     const qrCeiling=options.qrCharacterLimit===undefined?LIMITS[support].qr:options.qrCharacterLimit;
     if(!Number.isInteger(qrCeiling)||qrCeiling<1||qrCeiling>1024)fail('invalid_character_limit');
     if(profile.offline_qr_consent!==true)fail('consent_required');
-    const name=normal(profile.nombre)||'NAME UNKNOWN';
+    const name=normal([profile.nombre,profile.apellidos].filter(Boolean).join(' '))||'NAME UNKNOWN';
     let blood=normal(profile.sangre)||'UNKNOWN';
     if(/^0[+-]$/.test(blood))blood='O'+blood.slice(1); // Existing form stores group O as digit 0.
     if(/[0-9]{6,}/.test(name))fail('invalid_name');
     if(!/^(?:A|B|AB|O)[+-]$|^UNKNOWN$/.test(blood))fail('invalid_blood_group');
-    const layout=headerLayout(name,support),selectedContact=contact(profile);
+    const spec=supportSpec(support,options.layout),layout=headerLayout(name,support,spec),selectedContact=contact(profile);
     const contactText=serialize([],selectedContact);
     if(contactText.length>qrCeiling)fail('contact_exceeds_limit');
     const collected=collect(profile),printedItems=[],remaining=[];
@@ -965,7 +972,7 @@
     const printed=[layout.name,'BLOOD:'+blood,...fittedPrint.groups.map(x=>x.logical),INFO_LINE];
     const qrText=serialize(qrItems,selectedContact);
     const warnings=collected.warnings;
-    return {printed,qrText,omitted:omitted.map(x=>x.label+':'+x.text),details:{support,layout,blood,printedItems,printedGroups:fittedPrint.groups,qrItems,
+    return {printed,qrText,omitted:omitted.map(x=>x.label+':'+x.text),details:{support,spec,layout,blood,printedItems,printedGroups:fittedPrint.groups,qrItems,
       omitted:omitted.map(x=>({field:x.field,priority:PRIORITIES[x.rank],reason:x.reason,value:x.text})),warnings,
       consent:true,sourceUpdatedAt:profile.updated_at||null,certainty:'patient_declared',clinicalPriorities:'proposal_for_review',
       readability:{status:'unverified'},qrCharacterCeiling:qrCeiling,calibrationRequired:true,hasOmittedCritical:omitted.some(x=>x.rank===0),qrCharacters:qrText.length,
@@ -974,23 +981,23 @@
   // The supplied local assessor must actually render at the support's physical
   // size, degrade the capture and decode it with BOTH readers. No density or
   // character count is treated as proof. This API performs no network/storage IO.
-  async function prepareOfflineEmergency(profile,support,assess) {
+  async function prepareOfflineEmergency(profile,support,assess,options={}) {
     if(typeof assess!=='function')fail('readability_assessor_required');
     const snapshot=JSON.parse(JSON.stringify(profile));
     // 1024 is an input/work bound, NOT a legibility threshold. Start with all
     // available facts within this bound; legacy character ceilings do not decide
     // readiness. The actual capture of each candidate decides it instead.
-    const first=buildOfflineEmergency(snapshot,support,{qrCharacterLimit:1024}),trials=[];
+    const first=buildOfflineEmergency(snapshot,support,{layout:options.layout,qrCharacterLimit:1024}),trials=[];
     let last=first;
     const finish=(result,status,reason)=>({...result,details:{...result.details,
       readability:{status,reason,model:'simulation_only',trials},calibrationRequired:true}});
     if(!first.qrText)return finish(first,'blocked','empty_qr');
     if(first.details.hasOmittedCritical)return finish(first,'blocked','critical_data_omitted');
     for(let count=first.details.qrItems.length;count>=0;count--){
-      const candidate=buildOfflineEmergency(snapshot,support,{qrItemLimit:count,qrCharacterLimit:1024});last=candidate;
+      const candidate=buildOfflineEmergency(snapshot,support,{layout:options.layout,qrItemLimit:count,qrCharacterLimit:1024});last=candidate;
       if(candidate.details.hasOmittedCritical)return finish(candidate,'blocked','critical_data_omitted');
       const evidence=await assess(candidate);
-      const valid=evidence&&evidence.pxPerMm===8&&evidence.blurMm===0.30&&evidence.qrMm===LAYOUTS[support].qr&&
+      const valid=evidence&&evidence.pxPerMm===8&&evidence.blurMm===0.30&&evidence.qrMm===candidate.details.spec.qr&&
         evidence.quietZone===4&&evidence.correction==='M';
       const passed=!!valid&&evidence.zxingText===candidate.qrText&&evidence.jsqrText===candidate.qrText;
       trials.push({characters:candidate.qrText.length,items:count,passed,
@@ -1087,7 +1094,7 @@
   async function assessOfflineReadability(result,container,readers) {
     if(!result?.details||!SUPPORTS.includes(result.details.support))fail('invalid_result');
     if(typeof readers?.zxing!=='function'||typeof readers?.jsqr!=='function')fail('two_readers_required');
-    const mm=LAYOUTS[result.details.support].qr,qr=renderOfflineQR(result.qrText,container,1000);
+    const mm=(result.details.spec||LAYOUTS[result.details.support]).qr,qr=renderOfflineQR(result.qrText,container,1000);
     const doc=container.ownerDocument,side=Math.round(mm*8);
     const reduced=doc.createElement('canvas');reduced.width=reduced.height=side;
     const rc=reduced.getContext('2d');rc.fillStyle='#fff';rc.fillRect(0,0,side,side);
@@ -1101,7 +1108,7 @@
     if(!result||!result.details||!SUPPORTS.includes(result.details.support))fail('invalid_result');
     if(!container||!container.ownerDocument)fail('invalid_container');
     if(options.prototype!==true&&(result.details.readability?.status!=='simulation_pass'||result.details.hasOmittedCritical))fail('template_not_verified');
-    const {support,layout,blood,printedGroups:groups}=result.details,spec={...LAYOUTS[support],height:layout.height};
+    const {support,layout,blood,printedGroups:groups}=result.details,spec={...(result.details.spec||LAYOUTS[support]),height:layout.height};
     const qrHost=container.ownerDocument.createElement('div'),qr=renderOfflineQR(result.qrText,qrHost,sizePx);
     let parts=['<svg xmlns="http://www.w3.org/2000/svg" width="'+spec.width+'mm" height="'+spec.height+'mm" viewBox="0 0 '+spec.width+' '+spec.height+'" role="img" aria-label="Offline emergency prototype"><rect width="100%" height="100%" rx="2" fill="#111827"/>'];
     const text=(x,y,value,size=2.2,color='#f5f7fb',anchor='start')=>parts.push('<text x="'+x+'" y="'+y+'" font-family="monospace" font-size="'+size+'" fill="'+color+'" text-anchor="'+anchor+'">'+xml(value)+'</text>');

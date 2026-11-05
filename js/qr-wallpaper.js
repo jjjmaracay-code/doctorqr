@@ -1,11 +1,7 @@
-/* Fondos de pantalla con QR (Atabeyapp).
-   Módulo nuevo e independiente. Solo LEE funciones existentes del flujo de QR
-   (QR_TYPES, getFormData, buildQRUrl, buildEmergencyQRUrl, isOwnedQRUrl,
-   ensureQRCodeLoaded, createOrganicQRCode, getQRVisualStyle, MedicalOwner);
-   no las modifica, no guarda el perfil, no llama al backend y no toca la caché
-   de QR. Lo único que escribe es localStorage['doctorqr_qr_wallpaper']: una
-   huella SHA-256 de la URL usada en el último fondo, para avisar si queda
-   desactualizado. Las fotos y vídeos propios nunca salen del dispositivo. */
+/* Wallpaper editor: medical text QR prepared locally from the saved profile.
+ * Reads MedicalOwner and never changes the application/card QR generators.
+ * Photo/video remain on this device. Only an owner-scoped profile hash is saved
+ * to warn that a previously exported wallpaper has become outdated. */
 (function () {
   'use strict';
 
@@ -132,19 +128,11 @@
   function ownerReady() {
     return typeof MedicalOwner !== 'undefined' && MedicalOwner.current && MedicalOwner.current() && MedicalOwner.read();
   }
-  function activeTypes() {
-    if (typeof QR_TYPES === 'undefined' || typeof getFormData !== 'function') return [];
-    const data = getFormData();
-    return QR_TYPES.filter(t => t.always || (t.condition && t.condition(data)));
-  }
-  // El QR de emergencia usa la misma URL corta (id + tipo) que la tarjeta impresa:
-  // no caduca al cambiar nombre, sangre o contacto. El resto, la misma URL que su QR en pantalla.
-  function urlForType(type) {
-    if (!type) return '';
-    const url = type.id === 'qr-emergency' && typeof buildEmergencyQRUrl === 'function'
-      ? buildEmergencyQRUrl() : buildQRUrl(type, getFormData());
-    return typeof isOwnedQRUrl === 'function' && isOwnedQRUrl(url) ? url : '';
-  }
+  function activeTypes() {return [{id:'offline-emergency',color:'#ff556e',title:lang()==='es'?'Emergencia · sin conexión':'Emergency · offline'}];}
+  function sourceStamp(){return ownerReady()?JSON.stringify({owner:MedicalOwner.id(),profile:MedicalOwner.read()}):'';}
+  function offlineCurrent(){return state.consent&&state.prepared&&!state.prepared.blocked&&state.sourceStamp===sourceStamp();}
+  function invalidateOffline(){revokeAll();state.buildRevision++;state.qrImg=null;state.prepared=null;state.url='';state.sourceStamp='';if(resultBox)resultBox.replaceChildren();root?.querySelector('#qrw-offline-summary')?.replaceChildren();}
+  function requireOffline(){if(!offlineCurrent())throw Error('offline_data_changed');}
 
   // ---------- Composición (única para vista previa, pantalla completa, PNG y MP4) ----------
   // Placa centrada de "cristal de agua": fondo difuminado + tinte + brillo + ondas de luz suaves.
@@ -152,15 +140,15 @@
   // Branding belongs to the editor; the exported foreground prioritises the medical QR.
   function layout(W, H, o) {
     const B = Math.min(W, H * 9 / 16); // pantallas apaisadas: el QR no supera el alto disponible
-    const pad = B * 0.035, pw = B * 0.82, qrBox = B * 0.68;
-    const font = B * 0.036, textH = o.text ? font * 1.35 : 0, gap = B * 0.025;
-    const nameFont = B * 0.036, nameH = o.name ? nameFont * 1.35 + B * 0.02 : 0;
-    const ph = pad + textH + gap + qrBox + nameH + pad;
-    const top = H * 0.28, bottom = H * 0.8 - ph;
-    const py = Math.max(top, Math.min(bottom, H * o.qrY - ph / 2));
-    const qrY = py + pad + textH + gap;
-    return { pad, pw, ph, px: (W - pw) / 2, py, qrBox, qrX: (W - qrBox) / 2, qrY, font, textH, nameFont, nameH, radius: B * 0.075, B };
+    const pad=B*.035,pw=B*.82,qrBox=B*.56;
+    const font=B*.032,textH=o.text?font*1.35:0,gap=B*.018,nameFont=B*.025,nameH=0;
+    const medicalFont=B*.024,medicalLine=B*.030,medicalH=(o.offlineLines?.length||0)*medicalLine;
+    const ph=pad+textH+medicalH+gap+qrBox+pad;
+    const top=H*.22,bottom=H*.88-ph,py=Math.max(top,Math.min(bottom,H*o.qrY-ph/2));
+    const qrY=py+pad+textH+medicalH+gap;
+    return {pad,pw,ph,px:(W-pw)/2,py,qrBox,qrX:(W-qrBox)/2,qrY,font,textH,nameFont,nameH,medicalFont,medicalLine,medicalH,radius:B*.075,B};
   }
+
   function roundRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
     ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
@@ -285,17 +273,22 @@
       ctx.fillText(o.text, W / 2, L.py + L.pad + L.textH / 2);
       ctx.restore();
     }
+    if(o.offlineLines?.length){
+      ctx.save();ctx.fillStyle=ink;ctx.textAlign='center';ctx.textBaseline='middle';
+      o.offlineLines.forEach((line,i)=>{fitFont(ctx,line,i<2?800:600,Math.round(L.medicalFont),L.pw-L.pad*2);ctx.fillText(line,W/2,L.py+L.pad+L.textH+L.medicalLine*(i+.5));});
+      ctx.restore();
+    }
     // Placa blanca opaca bajo el QR: el fondo nunca se ve a través de los módulos.
     // Placa blanca translúcida (mínimo 70 % de opacidad): los módulos oscuros siguen siendo sólidos
     // y la lectura se comprueba en el resultado antes de entregar cualquier archivo.
-    ctx.fillStyle = `rgba(255,255,255,${Math.max(0.65, Math.min(1, o.qrPlate))})`;
+    ctx.fillStyle = `rgba(255,255,255,${1})`;
     roundRect(ctx, L.qrX, L.qrY, L.qrBox, L.qrBox, L.B * 0.035); ctx.fill();
     // Borde muy fino azul oscuro alrededor del QR (fuera de la zona de silencio, no la invade).
     ctx.lineWidth = Math.max(1, L.B * 0.0028); ctx.strokeStyle = DARK_EDGE; ctx.stroke();
     if (qrImg) {
       ctx.imageSmoothingEnabled = false;
       const inset = L.qrBox * 0.03;
-      if (PALETTES[o.palette]) drawQRGradient(ctx, qrImg, L.qrX + inset, L.qrY + inset, L.qrBox - inset * 2, L.qrBox - inset * 2, phaseOf(src), o.glow, PALETTES[o.palette]);
+      if (PALETTES[o.palette]) drawQRGradient(ctx, qrImg, L.qrX + inset, L.qrY + inset, L.qrBox - inset * 2, L.qrBox - inset * 2, 0, false, PALETTES[o.palette]);
       else ctx.drawImage(qrImg, L.qrX + inset, L.qrY + inset, L.qrBox - inset * 2, L.qrBox - inset * 2);
       ctx.imageSmoothingEnabled = true;
     }
@@ -314,7 +307,7 @@
   // mientras que un QR ilegible no se lee en ninguno. La prueba automática exige además ZXing al 100 %.
   // (A resolución completa no se mide: un lector real nunca ve los módulos tan grandes.)
   async function verifyQR(canvas, L, url) {
-    await loadScript(JSQR_URL);
+    if(typeof window.jsQR!=='function')await loadScript(JSQR_URL);
     if (typeof jsQR !== 'function') return false;
     let ok = 0;
     for (const target of [420, 370, 330, 290, 250, 210]) {
@@ -323,7 +316,8 @@
       const g = c.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
       g.drawImage(canvas, L.px, L.py, L.pw, L.ph, 0, 0, w, h);
       const code = jsQR(g.getImageData(0, 0, w, h).data, w, h, { inversionAttempts: 'dontInvert' });
-      if (code && code.data === url) ok++;
+      let second=null;try{second=window.AtabeyOfflineAccessories.readers.zxing(g.getImageData(0,0,w,h));}catch(_){}
+      if (code && code.data === url && second===url) ok++;
     }
     return ok >= 4;
   }
@@ -334,7 +328,7 @@
   const state = {
     catalog: [], type: null, url: '', qrImg: null, bgId: null, custom: null,
     opts: { zoom: 1, panX: 0, panY: 0, base: SWATCHES[0], opacity: 0.22, qrY: 0.54, qrPlate: 0.72, palette: 'azul', qrStyle: 'liquid', text: '', name: '', accent: '#ff556e' },
-    showName: false, busy: false, raf: 0, objectUrls: []
+    consent:false,sensitive:false,prepared:null,sourceStamp:'',buildRevision:0,showName: false, busy: false, raf: 0, objectUrls: []
   };
   let root, video, image, preview, statusEl, resultBox;
   const poster = new Image(); // respaldo sin conexión: los vídeos no se precargan
@@ -354,104 +348,22 @@
 
   // ---------- Dibujo del QR ----------
   // Matriz de la misma librería vendorizada (qrcodejs) que usa la app, con el mismo texto.
-  function qrMatrix(text) {
-    const holder = document.createElement('div');
-    // Nivel H, el mismo que el acceso rápido de emergencia: con el estilo líquido fue el más robusto
-    // en el barrido de los 24 fondos (frente a M y Q).
-    const qr = new QRCode(holder, { text: '', width: 64, height: 64, correctLevel: QRCode.CorrectLevel.H });
-    const drawing = qr._oDrawing, draw = drawing && drawing.draw;
-    if (typeof draw === 'function') drawing.draw = () => {};
-    try { qr.makeCode(text); } finally { if (typeof draw === 'function') drawing.draw = draw; }
-    const m = qr._oQRCode;
-    if (!m || typeof m.getModuleCount !== 'function' || typeof m.isDark !== 'function') throw new Error('qr_matrix');
-    return m;
-  }
-  function inkFor(hex) {
-    let rgb = hexToRgb(hex);
-    const contrast = () => { const l = rgb.map(v => { v /= 255; return v <= .04045 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return 1.05 / (.2126 * l[0] + .7152 * l[1] + .0722 * l[2] + .05); };
-    while (contrast() < 5) rgb = rgb.map(v => Math.floor(v * .9));
-    return 'rgb(' + rgb.join(',') + ')';
-  }
-  // Estilo líquido: módulos sueltos como puntos, vecinos unidos con extremos redondos y
-  // esquinas interiores suavizadas; ojos con marco redondeado y punto central.
-  // Solo cambia la forma: cada módulo oscuro conserva su centro y la zona de silencio es de 4 módulos.
-  function drawLiquidMask(matrix, ink) {
-    const n = matrix.getModuleCount(), cell = 28, q = 4, size = (n + q * 2) * cell;
-    const c = document.createElement('canvas'); c.width = c.height = size;
-    const g = c.getContext('2d'); g.fillStyle = ink;
-    const finder = (r, k) => (r < 7 && (k < 7 || k >= n - 7)) || (r >= n - 7 && k < 7);
-    // Patrones de alineación (estándar ISO/IEC 18004, versiones 2–10): se dibujan como mini-ojos,
-    // no se "licúan", para que el lector corrija bien la perspectiva.
-    const ALIGN = { 2: [6, 18], 3: [6, 22], 4: [6, 26], 5: [6, 30], 6: [6, 34], 7: [6, 22, 38], 8: [6, 24, 42], 9: [6, 26, 46], 10: [6, 28, 50] };
-    const ver = (n - 17) / 4, centers = [];
-    (ALIGN[ver] || []).forEach(a => (ALIGN[ver] || []).forEach(b => { if (!finder(a, b) && !finder(a - 2, b - 2) && !finder(a + 2, b + 2) && !finder(a - 2, b + 2) && !finder(a + 2, b - 2)) centers.push([a, b]); }));
-    const align = (r, k) => centers.some(([a, b]) => Math.abs(r - a) <= 2 && Math.abs(k - b) <= 2);
-    const dark = (r, k) => r >= 0 && k >= 0 && r < n && k < n && !finder(r, k) && !align(r, k) && matrix.isDark(r, k);
-    const X = k => (k + q) * cell, h = cell / 2, f = cell * 0.45;
-    g.beginPath();
-    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) {
-      if (!dark(r, k)) continue;
-      const cx = X(k) + h, cy = X(r) + h;
-      g.moveTo(cx + h, cy); g.arc(cx, cy, h, 0, Math.PI * 2);
-      if (dark(r, k + 1)) g.rect(cx, X(r), cell, cell);
-      if (dark(r + 1, k)) g.rect(X(k), cy, cell, cell);
-      if (dark(r, k + 1) && dark(r + 1, k) && dark(r + 1, k + 1)) g.rect(cx, cy, cell, cell);
-    }
-    g.fill();
-    // Esquinas interiores cóncavas (efecto líquido) en las celdas claras rodeadas en L.
-    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) {
-      if (dark(r, k) || finder(r, k) || align(r, k)) continue;
-      const x = X(k), y = X(r);
-      [[-1, -1, x, y, 1, 1], [-1, 1, x + cell, y, -1, 1], [1, -1, x, y + cell, 1, -1], [1, 1, x + cell, y + cell, -1, -1]].forEach(([dr, dk, px, py, sx, sy]) => {
-        if (!(dark(r + dr, k) && dark(r, k + dk) && dark(r + dr, k + dk))) return;
-        g.beginPath(); g.moveTo(px, py); g.lineTo(px + sx * f, py);
-        g.arc(px + sx * f, py + sy * f, f, sy > 0 ? -Math.PI / 2 : Math.PI / 2, sx > 0 ? Math.PI : 0, (sx > 0) === (sy > 0));
-        g.closePath(); g.fill();
-      });
-    }
-    for (const [a, b] of centers) {
-      const x = X(b - 2), y = X(a - 2);
-      roundRect(g, x, y, 5 * cell, 5 * cell, cell * 1.4); g.fill();
-      g.save(); g.globalCompositeOperation = 'destination-out';
-      roundRect(g, x + cell, y + cell, 3 * cell, 3 * cell, cell * 0.8); g.fill(); g.restore();
-      g.beginPath(); g.arc(x + 2.5 * cell, y + 2.5 * cell, cell * 0.55, 0, Math.PI * 2); g.fill();
-    }
-    // Ojos: marco 7×7 redondeado, hueco 5×5 redondeado y punto central.
-    for (const [r, k] of [[0, 0], [0, n - 7], [n - 7, 0]]) {
-      const x = X(k), y = X(r);
-      roundRect(g, x, y, 7 * cell, 7 * cell, cell * 2.1); g.fill();
-      g.save(); g.globalCompositeOperation = 'destination-out';
-      roundRect(g, x + cell, y + cell, 5 * cell, 5 * cell, cell * 1.35); g.fill(); g.restore();
-      g.beginPath(); g.arc(x + 3.5 * cell, y + 3.5 * cell, cell * 1.55, 0, Math.PI * 2); g.fill();
-    }
-    return c;
-  }
   async function buildQRImage() {
-    state.qrImg = null;
-    state.url = urlForType(state.type);
-    if (!state.url) throw new Error('qr_url');
-    await ensureQRCodeLoaded();
-    if (state.opts.qrStyle === 'liquid') {
-      try { state.qrImg = drawLiquidMask(qrMatrix(state.url), inkFor(state.type.color)); return; }
-      catch (_) { /* si la librería cambiara por dentro, se usa el estilo clásico */ }
-    }
-    const tmp = document.createElement('div');
-    createOrganicQRCode(tmp, {
-      text: state.url, width: 1000, height: 1000,
-      visualStyle: typeof getQRVisualStyle === 'function' ? getQRVisualStyle(state.type.id) : 'flow',
-      colorDark: state.type.color, colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H
-    });
-    const img = tmp.querySelector('img') || await new Promise(res => setTimeout(() => res(tmp.querySelector('img')), 300));
-    if (!img) throw new Error('qr_img');
-    if (img.decode) await img.decode(); else await new Promise(r => { img.onload = r; });
-    // Se vacían los píxeles claros del QR para que la placa translúcida deje ver el agua.
-    // Los módulos oscuros no se tocan: misma matriz, misma zona de silencio.
-    const cut = document.createElement('canvas'); cut.width = img.naturalWidth; cut.height = img.naturalHeight;
-    const cctx = cut.getContext('2d'); cctx.drawImage(img, 0, 0);
-    const px = cctx.getImageData(0, 0, cut.width, cut.height), d = px.data;
-    for (let i = 0; i < d.length; i += 4) if (d[i] > 200 && d[i + 1] > 200 && d[i + 2] > 200) d[i + 3] = 0;
-    cctx.putImageData(px, 0, 0);
-    state.qrImg = cut;
+    state.qrImg=null;state.prepared=null;
+    if(!state.consent)throw Error('offline_consent_required');
+    const adapter=window.AtabeyOfflineAccessories,stamp=sourceStamp(),rev=++state.buildRevision,parent=root;
+    const current=()=>root===parent&&!!root?.isConnected&&state.consent&&stamp===sourceStamp()&&rev===state.buildRevision;
+    const prepared=await adapter.prepare(adapter.profile(MedicalOwner.read(),true,state.sensitive),'WALLPAPER',{width:70,height:92,qr:45},current);
+    if(!current())throw Error('offline_cancelled');
+    state.prepared=prepared;
+    const summary=root.querySelector('#qrw-offline-summary');summary.replaceChildren();
+    for(const [label,value] of adapter.summary(prepared.result,lang())){const h=el('h3',{text:label}),pre=el('pre',{text:value});pre.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px';summary.append(h,pre);}
+    if(prepared.blocked)throw Error('offline_blocked');
+    state.url=prepared.result.qrText;state.sourceStamp=stamp;
+    const cut=document.createElement('canvas');cut.width=prepared.image.width;cut.height=prepared.image.height;
+    const ctx=cut.getContext('2d');ctx.drawImage(prepared.image,0,0);
+    const px=ctx.getImageData(0,0,cut.width,cut.height);for(let i=0;i<px.data.length;i+=4)if(px.data[i]>200)px.data[i+3]=0;ctx.putImageData(px,0,0);
+    state.qrImg=cut;
   }
 
 
@@ -466,7 +378,7 @@
     const ctx = preview.getContext('2d');
     const tick = () => {
       if (!root || !root.isConnected) return;
-      compose(ctx, preview.width, preview.height, currentSource(), state.qrImg, effectiveOpts());
+      compose(ctx,preview.width,preview.height,currentSource(),offlineCurrent()?state.qrImg:null,effectiveOpts());
       state.raf = requestAnimationFrame(tick);
     };
     tick();
@@ -474,7 +386,8 @@
   function effectiveOpts() {
     const o = Object.assign({}, state.opts);
     o.accent = PALETTES[o.palette] ? PALETTES[o.palette].accent : (state.type ? state.type.color : '#12a5ff');
-    o.name = state.showName ? (((getFormData().nombre || '') + ' ' + (getFormData().apellidos || '')).trim()) : '';
+    o.name='';
+    const r=state.prepared?.result;o.offlineLines=offlineCurrent()?[...r.details.layout.nameLines,'BLOOD: '+r.details.blood,...r.details.printedGroups.flatMap(g=>g.lines.map(line=>line.spans.map(span=>span.text).join(''))),' +INFO: SCAN QR']:[];
     return o;
   }
   function setStatus(text, kind) {
@@ -512,15 +425,17 @@
 
   // ---------- Exportación ----------
   function deliver(blob, filename, okText) {
+    requireOffline();
     resultBox.innerHTML = '';
     const file = new File([blob], filename, { type: blob.type });
     const u = URL.createObjectURL(blob); state.objectUrls.push(u);
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       const share = el('button', { type: 'button', class: 'qrw-primary', text: tr('save') });
-      share.addEventListener('click', () => navigator.share({ files: [file] }).catch(() => {}));
+      share.addEventListener('click',()=>{if(offlineCurrent())navigator.share({files:[file]}).catch(()=>{});});
       resultBox.appendChild(share);
     }
     const a = el('a', { class: 'qrw-secondary', href: u, download: filename, text: tr('download') });
+    a.addEventListener('click',event=>{if(!offlineCurrent()){event.preventDefault();invalidateOffline();}});
     resultBox.appendChild(a);
     setStatus(okText, 'ok');
   }
@@ -529,6 +444,7 @@
     state.busy = true; resultBox.innerHTML = '';
     try {
       if (!state.qrImg) await buildQRImage();
+      requireOffline();
       const W = OUT_W, H = outputHeight(), c = document.createElement('canvas');
       c.width = W; c.height = H;
       const L = compose(c.getContext('2d'), W, H, currentSource(), state.qrImg, effectiveOpts());
@@ -536,7 +452,7 @@
       if (!await verifyQR(c, L, state.url)) { setStatus(tr('fail_read'), 'error'); return; }
       const blob = await new Promise(res => c.toBlob(res, 'image/png'));
       if (!blob) throw new Error('png');
-      await remember();
+      requireOffline();await remember();requireOffline();
       deliver(blob, 'atabeyapp-fondo-qr.png', tr('ok_png'));
     } catch (e) {
       setStatus(e && e.message === 'qr_url' ? tr('error_qr') : tr('fail_export'), 'error');
@@ -568,6 +484,7 @@
     root.appendChild(work);
     try {
       if (!state.qrImg) await buildQRImage();
+      requireOffline();
       work.src = src;
       await waitEvent(work, 'loadeddata', 15000);
       const dur = Math.min(work.duration || 8, 10);
@@ -586,6 +503,7 @@
         const frames = Math.max(1, Math.round(dur * FPS));
         let checked = 0, L = null;
         for (let i = 0; i < frames; i++) {
+          requireOffline();
           if (failure) throw failure;
           work.currentTime = Math.min(i / FPS, Math.max(0, work.duration - 0.05));
           await waitEvent(work, 'seeked', 8000);
@@ -642,8 +560,9 @@
 
   // ---------- Aviso de fondo desactualizado ----------
   async function remember() {
+    requireOffline();
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({ owner: MedicalOwner.id(), type: state.type.id, h: await sha256(state.url), at: Date.now() }));
+      localStorage.setItem(STORE_KEY, JSON.stringify({ owner: MedicalOwner.id(), type: state.type.id, h: await sha256(state.sourceStamp), offline:true,at: Date.now() }));
       checkStale();
     } catch (_) {}
   }
@@ -655,17 +574,14 @@
       if (!ownerReady()) return;
       const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
       if (!saved || saved.owner !== MedicalOwner.id()) return;
-      const type = (typeof QR_TYPES !== 'undefined' ? QR_TYPES : []).find(t => t.id === saved.type);
-      const url = urlForType(type);
-      if (!url) return;
-      banner.textContent = tr('stale');
-      banner.hidden = saved.h === await sha256(url);
+      banner.textContent=tr('stale');banner.hidden=saved.offline===true&&saved.h===await sha256(sourceStamp());
     } catch (_) {}
   }
 
   // ---------- Modo QR a pantalla completa ----------
   async function openFullscreen() {
     if (!state.qrImg) { try { await buildQRImage(); } catch (_) { setStatus(tr('error_qr'), 'error'); return; } }
+    try{requireOffline();}catch(_){return;}
     // Mismo dibujo que la vista previa y la exportación, a la resolución real de la pantalla.
     const ov = el('div', { id: 'qrw-full', role: 'dialog', 'aria-modal': 'true', 'aria-label': tr('fullscreen') });
     const canvas = el('canvas', { class: 'qrw-full-canvas', 'aria-hidden': 'true' });
@@ -686,7 +602,7 @@
     size(); window.addEventListener('resize', size);
     const o = effectiveOpts();
     const draw = () => {
-      compose(ctx, canvas.width, canvas.height, currentSource(fv), state.qrImg, o);
+      compose(ctx,canvas.width,canvas.height,currentSource(fv),offlineCurrent()?state.qrImg:null,effectiveOpts());
       raf = requestAnimationFrame(draw);
     };
     draw();
@@ -721,17 +637,18 @@
       await loadScript('/js/qr-wallpaper-iphone.js?v=38');
       if (!current()) return;
       if (!state.qrImg) await buildQRImage();
+      requireOffline();
       if (!current()) return;
       const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
       const stamp = value => JSON.stringify(canonical(value));
-      const type = state.type, url = urlForType(type), profile = stamp(MedicalOwner.read()), form = stamp(getFormData());
+      const type=state.type,url=state.url,profile = stamp(MedicalOwner.read()), form = stamp(getFormData());
       if (!url || !state.qrImg) throw new Error('qr_url');
       const mask = document.createElement('canvas'); mask.width = state.qrImg.naturalWidth || state.qrImg.width; mask.height = state.qrImg.naturalHeight || state.qrImg.height;
       mask.getContext('2d').drawImage(state.qrImg, 0, 0);
       const options = Object.assign({}, effectiveOpts());
       const photo = state.custom && state.custom.kind === 'image';
       const source = currentSource();
-      const unchanged = () => current() && state.type === type && stamp(MedicalOwner.read()) === profile && stamp(getFormData()) === form && urlForType(type) === url;
+      const unchanged = () => current() && state.type === type && stamp(MedicalOwner.read()) === profile && stamp(getFormData()) === form && offlineCurrent()&&state.url===url;
       await window.AtabeyIPhoneWallpaper.open({
         height: outputHeight(), mask, options, url, current, unchanged,
         photoSrc: photo ? image.src : ((!navigator.onLine || video.error || !(video.currentSrc || video.getAttribute('src'))) && source.tagName === 'IMG' ? source.src : ''),
@@ -771,7 +688,7 @@
     if (root) return;
     if (!ownerReady() || !activeTypes().length) { alert(tr('error_qr')); return; }
     const types = activeTypes();
-    state.type = types[0];
+    state.type = types[0];invalidateOffline();state.consent=false;state.sensitive=false;
     state.opts.text = tr('text_default');
     root = el('div', { id: 'qrw-overlay', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'qrw-title' });
     const header = el('div', { class: 'qrw-header' }, [
@@ -827,8 +744,8 @@
     const textInput = el('input', { type: 'text', maxlength: '40', value: state.opts.text, id: 'qrw-text', autocomplete: 'off' });
     textInput.addEventListener('input', () => { state.opts.text = textInput.value.replace(/[\u0000-\u001f]/g, '').slice(0, 40); });
     const styleSelect = el('select', { id: 'qrw-qrstyle' });
-    styleSelect.appendChild(el('option', { value: 'liquid', text: tr('qr_liquid') }));
-    styleSelect.appendChild(el('option', { value: 'classic', text: tr('qr_classic') }));
+    state.opts.qrStyle='square';
+    styleSelect.appendChild(el('option',{value:'square',text:lang()==='es'?'Cuadrado · sin conexión':'Square · offline'}));styleSelect.disabled=true;
     styleSelect.value = state.opts.qrStyle;
     styleSelect.addEventListener('change', async () => {
       state.opts.qrStyle = styleSelect.value === 'classic' ? 'classic' : 'liquid';
@@ -839,10 +756,6 @@
     colorSelect.appendChild(el('option', { value: 'original', text: tr('qr_original') }));
     colorSelect.value = state.opts.palette;
     colorSelect.addEventListener('change', () => { state.opts.palette = PALETTES[colorSelect.value] ? colorSelect.value : 'original'; });
-    const nameCheck = el('input', { type: 'checkbox', id: 'qrw-name' });
-    nameCheck.checked = state.showName;
-    nameCheck.addEventListener('change', () => { state.showName = nameCheck.checked; });
-
     statusEl = el('div', { class: 'qrw-status', role: 'status', 'aria-live': 'polite' });
     resultBox = el('div', { class: 'qrw-result' });
     const fullBtn = decorateAction(el('button', { type: 'button', class: 'qrw-primary qrw-preview-action', text: tr('fullscreen') }), 'expand');
@@ -859,8 +772,15 @@
       el('p', { text: tr('how_iphone') }), el('p', { text: tr('how_samsung') }), el('p', { text: tr('how_android') })
     ]);
 
+    const offlineWords=window.AtabeyOfflineAccessories.words(lang());
+    const offlineConsent=el('input',{type:'checkbox',id:'qrw-offline-consent'}),offlineSensitive=el('input',{type:'checkbox',id:'qrw-offline-sensitive'});
+    const offlinePrepare=el('button',{type:'button',id:'qrw-offline-prepare',class:'qrw-primary',text:offlineWords.prepare});
+    const consentChanged=()=>{state.consent=offlineConsent.checked;state.sensitive=offlineSensitive.checked;invalidateOffline();setStatus(offlineWords.waiting);};
+    offlineConsent.addEventListener('change',consentChanged);offlineSensitive.addEventListener('change',consentChanged);
+    offlinePrepare.addEventListener('click',async()=>{if(state.busy){setStatus(tr('busy'));return;}setStatus(offlineWords.working);try{await buildQRImage();setStatus(offlineWords.ready);}catch(e){setStatus(e.message==='offline_blocked'?offlineWords.blocked:state.consent?offlineWords.error:offlineWords.waiting,'error');}});
+    const offlinePanel=designSection('QR',offlineWords.title,[el('label',{class:'qrw-check'},[offlineConsent,el('span',{text:offlineWords.consent})]),el('label',{class:'qrw-check'},[offlineSensitive,el('span',{text:offlineWords.sensitive})]),offlinePrepare,el('details',{},[el('summary',{text:lang()==='es'?'Datos dentro y fuera del QR':'Data inside and outside the QR'}),el('div',{id:'qrw-offline-summary'})])],'mint');
     const controls = el('div', { class: 'qrw-controls' }, [
-      el('p', { class: 'qrw-intro', text: designText('intro') }),
+      el('p', { class: 'qrw-intro', text: designText('intro') }),offlinePanel,
       designSection('01', designText('background'), [
         el('div', { class: 'qrw-gallery-heading' }, [el('span', { class: 'qrw-label', text: tr('bg_label') }), el('div', { class: 'qrw-gallery-nav' }, [el('span', { class: 'qrw-count', text: String(catalog.length) }), galleryPrevious, galleryNext])]),
         gallery, customLabel, file, el('p', { class: 'qrw-hint', text: tr('custom_hint') }),
@@ -876,14 +796,13 @@
         el('div', { class: 'qrw-field' }, [el('span', { class: 'qrw-label', text: tr('base_label') }), swatches]),
         el('div', { class: 'qrw-adjustments' }, [
           range('qrw-opacity', tr('opacity'), 0.1, 0.9, 0.01, state.opts.opacity, v => { state.opts.opacity = v; }),
-          range('qrw-plate', tr('qr_plate'), 0, 0.35, 0.01, 1 - state.opts.qrPlate, v => { state.opts.qrPlate = 1 - v; }),
           range('qrw-qry', tr('qr_pos'), 0.36, 0.6, 0.005, state.opts.qrY, v => { state.opts.qrY = v; })
         ]),
         el('div', { class: 'qrw-field' }, [el('label', { class: 'qrw-label', for: 'qrw-text', text: tr('text_label') }), textInput]),
-        el('div', { class: 'qrw-identity' }, [el('label', { class: 'qrw-check', for: 'qrw-name' }, [nameCheck, el('span', { text: tr('show_name') })]), el('p', { class: 'qrw-hint', text: tr('name_warning') })])
+        el('p',{class:'qrw-hint',text:lang()==='es'?'El nombre, el grupo sanguíneo y los datos visibles se distribuyen según el espacio disponible.':'Name, blood group and visible details are arranged to fit the available space.'})
       ], 'violet'),
       designSection('03', designText('export'), [
-        el('p', { class: 'qrw-privacy', text: tr('privacy_note') }),
+        el('p',{class:'qrw-privacy',text:offlineWords.consent}),
         el('div', { class: 'qrw-export-actions' }, [pngBtn, mp4Btn, iphoneBtn]), statusEl, resultBox, how
       ], 'mint')
     ]);
@@ -903,7 +822,7 @@
       if (state.busy) { setStatus(tr('busy')); return; }
       cancelAnimationFrame(state.raf); video.pause(); video.removeAttribute('src'); revokeAll();
       document.documentElement.classList.remove('qrw-open');
-      root.remove(); root = null;
+      invalidateOffline();state.consent=false;root.remove(); root = null;
       background.forEach(([node, inert]) => { node.inert = inert; });
       const opener = previousFocus && previousFocus.isConnected ? previousFocus : document.getElementById('btn-qr-wallpaper'); if (opener) opener.focus({ preventScroll: true });
     };
@@ -917,11 +836,14 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
     closeBtn.focus();
-    try { await buildQRImage(); } catch (_) { setStatus(tr('error_qr'), 'error'); }
+    setStatus(offlineWords.waiting);
     if (catalog.length) selectBackground(catalog[0]);
     previewLoop();
   }
 
+  window.addEventListener('doctorqr:account-invalidated',()=>{state.consent=false;invalidateOffline();});
+  window.addEventListener('storage',e=>{if(!e.key||['doctorqr_profile','doctorqr_id','doctorqr_token'].includes(e.key))invalidateOffline();});
+  setInterval(()=>{if(root&&state.prepared&&state.sourceStamp&&state.sourceStamp!==sourceStamp()){invalidateOffline();setStatus(window.AtabeyOfflineAccessories.words(lang()).changed,'error');}},500);
   function mount() {
     const anchor = document.getElementById('btn-print-emergency');
     if (!anchor || document.getElementById('btn-qr-wallpaper')) return;
