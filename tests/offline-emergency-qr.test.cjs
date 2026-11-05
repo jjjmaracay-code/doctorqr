@@ -264,16 +264,15 @@ test('real degraded captures drive the adaptive result at every physical support
     rows.push({profileName,support,status:result.details.readability.status,reason:result.details.readability.reason,exportBlocked,
      qrMm:api.LAYOUTS[support].qr,clinicalFacts:result.details.printedItems.length+result.details.qrItems.length,characters:result.qrText.length,printed:result.printed,qrText:result.qrText,omitted:result.omitted,trials:result.details.readability.trials});
    }
-   // An unsupported Canvas filter can otherwise become an ordinary JS expando
-   // property and falsely appear to have applied a blur.
+   // The same pixels and decoder result must be produced without native filters.
+   const sample=api.buildOfflineEmergency(profiles.scarce,'KEYCHAIN');
+   const before=await api.assessOfflineReadability(sample,host,readers);
    const proto=CanvasRenderingContext2D.prototype,descriptor=Object.getOwnPropertyDescriptor(proto,'filter');
-   if(!descriptor?.configurable)throw Error('cannot test missing native blur');
    delete proto.filter;
-   let rejected=false;
-   try{await api.assessOfflineReadability(api.buildOfflineEmergency(profiles.scarce,'KEYCHAIN'),host,readers);}
-   catch(e){rejected=e.message==='offline_qr_blur_unavailable';}
-   finally{Object.defineProperty(proto,'filter',descriptor);}
-   if(!rejected)throw Error('missing native blur was silently accepted');
+   let after;
+   try{after=await api.assessOfflineReadability(sample,host,readers);}
+   finally{if(descriptor)Object.defineProperty(proto,'filter',descriptor);}
+   if(JSON.stringify(before)!==JSON.stringify(after))throw Error('portable blur depends on native Canvas filter');
    return rows;
   },{full:FULL,moderate:MODERATE,scarce:SCARCE});
   for(const r of rows){
@@ -291,4 +290,14 @@ test('real degraded captures drive the adaptive result at every physical support
   if(process.env.QR_ADAPTIVE_MEASUREMENTS)fs.writeFileSync(process.env.QR_ADAPTIVE_MEASUREMENTS,JSON.stringify(rows,null,2));
   console.log('ADAPTIVE:',JSON.stringify(rows.map(({profileName,support,status,reason,characters,trials})=>({profileName,support,status,reason,characters,attempts:trials.length}))));
  }finally{await browser.close();}
+});
+
+test('portable Gaussian capture preserves white and blurs a dark impulse symmetrically',()=>{
+ const width=25,height=25,data=new Uint8ClampedArray(width*height*4).fill(255);
+ assert.deepEqual(API.blurOfflineCapture({width,height,data}).data,data);
+ const at=(12*width+12)*4;data[at]=data[at+1]=data[at+2]=0;
+ const out=API.blurOfflineCapture({width,height,data}).data;
+ assert.ok(out[at]>0&&out[at]<255);assert.ok(out[at-4]<255);
+ assert.equal(out[at-4],out[at+4]);assert.equal(out[at-width*4],out[at+width*4]);
+ assert.equal(out[at+3],255);assert.equal(data[at],0);
 });

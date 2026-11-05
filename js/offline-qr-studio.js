@@ -94,10 +94,7 @@
       const side=Math.round(api.LAYOUTS[item.support].qr*8),reduced=document.createElement('canvas');
       reduced.width=reduced.height=side;const rc=reduced.getContext('2d');
       rc.imageSmoothingEnabled=true;rc.imageSmoothingQuality='high';rc.drawImage(canvas,x,y,w,h,0,0,side,side);
-      const capture=document.createElement('canvas');capture.width=capture.height=side;
-      const cc=capture.getContext('2d');if(!('filter' in cc))return false;cc.fillStyle='#fff';cc.fillRect(0,0,side,side);cc.filter='blur(2.4px)';
-      if(cc.filter!=='blur(2.4px)')return false;cc.drawImage(reduced,0,0);
-      const pixels=cc.getImageData(0,0,side,side);
+      const pixels=api.blurOfflineCapture(rc.getImageData(0,0,side,side));
       return readers.zxing(pixels)===item.result.qrText&&readers.jsqr(pixels)===item.result.qrText;
     }catch(_){return false;}
   }

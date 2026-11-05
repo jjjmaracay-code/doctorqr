@@ -1063,6 +1063,27 @@
       segments:matrix.dataList.map(segment=>({mode:segment.mode,length:segment.getLength()}))};
   }
   function xml(value) {return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));}
+  // Separable Gaussian blur, sigma 2.4 pixels = 0.30 mm at 8 px/mm.
+  // White padding models the white capture background without Canvas filter support.
+  function blurOfflineCapture(image) {
+    const {width,height,data}=image,sigma=2.4,radius=Math.ceil(3*sigma);
+    const kernel=[];let total=0;
+    for(let k=-radius;k<=radius;k++){const v=Math.exp(-k*k/(2*sigma*sigma));kernel.push(v);total+=v;}
+    for(let k=0;k<kernel.length;k++)kernel[k]/=total;
+    const temp=new Float32Array(width*height),out=new Uint8ClampedArray(data.length);
+    for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+      let sum=0;for(let k=-radius;k<=radius;k++){
+        const xx=x+k,at=(y*width+xx)*4;
+        const value=xx<0||xx>=width?255:(data[at]*.299+data[at+1]*.587+data[at+2]*.114)*(data[at+3]/255)+255*(1-data[at+3]/255);
+        sum+=value*kernel[k+radius];
+      }temp[y*width+x]=sum;
+    }
+    for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+      let sum=0;for(let k=-radius;k<=radius;k++)sum+=(y+k<0||y+k>=height?255:temp[(y+k)*width+x])*kernel[k+radius];
+      const at=(y*width+x)*4;out[at]=out[at+1]=out[at+2]=sum;out[at+3]=255;
+    }
+    return {width,height,data:out};
+  }
   async function assessOfflineReadability(result,container,readers) {
     if(!result?.details||!SUPPORTS.includes(result.details.support))fail('invalid_result');
     if(typeof readers?.zxing!=='function'||typeof readers?.jsqr!=='function')fail('two_readers_required');
@@ -1071,12 +1092,7 @@
     const reduced=doc.createElement('canvas');reduced.width=reduced.height=side;
     const rc=reduced.getContext('2d');rc.fillStyle='#fff';rc.fillRect(0,0,side,side);
     rc.imageSmoothingEnabled=true;rc.imageSmoothingQuality='high';rc.drawImage(qr.canvas,0,0,side,side);
-    const capture=doc.createElement('canvas');capture.width=capture.height=side;
-    const ctx=capture.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,side,side);
-    if(!('filter' in ctx))fail('blur_unavailable');
-    ctx.filter='blur(2.4px)';if(ctx.filter!=='blur(2.4px)')fail('blur_unavailable');
-    ctx.drawImage(reduced,0,0);ctx.filter='none';
-    const image=ctx.getImageData(0,0,side,side);
+    const image=blurOfflineCapture(rc.getImageData(0,0,side,side));
     const decode=async reader=>{try{return await reader(image);}catch(_){return null;}};
     const zxingText=await decode(readers.zxing),jsqrText=await decode(readers.jsqr);
     return {pxPerMm:8,blurMm:.30,qrMm:mm,quietZone:4,correction:'M',version:qr.version,modules:qr.modules,zxingText,jsqrText};
@@ -1104,6 +1120,6 @@
     return {svg,qr,widthMm:spec.width,heightMm:spec.height,calibrationRequired:true};
   }
   const api=freeze({SUPPORTS,LIMITS,LAYOUTS,HEADER,INFO_LINE,PRIORITIES,CATALOG,SOURCE_FIELDS,
-    buildOfflineEmergency,prepareOfflineEmergency,assessOfflineReadability,renderOfflineQR,renderOfflineTemplate,toAlphanumericSafe:normal});
+    buildOfflineEmergency,prepareOfflineEmergency,assessOfflineReadability,blurOfflineCapture,renderOfflineQR,renderOfflineTemplate,toAlphanumericSafe:normal});
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.AtabeyOfflineEmergencyQR=api;
 })(typeof window!=='undefined'?window:globalThis);

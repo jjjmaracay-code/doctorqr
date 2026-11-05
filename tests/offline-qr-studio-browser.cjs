@@ -32,7 +32,10 @@ test('production entry: consent, own data, export, invalidation and v61 -> curre
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
-  const c=await browser.newContext({viewport:{width:1200,height:950}}),p=await c.newPage();
+  const c=await browser.newContext({viewport:{width:1200,height:950}});
+  // Exercise browsers without CanvasRenderingContext2D.filter (including export).
+  await c.addInitScript(() => { delete CanvasRenderingContext2D.prototype.filter; });
+  const p=await c.newPage();
   async function until(predicate,arg){
     const deadline=Date.now()+20000;
     while(Date.now()<deadline){if(await p.evaluate(predicate,arg))return;await new Promise(r=>setTimeout(r,50));}
