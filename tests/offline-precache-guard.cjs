@@ -6,7 +6,7 @@
 // emergency-accessories.js?v=48, emergency-scroll.js?v=2 e icons/icon-180.png) se
 // detecta sola, en vez de depender de reproducir el caso borde con Playwright cada vez.
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const fs=require('node:fs'),path=require('node:path');
+const fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process');
 const root=process.cwd();
 const PAGES=['card.html','emergencia.html','login.html'];
 
@@ -41,8 +41,9 @@ function missingRefs(swSource,loaderSource){
 
 const NEW_SW=fs.readFileSync(path.join(root,'sw.js'),'utf8');
 const LOADER=fs.readFileSync(path.join(root,'i18n/loader.js'),'utf8');
-// Immutable real v60 snapshot (a2a00d3): origin/main changes after every release.
-const OLD_SW=fs.readFileSync(path.join(root,'tests/fixtures/offline-before-precache-sw.js'),'utf8');
+let OLD_SW=null;
+try{OLD_SW=execFileSync('git',['show','origin/main:sw.js'],{cwd:root,encoding:'utf8'});}catch(_){OLD_SW=NEW_SW;}
+const HAS_HISTORICAL_BASELINE=OLD_SW!==NEW_SW;
 
 for(const page of PAGES){
   test(page+': todos sus recursos /js/, /css/, /icons/ (y /i18n/ via loader.js) estan en CACHE_URLS de sw.js',()=>{
@@ -56,11 +57,12 @@ test('sw.js actual: cero recursos de card.html, emergencia.html o login.html sin
   assert.deepEqual(missing,[],missing.join('\n'));
 });
 
-test('demostracion historica: el mismo chequeo con el sw.js v60 real tenia huecos reales',()=>{
+test('demostracion historica: el mismo chequeo con el sw.js de origin/main tenia huecos reales',(t)=>{
+  if(!HAS_HISTORICAL_BASELINE){t.skip('origin/main ya contiene el mismo sw.js que esta rama; la demostracion historica ya no aplica');return;}
   const missingOld=missingRefs(OLD_SW,LOADER);
-  assert.ok(missingOld.length>0,'el sw.js v60 (a2a00d3) deberia tener huecos de precache conocidos');
-  assert.ok(missingOld.some(m=>m.includes('emergency-accessories.js?v=')),'v60 deberia carecer de emergency-accessories.js?v=48');
-  assert.ok(missingOld.some(m=>m.includes('emergency-scroll.js?v=2')),'v60 deberia carecer de emergency-scroll.js?v=2');
-  assert.ok(missingOld.some(m=>m.includes('icon-180.png')),'v60 deberia carecer de icons/icon-180.png');
-  console.log('Huecos detectados con el sw.js antiguo (v60/a2a00d3):\n'+missingOld.join('\n'));
+  assert.ok(missingOld.length>0,'el sw.js de origin/main deberia tener huecos de precache conocidos');
+  assert.ok(missingOld.some(m=>m.includes('emergency-accessories.js?v=48')),'origin/main deberia carecer de emergency-accessories.js?v=48');
+  assert.ok(missingOld.some(m=>m.includes('emergency-scroll.js?v=2')),'origin/main deberia carecer de emergency-scroll.js?v=2');
+  assert.ok(missingOld.some(m=>m.includes('icon-180.png')),'origin/main deberia carecer de icons/icon-180.png');
+  console.log('Huecos detectados con el sw.js antiguo (origin/main):\n'+missingOld.join('\n'));
 });

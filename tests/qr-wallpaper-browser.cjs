@@ -39,7 +39,7 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
 <script src="/vendor/qrcodejs/qrcode.min.js"></script>
 <script src="/js/qr-generator.js?v=31"></script>
 <script>window.getFormData = () => window.__profile;</script>
-<script src="/js/offline-accessory-adapter.js?v=1"></script><script src="/js/qr-wallpaper.js?v=56"></script></body></html>`;
+<script src="/js/qr-wallpaper.js?v=55"></script></body></html>`;
 
 (async () => {
   const server = await serve(), base = `http://127.0.0.1:${server.address().port}`;
@@ -66,7 +66,6 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
     // 2. Abrir: galería completa y vista previa dibujada.
     await page.click('#btn-qr-wallpaper');
     await page.waitForSelector('.qrw-bg[aria-pressed=true]');
-    await page.check('#qrw-offline-consent');await page.click('#qrw-offline-prepare');await page.waitForFunction(()=>document.querySelector('.qrw-status').textContent.includes('preparado'));
     const gallery = await page.$$eval('.qrw-bg', b => b.length);
     const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'js/qr-wallpaper-catalog.json'), 'utf8')).fondos.length;
     assert.equal(gallery, catalog); report.galeria = gallery;
@@ -76,8 +75,8 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
     assert.ok(lit > 10, 'la vista previa muestra el fondo'); report.vista_previa = 'ok';
 
     // 3. PNG: se crea, se verifica dentro de la app y lo vuelve a leer un decodificador aparte.
-    const expected=await page.evaluate(()=>{window.__offlineExpected=document.querySelectorAll('#qrw-offline-summary pre')[1].textContent;return window.__offlineExpected;});
-    assert.ok(expected.startsWith('EMERGENCY\n'));assert.ok(!expected.includes('https:'));
+    const expected = await page.evaluate(() => buildEmergencyQRUrl());
+    assert.equal(expected, 'https://atabeyapp.app/card.html?id=TEST-0000-FICTICIO&t=emergency');
     // Compare the actual exported foreground with its previous layout, including the tester's screen ratio.
     const beforeLayout=require('./fixtures/wallpaper-layout-before-clock.cjs');
     const cases=[];
@@ -89,8 +88,8 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
       const current=AtabeyQRWallpaper._layout(w,h,o);
       for(const position of [.36,.54,.6]){
         const L=AtabeyQRWallpaper._layout(w,h,{...o,qrY:position});
-        if(L.py<h*.22-.01||L.py+L.ph>h*.88+.01)throw Error('Foreground leaves reserved band');
-        if(L.qrBox<Math.min(w,h*9/16)*.56-.01||L.qrX<0||L.qrX+L.qrBox>w)throw Error('QR was reduced or clipped');
+        if(L.py<h*.28-.01||L.py+L.ph>h*.8+.01)throw Error('Foreground leaves reserved band');
+        if(L.qrBox<before.qrBox||L.qrX<0||L.qrX+L.qrBox>w)throw Error('QR was reduced or clipped');
       }
       const c=document.createElement('canvas');c.width=w;c.height=h;
       const ctx=c.getContext('2d'),native=ctx.fillText.bind(ctx),texts=[];
@@ -99,7 +98,7 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
       return{w,h,named,larger:current.qrBox/before.qrBox,lower:current.qrY>before.qrY,texts};
     }),cases);
     for(const result of placement){
-      assert.ok(result.larger>0,JSON.stringify(result));
+      assert.ok(result.larger>=1&&result.lower,JSON.stringify(result));
       assert.ok(result.texts.includes('EMERGENCIA MÉDICA · ESCANEA'));
       assert.ok(!result.texts.some(t=>/Atabey|^app$|™/.test(t)),'Brand is absent from the exported foreground');
     }
@@ -143,7 +142,7 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
     if (zxing) {
       await page.addScriptTag({ path: zxing });
       const sweep = await page.evaluate(async scales => {
-        const W = AtabeyQRWallpaper, mask = W._qr(), url=window.__offlineExpected;
+        const W = AtabeyQRWallpaper, mask = W._qr(), url = buildEmergencyQRUrl();
         const pals = [...document.querySelectorAll('#qrw-qrcolor option')].map(x => x.value);
         const cat = (await (await fetch('/js/qr-wallpaper-catalog.json')).json()).fondos;
         const v = document.createElement('video'); v.muted = true; v.playsInline = true; document.body.appendChild(v);
@@ -188,7 +187,7 @@ const HARNESS = `<!doctype html><html lang="es"><head><meta charset="utf-8"><met
     report.pantalla_completa = 'ok';
 
     // 6. Aviso de desactualizado: QR U1 (incluye nombre) y luego cambia el perfil.
-    assert.equal(await page.locator('#qrw-type option').count(),1);
+    await page.selectOption('#qrw-type', 'qr-u1'); await page.waitForTimeout(300);
     await page.click('text=Crear imagen (PNG)');
     await page.waitForSelector('.qrw-status[data-kind=ok]', { timeout: 20000 });
     await page.click('.qrw-close');
