@@ -1666,5 +1666,11 @@
   "install_banner.ios_step2": "Appuyez sur le bouton Partager. Si vous ne le voyez pas, appuyez sur ••• puis sur Partager.",
   "install_banner.ios_step3": "Choisissez « Ajouter à l’écran d’accueil ».",
   "install_banner.ios_step4": "Appuyez sur « Ajouter ».",
-  "install_banner.close": "Fermer"
+  "install_banner.close": "Fermer",
+  "register.terms.qr_online_log": "Le QR en ligne permet de consulter la fiche d’urgence. Atabeyapp enregistre les accès en ligne. La lecture d’un QR imprimé hors ligne se fait sur l’appareil du lecteur et ne crée aucun journal d’accès dans Atabeyapp.",
+  "register.terms.qr_policy_1": "Le titulaire, ou la personne autorisée à saisir des informations en son nom, répond de la véracité, de l’exactitude et de la mise à jour des données fournies. Avant de générer le QR, il doit vérifier que la fiche reflète sa situation. Atabeyapp en facilite la consultation. Les décisions cliniques relèvent du personnel qui assure les soins.",
+  "register.terms.qr_policy_2": "Le personnel médical et paramédical participant aux soins du titulaire peut scanner le QR et consulter les données nécessaires à sa prise en charge sans demander à ce moment une autorisation supplémentaire au titulaire ou à Atabeyapp, si la loi applicable permet cet accès. La consultation doit se limiter aux soins et respecter la confidentialité.",
+  "register.terms.qr_policy_3": "Le titulaire peut consulter sa fiche. En dehors des cas précédents, l’accès, la copie, la conservation, l’utilisation et la diffusion des données médicales d’autrui sont interdits sans autorisation préalable, expresse et écrite du titulaire et, le cas échéant, d’Atabeyapp, sauf autre fondement légal. Les coordonnées d’urgence peuvent servir à prévenir la personne désignée. Être un proche ou un contact d’urgence ne donne pas en soi accès à la fiche.",
+  "register.terms.qr_policy_4": "Le QR hors ligne contient un résumé de la fiche au moment de sa création. Une application compatible peut le lire. Le code ne vérifie pas l’identité du lecteur. Si les données changent, le titulaire doit générer un nouvel exemplaire et remplacer ceux encore utilisés.",
+  "register.terms.qr_policy_5": "Tout accès, usage ou partage abusif peut engager une responsabilité civile ou pénale selon les faits et le droit applicable. Le titulaire et Atabeyapp se réservent le droit de signaler les faits et d’exercer les actions qui leur sont ouvertes par la loi. Ces conditions respectent les droits de l’utilisateur et les obligations légales d’Atabeyapp."
 }

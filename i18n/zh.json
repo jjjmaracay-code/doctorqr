@@ -1666,5 +1666,11 @@
   "install_banner.ios_step2": "点击分享按钮。如果看不到，请先点击 ••• 再点击分享。",
   "install_banner.ios_step3": "选择\"添加到主屏幕\"。",
   "install_banner.ios_step4": "点击\"添加\"。",
-  "install_banner.close": "关闭"
+  "install_banner.close": "关闭",
+  "register.terms.qr_online_log": "联网二维码可用于查阅紧急医疗档案。Atabeyapp 记录联网访问。扫描印刷的离线二维码在读取者的设备上进行，不会在 Atabeyapp 生成访问记录。",
+  "register.terms.qr_policy_1": "档案本人或经授权代为录入者，对其提供数据的真实性、准确性和时效性负责。生成二维码前，应确认档案反映本人的实际情况。Atabeyapp 提供查阅便利，临床决策由提供救治的人员作出。",
+  "register.terms.qr_policy_2": "参与本人救治的医务和院前急救人员可扫描二维码并查阅救治所需的数据，无需当时另行取得本人或 Atabeyapp 的授权，但须符合适用法律。查阅仅限于救治目的，并须遵守保密义务。",
+  "register.terms.qr_policy_3": "本人可以查阅自己的档案。除上述情形外，未经本人及在适用情况下 Atabeyapp 的事先明确书面授权，禁止访问、复制、保存、使用或披露他人的医疗信息，法律另有依据的除外。紧急联系人资料可用于通知指定人员。亲属或紧急联系人身份本身不赋予查阅权限。",
+  "register.terms.qr_policy_4": "离线二维码包含生成时的档案摘要。兼容应用可读取内容，二维码不核验读取者身份。数据发生变化时，本人应生成新副本并替换仍在使用的旧副本。",
+  "register.terms.qr_policy_5": "不当访问、使用或披露可能依法产生民事或刑事责任，视事实和适用法律而定。本人和 Atabeyapp 保留报告有关事实并依法采取各自可用行动的权利。本条款尊重用户权利以及 Atabeyapp 的法定义务。"
 }

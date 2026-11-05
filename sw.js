@@ -41,7 +41,7 @@
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
-const CACHE_NAME = 'doctorqr-v72';
+const CACHE_NAME = 'doctorqr-v73';
 const CACHE_URLS = [
   '/',
   './index.html',

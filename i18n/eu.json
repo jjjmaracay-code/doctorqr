@@ -1666,5 +1666,11 @@
   "install_banner.ios_step2": "Sakatu Partekatu botoia. Ez baduzu ikusten, sakatu ••• eta, ondoren, Partekatu.",
   "install_banner.ios_step3": "Hautatu «Gehitu hasierako pantailan».",
   "install_banner.ios_step4": "Sakatu «Gehitu».",
-  "install_banner.close": "Itxi"
+  "install_banner.close": "Itxi",
+  "register.terms.qr_online_log": "Lineako QRak larrialdi-fitxa kontsultatzeko aukera ematen du. Atabeyapp-ek lineako sarbideak erregistratzen ditu. Internetik gabeko QR inprimatua irakurtzea irakurlearen gailuan gertatzen da eta ez du erregistrorik sortzen Atabeyapp-en.",
+  "register.terms.qr_policy_1": "Titularrak, edo haren izenean informazioa sartzeko baimena duenak, emandako datuen egiazkotasunaren, zehaztasunaren eta eguneratzearen ardura du. QRa sortu aurretik, fitxak bere egoera islatzen duela egiaztatu behar du. Atabeyapp-ek kontsulta errazten du. Erabaki klinikoak arreta ematen duten profesionalek hartzen dituzte.",
+  "register.terms.qr_policy_2": "Titularraren arretan parte hartzen duten medikuek eta langile paramedikoek QRa eskaneatu eta arreta emateko beharrezko datuak kontsulta ditzakete, une horretan titularrari edo Atabeyapp-i baimen gehigarririk eskatu gabe, aplikatu beharreko legediak sarbidea ahalbidetzen badu. Kontsulta arretarako soilik erabiliko da, konfidentzialtasuna errespetatuz.",
+  "register.terms.qr_policy_3": "Titularrak bere fitxa kontsulta dezake. Aurreko kasuetatik kanpo, debekatuta dago besteren datu medikoak eskuratzea, kopiatzea, gordetzea, erabiltzea edo zabaltzea titularraren eta, hala badagokio, Atabeyapp-en aldez aurreko baimen espresu eta idatzirik gabe, bestelako lege-oinarririk ez badago. Larrialdietako kontaktuaren datuak izendatutako pertsonari abisatzeko erabil daitezke. Senide edo kontaktu izateak ez du berez fitxarako sarbiderik ematen.",
+  "register.terms.qr_policy_4": "Internetik gabeko QRak fitxa sortzean jasotako laburpena dauka. Aplikazio bateragarri batekin irakur daiteke eta kodeak ez du irakurlearen nortasuna egiaztatzen. Datuak aldatzen badira, titularrak kopia berria sortu eta erabiltzen dituen aurreko kopiak ordeztu behar ditu.",
+  "register.terms.qr_policy_5": "Baimenik gabeko sarbideak, erabilerak edo zabalkundeak erantzukizun zibila edo penala ekar dezake, egitateen eta aplikatu beharreko legediaren arabera. Titularrak eta Atabeyapp-ek egitateak salatzeko eta legez dagozkien akzioak gauzatzeko eskubidea gordetzen dute. Baldintza hauek erabiltzailearen eskubideak eta Atabeyapp-en lege-betebeharrak errespetatzen dituzte."
 }

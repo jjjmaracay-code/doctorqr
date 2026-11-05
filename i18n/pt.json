@@ -1666,5 +1666,11 @@
   "install_banner.ios_step2": "Toque no botão Compartilhar. Se não o vir, toque em ••• e depois em Compartilhar.",
   "install_banner.ios_step3": "Escolha «Adicionar à tela de início».",
   "install_banner.ios_step4": "Toque em «Adicionar».",
-  "install_banner.close": "Fechar"
+  "install_banner.close": "Fechar",
+  "register.terms.qr_online_log": "O QR em linha permite consultar a ficha de emergência. A Atabeyapp regista os acessos em linha. A leitura de um QR impresso sem Internet ocorre no dispositivo do leitor e não gera um registo na Atabeyapp.",
+  "register.terms.qr_policy_1": "O titular, ou quem introduza informações em seu nome com autorização, é responsável pela veracidade, exatidão e atualização dos dados fornecidos. Antes de gerar o QR, deve verificar se a ficha reflete a sua situação. A Atabeyapp facilita a consulta e as decisões clínicas cabem aos profissionais que prestam assistência.",
+  "register.terms.qr_policy_2": "Os profissionais médicos e paramédicos que assistam o titular podem ler o QR e consultar os dados necessários aos cuidados sem pedir nesse momento autorização adicional ao titular ou à Atabeyapp, desde que a lei aplicável permita o acesso. A consulta deve limitar-se à assistência e respeitar a confidencialidade.",
+  "register.terms.qr_policy_3": "O titular pode consultar a sua ficha. Fora das situações anteriores, é proibido aceder, copiar, guardar, utilizar ou divulgar dados médicos de terceiros sem autorização prévia, expressa e escrita do titular e, quando aplicável, da Atabeyapp, salvo se existir outro fundamento legal. Os contactos de emergência podem ser usados para avisar a pessoa designada. Ser familiar ou contacto de emergência não dá, por si só, acesso à ficha.",
+  "register.terms.qr_policy_4": "O QR sem Internet contém um resumo da ficha no momento em que é gerado. Pode ser lido com uma aplicação compatível e o código não verifica a identidade de quem o lê. Se os dados mudarem, o titular deve gerar uma nova cópia e substituir as anteriores que continue a utilizar.",
+  "register.terms.qr_policy_5": "O acesso, uso ou divulgação indevidos podem dar lugar a responsabilidade civil ou penal conforme os factos e a legislação aplicável. O titular e a Atabeyapp reservam-se o direito de denunciar os factos e exercer as ações que legalmente lhes correspondam. Estas condições respeitam os direitos do utilizador e as obrigações legais da Atabeyapp."
 }

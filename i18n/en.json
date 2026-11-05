@@ -1666,5 +1666,11 @@
   "install_banner.ios_step2": "Tap the Share button. If you do not see it, tap ••• and then Share.",
   "install_banner.ios_step3": "Choose \"Add to Home Screen.\"",
   "install_banner.ios_step4": "Tap \"Add.\"",
-  "install_banner.close": "Close"
+  "install_banner.close": "Close",
+  "register.terms.qr_online_log": "The online QR gives access to the emergency record. Atabeyapp logs online access. Scanning a printed offline QR happens on the reader’s device and creates no access log in Atabeyapp.",
+  "register.terms.qr_policy_1": "The record holder, or a person authorised to enter information on their behalf, is responsible for the truthfulness, accuracy and currency of the data they provide. Before generating the QR, they must check that the record reflects their situation. Atabeyapp facilitates access to the record. Clinical decisions are made by the professionals providing care.",
+  "register.terms.qr_policy_2": "Medical and paramedical personnel involved in the holder’s care may scan the QR and consult the data necessary to provide that care without requesting additional permission from the holder or Atabeyapp at that time, provided applicable law permits access. Consultation must be limited to the purpose of care and respect confidentiality.",
+  "register.terms.qr_policy_3": "Holders may consult their own record. Outside the cases above, accessing, copying, storing, using or disclosing another person’s medical information is prohibited without the holder’s prior, express written authorisation and, where applicable, Atabeyapp’s, unless another legal basis applies. Emergency contact details may be used to notify the designated person. Being a relative or listed contact does not by itself grant access to the record.",
+  "register.terms.qr_policy_4": "The offline QR contains a summary of the record as it was when generated. A compatible app can read it and the code does not verify the scanner’s identity. If the data changes, the holder must generate a new copy and replace any older copies still in use.",
+  "register.terms.qr_policy_5": "Improper access, use or disclosure may give rise to civil or criminal liability depending on the facts and applicable law. The holder and Atabeyapp reserve the right to report the facts and pursue the actions legally available to each. These terms respect the user’s rights and Atabeyapp’s legal obligations."
 }
