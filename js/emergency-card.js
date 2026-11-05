@@ -95,6 +95,27 @@
     }
     ctx.putImageData(pixels,0,0);return canvas.toDataURL('image/png');
   }
+  function offlineSummary(profile,date) {
+    const clean=value=>typeof value==='string'?value.replace(/\s+/g,' ').trim():'';
+    const name=[clean(profile.nombre),clean(profile.apellidos)].filter(Boolean).join(' ');
+    const blood=clean(profile.sangre);
+    const base=['FICHA MEDICA SIN INTERNET',name,blood?'Grupo sanguineo declarado: '+blood:''].filter(Boolean);
+    const footer=['Revisada: '+date.toLocaleDateString('es-ES'),'FIN DE LA FICHA'];
+    const procedures=Array.isArray(profile.surgeries)?[...new Set(profile.surgeries.map(clean).filter(Boolean))]:[];
+    const dateSaved=clean(profile.last_surgery_date);
+    const yearSaved=clean(profile.surgery_year);
+    const lastSurgery=/^\d{4}-\d{2}-\d{2}$/.test(dateSaved)?dateSaved:/^\d{4}$/.test(yearSaved)?yearSaved:'';
+    const candidates=[...(lastSurgery?['Última cirugía registrada: '+lastSurgery]:[]),...procedures.map(value=>'Cirugía declarada: '+value)];
+    const encode=lines=>lines.join('\n');
+    const fits=text=>new TextEncoder().encode(text).length<=375;
+    let omitted=0;
+    for(const line of candidates){
+      if(fits(encode([...base,line,...footer])))base.push(line);
+      else omitted++;
+    }
+    const payload=encode([...base,...footer]);
+    return {payload,omitted,available:fits(payload)&&!!(blood||candidates.length>omitted)};
+  }
   function offlineImageFor(payload) {
     const bytes=new TextEncoder().encode(payload);
     const host=document.createElement('div');
@@ -136,13 +157,14 @@
     const monthOptions=Array.from({length:12},(_,month)=>`<option value="m${month}">${esc(monthName.format(new Date(date.getFullYear(),month,15,12)))}</option>`).join('');
     const appearanceControls=`<section class="card-appearance" aria-labelledby="card-appearance-title"><h2 id="card-appearance-title">${esc(ap[0])}</h2><div class="card-appearance-fields"><label for="card-edition">${esc(ap[1])}</label><select id="card-edition"><option value="auto">${esc(ap[2])}</option>${monthOptions}<option value="custom">${esc(ap[3])}</option></select><label for="card-color">${esc(ap[3])}</label><div class="card-color-row"><input id="card-color" type="color" value="${t.color}"><button id="card-appearance-reset" type="button">${esc(ap[5])}</button></div></div><div class="card-palette" role="group" aria-label="${esc(ap[4])}">${CARD_SOLIDS.map(color=>`<button type="button" class="card-swatch" data-card-color="${color}" style="--swatch:${color}" aria-label="${esc(ap[3])} ${color}" title="${color}" aria-pressed="false"></button>`).join('')}</div><p>${esc(ap[6])}</p></section>`;
 
+    const summary=offlineSummary(profile,date);
     const offlineControls=`<section class="card-offline-controls">
       <h2>Ficha médica sin Internet</h2>
-      <label for="card-offline-text">Antecedentes confirmados y fechados</label>
-      <textarea id="card-offline-text" rows="5" placeholder="Ejemplo: bypass coronario realizado en 2019"></textarea>
-      <p>Incluye hechos históricos. La medicación vigente se consulta en la ficha en línea.</p>
-      <label><input type="checkbox" id="card-offline-consent"> Autorizo imprimir estos datos en un QR que cualquier persona puede leer.</label>
-      <button type="button" id="card-offline-apply">Añadir QR sin Internet</button>
+      <p>Resumen preparado con los datos guardados en tu ficha. Revísalo antes de imprimir.</p>
+      <pre id="card-offline-preview">${esc(summary.available?summary.payload:'No hay datos aptos para preparar este QR. Revisa tu ficha médica.')}</pre>
+      ${summary.omitted?`<p>Antecedentes que no caben en el QR: ${summary.omitted}. Consulta la ficha en línea.</p>`:''}
+      <label><input type="checkbox" id="card-offline-consent"${summary.available?'':' disabled'}> Autorizo imprimir estos datos en un QR que cualquier persona puede leer.</label>
+      <button type="button" id="card-offline-apply"${summary.available?'':' disabled'}>Añadir QR sin Internet</button>
       <p id="card-offline-status" role="status"></p>
     </section>`;
     const accessories=window.AtabeyEmergencyAccessories;
@@ -150,7 +172,7 @@
 
     return `<!doctype html><html lang="${lang}" dir="${rtl?'rtl':'ltr'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>ATABEYAPP · ${esc(w[0])} · ${esc(name)}</title><style>
 *{box-sizing:border-box}body{margin:0;color:#13243c;background:#edf2f8;font-family:Arial,Helvetica,system-ui,sans-serif}button,input{font:inherit}.toolbar{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;max-width:940px;margin:0 auto;padding:28px 24px 18px}.toolbar h1{font-size:23px;letter-spacing:-.8px;margin:0 0 6px;font-weight:850}.eyebrow{font-size:10px;font-weight:800;letter-spacing:2px;color:#0969bc;margin-bottom:9px}.toolbar p{font-size:12px;color:#61738c;margin:0;line-height:1.7}.actions{display:flex;gap:9px;flex-wrap:wrap}.actions button{border:1px solid #c5d5e6;background:#fff;color:#15314d;border-radius:12px;padding:12px 18px;font-size:13px;font-weight:750;cursor:pointer;box-shadow:0 3px 0 #d5dfeb}.actions .primary{background:linear-gradient(135deg,#168af1,#0964c8);color:#fff;border-color:#0762bc;box-shadow:0 4px 0 #064b91}.actions button:active{transform:translateY(2px);box-shadow:none}.actions button:disabled{opacity:.5;cursor:wait}.sheet{max-width:940px;margin:0 auto 36px;padding:25px 24px;background:#fff;border:1px solid #dce5ef;border-radius:20px;box-shadow:0 12px 45px #1436560a}.sheet-note{font-size:12px;line-height:1.6;max-width:720px;margin:0 auto 24px;color:#526781}.faces{--label-line:12px;position:relative;display:grid;grid-template-columns:85.6mm 85.6mm;gap:0;width:171.2mm;margin:0 auto;direction:ltr}.face-block{min-width:0}.face-label{height:var(--label-line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;direction:${rtl?'rtl':'ltr'};font-size:10px;letter-spacing:1.3px;font-weight:800;text-transform:uppercase;color:#58708b;margin:0 0 6mm;text-align:center}.face-host{position:relative;max-width:100%;margin:0 auto;height:60mm;width:85.6mm}.medical-card{position:absolute;left:50%;top:0;transform:translateX(-50%) scale(var(--card-scale,1));transform-origin:top center;width:85.6mm;height:60mm;direction:ltr;color:#13243c}.card-rim{position:absolute;top:6mm;left:0;width:85.6mm;height:54mm;z-index:3;pointer-events:none;overflow:visible}.card-tab{position:absolute;top:0;left:0;width:85.6mm;height:6.65mm;z-index:2;overflow:visible}.card-body{position:absolute;top:6mm;left:0;width:85.6mm;height:54mm;border:.65mm solid transparent;border-radius:0 0 0 3.18mm;background:#fff;box-shadow:0 9px 26px #1a3e6312;display:grid;grid-template-columns:minmax(0,1fr) 49mm;gap:1.3mm;padding:1.8mm;align-items:center}.card-details{display:flex;flex-direction:column;justify-content:space-between;height:49mm;min-width:0;direction:${rtl?'rtl':'ltr'}}.identity-brand{display:flex;align-items:center;gap:1.3mm;font-size:5.8pt;letter-spacing:.5px;font-weight:850;color:#155a9c;direction:ltr}.medical-badge{display:block;flex-shrink:0;width:7mm;height:7mm}.card-details>*{flex-shrink:0}.identity-brand span{line-height:1.25}.identity-brand .front-brand-purpose{line-height:1.05;font-size:5.6pt;letter-spacing:0;color:#b7132b}.identity-brand small{font-size:5.1pt;letter-spacing:.6px;color:#155a9c}.clinical-summary{display:flex;align-items:center;justify-content:space-between;gap:1mm}.contact-panel{border-inline-start:.5mm solid #d71936;border-radius:0 1mm 1mm 0;background:#fff5f7;padding:.8mm 1mm;min-width:0}.contact-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:5.8pt;font-weight:700;line-height:1.1;color:#31445e;overflow-wrap:anywhere;margin-bottom:.5mm}.patient-name{font-size:10.1pt;line-height:1.07;font-weight:850;letter-spacing:-.1px;overflow-wrap:anywhere;margin:1mm 0;max-height:17mm}.detail-label{font-size:5.6pt;line-height:1.2;color:#52657f;font-weight:750;letter-spacing:.2px;margin-bottom:.55mm}.blood{display:inline-block;font-size:8.8pt;font-weight:900;line-height:1.1;color:#851f30;border:1px solid #e5c0c8;border-radius:1.4mm;padding:.65mm 1.5mm;min-width:11mm;text-align:center;direction:ltr}.contact-phone{font-size:7.7pt;line-height:1.15;font-weight:850;direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere}.emergency-call{display:flex;flex-direction:column;align-items:center;gap:.5mm;font-size:4.8pt;color:#b7132b;font-weight:750;line-height:1.15;max-width:13mm;text-align:center}.emergency-call strong{font-size:13pt;letter-spacing:-.5px;color:#c41630;direction:ltr}.medical-symbol{width:49mm;height:49mm;display:block}.qr-column{direction:ltr;text-align:center}.qr-caption{font-size:5.7pt;line-height:1.05;margin-top:.6mm;color:#204d77;font-weight:800;letter-spacing:.15px}.risk{font-size:5.4pt;font-weight:850;line-height:1.15;color:#8b1024;border:1px solid #db9ba7;border-radius:1mm;padding:.6mm;margin-top:.5mm;overflow-wrap:anywhere}.back .card-body{border-radius:0 0 3.18mm 0;grid-template-columns:minmax(0,1fr) 49mm;gap:.7mm}.back .card-details{justify-content:space-between}.back .medical-badge{width:10.5mm;height:10.5mm}.wordmark{font-size:11.3pt;font-weight:900;letter-spacing:-.8px;line-height:1.1;direction:ltr}.wordmark span{color:#086cc9}.tagline{font-size:7.2pt;line-height:1.2;font-weight:750;letter-spacing:-.1px}.open-app{color:#085da8;font-weight:850;font-size:7.4pt;line-height:1.2;margin-top:1mm}.app-site{font-size:7pt;color:#075b9e;font-weight:800;direction:ltr}.edition{font-size:5.4pt;line-height:1.3;color:#52657f;overflow-wrap:anywhere}.card-offline-controls{max-width:940px;margin:0 auto 16px;padding:16px;background:#fff;border:1px solid #c5d5e6;border-radius:12px}
-.card-offline-controls textarea{display:block;width:100%;margin:6px 0;font:inherit}
+.card-offline-controls pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f6fa;padding:12px;border-radius:8px;font:inherit}
 .card-offline-controls button{display:block;margin-top:10px}
 @media print{.card-offline-controls{display:none!important}}
 .offline-symbol{display:none}
@@ -206,29 +228,25 @@ ${accessories?accessories.css:''}
         name.style.fontSize=size+'pt';while((details.scrollHeight>details.clientHeight||name.scrollHeight>name.clientHeight)&&size>5.8){size-=.2;name.style.fontSize=size+'pt';}
       }
       if(window.AtabeyEmergencyAccessories)accessoryController=AtabeyEmergencyAccessories.attach({document:doc,profile:config.profile,printedIdentity:config.printedIdentity,patientImage:accessoryImage,prepareCompact:config.prepareCompact,theme:theme(editionDate),themeFor:theme,language:config.language,number:doc.querySelector('.front .local-emergency-number').textContent,region:doc.querySelector('.front .local-emergency-region').textContent,current:()=>!finished&&!win.closed&&config.current()});
-      const field=doc.getElementById('card-offline-text'),consent=doc.getElementById('card-offline-consent');
+      const summary=offlineSummary(config.profile,editionDate);
+      const consent=doc.getElementById('card-offline-consent');
       const offlineStatus=doc.getElementById('card-offline-status');
       function resetOffline(){
         back.classList.remove('offline-enabled');body.append(app);corner.hidden=true;
         offline.remove();offline.removeAttribute('src');accessoryController?.updateReference({offlineImage:null});
         offlineStatus.textContent='';
       }
-      field.addEventListener('input',resetOffline);
       consent.addEventListener('change',resetOffline);
       doc.getElementById('card-offline-apply').addEventListener('click',async()=>{
         if(!config.current()||exporting)return;
-        const entered=field.value.trim();
-        if(!consent.checked||!entered){offlineStatus.textContent='Escribe los antecedentes y confirma que autorizas imprimirlos.';return;}
-        const name=[config.profile.nombre,config.profile.apellidos].filter(Boolean).join(' ');
-        const blood=config.profile.sangre;
-        const payload=['FICHA MEDICA SIN INTERNET',name,blood?'Grupo sanguineo declarado: '+blood:'',entered,
-          'Revisada: '+new Date().toLocaleDateString('es-ES'),'FIN DE LA FICHA'].filter(Boolean).join('\n');
-        if(new TextEncoder().encode(payload).length>375){offlineStatus.textContent='La ficha supera 375 bytes. Acorta el texto para preparar el QR.';return;}
+        if(!summary.available)return;
+        if(!consent.checked){offlineStatus.textContent='Confirma que autorizas imprimir el resumen.';return;}
+        const payload=summary.payload;
         try{
           const rendered=new Image();
           rendered.src=offlineImageFor(payload);
           await rendered.decode();
-          if(finished||win.closed||!config.current()||field.value.trim()!==entered||!consent.checked||exporting)return;
+          if(finished||win.closed||!config.current()||!consent.checked||exporting)return;
           offline.src=rendered.src;back.querySelector('.offline-qr-block').prepend(offline);corner.append(app,corner.querySelector('.app-qr-caption'));corner.hidden=false;
           back.classList.add('offline-enabled');
           accessoryController?.updateReference({offlineImage:rendered.src,tagOnlineImage:patientImage});

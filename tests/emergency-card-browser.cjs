@@ -5,7 +5,7 @@ const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:
 const {execFileSync}=require('node:child_process'),{PNG}=require('pngjs'),jsQR=require('jsqr');
 const root=process.cwd(),out=process.env.ATABEY_CARD_QA_DIR||'/tmp/atabey-card-qa';fs.mkdirSync(out,{recursive:true});
 const alice={nombre:'Paciente',apellidos:'de demostración',email:'print@example.invalid',doc_type:'dni',doc_number:'PRINT-FICTIONAL',fecha_nacimiento:'1980-01-01'};
-const profile={...alice,sangre:'O+',ec1_name:'Contacto de prueba',ec1_phone_prefix:'+34',ec1_phone_num:'600 000 000',sexo_biologico:'Femenino',embarazo:'Sí',conditions:['Marcapasos','Cáncer activo','Depresión mayor','SÍ — anafilaxia confirmada'],allergy_insect:['Avispa'],epipen:'Sí — llevo EpiPen encima',anafilaxia_previa:'SÍ — anafilaxia confirmada'};
+const profile={...alice,sangre:'O+',surgeries:['Bypass coronario'],surgery_year:'2019',ec1_name:'Contacto de prueba',ec1_phone_prefix:'+34',ec1_phone_num:'600 000 000',sexo_biologico:'Femenino',embarazo:'Sí',conditions:['Marcapasos','Cáncer activo','Depresión mayor','SÍ — anafilaxia confirmada'],allergy_insect:['Avispa'],epipen:'Sí — llevo EpiPen encima',anafilaxia_previa:'SÍ — anafilaxia confirmada'};
 const patientURL='https://atabeyapp.app/card.html?id=PRINT-FICTIONAL-NOT-A-PATIENT&t=emergency';
 const errors=[],external=[];let browser,context;
 function decode(buffer){const png=PNG.sync.read(buffer),result=jsQR(new Uint8ClampedArray(png.data),png.width,png.height,{inversionAttempts:'dontInvert'});return result?.data;}
@@ -34,7 +34,7 @@ function noOverlap(b){assert.ok(b.page.scroll<=b.page.w+1,'preview has no horizo
  assert.equal(await q.locator('.front-brand-purpose').evaluate(e=>e.firstChild.textContent),'TUS DATOS MÉDICOS');assert.equal(await q.locator('.back .open-app').textContent(),'APLICACIÓN');
  async function downloadFace(page,side,file,target){const event=page.waitForEvent('download');await page.locator('[data-card-side="'+side+'"]').click();const item=await event;await item.saveAs(out+'/'+file);const bytes=fs.readFileSync(out+'/'+file),image=PNG.sync.read(bytes);assert.equal(image.width,1600);assert.equal(image.height,1121);const boxes=await page.locator('.medical-card.'+side).evaluate(card=>{const c=card.getBoundingClientRect();return [...card.querySelectorAll('img')].map(img=>{const r=img.getBoundingClientRect();return{id:img.id,x:(r.x-c.x)/c.width,y:(r.y-c.y)/c.height,w:r.width/c.width,h:r.height/c.height};});});for(const b of boxes){const code=crop(bytes,{x:Math.round(b.x*image.width),y:Math.round(b.y*image.height),width:Math.round(b.w*image.width),height:Math.round(b.h*image.height)});assert.equal(decode(code),b.id==='qcd'?'https://atabeyapp.app/sos':b.id==='qcb'?'https://atabeyapp.app':target,'each downloaded QR must decode independently: '+b.id);}return item.suggestedFilename();}
  // The optional public snapshot appears only after explicit confirmation.
- await q.locator('#card-offline-text').fill('Bypass coronario realizado en 2019.');
+ assert.match(await q.locator('#card-offline-preview').textContent(),/Bypass coronario/);
  await q.locator('#card-offline-apply').click();
  assert.equal(await q.locator('#qco').count(),0);
  await q.locator('#card-offline-consent').check();
@@ -42,7 +42,7 @@ function noOverlap(b){assert.ok(b.page.scroll<=b.page.w+1,'preview has no horizo
 
  await q.locator('#qco').waitFor();
  const offlinePayload=decode(dataPNG(await q.locator('#qco').getAttribute('src')));
- assert.match(offlinePayload,/Bypass coronario realizado en 2019/);
+ assert.match(offlinePayload,/Cirugía declarada: Bypass coronario/);
  assert.match(offlinePayload,/FIN DE LA FICHA$/);
  assert.equal(decode(dataPNG(await q.locator('#qcb').getAttribute('src'))),'https://atabeyapp.app');
  await q.locator('#accessory-format').selectOption('tag');
