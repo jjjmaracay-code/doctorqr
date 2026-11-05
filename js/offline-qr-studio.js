@@ -76,7 +76,7 @@
       status((source==='own'?'':'EJEMPLO FICTICIO. ')+'El QR supera ambas lecturas automáticas con '+result.qrText.length+' caracteres. Comprueba también su lectura después de imprimir o colocar la imagen.');
     }catch(error){
       if(token!==revision)return;
-      const known={offline_qr_contact_exceeds_limit:'El contacto completo es demasiado largo para el formato.',offline_qr_must_not_contain_a_link:'Hay un enlace en los datos seleccionados. Revisa ese texto: el QR sin cobertura solo admite información escrita.',offline_qr_unsupported_character:'Hay un símbolo que no se puede conservar con seguridad en este formato. Revisa los datos antes de generarlo.',profile_changed:'Tus datos han cambiado. Prepara de nuevo el formato.'};
+      const known={offline_qr_blur_unavailable:'Este navegador no permite comprobar el desenfoque. Prepara el formato desde otro navegador.',offline_qr_contact_exceeds_limit:'El contacto completo es demasiado largo para el formato.',offline_qr_must_not_contain_a_link:'Hay un enlace en los datos seleccionados. Revisa ese texto: el QR sin cobertura solo admite información escrita.',offline_qr_unsupported_character:'Hay un símbolo que no se puede conservar con seguridad en este formato. Revisa los datos antes de generarlo.',profile_changed:'Tus datos han cambiado. Prepara de nuevo el formato.'};
       status(known[error.message]||'No se ha podido verificar este formato. Revisa tus datos o prueba otra superficie.',true);
     }finally{if(token===revision){$('generate').disabled=!$('consent').checked;$('scratch').replaceChildren();}}
   }
@@ -86,27 +86,56 @@
     link.download=(item.source==='own'?'ATABEYAPP-':'EJEMPLO-FICTICIO-')+item.support+'.'+ext;
     link.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
   }
+  function rasterReadable(canvas,item,pixelBounds){
+    try{
+      const b=item.qrBounds,fx=canvas.width/item.widthMm,fy=canvas.height/item.heightMm;
+      const x=pixelBounds?pixelBounds.x:Math.floor(b.x*fx),y=pixelBounds?pixelBounds.y:Math.floor(b.y*fy);
+      const w=pixelBounds?pixelBounds.width:Math.ceil((b.x+b.width)*fx)-x,h=pixelBounds?pixelBounds.height:Math.ceil((b.y+b.height)*fy)-y;
+      const side=Math.round(api.LAYOUTS[item.support].qr*8),reduced=document.createElement('canvas');
+      reduced.width=reduced.height=side;const rc=reduced.getContext('2d');
+      rc.imageSmoothingEnabled=true;rc.imageSmoothingQuality='high';rc.drawImage(canvas,x,y,w,h,0,0,side,side);
+      const capture=document.createElement('canvas');capture.width=capture.height=side;
+      const cc=capture.getContext('2d');if(!('filter' in cc))return false;cc.fillStyle='#fff';cc.fillRect(0,0,side,side);cc.filter='blur(2.4px)';
+      if(cc.filter!=='blur(2.4px)')return false;cc.drawImage(reduced,0,0);
+      const pixels=cc.getImageData(0,0,side,side);
+      return readers.zxing(pixels)===item.result.qrText&&readers.jsqr(pixels)===item.result.qrText;
+    }catch(_){return false;}
+  }
+  async function alignedRaster(item){
+    // Keep the physical QR size and its text. Select a raster scale where every
+    // module occupies an integer number of pixels; round position only, <=0.5px.
+    const trials=item.result.details.readability.trials,last=trials[trials.length-1];
+    const side=last.modules+8,mm=api.LAYOUTS[item.support].qr;
+    if(!Number.isInteger(side)||!Number.isInteger(mm))return null;
+    const gcd=(a,b)=>b?gcd(b,a%b):a,base=side/gcd(mm,side);
+    const scale=base*Math.max(1,Math.ceil(1080/(item.widthMm*base)));
+    const width=item.widthMm*scale,height=item.heightMm*scale;
+    if(width*height>8000000||width>8192||height>8192)return null;
+    const bounds={x:Math.round(item.qrBounds.x*scale),y:Math.round(item.qrBounds.y*scale),width:Math.round(item.qrBounds.width*scale),height:Math.round(item.qrBounds.height*scale)};
+    const doc=new DOMParser().parseFromString(item.svg,'image/svg+xml'),svg=doc.documentElement,qr=svg.querySelector('svg');
+    svg.setAttribute('width',String(width));svg.setAttribute('height',String(height));
+    qr.setAttribute('x',String(bounds.x/scale));qr.setAttribute('y',String(bounds.y/scale));
+    const image=new Image();image.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(new XMLSerializer().serializeToString(svg));await image.decode();
+    const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+    canvas.getContext('2d').drawImage(image,0,0,width,height);
+    return {canvas,bounds};
+  }
   async function png(){
     const item=ready;if(!isCurrent(item)){changed();return;}
     $('png').disabled=true;status('Preparando y comprobando la imagen…');
     try{
       const image=new Image();image.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(item.svg);await image.decode();
       if(!isCurrent(item))return;
-      const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=Math.round(1080*image.height/image.width);
+      let canvas=document.createElement('canvas');canvas.width=1080;canvas.height=Math.round(1080*image.height/image.width);
       const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);
       // Check the QR in the ACTUAL exported image at its intended capture size.
       // Finder detection is resolution-sensitive: the sharp 1080px artwork is
       // not the calibrated capture model. Validate the exported QR region itself.
-      const b=item.qrBounds,fx=canvas.width/item.widthMm,fy=canvas.height/item.heightMm;
-      const x=Math.floor(b.x*fx),y=Math.floor(b.y*fy),w=Math.ceil((b.x+b.width)*fx)-x,h=Math.ceil((b.y+b.height)*fy)-y;
-      const side=Math.round(api.LAYOUTS[item.support].qr*8),reduced=document.createElement('canvas');
-      reduced.width=reduced.height=side;const rc=reduced.getContext('2d');
-      rc.imageSmoothingEnabled=true;rc.imageSmoothingQuality='high';rc.drawImage(canvas,x,y,w,h,0,0,side,side);
-      const capture=document.createElement('canvas');capture.width=capture.height=side;
-      const cc=capture.getContext('2d');cc.fillStyle='#fff';cc.fillRect(0,0,side,side);cc.filter='blur(2.4px)';
-      if(cc.filter!=='blur(2.4px)')throw Error('blur_unavailable');cc.drawImage(reduced,0,0);
-      const pixels=cc.getImageData(0,0,side,side);
-      if(readers.zxing(pixels)!==item.result.qrText||readers.jsqr(pixels)!==item.result.qrText)throw Error('png_unreadable');
+      if(!rasterReadable(canvas,item)){
+        const aligned=await alignedRaster(item);if(!isCurrent(item))return;
+        if(!aligned||!rasterReadable(aligned.canvas,item,aligned.bounds))throw Error('png_unreadable');
+        canvas=aligned.canvas;
+      }
       const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
       if(!blob)throw Error('png_unavailable');save(blob,'png',item);
       if(isCurrent(item))status('Imagen preparada y comprobada. Conserva su tamaño y revisa la lectura al utilizarla.');

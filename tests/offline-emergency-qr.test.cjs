@@ -263,7 +263,18 @@ test('real degraded captures drive the adaptive result at every physical support
     let exportBlocked=false;try{api.renderOfflineTemplate(result,document.getElementById('front'),960);}catch(e){if(!e.message.includes('template_not_verified'))throw e;exportBlocked=true;}
     rows.push({profileName,support,status:result.details.readability.status,reason:result.details.readability.reason,exportBlocked,
      qrMm:api.LAYOUTS[support].qr,clinicalFacts:result.details.printedItems.length+result.details.qrItems.length,characters:result.qrText.length,printed:result.printed,qrText:result.qrText,omitted:result.omitted,trials:result.details.readability.trials});
-   }return rows;
+   }
+   // An unsupported Canvas filter can otherwise become an ordinary JS expando
+   // property and falsely appear to have applied a blur.
+   const proto=CanvasRenderingContext2D.prototype,descriptor=Object.getOwnPropertyDescriptor(proto,'filter');
+   if(!descriptor?.configurable)throw Error('cannot test missing native blur');
+   delete proto.filter;
+   let rejected=false;
+   try{await api.assessOfflineReadability(api.buildOfflineEmergency(profiles.scarce,'KEYCHAIN'),host,readers);}
+   catch(e){rejected=e.message==='offline_qr_blur_unavailable';}
+   finally{Object.defineProperty(proto,'filter',descriptor);}
+   if(!rejected)throw Error('missing native blur was silently accepted');
+   return rows;
   },{full:FULL,moderate:MODERATE,scarce:SCARCE});
   for(const r of rows){
    assert.equal(r.exportBlocked,r.status!=='simulation_pass');

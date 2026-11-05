@@ -1073,6 +1073,7 @@
     rc.imageSmoothingEnabled=true;rc.imageSmoothingQuality='high';rc.drawImage(qr.canvas,0,0,side,side);
     const capture=doc.createElement('canvas');capture.width=capture.height=side;
     const ctx=capture.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,side,side);
+    if(!('filter' in ctx))fail('blur_unavailable');
     ctx.filter='blur(2.4px)';if(ctx.filter!=='blur(2.4px)')fail('blur_unavailable');
     ctx.drawImage(reduced,0,0);ctx.filter='none';
     const image=ctx.getImageData(0,0,side,side);

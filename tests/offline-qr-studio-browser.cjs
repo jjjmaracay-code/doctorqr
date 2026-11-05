@@ -88,6 +88,11 @@ test('production entry: consent, own data, export, invalidation and v61 -> curre
   const demoDownload=p.waitForEvent('download');await p.locator('#offline-png').click();const demo=await demoDownload;
   const demoImage=require('pngjs').PNG.sync.read(fs.readFileSync(await demo.path()));
   assert.equal(require('jsqr')(new Uint8ClampedArray(demoImage.data),demoImage.width,demoImage.height).data,demoPayload);
+  await p.locator('#offline-support').selectOption('WATCH30');await p.locator('#offline-generate').click();await p.waitForFunction(()=>!document.getElementById('offline-png').disabled);
+  const smallPayload=await p.locator('#offline-payload').textContent(),smallDownload=p.waitForEvent('download');
+  await p.locator('#offline-png').click();const small=await smallDownload;
+  const smallImage=require('pngjs').PNG.sync.read(fs.readFileSync(await small.path()));
+  assert.equal(require('jsqr')(new Uint8ClampedArray(smallImage.data),smallImage.width,smallImage.height).data,smallPayload);
   await p.locator('#offline-source').selectOption('moderate');await p.locator('#offline-support').selectOption('BRACELET');
   await p.locator('#offline-consent').check();await p.locator('#offline-generate').click();
   await p.waitForFunction(()=>!document.getElementById('offline-output').hidden&&!document.getElementById('offline-generate').disabled);
