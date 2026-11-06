@@ -1,6 +1,43 @@
     // ===== TOGGLE SECCIONES =====
+    let sectionAudioContext;
+
     function toggleSection(id) {
-      document.getElementById(id).classList.toggle('open');
+      const section = document.getElementById(id);
+      const opened = section.classList.toggle('open');
+      if (section.matches('[data-atabey-ui="editor"] .form-section')) {
+        playSectionClick(opened);
+      }
+    }
+
+    async function playSectionClick(opened) {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        sectionAudioContext ??= new AudioContextClass();
+        const audio = sectionAudioContext;
+        await audio.resume();
+
+        // A short high strike followed by a lower latch.
+        const now = audio.currentTime;
+        const notes = opened ? [850, 390] : [660, 250];
+        notes.forEach((frequency, index) => {
+          const start = now + index * .024;
+          const strike = audio.createOscillator();
+          const volume = audio.createGain();
+          strike.type = 'triangle';
+          strike.frequency.setValueAtTime(frequency, start);
+          strike.frequency.exponentialRampToValueAtTime(frequency * .55, start + .03);
+          volume.gain.setValueAtTime(index === 0 ? .075 : .05, start);
+          volume.gain.exponentialRampToValueAtTime(.001, start + .038);
+          strike.connect(volume);
+          volume.connect(audio.destination);
+          strike.onended = () => volume.disconnect();
+          strike.start(start);
+          strike.stop(start + .04);
+        });
+      } catch {
+        // Opening and closing still work when the browser blocks audio.
+      }
     }
 
     // ===== NIVELES DE IDIOMA =====

@@ -41,7 +41,7 @@
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
-const CACHE_NAME = 'doctorqr-v91';
+const CACHE_NAME = 'doctorqr-v92';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -93,7 +93,7 @@ const CACHE_URLS = [
   './css/qr-wallpaper-iphone.css?v=38',
   './vendor/mp4-muxer/mp4-muxer-5.2.2.js',
   './css/medical-tools.css?v=37',
-  './css/section-navigation.css?v=49',
+  './css/section-navigation.css?v=50',
   './js/section-navigation.js?v=49',
   './js/form-edit-lock.js?v=57',
   './css/form-edit-lock.css?v=40',
@@ -105,7 +105,7 @@ const CACHE_URLS = [
   './js/medical-owner.js?v=51',
   './js/birthdate.js?v=14',
   './js/profile-sync.js?v=56',
-  './js/form.js?v=48',
+  './js/form.js?v=49',
   './js/form-accessibility.js?v=12.1',
   './js/register-sw.js?v=58',
   './js/web-session.js?v=48',
