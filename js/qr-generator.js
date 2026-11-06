@@ -1122,16 +1122,13 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-close{flex:none;min-height:44px;background:transparent;
       border:1.5px solid rgba(255,255,255,0.35);color:#fff;border-radius:20px;
       padding:8px 16px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;}
-    .eqv-grid{flex:1;min-height:0;width:100%;overflow-y:auto;overscroll-behavior:contain;
-      scroll-snap-type:y mandatory;container-type:size;perspective:900px;}
-    .eqv-grid::before,.eqv-grid::after{content:'';display:block;height:28px;}
-    .eqv-card{position:relative;box-sizing:border-box;height:calc(100% - 56px);scroll-snap-align:center;
-      scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;
-      align-items:center;gap:8px;padding:8px;color:var(--eqv-accent);
-      background:#0a1422;border:1px solid currentColor;border-radius:22px;
-      max-width:560px;margin:0 auto;transform:scale(.94) rotateX(8deg);
-      transition:transform 160ms ease-out;}
-    .eqv-card.is-current{transform:none;}
+    .eqv-grid{position:relative;flex:1;min-height:0;width:100%;overflow:hidden;
+      container-type:size;touch-action:pan-x pinch-zoom;}
+    .eqv-card{position:absolute;inset:10px 0;box-sizing:border-box;display:flex;
+      flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:8px;
+      color:var(--eqv-accent);background:#0a1422;border:1px solid currentColor;
+      border-radius:22px;max-width:560px;margin:auto;}
+    .eqv-card[hidden]{display:none;}
     .eqv-type-header{display:flex;align-items:center;justify-content:center;gap:8px;}
     .eqv-type-dot{width:10px;height:10px;border-radius:50%;flex:none;background:currentColor;}
     .eqv-type-title{font-size:16px;font-weight:900;text-transform:uppercase;text-align:center;}
@@ -1155,13 +1152,6 @@ function mostrarSinPerfilParaEmergencia() {
     @keyframes eqv-float{0%,100%{opacity:.72;}50%{opacity:1;transform:translateY(var(--eqv-arrow-offset));}}
     .eqv-card:not(.is-current) .eqv-direction,
     .eqv-card:not(.is-current) .eqv-arrow{animation-play-state:paused;}
-    .eqv-preview{position:absolute;left:8px;right:8px;text-align:center;
-      font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .eqv-preview-top{top:5px;}
-    .eqv-preview-bottom{bottom:5px;}
-    .eqv-card.is-current .eqv-preview{display:none;}
-    .eqv-card:not(.is-current) .eqv-help,.eqv-card:not(.is-current) .eqv-navigation{visibility:hidden;}
-
     @media (prefers-reduced-motion:reduce){
       .eqv-card{transform:none;transition:none;}
       .eqv-direction,.eqv-arrow{animation:none;}
@@ -1273,14 +1263,8 @@ function renderEmergencyQuickView(snapshot = null) {
       }
       card.append(position, navigation);
 
-      for (const edge of ['top', 'bottom']) {
-        const preview = document.createElement('span');
-        preview.className = `eqv-preview eqv-preview-${edge}`;
-        preview.setAttribute('aria-hidden', 'true');
-        preview.textContent = type.title;
-        card.appendChild(preview);
-      }
     }
+    card.hidden = index !== 0;
     grid.appendChild(card);
 
     // Regla central de frescura: si la huella coincide, la caché refleja
@@ -1315,42 +1299,51 @@ function renderEmergencyQuickView(snapshot = null) {
   const cards = Array.from(grid.children);
   if (cards.length < 2) return;
 
-  // The end panels supply a snap point and a preview. The original cards
-  // retain their QR slots and are reused when crossing either boundary.
-  const boundary = card => {
-    const panel = document.createElement('div');
-    panel.className = 'eqv-card';
-    panel.style.setProperty('--eqv-accent', card.style.getPropertyValue('--eqv-accent'));
-    panel.setAttribute('aria-hidden', 'true');
-    panel.append(...Array.from(card.querySelectorAll('.eqv-preview'), label => label.cloneNode(true)));
-    return panel;
-  };
-  grid.prepend(boundary(cards[cards.length - 1]));
-  grid.append(boundary(cards[0]));
-
   let currentIndex = 0;
-  let wrapTimer;
-  const stepSize = () => grid.clientHeight - 56;
-  grid.scrollTop = stepSize();
-  grid.addEventListener('scroll', () => {
-    clearTimeout(wrapTimer);
-    const step = stepSize();
-    if (step <= 0) return;
-    const position = Math.round(grid.scrollTop / step);
-    if (position > 0 && position <= cards.length) {
-      cards[currentIndex].classList.remove('is-current');
-      currentIndex = position - 1;
-      cards[currentIndex].classList.add('is-current');
-      return;
+  let entryAnimation;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const advance = direction => {
+    entryAnimation?.cancel();
+    cards[currentIndex].hidden = true;
+    cards[currentIndex].classList.remove('is-current');
+    currentIndex = (currentIndex + direction + cards.length) % cards.length;
+    const card = cards[currentIndex];
+    card.classList.add('is-current');
+    card.hidden = false;
+    if (!reducedMotion.matches && card.animate) {
+      entryAnimation = card.animate(
+        [{transform: `translateY(${direction * 14}px)`}, {transform: 'none'}],
+        {duration: 120, easing: 'ease-out'}
+      );
     }
+  };
 
-    wrapTimer = setTimeout(() => {
-      if (!grid.isConnected || grid.clientHeight <= 56) return;
-      cards[currentIndex].classList.remove('is-current');
-      currentIndex = position <= 0 ? cards.length - 1 : 0;
-      cards[currentIndex].classList.add('is-current');
-      grid.scrollTop = (currentIndex + 1) * stepSize();
-    }, 100);
+  let swipe;
+  grid.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse' || !event.isPrimary) return;
+    swipe = {id: event.pointerId, x: event.clientX, y: event.clientY};
+  });
+  grid.addEventListener('pointercancel', () => { swipe = undefined; });
+  grid.addEventListener('pointerup', event => {
+    if (!swipe || event.pointerId !== swipe.id) return;
+    const vertical = swipe.y - event.clientY;
+    const horizontal = swipe.x - event.clientX;
+    swipe = undefined;
+    if (Math.abs(vertical) >= 36 && Math.abs(vertical) > Math.abs(horizontal)) {
+      advance(Math.sign(vertical));
+    }
+  });
+  grid.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    event.preventDefault();
+    advance(event.key === 'ArrowDown' ? 1 : -1);
+  });
+  let lastWheel = -Infinity;
+  grid.addEventListener('wheel', event => {
+    if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    const now = performance.now();
+    if (now - lastWheel > 160) advance(Math.sign(event.deltaY));
+    lastWheel = now;
   }, { passive: true });
 }
 
