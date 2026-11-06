@@ -1181,6 +1181,36 @@ function closeEmergencyQuickView() {
   if (!yaEnLogin) window.location.href = 'login.html';
 }
 
+let emergencyQuickViewAudio;
+
+async function playEmergencyQuickViewClick(container, animation) {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    emergencyQuickViewAudio ??= new AudioContextClass();
+    const audio = emergencyQuickViewAudio;
+    await Promise.all([audio.resume(), animation?.finished]);
+    if (!container.isConnected || container.closest('#emergency-quick-view')?.style.display === 'none' ||
+        (animation && animation.playState !== 'finished')) return;
+
+    const now = audio.currentTime;
+    const click = audio.createOscillator();
+    const volume = audio.createGain();
+    click.type = 'triangle';
+    click.frequency.setValueAtTime(900, now);
+    click.frequency.exponentialRampToValueAtTime(330, now + .035);
+    volume.gain.setValueAtTime(.055, now);
+    volume.gain.exponentialRampToValueAtTime(.001, now + .045);
+    click.connect(volume);
+    volume.connect(audio.destination);
+    click.onended = () => volume.disconnect();
+    click.start(now);
+    click.stop(now + .05);
+  } catch {
+    // Audio can be blocked and an interrupted transition has no click.
+  }
+}
+
 function renderEmergencyQuickView(snapshot = null) {
   const container = getEmergencyQuickViewContainer();
   if (!container) return; // la página no incluye el contenedor -- no debería ocurrir en las 3 páginas soportadas
@@ -1317,6 +1347,7 @@ function renderEmergencyQuickView(snapshot = null) {
   const advance = direction => {
     if (swipe) return;
     entryAnimation?.cancel();
+    entryAnimation = undefined;
     cards[currentIndex].hidden = true;
     cards[currentIndex].classList.remove('is-current');
     currentIndex = (currentIndex + direction + cards.length) % cards.length;
@@ -1325,10 +1356,15 @@ function renderEmergencyQuickView(snapshot = null) {
     card.hidden = false;
     if (!reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
-        [{transform: `translateY(${direction * 60}px)`}, {transform: 'none'}],
-        {duration: 240, easing: 'ease-out'}
+        [
+          {transform: `translateY(${direction * 60}px)`, easing: 'cubic-bezier(.22,.72,.34,1)'},
+          {transform: `translateY(${direction * -3}px)`, offset: .84, easing: 'ease-out'},
+          {transform: 'none'}
+        ],
+        {duration: 360}
       );
     }
+    playEmergencyQuickViewClick(grid, entryAnimation);
   };
 
   const finishSwipe = (event, cancelled = false) => {
