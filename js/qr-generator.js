@@ -1111,7 +1111,43 @@ function mostrarSinPerfilParaEmergencia() {
   if (document.getElementById('eqv-style')) return;
   const style = document.createElement('style');
   style.id = 'eqv-style';
-  style.textContent = (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.69584882b10d35ad","\n    #emergency-quick-view{position:fixed;inset:0;z-index:9999;display:none;\n      background:#000;color:#fff;overflow-y:auto;\n      font-family:Inter,system-ui,sans-serif;}\n    .eqv-header{position:sticky;top:0;z-index:2;\n      background:rgba(0,0,0,0.92);backdrop-filter:blur(6px);\n      padding:16px;display:flex;align-items:center;justify-content:space-between;\n      border-bottom:1px solid rgba(255,255,255,0.08);}\n    .eqv-title{font-size:12px;font-weight:900;letter-spacing:2.5px;\n      color:#12A5FF;text-shadow:0 0 8px #12A5FF;text-transform:uppercase;}\n    .eqv-close{background:transparent;border:1.5px solid rgba(255,255,255,0.35);\n      color:#fff;border-radius:20px;padding:8px 16px;font-size:11px;\n      font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;\n      font-family:inherit;}\n    .eqv-close:hover{background:rgba(255,255,255,0.08);}\n    .eqv-grid{display:flex;flex-direction:column;align-items:center;\n      gap:36px;padding:20px 20px 40px;max-width:480px;margin:0 auto;}\n    .eqv-card{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;}\n    .eqv-type-header{display:flex;align-items:center;justify-content:center;\n      gap:9px;width:100%;}\n    .eqv-type-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}\n    .eqv-type-title{font-size:16px;font-weight:900;letter-spacing:1.2px;\n      text-transform:uppercase;text-align:center;line-height:1.25;}\n    .eqv-cover{position:relative;border-radius:30px;background:#0a1422;\n      display:flex;align-items:center;justify-content:center;overflow:hidden;}\n    .eqv-cover img, .eqv-cover canvas{width:90%;height:90%;object-fit:contain;\n      border-radius:10px;background:#fff;display:block;}\n    .eqv-name{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;\n      letter-spacing:0.3px;word-break:break-word;}\n  ",[]);
+  style.textContent = `
+    #emergency-quick-view{position:fixed;inset:0;z-index:9999;display:none;
+      flex-direction:column;background:#000;color:#fff;font-family:Inter,system-ui,sans-serif;}
+    .eqv-header{flex:none;display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:8px 16px;padding-top:max(8px,env(safe-area-inset-top));
+      border-bottom:1px solid rgba(255,255,255,0.12);}
+    .eqv-title{font-size:12px;font-weight:900;letter-spacing:2px;
+      color:#12A5FF;text-shadow:0 0 8px #12A5FF;text-transform:uppercase;}
+    .eqv-close{flex:none;min-height:44px;background:transparent;
+      border:1.5px solid rgba(255,255,255,0.35);color:#fff;border-radius:20px;
+      padding:8px 16px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;}
+    .eqv-grid{flex:1;min-height:0;width:100%;overflow-y:auto;overscroll-behavior:contain;
+      scroll-snap-type:y mandatory;container-type:size;perspective:900px;}
+    .eqv-grid::before,.eqv-grid::after{content:'';display:block;height:28px;}
+    .eqv-card{box-sizing:border-box;height:calc(100% - 56px);scroll-snap-align:center;
+      scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;
+      align-items:center;gap:8px;padding:8px;color:var(--eqv-accent);
+      background:#0a1422;border:1px solid currentColor;border-radius:22px;
+      max-width:560px;margin:0 auto;transform:scale(.94) rotateX(8deg);
+      transition:transform 160ms ease-out;}
+    .eqv-card.is-current{transform:none;}
+    .eqv-type-header{display:flex;align-items:center;justify-content:center;gap:8px;}
+    .eqv-type-dot{width:10px;height:10px;border-radius:50%;flex:none;background:currentColor;}
+    .eqv-type-title{font-size:16px;font-weight:900;text-transform:uppercase;text-align:center;}
+    .eqv-cover{width:min(100%,500px,calc(100dvh - 220px));aspect-ratio:1;
+      display:flex;align-items:center;justify-content:center;}
+    @supports (width: 1cqh){
+      .eqv-cover{width:min(100%,500px,calc(100cqh - 142px));}
+    }
+    .eqv-card:not(.is-current) .eqv-cover{visibility:hidden;}
+    .eqv-cover img,.eqv-cover canvas{width:100%;height:100%;object-fit:contain;
+      border-radius:8px;background:#fff;display:block;}
+    .eqv-name{font-size:13px;color:#ccc;text-align:center;overflow-wrap:anywhere;}
+    @media (prefers-reduced-motion:reduce){
+      .eqv-card{transform:none;transition:none;}
+    }
+  `;
   document.head.appendChild(style);
 })();
 
@@ -1144,19 +1180,20 @@ function renderEmergencyQuickView(snapshot = null) {
       <div class="eqv-title">Acceso rápido de emergencia</div>
       <button type="button" class="eqv-close" id="eqv-close-btn">✕ Salir</button>
     </div>
-    <div class="eqv-grid" id="eqv-grid"></div>
+    <div class="eqv-grid" id="eqv-grid" tabindex="0" role="region" aria-label="Códigos QR de emergencia"></div>
   `;
-  container.style.display = 'block';
+  container.style.display = 'flex';
   document.getElementById('eqv-close-btn').addEventListener('click', closeEmergencyQuickView);
 
   const grid = document.getElementById('eqv-grid');
   const cache = getQRCache();
 
-  active.forEach(type => {
+  active.forEach((type, index) => {
     const url = snapshot ? EmergencyAccess.url(snapshot, type.id) : buildQRUrl(type, formData);
 
     const card = document.createElement('div');
-    card.className = 'eqv-card';
+    card.className = index === 0 ? 'eqv-card is-current' : 'eqv-card';
+    card.style.setProperty('--eqv-accent', type.color);
 
     // Cabecera del tipo: punto de color + título grande, como bloque
     // propio ENCIMA del QR (no superpuesto sobre el propio patrón) --
@@ -1180,16 +1217,6 @@ function renderEmergencyQuickView(snapshot = null) {
 
     const cover = document.createElement('div');
     cover.className = 'eqv-cover';
-    // Tamaño en px explícito (no aspect-ratio): en Android hay WebViews que
-    // no soportan aspect-ratio de forma consistente -- sin él, .eqv-cover
-    // queda sin altura definida, el <img> (que nunca tiene width/height
-    // propio, ver qrcode.min.js) cae a su tamaño intrínseco de 400px, y
-    // overflow:hidden lo recorta. Con alto y ancho fijos en px no hay
-    // ambigüedad, sea cual sea el soporte de aspect-ratio del navegador.
-    const coverSizePx = Math.round(Math.min(window.innerWidth * 0.88, 420));
-    cover.style.cssText = `border:2px solid ${type.color};box-shadow:0 0 18px ${type.color}44;
-      width:${coverSizePx}px;height:${coverSizePx}px;`;
-
     // renderQRWhenReady()/showQRLoadError() hacen wrap.innerHTML='' antes
     // de dibujar -- se les pasa este "slot" interno (todo el contenido
     // de "cover" ahora) para que el QR se pueda limpiar y redibujar sin
@@ -1235,6 +1262,19 @@ function renderEmergencyQuickView(snapshot = null) {
       renderQRWhenReady(slot, url, type, 0, 400, 'H');
     }
   });
+
+  const cards = Array.from(grid.children);
+  let current = cards[0];
+  grid.addEventListener('scroll', () => {
+    const step = grid.clientHeight - 56;
+    if (step <= 0 || !current) return;
+    const index = Math.min(cards.length - 1, Math.max(0, Math.round(grid.scrollTop / step)));
+    const next = cards[index];
+    if (next === current) return;
+    current.classList.remove('is-current');
+    next.classList.add('is-current');
+    current = next;
+  }, { passive: true });
 }
 
 // ============================================
