@@ -1148,8 +1148,13 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-navigation{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;}
     .eqv-direction{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;
       border:1px solid currentColor;border-radius:20px;font-weight:700;}
-    .eqv-arrow{font-size:18px;line-height:1;animation:eqv-nudge 900ms ease-in-out 3;}
-    @keyframes eqv-nudge{50%{transform:translateY(var(--eqv-arrow-offset));}}
+    .eqv-direction{border-color:color-mix(in srgb,currentColor 45%,transparent);
+      animation:eqv-text-pulse 3.8s ease-in-out infinite;}
+    .eqv-arrow{font-size:18px;line-height:1;animation:eqv-float 3.8s ease-in-out infinite;}
+    @keyframes eqv-text-pulse{50%{opacity:.88;}}
+    @keyframes eqv-float{0%,100%{opacity:.72;}50%{opacity:1;transform:translateY(var(--eqv-arrow-offset));}}
+    .eqv-card:not(.is-current) .eqv-direction,
+    .eqv-card:not(.is-current) .eqv-arrow{animation-play-state:paused;}
     .eqv-preview{position:absolute;left:8px;right:8px;text-align:center;
       font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .eqv-preview-top{top:5px;}
@@ -1159,7 +1164,7 @@ function mostrarSinPerfilParaEmergencia() {
 
     @media (prefers-reduced-motion:reduce){
       .eqv-card{transform:none;transition:none;}
-      .eqv-arrow{animation:none;}
+      .eqv-direction,.eqv-arrow{animation:none;}
     }
   `;
   document.head.appendChild(style);
