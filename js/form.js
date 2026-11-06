@@ -17,17 +17,17 @@
         const audio = sectionAudioContext;
         await audio.resume();
 
-        // A short high strike followed by a lower latch.
+        // A crisp strike, a second contact, and a low latch.
         const now = audio.currentTime;
-        const notes = opened ? [850, 390] : [660, 250];
+        const notes = opened ? [1150, 680, 360] : [870, 480, 240];
         notes.forEach((frequency, index) => {
-          const start = now + index * .024;
+          const start = now + index * .032;
           const strike = audio.createOscillator();
           const volume = audio.createGain();
-          strike.type = 'triangle';
+          strike.type = index === 0 ? 'square' : 'triangle';
           strike.frequency.setValueAtTime(frequency, start);
           strike.frequency.exponentialRampToValueAtTime(frequency * .55, start + .03);
-          volume.gain.setValueAtTime(index === 0 ? .075 : .05, start);
+          volume.gain.setValueAtTime(index === 0 ? .115 : .085, start);
           volume.gain.exponentialRampToValueAtTime(.001, start + .038);
           strike.connect(volume);
           volume.connect(audio.destination);
