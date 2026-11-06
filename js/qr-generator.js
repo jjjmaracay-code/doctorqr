@@ -1301,8 +1301,10 @@ function renderEmergencyQuickView(snapshot = null) {
 
   let currentIndex = 0;
   let entryAnimation;
+  let swipe;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const advance = direction => {
+    if (swipe) return;
     entryAnimation?.cancel();
     cards[currentIndex].hidden = true;
     cards[currentIndex].classList.remove('is-current');
@@ -1312,27 +1314,48 @@ function renderEmergencyQuickView(snapshot = null) {
     card.hidden = false;
     if (!reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
-        [{transform: `translateY(${direction * 14}px)`}, {transform: 'none'}],
-        {duration: 120, easing: 'ease-out'}
+        [{transform: `translateY(${direction * 32}px)`}, {transform: 'none'}],
+        {duration: 180, easing: 'ease-out'}
       );
     }
   };
 
-  let swipe;
-  grid.addEventListener('pointerdown', event => {
-    if (event.pointerType === 'mouse' || !event.isPrimary) return;
-    swipe = {id: event.pointerId, x: event.clientX, y: event.clientY};
-  });
-  grid.addEventListener('pointercancel', () => { swipe = undefined; });
-  grid.addEventListener('pointerup', event => {
+  const finishSwipe = (event, cancelled = false) => {
     if (!swipe || event.pointerId !== swipe.id) return;
+    const card = cards[currentIndex];
+    const offset = card.style.transform;
+    card.style.transform = '';
     const vertical = swipe.y - event.clientY;
     const horizontal = swipe.x - event.clientX;
     swipe = undefined;
-    if (Math.abs(vertical) >= 36 && Math.abs(vertical) > Math.abs(horizontal)) {
+    if (!cancelled && Math.abs(vertical) >= 64 && Math.abs(vertical) > Math.abs(horizontal) * 1.25) {
       advance(Math.sign(vertical));
+    } else if (offset && !reducedMotion.matches && card.animate) {
+      entryAnimation = card.animate(
+        [{transform: offset}, {transform: 'none'}],
+        {duration: 140, easing: 'ease-out'}
+      );
     }
+  };
+  grid.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse' || !event.isPrimary || event.target.closest('button')) return;
+    entryAnimation?.cancel();
+    swipe = {id: event.pointerId, x: event.clientX, y: event.clientY};
   });
+  grid.addEventListener('pointermove', event => {
+    if (!swipe || event.pointerId !== swipe.id || reducedMotion.matches) return;
+    const vertical = event.clientY - swipe.y;
+    const horizontal = event.clientX - swipe.x;
+    const card = cards[currentIndex];
+    if (Math.abs(vertical) <= Math.max(8, Math.abs(horizontal) * 1.25)) {
+      card.style.transform = '';
+      return;
+    }
+    const offset = Math.max(-28, Math.min(28, vertical * .3));
+    card.style.transform = `translateY(${offset}px)`;
+  });
+  grid.addEventListener('pointercancel', event => finishSwipe(event, true));
+  grid.addEventListener('pointerup', event => finishSwipe(event));
   grid.addEventListener('keydown', event => {
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
     event.preventDefault();
