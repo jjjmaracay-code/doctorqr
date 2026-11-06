@@ -1123,7 +1123,7 @@ function mostrarSinPerfilParaEmergencia() {
       border:1.5px solid rgba(255,255,255,0.35);color:#fff;border-radius:20px;
       padding:8px 16px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;}
     .eqv-grid{position:relative;flex:1;min-height:0;width:100%;overflow:hidden;
-      container-type:size;touch-action:pan-x pinch-zoom;}
+      container-type:size;touch-action:pinch-zoom;}
     .eqv-card{position:absolute;inset:10px 0;box-sizing:border-box;display:flex;
       flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:8px;
       color:var(--eqv-accent);background:#0a1422;border:1px solid currentColor;
@@ -1327,8 +1327,9 @@ function renderEmergencyQuickView(snapshot = null) {
     card.style.transform = '';
     const vertical = swipe.y - event.clientY;
     const horizontal = swipe.x - event.clientX;
+    const minimumDistance = event.timeStamp - swipe.startedAt <= 220 ? 28 : 44;
     swipe = undefined;
-    if (!cancelled && Math.abs(vertical) >= 64 && Math.abs(vertical) > Math.abs(horizontal) * 1.25) {
+    if (!cancelled && Math.abs(vertical) >= minimumDistance && Math.abs(vertical) > Math.abs(horizontal) * 1.1) {
       advance(Math.sign(vertical));
     } else if (offset && !reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
@@ -1340,14 +1341,15 @@ function renderEmergencyQuickView(snapshot = null) {
   grid.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' || !event.isPrimary || event.target.closest('button')) return;
     entryAnimation?.cancel();
-    swipe = {id: event.pointerId, x: event.clientX, y: event.clientY};
+    swipe = {id: event.pointerId, x: event.clientX, y: event.clientY, startedAt: event.timeStamp};
+    grid.setPointerCapture(event.pointerId);
   });
   grid.addEventListener('pointermove', event => {
     if (!swipe || event.pointerId !== swipe.id || reducedMotion.matches) return;
     const vertical = event.clientY - swipe.y;
     const horizontal = event.clientX - swipe.x;
     const card = cards[currentIndex];
-    if (Math.abs(vertical) <= Math.max(8, Math.abs(horizontal) * 1.25)) {
+    if (Math.abs(vertical) <= Math.max(8, Math.abs(horizontal) * 1.1)) {
       card.style.transform = '';
       return;
     }
@@ -1356,6 +1358,7 @@ function renderEmergencyQuickView(snapshot = null) {
   });
   grid.addEventListener('pointercancel', event => finishSwipe(event, true));
   grid.addEventListener('pointerup', event => finishSwipe(event));
+  grid.addEventListener('lostpointercapture', event => finishSwipe(event, true));
   grid.addEventListener('keydown', event => {
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
     event.preventDefault();
