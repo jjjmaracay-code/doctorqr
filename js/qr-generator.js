@@ -1129,7 +1129,8 @@ function mostrarSinPerfilParaEmergencia() {
       color:var(--eqv-accent);background:#0a1422;border:1px solid currentColor;
       border-radius:22px;max-width:560px;margin:auto;}
     .eqv-card.is-preview{pointer-events:none;z-index:1;}
-    .eqv-card.is-preview .eqv-cover{visibility:hidden;}
+    .eqv-card:is(.is-preview,.is-settling) .eqv-cover{
+      opacity:.62;filter:blur(6px);pointer-events:none;}
     .eqv-card[hidden]{display:none;}
     .eqv-type-header{display:flex;align-items:center;justify-content:center;gap:8px;}
     .eqv-type-dot{width:10px;height:10px;border-radius:50%;flex:none;background:currentColor;}
@@ -1367,6 +1368,11 @@ function renderEmergencyQuickView(snapshot = null) {
         ],
         {duration: 1450}
       );
+    }
+    if (from && entryAnimation) {
+      card.classList.add('is-settling');
+      const clearReflection = () => card.classList.remove('is-settling');
+      entryAnimation.finished.then(clearReflection, clearReflection);
     }
     playEmergencyQuickViewClick(grid, entryAnimation);
   };
