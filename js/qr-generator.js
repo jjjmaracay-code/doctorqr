@@ -1361,7 +1361,7 @@ function renderEmergencyQuickView(snapshot = null) {
           {transform: `translateY(${direction * -3}px)`, offset: .9, easing: 'ease-out'},
           {transform: 'none'}
         ],
-        {duration: 600}
+        {duration: 1200}
       );
     }
     playEmergencyQuickViewClick(grid, entryAnimation);
