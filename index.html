@@ -52,8 +52,15 @@
     .menu-dropdown {
       position: fixed;
       top: 58px;
-      right: 16px;
-      z-index: 900;
+      inset-inline: 12px;
+      margin-inline: auto;
+      width: calc(100% - 24px);
+      max-width: 440px;
+      max-height: calc(100vh - 72px);
+      max-height: calc(100dvh - 72px - env(safe-area-inset-bottom));
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      z-index: 1000;
       display: none;
       flex-direction: column;
       gap: 6px;
@@ -61,10 +68,20 @@
       border: 1.5px solid rgba(18,165,255,0.35);
       border-radius: 14px;
       padding: 10px;
-      min-width: 210px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
     .menu-dropdown.open { display: flex; }
+    .menu-dropdown > * { flex: none; }
+    .menu-group > summary { display: list-item; list-style-position: inside; }
+    .menu-dropdown .menu-item { min-height: 44px; }
+    .menu-dropdown [hidden].menu-item { display: none; }
+    .menu-dropdown .menu-account-overview { margin: 0; }
+    .menu-dropdown #menu-configurar-2fa { width: 100%; }
+    .form-search-bar { padding-right: 60px; }
+    .form-search-bar .form-search-input { min-width: 0; }
+    .menu-group[open] > summary { margin-bottom: 10px; }
+    .menu-dropdown .medical-utilities { margin: 0; padding: 0; }
+    #help-btn { display: none !important; }
 
     .menu-item {
       display: flex;
@@ -216,24 +233,7 @@
 </head>
 <body data-medical-surface data-atabey-ui="editor" data-form-edit-surface="medical" data-form-edit-product="atabey" data-form-edit-pass=".section-header">
 
-  <button class="btn-menu-hamburguesa" id="btn-open-menu" aria-label="Menú" data-i18n-aria="index.menu.open_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
-  <div class="menu-dropdown" id="menu-dropdown">
-    <button class="menu-item" id="menu-pwa-install" disabled>
-      <span data-i18n="index.menu.install_app">Instalar app</span><span class="menu-badge" id="menu-pwa-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
-    </button>
-    <button class="menu-item" id="menu-download-pdf" disabled>
-      <span data-i18n="index.menu.download_pdf">Descargar PDF</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
-    </button>
-    <button class="menu-item" id="menu-share-link" disabled>
-      <span data-i18n="index.menu.share_link">Compartir enlace</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
-    </button>
-    <button class="menu-item" id="menu-configurar-2fa">
-      <span data-i18n="index.menu.reconfigure_2fa">Reconfigurar autenticador</span>
-    </button>
-    <button class="menu-item" id="menu-scroll-top">
-      <span data-i18n="index.menu.scroll_top">Volver arriba</span>
-    </button>
-  </div>
+  <button class="btn-menu-hamburguesa" id="btn-open-menu" type="button" aria-controls="menu-dropdown" aria-expanded="false" aria-label="Menú" data-i18n-aria="index.menu.open_aria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
 
   <!-- BANNER TRIAL EXPIRADO — visible solo cuando backend devuelve 402 -->
   <div id="trial-expired-banner" class="trial-expired-banner">
@@ -529,43 +529,12 @@
           <button id="btn-emergency-quick" class="access-button" type="button" onclick="handleEmergencyQuickAccess()" data-i18n="index.header.emergency_quick_button">Acceso rápido de emergencia</button>
           <div id="emergency-quick-msg" class="field-hint" style="display:none;color:#ffb5c3;margin-top:8px;text-align:start" role="status"></div>
         </section>
-        <section class="account-access-card access-web" data-primary-only>
-          <h2 class="access-heading">ATABEYAPP Web</h2>
-          <p class="access-copy" data-i18n="access.web_copy">Consulta y edita tus datos médicos desde el ordenador.</p>
-          <a href="/dispositivos.html" data-primary-only class="web-link-entry access-button" data-i18n="access.link">Vincular ordenador</a>
-        </section>
         <section class="account-access-card access-preview" data-web-only>
           <h2 class="access-heading" data-i18n="qr_preview.title">Mis QR médicos</h2>
           <p class="access-copy" data-i18n="qr_preview.intro">Consulta y amplía los QR de tus datos médicos guardados.</p>
           <button id="open-web-qr-preview" class="access-button" type="button" aria-haspopup="dialog" aria-expanded="false" data-i18n="qr_preview.open">Vista previa de mis QR</button>
         </section>
       </div>
-      <details id="account-access-tools" class="account-tools" data-primary-only>
-        <summary>
-          <span class="account-tools-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10V9a8 8 0 0 1 16 0v3M7 11V9a5 5 0 0 1 10 0v3c0 3-.7 5.6-2.1 8M10 11V9a2 2 0 0 1 4 0v3c0 3-.7 5.6-2.1 8M4 13c0 2-.3 3.7-1 5M7 14c-.2 2.3-.8 4.4-1.8 6M10 14c-.3 2.4-1 4.5-2.1 6M20 15c-.3 2-1 3.9-1.8 5"/></svg></span>
-          <span class="account-tools-heading"><span class="account-tools-title" data-tools-text="biometricsTitle">Huella o rostro</span><span class="account-tools-subtitle" data-tools-text="title">Acceso y recuperación</span></span>
-        </summary>
-        <div class="account-tools-body">
-        <fieldset class="fel-action-root" data-form-edit-root disabled>
-          <button type="button" id="passkey-enable" data-tools-text="enable" hidden></button>
-          <button type="button" id="passkey-remove" data-tools-text="remove" hidden></button>
-        </fieldset>
-        <p role="status" aria-live="polite"></p>
-        <div id="account-wallet-tools" hidden></div>
-        </div>
-      </details>
-      <section class="account-management" aria-labelledby="account-management-heading">
-        <h2 class="account-management-heading" id="account-management-heading" data-tools-text="accountTitle">Tu cuenta</h2>
-      <div class="account-plan-row">
-        <div id="plan-badge" role="status"></div>
-        <button id="btn-ver-planes" class="access-plan-button" type="button" onclick="openPlans()" data-i18n="index.header.ver_planes_button">Ver planes</button>
-      </div>
-      <div class="account-utility-row">
-        <a class="access-utility access-downloads" href="/install.html#atabey-web" data-i18n="access.downloads">Descargas y acceso web</a>
-        <button id="access-help" class="access-utility access-help" type="button" disabled data-i18n="access.help">Ayuda</button>
-        <button id="btn-logout" class="access-utility access-logout" type="button" onclick="cerrarSesion()" data-i18n="index.header.logout_button">Cerrar sesión</button>
-      </div>
-      </section>
     </div>
   </div>
 
@@ -2193,178 +2162,6 @@
     <div id="qr-reminder-banner" class="qr-reminder-banner" data-i18n="index.qr.reminder_banner">
       Los cambios se conservan como borrador en este dispositivo. Pulsa "Guardar y actualizar mis QR" para publicarlos y espera la confirmación del servidor. Después escanea un QR para comprobar la información.
     </div>
-    <div class="medical-create-actions">
-    <button id="btn-print-emergency" style="
-      width:100%;padding:16px;
-      background:transparent;
-      border:2px solid #ff0000;
-      border-radius:12px;color:#ff0000;
-      font-family:inherit;font-size:11px;
-      font-weight:900;letter-spacing:3px;
-      text-transform:uppercase;cursor:pointer;
-      text-shadow:0 0 8px #ff0000;
-      box-shadow:0 0 12px rgba(255,0,0,0.15);
-      margin-bottom:12px" data-i18n="index.qr.print_button">
-      IMPRIMIR QR EMERGENCIA — FORMATO TARJETA
-    </button>
-    </div>
-  </div>
-
-  <!-- ===== UBICACIÓN DE EMERGENCIA ===== -->
-  <div class="medical-utilities">
-    <section class="medical-utility medical-location" aria-labelledby="medical-location-title">
-
-    <div id="medical-location-title" class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
-                margin-bottom:8px;text-shadow:0 0 8px #12A5FF;" data-i18n="index.location.section_title">
-      EMERGENCIA — COMPARTIR UBICACIÓN
-    </div>
-    <div class="medical-tools-description" style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:14px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.location.section_desc">
-      Genera un enlace de Google Maps con tu posición actual para enviarlo
-      a tus contactos de emergencia. La ubicación se obtiene una sola vez
-      y no queda guardada en ningún servidor.
-    </div>
-
-    <button id="btn-share-location" onclick="shareLocation()" style="
-      width:100%;padding:16px;
-      background:transparent;
-      border:2px solid #12A5FF;
-      border-radius:12px;color:#12A5FF;
-      font-family:inherit;font-size:11px;
-      font-weight:900;letter-spacing:3px;
-      text-transform:uppercase;cursor:pointer;
-      text-shadow:0 0 8px rgba(18,165,255,0.6);
-      box-shadow:0 0 12px rgba(18,165,255,0.15);
-      margin-bottom:8px;
-      -webkit-tap-highlight-color:transparent;" data-i18n="index.location.share_button">
-      COMPARTIR MI UBICACIÓN AHORA
-    </button>
-
-    <div id="location-result" style="display:none;margin-bottom:8px;">
-      <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:1px;" data-i18n="index.location.link_generated">
-        Enlace generado — tócalo para enviarlo:
-      </div>
-      <a id="location-link" href="#" target="_blank" rel="noopener" style="
-        display:block;padding:12px 14px;
-        background:rgba(18,165,255,0.06);
-        border:1px solid rgba(18,165,255,0.3);
-        border-radius:10px;
-        font-size:11px;color:#12A5FF;
-        text-decoration:none;letter-spacing:0.5px;
-        word-break:break-all;margin-bottom:10px;">
-      </a>
-      <div class="medical-location-actions" style="display:flex;gap:8px;">
-        <button onclick="sendLocationWhatsApp()" style="
-          flex:1;padding:12px;background:transparent;
-          border:1px solid rgba(18,165,255,0.35);border-radius:10px;
-          font-family:inherit;font-size:10px;font-weight:700;
-          letter-spacing:2px;text-transform:uppercase;
-          color:#12A5FF;cursor:pointer;
-          -webkit-tap-highlight-color:transparent;">
-          <span data-i18n="extra.6a40edf1fc87a29f">WhatsApp</span>
-        </button>
-        <button onclick="copyLocationLink()" style="
-          flex:1;padding:12px;background:transparent;
-          border:1px solid rgba(18,165,255,0.35);border-radius:10px;
-          font-family:inherit;font-size:10px;font-weight:700;
-          letter-spacing:2px;text-transform:uppercase;
-          color:#12A5FF;cursor:pointer;
-          -webkit-tap-highlight-color:transparent;" data-i18n="index.location.copy_button">
-          Copiar
-        </button>
-        <button onclick="shareLocationNative()" style="
-          flex:1;padding:12px;background:transparent;
-          border:1px solid rgba(18,165,255,0.35);border-radius:10px;
-          font-family:inherit;font-size:10px;font-weight:700;
-          letter-spacing:2px;text-transform:uppercase;
-          color:#12A5FF;cursor:pointer;
-          -webkit-tap-highlight-color:transparent;" data-i18n="index.location.share_native_button">
-          Compartir
-        </button>
-      </div>
-    </div>
-
-    <div id="location-error" style="display:none;
-      font-size:10px;color:rgba(255,68,68,0.8);
-      letter-spacing:1px;margin-bottom:8px;line-height:1.6;">
-    </div>
-    </section>
-
-    <!-- Alertas oficiales -->
-    <section class="medical-utility medical-alerts" aria-labelledby="medical-alerts-title">
-    <div id="medical-alerts-title" class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
-                margin:24px 0 8px;text-shadow:0 0 8px #12A5FF;" data-i18n="index.alerts.section_title">
-      ALERTAS OFICIALES EN TU ZONA
-    </div>
-    <div class="medical-tools-description" style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.alerts.section_desc">
-      Fuentes oficiales de acceso público — sin registro.
-    </div>
-    <div class="medical-alert-links" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;">
-      <a href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener" style="
-        display:flex;align-items:center;gap:12px;
-        padding:14px 16px;
-        background:rgba(18,165,255,0.04);
-        border:1px solid rgba(18,165,255,0.2);
-        border-radius:12px;text-decoration:none;">
-        <div>
-          <div style="font-size:11px;font-weight:700;color:#12A5FF;
-                      letter-spacing:1px;margin-bottom:2px;" data-i18n="index.alerts.usgs_title">USGS Terremotos</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px;" data-i18n="index.alerts.usgs_desc">
-            Mapa en tiempo real · earthquake.usgs.gov
-          </div>
-        </div>
-      </a>
-      <a href="https://www.meteoalarm.org/" target="_blank" rel="noopener" style="
-        display:flex;align-items:center;gap:12px;
-        padding:14px 16px;
-        background:rgba(18,165,255,0.04);
-        border:1px solid rgba(18,165,255,0.2);
-        border-radius:12px;text-decoration:none;">
-        <div>
-          <div style="font-size:11px;font-weight:700;color:#12A5FF;
-                      letter-spacing:1px;margin-bottom:2px;" data-i18n="index.alerts.meteoalarm_title">MeteoAlarm Europa</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px;" data-i18n="index.alerts.meteoalarm_desc">
-            Alertas meteorológicas oficiales · meteoalarm.org
-          </div>
-        </div>
-      </a>
-      <a href="https://www.proteccioncivil.es/alertas-y-emergencias" target="_blank" rel="noopener" style="
-        display:flex;align-items:center;gap:12px;
-        padding:14px 16px;
-        background:rgba(18,165,255,0.04);
-        border:1px solid rgba(18,165,255,0.2);
-        border-radius:12px;text-decoration:none;">
-        <div>
-          <div style="font-size:11px;font-weight:700;color:#12A5FF;
-                      letter-spacing:1px;margin-bottom:2px;" data-i18n="index.alerts.proteccioncivil_title">Protección Civil España</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px;" data-i18n="index.alerts.proteccioncivil_desc">
-            Alertas y emergencias · proteccioncivil.es
-          </div>
-        </div>
-      </a>
-    </div>
-    </section>
-
-  </div>
-  <!-- ===== FIN UBICACIÓN DE EMERGENCIA ===== -->
-
-  <a href="contacto.html" style="
-    display:block;text-align:center;
-    margin-top:16px;font-size:10px;
-    color:rgba(18,165,255,0.4);
-    letter-spacing:2px;text-decoration:none;
-    font-family:inherit" data-i18n="index.footer.complaints_link">
-    RECLAMACIONES Y SUGERENCIAS
-  </a>
-
-  <div style="text-align:center;margin-top:24px;margin-bottom:8px;">
-    <button id="btn-eliminar-cuenta" onclick="abrirModalEliminar()"
-      style="background:none;border:none;color:rgba(255,68,68,0.35);
-             font-family:'Inter',sans-serif;font-size:10px;font-weight:500;
-             letter-spacing:2px;text-transform:uppercase;cursor:pointer;
-             text-decoration:underline;padding:8px 0;
-             -webkit-tap-highlight-color:transparent;" data-i18n="index.delete_account.open_button">
-      Eliminar mi cuenta
-    </button>
   </div>
 
   <!-- Modal eliminación de cuenta -->
@@ -2542,6 +2339,238 @@
       </div>
     </div>
   </div>
+
+  <nav class="menu-dropdown" id="menu-dropdown" aria-label="Menú" data-i18n-aria="index.menu.open_aria">
+    <button class="menu-item" type="button" id="menu-close" data-i18n="install_banner.close">Cerrar</button>
+    <details class="menu-group">
+      <summary class="menu-item" data-i18n="access.emergency_title">Emergencias</summary>
+  <!-- ===== UBICACIÓN DE EMERGENCIA ===== -->
+  <div class="medical-utilities">
+    <section class="medical-utility medical-location" aria-labelledby="medical-location-title">
+
+    <div id="medical-location-title" class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
+                margin-bottom:8px;text-shadow:0 0 8px #12A5FF;" data-i18n="index.location.section_title">
+      EMERGENCIA — COMPARTIR UBICACIÓN
+    </div>
+    <div class="medical-tools-description" style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:14px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.location.section_desc">
+      Genera un enlace de Google Maps con tu posición actual para enviarlo
+      a tus contactos de emergencia. La ubicación se obtiene una sola vez
+      y no queda guardada en ningún servidor.
+    </div>
+
+    <button id="btn-share-location" onclick="shareLocation()" style="
+      width:100%;padding:16px;
+      background:transparent;
+      border:2px solid #12A5FF;
+      border-radius:12px;color:#12A5FF;
+      font-family:inherit;font-size:11px;
+      font-weight:900;letter-spacing:3px;
+      text-transform:uppercase;cursor:pointer;
+      text-shadow:0 0 8px rgba(18,165,255,0.6);
+      box-shadow:0 0 12px rgba(18,165,255,0.15);
+      margin-bottom:8px;
+      -webkit-tap-highlight-color:transparent;" data-i18n="index.location.share_button">
+      COMPARTIR MI UBICACIÓN AHORA
+    </button>
+
+    <div id="location-result" style="display:none;margin-bottom:8px;">
+      <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:1px;" data-i18n="index.location.link_generated">
+        Enlace generado — tócalo para enviarlo:
+      </div>
+      <a id="location-link" href="#" target="_blank" rel="noopener" style="
+        display:block;padding:12px 14px;
+        background:rgba(18,165,255,0.06);
+        border:1px solid rgba(18,165,255,0.3);
+        border-radius:10px;
+        font-size:11px;color:#12A5FF;
+        text-decoration:none;letter-spacing:0.5px;
+        word-break:break-all;margin-bottom:10px;">
+      </a>
+      <div class="medical-location-actions" style="display:flex;gap:8px;">
+        <button onclick="sendLocationWhatsApp()" style="
+          flex:1;padding:12px;background:transparent;
+          border:1px solid rgba(18,165,255,0.35);border-radius:10px;
+          font-family:inherit;font-size:10px;font-weight:700;
+          letter-spacing:2px;text-transform:uppercase;
+          color:#12A5FF;cursor:pointer;
+          -webkit-tap-highlight-color:transparent;">
+          <span data-i18n="extra.6a40edf1fc87a29f">WhatsApp</span>
+        </button>
+        <button onclick="copyLocationLink()" style="
+          flex:1;padding:12px;background:transparent;
+          border:1px solid rgba(18,165,255,0.35);border-radius:10px;
+          font-family:inherit;font-size:10px;font-weight:700;
+          letter-spacing:2px;text-transform:uppercase;
+          color:#12A5FF;cursor:pointer;
+          -webkit-tap-highlight-color:transparent;" data-i18n="index.location.copy_button">
+          Copiar
+        </button>
+        <button onclick="shareLocationNative()" style="
+          flex:1;padding:12px;background:transparent;
+          border:1px solid rgba(18,165,255,0.35);border-radius:10px;
+          font-family:inherit;font-size:10px;font-weight:700;
+          letter-spacing:2px;text-transform:uppercase;
+          color:#12A5FF;cursor:pointer;
+          -webkit-tap-highlight-color:transparent;" data-i18n="index.location.share_native_button">
+          Compartir
+        </button>
+      </div>
+    </div>
+
+    <div id="location-error" style="display:none;
+      font-size:10px;color:rgba(255,68,68,0.8);
+      letter-spacing:1px;margin-bottom:8px;line-height:1.6;">
+    </div>
+    </section>
+
+    <!-- Alertas oficiales -->
+    <section class="medical-utility medical-alerts" aria-labelledby="medical-alerts-title">
+    <div id="medical-alerts-title" class="medical-tools-title" style="font-size:11px;letter-spacing:3px;color:#12A5FF;text-transform:uppercase;
+                margin:24px 0 8px;text-shadow:0 0 8px #12A5FF;" data-i18n="index.alerts.section_title">
+      ALERTAS OFICIALES EN TU ZONA
+    </div>
+    <div class="medical-tools-description" style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:0.5px;line-height:1.6;" data-i18n="index.alerts.section_desc">
+      Fuentes oficiales de acceso público — sin registro.
+    </div>
+    <div class="medical-alert-links" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;">
+      <a href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener" style="
+        display:flex;align-items:center;gap:12px;
+        padding:14px 16px;
+        background:rgba(18,165,255,0.04);
+        border:1px solid rgba(18,165,255,0.2);
+        border-radius:12px;text-decoration:none;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#12A5FF;
+                      letter-spacing:1px;margin-bottom:2px;" data-i18n="index.alerts.usgs_title">USGS Terremotos</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px;" data-i18n="index.alerts.usgs_desc">
+            Mapa en tiempo real · earthquake.usgs.gov
+          </div>
+        </div>
+      </a>
+      <a href="https://www.meteoalarm.org/" target="_blank" rel="noopener" style="
+        display:flex;align-items:center;gap:12px;
+        padding:14px 16px;
+        background:rgba(18,165,255,0.04);
+        border:1px solid rgba(18,165,255,0.2);
+        border-radius:12px;text-decoration:none;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#12A5FF;
+                      letter-spacing:1px;margin-bottom:2px;" data-i18n="index.alerts.meteoalarm_title">MeteoAlarm Europa</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px;" data-i18n="index.alerts.meteoalarm_desc">
+            Alertas meteorológicas oficiales · meteoalarm.org
+          </div>
+        </div>
+      </a>
+      <a href="https://www.proteccioncivil.es/alertas-y-emergencias" target="_blank" rel="noopener" style="
+        display:flex;align-items:center;gap:12px;
+        padding:14px 16px;
+        background:rgba(18,165,255,0.04);
+        border:1px solid rgba(18,165,255,0.2);
+        border-radius:12px;text-decoration:none;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#12A5FF;
+                      letter-spacing:1px;margin-bottom:2px;" data-i18n="index.alerts.proteccioncivil_title">Protección Civil España</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.3px;" data-i18n="index.alerts.proteccioncivil_desc">
+            Alertas y emergencias · proteccioncivil.es
+          </div>
+        </div>
+      </a>
+    </div>
+    </section>
+
+  </div>
+  <!-- ===== FIN UBICACIÓN DE EMERGENCIA ===== -->
+
+    </details>
+    <details class="menu-group" id="menu-medical-qr" hidden>
+      <summary class="menu-item" data-i18n="index.qr.section_title">Tus códigos QR médicos</summary>
+    <div class="medical-create-actions" id="menu-qr-actions">
+    <button id="btn-print-emergency" style="
+      width:100%;padding:16px;
+      background:transparent;
+      border:2px solid #ff0000;
+      border-radius:12px;color:#ff0000;
+      font-family:inherit;font-size:11px;
+      font-weight:900;letter-spacing:3px;
+      text-transform:uppercase;cursor:pointer;
+      text-shadow:0 0 8px #ff0000;
+      box-shadow:0 0 12px rgba(255,0,0,0.15);
+      margin-bottom:12px" data-i18n="index.qr.print_button">
+      IMPRIMIR QR EMERGENCIA — FORMATO TARJETA
+    </button>
+    </div>
+    </details>
+    <details class="menu-group">
+      <summary class="menu-item" id="menu-account-heading" data-tools-text="accountTitle">Tu cuenta</summary>
+      <div class="account-overview menu-account-overview">
+        <section class="account-access-card access-web" data-primary-only>
+          <h2 class="access-heading">ATABEYAPP Web</h2>
+          <p class="access-copy" data-i18n="access.web_copy">Consulta y edita tus datos médicos desde el ordenador.</p>
+          <a href="/dispositivos.html" data-primary-only class="web-link-entry access-button" data-i18n="access.link">Vincular ordenador</a>
+        </section>
+      <details id="account-access-tools" class="account-tools" data-primary-only>
+        <summary>
+          <span class="account-tools-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10V9a8 8 0 0 1 16 0v3M7 11V9a5 5 0 0 1 10 0v3c0 3-.7 5.6-2.1 8M10 11V9a2 2 0 0 1 4 0v3c0 3-.7 5.6-2.1 8M4 13c0 2-.3 3.7-1 5M7 14c-.2 2.3-.8 4.4-1.8 6M10 14c-.3 2.4-1 4.5-2.1 6M20 15c-.3 2-1 3.9-1.8 5"/></svg></span>
+          <span class="account-tools-heading"><span class="account-tools-title" data-tools-text="biometricsTitle">Huella o rostro</span><span class="account-tools-subtitle" data-tools-text="title">Acceso y recuperación</span></span>
+        </summary>
+        <div class="account-tools-body">
+        <fieldset class="fel-action-root" data-form-edit-root disabled>
+          <button type="button" id="passkey-enable" data-tools-text="enable" hidden></button>
+          <button type="button" id="passkey-remove" data-tools-text="remove" hidden></button>
+        </fieldset>
+        <p role="status" aria-live="polite"></p>
+        <div id="account-wallet-tools" hidden></div>
+        </div>
+      </details>
+    <button class="menu-item" id="menu-configurar-2fa">
+      <span data-i18n="index.menu.reconfigure_2fa">Reconfigurar autenticador</span>
+    </button>
+      <section class="account-management" aria-labelledby="menu-account-heading">
+      <div class="account-plan-row">
+        <div id="plan-badge" role="status"></div>
+        <button id="btn-ver-planes" class="access-plan-button" type="button" onclick="openPlans()" data-i18n="index.header.ver_planes_button">Ver planes</button>
+      </div>
+      <div class="account-utility-row">
+        <a class="access-utility access-downloads" href="/install.html#atabey-web" data-i18n="access.downloads">Descargas y acceso web</a>
+        <button id="access-help" class="access-utility access-help" type="button" disabled data-i18n="access.help">Ayuda</button>
+        <button id="btn-logout" class="access-utility access-logout" type="button" onclick="cerrarSesion()" data-i18n="index.header.logout_button">Cerrar sesión</button>
+      </div>
+      </section>
+  <a href="contacto.html" style="
+    display:block;text-align:center;
+    margin-top:16px;font-size:10px;
+    color:rgba(18,165,255,0.4);
+    letter-spacing:2px;text-decoration:none;
+    font-family:inherit" data-i18n="index.footer.complaints_link">
+    RECLAMACIONES Y SUGERENCIAS
+  </a>
+
+  <div style="text-align:center;margin-top:24px;margin-bottom:8px;">
+    <button id="btn-eliminar-cuenta" onclick="abrirModalEliminar()"
+      style="background:none;border:none;color:rgba(255,68,68,0.35);
+             font-family:'Inter',sans-serif;font-size:10px;font-weight:500;
+             letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+             text-decoration:underline;padding:8px 0;
+             -webkit-tap-highlight-color:transparent;" data-i18n="index.delete_account.open_button">
+      Eliminar mi cuenta
+    </button>
+  </div>
+
+      </div>
+    </details>
+    <button class="menu-item" id="menu-pwa-install" disabled>
+      <span data-i18n="index.menu.install_app">Instalar app</span><span class="menu-badge" id="menu-pwa-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
+    </button>
+    <button class="menu-item" id="menu-download-pdf" disabled hidden>
+      <span data-i18n="index.menu.download_pdf">Descargar PDF</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
+    </button>
+    <button class="menu-item" id="menu-share-link" disabled hidden>
+      <span data-i18n="index.menu.share_link">Compartir enlace</span><span class="menu-badge" data-i18n="index.menu.badge_soon">Próximamente</span>
+    </button>
+    <button class="menu-item" id="menu-scroll-top">
+      <span data-i18n="index.menu.scroll_top">Volver arriba</span>
+    </button>
+  </nav>
 
   <script>
     (function(){
@@ -2937,20 +2966,43 @@
   }
 
   // =================== MENÚ HAMBURGUESA (Pantalla principal) ===================
-  document.getElementById('btn-open-menu').addEventListener('click', () => {
-    document.getElementById('menu-dropdown').classList.toggle('open');
-  });
+  const mainMenu = document.getElementById('menu-dropdown');
+  const mainMenuToggle = document.getElementById('btn-open-menu');
+  function setMainMenuOpen(open) {
+    mainMenu.classList.toggle('open', open);
+    mainMenuToggle.setAttribute('aria-expanded', String(open));
+  }
+
+  mainMenuToggle.addEventListener('click', () => setMainMenuOpen(!mainMenu.classList.contains('open')));
   document.addEventListener('click', (e) => {
-    const menu = document.getElementById('menu-dropdown');
-    const btn = document.getElementById('btn-open-menu');
-    if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) {
-      menu.classList.remove('open');
+    if (!mainMenu.contains(e.target) && !mainMenuToggle.contains(e.target)) setMainMenuOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mainMenu.classList.contains('open')) {
+      setMainMenuOpen(false);
+      mainMenuToggle.focus();
     }
+  });
+  document.getElementById('menu-close').addEventListener('click', () => {
+    setMainMenuOpen(false);
+    mainMenuToggle.focus();
   });
   document.getElementById('menu-scroll-top').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.getElementById('menu-dropdown').classList.remove('open');
+    setMainMenuOpen(false);
   });
+  mainMenu.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-ver-planes, #access-help, #btn-logout, #btn-eliminar-cuenta, #btn-print-emergency, #btn-qr-wallpaper')) {
+      setMainMenuOpen(false);
+    }
+  }, true);
+  const medicalQrOutput = document.getElementById('qr-section');
+  const medicalQrMenu = document.getElementById('menu-medical-qr');
+  function updateMedicalQrMenu() {
+    medicalQrMenu.hidden = medicalQrOutput.style.display === 'none';
+  }
+  new MutationObserver(updateMedicalQrMenu).observe(medicalQrOutput, { attributes: true, attributeFilter: ['style'] });
+  updateMedicalQrMenu();
 
   // --- Instalar app (PWA): prompt nativo si el navegador lo ofrece, guía si no ---
   (function () {
@@ -2985,7 +3037,7 @@
     });
 
     btn.addEventListener('click', async () => {
-      document.getElementById('menu-dropdown').classList.remove('open');
+      setMainMenuOpen(false);
       if (deferredPrompt) {
         deferredPrompt.prompt();
         try { await deferredPrompt.userChoice; } catch (err) {}
@@ -3033,7 +3085,7 @@
     // nuevo: con la cuenta ya en twofa_method==='totp', la idempotencia
     // condicional de setup-2fa (routes/auth.js) no aplica.
     async function openTotpSetupModal() {
-      document.getElementById('menu-dropdown')?.classList.remove('open');
+      setMainMenuOpen(false);
       totpSetupBuffer = '';
       updateTotpSetupDisplay();
       document.getElementById('totp-setup-secret-text').textContent = window.t ? window.t('index.totp_setup.loading') : (typeof uiMessage === 'function' ? uiMessage : ((key,source,values=[])=>source.replace(/\{(\d+)\}/g,(match,index)=>values[index]??match)))("extra.205443ee88568e8c","Cargando…",[]);

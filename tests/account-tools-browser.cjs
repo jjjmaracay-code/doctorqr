@@ -25,16 +25,16 @@ try{
  });
  const p=await c.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(origin+'/index.html');await p.waitForFunction(()=>document.getElementById('f-ec1-name')?.value==='Original contact'&&!document.documentElement.dataset.accessGate).catch(async e=>{console.log({errors,writes,state:await p.evaluate(()=>({url:location.href,gate:document.documentElement.dataset.accessGate,own:window.MedicalOwner?.current(),contact:document.getElementById('f-ec1-name')?.value,message:document.getElementById('profile-sync-message')?.textContent,access:document.getElementById('account-access-gate')?.textContent}))});throw e;});
  const cdp=await c.newCDPSession(p);await cdp.send('WebAuthn.enable');await cdp.send('WebAuthn.addVirtualAuthenticator',{options:{protocol:'ctap2',transport:'internal',hasResidentKey:true,hasUserVerification:true,isUserVerified:true,automaticPresenceSimulation:true}});
- await p.locator('#form-edit-tab-medical').click();await p.locator('.fel-dialog[open] .fel-enable').click();await p.locator('#account-access-tools summary').click();await p.locator('#passkey-enable').click();
+ await p.locator('#form-edit-tab-medical').click();await p.locator('.fel-dialog[open] .fel-enable').click();await p.locator('#btn-open-menu').click();await p.locator('#menu-account-heading').click();await p.locator('#account-access-tools summary').click();await p.locator('#passkey-enable').click();
  await p.waitForFunction(()=>document.querySelector('#account-access-tools [role="status"]').textContent.includes('Activado'),{},{timeout:20000});
  assert.equal((await f.db.query("SELECT * FROM app_passkeys WHERE app='atabey'")).rows.length,1);
  // Saving and restoring go through the actual encrypted profile routes.
- await p.locator('#sec-10 .section-header').click();await p.locator('#f-ec1-name').fill('Updated contact');await p.evaluate(()=>ProfileSync.save(buildProfileFromForm()));
+ await p.locator('#menu-close').click();await p.locator('#sec-10 .section-header').click();await p.locator('#f-ec1-name').fill('Updated contact');await p.evaluate(()=>ProfileSync.save(buildProfileFromForm()));
  await p.waitForFunction(()=>document.getElementById('f-ec1-name').value==='Updated contact');
  if(await p.evaluate(()=>FormEditLock.isLocked('medical'))){await p.locator('#form-edit-tab-medical').click();await p.locator('.fel-dialog[open] .fel-enable').click();}
  await p.locator('#profile-sync-undo').click();await p.locator('#account-tools-confirm').click();await p.waitForFunction(()=>document.getElementById('f-ec1-name').value==='Original contact');
  assert.equal(await p.evaluate(()=>FormEditLock.isLocked('medical')),true);assert.equal((await f.db.query('SELECT * FROM users WHERE id=2')).rows[0].profile_data,null);
- await p.evaluate(()=>document.getElementById('account-access-tools').open=true);await p.locator('#account-access-tools').screenshot({path:'/tmp/atabey-account-tools-mobile.png'});
+ await p.locator('#btn-open-menu').click();await p.evaluate(()=>document.getElementById('account-access-tools').open=true);await p.locator('#account-access-tools').screenshot({path:'/tmp/atabey-account-tools-mobile.png'});
  await p.locator('#btn-logout').click();await p.waitForURL('**/login.html');assert.equal(await p.evaluate(()=>localStorage.getItem('doctorqr_token')),null);
  await p.locator('#passkey-login').click();await p.waitForURL('**/index.html');await p.waitForFunction(()=>document.getElementById('f-ec1-name')?.value==='Original contact');
  assert.equal(await p.evaluate(()=>localStorage.getItem('doctorqr_id')),'ALICE-QR');assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('doctorqr_user')).email),'alice@example.invalid');
