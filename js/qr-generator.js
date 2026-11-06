@@ -1357,11 +1357,11 @@ function renderEmergencyQuickView(snapshot = null) {
     if (!reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
         [
-          {transform: `translateY(${direction * 60}px)`, easing: 'cubic-bezier(.22,.72,.34,1)'},
-          {transform: `translateY(${direction * -3}px)`, offset: .84, easing: 'ease-out'},
+          {transform: `translateY(${direction * 60}px)`, easing: 'cubic-bezier(.28,.55,.34,1)'},
+          {transform: `translateY(${direction * -3}px)`, offset: .9, easing: 'ease-out'},
           {transform: 'none'}
         ],
-        {duration: 360}
+        {duration: 600}
       );
     }
     playEmergencyQuickViewClick(grid, entryAnimation);
