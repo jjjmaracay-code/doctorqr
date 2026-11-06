@@ -1128,11 +1128,8 @@ function mostrarSinPerfilParaEmergencia() {
       flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:8px;
       color:var(--eqv-accent);background:#0a1422;border:1px solid currentColor;
       border-radius:22px;max-width:560px;margin:auto;}
-    .eqv-peek{position:absolute;left:6%;right:6%;height:90px;display:grid;
-      place-items:center;border:1px solid currentColor;border-radius:20px;
-      background:#0a1422;font-size:13px;font-weight:800;text-align:center;
-      perspective:500px;pointer-events:none;z-index:1;}
-    .eqv-peek[hidden]{display:none;}
+    .eqv-card.is-preview{pointer-events:none;z-index:1;}
+    .eqv-card.is-preview .eqv-cover{visibility:hidden;}
     .eqv-card[hidden]{display:none;}
     .eqv-type-header{display:flex;align-items:center;justify-content:center;gap:8px;}
     .eqv-type-dot{width:10px;height:10px;border-radius:50%;flex:none;background:currentColor;}
@@ -1334,34 +1331,41 @@ function renderEmergencyQuickView(snapshot = null) {
   const cards = Array.from(grid.children);
   if (cards.length < 2) return;
 
-  const peek = document.createElement('div');
-  peek.className = 'eqv-peek';
-  peek.hidden = true;
-  peek.setAttribute('aria-hidden', 'true');
-  grid.appendChild(peek);
-
   let currentIndex = 0;
   let entryAnimation;
   let swipe;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const advance = direction => {
+  let preview;
+  let previewAnimation;
+  const clearPreview = () => {
+    previewAnimation?.cancel();
+    if (!preview) return;
+    preview.hidden = true;
+    preview.classList.remove('is-preview');
+    preview.style.transform = '';
+    preview.removeAttribute('aria-hidden');
+    preview = undefined;
+  };
+  const neighborIndex = direction => (currentIndex + direction + cards.length) % cards.length;
+  const advance = (direction, from) => {
     if (swipe) return;
     entryAnimation?.cancel();
     entryAnimation = undefined;
+    clearPreview();
     cards[currentIndex].hidden = true;
     cards[currentIndex].classList.remove('is-current');
-    currentIndex = (currentIndex + direction + cards.length) % cards.length;
+    currentIndex = neighborIndex(direction);
     const card = cards[currentIndex];
     card.classList.add('is-current');
     card.hidden = false;
     if (!reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
         [
-          {transform: `translateY(${direction * 60}px)`, easing: 'cubic-bezier(.28,.55,.34,1)'},
+          {transform: from || `translateY(${direction * 60}px)`, easing: 'cubic-bezier(.28,.55,.34,1)'},
           {transform: `translateY(${direction * -3}px)`, offset: .9, easing: 'ease-out'},
           {transform: 'none'}
         ],
-        {duration: 1200}
+        {duration: 1450}
       );
     }
     playEmergencyQuickViewClick(grid, entryAnimation);
@@ -1370,7 +1374,6 @@ function renderEmergencyQuickView(snapshot = null) {
   const finishSwipe = (event, cancelled = false) => {
     if (!swipe || event.pointerId !== swipe.id) return;
     const card = cards[currentIndex];
-    peek.hidden = true;
     const offset = card.style.transform;
     card.style.transform = '';
     const vertical = swipe.y - event.clientY;
@@ -1378,17 +1381,32 @@ function renderEmergencyQuickView(snapshot = null) {
     const minimumDistance = event.timeStamp - swipe.startedAt <= 220 ? 34 : 50;
     swipe = undefined;
     if (!cancelled && Math.abs(vertical) >= minimumDistance && Math.abs(vertical) > Math.abs(horizontal) * 1.1) {
-      advance(Math.sign(vertical));
+      const direction = Math.sign(vertical);
+      const from = preview === cards[neighborIndex(direction)] ? preview.style.transform : undefined;
+      advance(direction, from);
     } else if (offset && !reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
         [{transform: offset}, {transform: 'none'}],
-        {duration: 140, easing: 'ease-out'}
+        {duration: 300, easing: 'ease-out'}
       );
+      if (preview?.animate) {
+        previewAnimation = preview.animate(
+          [{transform: preview.style.transform, opacity: 1},
+            {transform: preview.style.transform, opacity: 0}],
+          {duration: 240, easing: 'ease-out', fill: 'forwards'}
+        );
+        previewAnimation.finished.then(clearPreview, () => {});
+      } else {
+        clearPreview();
+      }
+    } else {
+      clearPreview();
     }
   };
   grid.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' || !event.isPrimary || event.target.closest('button')) return;
     entryAnimation?.cancel();
+    clearPreview();
     swipe = {id: event.pointerId, x: event.clientX, y: event.clientY, startedAt: event.timeStamp};
     grid.setPointerCapture(event.pointerId);
   });
@@ -1399,19 +1417,23 @@ function renderEmergencyQuickView(snapshot = null) {
     const card = cards[currentIndex];
     if (Math.abs(vertical) <= Math.max(8, Math.abs(horizontal) * 1.1)) {
       card.style.transform = '';
-      peek.hidden = true;
+      clearPreview();
       return;
     }
-    const offset = Math.max(-52, Math.min(52, vertical * .55));
-    card.style.transform = `translateY(${offset}px)`;
     const direction = vertical < 0 ? 1 : -1;
-    const neighbor = active[(currentIndex + direction + cards.length) % cards.length];
-    peek.textContent = neighbor.title;
-    peek.style.color = neighbor.color;
-    peek.style.top = direction === -1 ? '-45px' : '';
-    peek.style.bottom = direction === 1 ? '-45px' : '';
-    peek.style.transform = `perspective(500px) translateY(${offset}px) rotateX(${direction * 16}deg)`;
-    peek.hidden = false;
+    const travel = Math.max(96, grid.clientHeight * .56);
+    const progress = Math.min(.94, Math.abs(vertical) / travel);
+    card.style.transform = `translateY(${-direction * travel * progress}px)`;
+    const neighbor = cards[neighborIndex(direction)];
+    if (preview !== neighbor) {
+      clearPreview();
+      preview = neighbor;
+      preview.classList.add('is-preview');
+      preview.setAttribute('aria-hidden', 'true');
+      preview.hidden = false;
+    }
+    const remaining = 1 - progress;
+    preview.style.transform = `perspective(700px) translateY(${direction * travel * remaining}px) rotateX(${direction * 24 * remaining}deg) scale(${1 - .16 * remaining})`;
   });
   grid.addEventListener('pointercancel', event => finishSwipe(event, true));
   grid.addEventListener('pointerup', event => finishSwipe(event));
