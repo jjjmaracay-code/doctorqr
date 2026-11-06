@@ -1149,9 +1149,9 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-direction{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;
       border:1px solid currentColor;border-radius:20px;font-weight:700;}
     .eqv-direction{border-color:color-mix(in srgb,currentColor 45%,transparent);
-      animation:eqv-text-pulse 3.8s ease-in-out infinite;}
-    .eqv-arrow{font-size:18px;line-height:1;animation:eqv-float 3.8s ease-in-out infinite;}
-    @keyframes eqv-text-pulse{50%{opacity:.88;}}
+      animation:eqv-text-pulse 2.4s ease-in-out infinite;}
+    .eqv-arrow{font-size:18px;line-height:1;animation:eqv-float 1.6s ease-in-out infinite;}
+    @keyframes eqv-text-pulse{50%{opacity:.76;text-shadow:0 0 6px currentColor;}}
     @keyframes eqv-float{0%,100%{opacity:.72;}50%{opacity:1;transform:translateY(var(--eqv-arrow-offset));}}
     .eqv-card:not(.is-current) .eqv-direction,
     .eqv-card:not(.is-current) .eqv-arrow{animation-play-state:paused;}
@@ -1259,14 +1259,13 @@ function renderEmergencyQuickView(snapshot = null) {
       position.textContent = `${index + 1} de ${active.length}`;
       const navigation = document.createElement('div');
       navigation.className = 'eqv-navigation';
-      for (const [neighbor, swipeUp] of [[active[index - 1], false], [active[index + 1], true]]) {
-        if (!neighbor) continue;
+      for (const [neighbor, swipeUp] of [[active[(index + active.length - 1) % active.length], false], [active[(index + 1) % active.length], true]]) {
         const direction = document.createElement('span');
         direction.className = 'eqv-direction';
         direction.style.color = neighbor.color;
         const arrow = document.createElement('span');
         arrow.className = 'eqv-arrow';
-        arrow.style.setProperty('--eqv-arrow-offset', swipeUp ? '-3px' : '3px');
+        arrow.style.setProperty('--eqv-arrow-offset', swipeUp ? '-8px' : '8px');
         arrow.setAttribute('aria-hidden', 'true');
         arrow.textContent = swipeUp ? '↑' : '↓';
         direction.append(arrow, `Desliza hacia ${swipeUp ? 'arriba' : 'abajo'} · ${neighbor.title}`);
@@ -1314,16 +1313,44 @@ function renderEmergencyQuickView(snapshot = null) {
   });
 
   const cards = Array.from(grid.children);
-  let current = cards[0];
+  if (cards.length < 2) return;
+
+  // The end panels supply a snap point and a preview. The original cards
+  // retain their QR slots and are reused when crossing either boundary.
+  const boundary = card => {
+    const panel = document.createElement('div');
+    panel.className = 'eqv-card';
+    panel.style.setProperty('--eqv-accent', card.style.getPropertyValue('--eqv-accent'));
+    panel.setAttribute('aria-hidden', 'true');
+    panel.append(...Array.from(card.querySelectorAll('.eqv-preview'), label => label.cloneNode(true)));
+    return panel;
+  };
+  grid.prepend(boundary(cards[cards.length - 1]));
+  grid.append(boundary(cards[0]));
+
+  let currentIndex = 0;
+  let wrapTimer;
+  const stepSize = () => grid.clientHeight - 56;
+  grid.scrollTop = stepSize();
   grid.addEventListener('scroll', () => {
-    const step = grid.clientHeight - 56;
-    if (step <= 0 || !current) return;
-    const index = Math.min(cards.length - 1, Math.max(0, Math.round(grid.scrollTop / step)));
-    const next = cards[index];
-    if (next === current) return;
-    current.classList.remove('is-current');
-    next.classList.add('is-current');
-    current = next;
+    clearTimeout(wrapTimer);
+    const step = stepSize();
+    if (step <= 0) return;
+    const position = Math.round(grid.scrollTop / step);
+    if (position > 0 && position <= cards.length) {
+      cards[currentIndex].classList.remove('is-current');
+      currentIndex = position - 1;
+      cards[currentIndex].classList.add('is-current');
+      return;
+    }
+
+    wrapTimer = setTimeout(() => {
+      if (!grid.isConnected || grid.clientHeight <= 56) return;
+      cards[currentIndex].classList.remove('is-current');
+      currentIndex = position <= 0 ? cards.length - 1 : 0;
+      cards[currentIndex].classList.add('is-current');
+      grid.scrollTop = (currentIndex + 1) * stepSize();
+    }, 100);
   }, { passive: true });
 }
 
