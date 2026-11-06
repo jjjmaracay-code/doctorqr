@@ -1125,7 +1125,7 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-grid{flex:1;min-height:0;width:100%;overflow-y:auto;overscroll-behavior:contain;
       scroll-snap-type:y mandatory;container-type:size;perspective:900px;}
     .eqv-grid::before,.eqv-grid::after{content:'';display:block;height:28px;}
-    .eqv-card{box-sizing:border-box;height:calc(100% - 56px);scroll-snap-align:center;
+    .eqv-card{position:relative;box-sizing:border-box;height:calc(100% - 56px);scroll-snap-align:center;
       scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;
       align-items:center;gap:8px;padding:8px;color:var(--eqv-accent);
       background:#0a1422;border:1px solid currentColor;border-radius:22px;
@@ -1135,15 +1135,24 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-type-header{display:flex;align-items:center;justify-content:center;gap:8px;}
     .eqv-type-dot{width:10px;height:10px;border-radius:50%;flex:none;background:currentColor;}
     .eqv-type-title{font-size:16px;font-weight:900;text-transform:uppercase;text-align:center;}
-    .eqv-cover{width:min(100%,500px,calc(100dvh - 220px));aspect-ratio:1;
+    .eqv-cover{width:min(100%,500px,calc(100dvh - 245px));aspect-ratio:1;
       display:flex;align-items:center;justify-content:center;}
     @supports (width: 1cqh){
-      .eqv-cover{width:min(100%,500px,calc(100cqh - 142px));}
+      .eqv-cover{width:min(100%,500px,calc(100cqh - 185px));}
     }
     .eqv-card:not(.is-current) .eqv-cover{visibility:hidden;}
     .eqv-cover img,.eqv-cover canvas{width:100%;height:100%;object-fit:contain;
       border-radius:8px;background:#fff;display:block;}
     .eqv-name{font-size:13px;color:#ccc;text-align:center;overflow-wrap:anywhere;}
+    .eqv-help,.eqv-navigation{margin:0;text-align:center;font-size:13px;color:#ddd;}
+    .eqv-navigation{margin-top:8px;}
+    .eqv-preview{position:absolute;left:8px;right:8px;text-align:center;
+      font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .eqv-preview-top{top:5px;}
+    .eqv-preview-bottom{bottom:5px;}
+    .eqv-card.is-current .eqv-preview{display:none;}
+    .eqv-card:not(.is-current) .eqv-help,.eqv-card:not(.is-current) .eqv-navigation{visibility:hidden;}
+
     @media (prefers-reduced-motion:reduce){
       .eqv-card{transform:none;transition:none;}
     }
@@ -1229,9 +1238,27 @@ function renderEmergencyQuickView(snapshot = null) {
     name.className = 'eqv-name';
     name.textContent = nombreCompleto;
 
-    card.appendChild(header);
-    card.appendChild(cover);
-    card.appendChild(name);
+    const help = document.createElement('p');
+    help.className = 'eqv-help';
+    help.textContent = 'Escanea este código con otro teléfono';
+
+    card.append(header, help, cover, name);
+    if (active.length > 1) {
+      const navigation = document.createElement('p');
+      navigation.className = 'eqv-navigation';
+      const next = active[index + 1];
+      const hint = next ? `Desliza ↑ para ver ${next.title}` : 'Desliza ↓ para volver';
+      navigation.textContent = `${index + 1} de ${active.length} · ${hint}`;
+      card.appendChild(navigation);
+
+      for (const edge of ['top', 'bottom']) {
+        const preview = document.createElement('span');
+        preview.className = `eqv-preview eqv-preview-${edge}`;
+        preview.setAttribute('aria-hidden', 'true');
+        preview.textContent = type.title;
+        card.appendChild(preview);
+      }
+    }
     grid.appendChild(card);
 
     // Regla central de frescura: si la huella coincide, la caché refleja
