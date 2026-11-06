@@ -1314,8 +1314,8 @@ function renderEmergencyQuickView(snapshot = null) {
     card.hidden = false;
     if (!reducedMotion.matches && card.animate) {
       entryAnimation = card.animate(
-        [{transform: `translateY(${direction * 32}px)`}, {transform: 'none'}],
-        {duration: 180, easing: 'ease-out'}
+        [{transform: `translateY(${direction * 60}px)`}, {transform: 'none'}],
+        {duration: 240, easing: 'ease-out'}
       );
     }
   };
@@ -1353,7 +1353,7 @@ function renderEmergencyQuickView(snapshot = null) {
       card.style.transform = '';
       return;
     }
-    const offset = Math.max(-28, Math.min(28, vertical * .3));
+    const offset = Math.max(-52, Math.min(52, vertical * .55));
     card.style.transform = `translateY(${offset}px)`;
   });
   grid.addEventListener('pointercancel', event => finishSwipe(event, true));
