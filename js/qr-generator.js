@@ -1135,17 +1135,21 @@ function mostrarSinPerfilParaEmergencia() {
     .eqv-type-header{display:flex;align-items:center;justify-content:center;gap:8px;}
     .eqv-type-dot{width:10px;height:10px;border-radius:50%;flex:none;background:currentColor;}
     .eqv-type-title{font-size:16px;font-weight:900;text-transform:uppercase;text-align:center;}
-    .eqv-cover{width:min(100%,500px,calc(100dvh - 245px));aspect-ratio:1;
+    .eqv-cover{width:min(100%,500px,calc(100dvh - 280px));aspect-ratio:1;
       display:flex;align-items:center;justify-content:center;}
     @supports (width: 1cqh){
-      .eqv-cover{width:min(100%,500px,calc(100cqh - 185px));}
+      .eqv-cover{width:min(100%,500px,calc(100cqh - 220px));}
     }
     .eqv-card:not(.is-current) .eqv-cover{visibility:hidden;}
     .eqv-cover img,.eqv-cover canvas{width:100%;height:100%;object-fit:contain;
       border-radius:8px;background:#fff;display:block;}
     .eqv-name{font-size:13px;color:#ccc;text-align:center;overflow-wrap:anywhere;}
     .eqv-help,.eqv-navigation{margin:0;text-align:center;font-size:13px;color:#ddd;}
-    .eqv-navigation{margin-top:8px;}
+    .eqv-navigation{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;}
+    .eqv-direction{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;
+      border:1px solid currentColor;border-radius:20px;font-weight:700;}
+    .eqv-arrow{font-size:18px;line-height:1;animation:eqv-nudge 900ms ease-in-out 3;}
+    @keyframes eqv-nudge{50%{transform:translateY(var(--eqv-arrow-offset));}}
     .eqv-preview{position:absolute;left:8px;right:8px;text-align:center;
       font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .eqv-preview-top{top:5px;}
@@ -1155,6 +1159,7 @@ function mostrarSinPerfilParaEmergencia() {
 
     @media (prefers-reduced-motion:reduce){
       .eqv-card{transform:none;transition:none;}
+      .eqv-arrow{animation:none;}
     }
   `;
   document.head.appendChild(style);
@@ -1244,12 +1249,25 @@ function renderEmergencyQuickView(snapshot = null) {
 
     card.append(header, help, cover, name);
     if (active.length > 1) {
-      const navigation = document.createElement('p');
+      const position = document.createElement('p');
+      position.className = 'eqv-navigation';
+      position.textContent = `${index + 1} de ${active.length}`;
+      const navigation = document.createElement('div');
       navigation.className = 'eqv-navigation';
-      const next = active[index + 1];
-      const hint = next ? `Desliza ↑ para ver ${next.title}` : 'Desliza ↓ para volver';
-      navigation.textContent = `${index + 1} de ${active.length} · ${hint}`;
-      card.appendChild(navigation);
+      for (const [neighbor, swipeUp] of [[active[index - 1], false], [active[index + 1], true]]) {
+        if (!neighbor) continue;
+        const direction = document.createElement('span');
+        direction.className = 'eqv-direction';
+        direction.style.color = neighbor.color;
+        const arrow = document.createElement('span');
+        arrow.className = 'eqv-arrow';
+        arrow.style.setProperty('--eqv-arrow-offset', swipeUp ? '-3px' : '3px');
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = swipeUp ? '↑' : '↓';
+        direction.append(arrow, `Desliza hacia ${swipeUp ? 'arriba' : 'abajo'} · ${neighbor.title}`);
+        navigation.appendChild(direction);
+      }
+      card.append(position, navigation);
 
       for (const edge of ['top', 'bottom']) {
         const preview = document.createElement('span');

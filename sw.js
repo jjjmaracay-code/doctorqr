@@ -41,7 +41,7 @@
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
-const CACHE_NAME = 'doctorqr-v76';
+const CACHE_NAME = 'doctorqr-v77';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -86,7 +86,7 @@ const CACHE_URLS = [
   './js/totp-recovery.js?v=14',
   './js/emergency-access.js?v=51',
   './js/emergency-scroll.js?v=2',
-  './js/qr-generator.js?v=53',
+  './js/qr-generator.js?v=54',
   './js/qr-wallpaper.js?v=55',
   './css/qr-wallpaper.css?v=37',
   './js/qr-wallpaper-iphone.js?v=38',
