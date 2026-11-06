@@ -1327,7 +1327,7 @@ function renderEmergencyQuickView(snapshot = null) {
     card.style.transform = '';
     const vertical = swipe.y - event.clientY;
     const horizontal = swipe.x - event.clientX;
-    const minimumDistance = event.timeStamp - swipe.startedAt <= 220 ? 28 : 44;
+    const minimumDistance = event.timeStamp - swipe.startedAt <= 220 ? 34 : 50;
     swipe = undefined;
     if (!cancelled && Math.abs(vertical) >= minimumDistance && Math.abs(vertical) > Math.abs(horizontal) * 1.1) {
       advance(Math.sign(vertical));
