@@ -4,7 +4,7 @@ const {chromium}=require('playwright'),{PNG}=require('pngjs'),jsQR=require('jsqr
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
 const root=process.cwd(),out=process.env.ATABEY_ACCESSORY_QA_DIR||'/tmp/atabey-accessory-qa';fs.mkdirSync(out,{recursive:true});
 const owner='ACCESSORY-FICTIONAL-NOT-A-PATIENT';
-const profile={nombre:'MUESTRA',apellidos:'FICTICIA - NO USAR',email:'accessory@example.invalid',doc_type:'dni',doc_number:'FICTIONAL-ONLY',fecha_nacimiento:'1980-01-01',sangre:'O+',ec1_name:'Contacto ficticio',ec1_phone_prefix:'+00',ec1_phone_num:'000000000',ec2_name:'María del Carmen Alejandra Fernández de la Cruz y Montenegro',ec2_phone_prefix:'+34',ec2_phone_num:'111222333',ec3_name:'',ec3_phone_prefix:'+49',ec3_phone_num:'123456789'};
+const profile={nombre:'MUESTRA',apellidos:'FICTICIA - NO USAR',email:'accessory@example.invalid',doc_type:'dni',doc_number:'FICTIONAL-ONLY',fecha_nacimiento:'1980-01-01',sangre:'',ec1_name:'Contacto ficticio',ec1_phone_prefix:'+00',ec1_phone_num:'000000000',ec2_name:'María del Carmen Alejandra Fernández de la Cruz y Montenegro',ec2_phone_prefix:'+34',ec2_phone_num:'111222333',ec3_name:'',ec3_phone_prefix:'+49',ec3_phone_num:'123456789'};
 const target='https://atabeyapp.app/card.html?id='+owner+'&t=emergency',compactTarget='https://atabeyapp.app/e/AAAAAAAAAAAAAAAA';
 const errors=[],external=[],samples=[];let browser;
 const decode=buf=>{const p=PNG.sync.read(buf);return jsQR(new Uint8ClampedArray(p.data),p.width,p.height,{inversionAttempts:'dontInvert'})?.data;};
@@ -25,11 +25,11 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
  async function open(p,language='es'){const event=p.waitForEvent('popup');await p.evaluate(language=>{const snapshot=JSON.stringify(MedicalOwner.read());window.__accessoryPromise=AtabeyEmergencyCard.open({profile:MedicalOwner.read(),patientUrl:buildEmergencyQRUrl(),language,date:new Date(2026,9,27,12),ready:ensureQRCodeLoaded,draw:createOrganicQRCode,prepareCompact:()=>AtabeyCompactEmergencyQR.render('https://atabeyapp.app/e/'+(MedicalOwner.id().includes('BOB')?'BBBBBBBBBBBBBBBB':'AAAAAAAAAAAAAAAA'),3),current:()=>MedicalOwner.current()&&JSON.stringify(MedicalOwner.read())===snapshot,autoPrint:false});},language);const q=await event;try{await q.waitForFunction(()=>document.documentElement.dataset.cardReady==='true'&&document.querySelector('.accessory-svg')?.dataset.compactReady==='true');}catch(e){console.log('POPUP STATE',await q.evaluate(()=>({ready:document.documentElement.dataset.cardReady,error:document.body.dataset.cardError,status:document.getElementById('accessory-status')?.textContent,body:document.body.textContent.slice(-500)})));console.log('ENCODER',await p.evaluate(()=>{try{return AtabeyCompactEmergencyQR.render('https://atabeyapp.app/e/AAAAAAAAAAAAAAAA',3).version}catch(e){return e.stack}}));throw e;}return q;}
  async function sheet(q){const event=q.waitForEvent('popup');await q.locator('#accessory-print').click();const p=await event;await p.waitForFunction(()=>document.documentElement.dataset.accessoryReady==='true');assert.equal(await p.evaluate(()=>window.__printCount||0),0);return p;}
  const p=await source(),before=await p.evaluate(()=>JSON.stringify({...localStorage})),q=await open(p);
- assert.equal(await q.locator('#accessory-format option').count(),3);assert.equal(await q.locator('#accessory-color option').count(),23);
+ assert.equal(await q.locator('#accessory-format option').count(),5);assert.equal(await q.locator('#accessory-color option').count(),23);
  assert.equal(await q.locator('script').count(),0);assert.notEqual(await q.locator('image.accessory-qr').getAttribute('href'),await q.locator('#qcf').getAttribute('src'));
  assert.equal(decode(Buffer.from((await q.locator('image.accessory-qr').getAttribute('href')).split(',')[1],'base64')),compactTarget);
  assert.equal(await p.evaluate(()=>JSON.stringify({...localStorage})),before);
- console.log('PASS: three formats, nine solids, monthly palettes and Pride; watch uses a separate compact liquid QR; main QR unchanged');
+ console.log('PASS: five formats, nine solids, monthly palettes and Pride; watch uses a separate compact liquid QR; main QR unchanged');
  for(const mode of ['short','anonymous','initials']){await q.locator('#accessory-identity').selectOption(mode);const text=await q.locator('.accessory-svg').textContent();assert.equal(text.includes('MUESTRA FICTICIA - NO USAR'),mode==='full');assert.notEqual(await q.locator('image.accessory-qr').getAttribute('href'),await q.locator('#qcf').getAttribute('src'));}
  await q.locator('#accessory-contact').uncheck();await q.locator('#accessory-contact').check();assert.ok((await q.locator('.accessory-svg').textContent()).includes('+00 000 000 000'));await q.locator('#accessory-contact').uncheck();assert.ok(!(await q.locator('.accessory-svg').textContent()).includes('+00 000 000 000'));
  await q.locator('#card-country').selectOption('US');assert.ok(!(await q.locator('.accessory-front').textContent()).includes('911'));await q.locator('#card-country').selectOption('EU');await q.locator('#accessory-format').selectOption('band');
@@ -74,6 +74,50 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
  await q.locator('#accessory-format').selectOption('tag');const guardSheet=await sheet(q);const downloads=[];q.on('download',d=>downloads.push(d));await q.evaluate(()=>{const decode=Image.prototype.decode;Image.prototype.decode=function(){return new Promise((resolve,reject)=>{window.__releaseAccessory=()=>decode.call(this).then(resolve,reject)})}});await q.locator('#accessory-download').click();await q.waitForFunction(()=>typeof window.__releaseAccessory==='function');await p.evaluate(()=>MedicalOwner.write({...MedicalOwner.read(),sangre:'AB-'}));await q.waitForFunction(()=>document.body.dataset.cardError==='true');await guardSheet.waitForFunction(()=>!document.querySelector('.accessory-qr'));await q.evaluate(()=>window.__releaseAccessory());await q.waitForTimeout(100);assert.equal(downloads.length,0);assert.ok(!(await guardSheet.textContent('body')).includes('MUESTRA'));await guardSheet.close();
  const bob={...profile,nombre:'OTHER',apellidos:'FICTIONAL PERSON',email:'bob@example.invalid',doc_number:'FICTIONAL-BOB',ec1_name:'Contacto exclusivo de Bob',ec1_phone_prefix:'+34',ec1_phone_num:'444555666'},bp=await source(bob,'ACCESSORY-BOB-FICTIONAL'),bq=await open(bp);const bimg=Buffer.from((await bq.locator('image.accessory-qr').getAttribute('href')).split(',')[1],'base64');assert.equal(decode(bimg),'https://atabeyapp.app/e/BBBBBBBBBBBBBBBB');assert.ok(!(await bq.textContent('body')).includes('MUESTRA FICTICIA'));
  await bq.locator('#accessory-format').selectOption('tag');checkContactPanels(await contactPanels(bq),'Contacto exclusivo de Bob','+34 444 555 666');assert.ok(!(await bq.locator('.accessory-svg').textContent()).includes('Contacto ficticio'));assert.equal(await bq.locator('.tag-face .accessory-qr').count(),2);for(const image of await bq.locator('.tag-face .accessory-qr').evaluateAll(list=>list.map(x=>x.getAttribute('href'))))assert.equal(decode(Buffer.from(image.split(',')[1],'base64')),'https://atabeyapp.app/card.html?id=ACCESSORY-BOB-FICTIONAL&t=emergency');console.log('PASS: option changes invalidate stale print sheets; account/profile changes clear all views and cancel an in-flight PNG; a second account receives only its own QR');
+ for(const format of ['keyring','badge']){
+   await bq.locator('#accessory-format').selectOption(format);
+   assert.ok(await bq.locator('#accessory-print').isDisabled());
+   assert.ok(await bq.locator('#accessory-download').isDisabled());
+ }
+ await bq.close();
+ const offlineSource=await source({...profile,sangre:'O+'}),personal=await open(offlineSource);
+ const offlineImage=await personal.locator('#qco').getAttribute('src');
+ const offlinePayload=decode(Buffer.from(offlineImage.split(',')[1],'base64'));
+ assert.match(offlinePayload,/^FICHA MEDICA SIN INTERNET/);
+ for(const [format,dimensions] of [['keyring',[54,76]],['badge',[72,72]]]){
+   await personal.locator('#accessory-format').selectOption(format);
+   await personal.locator('#accessory-color').selectOption('violet');
+   await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
+   await personal.locator('#accessory-use-custom').setChecked(true);
+   await personal.locator('#accessory-custom-color').fill('#125ab9');
+   await personal.locator('#accessory-caption').fill('MUESTRA <&>');
+   assert.deepEqual(await personal.locator('.accessory-svg').evaluate(el=>[+el.dataset.patternWidth,+el.dataset.patternHeight]),dimensions);
+   assert.equal(await personal.locator('.accessory-qr').getAttribute('href'),offlineImage);
+   assert.ok(await personal.locator('.accessory-svg [fill="#125ab9"]').count());
+   assert.ok((await personal.locator('.accessory-svg').textContent()).includes('MUESTRA <&>'));
+   const g=await qrGeometry(personal);
+   near(g.q,40,'New accessory QR width');
+   const download=personal.waitForEvent('download');
+   await personal.locator('#accessory-download').click();
+   const png=fs.readFileSync(await (await download).path()),factor=300/25.4;
+   assert.deepEqual(phys(png),[11811,11811,1]);
+   assert.equal(decode(crop(png,{x:Math.round(g.x*factor),y:Math.round(g.y*factor),width:Math.round(g.q*factor),height:Math.round(g.q*factor)})),offlinePayload);
+   const printed=await sheet(personal);
+   await printed.emulateMedia({media:'print'});
+   const box=await printed.locator('.accessory-qr').boundingBox();
+   near(box.width/(96/25.4),40,'New accessory print QR width');
+   const pdf=path.join(out,format+'.pdf');
+   await printed.pdf({path:pdf,preferCSSPageSize:true});
+   assert.match(execFileSync('pdfinfo',[pdf],{encoding:'utf8'}),/Pages:\s+1\b/);
+   execFileSync('pdftoppm',['-r','300','-png','-singlefile',pdf,path.join(out,format+'-print')],{stdio:'pipe'});
+   const raster=fs.readFileSync(path.join(out,format+'-print.png')),scale=300/96;
+   assert.equal(decode(crop(raster,{x:Math.round(6*factor+box.x*scale),y:Math.round(6*factor+box.y*scale),width:Math.round(box.width*scale),height:Math.round(box.height*scale)})),offlinePayload);
+   await printed.close();
+   await personal.locator('#accessory-use-custom').uncheck();
+ }
+ await personal.close();
+ await offlineSource.close();
+ console.log('PASS: personalized keyring and badge preserve the offline medical QR in PNG and PDF, and require offline data before export');
  assert.deepEqual(errors,[]);assert.deepEqual(external,[]);fs.writeFileSync(path.join(out,'samples.json'),JSON.stringify({fictional:true,target,samples},null,2));
  console.log('PASS: zero browser errors, external requests or account/profile storage writes');
 }catch(error){console.error(error);process.exitCode=1;}finally{await browser?.close();}})();
