@@ -253,10 +253,9 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    const raster=fs.readFileSync(path.join(out,format+'-print.png')),scale=300/96;
    assert.deepEqual(boxes.map(box=>decode(crop(raster,{x:Math.round(6*factor+box.x*scale),y:Math.round(6*factor+box.y*scale),width:Math.round(box.width*scale),height:Math.round(box.height*scale)}))),expected);
    await printed.close();
-   if(format==='badge'){
-     await personal.locator('#accessory-use-gradient').uncheck();
-     await personal.locator('#accessory-use-custom').uncheck();
-   }
+   if(format==='badge')await personal.locator('#accessory-use-gradient').uncheck();
+   else await personal.locator('[data-badge-choice=""]').click();
+   await personal.locator('#accessory-use-custom').uncheck();
  }
  await personal.close();
  await offlineSource.close();
