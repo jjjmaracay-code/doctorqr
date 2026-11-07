@@ -1,4 +1,4 @@
-/* Local photographic backgrounds. The catalogue links to each original and its credits. */
+/* Local photographic and film backgrounds with sources and credits. */
 window.AtabeyBadgePhotos = [
   ["mercurio", "Mercurio · MESSENGER / Mercury · MESSENGER", "https://commons.wikimedia.org/wiki/File:Mercury_in_true_color.jpg", "NASA / JHU APL / Carnegie Institution", "", true, "planet"],
   ["venus", "Venus · Mariner 10 / Venus · Mariner 10", "https://science.nasa.gov/photojournal/venus-from-mariner-10/", "NASA / JPL-Caltech", "", true, "planet"],
@@ -35,5 +35,11 @@ window.AtabeyBadgePhotos = [
   ["teton", "Los Tetons y el río Snake / The Tetons and the Snake River", "https://commons.wikimedia.org/wiki/File:Adams_The_Tetons_and_the_Snake_River.jpg", "Ansel Adams / U.S. National Archives", "", false, "landscape"],
   ["grito-munch", "El grito · Edvard Munch / The Scream · Edvard Munch", "https://commons.wikimedia.org/wiki/File:Edvard-Munch-The-Scream.jpg", "Edvard Munch", "", false, "art"],
   ["perla-vermeer", "La joven de la perla · Johannes Vermeer / Girl with a Pearl Earring · Johannes Vermeer", "https://commons.wikimedia.org/wiki/File:Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_WGA24666.jpg", "Johannes Vermeer / Web Gallery of Art", "", false, "art"],
-  ["venus-botticelli", "El nacimiento de Venus · Sandro Botticelli / The Birth of Venus · Sandro Botticelli", "https://commons.wikimedia.org/wiki/File:El_nacimiento_de_Venus%2C_por_Sandro_Botticelli.jpg", "Sandro Botticelli / Uffizi", "", false, "art"]
+  ["venus-botticelli", "El nacimiento de Venus · Sandro Botticelli / The Birth of Venus · Sandro Botticelli", "https://commons.wikimedia.org/wiki/File:El_nacimiento_de_Venus%2C_por_Sandro_Botticelli.jpg", "Sandro Botticelli / Uffizi", "", false, "art"],
+  ["tears-of-steel", "Tears of Steel · 2012", "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_frame_00_1c.jpg", "© Blender Foundation · mango.blender.org", "CC BY 3.0", false, "cinema"],
+  ["spring", "Spring · 2019", "https://studio.blender.org/projects/spring/pages/about/", "© Blender Foundation · studio.blender.org/projects/spring", "CC BY 4.0", false, "cinema"],
+  ["sintel", "Sintel · 2010", "https://commons.wikimedia.org/wiki/File:Sintel_screenshot.png", "© Blender Foundation · sintel.org", "CC BY 3.0", false, "cinema"],
+  ["big-buck-bunny", "Big Buck Bunny · 2008", "https://commons.wikimedia.org/wiki/File:Big.Buck.Bunny.-.Bunny.Portrait.png", "© Blender Foundation · bigbuckbunny.org", "CC BY 3.0", false, "cinema"],
+  ["viaje-luna", "Viaje a la Luna · 1902 / A Trip to the Moon · 1902", "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_%281902%29.webm", "Georges Méliès", "", false, "cinema"],
+  ["great-train-robbery", "Asalto y robo de un tren · 1903 / The Great Train Robbery · 1903", "https://commons.wikimedia.org/wiki/File:Great_train_robbery_still.jpg", "Edwin S. Porter", "", false, "cinema"]
 ];

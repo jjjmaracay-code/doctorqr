@@ -41,7 +41,7 @@
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
-const CACHE_NAME = 'doctorqr-v105';
+const CACHE_NAME = 'doctorqr-v106';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -102,8 +102,20 @@ const CACHE_URLS = [
   './js/compact-emergency-qr.js?v=42',
   './js/badge-flags.js?v=1',
   './js/badge-art.js?v=1',
-  './js/badge-photos.js?v=2',
-  './js/emergency-accessories.js?v=64',
+  './js/badge-photos.js?v=3',
+  './js/emergency-accessories.js?v=65',
+  './assets/chapas-hd/big-buck-bunny-mini.webp',
+  './assets/chapas-hd/big-buck-bunny.webp',
+  './assets/chapas-hd/great-train-robbery-mini.webp',
+  './assets/chapas-hd/great-train-robbery.webp',
+  './assets/chapas-hd/sintel-mini.webp',
+  './assets/chapas-hd/sintel.webp',
+  './assets/chapas-hd/spring-mini.webp',
+  './assets/chapas-hd/spring.webp',
+  './assets/chapas-hd/tears-of-steel-mini.webp',
+  './assets/chapas-hd/tears-of-steel.webp',
+  './assets/chapas-hd/viaje-luna-mini.webp',
+  './assets/chapas-hd/viaje-luna.webp',
   './assets/chapas-hd/earthrise-mini.webp',
   './assets/chapas-hd/earthrise.webp',
   './assets/chapas-hd/ganado-mini.webp',

@@ -292,7 +292,7 @@
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
       gradient:'Degradado personalizado',from:'Color inicial',to:'Color final',useMiddle:'Añadir color intermedio',middle:'Color intermedio',direction:'Dirección',directions:['Horizontal','Vertical','Diagonal ascendente','Diagonal descendente'],caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
       collection:'Galería de chapas coleccionables',classic:'Diseño libre',source:'Ver imagen original y créditos',photoLoading:'Cargando fotografía en alta resolución…',photoError:'No se pudo cargar la foto. Vuelve a seleccionar el diseño para reintentar.',photoCrop:'Encuadre circular',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
-      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales','Banderas de países y territorios','Organizaciones internacionales','Brujería y folclore','Santería · Regla de Ocha','Unicolores','Degradados','Banderas regionales y territoriales','Obras de arte de fondo','Ilustraciones a toda cara','Paisajes de fondo','Atardeceres de fondo','Planetas en fotografía HD','Espacio en fotografía HD','Amaneceres en fotografía HD','Atardeceres en fotografía HD','Mar y arrecifes en fotografía HD','Corrales y ranchos en fotografía HD','Paisajes en fotografía HD'],
+      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales','Banderas de países y territorios','Organizaciones internacionales','Brujería y folclore','Santería · Regla de Ocha','Unicolores','Degradados','Banderas regionales y territoriales','Obras de arte de fondo','Ilustraciones a toda cara','Paisajes de fondo','Atardeceres de fondo','Planetas en fotografía HD','Espacio en fotografía HD','Amaneceres en fotografía HD','Atardeceres en fotografía HD','Mar y arrecifes en fotografía HD','Corrales y ranchos en fotografía HD','Paisajes en fotografía HD','Cine · Fotogramas'],
       galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
       decorative:'CHAPA DECORATIVA',medical:'CHAPA DE EMERGENCIA · QR',
       online:'CON INTERNET · ABRIR FICHA',fold:'DOBLAR POR EL CENTRO',scan:'SIN INTERNET · USA APP LECTORA',unavailable:'QR sin Internet no disponible. Revisa el grupo sanguíneo y las cirugías registradas en tu ficha.',
@@ -303,7 +303,7 @@
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
       gradient:'Custom gradient',from:'Start colour',to:'End colour',useMiddle:'Add a middle colour',middle:'Middle colour',direction:'Direction',directions:['Horizontal','Vertical','Rising diagonal','Falling diagonal'],caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
       collection:'Collectible badge gallery',classic:'Free design',source:'View original image and credits',photoLoading:'Loading high-resolution photo…',photoError:'Could not load the photo. Select the design again to retry.',photoCrop:'Circular crop',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
-      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals','Country and territory flags','International organisations','Witchcraft and folklore','Santería · Regla de Ocha','Solid colours','Gradients','Regional and territorial flags','Fine art backgrounds','Full-face illustrations','Landscape backgrounds','Sunset backgrounds','Planets in HD photos','Space in HD photos','Sunrises in HD photos','Sunsets in HD photos','Sea and reefs in HD photos','Corrals and ranches in HD photos','Landscapes in HD photos'],
+      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals','Country and territory flags','International organisations','Witchcraft and folklore','Santería · Regla de Ocha','Solid colours','Gradients','Regional and territorial flags','Fine art backgrounds','Full-face illustrations','Landscape backgrounds','Sunset backgrounds','Planets in HD photos','Space in HD photos','Sunrises in HD photos','Sunsets in HD photos','Sea and reefs in HD photos','Corrals and ranches in HD photos','Landscapes in HD photos','Cinema · Film stills'],
       galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
       decorative:'DECORATIVE BADGE',medical:'EMERGENCY BADGE · QR',
       online:'ONLINE · OPEN MEDICAL CARD',fold:'FOLD IN THE CENTRE',scan:'OFFLINE · USE A QR READER APP',unavailable:'Offline QR unavailable. Check the blood type and surgeries recorded on your medical card.',
@@ -655,8 +655,13 @@
       ...organisations.map((name,i)=>[name,badgePalettes[i%badgePalettes.length][1],badgePalettes[i%badgePalettes.length][2],'organisation'])],
     folklore,ocha,solidEditions,gradientEditions,regionalFlags.map(row=>flagEdition(row))
   );
+  const photoLicenses={
+    'CC BY-SA 4.0':'https://creativecommons.org/licenses/by-sa/4.0/',
+    'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
+    'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/'
+  };
   const photoBackgrounds=(window.AtabeyBadgePhotos||[]).map(([slug,name,source,credit,license,planet,group])=>[
-    name,'#090b16','#fff','photo',{source,credit,license,planet,group,path:`/assets/chapas-hd/${slug}.webp`,mini:`/assets/chapas-hd/${slug}-mini.webp`}
+    name,'#090b16','#fff','photo',{source,credit,license,licenseUrl:photoLicenses[license],planet,group,path:`/assets/chapas-hd/${slug}.webp`,mini:`/assets/chapas-hd/${slug}-mini.webp`}
   ]);
   const artBackgrounds=(window.AtabeyBadgeArt||[]).map(([name,file,base64])=>[
     name,'#274662','#fff','backdrop',{base64,source:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file)}
@@ -702,6 +707,8 @@
   badgeSeries.push([...artBackgrounds,...photosByGroup('art')],illustratedBackgrounds,landscapeBackgrounds.slice(0,8),landscapeBackgrounds.slice(8));
   const firstPhotoSeries=badgeSeries.length;
   for(const group of ['planet','space','sunrise','sunset','sea','ranch','landscape'])badgeSeries.push(photosByGroup(group));
+  const cinemaSeries=badgeSeries.length;
+  badgeSeries.push(photosByGroup('cinema'));
   function scenicBackdrop(data,id){
     const {sky,horizon,distant,near,water,scene,sunset}=data;
     const pines=(offset,color)=>Array.from({length:10},(_,i)=>{
@@ -767,7 +774,7 @@
     return `<linearGradient id="${id}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${from}"/>${middle?`<stop offset=".5" stop-color="${middle}"/>`: ''}<stop offset="1" stop-color="${to}"/></linearGradient>`;
   };
   const badgeIndices=badgeSeries.map((_,i)=>i);
-  const badgeOrder=[...badgeIndices.slice(firstPhotoSeries),...badgeIndices.slice(firstBackdropSeries,firstPhotoSeries),...badgeIndices.slice(originalBadgeSeriesCount,firstBackdropSeries),...badgeIndices.slice(0,originalBadgeSeriesCount)];
+  const badgeOrder=[cinemaSeries,...badgeIndices.slice(firstPhotoSeries,cinemaSeries),...badgeIndices.slice(firstBackdropSeries,firstPhotoSeries),...badgeIndices.slice(originalBadgeSeriesCount,firstBackdropSeries),...badgeIndices.slice(0,originalBadgeSeriesCount)];
   const regionNames={
     es:typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['es'],{type:'region'}):null,
     en:typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['en'],{type:'region'}):null
@@ -845,7 +852,7 @@
       <label>${esc(copy.collection)} <select id="accessory-badge-filter"><option value="">${esc(copy.all)}</option>${badgeOrder.map(i=>`<option value="${i}">${esc(copy.series[i])}</option>`).join('')}</select></label>
       <button type="button" data-badge-choice="" aria-pressed="true">${esc(copy.classic)}</button>
       <label>${esc(copy.search)} <input type="search" id="accessory-badge-search" maxlength="100" autocomplete="off"></label>
-      <p id="accessory-badge-count" role="status"></p><p id="accessory-badge-credit" hidden><a target="_blank" rel="noopener noreferrer">${esc(copy.source)}</a> <span></span> <a data-photo-license href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" hidden>CC BY-SA 4.0</a></p>
+      <p id="accessory-badge-count" role="status"></p><p id="accessory-badge-credit" hidden><a target="_blank" rel="noopener noreferrer">${esc(copy.source)}</a> <span></span> <a data-photo-license target="_blank" rel="noopener noreferrer" hidden></a></p>
       <div id="accessory-badge-shelf" class="accessory-badge-shelf accessory-badge-grid"></div>
       <nav aria-label="${esc(copy.collection)}">
         <button type="button" data-badge-page="-1" hidden>${esc(copy.previous)}</button>
@@ -899,7 +906,7 @@
       <defs>${pride}${gradient?gradientPaint(gradient,'badge-custom-gradient'):''}</defs><rect width="100%" height="100%" fill="#fff"/>${faces}
       <path d="M${totalW/2-25} ${scaleY}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>
       ${fittedText(totalW/2,scaleY+5,ctx.ui.scale,totalW-8,2.3)}
-      ${photo?fittedText(totalW/2,scaleY+11,`${photo.credit} · ${copy.photoCrop}${photo.license?' · CC BY-SA 4.0 · creativecommons.org/licenses/by-sa/4.0/':''}`,totalW-8,2):''}
+      ${photo?fittedText(totalW/2,scaleY+11,`${photo.credit} · ${copy.photoCrop}${photo.licenseUrl?` · ${photo.license} · ${photo.licenseUrl}`:''}`,totalW-8,2):''}
     </svg>`;
   }
   function artwork(ctx,state){
@@ -1023,7 +1030,12 @@
       if(source)credit.querySelector('a').href=source;
       const photo=edition?.[3]==='photo'?edition[4]:null;
       credit.querySelector('span').textContent=photo?` · ${photo.credit} · ${u.photoCrop}`:'';
-      credit.querySelector('[data-photo-license]').hidden=!photo?.license;
+      const licenseLink=credit.querySelector('[data-photo-license]');
+      licenseLink.hidden=!photo?.licenseUrl;
+      if(photo?.licenseUrl){
+        licenseLink.href=photo.licenseUrl;
+        licenseLink.textContent=photo.license;
+      }
       const gradient=format==='badge'&&!flag&&doc.getElementById('accessory-use-gradient').checked;
       const useMiddle=gradient&&doc.getElementById('accessory-gradient-use-middle').checked;
       const colors=gradient?[doc.getElementById('accessory-gradient-from').value,doc.getElementById('accessory-gradient-to').value,Number(doc.getElementById('accessory-gradient-direction').value)]:null;
