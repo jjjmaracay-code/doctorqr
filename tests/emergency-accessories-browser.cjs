@@ -89,10 +89,10 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1897 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1909 modelos/);
      assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),24);
      await personal.locator('[data-badge-page="1"]').click();
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1897 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1909 modelos/);
      await personal.locator('#accessory-badge-search').fill('beyonce');
      assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
      assert.match(await personal.locator('.accessory-badge-grid button').textContent(),/Beyoncé/);
@@ -123,7 +123,7 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      for(const series of ['31','32','33','34']){
        await personal.locator('#accessory-badge-search').fill('');
        await personal.locator('#accessory-badge-filter').selectOption(series);
-       assert.match(await personal.locator('#accessory-badge-count').textContent(),new RegExp((series==='31'?11:series==='32'?16:8)+' modelos'));
+       assert.match(await personal.locator('#accessory-badge-count').textContent(),new RegExp((series==='31'?14:series==='32'?16:8)+' modelos'));
        await personal.locator('.accessory-badge-grid button').first().click();
        assert.equal(await personal.locator('.badge-medical .badge-rim').count(),1);
        assert.equal(await personal.locator('.badge-medical .accessory-qr').getAttribute('href'),offlineImage);
@@ -153,6 +153,19 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      assert.match(execFileSync('pdfinfo',[photoPDF],{encoding:'utf8'}),/Pages:\s+1\b/);
      assert.match(execFileSync('pdftotext',[photoPDF,'-'],{encoding:'utf8'}),/Space Science Institute/);
      await photoSheet.close();
+     await personal.locator('#accessory-badge-filter').selectOption('36');
+     await personal.locator('#accessory-badge-search').fill('');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/5 modelos/);
+     await personal.locator('#accessory-badge-search').fill('luna llena');
+     await personal.locator('.accessory-badge-grid button').click();
+     await personal.waitForFunction(()=>document.querySelector('.badge-decorative image')?.getAttribute('href').startsWith('data:image/webp;'));
+     assert.equal(await personal.locator('.badge-medical .accessory-qr').getAttribute('href'),offlineImage);
+     const moonSheet=await sheet(personal);
+     await moonSheet.emulateMedia({media:'print'});
+     const moonPDF=path.join(out,'luna.pdf');
+     await moonSheet.pdf({path:moonPDF,preferCSSPageSize:true});
+     assert.match(execFileSync('pdftotext',[moonPDF,'-'],{encoding:'utf8'}),/NASA \/ Apollo 11/);
+     await moonSheet.close();
      await personal.locator('#accessory-badge-filter').selectOption('24');
      await personal.locator('#accessory-badge-search').fill('');
      assert.match(await personal.locator('#accessory-badge-count').textContent(),/249 modelos/);
