@@ -89,10 +89,10 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1915 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1919 modelos/);
      assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),24);
      await personal.locator('[data-badge-page="1"]').click();
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1915 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1919 modelos/);
      await personal.locator('#accessory-badge-search').fill('beyonce');
      assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
      assert.match(await personal.locator('.accessory-badge-grid button').textContent(),/Beyoncé/);
@@ -167,6 +167,12 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      assert.match(execFileSync('pdftotext',[moonPDF,'-'],{encoding:'utf8'}),/NASA \/ Apollo 11/);
      await moonSheet.close();
      await personal.locator('#accessory-badge-filter').selectOption('42');
+     await personal.locator('#accessory-badge-search').fill('');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/10 modelos/);
+     await personal.locator('#accessory-badge-search').fill('elephants dream');
+     await personal.locator('.accessory-badge-grid button').click();
+     await personal.waitForFunction(()=>document.querySelector('.badge-decorative image')?.getAttribute('href').startsWith('data:image/webp;'));
+     assert.equal(await personal.locator('[data-photo-license]').getAttribute('href'),'https://creativecommons.org/licenses/by/2.5/');
      await personal.locator('#accessory-badge-search').fill('tears of steel');
      await personal.locator('.accessory-badge-grid button').click();
      await personal.waitForFunction(()=>document.querySelector('.badge-decorative image')?.getAttribute('href').startsWith('data:image/webp;'));

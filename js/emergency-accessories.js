@@ -656,6 +656,8 @@
     folklore,ocha,solidEditions,gradientEditions,regionalFlags.map(row=>flagEdition(row))
   );
   const photoLicenses={
+    'CC BY 1.0':'https://creativecommons.org/licenses/by/1.0/',
+    'CC BY 2.5':'https://creativecommons.org/licenses/by/2.5/',
     'CC BY-SA 4.0':'https://creativecommons.org/licenses/by-sa/4.0/',
     'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
     'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/'
