@@ -291,7 +291,7 @@
     es: {
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
       gradient:'Degradado personalizado',from:'Color inicial',to:'Color final',useMiddle:'Añadir color intermedio',middle:'Color intermedio',direction:'Dirección',directions:['Horizontal','Vertical','Diagonal ascendente','Diagonal descendente'],caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
-      collection:'Galería de chapas coleccionables',classic:'Diseño libre',source:'Ver imagen original y créditos',photoLoading:'Cargando fotografía en alta resolución…',photoError:'No se pudo cargar la foto. Vuelve a seleccionar el diseño para reintentar.',photoCrop:'Encuadre circular',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
+      collection:'Galería de chapas coleccionables',keyringCollection:'Galería para el llavero',keyringGalleryHelp:'Elige un diseño para las dos caras del llavero. Los dos QR de cada cara conservan su fondo blanco.',classic:'Diseño libre',source:'Ver imagen original y créditos',photoLoading:'Cargando fotografía en alta resolución…',photoError:'No se pudo cargar la foto. Vuelve a seleccionar el diseño para reintentar.',photoCrop:'Encuadre circular',keyringPhotoCrop:'Encuadre para llavero',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
       series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales','Banderas de países y territorios','Organizaciones internacionales','Brujería y folclore','Santería · Regla de Ocha','Unicolores','Degradados','Banderas regionales y territoriales','Obras de arte de fondo','Ilustraciones a toda cara','Paisajes de fondo','Atardeceres de fondo','Planetas en fotografía HD','Espacio en fotografía HD','Amaneceres en fotografía HD','Atardeceres en fotografía HD','Mar y arrecifes en fotografía HD','Corrales y ranchos en fotografía HD','Paisajes en fotografía HD','Cine · Fotogramas'],
       galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
       decorative:'CHAPA DECORATIVA',medical:'CHAPA DE EMERGENCIA · QR',
@@ -302,7 +302,7 @@
     en: {
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
       gradient:'Custom gradient',from:'Start colour',to:'End colour',useMiddle:'Add a middle colour',middle:'Middle colour',direction:'Direction',directions:['Horizontal','Vertical','Rising diagonal','Falling diagonal'],caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
-      collection:'Collectible badge gallery',classic:'Free design',source:'View original image and credits',photoLoading:'Loading high-resolution photo…',photoError:'Could not load the photo. Select the design again to retry.',photoCrop:'Circular crop',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
+      collection:'Collectible badge gallery',keyringCollection:'Keyring gallery',keyringGalleryHelp:'Choose a design for both sides of the keyring. Both QR codes on each side keep their white backgrounds.',classic:'Free design',source:'View original image and credits',photoLoading:'Loading high-resolution photo…',photoError:'Could not load the photo. Select the design again to retry.',photoCrop:'Circular crop',keyringPhotoCrop:'Keyring crop',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
       series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals','Country and territory flags','International organisations','Witchcraft and folklore','Santería · Regla de Ocha','Solid colours','Gradients','Regional and territorial flags','Fine art backgrounds','Full-face illustrations','Landscape backgrounds','Sunset backgrounds','Planets in HD photos','Space in HD photos','Sunrises in HD photos','Sunsets in HD photos','Sea and reefs in HD photos','Corrals and ranches in HD photos','Landscapes in HD photos','Cinema · Film stills'],
       galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
       decorative:'DECORATIVE BADGE',medical:'EMERGENCY BADGE · QR',
@@ -798,7 +798,7 @@
     ua:()=>stripes(['#0057b7','#ffd700']),
     pt:()=>'<rect width="72" height="72" fill="#da291c"/><rect width="29" height="72" fill="#046a38"/><circle cx="29" cy="36" r="9" fill="#ffcc00"/><path d="M25 31h8v7q-4 5-8 0z" fill="#fff" stroke="#da291c" stroke-width="1.5"/>'
   };
-  function badgeFront(edition,id,base=edition[1],photoHref){
+  function badgeFront(edition,id,base=edition[1],photoHref,round=true){
     const [, ,accent,art,variant,finish]=edition;
     const line=(d,color,width=2.4)=>`<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
     const dots=Array.from({length:16},(_,i)=>`<circle cx="36" cy="7" r="${i%2?1.15:2}" transform="rotate(${i*22.5} 36 36)" fill="${accent}"/>`).join('');
@@ -834,7 +834,9 @@
     }
     const gradient=art==='gradient'&&base===edition[1]?gradientPaint(variant,id+'-paint'):'';
     const fill=gradient?`url(#${id}-paint)`:base;
-    return `<defs>${gradient}<clipPath id="${id}"><circle cx="36" cy="36" r="35.8"/></clipPath></defs><g clip-path="url(#${id})"><circle cx="36" cy="36" r="36" fill="${fill}"/>${art==='solid'||art==='gradient'||fixedFlag(edition)?'':dots}${artwork}</g><circle cx="36" cy="36" r="35.8" fill="none" stroke="#17243a" stroke-width=".25"/>`;
+    const decoration=art==='solid'||art==='gradient'||fixedFlag(edition)?'':dots;
+    if(!round)return `<defs>${gradient}</defs><rect width="72" height="72" fill="${fill}"/>${decoration}${artwork}`;
+    return `<defs>${gradient}<clipPath id="${id}"><circle cx="36" cy="36" r="35.8"/></clipPath></defs><g clip-path="url(#${id})"><circle cx="36" cy="36" r="36" fill="${fill}"/>${decoration}${artwork}</g><circle cx="36" cy="36" r="35.8" fill="none" stroke="#17243a" stroke-width=".25"/>`;
   }
   function badgeRim(edition,photoHref){
     const [, ,accent,art,variant,finish]=edition;
@@ -850,7 +852,7 @@
   }
   function badgeGallery(copy){
     return `<section id="accessory-badge-gallery" class="accessory-badge-gallery" hidden aria-labelledby="badge-gallery-title">
-      <h3 id="badge-gallery-title">${esc(copy.collection)}</h3><p>${esc(copy.galleryHelp)}</p>
+      <h3 id="badge-gallery-title">${esc(copy.collection)}</h3><p id="badge-gallery-help">${esc(copy.galleryHelp)}</p>
       <label>${esc(copy.collection)} <select id="accessory-badge-filter"><option value="">${esc(copy.all)}</option>${badgeOrder.map(i=>`<option value="${i}">${esc(copy.series[i])}</option>`).join('')}</select></label>
       <button type="button" data-badge-choice="" aria-pressed="true">${esc(copy.classic)}</button>
       <label>${esc(copy.search)} <input type="search" id="accessory-badge-search" maxlength="100" autocomplete="off"></label>
@@ -866,13 +868,13 @@
     const badge=state.format==='badge',width=badge?72:54,height=badge?72:118,qr=40,center=width/2;
     const copy=personalWords(ctx.language);
     const theme=monthTheme(ctx,state.color);
-    const custom=!fixedFlag(badge?selectedEdition(state.collectible):null)&&/^#[0-9a-f]{6}$/i.test(state.customColor||'')?state.customColor:'';
+    const custom=!fixedFlag(selectedEdition(state.collectible))&&/^#[0-9a-f]{6}$/i.test(state.customColor||'')?state.customColor:'';
     const [series,model]=String(state.collectible||'').split('-').map(Number);
-    const edition=badge?badgeSeries[series]?.[model]:null;
+    const edition=badgeSeries[series]?.[model];
     const [,base]=edition||[];
     const photo=edition?.[3]==='photo'?edition[4]:null,photoHref=photo&&ctx.badgePhotoData?.get(photo.path);
     const totalW=badge?(edition?168:80):2*width+8,totalH=height+(photo?31:25);
-    const selectedGradient=badge&&!fixedFlag(edition)&&state.gradient?.every((value,i)=>i===2?[0,1,2,3].includes(value):/^#[0-9a-f]{6}$/i.test(value))?state.gradient:null;
+    const selectedGradient=!fixedFlag(edition)&&state.gradient?.every((value,i)=>i===2?[0,1,2,3].includes(value):/^#[0-9a-f]{6}$/i.test(value))?state.gradient:null;
     const gradient=selectedGradient||(!custom&&edition?.[3]==='gradient'?edition[4]:null);
     const paint=gradient?'url(#badge-custom-gradient)':custom||base||(theme.pride?'url(#accessory-pride)':theme.color);
     const pride=theme.pride&&!custom&&!edition?`<linearGradient id="accessory-pride">${theme.colors.map((color,i)=>`<stop offset="${i/theme.colors.length}" stop-color="${color}"/><stop offset="${(i+1)/theme.colors.length}" stop-color="${color}"/>`).join('')}</linearGradient>`:'';
@@ -894,12 +896,20 @@
     }else{
       const face=side=>`<g class="keyring-face" data-side="${side}" transform="translate(${side==='front'?4:4+width} 3)">
         <circle cx="${center}" cy="7" r="2.5" fill="#fff" stroke="#13243c" stroke-width=".25" stroke-dasharray=".6 .45"/>
-        ${icon?sticker(5,3,icon,'#fff')+sticker(width-14,3,icon,'#fff'):''}
+        ${icon&&!edition?sticker(5,3,icon,'#fff')+sticker(width-14,3,icon,'#fff'):''}
         ${plate(16,'EMERGENCY',3)}${plate(20,copy.online,1.8)}${code(23,ctx.tagOnlineImage,'online')}
         ${plate(69,copy.scan,1.8)}${code(72,ctx.offlineImage,'offline')}
         ${state.caption?plate(116.5,state.caption,1.8):''}
       </g>`;
-      faces=`<rect x="4" y="3" width="${2*width}" height="${height}" rx="5" fill="${paint}" stroke="#13243c" stroke-width=".25"/>${face('front')}${face('back')}
+      const bounds=`x="4" y="3" width="${2*width}" height="${height}" rx="5"`;
+      const hasArtwork=edition&&!['solid','gradient'].includes(edition[3]);
+      const isFlag=edition&&['flag','flag-asset','bands','event','intersex'].includes(edition[3]);
+      const artSize=isFlag?width:height;
+      const background=x=>{
+        const artX=x+(width-artSize)/2,artY=3+(height-artSize)/2;
+        return `<defs><clipPath id="keyring-face-${x}"><rect x="${x}" y="3" width="${width}" height="${height}"/></clipPath></defs><g class="keyring-artwork" clip-path="url(#keyring-face-${x})"><g transform="translate(${artX} ${artY}) scale(${artSize/72})">${badgeFront(edition,'keyring-art-'+x,paint,photoHref,false)}</g></g>`;
+      };
+      faces=`<rect ${bounds} fill="${paint}" stroke="#13243c" stroke-width=".25"/>${hasArtwork?`<defs><clipPath id="keyring-art-clip"><rect ${bounds}/></clipPath></defs><g clip-path="url(#keyring-art-clip)">${background(4)}${background(4+width)}</g><rect ${bounds} fill="none" stroke="#13243c" stroke-width=".25"/>`:''}${face('front')}${face('back')}
         <path d="M${totalW/2} 0v2.4m0 ${height+.9}v3" stroke="#304862" stroke-width=".25"/>
         ${fittedText(totalW/2,height+10,copy.fold,totalW-8,2.3)}`;
     }
@@ -908,7 +918,7 @@
       <defs>${pride}${gradient?gradientPaint(gradient,'badge-custom-gradient'):''}</defs><rect width="100%" height="100%" fill="#fff"/>${faces}
       <path d="M${totalW/2-25} ${scaleY}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>
       ${fittedText(totalW/2,scaleY+5,ctx.ui.scale,totalW-8,2.3)}
-      ${photo?fittedText(totalW/2,scaleY+11,`${photo.credit} · ${copy.photoCrop}${photo.licenseUrl?` · ${photo.license} · ${photo.licenseUrl}`:''}`,totalW-8,2):''}
+      ${photo?fittedText(totalW/2,scaleY+11,`${photo.credit} · ${badge?copy.photoCrop:copy.keyringPhotoCrop}${photo.licenseUrl?` · ${photo.license} · ${photo.licenseUrl}`:''}`,totalW-8,2):''}
     </svg>`;
   }
   function artwork(ctx,state){
@@ -992,10 +1002,10 @@
     const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('png_unavailable')),'image/png'));const result=pngResolution(await blob.arrayBuffer());if(!current())throw Error('accessory_context_changed');return result;
   }
   function attach(config) {
-    const doc=config.document,win=doc.defaultView;let ctx={...context(config),badgePhotoData:new Map()},state=initial(ctx),alive=true,revision=0,busy=false,preparing=false,selectedBadge='';const children=new Set(),urls=new Set(),u=ctx.ui,m=more(ctx.language);
+    const doc=config.document,win=doc.defaultView;let ctx={...context(config),badgePhotoData:new Map()},state=initial(ctx),alive=true,revision=0,busy=false,preparing=false;const selections={badge:'',keyring:''};const children=new Set(),urls=new Set(),u=ctx.ui,m=more(ctx.language);
     const current=()=>alive&&config.current(),valid=r=>current()&&revision===r;
     const photoLoads=new Set(),photoFailures=new Set();
-    const activePhoto=()=>state.format==='badge'&&selectedEdition(state.collectible)?.[3]==='photo'?selectedEdition(state.collectible)[4]:null;
+    const activePhoto=()=>{const edition=selectedEdition(state.collectible);return edition?.[3]==='photo'?edition[4]:null;};
     async function preparePhoto(photo){
       if(!photo||ctx.badgePhotoData.has(photo.path)||photoLoads.has(photo.path)||photoFailures.has(photo.path))return;
       photoLoads.add(photo.path);
@@ -1025,20 +1035,21 @@
       if(!current())return;revision++;invalidateChildren();
       const format=doc.getElementById('accessory-format').value,personal=isPersonal(format);
       const identity=doc.getElementById('accessory-identity');if(!personal&&format!=='tag'&&identity.value==='full')identity.value='short';
-      const edition=format==='badge'?selectedEdition(selectedBadge):null;
+      const selectedBadge=personal?selections[format]:'';
+      const edition=selectedEdition(selectedBadge);
       const flag=fixedFlag(edition);
       const credit=doc.getElementById('accessory-badge-credit'),source=edition?.[4]?.source;
       credit.hidden=!source;
       if(source)credit.querySelector('a').href=source;
       const photo=edition?.[3]==='photo'?edition[4]:null;
-      credit.querySelector('span').textContent=photo?` · ${photo.credit} · ${u.photoCrop}`:'';
+      credit.querySelector('span').textContent=photo?` · ${photo.credit} · ${format==='keyring'?u.keyringPhotoCrop:u.photoCrop}`:'';
       const licenseLink=credit.querySelector('[data-photo-license]');
       licenseLink.hidden=!photo?.licenseUrl;
       if(photo?.licenseUrl){
         licenseLink.href=photo.licenseUrl;
         licenseLink.textContent=photo.license;
       }
-      const gradient=format==='badge'&&!flag&&doc.getElementById('accessory-use-gradient').checked;
+      const gradient=personal&&!flag&&doc.getElementById('accessory-use-gradient').checked;
       const useMiddle=gradient&&doc.getElementById('accessory-gradient-use-middle').checked;
       const colors=gradient?[doc.getElementById('accessory-gradient-from').value,doc.getElementById('accessory-gradient-to').value,Number(doc.getElementById('accessory-gradient-direction').value)]:null;
       if(useMiddle)colors.push(doc.getElementById('accessory-gradient-middle').value);
@@ -1050,12 +1061,14 @@
       for(const field of doc.querySelectorAll('[data-classic]'))field.hidden=personal;
       doc.getElementById('accessory-custom-field').hidden=!personal||!state.customColor||gradient||flag;
       doc.getElementById('accessory-use-custom').closest('label').hidden=!personal||gradient||flag;
-      doc.getElementById('accessory-gradient-toggle').hidden=format!=='badge'||flag;
+      doc.getElementById('accessory-gradient-toggle').hidden=!personal||flag;
       for(const field of doc.querySelectorAll('[data-gradient]'))field.hidden=!gradient;
       doc.getElementById('accessory-gradient-middle-field').hidden=!useMiddle;
-      const collectible=format==='badge'&&!!state.collectible;
-      doc.getElementById('accessory-badge-gallery').hidden=format!=='badge';
-      if(format==='badge')for(const button of doc.querySelectorAll('[data-badge-choice]'))button.setAttribute('aria-pressed',String(button.dataset.badgeChoice===state.collectible));
+      const collectible=!!edition;
+      doc.getElementById('accessory-badge-gallery').hidden=!personal;
+      doc.getElementById('badge-gallery-title').textContent=format==='keyring'?u.keyringCollection:u.collection;
+      doc.getElementById('badge-gallery-help').textContent=format==='keyring'?u.keyringGalleryHelp:u.galleryHelp;
+      if(personal)for(const button of doc.querySelectorAll('[data-badge-choice]'))button.setAttribute('aria-pressed',String(button.dataset.badgeChoice===state.collectible));
       doc.getElementById('accessory-design-field').hidden=!personal||collectible;
       doc.getElementById('accessory-color').closest('label').hidden=personal&&(!!state.customColor||collectible||gradient);
       doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=personal?`${u[format]} · ${format==='badge'?'Ø 72':'54 × 118'} mm · ${format==='keyring'?'4 × ':''}QR 40 mm`:state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?`${tagWords(ctx.language)[3]}: ${geometry(state,ctx).width} × ${geometry(state,ctx).height} mm · 2 × QR ${state.qr} mm`:m.qrFixed;
@@ -1088,7 +1101,7 @@
       count.textContent=matches.length?`${first+1}–${last} / ${matches.length} ${u.results}`:u.empty;
       shelf.innerHTML=matches.slice(first,last).map(({edition,name,i,j,total})=>{
         const key=`${i}-${j}`;
-        return `<button type="button" data-badge-choice="${key}" aria-pressed="${selectedBadge===key}"><svg viewBox="0 0 72 72" aria-hidden="true" focusable="false">${badgeFront(edition,'badge-thumb-'+key)}</svg><span>${esc(name)}</span><small>${j+1}/${total}</small></button>`;
+        return `<button type="button" data-badge-choice="${key}" aria-pressed="${state.collectible===key}"><svg viewBox="0 0 72 72" aria-hidden="true" focusable="false">${badgeFront(edition,'badge-thumb-'+key)}</svg><span>${esc(name)}</span><small>${j+1}/${total}</small></button>`;
       }).join('');
       shelf.scrollTop=0;
       gallery.querySelector('[data-badge-page="-1"]').hidden=badgePage===0;
@@ -1101,8 +1114,9 @@
       if(page){badgePage+=Number(page.dataset.badgePage);renderBadgePage();return;}
       const choice=event.target.closest('[data-badge-choice]');
       if(!choice)return;
-      selectedBadge=choice.dataset.badgeChoice;
-      const edition=selectedEdition(selectedBadge);
+      if(!isPersonal(state.format))return;
+      selections[state.format]=choice.dataset.badgeChoice;
+      const edition=selectedEdition(selections[state.format]);
       if(edition?.[3]==='photo')photoFailures.delete(edition[4].path);
       update();
     });

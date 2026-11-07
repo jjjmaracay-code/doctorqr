@@ -223,6 +223,17 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    assert.deepEqual(qrImages.map(([, ,href])=>decode(Buffer.from(href.split(',')[1],'base64'))),expected);
    assert.ok(await personal.locator('.accessory-svg [fill="#125ab9"]').count());
    assert.ok((await personal.locator('.accessory-svg').textContent()).includes('MUESTRA <&>'));
+   if(format==='keyring'){
+     assert.match(await personal.locator('#badge-gallery-title').textContent(),/Galería para el llavero/);
+     await personal.locator('#accessory-badge-search').fill('tears of steel');
+     await personal.locator('.accessory-badge-grid button').click();
+     await personal.waitForFunction(()=>document.querySelector('.keyring-artwork image')?.getAttribute('href').startsWith('data:image/webp;'));
+     const backgrounds=await personal.locator('.keyring-artwork image').evaluateAll(nodes=>nodes.map(el=>el.getAttribute('href')));
+     assert.equal(backgrounds.length,2);
+     assert.equal(backgrounds[0],backgrounds[1]);
+     assert.equal(await personal.locator('[data-photo-license]').textContent(),'CC BY 3.0');
+     await personal.locator('#accessory-badge-search').fill('');
+   }
    const codes=await qrGeometries(personal);
    for(const g of codes)near(g.q,40,'New accessory QR width');
    if(format==='badge')await personal.locator('#accessory-use-gradient').check();
@@ -243,6 +254,7 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    assert.deepEqual(boxes.map(box=>decode(crop(raster,{x:Math.round(6*factor+box.x*scale),y:Math.round(6*factor+box.y*scale),width:Math.round(box.width*scale),height:Math.round(box.height*scale)}))),expected);
    await printed.close();
    if(format==='badge')await personal.locator('#accessory-use-gradient').uncheck();
+   else await personal.locator('[data-badge-choice=""]').click();
    await personal.locator('#accessory-use-custom').uncheck();
  }
  await personal.close();
