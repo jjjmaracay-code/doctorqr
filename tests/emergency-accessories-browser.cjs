@@ -89,10 +89,10 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1340 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1645 modelos/);
      assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),24);
      await personal.locator('[data-badge-page="1"]').click();
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1340 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1645 modelos/);
      await personal.locator('#accessory-badge-search').fill('beyonce');
      assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
      assert.match(await personal.locator('.accessory-badge-grid button').textContent(),/Beyoncé/);
@@ -126,6 +126,18 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      await personal.locator('#accessory-badge-search').fill('venezuela');
      await personal.locator('.accessory-badge-grid button').click();
      assert.match(await personal.locator('.badge-decorative image').getAttribute('href'),/^data:image\/webp/);
+     assert.equal(await personal.locator('.badge-medical .badge-rim image').getAttribute('href'),await personal.locator('.badge-decorative image').getAttribute('href'));
+     assert.ok(await personal.locator('#accessory-gradient-toggle').isHidden());
+     assert.ok(await personal.locator('#accessory-use-custom').isHidden());
+     await personal.locator('#accessory-badge-filter').selectOption('28');
+     await personal.locator('#accessory-badge-search').fill('');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/114 modelos/);
+     await personal.locator('#accessory-badge-filter').selectOption('29');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/215 modelos/);
+     await personal.locator('#accessory-badge-filter').selectOption('30');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/14 modelos/);
+     await personal.locator('#accessory-badge-filter').selectOption('29');
+     await personal.locator('.accessory-badge-grid button').first().click();
      await personal.locator('#accessory-use-gradient').check();
      await personal.locator('#accessory-gradient-from').fill('#305060');
      await personal.locator('#accessory-gradient-to').fill('#80d4c0');
