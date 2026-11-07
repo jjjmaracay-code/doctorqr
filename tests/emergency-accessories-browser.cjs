@@ -84,34 +84,47 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
  const offlineImage=await personal.locator('#qco').getAttribute('src');
  const offlinePayload=decode(Buffer.from(offlineImage.split(',')[1],'base64'));
  assert.match(offlinePayload,/^FICHA MEDICA SIN INTERNET/);
- for(const [format,dimensions] of [['keyring',[54,76]],['badge',[72,72]]]){
+ for(const [format,dimensions] of [['keyring',[54,118]],['badge',[72,72]]]){
    await personal.locator('#accessory-format').selectOption(format);
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
+   if(format==='badge'){
+     assert.equal(await personal.locator('#accessory-collection optgroup').count(),4);
+     assert.equal(await personal.locator('#accessory-collection optgroup option').count(),12);
+     for(const value of ['0-0','1-1','2-2','3-1']){
+       await personal.locator('#accessory-collection').selectOption(value);
+       assert.equal(await personal.locator('#badge-print').count(),1);
+       assert.match(await personal.locator('.accessory-svg').textContent(),/0[123]\/03/);
+       assert.equal(await personal.locator('.accessory-qr').getAttribute('href'),offlineImage);
+     }
+   }
    await personal.locator('#accessory-use-custom').setChecked(true);
    await personal.locator('#accessory-custom-color').fill('#125ab9');
    await personal.locator('#accessory-caption').fill('MUESTRA <&>');
    assert.deepEqual(await personal.locator('.accessory-svg').evaluate(el=>[+el.dataset.patternWidth,+el.dataset.patternHeight]),dimensions);
-   assert.equal(await personal.locator('.accessory-qr').getAttribute('href'),offlineImage);
+   const qrImages=await personal.locator('.accessory-qr').evaluateAll(nodes=>nodes.map(el=>[el.dataset.mode,el.closest('.keyring-face')?.dataset.side,el.getAttribute('href')]));
+   const expected=format==='badge'?[offlinePayload]:[target,offlinePayload,target,offlinePayload];
+   assert.deepEqual(qrImages.map(([mode,side])=>[mode,side]),format==='badge'?[['offline',undefined]]:[['online','front'],['offline','front'],['online','back'],['offline','back']]);
+   assert.deepEqual(qrImages.map(([, ,href])=>decode(Buffer.from(href.split(',')[1],'base64'))),expected);
    assert.ok(await personal.locator('.accessory-svg [fill="#125ab9"]').count());
    assert.ok((await personal.locator('.accessory-svg').textContent()).includes('MUESTRA <&>'));
-   const g=await qrGeometry(personal);
-   near(g.q,40,'New accessory QR width');
+   const codes=await qrGeometries(personal);
+   for(const g of codes)near(g.q,40,'New accessory QR width');
    const download=personal.waitForEvent('download');
    await personal.locator('#accessory-download').click();
    const png=fs.readFileSync(await (await download).path()),factor=300/25.4;
    assert.deepEqual(phys(png),[11811,11811,1]);
-   assert.equal(decode(crop(png,{x:Math.round(g.x*factor),y:Math.round(g.y*factor),width:Math.round(g.q*factor),height:Math.round(g.q*factor)})),offlinePayload);
+   assert.deepEqual(codes.map(g=>decode(crop(png,{x:Math.round(g.x*factor),y:Math.round(g.y*factor),width:Math.round(g.q*factor),height:Math.round(g.q*factor)}))),expected);
    const printed=await sheet(personal);
    await printed.emulateMedia({media:'print'});
-   const box=await printed.locator('.accessory-qr').boundingBox();
-   near(box.width/(96/25.4),40,'New accessory print QR width');
+   const boxes=await Promise.all((await printed.locator('.accessory-qr').all()).map(qr=>qr.boundingBox()));
+   for(const box of boxes)near(box.width/(96/25.4),40,'New accessory print QR width');
    const pdf=path.join(out,format+'.pdf');
    await printed.pdf({path:pdf,preferCSSPageSize:true});
    assert.match(execFileSync('pdfinfo',[pdf],{encoding:'utf8'}),/Pages:\s+1\b/);
    execFileSync('pdftoppm',['-r','300','-png','-singlefile',pdf,path.join(out,format+'-print')],{stdio:'pipe'});
    const raster=fs.readFileSync(path.join(out,format+'-print.png')),scale=300/96;
-   assert.equal(decode(crop(raster,{x:Math.round(6*factor+box.x*scale),y:Math.round(6*factor+box.y*scale),width:Math.round(box.width*scale),height:Math.round(box.height*scale)})),offlinePayload);
+   assert.deepEqual(boxes.map(box=>decode(crop(raster,{x:Math.round(6*factor+box.x*scale),y:Math.round(6*factor+box.y*scale),width:Math.round(box.width*scale),height:Math.round(box.height*scale)}))),expected);
    await printed.close();
    await personal.locator('#accessory-use-custom').uncheck();
  }

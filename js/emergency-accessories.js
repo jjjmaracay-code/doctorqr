@@ -290,15 +290,17 @@
     es: {
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
       caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
-      scan:'SIN INTERNET · USA APP LECTORA',unavailable:'QR sin Internet no disponible. Revisa el grupo sanguíneo y las cirugías registradas en tu ficha.',
-      keyringStep:'Recorta por el contorno. Perfora solo el círculo indicado y pasa una anilla. Si plastificas el llavero, verifica el QR después.',
+      collection:'Colección de chapas',classic:'Diseño libre',series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica'],
+      online:'CON INTERNET · ABRIR FICHA',fold:'DOBLAR POR EL CENTRO',scan:'SIN INTERNET · USA APP LECTORA',unavailable:'QR sin Internet no disponible. Revisa el grupo sanguíneo y las cirugías registradas en tu ficha.',
+      keyringStep:'Recorta una sola pieza por el borde exterior. Dobla por el centro y pega los lados sin impresión. Perfora las dos caras juntas por el círculo marcado, coloca la anilla y comprueba los cuatro QR tras el montaje.',
       badgeStep:'Recorta el círculo por la guía. Usa un soporte compatible de 72 mm y verifica el QR con la chapa montada.'
     },
     en: {
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
       caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
-      scan:'OFFLINE · USE A QR READER APP',unavailable:'Offline QR unavailable. Check the blood type and surgeries recorded on your medical card.',
-      keyringStep:'Cut along the outline. Punch only the marked circle and insert a split ring. If you laminate the keyring, check the QR afterwards.',
+      collection:'Badge collection',classic:'Free design',series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge'],
+      online:'ONLINE · OPEN MEDICAL CARD',fold:'FOLD IN THE CENTRE',scan:'OFFLINE · USE A QR READER APP',unavailable:'Offline QR unavailable. Check the blood type and surgeries recorded on your medical card.',
+      keyringStep:'Cut one piece around the outer edge. Fold in the centre and glue the blank sides together. Punch both layers at the marked circle, insert the ring and check all four codes after assembly.',
       badgeStep:'Cut the circle along the guide. Use a compatible 72 mm badge holder and check the QR after mounting.'
     }
   };
@@ -310,32 +312,66 @@
     stars:'M4 1 5 4 8 5 5 6 4 9 3 6 0 5 3 4ZM10 7 10.5 9 12 9.5 10.5 10 10 12 9.5 10 8 9.5 9.5 9Z',
     waves:'M0 4Q3 1 6 4T12 4M0 7Q3 4 6 7T12 7M0 10Q3 7 6 10T12 10'
   };
+  const badgeSeries = [
+    [
+      ['Rayo / Bolt','#ffcf31','#d81c3f','M1 5 6 1 11 5 9 11H3ZM7 2 4 6H7L5 10 9 5H6Z'],
+      ['Neón / Neon','#fb3c94','#412187','M2 3H10L11 8 8 11H4L1 8ZM2 5H10M4 5 5 7 6 5 7 7 8 5M4 9H8'],
+      ['Titán / Titan','#0ca36c','#c4ff5c','M2 4 4 2H8L10 4V9L8 11H4L2 9ZM2 5 5 6M10 5 7 6M4 9H8']
+    ],
+    [
+      ['Vigía / Watcher','#182b52','#00b9f3','M1 5 3 2 6 3 9 2 11 5 9 10 6 11 3 10ZM2 5 5 7M10 5 7 7M4 9H8'],
+      ['Aurora','#6d31a5','#ffb86c','M2 5 6 1 10 5 9 10 6 12 3 10ZM2 5H10M4 7H8M5 9H7'],
+      ['Espectro / Spectre','#32162f','#ff4079','M1 8 3 3 6 1 9 3 11 8 8 7 6 11 4 7ZM3 5H5M7 5H9']
+    ],
+    [
+      ['Piloto Ío / Io Pilot','#2349ad','#6bffdc','M2 6A4 4 0 0 1 10 6V9L8 11H4L2 9ZM2 6H10M4 8H8M6 1V3'],
+      ['Robot Cero / Zero Bot','#35425c','#f0aa48','M2 4H10V10H2ZM4 6H5M7 6H8M4 8H8M6 4V1M5 1H7'],
+      ['Órbita / Orbit','#4a258c','#ff90d8','M6 2a4 4 0 1 0 .01 0ZM1 9Q6 3 11 3M2 10Q6 10 11 4M9 1h2m-1-1v2']
+    ],
+    [
+      ['Centella / Spark','#9d2338','#ffb743','M3 2H9L11 6 9 11H3L1 6ZM2 6H5M7 6H10M4 9H8M4 3H8'],
+      ['Cromo / Chrome','#384958','#b8e9fb','M2 3 5 1H7L10 3 11 7 8 11H4L1 7ZM2 5H10M4 8H8M6 5V8'],
+      ['Plasma','#007a78','#a5ee44','M2 3H10L11 7 9 11H3L1 7ZM3 5H9L8 8H4ZM6 1V3M6 8V10']
+    ]
+  ];
   function personalArtwork(ctx,state){
-    const badge=state.format==='badge',width=badge?72:54,height=badge?72:76,qr=40;
-    const center=width/2,qx=(width-qr)/2,qy=badge?16:24,totalW=width+8,totalH=height+25;
-    const copy=personalWords(ctx.language),theme=monthTheme(ctx,state.color);
+    const badge=state.format==='badge',width=badge?72:54,height=badge?72:118,qr=40,center=width/2;
+    const totalW=(badge?width:2*width)+8,totalH=height+25,copy=personalWords(ctx.language);
+    const theme=monthTheme(ctx,state.color);
     const custom=/^#[0-9a-f]{6}$/i.test(state.customColor||'')?state.customColor:'';
-    const paint=custom||(theme.pride?'url(#accessory-pride)':theme.color);
-    const pride=theme.pride&&!custom?'<defs><linearGradient id="accessory-pride">'+theme.colors.map((color,i)=>`<stop offset="${i/theme.colors.length}" stop-color="${color}"/><stop offset="${(i+1)/theme.colors.length}" stop-color="${color}"/>`).join('')+'</linearGradient></defs>':'';
-    const outline=badge?`<circle cx="${center}" cy="${center}" r="${center-.2}"/>`:`<rect x=".2" y=".2" width="${width-.4}" height="${height-.4}" rx="6"/>`;
+    const [series,model]=String(state.collectible||'').split('-').map(Number);
+    const edition=badge?badgeSeries[series]?.[model]:null;
+    const [names,base,accent,portrait]=edition||[];
+    const name=names?.split(' / ')[ctx.language==='es'?0:1]||names;
+    const paint=custom||base||(theme.pride?'url(#accessory-pride)':theme.color);
+    const pride=theme.pride&&!custom&&!edition?`<linearGradient id="accessory-pride">${theme.colors.map((color,i)=>`<stop offset="${i/theme.colors.length}" stop-color="${color}"/><stop offset="${(i+1)/theme.colors.length}" stop-color="${color}"/>`).join('')}</linearGradient>`:'';
     const icon=Object.prototype.hasOwnProperty.call(illustrations,state.design)?illustrations[state.design]:'';
-    const decoration=icon?[badge?5.5:5,badge?width-14.5:width-14].map(x=>`<g transform="translate(${x} ${badge?25:3}) scale(.7)"><circle cx="6" cy="6" r="7.5" fill="#fff"/><path d="${icon}" fill="none" stroke="#13243c" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/></g>`).join(''):'';
-    const labelY=badge?9:16,captionY=badge?62:70,captionWidth=badge?37:46;
-    const code=ctx.offlineImage?`<image class="accessory-qr" x="${qx}" y="${qy}" width="${qr}" height="${qr}" href="${ctx.offlineImage}" style="image-rendering:pixelated"/>`:'';
-    const scaleY=height+14;
+    const ink=(path,color)=>`<path d="${path}" fill="none" stroke="${color}" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const sticker=(x,y,path,color)=>`<g transform="translate(${x} ${y}) scale(.72)"><circle cx="6" cy="6" r="7.5" fill="${color}" stroke="#13243c" stroke-width=".65"/>${ink(path,'#13243c')}</g>`;
+    const plate=(y,label,size,w=42)=>`<rect x="${center-w/2}" y="${y-size-1}" width="${w}" height="${size+2}" rx="1.2" fill="#fff"/>${fittedText(center,y,label,w-2,size)}`;
+    const code=(y,image,mode)=>`<rect x="${center-21}" y="${y-1}" width="42" height="42" rx=".6" fill="#fff"/>${image?`<image class="accessory-qr" data-mode="${mode}" x="${center-20}" y="${y}" width="${qr}" height="${qr}" href="${image}" style="image-rendering:pixelated"/>`:''}`;
+    const pattern=['<circle cx="1.5" cy="1.5" r=".8"/>','<path d="M0 0h1L4 3v1Z"/>','<path d="M2 0 2.4 1.6 4 2 2.4 2.4 2 4 1.6 2.4 0 2 1.6 1.6Z"/>','<path d="M0 0h1v4H0zM2 2h2v1H2z"/>'][series];
+    const print=`<pattern id="badge-print" width="4" height="4" patternUnits="userSpaceOnUse" fill="${accent}">${pattern}</pattern>`;
+    let faces;
+    if(badge){
+      const serial=edition?`${copy.series[series]} · 0${model+1}/03`:'';
+      const decoration=edition?`<circle cx="36" cy="36" r="34.5" fill="url(#badge-print)" opacity=".62"/><circle cx="36" cy="36" r="33.4" fill="none" stroke="${accent}" stroke-width="1.2"/>${sticker(5.2,31,portrait,accent)}${sticker(58.2,31,portrait,accent)}${plate(62,name,2.7,36)}${plate(66,serial,1.7,29)}`:icon?sticker(5.5,25,icon,'#fff')+sticker(57.5,25,icon,'#fff'):'';
+      faces=`<g transform="translate(4 3)"><circle cx="36" cy="36" r="35.8" fill="${paint}" stroke="#13243c" stroke-width=".25"/>${decoration}${plate(9,'EMERGENCY',2.6,34)}${plate(13,copy.scan,1.5,38)}${code(16,ctx.offlineImage,'offline')}${state.caption?plate(edition?58.8:62,state.caption,edition?1.5:2.5,36):''}</g>`;
+    }else{
+      const face=side=>`<g class="keyring-face" data-side="${side}" transform="translate(${side==='front'?4:4+width} 3)">
+        <circle cx="${center}" cy="7" r="2.5" fill="#fff" stroke="#13243c" stroke-width=".25" stroke-dasharray=".6 .45"/>
+        ${icon?sticker(5,3,icon,'#fff')+sticker(width-14,3,icon,'#fff'):''}
+        ${plate(16,'EMERGENCY',3)}${plate(20,copy.online,1.8)}${code(23,ctx.tagOnlineImage,'online')}
+        ${plate(69,copy.scan,1.8)}${code(72,ctx.offlineImage,'offline')}
+        ${state.caption?plate(116.5,state.caption,1.8):''}
+      </g>`;
+      faces=`<rect x="4" y="3" width="${2*width}" height="${height}" rx="5" fill="${paint}" stroke="#13243c" stroke-width=".25"/>${face('front')}${face('back')}
+        <path d="M${totalW/2} 0v2.4m0 ${height+.9}v3" stroke="#304862" stroke-width=".25"/>
+        ${fittedText(totalW/2,height+10,copy.fold,totalW-8,2.3)}`;
+    }
+    const scaleY=height+15;
     return `<svg xmlns="${NS}" class="accessory-svg" direction="ltr" width="${totalW}mm" height="${totalH}mm" viewBox="0 0 ${totalW} ${totalH}" role="img" aria-label="${esc(copy[state.format])}" data-format="${state.format}" data-qr-mm="${qr}" data-pattern-width="${width}" data-pattern-height="${height}" data-compact-ready="${!!ctx.compact}">
-      ${pride}<rect width="100%" height="100%" fill="#fff"/>
-      <g transform="translate(4 3)">
-        <g fill="${paint}" stroke="#13243c" stroke-width=".25">${outline}</g>
-        ${badge?'':`<circle cx="${center}" cy="7" r="2.5" fill="#fff" stroke="#13243c" stroke-width=".25" stroke-dasharray=".6 .45"/>`}
-        ${decoration}
-        <rect x="${center-17}" y="${labelY-3}" width="34" height="7" rx="1.4" fill="#fff"/>
-        ${fittedText(center,labelY,'EMERGENCY',32,2.6)}
-        ${fittedText(center,labelY+2.6,copy.scan,32,1.5)}
-        <rect x="${qx-1}" y="${qy-1}" width="${qr+2}" height="${qr+2}" rx=".6" fill="#fff"/>
-        ${code}
-        ${state.caption?`<rect x="${center-captionWidth/2}" y="${captionY-2.8}" width="${captionWidth}" height="4.5" rx="1" fill="#fff"/>${fittedText(center,captionY,state.caption,captionWidth-2,2.5)}`:''}
-      </g>
+      <defs>${pride}${edition?print:''}</defs><rect width="100%" height="100%" fill="#fff"/>${faces}
       <path d="M${totalW/2-25} ${scaleY}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>
       ${fittedText(totalW/2,scaleY+5,ctx.ui.scale,totalW-8,2.3)}
     </svg>`;
@@ -398,7 +434,7 @@
   }
   function html(config){
     const ctx=context(config),u=ctx.ui,m=more(ctx.language),state=initial(ctx),months=Array.from({length:12},(_,i)=>`<option value="month-${i}">${esc(new Intl.DateTimeFormat(ctx.language,{month:'long'}).format(new Date(2026,i,15)))}</option>`).join('');
-    return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option><option value="keyring">${esc(u.keyring)}</option><option value="badge">${esc(u.badge)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label data-personal hidden>${esc(u.design)}<select id="accessory-design">${['plain',...Object.keys(illustrations)].map((key,i)=>`<option value="${key}">${esc(u.styles[i])}</option>`).join('')}</select></label><label class="accessory-toggle" data-personal hidden><input type="checkbox" id="accessory-use-custom">${esc(u.color)}</label><label id="accessory-custom-field" hidden>${esc(u.color)}<input type="color" id="accessory-custom-color" value="#1463a5"></label><label data-personal hidden>${esc(u.caption)}<input type="text" id="accessory-caption" maxlength="24" autocomplete="off" dir="auto"></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label data-classic>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label data-classic>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label data-classic class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label data-classic class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div><p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
+    return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option><option value="keyring">${esc(u.keyring)}</option><option value="badge">${esc(u.badge)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label id="accessory-collection-field" hidden>${esc(u.collection)}<select id="accessory-collection"><option value="">${esc(u.classic)}</option>${badgeSeries.map((models,i)=>`<optgroup label="${esc(u.series[i])}">${models.map(([names],j)=>`<option value="${i}-${j}">0${j+1}/03 · ${esc(names.split(' / ')[ctx.language==='es'?0:1]||names)}</option>`).join('')}</optgroup>`).join('')}</select></label><label id="accessory-design-field" data-personal hidden>${esc(u.design)}<select id="accessory-design">${['plain',...Object.keys(illustrations)].map((key,i)=>`<option value="${key}">${esc(u.styles[i])}</option>`).join('')}</select></label><label class="accessory-toggle" data-personal hidden><input type="checkbox" id="accessory-use-custom">${esc(u.color)}</label><label id="accessory-custom-field" hidden>${esc(u.color)}<input type="color" id="accessory-custom-color" value="#1463a5"></label><label data-personal hidden>${esc(u.caption)}<input type="text" id="accessory-caption" maxlength="24" autocomplete="off" dir="auto"></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label data-classic>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label data-classic>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label data-classic class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label data-classic class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div><p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
   }
   function fit(doc) {
     for(const el of doc.querySelectorAll('.accessory-fitted')) {
@@ -424,22 +460,25 @@
     const current=()=>alive&&config.current(),valid=r=>current()&&revision===r;
     function clearChild(child){if(!child.closed){child.document.title='ATABEYAPP';child.document.body.replaceChildren();const p=child.document.createElement('p');p.textContent=u.changed;child.document.body.append(p);}}
     function invalidateChildren(){for(const child of children)clearChild(child);children.clear();}
-    function canExport(){if(isPersonal(state.format))return !!ctx.offlineImage;return !!(state.format==='tag'?ctx.patientImage:ctx.compact)&&(!state.critical||Array.from(state.criticalText).length<=24);}
+    function canExport(){if(isPersonal(state.format))return !!ctx.offlineImage&&(state.format==='badge'||!!ctx.tagOnlineImage);return !!(state.format==='tag'?ctx.patientImage:ctx.compact)&&(!state.critical||Array.from(state.criticalText).length<=24);}
     function freeze(on){busy=on;doc.querySelectorAll('.accessory-hub input,.accessory-hub select,.accessory-hub button').forEach(el=>el.disabled=on);doc.getElementById('accessory-contact').disabled=on||!ctx.contacts.length;doc.getElementById('accessory-contact-choice').disabled=on||!ctx.contacts.length;for(const id of ['accessory-print','accessory-download'])doc.getElementById(id).disabled=on||!canExport();doc.getElementById('accessory-prepare').disabled=on||preparing;}
     function update(){
       if(!current())return;revision++;invalidateChildren();
       const format=doc.getElementById('accessory-format').value,personal=isPersonal(format);
       const identity=doc.getElementById('accessory-identity');if(!personal&&format!=='tag'&&identity.value==='full')identity.value='short';
-      state={format,design:doc.getElementById('accessory-design').value,caption:doc.getElementById('accessory-caption').value.trim(),
+      state={format,collectible:doc.getElementById('accessory-collection').value,design:doc.getElementById('accessory-design').value,caption:doc.getElementById('accessory-caption').value.trim(),
         customColor:doc.getElementById('accessory-use-custom').checked?doc.getElementById('accessory-custom-color').value:'',
         color:doc.getElementById('accessory-color').value,wrist:bounded(doc.getElementById('accessory-wrist').value,140,230,180),watchWidth:bounded(doc.getElementById('accessory-watch-width').value,12,32,20),watchOpening:bounded(doc.getElementById('accessory-watch-opening').value,2,8,4),watchQR:Number(doc.getElementById('accessory-watch-qr').value),qrStyle:doc.getElementById('accessory-qr-style').value,qr:Number(doc.getElementById('accessory-qr').value),identity:identity.value,contact:doc.getElementById('accessory-contact').checked,contactKey:doc.getElementById('accessory-contact-choice').value,critical:doc.getElementById('accessory-critical').checked,criticalText:doc.getElementById('accessory-critical-text').value.trim()};
       doc.getElementById('accessory-watch-width').value=state.watchWidth;doc.getElementById('accessory-watch-opening').value=state.watchOpening;for(const id of ['width','opening','watch-qr','style'])doc.getElementById('accessory-'+id+'-field').hidden=state.format!=='watch';doc.getElementById('accessory-wrist').value=state.wrist;doc.getElementById('accessory-wrist-field').hidden=state.format!=='band';doc.getElementById('accessory-qr-field').hidden=state.format!=='tag';doc.getElementById('accessory-full-name').hidden=state.format!=='tag';doc.getElementById('accessory-critical-field').hidden=personal||!state.critical;doc.getElementById('accessory-prepare').hidden=personal||!!ctx.compact;
       for(const field of doc.querySelectorAll('[data-personal]'))field.hidden=!personal;
       for(const field of doc.querySelectorAll('[data-classic]'))field.hidden=personal;
       doc.getElementById('accessory-custom-field').hidden=!personal||!state.customColor;
-      doc.getElementById('accessory-color').closest('label').hidden=personal&&!!state.customColor;
-      doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=personal?`${u[format]} · ${format==='badge'?'Ø 72':'54 × 76'} mm · QR 40 mm`:state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?`${tagWords(ctx.language)[3]}: ${geometry(state,ctx).width} × ${geometry(state,ctx).height} mm · 2 × QR ${state.qr} mm`:m.qrFixed;
-      doc.getElementById('accessory-status').textContent=personal?(ctx.offlineImage?u.scan:u.unavailable):state.critical&&Array.from(state.criticalText).length>24?m.criticalLong:ctx.compact?m.compactReady:preparing?m.loading:m.unavailable;fit(doc);freeze(busy);
+      const collectible=format==='badge'&&!!state.collectible;
+      doc.getElementById('accessory-collection-field').hidden=format!=='badge';
+      doc.getElementById('accessory-design-field').hidden=!personal||collectible;
+      doc.getElementById('accessory-color').closest('label').hidden=personal&&(!!state.customColor||collectible);
+      doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=personal?`${u[format]} · ${format==='badge'?'Ø 72':'54 × 118'} mm · ${format==='keyring'?'4 × ':''}QR 40 mm`:state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?`${tagWords(ctx.language)[3]}: ${geometry(state,ctx).width} × ${geometry(state,ctx).height} mm · 2 × QR ${state.qr} mm`:m.qrFixed;
+      doc.getElementById('accessory-status').textContent=personal?(canExport()?(format==='keyring'?`${u.online} · ${u.scan}`:u.scan):u.unavailable):state.critical&&Array.from(state.criticalText).length>24?m.criticalLong:ctx.compact?m.compactReady:preparing?m.loading:m.unavailable;fit(doc);freeze(busy);
     }
     async function prepare(){
       if(!current()||preparing||busy||ctx.compact)return;preparing=true;freeze(false);doc.getElementById('accessory-status').textContent=m.loading;
