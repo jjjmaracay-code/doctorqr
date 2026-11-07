@@ -89,13 +89,18 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.equal(await personal.locator('#accessory-collection optgroup').count(),4);
-     assert.equal(await personal.locator('#accessory-collection optgroup option').count(),12);
-     for(const value of ['0-0','1-1','2-2','3-1']){
-       await personal.locator('#accessory-collection').selectOption(value);
-       assert.equal(await personal.locator('#badge-print').count(),1);
-       assert.match(await personal.locator('.accessory-svg').textContent(),/0[123]\/03/);
-       assert.equal(await personal.locator('.accessory-qr').getAttribute('href'),offlineImage);
+     assert.equal(await personal.locator('[data-badge-series]').count(),9);
+     assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),44);
+     for(const value of ['0-0','4-2','5-4','6-1','7-5','8-1']){
+       const series=value.split('-')[0];
+       await personal.locator('#accessory-badge-filter').selectOption(series);
+       assert.equal(await personal.locator('[data-badge-series]:visible').count(),1);
+       const choice=personal.locator(`[data-badge-choice="${value}"]`);
+       await choice.click();
+       assert.equal(await choice.getAttribute('aria-pressed'),'true');
+       assert.equal(await personal.locator('.badge-decorative').count(),1);
+       assert.equal(await personal.locator('.badge-decorative .accessory-qr').count(),0);
+       assert.equal(await personal.locator('.badge-medical .accessory-qr').getAttribute('href'),offlineImage);
      }
    }
    await personal.locator('#accessory-use-custom').setChecked(true);
