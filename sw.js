@@ -41,7 +41,7 @@
 // v59: install banner on register.html only, 7-day dismissal, no lookbehind.
 // v60: skip the unverified-access notice on index.html when there is no session at all.
 // v61: precache the remaining offline gaps for card.html, emergencia.html and login.html.
-const CACHE_NAME = 'doctorqr-v104';
+const CACHE_NAME = 'doctorqr-v105';
 const CACHE_URLS = [
   '/',
   './index.html',
@@ -102,8 +102,32 @@ const CACHE_URLS = [
   './js/compact-emergency-qr.js?v=42',
   './js/badge-flags.js?v=1',
   './js/badge-art.js?v=1',
-  './js/badge-photos.js?v=1',
-  './js/emergency-accessories.js?v=63',
+  './js/badge-photos.js?v=2',
+  './js/emergency-accessories.js?v=64',
+  './assets/chapas-hd/earthrise-mini.webp',
+  './assets/chapas-hd/earthrise.webp',
+  './assets/chapas-hd/ganado-mini.webp',
+  './assets/chapas-hd/ganado.webp',
+  './assets/chapas-hd/grito-munch-mini.webp',
+  './assets/chapas-hd/grito-munch.webp',
+  './assets/chapas-hd/joshua-mini.webp',
+  './assets/chapas-hd/joshua.webp',
+  './assets/chapas-hd/luna-mini.webp',
+  './assets/chapas-hd/luna.webp',
+  './assets/chapas-hd/perla-vermeer-mini.webp',
+  './assets/chapas-hd/perla-vermeer.webp',
+  './assets/chapas-hd/playa-hawai-mini.webp',
+  './assets/chapas-hd/playa-hawai.webp',
+  './assets/chapas-hd/roosevelt-mini.webp',
+  './assets/chapas-hd/roosevelt.webp',
+  './assets/chapas-hd/sombrero-mini.webp',
+  './assets/chapas-hd/sombrero.webp',
+  './assets/chapas-hd/teton-mini.webp',
+  './assets/chapas-hd/teton.webp',
+  './assets/chapas-hd/tortuga-mini.webp',
+  './assets/chapas-hd/tortuga.webp',
+  './assets/chapas-hd/venus-botticelli-mini.webp',
+  './assets/chapas-hd/venus-botticelli.webp',
   './assets/chapas-hd/amanecer-mar-mini.webp',
   './assets/chapas-hd/amanecer-mar.webp',
   './assets/chapas-hd/arrecife-mini.webp',

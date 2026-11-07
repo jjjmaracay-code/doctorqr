@@ -655,8 +655,8 @@
       ...organisations.map((name,i)=>[name,badgePalettes[i%badgePalettes.length][1],badgePalettes[i%badgePalettes.length][2],'organisation'])],
     folklore,ocha,solidEditions,gradientEditions,regionalFlags.map(row=>flagEdition(row))
   );
-  const photoBackgrounds=(window.AtabeyBadgePhotos||[]).map(([slug,name,source,credit,license,planet])=>[
-    name,'#090b16','#fff','photo',{source,credit,license,planet,path:`/assets/chapas-hd/${slug}.webp`,mini:`/assets/chapas-hd/${slug}-mini.webp`}
+  const photoBackgrounds=(window.AtabeyBadgePhotos||[]).map(([slug,name,source,credit,license,planet,group])=>[
+    name,'#090b16','#fff','photo',{source,credit,license,planet,group,path:`/assets/chapas-hd/${slug}.webp`,mini:`/assets/chapas-hd/${slug}-mini.webp`}
   ]);
   const artBackgrounds=(window.AtabeyBadgeArt||[]).map(([name,file,base64])=>[
     name,'#274662','#fff','backdrop',{base64,source:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file)}
@@ -698,9 +698,10 @@
     ['Atardecer · Última luz / Sunset · Last light','#374169','#f2ab88','#605777','#2f354f','#6a5a77','forest']
   ].map(([name,sky,horizon,distant,near,water,scene],i)=>[name,sky,'#fff','backdrop',{sky,horizon,distant,near,water,scene,sunset:i>=8}]);
   const firstBackdropSeries=badgeSeries.length;
-  badgeSeries.push([...artBackgrounds,...photoBackgrounds.slice(21)],illustratedBackgrounds,landscapeBackgrounds.slice(0,8),landscapeBackgrounds.slice(8));
+  const photosByGroup=group=>photoBackgrounds.filter(edition=>edition[4].group===group);
+  badgeSeries.push([...artBackgrounds,...photosByGroup('art')],illustratedBackgrounds,landscapeBackgrounds.slice(0,8),landscapeBackgrounds.slice(8));
   const firstPhotoSeries=badgeSeries.length;
-  for(const [from,to] of [[0,8],[8,10],[10,12],[12,15],[15,17],[17,19],[19,21]])badgeSeries.push(photoBackgrounds.slice(from,to));
+  for(const group of ['planet','space','sunrise','sunset','sea','ranch','landscape'])badgeSeries.push(photosByGroup(group));
   function scenicBackdrop(data,id){
     const {sky,horizon,distant,near,water,scene,sunset}=data;
     const pines=(offset,color)=>Array.from({length:10},(_,i)=>{
