@@ -89,9 +89,9 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.equal(await personal.locator('[data-badge-series]').count(),9);
-     assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),44);
-     for(const value of ['0-0','4-2','5-4','6-1','7-5','8-1']){
+     assert.equal(await personal.locator('[data-badge-series]').count(),15);
+     assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),74);
+     for(const value of ['0-0','4-2','5-4','6-1','7-5','8-1','9-2','10-1','11-0','12-1','13-2','14-3']){
        const series=value.split('-')[0];
        await personal.locator('#accessory-badge-filter').selectOption(series);
        assert.equal(await personal.locator('[data-badge-series]:visible').count(),1);
@@ -99,6 +99,7 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
        await choice.click();
        assert.equal(await choice.getAttribute('aria-pressed'),'true');
        assert.equal(await personal.locator('.badge-decorative').count(),1);
+       assert.equal(await personal.locator('.badge-medical .badge-rim').count(),1);
        assert.equal(await personal.locator('.badge-decorative .accessory-qr').count(),0);
        assert.equal(await personal.locator('.badge-medical .accessory-qr').getAttribute('href'),offlineImage);
      }

@@ -292,8 +292,8 @@
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
       caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
       collection:'Galería de chapas coleccionables',classic:'Diseño libre',all:'Todas',
-      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas'],
-      galleryHelp:'Elige un estampado. La hoja incluye una chapa decorativa y otra de emergencia con QR, listas para recortar por separado.',
+      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo'],
+      galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
       decorative:'CHAPA DECORATIVA',medical:'CHAPA DE EMERGENCIA · QR',
       online:'CON INTERNET · ABRIR FICHA',fold:'DOBLAR POR EL CENTRO',scan:'SIN INTERNET · USA APP LECTORA',unavailable:'QR sin Internet no disponible. Revisa el grupo sanguíneo y las cirugías registradas en tu ficha.',
       keyringStep:'Recorta una sola pieza por el borde exterior. Dobla por el centro y pega los lados sin impresión. Perfora las dos caras juntas por el círculo marcado, coloca la anilla y comprueba los cuatro QR tras el montaje.',
@@ -303,8 +303,8 @@
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
       caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
       collection:'Collectible badge gallery',classic:'Free design',all:'All',
-      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative'],
-      galleryHelp:'Choose a design. The sheet includes a decorative badge and an emergency QR badge to cut out separately.',
+      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity'],
+      galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
       decorative:'DECORATIVE BADGE',medical:'EMERGENCY BADGE · QR',
       online:'ONLINE · OPEN MEDICAL CARD',fold:'FOLD IN THE CENTRE',scan:'OFFLINE · USE A QR READER APP',unavailable:'Offline QR unavailable. Check the blood type and surgeries recorded on your medical card.',
       keyringStep:'Cut one piece around the outer edge. Fold in the centre and glue the blank sides together. Punch both layers at the marked circle, insert the ring and check all four codes after assembly.',
@@ -371,6 +371,48 @@
       ['Navidad / Christmas','#8f233c','#d0ffb0','scene','M36 12 23 29H29L17 44H29V51H43V44H55L43 29H49Z'],
       ['Año Nuevo / New Year','#1f295a','#ffda78','scene','M20 18v19m-9-9h18m-16-7 14 14m0-14-14 14M48 12v27m-13-14h26m-22-9 18 18m0-18-18 18M36 39v13m-6-6h12'],
       ['Cumpleaños / Birthday','#a43e77','#ffe3a9','scene','M15 36H57V53H15ZM20 36V29H52V36M27 29v-8m9 8v-8m9 8v-8M15 43q7 7 14 0 7 7 14 0 7 7 14 0']
+    ],
+    [
+      ['Mosaico modernista / Modernist mosaic','#195167','#f9cc60','scene','M8 36 22 22 36 36 22 50ZM36 36 50 22 64 36 50 50ZM22 22 36 8 50 22 36 36ZM22 50 36 36 50 50 36 64Z'],
+      ['Pinceladas impresionistas / Impressionist brushstrokes','#284c8a','#ffb4bc','scene','M10 30q11-15 25-12m-14 20q14-13 33-15M12 49q14-7 29-10m-8 13q12-8 27-8M24 57l21-6'],
+      ['Abanico art déco / Art Deco fan','#163943','#efc373','scene','M36 60V12M36 60 23 16M36 60 49 16M36 60 13 25M36 60 59 25M36 60 9 38M36 60 63 38M13 45a27 27 0 0 1 46 0'],
+      ['Collage geométrico / Geometric collage','#923e61','#ffdc8d','scene','M12 47 34 12 56 47ZM39 54h21V33H39ZM18 46a8 8 0 1 0 .1 0Z'],
+      ['Grabado botánico / Botanical engraving','#245447','#c4f4a8','scene','M36 62V13m0 23q-24 0-22-16 17-3 22 16Zm0 10q24 0 22-16-17-3-22 16Zm0-23q15 0 16-13-14-3-16 13Z']
+    ],
+    [
+      ['Arcoíris / Rainbow','#432460','#fff6c6','bands',['#e42343','#ff8a27','#ffe23e','#24934f','#2559c0','#7943a5']],
+      ['Orgullo trans / Trans Pride','#a94f8d','#fff','bands',['#5bcffa','#f5abb9','#fff','#f5abb9','#5bcffa']],
+      ['Orgullo bi / Bi Pride','#5b255f','#fff','bands',['#d60270','#d60270','#9b4f96','#0038a8','#0038a8']],
+      ['Orgullo no binario / Non-binary Pride','#4d355e','#fff','bands',['#fff430','#fff','#9c59d1','#242124']],
+      ['Orgullo pan / Pan Pride','#7e2560','#fff','bands',['#ff218c','#ffdd00','#21b1ff']]
+    ],
+    [
+      ['Carnaval / Carnival','#632270','#ffdf55','scene','M10 27q10-9 26 3 16-12 26-3-5 26-17 17l-9-8-9 8Q15 53 10 27Zm8 4q6-1 10 4m16 0q4-5 10-4M18 15l5 5m13-9v11m18-7-5 5'],
+      ['Día de Muertos / Day of the Dead','#50327c','#ffb943','scene','M17 32a19 19 0 1 1 38 0q0 11-9 13v12H26V45q-9-2-9-13Zm9 0a4 4 0 1 0 .1 0Zm20 0a4 4 0 1 0 .1 0ZM32 46h8m-6 5h4'],
+      ['San Valentín / Valentine’s Day','#932746','#ffd6dc','scene','M36 57 15 36C0 20 24 9 36 24 48 9 72 20 57 36Z'],
+      ['Fiesta de luces / Festival of Lights','#253466','#ffcf7c','scene','M17 38h38q-4 16-19 16T17 38Zm19-6q-9-4 0-16 9 12 0 16ZM11 24l6 4m44-4-6 4M36 7v5'],
+      ['Noche de fuegos / Fireworks night','#243064','#c5a3ff','scene','M23 13v28M9 27h28M13 17l20 20m0-20-20 20M50 26v30M35 41h30M39 30l22 22m0-22-22 22']
+    ],
+    [
+      ['Farol rojo / Red lantern','#a3132f','#ffcb58','scene','M23 20h26m-26 26h26M36 10v10m0 26v14m-6-8v7m12-7v7M23 20q-16 13 0 26m26-26q16 13 0 26m-20-26q-8 13 0 26m14-26q8 13 0 26'],
+      ['Dragón dorado / Golden dragon','#821a2f','#ffcf61','scene','M15 53Q4 43 19 36t18 0q15 0 9-10l-7-4 9-3 4-8 4 9 7 4-7 5q3 20-17 18t-15 9M14 46l-6 3m18-17-2-7m15 22 4 9'],
+      ['Sobre rojo / Red envelope','#a51936','#f8cf60','scene','M20 20h32v34H20ZM20 21l16 13 16-13m-16 15 8 8-8 8-8-8Z'],
+      ['Flor de ciruelo / Plum blossom','#7e2340','#ffbbce','scene','M36 31C19 15 34 7 36 22 38 7 53 15 36 31Zm0 0C48 12 62 26 45 30 63 32 53 49 36 31Zm0 0c18 10 11 26 1 13-4 16-19 7-1-13Zm0 0c-10 19-23 6-11 0-17-3-9-18 11 0Z'],
+      ['Nubes doradas / Golden clouds','#942138','#ffdc75','scene','M10 33q0-9 12-9 4-13 15-6 7-5 14 3 13-1 13 10H24m-9 7h41m-32 8h39m-48 7h35']
+    ],
+    [
+      ['Loto / Lotus','#673685','#f4b8e8','scene','M36 55q-12-20 0-38 12 18 0 38Zm0 0Q12 54 9 32q20 1 27 23Zm0 0q24-1 27-23-20 1-27 23Zm-13 2h26'],
+      ['Diya','#81344e','#ffd178','scene','M11 40h50q-5 16-25 16T11 40Zm25-7q-10-5 2-20 8 14-2 20ZM14 23l7 4m37-4-7 4'],
+      ['Rangoli','#304b87','#ffd36f','scene','M36 11 43 28 61 36 43 43 36 61 28 43 11 36 28 28ZM19 19 36 26 53 19 46 36 53 53 36 46 19 53 26 36ZM36 30a6 6 0 1 0 .1 0Z'],
+      ['Pluma de pavo real / Peacock feather','#17696a','#9af2a5','scene','M22 60q5-24 24-46m-24 46q-5-28 14-46 14-13 16 2 3 19-30 44Zm16-38a6 7 30 1 0 .1 0Z'],
+      ['Mandala floral / Floral mandala','#693b84','#ffc877','scene','M36 13q14 15 0 23-14-8 0-23Zm23 23q-15 14-23 0 8-14 23 0ZM36 59q-14-15 0-23 14 8 0 23ZM13 36q15-14 23 0-8 14-23 0Z']
+    ],
+    [
+      ['Cruz / Cross','#273f70','#f6d386','scene','M31 13h10v15h13v9H41v22H31V37H18v-9h13Z'],
+      ['Pez cristiano / Ichthys','#176d75','#b0f2dc','scene','M9 36q23-29 50 0Q32 65 9 36Zm36 0 17-13m-17 13 17 13'],
+      ['Paloma / Dove','#43628d','#fff1bd','scene','M10 41q16-4 23-25 7 7 5 17 9-13 20-10l6 5-9 2q-6 22-23 19l-12 6 4-10Z'],
+      ['Estrella de Belén / Star of Bethlehem','#273058','#ffdd8d','scene','M36 9 40 29 56 36 40 42 36 63 31 42 16 36 31 29ZM17 18l8 8m30-8-8 8M17 54l8-8m30 8-8-8'],
+      ['Vitral / Stained glass','#4f2b79','#ffbce7','scene','M18 59V30Q18 17 36 10 54 17 54 30V59ZM36 10v49M18 30l36 29m0-29L18 59M18 43h36']
     ]
   ];
   const badgeName=(edition,language)=>edition[0].split(' / ')[language==='es'?0:1]||edition[0];
@@ -394,6 +436,7 @@
     const dots=Array.from({length:16},(_,i)=>`<circle cx="36" cy="7" r="${i%2?1.15:2}" transform="rotate(${i*22.5} 36 36)" fill="${accent}"/>`).join('');
     let artwork;
     if(art==='flag')artwork=flags[variant]();
+    else if(art==='bands')artwork=stripes(variant);
     else if(art==='event')artwork=stripes(['#e32246','#ff8a27','#ffe44d','#28ad70','#286bc6','#852aa5']);
     else if(art==='scene')artwork=line(variant,accent,3.3);
     else if(art==='anime'){
@@ -407,6 +450,18 @@
       artwork=`<path d="M36 8 42 23 58 15 53 31 68 36 53 43 58 57 42 51 36 65 29 51 14 58 19 42 4 36 19 29 14 14 30 21Z" fill="${accent}"/><g transform="translate(17 17) scale(3.15)">${line(art,'#182139',.8)}</g>`;
     }
     return `<defs><clipPath id="${id}"><circle cx="36" cy="36" r="35.8"/></clipPath></defs><g clip-path="url(#${id})"><circle cx="36" cy="36" r="36" fill="${base}"/>${dots}${artwork}</g><circle cx="36" cy="36" r="35.8" fill="none" stroke="#17243a" stroke-width=".25"/>`;
+  }
+  function badgeRim(edition,paint){
+    const [, ,accent,art,variant]=edition;
+    const isRainbow=art==='bands'||art==='event';
+    const bands=isRainbow?badgeFront(edition,'badge-medical-clip'):'';
+    const motif=art==='scene'?variant:'M36 10 42 28 60 36 42 43 36 62 29 43 11 36 29 28Z';
+    const marks=Array.from({length:12},(_,i)=>{
+      const angle=i*Math.PI/6;
+      const x=36+30*Math.cos(angle),y=36+30*Math.sin(angle);
+      return `<g transform="translate(${x} ${y})"><circle r="3.9" fill="${i%2?'#fff':accent}" stroke="#13243c" stroke-width=".25"/><path d="${motif}" transform="scale(.104) translate(-36 -36)" fill="none" stroke="#13243c" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+    }).join('');
+    return `<g class="badge-rim" aria-hidden="true">${bands}<circle cx="36" cy="36" r="34.1" fill="none" stroke="${accent}" stroke-width="1.1"/><circle cx="36" cy="36" r="27" fill="none" stroke="${isRainbow?'#fff':accent}" stroke-width="1" stroke-dasharray="1.2 1.8"/>${marks}${isRainbow?`<circle cx="36" cy="36" r="35.65" fill="none" stroke="${paint}" stroke-width=".55"/>`:''}</g>`;
   }
   function badgeGallery(copy){
     return `<section id="accessory-badge-gallery" class="accessory-badge-gallery" hidden aria-labelledby="badge-gallery-title">
@@ -425,7 +480,7 @@
     const custom=/^#[0-9a-f]{6}$/i.test(state.customColor||'')?state.customColor:'';
     const [series,model]=String(state.collectible||'').split('-').map(Number);
     const edition=badge?badgeSeries[series]?.[model]:null;
-    const [,base,accent]=edition||[];
+    const [,base]=edition||[];
     const totalW=badge?(edition?168:80):2*width+8,totalH=height+25;
     const paint=custom||base||(theme.pride?'url(#accessory-pride)':theme.color);
     const pride=theme.pride&&!custom&&!edition?`<linearGradient id="accessory-pride">${theme.colors.map((color,i)=>`<stop offset="${i/theme.colors.length}" stop-color="${color}"/><stop offset="${(i+1)/theme.colors.length}" stop-color="${color}"/>`).join('')}</linearGradient>`:'';
@@ -438,7 +493,7 @@
     if(badge){
       const name=edition?badgeName(edition,ctx.language):'';
       const serial=edition?`${copy.series[series]} · ${model+1}/${badgeSeries[series].length}`:'';
-      const decoration=edition?`<circle cx="36" cy="36" r="33.4" fill="none" stroke="${accent}" stroke-width="1.2"/>${plate(62,name,2.7,36)}${plate(66,serial,1.7,29)}`:icon?sticker(5.5,25,icon,'#fff')+sticker(57.5,25,icon,'#fff'):'';
+      const decoration=edition?`${badgeRim(edition,paint)}${plate(62,name,2.7,36)}${plate(66,serial,1.7,29)}`:icon?sticker(5.5,25,icon,'#fff')+sticker(57.5,25,icon,'#fff'):'';
       faces=`<g class="badge-medical" transform="translate(${edition?92:4} 3)"><circle cx="36" cy="36" r="35.8" fill="${paint}" stroke="#13243c" stroke-width=".25"/>${decoration}${plate(9,'EMERGENCY',2.6,34)}${plate(13,copy.scan,1.5,38)}${code(16,ctx.offlineImage,'offline')}${state.caption?plate(edition?58.8:62,state.caption,edition?1.5:2.5,36):''}</g>`;
       if(edition){
         faces+=`<g class="badge-decorative" transform="translate(4 3)">${badgeFront(edition,'badge-print-clip',custom||base)}${plate(65,`${name} · ${model+1}/${badgeSeries[series].length}`,1.9,34)}${state.caption?plate(59,state.caption,2.2,36):''}</g>
