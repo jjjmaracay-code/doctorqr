@@ -187,7 +187,7 @@
   };
   for(const lang of Object.keys(colorNames))colorNames[lang].unshift(more(lang).burgundy);
   const css = `
-    .accessory-badge-gallery{padding:16px;border-radius:16px;background:#101d32;color:#eef5ff;margin:16px 0}.accessory-badge-gallery h3,.accessory-badge-gallery h4{margin:8px 0;color:#eef5ff}.accessory-badge-gallery p{font-size:13px;line-height:1.5}.accessory-badge-gallery label{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;margin:0 12px 8px 0}.accessory-badge-gallery select,.accessory-badge-gallery button{font:inherit;color:#eef5ff;background:#1f3451;border:1px solid #617c9d;border-radius:10px;padding:6px;cursor:pointer}.accessory-badge-gallery button[aria-pressed=true]{outline:2px solid #6deeff;outline-offset:1px;background:#2e4a6c}.accessory-badge-shelf{max-height:330px;overflow:auto;padding:4px;overscroll-behavior:contain}.accessory-badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:9px;margin-bottom:14px}.accessory-badge-grid button{display:grid;justify-items:center;align-content:start;gap:3px;font-size:11px;overflow-wrap:anywhere}.accessory-badge-grid svg{width:100%;max-width:84px;display:block;border-radius:50%;box-shadow:0 3px 5px #0008}.accessory-badge-grid small{color:#c0d1e6}
+    .accessory-badge-gallery{padding:16px;border-radius:16px;background:#101d32;color:#eef5ff;margin:16px 0}.accessory-badge-gallery h3,.accessory-badge-gallery h4{margin:8px 0;color:#eef5ff}.accessory-badge-gallery p{font-size:13px;line-height:1.5}.accessory-badge-gallery label{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;margin:0 12px 8px 0}.accessory-badge-gallery select,.accessory-badge-gallery input,.accessory-badge-gallery button{font:inherit;color:#eef5ff;background:#1f3451;border:1px solid #617c9d;border-radius:10px;padding:6px;cursor:pointer}.accessory-badge-gallery button[aria-pressed=true]{outline:2px solid #6deeff;outline-offset:1px;background:#2e4a6c}.accessory-badge-shelf{max-height:330px;overflow:auto;padding:4px;overscroll-behavior:contain}.accessory-badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:9px;margin-bottom:14px}.accessory-badge-grid button{display:grid;justify-items:center;align-content:start;gap:3px;font-size:11px;overflow-wrap:anywhere}.accessory-badge-grid svg{width:100%;max-width:84px;display:block;border-radius:50%;box-shadow:0 3px 5px #0008}.accessory-badge-grid small{color:#c0d1e6}
     .accessory-hub{margin-top:28px;padding-top:22px;border-top:1px solid #dae5f1}.accessory-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.accessory-heading h2{font-size:20px;letter-spacing:-.6px;margin:0;color:#153653}.accessory-prototype{border:1px solid #f1bf7a;background:#fff4df;color:#75420a;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:850;letter-spacing:.6px}.accessory-intro,.accessory-help,.accessory-privacy{font-size:12px;line-height:1.6;color:#536b83;margin:9px 0 16px}.accessory-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:18px;background:#f3f7fc;border:1px solid #d9e5f2;border-radius:16px;margin:16px 0}.accessory-fields label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:750;min-width:0;color:#294866}.accessory-fields input,.accessory-fields select{font:inherit;min-width:0;width:100%;min-height:43px;padding:10px;background:white;border:1px solid #b6cce2;border-radius:9px;color:#13243c}.accessory-fields small{font-size:11px;font-weight:400;line-height:1.4;color:#526781}.accessory-toggle,.accessory-check{display:flex!important;flex-direction:row!important;gap:9px!important;align-items:center;font-size:12px;font-weight:700;color:#294866}.accessory-toggle input,.accessory-check input{width:18px!important;height:18px!important;min-height:0!important;accent-color:#086ddc;flex-shrink:0}.accessory-check{grid-column:1/-1}.accessory-hub [hidden]{display:none!important}.accessory-preview-frame{padding:16px 0;border-radius:15px;background:linear-gradient(135deg,#edf6ff,#f8f2ff);border:1px solid #dae6f3;overflow:hidden}.accessory-svg{display:block;max-width:100%;height:auto;margin:0 auto}.accessory-actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.accessory-actions button{font:750 12px Arial,Helvetica,sans-serif;min-height:44px;border-radius:11px;padding:11px 16px;border:1px solid #155eb8;color:white;background:#0872e7;cursor:pointer;box-shadow:0 3px 0 #064a9b}.accessory-actions .secondary{color:#174872;background:#edf5ff;border-color:#bdd5ed;box-shadow:0 3px 0 #d1e1f2}.accessory-actions button:active{transform:translateY(2px);box-shadow:none}.accessory-actions button:disabled{opacity:.5;cursor:wait}.accessory-status{font-size:12px;min-height:1.6em;color:#345c80}.accessory-steps{font-size:12px;line-height:1.7;color:#405b74;padding:14px 16px;background:#f8fbff;border:1px solid #e1eaf5;border-radius:12px}.accessory-steps p{margin:5px 0}.accessory-notice{font-size:11px;line-height:1.6;color:#6e4519;margin:12px 0;padding:10px 12px;border-inline-start:3px solid #e8a33b;background:#fff9ef}.accessory-closure-demo{width:100%;max-width:440px;height:auto;display:block;margin:14px auto}.accessory-screen-only{display:block}.accessory-spec{font-size:12px;line-height:1.6;padding:12px;border:1px solid #b6cce3;border-radius:11px;background:#eef7ff;color:#183e61}.accessory-svg[data-format=watch]{width:min(100%,560px)}.accessory-fields .accessory-critical-field{grid-column:1/-1}.accessory-ready{color:#17634a}.accessory-fields input[type=text]{font-weight:500}.accessory-actions .retry{background:#eff6ff;color:#174872}@media(max-width:760px){.accessory-fields{grid-template-columns:1fr 1fr;padding:13px;gap:12px}.accessory-fields label:first-child{grid-column:1/-1}.accessory-actions button{flex:1}.accessory-heading h2{font-size:18px}}@media(max-width:380px){.accessory-fields{grid-template-columns:1fr}.accessory-check{grid-column:auto}}@media print{.accessory-hub{display:none!important}}
   `;
   const bounded = (v,min,max,fallback) => Number.isFinite(Number(v)) ? Math.max(min,Math.min(max,Number(v))) : fallback;
@@ -291,8 +291,8 @@
     es: {
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
       caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
-      collection:'Galería de chapas coleccionables',classic:'Diseño libre',all:'Todas',
-      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo'],
+      collection:'Galería de chapas coleccionables',classic:'Diseño libre',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
+      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales'],
       galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
       decorative:'CHAPA DECORATIVA',medical:'CHAPA DE EMERGENCIA · QR',
       online:'CON INTERNET · ABRIR FICHA',fold:'DOBLAR POR EL CENTRO',scan:'SIN INTERNET · USA APP LECTORA',unavailable:'QR sin Internet no disponible. Revisa el grupo sanguíneo y las cirugías registradas en tu ficha.',
@@ -302,8 +302,8 @@
     en: {
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
       caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
-      collection:'Collectible badge gallery',classic:'Free design',all:'All',
-      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity'],
+      collection:'Collectible badge gallery',classic:'Free design',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
+      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals'],
       galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
       decorative:'DECORATIVE BADGE',medical:'EMERGENCY BADGE · QR',
       online:'ONLINE · OPEN MEDICAL CARD',fold:'FOLD IN THE CENTRE',scan:'OFFLINE · USE A QR READER APP',unavailable:'Offline QR unavailable. Check the blood type and surgeries recorded on your medical card.',
@@ -415,6 +415,88 @@
       ['Vitral / Stained glass','#4f2b79','#ffbce7','scene','M18 59V30Q18 17 36 10 54 17 54 30V59ZM36 10v49M18 30l36 29m0-29L18 59M18 43h36']
     ]
   ];
+  const badgeMotifs = [
+    [
+      ['Noche estrellada / Starry night','M8 41q17-24 37-14t-4 17q-12-6-1-10M14 58l9-29 8 29M45 13v12m-6-6h12m7 9h9m-4-4v8'],
+      ['La gran ola / Great wave','M5 48q19-31 39-27 10 4 10 13-12-10-19 1t-7 17m-14 3q14-10 28 0t25 0M45 48l9-12 12 14'],
+      ['Nenúfares / Water lilies','M7 37q12-8 24 0t34 0M7 51q14-8 27 0t31 0M24 43q-14-10-7-17l7 7 7-7q7 7-7 17Zm25 5q-14-10-7-17l7 7 7-7q7 7-7 17Z'],
+      ['El beso dorado / Golden kiss','M22 59V34q0-15 13-15 5-10 15-6 12 6 5 20l3 26ZM28 40h9v9h-9Zm13-8h8v8h-8Zm3 15h9v9h-9Z'],
+      ['La perla / The pearl','M25 57q1-14 11-19-8-8-5-17 3-10 16-10 9 0 14 9l-12 1-2 13 6 7-9 2-4 14Zm17-16a4 4 0 1 0 .1 0Z']
+    ],
+    [
+      ['Pincel y paleta / Brush and palette','M14 34q5-19 27-18t17 24q-4 9-15 6-4 0-4 7-20 12-25-19Zm11-2h1m8-7h1m10 1h1m-21 15h1M37 53l24-36'],
+      ['Cubismo / Cubism','M10 16h45v43H10ZM10 16l45 43M10 59l45-43M33 16v43M10 38h45'],
+      ['Acuarela / Watercolour','M18 20q-17 24 0 29 17-5 0-29Zm20-7q-20 31 0 37 20-6 0-37Zm17 16q-14 23 0 27 14-4 0-27Z'],
+      ['Puntillismo / Pointillism','M36 14h1m-13 4h1m23 0h1m-31 10h1m36 0h1m-39 13h1m38 0h1m-34 12h1m27 0h1m-14 5h1m-13-25h1m23 0h1m-12 10h1'],
+      ['Vitral abstracto / Abstract stained glass','M11 54 23 15 50 10 62 48 40 61ZM23 15l17 46m10-51L11 54m51-6L23 15']
+    ],
+    [
+      ['Micrófono pop / Pop microphone','M29 17a7 7 0 0 1 14 0v21a7 7 0 0 1-14 0ZM22 36q0 16 14 16t14-16M36 52v9m-9 0h18'],
+      ['Bola disco / Disco ball','M36 16a20 20 0 1 0 .1 0ZM36 8v8M17 30h38M17 42h38M36 16q-14 20 0 40 14-20 0-40Z'],
+      ['Neón de escenario / Stage neon','M7 36h15l5-14 8 29 8-29 6 14h16M12 16h9m-5-4v8m42 35h9m-5-4v8'],
+      ['Estrella pop / Pop star','M36 10 42 28 61 28 46 40 52 59 36 48 20 59 26 40 11 28 30 28Z'],
+      ['Pulsera de concierto / Concert bracelet','M12 29h48v17H12ZM19 34h4m6 0h4m6 0h4m6 0h4M21 52h30']
+    ],
+    [
+      ['Reguetón nocturno / Night reggaeton','M11 36h9l6-16 8 32 7-23 6 11h14M16 58h40M16 13h40'],
+      ['Salsa / Salsa','M20 17q-13 11 3 20l18 18 5-5-18-18q4-15-8-15Zm28 0q13 11-3 20L27 55l-5-5 18-18q-4-15 8-15Z'],
+      ['Bachata / Bachata','M26 36q-14-6-14 8t16 13q11-2 12-15L58 22l-7-6-18 20ZM23 46h1'],
+      ['Cumbia / Cumbia','M17 23h38l-5 32H22ZM20 23q16-13 32 0M24 32h24m-25 9h26m-24 9h22'],
+      ['Merengue / Merengue','M22 14h28v45H22ZM27 21v29m6-29v29m6-29v29m6-29v29M10 46l50-22']
+    ],
+    [
+      ['Guitarra / Guitar','M23 35q-14-4-13 10t16 13q12-2 13-15l21-22-6-6-21 20ZM23 45a5 5 0 1 0 .1 0Z'],
+      ['Piano / Piano','M10 18h52v37H10ZM19 19v36m9-36v36m8-36v36m9-36v36m8-36v36M22 20v18m8-18v18m18-18v18'],
+      ['Batería / Drums','M13 31h46v24H13ZM13 36q23 13 46 0M20 31 51 14m1 17L22 15M36 43v10'],
+      ['Saxofón / Saxophone','M50 14H39q-7 0-7 8v25q0 8-6 8t-6-8v-9H10v10q0 16 16 16t16-16V24h8M32 27h-7m7 8h-7m7 8h-7'],
+      ['Violín / Violin','M26 37q-14-4-14 10t14 11q9-2 9-11 10-4 5-11l17-19-6-5-16 18q-7-4-9 7Zm-1 12 27-30']
+    ],
+    [
+      ['Jazz de medianoche / Midnight jazz','M22 45V20l29-6v23m-29 8q-12-5-13 4t13 0m29-12q-12-5-13 4t13 0M35 57h26'],
+      ['Clave de sol / Treble clef','M44 50q12-14-6-19-14-3-14 10t15 12q12-3 8-21L35 11q-6 14 3 30t-2 18q-7 0-7-5'],
+      ['Cuarteto / Quartet','M13 30v19m15-25v20m15-17v20m15-25v20M13 49q-8-5-8 2t8-2m15-5q-8-5-8 2t8-2m15 1q-8-5-8 2t8-2m15-5q-8-5-8 2t8-2'],
+      ['Vinilo soul / Soul vinyl','M36 12a24 24 0 1 0 .1 0Zm0 8a16 16 0 1 0 .1 0Zm0 10a6 6 0 1 0 .1 0Z'],
+      ['Blues eléctrico / Electric blues','M12 49h48M12 42h48M12 35h48M12 28h48M12 21h48M33 48V17l17-4v28']
+    ],
+    [
+      ['Fénix / Phoenix','M36 56q-5-15-22-19L8 19q17 3 28 20 11-17 28-20l-6 18q-17 4-22 19Zm0-17V16m0 7 8-5'],
+      ['Luna botánica / Botanical moon','M45 13a23 23 0 1 0 15 35Q36 59 30 39T45 13Zm0 24q-2-11 13-15-3 10-13 15Z'],
+      ['Medusa marina / Jellyfish','M13 35q0-21 23-21t23 21ZM20 35q12 7 0 14t2 9m14-23q12 7 0 14t2 9m13-23q12 7 0 14t2 9'],
+      ['Constelación / Constellation','M13 44 22 20 37 33 55 14 61 40 43 53 24 55 13 44Zm9-24 21 33m-6-20 24 7'],
+      ['Jardín de hongos / Mushroom garden','M11 34q0-14 14-14t14 14ZM22 34h6v17h-6Zm15 8q0-13 12-13t12 13ZM46 42h6v13h-6Z']
+    ],
+    [
+      ['Cartel de cine / Cinema poster','M14 26h44v32H14ZM14 26l-3-10 45-7 3 10ZM20 16l8 8m5-10 8 8m5-10 8 8M27 36l16 7-16 7Z'],
+      ['Entrada vintage / Vintage ticket','M9 23h54v10q-8 0-8 6t8 6v9H9v-9q8 0 8-6t-8-6ZM46 26v23M25 36h13m-13 6h9'],
+      ['Festival al aire libre / Open-air festival','M9 54h54M14 54V29l22-14 22 14v25M25 54V34h22v20M36 10v8'],
+      ['Radio retro / Retro radio','M10 23h52v32H10ZM17 23 49 11M18 35h20m-20 6h20m-20 6h20M51 39a5 5 0 1 0 .1 0Z'],
+      ['Casete / Cassette','M9 23h54v32H9ZM18 31h36v12H18ZM24 37h1m23 0h1M23 54l5-8h16l5 8']
+    ]
+  ];
+  const badgePalettes = [
+    ['Oro / Gold','#32264f','#ffd46b'],['Coral','#a13758','#ffc5b2'],['Tinta / Ink','#152b51','#a6d6ff'],
+    ['Menta / Mint','#175d57','#b0ffd2'],['Fucsia / Fuchsia','#6b235e','#ff9fe8'],['Cobre / Copper','#57302e','#ffaf71'],
+    ['Océano / Ocean','#12478a','#73e7ed'],['Lavanda / Lavender','#423777','#d5c4ff'],['Lima / Lime','#3e581d','#e5ff87'],
+    ['Rubí / Ruby','#791f39','#ffc0c9'],['Niebla / Mist','#425367','#d8e9f3'],['Ciruela / Plum','#522b50','#e7a5d3'],
+    ['Ámbar / Amber','#643b18','#ffd789'],['Bosque / Forest','#21493d','#9bf29c'],['Azul real / Royal blue','#273887','#a4c9ff'],
+    ['Arena / Sand','#69503f','#ffedbd'],['Turquesa / Turquoise','#17686e','#9cf4f0'],['Granate / Garnet','#532133','#efb489'],
+    ['Violeta / Violet','#4a2692','#dcb2ff'],['Solar','#74471b','#fff398'],['Glaciar / Glacier','#21566f','#c7f7ff'],
+    ['Rosa / Pink','#8c3869','#ffd4e1'],['Pizarra / Slate','#323b49','#b8dff1']
+  ];
+  const tributes = [
+    ['Beyoncé','#41273f','#ffd279','tribute',badgeMotifs[2][0][1],0],
+    ['Shakira','#a12d55','#ffcd79','tribute',badgeMotifs[2][2][1],1],
+    ['Daddy Yankee','#222e5d','#58f4d0','tribute',badgeMotifs[3][0][1],2],
+    ['Celia Cruz','#4a2273','#fbdc68','tribute',badgeMotifs[3][1][1],3],
+    ['Freddie Mercury','#721d3a','#ffda83','tribute',badgeMotifs[2][3][1],4],
+    ['Selena Quintanilla','#582c84','#ffb5ec','tribute',badgeMotifs[2][4][1],0]
+  ];
+  const originalBadgeSeriesCount=badgeSeries.length;
+  badgeSeries.push(tributes,...badgeMotifs.map(motifs=>badgePalettes.flatMap(([label,base,accent],i)=>motifs.map(([name,path])=>{
+    const [es,en=es]=name.split(' / '),[esColour,enColour=esColour]=label.split(' / ');
+    return [`${es} · ${esColour} / ${en} · ${enColour}`,base,accent,'scene',path,i%5];
+  }))));
+  const badgeOrder=badgeSeries.map((_,i)=>(i+originalBadgeSeriesCount)%badgeSeries.length);
   const badgeName=(edition,language)=>edition[0].split(' / ')[language==='es'?0:1]||edition[0];
   const stripes=(colors,vertical=false)=>colors.map((color,i)=>`<rect x="${vertical?72*i/colors.length:0}" y="${vertical?0:72*i/colors.length}" width="${vertical?72/colors.length:72}" height="${vertical?72:72/colors.length}" fill="${color}"/>`).join('');
   const flags={
@@ -431,14 +513,23 @@
     pt:()=>'<rect width="72" height="72" fill="#da291c"/><rect width="29" height="72" fill="#046a38"/><circle cx="29" cy="36" r="9" fill="#ffcc00"/><path d="M25 31h8v7q-4 5-8 0z" fill="#fff" stroke="#da291c" stroke-width="1.5"/>'
   };
   function badgeFront(edition,id,base=edition[1]){
-    const [, ,accent,art,variant]=edition;
+    const [, ,accent,art,variant,finish]=edition;
     const line=(d,color,width=2.4)=>`<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
     const dots=Array.from({length:16},(_,i)=>`<circle cx="36" cy="7" r="${i%2?1.15:2}" transform="rotate(${i*22.5} 36 36)" fill="${accent}"/>`).join('');
     let artwork;
     if(art==='flag')artwork=flags[variant]();
     else if(art==='bands')artwork=stripes(variant);
     else if(art==='event')artwork=stripes(['#e32246','#ff8a27','#ffe44d','#28ad70','#286bc6','#852aa5']);
-    else if(art==='scene')artwork=line(variant,accent,3.3);
+    else if(art==='scene'||art==='tribute'){
+      const frames=[
+        '<circle cx="36" cy="36" r="31" stroke-dasharray="1 3"/>',
+        '<path d="M36 6 66 36 36 66 6 36Z"/>',
+        '<circle cx="36" cy="36" r="31"/><circle cx="36" cy="36" r="29"/>',
+        '<path d="M10 25V14h11m30 0h11v11m0 22v11H51m-30 0H10V47"/>',
+        '<path d="M16 11Q36 5 56 11M16 61q20 6 40 0M9 19q-6 17 0 34m54-34q6 17 0 34"/>'
+      ];
+      artwork=`${finish===undefined?'':`<g fill="none" stroke="${accent}" stroke-width="1.15">${frames[finish]}</g>`}${art==='tribute'?`<g transform="translate(9 -1) scale(.75)">${line(variant,accent,3.3)}</g><text x="36" y="55" fill="${accent}" text-anchor="middle" font-family="Arial, sans-serif" font-size="${edition[0].length>13?4.2:5.1}" font-weight="800">${esc(edition[0].toUpperCase())}</text>`:line(variant,accent,3.3)}`;
+    }
     else if(art==='anime'){
       const hair=['M16 36Q13 11 36 12T57 34L49 27 42 34 36 26 27 34 24 28Z','M16 36 14 10 29 19Q36 15 43 19L58 10 56 36 48 28 44 35 38 25 31 35 25 28Z','M16 36 18 20 26 14 31 18 40 10 49 15 57 25 56 37 47 25 39 33 32 23 24 36Z','M16 36 17 10 31 19H41L55 10 57 36 47 29 39 35 31 26 22 35Z','M15 37Q14 14 36 13T58 38L48 29 38 33 40 23 29 34 25 25Z','M16 37Q13 16 31 13L43 9 53 19 58 37 49 26 42 33 34 25 26 34 22 29Z'][variant];
       artwork=`<path d="M18 30Q19 18 36 18T54 30V42Q53 55 36 58 19 55 18 42Z" fill="#ffdfce"/><path d="${hair}" fill="${accent}" stroke="#211c3a" stroke-width="1.4"/><ellipse cx="27" cy="39" rx="4.1" ry="5.8" fill="#211c3a"/><ellipse cx="45" cy="39" rx="4.1" ry="5.8" fill="#211c3a"/><circle cx="28" cy="37" r="1.5" fill="#fff"/><circle cx="46" cy="37" r="1.5" fill="#fff"/><ellipse cx="22" cy="46" rx="3" ry="1.4" fill="#f2839b"/><ellipse cx="50" cy="46" rx="3" ry="1.4" fill="#f2839b"/>${line('M32 48Q36 52 40 48','#793c58',1.5)}`;
@@ -452,25 +543,29 @@
     return `<defs><clipPath id="${id}"><circle cx="36" cy="36" r="35.8"/></clipPath></defs><g clip-path="url(#${id})"><circle cx="36" cy="36" r="36" fill="${base}"/>${dots}${artwork}</g><circle cx="36" cy="36" r="35.8" fill="none" stroke="#17243a" stroke-width=".25"/>`;
   }
   function badgeRim(edition,paint){
-    const [, ,accent,art,variant]=edition;
+    const [, ,accent,art,variant,finish]=edition;
     const isRainbow=art==='bands'||art==='event';
     const bands=isRainbow?badgeFront(edition,'badge-medical-clip'):'';
-    const motif=art==='scene'?variant:'M36 10 42 28 60 36 42 43 36 62 29 43 11 36 29 28Z';
+    const motif=(art==='scene'||art==='tribute')?variant:'M36 10 42 28 60 36 42 43 36 62 29 43 11 36 29 28Z';
     const marks=Array.from({length:12},(_,i)=>{
       const angle=i*Math.PI/6;
       const x=36+30*Math.cos(angle),y=36+30*Math.sin(angle);
       return `<g transform="translate(${x} ${y})"><circle r="3.9" fill="${i%2?'#fff':accent}" stroke="#13243c" stroke-width=".25"/><path d="${motif}" transform="scale(.104) translate(-36 -36)" fill="none" stroke="#13243c" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></g>`;
     }).join('');
-    return `<g class="badge-rim" aria-hidden="true">${bands}<circle cx="36" cy="36" r="34.1" fill="none" stroke="${accent}" stroke-width="1.1"/><circle cx="36" cy="36" r="27" fill="none" stroke="${isRainbow?'#fff':accent}" stroke-width="1" stroke-dasharray="1.2 1.8"/>${marks}${isRainbow?`<circle cx="36" cy="36" r="35.65" fill="none" stroke="${paint}" stroke-width=".55"/>`:''}</g>`;
+    return `<g class="badge-rim" aria-hidden="true">${bands}<circle cx="36" cy="36" r="34.1" fill="none" stroke="${accent}" stroke-width="1.1"/><circle cx="36" cy="36" r="27" fill="none" stroke="${isRainbow?'#fff':accent}" stroke-width="1" stroke-dasharray="${['1.2 1.8','3 1','1 1 4 1','5 2','2 1 2 3'][finish]||'1.2 1.8'}"/>${marks}${isRainbow?`<circle cx="36" cy="36" r="35.65" fill="none" stroke="${paint}" stroke-width=".55"/>`:''}</g>`;
   }
   function badgeGallery(copy){
     return `<section id="accessory-badge-gallery" class="accessory-badge-gallery" hidden aria-labelledby="badge-gallery-title">
       <h3 id="badge-gallery-title">${esc(copy.collection)}</h3><p>${esc(copy.galleryHelp)}</p>
-      <label>${esc(copy.collection)} <select id="accessory-badge-filter"><option value="">${esc(copy.all)}</option>${copy.series.map((name,i)=>`<option value="${i}">${esc(name)}</option>`).join('')}</select></label>
+      <label>${esc(copy.collection)} <select id="accessory-badge-filter"><option value="">${esc(copy.all)}</option>${badgeOrder.map(i=>`<option value="${i}">${esc(copy.series[i])}</option>`).join('')}</select></label>
       <button type="button" data-badge-choice="" aria-pressed="true">${esc(copy.classic)}</button>
-      <div class="accessory-badge-shelf">${badgeSeries.map((models,i)=>`<section data-badge-series="${i}"><h4>${esc(copy.series[i])}</h4><div class="accessory-badge-grid">
-        ${models.map((edition,j)=>`<button type="button" data-badge-choice="${i}-${j}" aria-pressed="false"><svg viewBox="0 0 72 72" aria-hidden="true" focusable="false">${badgeFront(edition,`badge-thumb-${i}-${j}`)}</svg><span>${esc(badgeName(edition,copy.language))}</span><small>${j+1}/${models.length}</small></button>`).join('')}
-      </div></section>`).join('')}</div>
+      <label>${esc(copy.search)} <input type="search" id="accessory-badge-search" maxlength="100" autocomplete="off"></label>
+      <p id="accessory-badge-count" role="status"></p>
+      <div id="accessory-badge-shelf" class="accessory-badge-shelf accessory-badge-grid"></div>
+      <nav aria-label="${esc(copy.collection)}">
+        <button type="button" data-badge-page="-1" hidden>${esc(copy.previous)}</button>
+        <button type="button" data-badge-page="1" hidden>${esc(copy.next)}</button>
+      </nav>
     </section>`;
   }
   function personalArtwork(ctx,state){
@@ -630,12 +725,38 @@
       finally{preparing=false;if(current()){if(state.format==='tag'){freeze(busy);doc.getElementById('accessory-prepare').hidden=!!ctx.compact;if(!busy)doc.getElementById('accessory-status').textContent=ctx.compact?m.compactReady:m.unavailable;}else update();}}
     }
     const gallery=doc.getElementById('accessory-badge-gallery');
-    doc.getElementById('accessory-badge-filter').addEventListener('change',event=>{
-      for(const group of gallery.querySelectorAll('[data-badge-series]'))group.hidden=event.target.value!==''&&group.dataset.badgeSeries!==event.target.value;
-    });
+    const filter=doc.getElementById('accessory-badge-filter'),search=doc.getElementById('accessory-badge-search');
+    const shelf=doc.getElementById('accessory-badge-shelf'),count=doc.getElementById('accessory-badge-count');
+    const pageSize=24,normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+    let badgePage=0;
+    function renderBadgePage(){
+      if(!current())return;
+      const terms=normalize(search.value).trim().split(/\s+/).filter(Boolean);
+      const matches=badgeOrder.flatMap(i=>{
+        const models=badgeSeries[i];
+        if(filter.value!==''&&filter.value!==String(i))return [];
+        return models.flatMap((edition,j)=>{
+          const name=badgeName(edition,u.language);
+          return terms.every(term=>normalize(name+' '+u.series[i]).includes(term))?[{edition,name,i,j,total:models.length}]:[];
+        });
+      });
+      const first=badgePage*pageSize,last=Math.min(first+pageSize,matches.length);
+      count.textContent=matches.length?`${first+1}–${last} / ${matches.length} ${u.results}`:u.empty;
+      shelf.innerHTML=matches.slice(first,last).map(({edition,name,i,j,total})=>{
+        const key=`${i}-${j}`;
+        return `<button type="button" data-badge-choice="${key}" aria-pressed="${selectedBadge===key}"><svg viewBox="0 0 72 72" aria-hidden="true" focusable="false">${badgeFront(edition,'badge-thumb-'+key)}</svg><span>${esc(name)}</span><small>${j+1}/${total}</small></button>`;
+      }).join('');
+      shelf.scrollTop=0;
+      gallery.querySelector('[data-badge-page="-1"]').hidden=badgePage===0;
+      gallery.querySelector('[data-badge-page="1"]').hidden=last===matches.length;
+    }
+    for(const control of [filter,search])control.addEventListener(control===search?'input':'change',()=>{badgePage=0;renderBadgePage();});
     gallery.addEventListener('click',event=>{
+      if(busy||!current())return;
+      const page=event.target.closest('[data-badge-page]');
+      if(page){badgePage+=Number(page.dataset.badgePage);renderBadgePage();return;}
       const choice=event.target.closest('[data-badge-choice]');
-      if(!choice||busy||!current())return;
+      if(!choice)return;
       selectedBadge=choice.dataset.badgeChoice;
       update();
     });
@@ -657,7 +778,7 @@
       }catch(_){clearChild(child);if(current())doc.getElementById('accessory-status').textContent=u.failed;}
     });
     const timer=win.setInterval(()=>{for(const child of children)if(child.closed)children.delete(child);if(!current()){invalidateChildren();for(const url of urls)URL.revokeObjectURL(url);urls.clear();}},250);
-    update();prepare();
+    renderBadgePage();update();prepare();
     return Object.freeze({fit:()=>fit(doc),updateReference(ref){if(current()){ctx={...ctx,...ref};update();}},destroy(){if(!alive)return;alive=false;win.clearInterval(timer);invalidateChildren();for(const url of urls)URL.revokeObjectURL(url);urls.clear();ctx=null;}});
   }
   window.AtabeyEmergencyAccessories=Object.freeze({css,html,attach});

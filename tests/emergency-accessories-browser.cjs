@@ -89,12 +89,20 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.equal(await personal.locator('[data-badge-series]').count(),15);
-     assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),74);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1000 modelos/);
+     assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),24);
+     await personal.locator('[data-badge-page="1"]').click();
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1000 modelos/);
+     await personal.locator('#accessory-badge-search').fill('beyonce');
+     assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
+     assert.match(await personal.locator('.accessory-badge-grid button').textContent(),/Beyoncé/);
+     await personal.locator('#accessory-badge-search').fill('daddy yankee');
+     await personal.locator('.accessory-badge-grid button').click();
+     assert.match(await personal.locator('.badge-decorative').textContent(),/Daddy Yankee/);
+     await personal.locator('#accessory-badge-search').fill('');
      for(const value of ['0-0','4-2','5-4','6-1','7-5','8-1','9-2','10-1','11-0','12-1','13-2','14-3']){
        const series=value.split('-')[0];
        await personal.locator('#accessory-badge-filter').selectOption(series);
-       assert.equal(await personal.locator('[data-badge-series]:visible').count(),1);
        const choice=personal.locator(`[data-badge-choice="${value}"]`);
        await choice.click();
        assert.equal(await choice.getAttribute('aria-pressed'),'true');
@@ -103,6 +111,15 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
        assert.equal(await personal.locator('.badge-decorative .accessory-qr').count(),0);
        assert.equal(await personal.locator('.badge-medical .accessory-qr').getAttribute('href'),offlineImage);
      }
+     await personal.locator('#accessory-badge-filter').selectOption('16');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/115 modelos/);
+     await personal.locator('#accessory-badge-search').fill('gran ola turquesa');
+     assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
+     await personal.locator('#accessory-badge-filter').selectOption('15');
+     assert.equal(await personal.locator('.accessory-badge-grid button').count(),0);
+     await personal.locator('#accessory-badge-search').fill('shakira');
+     await personal.locator('.accessory-badge-grid button').click();
+     assert.match(await personal.locator('.badge-decorative').textContent(),/SHAKIRA/);
    }
    await personal.locator('#accessory-use-custom').setChecked(true);
    await personal.locator('#accessory-custom-color').fill('#125ab9');
