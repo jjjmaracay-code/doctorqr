@@ -291,7 +291,7 @@
     es: {
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
       gradient:'Degradado personalizado',from:'Color inicial',to:'Color final',useMiddle:'Añadir color intermedio',middle:'Color intermedio',direction:'Dirección',directions:['Horizontal','Vertical','Diagonal ascendente','Diagonal descendente'],caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
-      collection:'Galería de chapas coleccionables',keyringCollection:'Galería para el llavero',keyringGalleryHelp:'Elige un diseño para las dos caras del llavero. Los dos QR de cada cara conservan su fondo blanco.',classic:'Diseño libre',source:'Ver imagen original y créditos',photoLoading:'Cargando fotografía en alta resolución…',photoError:'No se pudo cargar la foto. Vuelve a seleccionar el diseño para reintentar.',photoCrop:'Encuadre circular',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
+      collection:'Galería de chapas coleccionables',keyringCollection:'Galería para el llavero',keyringGalleryHelp:'Elige un diseño para las dos caras del llavero. Los dos QR de cada cara conservan su fondo blanco.',classic:'Diseño libre',source:'Ver imagen original y créditos',photoLoading:'Cargando fotografía en alta resolución…',photoError:'No se pudo cargar la foto. Vuelve a seleccionar el diseño para reintentar.',photoCrop:'Encuadre circular',keyringPhotoCrop:'Encuadre para llavero',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
       series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales','Banderas de países y territorios','Organizaciones internacionales','Brujería y folclore','Santería · Regla de Ocha','Unicolores','Degradados','Banderas regionales y territoriales','Obras de arte de fondo','Ilustraciones a toda cara','Paisajes de fondo','Atardeceres de fondo','Planetas en fotografía HD','Espacio en fotografía HD','Amaneceres en fotografía HD','Atardeceres en fotografía HD','Mar y arrecifes en fotografía HD','Corrales y ranchos en fotografía HD','Paisajes en fotografía HD','Cine · Fotogramas'],
       galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
       decorative:'CHAPA DECORATIVA',medical:'CHAPA DE EMERGENCIA · QR',
@@ -302,7 +302,7 @@
     en: {
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
       gradient:'Custom gradient',from:'Start colour',to:'End colour',useMiddle:'Add a middle colour',middle:'Middle colour',direction:'Direction',directions:['Horizontal','Vertical','Rising diagonal','Falling diagonal'],caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
-      collection:'Collectible badge gallery',keyringCollection:'Keyring gallery',keyringGalleryHelp:'Choose a design for both sides of the keyring. Both QR codes on each side keep their white backgrounds.',classic:'Free design',source:'View original image and credits',photoLoading:'Loading high-resolution photo…',photoError:'Could not load the photo. Select the design again to retry.',photoCrop:'Circular crop',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
+      collection:'Collectible badge gallery',keyringCollection:'Keyring gallery',keyringGalleryHelp:'Choose a design for both sides of the keyring. Both QR codes on each side keep their white backgrounds.',classic:'Free design',source:'View original image and credits',photoLoading:'Loading high-resolution photo…',photoError:'Could not load the photo. Select the design again to retry.',photoCrop:'Circular crop',keyringPhotoCrop:'Keyring crop',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
       series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals','Country and territory flags','International organisations','Witchcraft and folklore','Santería · Regla de Ocha','Solid colours','Gradients','Regional and territorial flags','Fine art backgrounds','Full-face illustrations','Landscape backgrounds','Sunset backgrounds','Planets in HD photos','Space in HD photos','Sunrises in HD photos','Sunsets in HD photos','Sea and reefs in HD photos','Corrals and ranches in HD photos','Landscapes in HD photos','Cinema · Film stills'],
       galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
       decorative:'DECORATIVE BADGE',medical:'EMERGENCY BADGE · QR',
@@ -896,7 +896,7 @@
     }else{
       const face=side=>`<g class="keyring-face" data-side="${side}" transform="translate(${side==='front'?4:4+width} 3)">
         <circle cx="${center}" cy="7" r="2.5" fill="#fff" stroke="#13243c" stroke-width=".25" stroke-dasharray=".6 .45"/>
-        ${icon?sticker(5,3,icon,'#fff')+sticker(width-14,3,icon,'#fff'):''}
+        ${icon&&!edition?sticker(5,3,icon,'#fff')+sticker(width-14,3,icon,'#fff'):''}
         ${plate(16,'EMERGENCY',3)}${plate(20,copy.online,1.8)}${code(23,ctx.tagOnlineImage,'online')}
         ${plate(69,copy.scan,1.8)}${code(72,ctx.offlineImage,'offline')}
         ${state.caption?plate(116.5,state.caption,1.8):''}
@@ -918,7 +918,7 @@
       <defs>${pride}${gradient?gradientPaint(gradient,'badge-custom-gradient'):''}</defs><rect width="100%" height="100%" fill="#fff"/>${faces}
       <path d="M${totalW/2-25} ${scaleY}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>
       ${fittedText(totalW/2,scaleY+5,ctx.ui.scale,totalW-8,2.3)}
-      ${photo?fittedText(totalW/2,scaleY+11,`${photo.credit} · ${copy.photoCrop}${photo.licenseUrl?` · ${photo.license} · ${photo.licenseUrl}`:''}`,totalW-8,2):''}
+      ${photo?fittedText(totalW/2,scaleY+11,`${photo.credit} · ${badge?copy.photoCrop:copy.keyringPhotoCrop}${photo.licenseUrl?` · ${photo.license} · ${photo.licenseUrl}`:''}`,totalW-8,2):''}
     </svg>`;
   }
   function artwork(ctx,state){
@@ -1042,7 +1042,7 @@
       credit.hidden=!source;
       if(source)credit.querySelector('a').href=source;
       const photo=edition?.[3]==='photo'?edition[4]:null;
-      credit.querySelector('span').textContent=photo?` · ${photo.credit} · ${u.photoCrop}`:'';
+      credit.querySelector('span').textContent=photo?` · ${photo.credit} · ${format==='keyring'?u.keyringPhotoCrop:u.photoCrop}`:'';
       const licenseLink=credit.querySelector('[data-photo-license]');
       licenseLink.hidden=!photo?.licenseUrl;
       if(photo?.licenseUrl){
