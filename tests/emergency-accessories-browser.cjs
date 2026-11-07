@@ -89,10 +89,10 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1645 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1833 modelos/);
      assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),24);
      await personal.locator('[data-badge-page="1"]').click();
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1645 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1833 modelos/);
      await personal.locator('#accessory-badge-search').fill('beyonce');
      assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
      assert.match(await personal.locator('.accessory-badge-grid button').textContent(),/Beyoncé/);
@@ -131,9 +131,9 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      assert.ok(await personal.locator('#accessory-use-custom').isHidden());
      await personal.locator('#accessory-badge-filter').selectOption('28');
      await personal.locator('#accessory-badge-search').fill('');
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/114 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/174 modelos/);
      await personal.locator('#accessory-badge-filter').selectOption('29');
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/215 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/343 modelos/);
      await personal.locator('#accessory-badge-filter').selectOption('30');
      assert.match(await personal.locator('#accessory-badge-count').textContent(),/14 modelos/);
      await personal.locator('#accessory-badge-filter').selectOption('29');
@@ -143,6 +143,9 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      await personal.locator('#accessory-gradient-to').fill('#80d4c0');
      await personal.locator('#accessory-gradient-direction').selectOption('3');
      assert.equal(await personal.locator('#badge-custom-gradient stop').first().getAttribute('stop-color'),'#305060');
+     await personal.locator('#accessory-gradient-use-middle').check();
+     await personal.locator('#accessory-gradient-middle').fill('#f6d95d');
+     assert.deepEqual(await personal.locator('#badge-custom-gradient stop').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('stop-color'))),['#305060','#f6d95d','#80d4c0']);
      await personal.locator('#accessory-use-gradient').uncheck();
    }
    await personal.locator('#accessory-use-custom').setChecked(true);
@@ -157,6 +160,7 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    assert.ok((await personal.locator('.accessory-svg').textContent()).includes('MUESTRA <&>'));
    const codes=await qrGeometries(personal);
    for(const g of codes)near(g.q,40,'New accessory QR width');
+   if(format==='badge')await personal.locator('#accessory-use-gradient').check();
    const download=personal.waitForEvent('download');
    await personal.locator('#accessory-download').click();
    const png=fs.readFileSync(await (await download).path()),factor=300/25.4;
@@ -173,6 +177,7 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    const raster=fs.readFileSync(path.join(out,format+'-print.png')),scale=300/96;
    assert.deepEqual(boxes.map(box=>decode(crop(raster,{x:Math.round(6*factor+box.x*scale),y:Math.round(6*factor+box.y*scale),width:Math.round(box.width*scale),height:Math.round(box.height*scale)}))),expected);
    await printed.close();
+   if(format==='badge')await personal.locator('#accessory-use-gradient').uncheck();
    await personal.locator('#accessory-use-custom').uncheck();
  }
  await personal.close();

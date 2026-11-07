@@ -290,7 +290,7 @@
   const personalCopy = {
     es: {
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
-      gradient:'Degradado personalizado',from:'Primer color',to:'Segundo color',direction:'Dirección',directions:['Horizontal','Vertical','Diagonal ascendente','Diagonal descendente'],caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
+      gradient:'Degradado personalizado',from:'Color inicial',to:'Color final',useMiddle:'Añadir color intermedio',middle:'Color intermedio',direction:'Dirección',directions:['Horizontal','Vertical','Diagonal ascendente','Diagonal descendente'],caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
       collection:'Galería de chapas coleccionables',classic:'Diseño libre',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
       series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales','Banderas de países y territorios','Organizaciones internacionales','Brujería y folclore','Santería · Regla de Ocha','Unicolores','Degradados','Banderas regionales y territoriales'],
       galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
@@ -301,7 +301,7 @@
     },
     en: {
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
-      gradient:'Custom gradient',from:'First colour',to:'Second colour',direction:'Direction',directions:['Horizontal','Vertical','Rising diagonal','Falling diagonal'],caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
+      gradient:'Custom gradient',from:'Start colour',to:'End colour',useMiddle:'Add a middle colour',middle:'Middle colour',direction:'Direction',directions:['Horizontal','Vertical','Rising diagonal','Falling diagonal'],caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
       collection:'Collectible badge gallery',classic:'Free design',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
       series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals','Country and territory flags','International organisations','Witchcraft and folklore','Santería · Regla de Ocha','Solid colours','Gradients','Regional and territorial flags'],
       galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
@@ -546,7 +546,76 @@
   ];
   const directions=[['Horizontal','Horizontal'],['Vertical','Vertical'],['Ascendente','Rising'],['Descendente','Falling']];
   const hsl=(h,s,l)=>`hsl(${h},${s}%,${l}%)`;
+  const colourFamilies=[
+    ['Amarillo','Yellow',[
+      ['Limón','Lemon','#fff44f'],['Canario','Canary','#ffed54'],['Maíz','Maize','#ffd85b'],
+      ['Girasol','Sunflower','#ffca2e'],['Mostaza','Mustard','#d3a225'],['Miel','Honey','#edab22'],
+      ['Azafrán','Saffron','#f5b21d'],['Dorado claro','Light gold','#f7d66d'],['Vainilla','Vanilla','#fff1b5'],
+      ['Mantequilla','Butter','#ffec9f'],['Champán','Champagne','#f7e8c2'],['Paja','Straw','#e2cf75']
+    ]],
+    ['Azul','Blue',[
+      ['Cielo','Sky','#83cbfa'],['Hielo','Ice','#d7f4ff'],['Bebé','Baby','#b4dcf7'],
+      ['Polvo','Powder','#adc9de'],['Cerúleo','Cerulean','#2787b6'],['Cobalto','Cobalt','#2455b4'],
+      ['Ultramar','Ultramarine','#223ba6'],['Marino','Navy','#14264c'],['Petróleo','Petrol','#18536b'],
+      ['Acero','Steel','#527fa3'],['Denim','Denim','#366392'],['Aguamarina','Aquamarine','#6bd4e0']
+    ]],
+    ['Rojo','Red',[
+      ['Escarlata','Scarlet','#ef263d'],['Cereza','Cherry','#c91849'],['Carmín','Carmine','#a91439'],
+      ['Bermellón','Vermilion','#e14332'],['Tomate','Tomato','#f45143'],['Sandía','Watermelon','#fc6a79'],
+      ['Coral claro','Light coral','#ff9d96'],['Ladrillo','Brick','#aa483b'],['Terracota','Terracotta','#c96c56'],
+      ['Vino','Wine','#731e3b'],['Borgoña','Burgundy','#571831'],['Granada','Pomegranate','#cf314d']
+    ]],
+    ['Verde','Green',[
+      ['Menta clara','Light mint','#bcf2da'],['Manzana','Apple','#91d14e'],['Lima brillante','Bright lime','#b9eb42'],
+      ['Salvia','Sage','#a6b69b'],['Oliva','Olive','#727d3e'],['Musgo','Moss','#546a3b'],
+      ['Helecho','Fern','#4b8d54'],['Esmeralda','Emerald','#069d73'],['Bosque oscuro','Dark forest','#214b36'],
+      ['Botella','Bottle','#145444'],['Pino','Pine','#307366'],['Eucalipto','Eucalyptus','#79a99a']
+    ]],
+    ['Claro','Light',[
+      ['Nácar','Mother of pearl','#f4f1eb'],['Crema','Cream','#fff5df'],['Avena','Oat','#ece0ca'],
+      ['Lino','Linen','#f5e9db'],['Melocotón','Peach','#ffd7bc'],['Rosa empolvado','Dusty pink','#eed2dc'],
+      ['Rubor','Blush','#fbe2e4'],['Lavanda pálida','Pale lavender','#e7e0fb'],['Lila suave','Soft lilac','#eadcf3'],
+      ['Verde espuma','Sea foam','#dbf4e9'],['Azul nube','Cloud blue','#e4eefc'],['Gris niebla','Mist grey','#e9edf0']
+    ]]
+  ];
+  const namedGradients=[
+    ['Amarillo · Amanecer de miel / Yellow · Honey sunrise','#ffea77','#ed9b35','#ffd157'],
+    ['Amarillo · Limón y vainilla / Yellow · Lemon and vanilla','#fff045','#fff6d1'],
+    ['Amarillo · Girasol y ámbar / Yellow · Sunflower and amber','#ffdf4b','#d77b15','#f6ab26'],
+    ['Amarillo · Champán y oro / Yellow · Champagne and gold','#fff4d6','#d7a748','#f1d48c'],
+    ['Azul · Hielo y marino / Blue · Ice and navy','#e2f7ff','#193d82','#68b7f7'],
+    ['Azul · Cielo y océano / Blue · Sky and ocean','#a6ddff','#176cb4','#53b7e7'],
+    ['Azul · Cobalto y aguamarina / Blue · Cobalt and aquamarine','#2c53b7','#77e1dc'],
+    ['Azul · Nube y denim / Blue · Cloud and denim','#e3eafd','#4b70a0','#98bbdf'],
+    ['Rojo · Cereza y rubor / Red · Cherry and blush','#b91845','#ffe0e6','#f6708a'],
+    ['Rojo · Fuego y granada / Red · Fire and pomegranate','#ffb041','#a81737','#ed503b'],
+    ['Rojo · Coral y sandía / Red · Coral and watermelon','#ffbdab','#e94468'],
+    ['Rojo · Vino y cobre / Red · Wine and copper','#592037','#e99d6c','#a34354'],
+    ['Verde · Menta y esmeralda / Green · Mint and emerald','#c5f8df','#047b60','#59d5ab'],
+    ['Verde · Salvia y pino / Green · Sage and pine','#d5e2c7','#2c6957','#84ae94'],
+    ['Verde · Lima y manzana / Green · Lime and apple','#e4fb6b','#67a849'],
+    ['Verde · Bosque y jade / Green · Forest and jade','#193e32','#76d9ad','#2f926f'],
+    ['Claro · Rosa y lavanda / Light · Pink and lavender','#fff0f3','#d5c4fc','#eed7f3'],
+    ['Claro · Melocotón y crema / Light · Peach and cream','#ffd5be','#fff7df'],
+    ['Claro · Nube y menta / Light · Cloud and mint','#e0ecff','#d5f9e7','#edfaff'],
+    ['Claro · Nácar y champán / Light · Pearl and champagne','#faf8fa','#f2dfbc','#fff8e9'],
+    ['Claro · Sorbete pastel / Light · Pastel sorbet','#fbdce9','#dcf3ff','#fff0bb'],
+    ['Claro · Acuarela de lila / Light · Lilac watercolour','#f9f1ff','#cdb9eb'],
+    ['Claro · Bruma de mar / Light · Sea mist','#edfaff','#badfdc','#d3f5f0'],
+    ['Claro · Arena rosada / Light · Pink sand','#fcf1e0','#eac4c4','#f7ddca'],
+    ['Cítrico / Citrus','#ffdf51','#70ca56','#ffad3b'],
+    ['Aurora polar / Polar aurora','#2b2e6b','#52e4af','#498ed3'],
+    ['Atardecer coral / Coral sunset','#f8b656','#904ca0','#f56f79'],
+    ['Laguna tropical / Tropical lagoon','#b5f370','#167ebe','#45d9bd'],
+    ['Frutos rojos / Berries','#542060','#eb648e','#a33c72'],
+    ['Duna y mar / Dune and sea','#f7dda1','#3e9fa8','#f9f4c8'],
+    ['Cielo de tormenta / Storm sky','#252e55','#9cadd4','#52688f'],
+    ['Jardín de primavera / Spring garden','#c8f0b9','#f8c5de','#fff2bb']
+  ];
   const solidEditions=[
+    ...colourFamilies.flatMap(([es,en,tones])=>tones.map(([toneEs,toneEn,base])=>[
+      `${es} · ${toneEs} / ${en} · ${toneEn}`,base,'#fff','solid'
+    ])),
     ...badgePalettes.map(([name,base,accent])=>[name,base,accent,'solid']),
     ...hues.flatMap(([es,en,h])=>shades.map(([shadeEs,shadeEn,s,l])=>[
       `${es} · ${shadeEs} / ${en} · ${shadeEn}`,hsl(h,s,l),'#fff','solid'
@@ -556,6 +625,12 @@
       .map(([name,base])=>[name,base,'#fff','solid'])
   ];
   const gradientEditions=[
+    ...namedGradients.flatMap(([name,from,to,middle])=>{
+      const [es,en]=name.split(' / ');
+      return directions.map(([dirEs,dirEn],direction)=>[
+        `${es} · ${dirEs} / ${en} · ${dirEn}`,from,to,'gradient',[from,to,direction,middle]
+      ]);
+    }),
     ...badgePalettes.map(([name,base,accent],i)=>[name,base,accent,'gradient',[base,accent,i%4]]),
     ...hues.flatMap(([es,en,h],i)=>{
       const [otherEs,otherEn,otherHue]=hues[(i+5)%hues.length];
@@ -585,10 +660,10 @@
     const [series,model]=String(key||'').split('-').map(Number);
     return badgeSeries[series]?.[model];
   };
-  const gradientPaint=([from,to,direction],id)=>{
+  const gradientPaint=([from,to,direction,middle],id)=>{
     const vector=['0% 50% 100% 50%','50% 0% 50% 100%','0% 100% 100% 0%','0% 0% 100% 100%'][direction];
     const [x1,y1,x2,y2]=vector.split(' ');
-    return `<linearGradient id="${id}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient>`;
+    return `<linearGradient id="${id}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${from}"/>${middle?`<stop offset=".5" stop-color="${middle}"/>`: ''}<stop offset="1" stop-color="${to}"/></linearGradient>`;
   };
   const badgeOrder=badgeSeries.map((_,i)=>(i+originalBadgeSeriesCount)%badgeSeries.length);
   const regionNames={
@@ -780,7 +855,7 @@
   function html(config){
     const ctx=context(config),u=ctx.ui,m=more(ctx.language),state=initial(ctx),months=Array.from({length:12},(_,i)=>`<option value="month-${i}">${esc(new Intl.DateTimeFormat(ctx.language,{month:'long'}).format(new Date(2026,i,15)))}</option>`).join('');
     return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option><option value="keyring">${esc(u.keyring)}</option><option value="badge">${esc(u.badge)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label id="accessory-design-field" data-personal hidden>${esc(u.design)}<select id="accessory-design">${['plain',...Object.keys(illustrations)].map((key,i)=>`<option value="${key}">${esc(u.styles[i])}</option>`).join('')}</select></label><label class="accessory-toggle" data-personal hidden><input type="checkbox" id="accessory-use-custom">${esc(u.color)}</label><label id="accessory-custom-field" hidden>${esc(u.color)}<input type="color" id="accessory-custom-color" value="#1463a5"></label><label id="accessory-gradient-toggle" class="accessory-toggle" hidden><input type="checkbox" id="accessory-use-gradient">${esc(u.gradient)}</label>
-      <label data-gradient hidden>${esc(u.from)}<input type="color" id="accessory-gradient-from" value="#802fff"></label><label data-gradient hidden>${esc(u.to)}<input type="color" id="accessory-gradient-to" value="#00cfb6"></label><label data-gradient hidden>${esc(u.direction)}<select id="accessory-gradient-direction">${u.directions.map((label,i)=>`<option value="${i}">${esc(label)}</option>`).join('')}</select></label><label data-personal hidden>${esc(u.caption)}<input type="text" id="accessory-caption" maxlength="24" autocomplete="off" dir="auto"></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label data-classic>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label data-classic>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label data-classic class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label data-classic class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div>${badgeGallery(u)}<p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
+      <label data-gradient hidden>${esc(u.from)}<input type="color" id="accessory-gradient-from" value="#802fff"></label><label data-gradient hidden>${esc(u.to)}<input type="color" id="accessory-gradient-to" value="#00cfb6"></label><label data-gradient hidden class="accessory-toggle"><input type="checkbox" id="accessory-gradient-use-middle">${esc(u.useMiddle)}</label><label id="accessory-gradient-middle-field" hidden>${esc(u.middle)}<input type="color" id="accessory-gradient-middle" value="#ffcf7b"></label><label data-gradient hidden>${esc(u.direction)}<select id="accessory-gradient-direction">${u.directions.map((label,i)=>`<option value="${i}">${esc(label)}</option>`).join('')}</select></label><label data-personal hidden>${esc(u.caption)}<input type="text" id="accessory-caption" maxlength="24" autocomplete="off" dir="auto"></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label data-classic>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label data-classic>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label data-classic class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label data-classic class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div>${badgeGallery(u)}<p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
   }
   function fit(doc) {
     for(const el of doc.querySelectorAll('.accessory-fitted')) {
@@ -814,7 +889,10 @@
       const identity=doc.getElementById('accessory-identity');if(!personal&&format!=='tag'&&identity.value==='full')identity.value='short';
       const flag=format==='badge'&&fixedFlag(selectedEdition(selectedBadge));
       const gradient=format==='badge'&&!flag&&doc.getElementById('accessory-use-gradient').checked;
-      state={format,gradient:gradient?[doc.getElementById('accessory-gradient-from').value,doc.getElementById('accessory-gradient-to').value,Number(doc.getElementById('accessory-gradient-direction').value)]:null,collectible:selectedBadge,design:doc.getElementById('accessory-design').value,caption:doc.getElementById('accessory-caption').value.trim(),
+      const useMiddle=gradient&&doc.getElementById('accessory-gradient-use-middle').checked;
+      const colors=gradient?[doc.getElementById('accessory-gradient-from').value,doc.getElementById('accessory-gradient-to').value,Number(doc.getElementById('accessory-gradient-direction').value)]:null;
+      if(useMiddle)colors.push(doc.getElementById('accessory-gradient-middle').value);
+      state={format,gradient:colors,collectible:selectedBadge,design:doc.getElementById('accessory-design').value,caption:doc.getElementById('accessory-caption').value.trim(),
         customColor:doc.getElementById('accessory-use-custom').checked?doc.getElementById('accessory-custom-color').value:'',
         color:doc.getElementById('accessory-color').value,wrist:bounded(doc.getElementById('accessory-wrist').value,140,230,180),watchWidth:bounded(doc.getElementById('accessory-watch-width').value,12,32,20),watchOpening:bounded(doc.getElementById('accessory-watch-opening').value,2,8,4),watchQR:Number(doc.getElementById('accessory-watch-qr').value),qrStyle:doc.getElementById('accessory-qr-style').value,qr:Number(doc.getElementById('accessory-qr').value),identity:identity.value,contact:doc.getElementById('accessory-contact').checked,contactKey:doc.getElementById('accessory-contact-choice').value,critical:doc.getElementById('accessory-critical').checked,criticalText:doc.getElementById('accessory-critical-text').value.trim()};
       doc.getElementById('accessory-watch-width').value=state.watchWidth;doc.getElementById('accessory-watch-opening').value=state.watchOpening;for(const id of ['width','opening','watch-qr','style'])doc.getElementById('accessory-'+id+'-field').hidden=state.format!=='watch';doc.getElementById('accessory-wrist').value=state.wrist;doc.getElementById('accessory-wrist-field').hidden=state.format!=='band';doc.getElementById('accessory-qr-field').hidden=state.format!=='tag';doc.getElementById('accessory-full-name').hidden=state.format!=='tag';doc.getElementById('accessory-critical-field').hidden=personal||!state.critical;doc.getElementById('accessory-prepare').hidden=personal||!!ctx.compact;
@@ -824,6 +902,7 @@
       doc.getElementById('accessory-use-custom').closest('label').hidden=!personal||gradient||flag;
       doc.getElementById('accessory-gradient-toggle').hidden=format!=='badge'||flag;
       for(const field of doc.querySelectorAll('[data-gradient]'))field.hidden=!gradient;
+      doc.getElementById('accessory-gradient-middle-field').hidden=!useMiddle;
       const collectible=format==='badge'&&!!state.collectible;
       doc.getElementById('accessory-badge-gallery').hidden=format!=='badge';
       if(format==='badge')for(const button of doc.querySelectorAll('[data-badge-choice]'))button.setAttribute('aria-pressed',String(button.dataset.badgeChoice===state.collectible));
@@ -875,7 +954,7 @@
       update();
     });
     for(const el of doc.querySelectorAll('.accessory-fields input,.accessory-fields select'))el.addEventListener('change',update);
-    for(const id of ['critical-text','custom-color','gradient-from','gradient-to','caption'])doc.getElementById('accessory-'+id).addEventListener('input',update);
+    for(const id of ['critical-text','custom-color','gradient-from','gradient-to','gradient-middle','caption'])doc.getElementById('accessory-'+id).addEventListener('input',update);
     doc.getElementById('accessory-prepare').addEventListener('click',prepare);
     doc.getElementById('include-band').addEventListener('change',event=>{if(current())doc.getElementById('card-band').hidden=!event.target.checked;});
     doc.getElementById('accessory-download').addEventListener('click',async()=>{
