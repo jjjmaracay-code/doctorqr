@@ -20,8 +20,8 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||chromium.executablePath(),args:['--no-sandbox','--disable-dev-shm-usage']});
  const c=await browser.newContext({viewport:{width:1180,height:1000},locale:'es-ES',serviceWorkers:'block'});c.setDefaultTimeout(12000);
  c.on('page',p=>p.on('pageerror',e=>{errors.push(e.message);console.error('BROWSER ERROR',e.message)}));await c.addInitScript(()=>{window.print=()=>{window.__printCount=(window.__printCount||0)+1;};});
- await c.route('**/*',async route=>{const u=new URL(route.request().url());if(u.hostname!=='atabeyapp.app'){external.push(u.hostname);return route.abort();}if(u.pathname==='/accessory-fixture.html')return route.fulfill({contentType:'text/html',body:'<!doctype html><html lang="es"><body><button id="btn-print-emergency">Imprimir</button></body></html>'});const file=path.resolve(root,'.'+u.pathname);if(!file.startsWith(root+path.sep)||!fs.existsSync(file))return route.fulfill({status:404,body:'Missing fictional fixture'});return route.fulfill({contentType:file.endsWith('.js')?'application/javascript':'text/plain',body:fs.readFileSync(file)});});
- async function source(data=profile,id=owner){const p=await c.newPage();await p.goto('https://atabeyapp.app/accessory-fixture.html');await p.evaluate(({data,id})=>{localStorage.clear();for(const[k,v]of Object.entries({doctorqr_token:'fictional-token-'+id,doctorqr_id:id,doctorqr_profile_owner:id,doctorqr_user:JSON.stringify(data),doctorqr_profile:JSON.stringify(data)}))localStorage.setItem(k,v);},{data,id});for(const file of ['vendor/qrcodejs/qrcode.min.js','js/medical-owner.js','js/card-png.js','js/emergency-numbers.js','js/compact-emergency-qr.js','js/badge-flags.js','js/badge-art.js','js/emergency-accessories.js','js/emergency-card.js','js/qr-generator.js'])await p.addScriptTag({path:path.join(root,file)});return p;}
+ await c.route('**/*',async route=>{const u=new URL(route.request().url());if(u.hostname!=='atabeyapp.app'){external.push(u.hostname);return route.abort();}if(u.pathname==='/accessory-fixture.html')return route.fulfill({contentType:'text/html',body:'<!doctype html><html lang="es"><body><button id="btn-print-emergency">Imprimir</button></body></html>'});const file=path.resolve(root,'.'+u.pathname);if(!file.startsWith(root+path.sep)||!fs.existsSync(file))return route.fulfill({status:404,body:'Missing fictional fixture'});return route.fulfill({contentType:file.endsWith('.js')?'application/javascript':file.endsWith('.webp')?'image/webp':'text/plain',body:fs.readFileSync(file)});});
+ async function source(data=profile,id=owner){const p=await c.newPage();await p.goto('https://atabeyapp.app/accessory-fixture.html');await p.evaluate(({data,id})=>{localStorage.clear();for(const[k,v]of Object.entries({doctorqr_token:'fictional-token-'+id,doctorqr_id:id,doctorqr_profile_owner:id,doctorqr_user:JSON.stringify(data),doctorqr_profile:JSON.stringify(data)}))localStorage.setItem(k,v);},{data,id});for(const file of ['vendor/qrcodejs/qrcode.min.js','js/medical-owner.js','js/card-png.js','js/emergency-numbers.js','js/compact-emergency-qr.js','js/badge-flags.js','js/badge-art.js','js/badge-photos.js','js/emergency-accessories.js','js/emergency-card.js','js/qr-generator.js'])await p.addScriptTag({path:path.join(root,file)});return p;}
  async function open(p,language='es'){const event=p.waitForEvent('popup');await p.evaluate(language=>{const snapshot=JSON.stringify(MedicalOwner.read());window.__accessoryPromise=AtabeyEmergencyCard.open({profile:MedicalOwner.read(),patientUrl:buildEmergencyQRUrl(),language,date:new Date(2026,9,27,12),ready:ensureQRCodeLoaded,draw:createOrganicQRCode,prepareCompact:()=>AtabeyCompactEmergencyQR.render('https://atabeyapp.app/e/'+(MedicalOwner.id().includes('BOB')?'BBBBBBBBBBBBBBBB':'AAAAAAAAAAAAAAAA'),3),current:()=>MedicalOwner.current()&&JSON.stringify(MedicalOwner.read())===snapshot,autoPrint:false});},language);const q=await event;try{await q.waitForFunction(()=>document.documentElement.dataset.cardReady==='true'&&document.querySelector('.accessory-svg')?.dataset.compactReady==='true');}catch(e){console.log('POPUP STATE',await q.evaluate(()=>({ready:document.documentElement.dataset.cardReady,error:document.body.dataset.cardError,status:document.getElementById('accessory-status')?.textContent,body:document.body.textContent.slice(-500)})));console.log('ENCODER',await p.evaluate(()=>{try{return AtabeyCompactEmergencyQR.render('https://atabeyapp.app/e/AAAAAAAAAAAAAAAA',3).version}catch(e){return e.stack}}));throw e;}return q;}
  async function sheet(q){const event=q.waitForEvent('popup');await q.locator('#accessory-print').click();const p=await event;await p.waitForFunction(()=>document.documentElement.dataset.accessoryReady==='true');assert.equal(await p.evaluate(()=>window.__printCount||0),0);return p;}
  const p=await source(),before=await p.evaluate(()=>JSON.stringify({...localStorage})),q=await open(p);
@@ -89,10 +89,10 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
    await personal.locator('#accessory-color').selectOption('violet');
    await personal.locator('#accessory-design').selectOption(format==='badge'?'leaves':'mountains');
    if(format==='badge'){
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1865 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/1–24 \/ 1897 modelos/);
      assert.equal(await personal.locator('.accessory-badge-grid button svg').count(),24);
      await personal.locator('[data-badge-page="1"]').click();
-     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1865 modelos/);
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/25–48 \/ 1897 modelos/);
      await personal.locator('#accessory-badge-search').fill('beyonce');
      assert.equal(await personal.locator('.accessory-badge-grid button').count(),1);
      assert.match(await personal.locator('.accessory-badge-grid button').textContent(),/Beyoncé/);
@@ -123,12 +123,12 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
      for(const series of ['31','32','33','34']){
        await personal.locator('#accessory-badge-search').fill('');
        await personal.locator('#accessory-badge-filter').selectOption(series);
-       assert.match(await personal.locator('#accessory-badge-count').textContent(),/8 modelos/);
+       assert.match(await personal.locator('#accessory-badge-count').textContent(),new RegExp((series==='31'?11:series==='32'?16:8)+' modelos'));
        await personal.locator('.accessory-badge-grid button').first().click();
        assert.equal(await personal.locator('.badge-medical .badge-rim').count(),1);
        assert.equal(await personal.locator('.badge-medical .accessory-qr').getAttribute('href'),offlineImage);
        if(series==='31'){
-         assert.match(await personal.locator('#accessory-badge-credit a').getAttribute('href'),/commons.wikimedia.org/);
+         assert.match(await personal.locator('#accessory-badge-credit a:not([data-photo-license])').getAttribute('href'),/commons.wikimedia.org/);
          const images=await personal.locator('.accessory-svg image:not(.accessory-qr)').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
          assert.equal(images.length,2);
          assert.equal(images[0],images[1]);
@@ -140,6 +140,19 @@ function checkContactPanels(panels,name,phone){for(const p of panels){assert.equ
          await artworkSheet.close();
        }
      }
+     await personal.locator('#accessory-badge-filter').selectOption('35');
+     assert.match(await personal.locator('#accessory-badge-count').textContent(),/8 modelos/);
+     await personal.locator('#accessory-badge-search').fill('saturno');
+     await personal.locator('.accessory-badge-grid button').click();
+     await personal.waitForFunction(()=>document.querySelector('.badge-decorative image')?.getAttribute('href').startsWith('data:image/webp;'));
+     assert.equal(await personal.locator('.badge-medical .badge-rim image').getAttribute('href'),await personal.locator('.badge-decorative image').getAttribute('href'));
+     const photoSheet=await sheet(personal);
+     await photoSheet.emulateMedia({media:'print'});
+     const photoPDF=path.join(out,'saturno.pdf');
+     await photoSheet.pdf({path:photoPDF,preferCSSPageSize:true});
+     assert.match(execFileSync('pdfinfo',[photoPDF],{encoding:'utf8'}),/Pages:\s+1\b/);
+     assert.match(execFileSync('pdftotext',[photoPDF,'-'],{encoding:'utf8'}),/Space Science Institute/);
+     await photoSheet.close();
      await personal.locator('#accessory-badge-filter').selectOption('24');
      await personal.locator('#accessory-badge-search').fill('');
      assert.match(await personal.locator('#accessory-badge-count').textContent(),/249 modelos/);

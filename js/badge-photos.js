@@ -1,0 +1,27 @@
+/* Local photographic backgrounds. The catalogue links to each original and its credits. */
+window.AtabeyBadgePhotos = [
+  ["mercurio", "Mercurio · MESSENGER / Mercury · MESSENGER", "https://commons.wikimedia.org/wiki/File:Mercury_in_true_color.jpg", "NASA / JHU APL / Carnegie Institution", "", true],
+  ["venus", "Venus · Mariner 10 / Venus · Mariner 10", "https://science.nasa.gov/photojournal/venus-from-mariner-10/", "NASA / JPL-Caltech", "", true],
+  ["tierra", "Tierra · Apolo 17 / Earth · Apollo 17", "https://commons.wikimedia.org/wiki/File:Blue_Marble_transparent.png", "NASA / Apollo 17", "", true],
+  ["marte", "Marte · Viking / Mars · Viking", "https://images.nasa.gov/details/PIA00407", "NASA / JPL / USGS", "", true],
+  ["jupiter", "Júpiter · Cassini / Jupiter · Cassini", "https://science.nasa.gov/photojournal/pj-high-resolution-globe-of-jupiter/", "NASA / JPL / Space Science Institute", "", true],
+  ["saturno", "Saturno y sus anillos · Cassini / Saturn and its rings · Cassini", "https://commons.wikimedia.org/wiki/File:Saturn_during_Equinox.jpg", "NASA / JPL / Space Science Institute", "", true],
+  ["urano", "Urano · Voyager 2 / Uranus · Voyager 2", "https://commons.wikimedia.org/wiki/File:Urano_desde_el_Voyager_2.jpg", "NASA / JPL", "", true],
+  ["neptuno", "Neptuno · Voyager 2 / Neptune · Voyager 2", "https://commons.wikimedia.org/wiki/File:Neptune_Full_%28original%29.jpg", "NASA / JPL", "", true],
+  ["carina", "Nebulosa de Carina · Hubble / Carina Nebula · Hubble", "https://commons.wikimedia.org/wiki/File:Carina_Nebula_%283879%29.jpg", "NASA / ESA / N. Smith (UC Berkeley) / Hubble Heritage Team", "", false],
+  ["pilares", "Pilares de la Creación · Hubble / Pillars of Creation · Hubble", "https://commons.wikimedia.org/wiki/File:Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg", "NASA / ESA / Hubble Heritage Team", "", false],
+  ["bunsen", "Amanecer en Bunsen Peak / Sunrise at Bunsen Peak", "https://commons.wikimedia.org/wiki/File:Sunrise%2C_Bunsen_Peak_%28e4a483ea-9452-481c-98a4-97c7838cb5a6%29.jpg", "National Park Service", "", false],
+  ["amanecer-mar", "Amanecer junto al mar / Sunrise by the sea", "https://commons.wikimedia.org/wiki/File:Sunrise_at_the_sea.jpg", "Aditijuneja2023", "CC BY-SA 4.0", false],
+  ["gran-canon", "Atardecer en el Gran Cañón / Grand Canyon sunset", "https://www.nps.gov/media/photo/gallery-item.htm?gid=f77b17bf-155d-451f-678afc210f0fca27&id=f792ab59-155d-451f-673b-e794d5aacabe&pg=0", "National Park Service", "", false],
+  ["crepusculo", "Crepúsculo sobre el océano / Twilight over the ocean", "https://commons.wikimedia.org/wiki/File:Twilight%2C_clouds_and_sea_at_sunset_-_NOAA.jpg", "NOAA", "", false],
+  ["sol-oceano", "Sol rojo en el océano / Red sun over the ocean", "https://commons.wikimedia.org/wiki/File:Sunset_ocean.jpg", "Ficha de Wikimedia Commons / Wikimedia Commons source", "", false],
+  ["olas", "Olas contra la costa / Waves on the coast", "https://commons.wikimedia.org/wiki/File:Waves_on_Ocean_Coast.jpg", "Jon Sullivan", "", false],
+  ["arrecife", "Arrecife de coral de Tarawa / Tarawa coral reef", "https://commons.wikimedia.org/wiki/File:Reef0484.jpg", "NOAA Photo Library", "", false],
+  ["corral-zion", "Corral de Zion / Zion riding corral", "https://commons.wikimedia.org/wiki/File:FileHorseback_riding_corral_in_Zion_National_Park.jpg", "Scotwriter21", "CC BY-SA 4.0", false],
+  ["rancho", "Corral de Rancho del Norte / Rancho del Norte corral", "https://commons.wikimedia.org/wiki/File:Horse_Barn_at_Rancho_del_Norte_%28351d194f-eafd-0e36-2cfb-b48371b05e71%29.JPG", "National Park Service", "", false],
+  ["yosemite", "Valle de Yosemite / Yosemite Valley", "https://commons.wikimedia.org/wiki/File:Tunnel_view%2C_Yosemite.jpg", "Ficha de Wikimedia Commons / Wikimedia Commons source", "", false],
+  ["yellowstone", "Lago Yellowstone y montañas Absaroka / Yellowstone Lake and Absaroka Mountains", "https://commons.wikimedia.org/wiki/File:Yellowstone_Lake_with_Absaroka_Mountains_in_background_%2850094098078%29.jpg", "National Park Service", "", false],
+  ["beso-klimt", "El beso · Gustav Klimt / The Kiss · Gustav Klimt", "https://commons.wikimedia.org/wiki/File:Klimt_-_Der_Kuss.jpeg", "Gustav Klimt", "", false],
+  ["fuji-hokusai", "Fuji rojo · Katsushika Hokusai / Red Fuji · Katsushika Hokusai", "https://commons.wikimedia.org/wiki/File:Red_Fuji_southern_wind_clear_morning.jpg", "Katsushika Hokusai", "", false],
+  ["nenufares-monet", "Nenúfares · Claude Monet / Water Lilies · Claude Monet", "https://commons.wikimedia.org/wiki/File:Water_Lillies_%281907%29_by_Claude_Monet.jpg", "Claude Monet", "", false]
+];
