@@ -290,9 +290,9 @@
   const personalCopy = {
     es: {
       keyring:'Llavero de mochila',badge:'Chapa redonda',design:'Ilustración',color:'Color personalizado',
-      caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
+      gradient:'Degradado personalizado',from:'Primer color',to:'Segundo color',direction:'Dirección',directions:['Horizontal','Vertical','Diagonal ascendente','Diagonal descendente'],caption:'Texto decorativo opcional',styles:['Liso','Montañas','Hojas','Estrellas','Ondas'],
       collection:'Galería de chapas coleccionables',classic:'Diseño libre',all:'Todas',search:'Buscar por artista, tema o color',previous:'Anterior',next:'Siguiente',results:'modelos',empty:'No hay diseños que coincidan.',
-      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales'],
+      series:['Viñetas pulp','Guardianes urbanos','Órbita exterior','Forja mecánica','Anime','Emoticonos','Banderas ilustradas','Ilustraciones','Conmemorativas','Arte y talleres','Orgullo LGTBIQ+','Celebraciones','Año Nuevo chino','Simbología hindú','Cristianismo','Homenajes musicales','Museo imaginario','Taller de pintura','Pop y escenario','Ritmos latinos','Instrumentos','Música clásica y jazz','Fantasía visual','Carteles y festivales','Banderas de países y territorios','Organizaciones internacionales','Brujería y folclore','Santería · Regla de Ocha','Unicolores','Degradados'],
       galleryHelp:'Elige un estampado. La chapa de emergencia lleva el QR en el centro y el estampado alrededor. La hoja también incluye la versión decorativa a juego.',
       decorative:'CHAPA DECORATIVA',medical:'CHAPA DE EMERGENCIA · QR',
       online:'CON INTERNET · ABRIR FICHA',fold:'DOBLAR POR EL CENTRO',scan:'SIN INTERNET · USA APP LECTORA',unavailable:'QR sin Internet no disponible. Revisa el grupo sanguíneo y las cirugías registradas en tu ficha.',
@@ -301,9 +301,9 @@
     },
     en: {
       keyring:'Backpack keyring',badge:'Round badge',design:'Illustration',color:'Custom colour',
-      caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
+      gradient:'Custom gradient',from:'First colour',to:'Second colour',direction:'Direction',directions:['Horizontal','Vertical','Rising diagonal','Falling diagonal'],caption:'Optional decorative text',styles:['Plain','Mountains','Leaves','Stars','Waves'],
       collection:'Collectible badge gallery',classic:'Free design',all:'All',search:'Search by artist, theme or colour',previous:'Previous',next:'Next',results:'designs',empty:'No matching designs.',
-      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals'],
+      series:['Pulp panels','Urban guardians','Outer orbit','Mechanical forge','Anime','Emoticons','Illustrated flags','Illustrations','Commemorative','Art studio','LGBTQ+ Pride','Celebrations','Chinese New Year','Hindu symbols','Christianity','Music tributes','Imaginary museum','Painting studio','Pop and stage','Latin rhythms','Instruments','Classical and jazz','Visual fantasy','Posters and festivals','Country and territory flags','International organisations','Witchcraft and folklore','Santería · Regla de Ocha','Solid colours','Gradients'],
       galleryHelp:'Choose a design. The emergency badge has a central QR code surrounded by the print. The sheet also includes the matching decorative version.',
       decorative:'DECORATIVE BADGE',medical:'EMERGENCY BADGE · QR',
       online:'ONLINE · OPEN MEDICAL CARD',fold:'FOLD IN THE CENTRE',scan:'OFFLINE · USE A QR READER APP',unavailable:'Offline QR unavailable. Check the blood type and surgeries recorded on your medical card.',
@@ -496,8 +496,58 @@
     const [es,en=es]=name.split(' / '),[esColour,enColour=esColour]=label.split(' / ');
     return [`${es} · ${esColour} / ${en} · ${enColour}`,base,accent,'scene',path,i%5];
   }))));
+  const flagRows=window.AtabeyBadgeFlags||[];
+  const flagEdition=([code,name,iso,base64])=>[name,'#183957','#e3edf9','flag-asset',{code,iso,base64}];
+  const organisationLabels={
+    un:'ONU · Naciones Unidas / UN · United Nations',eu:'UE · Unión Europea / EU · European Union',
+    asean:'ASEAN · Naciones del Sudeste Asiático / ASEAN · Southeast Asian Nations',
+    cefta:'CEFTA · Acuerdo Centroeuropeo de Libre Comercio / CEFTA · Central European Free Trade Agreement',
+    eac:'EAC · Comunidad de África Oriental / EAC · East African Community',
+    arab:'Liga Árabe / Arab League',pc:'Comunidad del Pacífico / Pacific Community'
+  };
+  const organisations=[
+    'OMS / WHO','UNESCO','UNICEF','ACNUR / UNHCR','FAO','PMA / WFP','OIT / ILO','OACI / ICAO',
+    'OMI / IMO','OMM / WMO','OMPI / WIPO','UIT / ITU','UPU','FIDA / IFAD','ONUDI / UNIDO','FMI / IMF',
+    'OIEA / IAEA','ONU Mujeres / UN Women','ONU Turismo / UN Tourism','ONUSIDA / UNAIDS',
+    'PNUD / UNDP','PNUMA / UNEP','UNFPA','ONU-Hábitat / UN-Habitat','OPS / PAHO','UNOPS'
+  ];
+  const folklore=[
+    ['Pentáculo / Pentacle','#3a2358','#ffd177','scene','M36 12a24 24 0 1 0 .1 0ZM36 14 49 56 15 30H57L23 56Z'],
+    ['Luna triple / Triple moon','#231c54','#d5ccff','scene','M36 22a14 14 0 1 0 .1 0ZM17 22q-18 14 0 28-7-14 0-28Zm38 0q18 14 0 28 7-14 0-28Z'],
+    ['Caldero / Cauldron','#2b264d','#8dffb8','scene','M13 29h46v7H13ZM18 36q0 21 18 21t18-21M23 54l-4 6m30-6 4 6M28 22q6-5 0-10m14 10q6-5 0-10'],
+    ['Grimorio / Grimoire','#492638','#ffcb93','scene','M36 22q-12-10-24-7v36q12-3 24 7 12-10 24-7V15q-12-3-24 7Zm0 0v36m-17-29 10 4m-10 4 10 4m14-8 10-4m-10 12 10-4'],
+    ['Escoba / Broom','#512c61','#fac988','scene','M56 14 30 40m-4-4L12 50l10 10 14-14ZM16 54l13-13m-9 17 13-13'],
+    ['Cristales / Crystals','#26356a','#a4e8ff','scene','M22 56 12 35l10-14 10 14Zm14 3L24 27l12-15 12 15Zm14-3L40 35l10-14 10 14Z'],
+    ['Herbario lunar / Lunar herbarium','#244e42','#d3fbaa','scene','M36 58V19m0 29q-20 0-18-15 16-1 18 15Zm0-9q20 0 18-15-16-1-18 15Zm8-26q12-6 18 6-11 5-18-6Z'],
+    ['Tarot · La Luna / Tarot · The Moon','#372b6e','#f9c8e5','scene','M19 12h34v48H19ZM38 21q-15 2-13 16 3 11 15 9-10-5-8-14 1-6 6-11ZM26 52h20']
+  ];
+  const ocha=[
+    ['Changó · Hacha ceremonial / Shangó · Ceremonial axe','#8e243a','#ffe3ca','scene','M33 19h6v40h-6ZM33 21Q18 12 12 25q5 15 21 8Zm6 0q15-9 21 4-5 15-21 8Z'],
+    ['Yemayá · Olas / Yemayá · Waves','#12498a','#b5f2ff','scene',badgeSeries[7][1][4]],
+    ['Oshún · Río / Oshún · River','#815110','#fff093','scene','M14 24q9 8 21 0t23 0M11 37q11 8 25 0t25 0M14 50q9 8 21 0t23 0'],
+    ['Eleguá · Encrucijada / Eleguá · Crossroads','#78283e','#ffcfaa','scene','M32 9h8v23h23v8H40v23h-8V40H9v-8h23Z']
+  ];
+  const solidEditions=badgePalettes.map(([name,base,accent])=>[name,base,accent,'solid']);
+  const gradientEditions=badgePalettes.map(([name,base,accent],i)=>[name,base,accent,'gradient',[base,accent,i%4]]);
+  badgeSeries.push(
+    flagRows.filter(row=>row[2]).map(flagEdition),
+    [...flagRows.filter(row=>!row[2]).map(row=>[organisationLabels[row[0]],...flagEdition(row).slice(1)]),
+      ...organisations.map((name,i)=>[name,badgePalettes[i%badgePalettes.length][1],badgePalettes[i%badgePalettes.length][2],'organisation'])],
+    folklore,ocha,solidEditions,gradientEditions
+  );
+  const gradientPaint=([from,to,direction],id)=>{
+    const vector=['0% 50% 100% 50%','50% 0% 50% 100%','0% 100% 100% 0%','0% 0% 100% 100%'][direction];
+    const [x1,y1,x2,y2]=vector.split(' ');
+    return `<linearGradient id="${id}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient>`;
+  };
   const badgeOrder=badgeSeries.map((_,i)=>(i+originalBadgeSeriesCount)%badgeSeries.length);
-  const badgeName=(edition,language)=>edition[0].split(' / ')[language==='es'?0:1]||edition[0];
+  const regionNames={
+    es:typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['es'],{type:'region'}):null,
+    en:typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['en'],{type:'region'}):null
+  };
+  const badgeName=(edition,language)=>edition[3]==='flag-asset'&&edition[4].iso?
+    regionNames[language==='es'?'es':'en']?.of(edition[4].code.toUpperCase())||edition[0]:
+    edition[0].split(' / ')[language==='es'?0:1]||edition[0];
   const stripes=(colors,vertical=false)=>colors.map((color,i)=>`<rect x="${vertical?72*i/colors.length:0}" y="${vertical?0:72*i/colors.length}" width="${vertical?72/colors.length:72}" height="${vertical?72:72/colors.length}" fill="${color}"/>`).join('');
   const flags={
     es:()=>stripes(['#aa151b','#f1bf00','#f1bf00','#aa151b']),
@@ -517,7 +567,10 @@
     const line=(d,color,width=2.4)=>`<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
     const dots=Array.from({length:16},(_,i)=>`<circle cx="36" cy="7" r="${i%2?1.15:2}" transform="rotate(${i*22.5} 36 36)" fill="${accent}"/>`).join('');
     let artwork;
-    if(art==='flag')artwork=flags[variant]();
+    if(art==='flag-asset')artwork=`<image width="72" height="72" href="data:image/webp;base64,${variant.base64}"/>`;
+    else if(art==='solid'||art==='gradient')artwork='';
+    else if(art==='organisation')artwork=`<circle cx="36" cy="36" r="23" fill="none" stroke="${accent}" stroke-width="1.2"/>${line('M18 36h36M36 13q-20 23 0 46 20-23 0-46',accent,1.2)}<rect x="10" y="29" width="52" height="14" rx="4" fill="${base}"/><text x="36" y="39" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="6.1" fill="${accent}">${esc(edition[0].split(' / ')[0])}</text>`;
+    else if(art==='flag')artwork=flags[variant]();
     else if(art==='bands')artwork=stripes(variant);
     else if(art==='event')artwork=stripes(['#e32246','#ff8a27','#ffe44d','#28ad70','#286bc6','#852aa5']);
     else if(art==='scene'||art==='tribute'){
@@ -540,11 +593,14 @@
     }else{
       artwork=`<path d="M36 8 42 23 58 15 53 31 68 36 53 43 58 57 42 51 36 65 29 51 14 58 19 42 4 36 19 29 14 14 30 21Z" fill="${accent}"/><g transform="translate(17 17) scale(3.15)">${line(art,'#182139',.8)}</g>`;
     }
-    return `<defs><clipPath id="${id}"><circle cx="36" cy="36" r="35.8"/></clipPath></defs><g clip-path="url(#${id})"><circle cx="36" cy="36" r="36" fill="${base}"/>${dots}${artwork}</g><circle cx="36" cy="36" r="35.8" fill="none" stroke="#17243a" stroke-width=".25"/>`;
+    const gradient=art==='gradient'&&base===edition[1]?gradientPaint(variant,id+'-paint'):'';
+    const fill=gradient?`url(#${id}-paint)`:base;
+    return `<defs>${gradient}<clipPath id="${id}"><circle cx="36" cy="36" r="35.8"/></clipPath></defs><g clip-path="url(#${id})"><circle cx="36" cy="36" r="36" fill="${fill}"/>${art==='solid'||art==='gradient'?'':dots}${artwork}</g><circle cx="36" cy="36" r="35.8" fill="none" stroke="#17243a" stroke-width=".25"/>`;
   }
   function badgeRim(edition,paint){
     const [, ,accent,art,variant,finish]=edition;
-    const isRainbow=art==='bands'||art==='event';
+    const isRainbow=['bands','event','flag-asset'].includes(art);
+    if(art==='solid'||art==='gradient')return '';
     const bands=isRainbow?badgeFront(edition,'badge-medical-clip'):'';
     const motif=(art==='scene'||art==='tribute')?variant:'M36 10 42 28 60 36 42 43 36 62 29 43 11 36 29 28Z';
     const marks=Array.from({length:12},(_,i)=>{
@@ -577,7 +633,9 @@
     const edition=badge?badgeSeries[series]?.[model]:null;
     const [,base]=edition||[];
     const totalW=badge?(edition?168:80):2*width+8,totalH=height+25;
-    const paint=custom||base||(theme.pride?'url(#accessory-pride)':theme.color);
+    const selectedGradient=badge&&state.gradient?.every((value,i)=>i===2?[0,1,2,3].includes(value):/^#[0-9a-f]{6}$/i.test(value))?state.gradient:null;
+    const gradient=selectedGradient||(!custom&&edition?.[3]==='gradient'?edition[4]:null);
+    const paint=gradient?'url(#badge-custom-gradient)':custom||base||(theme.pride?'url(#accessory-pride)':theme.color);
     const pride=theme.pride&&!custom&&!edition?`<linearGradient id="accessory-pride">${theme.colors.map((color,i)=>`<stop offset="${i/theme.colors.length}" stop-color="${color}"/><stop offset="${(i+1)/theme.colors.length}" stop-color="${color}"/>`).join('')}</linearGradient>`:'';
     const icon=Object.prototype.hasOwnProperty.call(illustrations,state.design)?illustrations[state.design]:'';
     const ink=(path,color)=>`<path d="${path}" fill="none" stroke="${color}" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round"/>`;
@@ -591,7 +649,7 @@
       const decoration=edition?`${badgeRim(edition,paint)}${plate(62,name,2.7,36)}${plate(66,serial,1.7,29)}`:icon?sticker(5.5,25,icon,'#fff')+sticker(57.5,25,icon,'#fff'):'';
       faces=`<g class="badge-medical" transform="translate(${edition?92:4} 3)"><circle cx="36" cy="36" r="35.8" fill="${paint}" stroke="#13243c" stroke-width=".25"/>${decoration}${plate(9,'EMERGENCY',2.6,34)}${plate(13,copy.scan,1.5,38)}${code(16,ctx.offlineImage,'offline')}${state.caption?plate(edition?58.8:62,state.caption,edition?1.5:2.5,36):''}</g>`;
       if(edition){
-        faces+=`<g class="badge-decorative" transform="translate(4 3)">${badgeFront(edition,'badge-print-clip',custom||base)}${plate(65,`${name} · ${model+1}/${badgeSeries[series].length}`,1.9,34)}${state.caption?plate(59,state.caption,2.2,36):''}</g>
+        faces+=`<g class="badge-decorative" transform="translate(4 3)">${badgeFront(edition,'badge-print-clip',paint)}${plate(65,`${name} · ${model+1}/${badgeSeries[series].length}`,1.9,34)}${state.caption?plate(59,state.caption,2.2,36):''}</g>
           ${fittedText(40,81,copy.decorative,72,2.2)}${fittedText(128,81,copy.medical,72,2.2)}`;
       }
     }else{
@@ -608,7 +666,7 @@
     }
     const scaleY=height+15;
     return `<svg xmlns="${NS}" class="accessory-svg" direction="ltr" width="${totalW}mm" height="${totalH}mm" viewBox="0 0 ${totalW} ${totalH}" role="img" aria-label="${esc(copy[state.format])}" data-format="${state.format}" data-qr-mm="${qr}" data-pattern-width="${width}" data-pattern-height="${height}" data-compact-ready="${!!ctx.compact}">
-      <defs>${pride}</defs><rect width="100%" height="100%" fill="#fff"/>${faces}
+      <defs>${pride}${gradient?gradientPaint(gradient,'badge-custom-gradient'):''}</defs><rect width="100%" height="100%" fill="#fff"/>${faces}
       <path d="M${totalW/2-25} ${scaleY}h50m-50-1.5v3m50-3v3" stroke="#304862" stroke-width=".2"/>
       ${fittedText(totalW/2,scaleY+5,ctx.ui.scale,totalW-8,2.3)}
     </svg>`;
@@ -671,7 +729,8 @@
   }
   function html(config){
     const ctx=context(config),u=ctx.ui,m=more(ctx.language),state=initial(ctx),months=Array.from({length:12},(_,i)=>`<option value="month-${i}">${esc(new Intl.DateTimeFormat(ctx.language,{month:'long'}).format(new Date(2026,i,15)))}</option>`).join('');
-    return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option><option value="keyring">${esc(u.keyring)}</option><option value="badge">${esc(u.badge)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label id="accessory-design-field" data-personal hidden>${esc(u.design)}<select id="accessory-design">${['plain',...Object.keys(illustrations)].map((key,i)=>`<option value="${key}">${esc(u.styles[i])}</option>`).join('')}</select></label><label class="accessory-toggle" data-personal hidden><input type="checkbox" id="accessory-use-custom">${esc(u.color)}</label><label id="accessory-custom-field" hidden>${esc(u.color)}<input type="color" id="accessory-custom-color" value="#1463a5"></label><label data-personal hidden>${esc(u.caption)}<input type="text" id="accessory-caption" maxlength="24" autocomplete="off" dir="auto"></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label data-classic>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label data-classic>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label data-classic class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label data-classic class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div>${badgeGallery(u)}<p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
+    return `<section class="accessory-hub" aria-labelledby="accessory-heading"><div class="accessory-heading"><h2 id="accessory-heading">${esc(u.title)}</h2><span class="accessory-prototype">${esc(u.prototype)}</span></div><p class="accessory-intro">${esc(u.intro)}</p><label class="accessory-toggle"><input type="checkbox" id="include-band" checked>${esc(u.include)}</label><div class="accessory-fields"><label>${esc(u.format)}<select id="accessory-format"><option value="watch">${esc(m.watchTitle)}</option><option value="band">${esc(u.band)}</option><option value="tag">${esc(u.tag)}</option><option value="keyring">${esc(u.keyring)}</option><option value="badge">${esc(u.badge)}</option></select></label><label>${esc(u.palette)}<select id="accessory-color"><option value="monthly">${esc(u.currentMonth)}</option><option value="pride">LGTBIQ+</option><optgroup label="${esc(u.solids)}">${Object.keys(palette).map((key,i)=>`<option value="${key}"${key==='burgundy'?' selected':''}>${esc(colorNames[ctx.language][i])}</option>`).join('')}</optgroup><optgroup label="${esc(u.months)}">${months}</optgroup></select></label><label id="accessory-design-field" data-personal hidden>${esc(u.design)}<select id="accessory-design">${['plain',...Object.keys(illustrations)].map((key,i)=>`<option value="${key}">${esc(u.styles[i])}</option>`).join('')}</select></label><label class="accessory-toggle" data-personal hidden><input type="checkbox" id="accessory-use-custom">${esc(u.color)}</label><label id="accessory-custom-field" hidden>${esc(u.color)}<input type="color" id="accessory-custom-color" value="#1463a5"></label><label id="accessory-gradient-toggle" class="accessory-toggle" hidden><input type="checkbox" id="accessory-use-gradient">${esc(u.gradient)}</label>
+      <label data-gradient hidden>${esc(u.from)}<input type="color" id="accessory-gradient-from" value="#802fff"></label><label data-gradient hidden>${esc(u.to)}<input type="color" id="accessory-gradient-to" value="#00cfb6"></label><label data-gradient hidden>${esc(u.direction)}<select id="accessory-gradient-direction">${u.directions.map((label,i)=>`<option value="${i}">${esc(label)}</option>`).join('')}</select></label><label data-personal hidden>${esc(u.caption)}<input type="text" id="accessory-caption" maxlength="24" autocomplete="off" dir="auto"></label><label id="accessory-qr-field" hidden>${esc(u.qrSize)}<select id="accessory-qr"><option value="40">${esc(u.standard)}</option><option value="49">${esc(u.large)}</option></select></label><label id="accessory-width-field">${esc(u.watchWidth)}<input id="accessory-watch-width" type="number" inputmode="numeric" min="12" max="32" step="1" value="20"><small>${esc(m.strapHelp)}</small></label><label id="accessory-opening-field">${esc(m.opening)}<input id="accessory-watch-opening" type="number" inputmode="decimal" min="2" max="8" step="0.5" value="4"></label><label id="accessory-watch-qr-field">${esc(m.watchQR)}<select id="accessory-watch-qr"><option value="30">30 × 30 mm</option><option value="34">34 × 34 mm</option></select></label><label id="accessory-style-field">${esc(m.qrStyle)}<select id="accessory-qr-style"><option value="liquid">${esc(m.liquid)}</option><option value="square">${esc(m.square)}</option></select></label><label id="accessory-wrist-field" hidden>${esc(u.wrist)}<input id="accessory-wrist" type="number" inputmode="numeric" min="140" max="230" step="1" value="180"><small>${esc(u.wristHelp)}</small></label><label data-classic>${esc(u.identity)}<select id="accessory-identity"><option value="short">${esc(m.shortName)}</option><option value="initials">${esc(u.initials)}</option><option value="full" id="accessory-full-name" hidden>${esc(u.full)}</option><option value="anonymous">${esc(u.anonymous)}</option></select></label><label data-classic>${esc(m.contactLabel)}<select id="accessory-contact-choice"${ctx.contacts.length?'':' disabled'}>${ctx.contacts.map(c=>`<option value="${c.key}">${esc(c.name?c.name+' · '+c.phone:c.phone)}</option>`).join('')}</select></label><label data-classic class="accessory-check"><input id="accessory-contact" type="checkbox"${ctx.contacts.length?' checked':' disabled'}>${esc(u.contact)}${ctx.contacts.length?'':`<small>${esc(ctx.samePhone?m.samePhone:u.noContact)}</small>`}</label><label data-classic class="accessory-check"><input id="accessory-critical" type="checkbox">${esc(m.critical)}</label><label class="accessory-critical-field" id="accessory-critical-field" hidden><input id="accessory-critical-text" type="text" maxlength="24" autocomplete="off"><small>${esc(m.criticalHelp)}</small></label></div>${badgeGallery(u)}<p class="accessory-spec" id="accessory-spec">${esc(m.plate)} QR 30 × 30 mm · ${esc(m.liquid)}</p><p class="accessory-privacy">${esc(u.privacy)} ${esc(u.snapshot)}</p><section class="band-section" id="card-band"><div class="accessory-preview-frame" id="accessory-preview">${artwork(ctx,state)}</div><div class="accessory-actions"><button id="accessory-print" type="button" disabled>${esc(u.print)}</button><button class="secondary" id="accessory-download" type="button" disabled>${esc(u.download)}</button><button class="retry" id="accessory-prepare" type="button">${esc(m.retry)}</button></div><p class="accessory-status" id="accessory-status" role="status" aria-live="polite">${esc(m.loading)}</p><div id="accessory-instructions">${stepHTML(u,state.format)}</div><p class="accessory-notice">${esc(m.physical)}</p></section></section>`;
   }
   function fit(doc) {
     for(const el of doc.querySelectorAll('.accessory-fitted')) {
@@ -703,18 +762,22 @@
       if(!current())return;revision++;invalidateChildren();
       const format=doc.getElementById('accessory-format').value,personal=isPersonal(format);
       const identity=doc.getElementById('accessory-identity');if(!personal&&format!=='tag'&&identity.value==='full')identity.value='short';
-      state={format,collectible:selectedBadge,design:doc.getElementById('accessory-design').value,caption:doc.getElementById('accessory-caption').value.trim(),
+      const gradient=format==='badge'&&doc.getElementById('accessory-use-gradient').checked;
+      state={format,gradient:gradient?[doc.getElementById('accessory-gradient-from').value,doc.getElementById('accessory-gradient-to').value,Number(doc.getElementById('accessory-gradient-direction').value)]:null,collectible:selectedBadge,design:doc.getElementById('accessory-design').value,caption:doc.getElementById('accessory-caption').value.trim(),
         customColor:doc.getElementById('accessory-use-custom').checked?doc.getElementById('accessory-custom-color').value:'',
         color:doc.getElementById('accessory-color').value,wrist:bounded(doc.getElementById('accessory-wrist').value,140,230,180),watchWidth:bounded(doc.getElementById('accessory-watch-width').value,12,32,20),watchOpening:bounded(doc.getElementById('accessory-watch-opening').value,2,8,4),watchQR:Number(doc.getElementById('accessory-watch-qr').value),qrStyle:doc.getElementById('accessory-qr-style').value,qr:Number(doc.getElementById('accessory-qr').value),identity:identity.value,contact:doc.getElementById('accessory-contact').checked,contactKey:doc.getElementById('accessory-contact-choice').value,critical:doc.getElementById('accessory-critical').checked,criticalText:doc.getElementById('accessory-critical-text').value.trim()};
       doc.getElementById('accessory-watch-width').value=state.watchWidth;doc.getElementById('accessory-watch-opening').value=state.watchOpening;for(const id of ['width','opening','watch-qr','style'])doc.getElementById('accessory-'+id+'-field').hidden=state.format!=='watch';doc.getElementById('accessory-wrist').value=state.wrist;doc.getElementById('accessory-wrist-field').hidden=state.format!=='band';doc.getElementById('accessory-qr-field').hidden=state.format!=='tag';doc.getElementById('accessory-full-name').hidden=state.format!=='tag';doc.getElementById('accessory-critical-field').hidden=personal||!state.critical;doc.getElementById('accessory-prepare').hidden=personal||!!ctx.compact;
       for(const field of doc.querySelectorAll('[data-personal]'))field.hidden=!personal;
       for(const field of doc.querySelectorAll('[data-classic]'))field.hidden=personal;
-      doc.getElementById('accessory-custom-field').hidden=!personal||!state.customColor;
+      doc.getElementById('accessory-custom-field').hidden=!personal||!state.customColor||gradient;
+      doc.getElementById('accessory-use-custom').closest('label').hidden=!personal||gradient;
+      doc.getElementById('accessory-gradient-toggle').hidden=format!=='badge';
+      for(const field of doc.querySelectorAll('[data-gradient]'))field.hidden=!gradient;
       const collectible=format==='badge'&&!!state.collectible;
       doc.getElementById('accessory-badge-gallery').hidden=format!=='badge';
       if(format==='badge')for(const button of doc.querySelectorAll('[data-badge-choice]'))button.setAttribute('aria-pressed',String(button.dataset.badgeChoice===state.collectible));
       doc.getElementById('accessory-design-field').hidden=!personal||collectible;
-      doc.getElementById('accessory-color').closest('label').hidden=personal&&(!!state.customColor||collectible);
+      doc.getElementById('accessory-color').closest('label').hidden=personal&&(!!state.customColor||collectible||gradient);
       doc.getElementById('accessory-preview').innerHTML=artwork(ctx,state);doc.getElementById('accessory-instructions').innerHTML=stepHTML(u,state.format)+(state.format==='band'?closureDemo(u):'');doc.getElementById('accessory-spec').textContent=personal?`${u[format]} · ${format==='badge'?'Ø 72':'54 × 118'} mm · ${format==='keyring'?'4 × ':''}QR 40 mm`:state.format==='watch'?`${m.plate} QR ${state.watchQR} × ${state.watchQR} mm · ${state.qrStyle==='liquid'?m.liquid:m.square}`:state.format==='tag'?`${tagWords(ctx.language)[3]}: ${geometry(state,ctx).width} × ${geometry(state,ctx).height} mm · 2 × QR ${state.qr} mm`:m.qrFixed;
       doc.getElementById('accessory-status').textContent=personal?(canExport()?(format==='keyring'?`${u.online} · ${u.scan}`:u.scan):u.unavailable):state.critical&&Array.from(state.criticalText).length>24?m.criticalLong:ctx.compact?m.compactReady:preparing?m.loading:m.unavailable;fit(doc);freeze(busy);
     }
@@ -737,7 +800,7 @@
         if(filter.value!==''&&filter.value!==String(i))return [];
         return models.flatMap((edition,j)=>{
           const name=badgeName(edition,u.language);
-          return terms.every(term=>normalize(name+' '+u.series[i]).includes(term))?[{edition,name,i,j,total:models.length}]:[];
+          return terms.every(term=>normalize(name+' '+edition[0]+' '+u.series[i]).includes(term))?[{edition,name,i,j,total:models.length}]:[];
         });
       });
       const first=badgePage*pageSize,last=Math.min(first+pageSize,matches.length);
@@ -761,7 +824,7 @@
       update();
     });
     for(const el of doc.querySelectorAll('.accessory-fields input,.accessory-fields select'))el.addEventListener('change',update);
-    for(const id of ['critical-text','custom-color','caption'])doc.getElementById('accessory-'+id).addEventListener('input',update);
+    for(const id of ['critical-text','custom-color','gradient-from','gradient-to','caption'])doc.getElementById('accessory-'+id).addEventListener('input',update);
     doc.getElementById('accessory-prepare').addEventListener('click',prepare);
     doc.getElementById('include-band').addEventListener('change',event=>{if(current())doc.getElementById('card-band').hidden=!event.target.checked;});
     doc.getElementById('accessory-download').addEventListener('click',async()=>{
