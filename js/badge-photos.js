@@ -41,5 +41,9 @@ window.AtabeyBadgePhotos = [
   ["sintel", "Sintel · 2010", "https://commons.wikimedia.org/wiki/File:Sintel_screenshot.png", "© Blender Foundation · sintel.org", "CC BY 3.0", false, "cinema"],
   ["big-buck-bunny", "Big Buck Bunny · 2008", "https://commons.wikimedia.org/wiki/File:Big.Buck.Bunny.-.Bunny.Portrait.png", "© Blender Foundation · bigbuckbunny.org", "CC BY 3.0", false, "cinema"],
   ["viaje-luna", "Viaje a la Luna · 1902 / A Trip to the Moon · 1902", "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_%281902%29.webm", "Georges Méliès", "", false, "cinema"],
-  ["great-train-robbery", "Asalto y robo de un tren · 1903 / The Great Train Robbery · 1903", "https://commons.wikimedia.org/wiki/File:Great_train_robbery_still.jpg", "Edwin S. Porter", "", false, "cinema"]
+  ["great-train-robbery", "Asalto y robo de un tren · 1903 / The Great Train Robbery · 1903", "https://commons.wikimedia.org/wiki/File:Great_train_robbery_still.jpg", "Edwin S. Porter", "", false, "cinema"],
+  ["sprite-fright", "Sprite Fright · 2021", "https://studio.blender.org/projects/sprite-fright/pages/about/", "(CC) Blender Foundation · studio.blender.org", "CC BY 1.0", false, "cinema"],
+  ["coffee-run", "Coffee Run · 2020", "https://studio.blender.org/projects/coffee-run/pages/licensing/", "(CC) Blender Foundation · studio.blender.org", "CC BY 4.0", false, "cinema"],
+  ["cosmos", "Cosmos Laundromat · Victor", "https://commons.wikimedia.org/wiki/File:CosmosLaundromatVictor.jpg", "(CC) Blender Foundation · gooseberry.blender.org", "CC BY 3.0", false, "cinema"],
+  ["elephants-dream", "Elephants Dream · 2006", "https://commons.wikimedia.org/wiki/File:Elephants_Dream_s1_proog.jpg", "© 2006 Blender Foundation / Netherlands Media Art Institute · elephantsdream.org", "CC BY 2.5", false, "cinema"]
 ];
